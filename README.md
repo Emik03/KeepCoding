@@ -52,4 +52,6 @@ This project falls under the [MIT license](https://github.com/Emik03/KeepCodingA
 ## Wiki
 ---
 
-For more information about how to get started when using this library, refer to the [Wiki](https://github.com/Emik03/KeepCodingAndNobodyExplodes/wiki), which outlines the different classes and methods you'll be using.
+For more information about how to get started when using this library, refer to the [Wiki](https://github.com/Emik03/KeepCodingAndNobodyExplodes/wiki), which outlines specifications about the different classes and methods you'll be using and their general purposes.
+
+For more specific details about each individual method, additional documentation is provided within the XML file, in which most common IDEs give you a tooltip when hovering over a method from *KeepCodingAndNobodyExplodes*.
