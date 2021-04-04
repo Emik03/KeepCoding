@@ -2,7 +2,7 @@
 
 *KeepCodingAndNobodyExplodes* is a C# class library meant to help speed up the process of scripting [Keep Talking and Nobody Explodes](https://keeptalkinggame.com/) modules by giving better alternatives to common commands, and automating things universal to module-creation. (such as moduleIds, or logging)
 
-## Installing
+### Installing
 ---
 
 *KeepCodingAndNobodyExplodes* is compiled as a Managed DLL file. You may either compile this DLL yourself, or download one of the release builds found [here](https://github.com/Emik03/KeepCodingAndNobodyExplodes/releases).
@@ -13,14 +13,14 @@ Inside of your Unity project, drag this DLL file into **/Assets/Plugins/Managed*
 using KeepCodingAndNobodyExplodes;
 ```
 
-## Contribute
+### Contribute
 ---
 
 As with most [GitHub](https://github.com/) repositories, you can contribute by:
 * [Creating an issue](https://github.com/Emik03/KeepCodingAndNobodyExplodes/issues) to either address bugs, feature suggestions, or other changes.
 * [Creating/reviewing pull requests](https://github.com/Emik03/KeepCodingAndNobodyExplodes/pulls) is also welcome.
 
-## Building
+### Building
 
 In order to compile the DLL yourself, you need a program that can compile C# class libraries, such as [Visual Studio 2019](https://visualstudio.microsoft.com/).
 
@@ -46,12 +46,12 @@ xcopy /y "$(ProjectDir)$(OutDir)KeepCodingAndNobodyExplodes.pdb" "X:\My Module D
 
 6. Press the key combination **CTRL+SHIFT+B**, or alternatively go to the dropdown located at the top named "Build" and press "Build Solution". Assuming no build errors occur, you can go back to Unity, which will start reloading.
 
-## License
+### License
 ---
 
-This project falls under the [MIT license](https://github.com/Emik03/KeepCodingAndNobodyExplodes/blob/main/LICENSE.md), which in-short means that you can copy, modify, and redistribute this repository, but the license must stay intact as-is.
+This project falls under the [MIT license](https://github.com/Emik03/KeepCodingAndNobodyExplodes/blob/main/LICENSE.md), which in-short means that you can copy, modify, and redistribute this repository, but the license must stay intact as is.
 
-## Wiki
+### Wiki
 ---
 
 For more information about how to get started when using this library, refer to the [Wiki](https://github.com/Emik03/KeepCodingAndNobodyExplodes/wiki), which outlines specifications about the different classes and methods you'll be using and their general purposes.
