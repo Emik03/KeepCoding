@@ -34,7 +34,9 @@ git clone https://github.com/Emik03/KeepCodingAndNobodyExplodes.git
 
 3. Inside the IDE, locate the solution explorer and right click the solution then go into "Properties".
 
-4. Go into "Build Events" and copy the following code block, replacing "X:\My Module Directory\" with the directory leading to your unity project. If multiple projects depends on this repository, you will need to copy-paste these code-blocks for each project you have.
+4. Go to "Build" and ensure that the tickbox "XML Documentation File" is checked, with a directory leading to somewhere on your drive, such as the root directory of the repository.
+
+5. Go into "Build Events" and copy the following code block, replacing "X:\My Module Directory\" with the directory leading to your unity project. If multiple projects depends on this repository, you will need to copy-paste these code-blocks for each project you have.
 
 ```cs
 xcopy /y "$(ProjectDir)$(OutDir)KeepCodingAndNobodyExplodes.dll" "X:\My Module Directory\Assets\Plugins\Managed"
@@ -42,7 +44,7 @@ xcopy /y "$(ProjectDir)$(OutDir)KeepCodingAndNobodyExplodes.xml" "X:\My Module D
 xcopy /y "$(ProjectDir)$(OutDir)KeepCodingAndNobodyExplodes.pdb" "X:\My Module Directory\Assets\Plugins\Managed"
 ```
 
-5. Press the key combination **CTRL+SHIFT+B**, or alternatively go to the dropdown located at the top named "Build" and press "Build Solution". Assuming no build errors occur, you can go back to Unity, which will start reloading.
+6. Press the key combination **CTRL+SHIFT+B**, or alternatively go to the dropdown located at the top named "Build" and press "Build Solution". Assuming no build errors occur, you can go back to Unity, which will start reloading.
 
 ## License
 ---
