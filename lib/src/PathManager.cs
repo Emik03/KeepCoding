@@ -63,9 +63,11 @@ namespace KeepCodingAndNobodyExplodes
 
             var methodInfo = typeof(ModManager).GetMethod("GetModInfoFromPath", Helper.Flags);
 
-            return SetCache(current, ((ModInfo)methodInfo.Invoke(ModManager.Instance, new object[] { GetPath(bundleFileName), ModInfo.ModSourceEnum.Local })).FilePath ??
-                ((ModInfo)methodInfo.Invoke(ModManager.Instance, new object[] { GetPath(bundleFileName), ModInfo.ModSourceEnum.SteamWorkshop })).FilePath ??
-                ((ModInfo)methodInfo.Invoke(ModManager.Instance, new object[] { GetPath(bundleFileName), ModInfo.ModSourceEnum.Invalid })).FilePath ??
+            string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
+
+            return SetCache(current, ((ModInfo)methodInfo.Invoke(ModManager.Instance, new object[] { path, ModInfo.ModSourceEnum.Local })).FilePath ??
+                ((ModInfo)methodInfo.Invoke(ModManager.Instance, new object[] { path, ModInfo.ModSourceEnum.SteamWorkshop })).FilePath ??
+                ((ModInfo)methodInfo.Invoke(ModManager.Instance, new object[] { path, ModInfo.ModSourceEnum.Invalid })).FilePath ??
                 throw new FileNotFoundException(bundleFileName));
         }
 
@@ -87,9 +89,11 @@ namespace KeepCodingAndNobodyExplodes
 
             var methodInfo = typeof(ModManager).GetMethod("GetModInfoFromPath", Helper.Flags);
 
-            return SetCache(current, ((ModInfo)methodInfo.Invoke(ModManager.Instance, new object[] { GetPath(bundleFileName), ModInfo.ModSourceEnum.Local })).Version ??
-                ((ModInfo)methodInfo.Invoke(ModManager.Instance, new object[] { GetPath(bundleFileName), ModInfo.ModSourceEnum.SteamWorkshop })).Version ??
-                ((ModInfo)methodInfo.Invoke(ModManager.Instance, new object[] { GetPath(bundleFileName), ModInfo.ModSourceEnum.Invalid })).Version ??
+            string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
+
+            return SetCache(current, ((ModInfo)methodInfo.Invoke(ModManager.Instance, new object[] { path, ModInfo.ModSourceEnum.Local })).Version ??
+                ((ModInfo)methodInfo.Invoke(ModManager.Instance, new object[] { path, ModInfo.ModSourceEnum.SteamWorkshop })).Version ??
+                ((ModInfo)methodInfo.Invoke(ModManager.Instance, new object[] { path, ModInfo.ModSourceEnum.Invalid })).Version ??
                 throw new FileNotFoundException(bundleFileName));
         }
 
@@ -137,7 +141,7 @@ namespace KeepCodingAndNobodyExplodes
 
             string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
 
-            Debug.Log($"[Keep Coding So Nobody Explodes] The path to load {libraryFileName} as called from {bundleFileName} is: {path}.");
+            Log($"The path to load {libraryFileName} as called from {bundleFileName} is: {path}.");
 
             CopyLibrary(libraryFileName, path);
         }
@@ -190,5 +194,7 @@ namespace KeepCodingAndNobodyExplodes
 
             return null;
         }
+
+        private static void Log(string message) => Debug.Log($"[Keep Coding So Nobody Explodes] {message}");
     }
 }
