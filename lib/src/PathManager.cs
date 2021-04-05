@@ -179,7 +179,7 @@ namespace KeepCodingAndNobodyExplodes
                 {
                     string[] files = Directory.GetFiles(disabledPath, fileName);
 
-                    if (files.LengthOrDefault() != 0 && files[0].Trim().IsNullOrEmpty())
+                    if (files.LengthOrDefault() > 0 && !files[0].Trim().IsNullOrEmpty())
                         return files[0];
                 }
                 catch (Exception)
