@@ -174,7 +174,7 @@ namespace KeepCodingAndNobodyExplodes
             var audio = Get<KMAudio>();
 
             foreach (object sound in sounds)
-                GetSoundMethod(audio, sound)(sound, transform);
+                GetSoundMethod(audio, sound)(transform);
         }
 
         /// <summary>
@@ -331,10 +331,10 @@ namespace KeepCodingAndNobodyExplodes
             _ => throw new UnrecognizedValueException($"{logType} is not a valid log type."),
         };
 
-        private Action<object, Transform> GetSoundMethod(KMAudio audio, object sound) => sound switch
+        private Action<Transform> GetSoundMethod(KMAudio audio, object sound) => sound switch
         {
-            string customSound => (o, t) => audio.PlaySoundAtTransform(customSound, t),
-            KMSoundOverride.SoundEffect gameSound => (o, t) => audio.PlayGameSoundAtTransform(gameSound, transform),
+            string customSound => t => audio.PlaySoundAtTransform(customSound, t),
+            KMSoundOverride.SoundEffect gameSound => t => audio.PlayGameSoundAtTransform(gameSound, t),
             _ => throw new UnrecognizedTypeException($"sound [{sound.GetType()}]: {sound}"),
         };
     }
