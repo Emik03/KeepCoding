@@ -68,7 +68,7 @@ namespace KeepCodingAndNobodyExplodes
         /// </value>
         /// <exception cref="OperationCanceledException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
-        public string Version { get => (IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfoVersion(ModBundleName + ".dll")) ?? throw new OperationCanceledException(nameof(ModBundleName)); }
+        public string Version { get => (IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfoVersion(ModBundleName)) ?? throw new OperationCanceledException(nameof(ModBundleName)); }
 
         /// <summary>
         /// Contains either <see cref="KMBombModule"/> or <see cref="KMNeedyModule"/>, and allows for running commands through context.
@@ -222,7 +222,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <param name="func">The expensive function to call, only if it hasn't ever been called by this method on the current instance before.</param>
         /// <param name="allowNull">Whether it should throw an exception if it sees null, if not it will return the default value. (Likely null)</param>
         /// <returns>The components specified by <typeparamref name="T"/>.</returns>
-        public T[] Cache<T>(Func<Component[]> func, bool allowNull = false) where T : Component
+        public T[] Cache<T>(Func<T[]> func, bool allowNull = false) where T : Component
         {
             if (!_components.ContainsKey(typeof(T)))
                 _components.Add(typeof(T), func());
