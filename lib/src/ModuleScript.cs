@@ -84,18 +84,22 @@ namespace KeepCodingAndNobodyExplodes
 
         private Dictionary<Type, Component[]> _components;
 
+        private Action _setActive;
+
         /// <summary>
         /// This initalizes the module. If you have an Awake method, be sure to call <c>base.Awake()</c> as the first statement.
         /// </summary>
         protected void Awake()
         {
+            _setActive = () => IsActive = true;
+
             _components = new Dictionary<Type, Component[]>() { { typeof(ModuleScript), new[] { this } } };
          
             Module = new ModuleContainer(Get<KMBombModule>(), Get<KMNeedyModule>());
 
             ModuleId = _moduleIds.SetOrReplace(Module.ModuleType, i => ++i);
 
-            Assign(onActivate: () => { OnActivate(); IsActive = true; });
+            Assign(onActivate: () => { OnActivate(); _setActive(); });
 
             if (Get<KMBombInfo>(allowNull: true) is KMBombInfo bombInfo)
                 StartCoroutine(TimeUpdate(bombInfo));
@@ -117,7 +121,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <param name="onTimerExpired">Called when the timer of the needy runs out.</param>
         public void Assign(Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onTimerExpired = null)
         {
-            Module.OnActivate(onActivate);
+            Module.OnActivate(onActivate + _setActive);
 
             if (Module.Module is KMNeedyModule)
                 AssignNeedy(onTimerExpired, onNeedyActivation, onNeedyDeactivation);
