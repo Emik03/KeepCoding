@@ -46,6 +46,11 @@ xcopy /y "$(ProjectDir)$(OutDir)KeepCodingAndNobodyExplodes.pdb" "X:\My Module D
 
 6. Press the key combination **CTRL+SHIFT+B**, or alternatively go to the dropdown located at the top named "Build" and press "Build Solution". Assuming no build errors occur, you can go back to Unity, which will start reloading.
 
+### Credit
+---
+
+While this project initally started before its release, I do have to credit [Qkrisi's module utility](https://github.com/Qkrisi/ktane-module-utils) for inspiring me to improve on the design of this library by seeing someone else's implementation of an abstract Keep Talking and Nobody Explodes module class file.
+
 ### License
 ---
 
