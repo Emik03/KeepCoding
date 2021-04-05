@@ -183,6 +183,9 @@ namespace KeepCodingAndNobodyExplodes
         /// <param name="logs">All of the entries to log.</param>
         public void Solve(params string[] logs)
         {
+            if (IsSolved)
+                return;
+
             foreach (string log in logs)
                 Log(log);
 
