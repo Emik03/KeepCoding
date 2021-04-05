@@ -146,17 +146,6 @@ namespace KeepCodingAndNobodyExplodes
         protected static bool IsMatch(string input, string pattern, bool lenient = true, RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.CultureInvariant) => Regex.IsMatch(input, lenient ? @"^\s*" + pattern + @"\s*$" : pattern, options);
 
         /// <summary>
-        /// Returns <paramref name="output"/> if <paramref name="condition"/> is true, otherwise null.
-        /// </summary>
-        /// <remarks>
-        /// You can yield return this to send error messages or interactions by first checking for the condition.
-        /// </remarks>
-        /// <param name="condition">The boolean to check.</param>
-        /// <param name="output">The output to return if <paramref name="condition"/> is true.</param>
-        /// <returns><paramref name="output"/> or null, depending on <paramref name="condition"/>.</returns>
-        protected static object Evaluate(bool condition, object output) => condition ? output : null;
-
-        /// <summary>
         /// Works as a ternary operator. Returns <paramref name="then"/> if <paramref name="condition"/> is true, otherwise <paramref name="otherwise"/>.
         /// </summary>
         /// <remarks>
@@ -166,7 +155,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <param name="then">The output to return if <paramref name="condition"/> is true.</param>
         /// <param name="otherwise">The output to return if <paramref name="condition"/> is false.</param>
         /// <returns><paramref name="then"/> or <paramref name="otherwise"/>, depending on <paramref name="condition"/>.</returns>
-        protected static object Evaluate(bool condition, object then, object otherwise) => condition ? then : otherwise;
+        protected static object Evaluate(bool condition, object then, object otherwise = null) => condition ? then : otherwise;
 
         /// <summary>
         /// Yield return this to allow you to tell the user why they got a strike if it isn't clear.
