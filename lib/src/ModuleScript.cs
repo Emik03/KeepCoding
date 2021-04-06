@@ -68,7 +68,7 @@ namespace KeepCodingAndNobodyExplodes
         /// </value>
         /// <exception cref="OperationCanceledException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
-        public string Version { get => (IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfoVersion(ModBundleName)) ?? throw new OperationCanceledException(nameof(ModBundleName)); }
+        public string Version { get => (IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(ModBundleName).Version) ?? throw new OperationCanceledException($"{nameof(ModBundleName)} couldn't be found. Did you spell your Mod name correctly? Refer to this link for more details: https://github.com/Emik03/KeepCodingAndNobodyExplodes/wiki/Chapter-2.3:-ModuleScript-properties-and-fields#modbundlename-string"); }
 
         /// <summary>
         /// Contains either <see cref="KMBombModule"/> or <see cref="KMNeedyModule"/>, and allows for running commands through context.
@@ -91,6 +91,9 @@ namespace KeepCodingAndNobodyExplodes
         /// </summary>
         protected void Awake()
         {
+            if (ModBundleName.IsNullOrEmpty())
+                throw new FormatException("The public field \"ModBundleName\" is empty! This means that when compiled it won't be able to run! Please set this field to your Mod ID located at Keep Talking ModKit -> Configure Mod. Refer to this link for more details: https://github.com/Emik03/KeepCodingAndNobodyExplodes/wiki/Chapter-2.3:-ModuleScript-properties-and-fields#modbundlename-string");
+
             _setActive = () => IsActive = true;
 
             _components = new Dictionary<Type, Component[]>() { { typeof(ModuleScript), new[] { this } } };
@@ -273,7 +276,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="message">The message to log.</param>
         /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
-        public void Log(object message, LogType logType = LogType.Log) => GetLogMethod(logType)($"[{Module.ModuleDisplayName} #{ModuleId}]: {message.UnwrapToString()}");
+        public void Log(object message, LogType logType = LogType.Log) => GetLogMethod(logType)($"[{Module.ModuleDisplayName} #{ModuleId}] {message.UnwrapToString()}");
 
         /// <summary>
         /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.

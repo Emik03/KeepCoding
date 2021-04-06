@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Mods;
-using System;
+﻿using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Linq;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
+using InternalModInfo = Assets.Scripts.Mods.ModInfo;
 
 namespace KeepCodingAndNobodyExplodes
 {
@@ -23,12 +23,12 @@ namespace KeepCodingAndNobodyExplodes
             FileExtensionMacOS = "dylib", 
             FileExtensionLinux = "so";
 
-        private static readonly Dictionary<Tuple<string, string>, string> _cachedResults = new Dictionary<Tuple<string, string>, string>();
+        private static readonly Dictionary<Tuple<string, string>, object> _cachedResults = new Dictionary<Tuple<string, string>, object>();
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void Current(string bundleFileName, out Tuple<string, string> current) => current = new StackTrace().GetFrame(1).GetMethod().Name.ToTuple(bundleFileName);
 
-        private static string SetCache(this Tuple<string, string> current, string value) 
+        private static object SetCache(this Tuple<string, string> current, object value) 
         { 
             _cachedResults.Add(current, value); 
             return value;
@@ -36,7 +36,7 @@ namespace KeepCodingAndNobodyExplodes
 
         private static bool IsCached(this Tuple<string, string> current) => _cachedResults.ContainsKey(current);
 
-        private static string GetCache(this Tuple<string, string> current) => _cachedResults[current];
+        private static object GetCache(this Tuple<string, string> current) => _cachedResults[current];
 
         /// <summary>
         /// Combines multiple paths together.
@@ -46,55 +46,33 @@ namespace KeepCodingAndNobodyExplodes
         public static string CombineMultiple(params string[] paths) => paths.Aggregate(Path.Combine);
 
         /// <summary>
-        /// Retrieves the file path to the JSON file in the mod folder.
+        /// Gets the path and deserializes the modInfo.json located at every mod's root folder.
         /// </summary>
-        /// <remarks>
-        /// It is very cruicial that we do not return ModInfo in any method, including private ones as the editor library does not have it, and therefore won't be able to run this library in the first place.
-        /// </remarks>
         /// <exception cref="FileNotFoundException"></exception>
         /// <param name="bundleFileName">The name of the bundle assembly.</param>
         /// <returns>The version number of the mod.</returns>
-        public static string GetModInfoPath(string bundleFileName)
+        public static ModInfo GetModInfo(string bundleFileName)
         {
             Current(bundleFileName, out var current);
 
             if (IsCached(current))
-                return GetCache(current);
-
-            var methodInfo = typeof(ModManager).GetMethod("GetModInfoFromPath", Helper.Flags);
+                return (ModInfo)GetCache(current);
 
             string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
+            ModInfo modInfo;
 
-            return SetCache(current, ((ModInfo)methodInfo.Invoke(ModManager.Instance, new object[] { path, ModInfo.ModSourceEnum.Local })).FilePath ??
-                ((ModInfo)methodInfo.Invoke(ModManager.Instance, new object[] { path, ModInfo.ModSourceEnum.SteamWorkshop })).FilePath ??
-                ((ModInfo)methodInfo.Invoke(ModManager.Instance, new object[] { path, ModInfo.ModSourceEnum.Invalid })).FilePath ??
-                throw new FileNotFoundException(bundleFileName));
-        }
+            try
+            {
+                modInfo = ModInfo.Deserialize(path + "/modInfo.json");
+            }
+            catch (Exception e)
+            {
+                if (e is not FileNotFoundException and not DirectoryNotFoundException)
+                    throw;
+                modInfo = ModInfo.Deserialize(path + @"\modInfo.json");
+            }
 
-        /// <summary>
-        /// Retrieves the version number from the JSON file in the mod folder.
-        /// </summary>
-        /// <remarks>
-        /// It is very cruicial that we do not return ModInfo in any method, including private ones as the editor library does not have it, and therefore won't be able to run this library in the first place.
-        /// </remarks>
-        /// <exception cref="FileNotFoundException"></exception>
-        /// <param name="bundleFileName">The name of the bundle assembly.</param>
-        /// <returns>The version number of the mod.</returns>
-        public static string GetModInfoVersion(string bundleFileName)
-        {
-            Current(bundleFileName, out var current);
-
-            if (IsCached(current))
-                return GetCache(current);
-
-            var methodInfo = typeof(ModManager).GetMethod("GetModInfoFromPath", Helper.Flags);
-
-            string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
-
-            return SetCache(current, ((ModInfo)methodInfo.Invoke(ModManager.Instance, new object[] { path, ModInfo.ModSourceEnum.Local })).Version ??
-                ((ModInfo)methodInfo.Invoke(ModManager.Instance, new object[] { path, ModInfo.ModSourceEnum.SteamWorkshop })).Version ??
-                ((ModInfo)methodInfo.Invoke(ModManager.Instance, new object[] { path, ModInfo.ModSourceEnum.Invalid })).Version ??
-                throw new FileNotFoundException(bundleFileName));
+            return (ModInfo)SetCache(current, modInfo);
         }
 
         /// <summary>
@@ -108,15 +86,15 @@ namespace KeepCodingAndNobodyExplodes
             Current(fileName, out var current);
 
             if (IsCached(current))
-                return GetCache(current);
+                return (string)GetCache(current);
 
-            string path = ModManager.Instance.GetEnabledModPaths(ModInfo.ModSourceEnum.Local)
+            string path = ModManager.Instance.GetEnabledModPaths(InternalModInfo.ModSourceEnum.Local)
                               .FirstOrDefault(x => Directory.GetFiles(x, fileName).Any()) ??
-                          ModManager.Instance.GetEnabledModPaths(ModInfo.ModSourceEnum.SteamWorkshop)
+                          ModManager.Instance.GetEnabledModPaths(InternalModInfo.ModSourceEnum.SteamWorkshop)
                               .FirstOrDefault(x => Directory.GetFiles(x, fileName).Any()) ??
-                          GetDisabledPath(fileName) ?? throw new FileNotFoundException(fileName);
+                          GetDisabledPath(fileName) ?? throw new FileNotFoundException($"The file name {fileName} could not be found within your mods folder!");
 
-            return SetCache(current, path
+            return (string)SetCache(current, path
                 .Replace($"/{fileName}", "")
                 .Replace(@$"\{fileName}", ""));
         }
@@ -173,27 +151,20 @@ namespace KeepCodingAndNobodyExplodes
             }
         }
 
-        private static string GetDisabledPath(string fileName)
-        {
-            var disabledPaths = ModManager.Instance.GetDisabledModPaths();
-
-            foreach (string disabledPath in disabledPaths)
+        private static string GetDisabledPath(string fileName) 
+            => ModManager.Instance.GetDisabledModPaths().FirstValue(path =>
             {
                 try
                 {
-                    string[] files = Directory.GetFiles(disabledPath, fileName);
+                    string[] files = Directory.GetFiles(path, fileName);
 
                     if (files.LengthOrDefault() > 0 && !files[0].Trim().IsNullOrEmpty())
                         return files[0];
                 }
-                catch (Exception)
-                {
-                    continue;
-                }
-            }
+                catch (Exception) { }
 
-            return null;
-        }
+                return null;
+            });
 
         private static void Log(string message) => Debug.Log($"[Keep Coding So Nobody Explodes] {message}");
     }

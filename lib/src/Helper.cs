@@ -43,9 +43,11 @@ namespace KeepCodingAndNobodyExplodes
         /// <summary>
         /// Throws an exception if the <see cref="Array"/> is null or empty.
         /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="EmptyIteratorException"></exception>
         /// <param name="array">The <see cref="Array"/> to check for null and empty.</param>
         /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
-        public static void ThrowIfNullOrEmpty(this Array array, string message = null)
+        public static void AssertNotNullOrEmpty(this Array array, string message = null)
         {
             if (array is null)
                 throw new NullIteratorException(message ?? $"While asserting for null or empty, the variable {nameof(array)} ended up being null.");
@@ -57,9 +59,11 @@ namespace KeepCodingAndNobodyExplodes
         /// <summary>
         /// Throws an exception if the <see cref="string"/> is null or empty.
         /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="EmptyIteratorException"></exception>
         /// <param name="str">The string to check for null and empty.</param>
         /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
-        public static void ThrowIfNullOrEmpty(this string str, string message = null)
+        public static void AssertNotNullOrEmpty(this string str, string message = null)
         {
             if (str is null)
                 throw new NullIteratorException(message ?? $"While asserting for null or empty, the variable {nameof(str)} ended up being null.");
@@ -71,7 +75,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <summary>
         /// Converts any base number to base-10.
         /// </summary>
-        /// <exception cref="FormatException">asaasasasasass</exception>
+        /// <exception cref="FormatException"></exception>
         /// <param name="value">The value to convert.</param>
         /// <param name="baseChars">All of the base characters for the conversion from the base number, use <see cref="Alphanumeric"/> for Base-62, use <see cref="Decimal"/> for Base-10, use <see cref="Binary"/> for Base-2. The length of the array is the base number.</param>
         /// <returns><paramref name="value"/>, but in the base specified.</returns>
@@ -126,7 +130,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <summary>
         /// Returns the name of a variable.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">The <see cref="Expression"/> which returns the object you want the name of.</param>
         /// <returns>The name of the variable, or if it cannot find it, <see cref="Unknown"/>.</returns>
         public static string NameOfVariable(this Expression<Func<object>> e)
         {
@@ -187,6 +191,26 @@ namespace KeepCodingAndNobodyExplodes
         }
 
         /// <summary>
+        /// Sets or replaces the value of a dictionary with a given function.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <typeparam name="T">Type of the key of the dictionary.</typeparam>
+        /// <param name="source">Dictionary to operate on.</param>
+        /// <param name="key">Key at which the list is located in the dictionary.</param>
+        /// <param name="func">The function that returns the new value.</param>
+        /// <returns>The new value at the specified key.</returns>
+        public static int SetOrReplace<T>(this IDictionary<T, int> source, T key, Func<int, int> func)
+        {
+            if (source is null)
+                throw new ArgumentNullException("source");
+
+            if (key is null)
+                throw new ArgumentNullException("key", "Null values cannot be used for keys in dictionaries.");
+
+            return source[key] = func(source.ContainsKey(key) ? source[key] : default);
+        }
+
+        /// <summary>
         /// Invokes a method of <typeparamref name="T"/> and then returns the argument provided.
         /// </summary>
         /// <remarks>
@@ -208,15 +232,68 @@ namespace KeepCodingAndNobodyExplodes
         /// <remarks>
         /// This can be used to intercept current variables or calculations by for example, printing the value as it is being passed as an argument.
         /// </remarks>
-        /// <typeparam name="T">The type of <paramref name="item"/> and <paramref name="action"/>.</typeparam>
-        /// <param name="item">The item to use as reference and modify.</param>
+        /// <typeparam name="T">The type of <paramref name="items"/> and <paramref name="action"/>.</typeparam>
+        /// <param name="items">The item to use as reference and modify.</param>
         /// <param name="action">The action to apply it to.</param>
-        /// <returns>The item <paramref name="item"/>.</returns>
-        public static T[] Call<T>(this T[] item, Action<T, int> action)
+        /// <returns>The item <paramref name="items"/>.</returns>
+        public static T[] Call<T>(this T[] items, Action<T, int> action)
         {
-            for (int i = 0; i < item.Length; i++)
-                action(item[i], i);
-            return item;
+            if (items is null)
+                throw new NullIteratorException($"The variable {nameof(items)} cannot be null.");
+
+            for (int i = 0; i < items.Length; i++)
+                action(items[i], i);
+            return items;
+        }
+
+        /// <summary>
+        /// Returns the first element which doesn't return null, or null if all of them return null.
+        /// </summary>
+        /// <typeparam name="T">The type of array, and method.</typeparam>
+        /// <param name="source">The array to iterate on.</param>
+        /// <param name="func">The method which returns</param>
+        /// <returns>The first value from <paramref name="source"/> where <paramref name="func"/> doesn't return null, or null.</returns>
+        public static T FirstValue<T>(this IEnumerable<T> source, Func<T, T> func) where T : class
+        {
+            if (source is null)
+                throw new NullIteratorException($"The variable {nameof(source)} cannot be null.");
+
+            foreach (var v in source)
+            {
+                var t = func(v);
+
+                if (t is null)
+                    continue;
+
+                return t;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Returns the last element which doesn't return null, or null if all of them return null.
+        /// </summary>
+        /// <typeparam name="T">The type of array, and method.</typeparam>
+        /// <param name="source">The array to iterate on.</param>
+        /// <param name="func">The method which returns</param>
+        /// <returns>The last value from <paramref name="source"/> where <paramref name="func"/> doesn't return null, or null.</returns>
+        public static T LastValue<T>(this IEnumerable<T> source, Func<T, T> func) where T : class
+        {
+            if (source is null)
+                throw new NullIteratorException($"The variable {nameof(source)} cannot be null.");
+
+            for (int i = source.GetUpperBound(); i >= 0; i--)
+            {
+                var t = func(source.ElementAt(i));
+
+                if (t is null)
+                    continue;
+
+                return t;
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -237,36 +314,20 @@ namespace KeepCodingAndNobodyExplodes
             return count == 0
                 ? throw new EmptyIteratorException($"The variable {nameof(source)} cannot be empty.")
                 : source.ElementAt(i.Modulo(count));
-        }        
-        
-        /// <summary>
-        /// Sets or replaces the value of a dictionary with a given function.
-        /// </summary>
-        /// <typeparam name="T">Type of the key of the dictionary.</typeparam>
-        /// <param name="source">Dictionary to operate on.</param>
-        /// <param name="key">Key at which the list is located in the dictionary.</param>
-        /// <param name="func">The function that returns the new value.</param>
-        /// <returns>The new value at the specified key.</returns>
-        public static int SetOrReplace<T>(this IDictionary<T, int> source, T key, Func<int, int> func)
-        {
-            if (source is null)
-                throw new ArgumentNullException("source");
-            
-            if (key is null)
-                throw new ArgumentNullException("key", "Null values cannot be used for keys in dictionaries.");
-
-            return source[key] = func(source.ContainsKey(key) ? source[key] : default);
         }
-
 
         /// <summary>
         /// Reverses a list and returns the new list.
         /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
         /// <typeparam name="T">The type of the list.</typeparam>
         /// <param name="source">The list to reverse.</param>
         /// <returns><paramref name="source"/> with the elements reversed.</returns>
         public static List<T> Backwards<T>(this List<T> source)
         {
+            if (source is null)
+                throw new NullIteratorException($"The variable {nameof(source)} cannot be null.");
+
             source.Reverse();
             return source;
         }
@@ -281,6 +342,9 @@ namespace KeepCodingAndNobodyExplodes
         /// <returns><paramref name="source"/> but the <paramref name="index"/> element is <paramref name="value"/> instead.</returns>
         public static IEnumerable<T> Replace<T>(this IEnumerable<T> source, int index, T value)
         {
+            if (source is null)
+                throw new NullIteratorException($"The variable {nameof(source)} cannot be null.");
+
             int current = 0;
 
             foreach (var item in source)
@@ -359,18 +423,25 @@ namespace KeepCodingAndNobodyExplodes
         public static bool IsInRange(this float comparison, float min, float max) => comparison >= min && comparison <= max;
 
         /// <summary>
-        /// Determines if the array is null or empty.
+        /// Determines if the <see cref="Array"/> is null or empty.
         /// </summary>
-        /// <param name="array">The array to check for.</param>
-        /// <returns>True if the array is equal to null, or empty.</returns>
+        /// <param name="array">The <see cref="Array"/> to check for.</param>
+        /// <returns>True if the <paramref name="array"/> is equal to null, or empty.</returns>
         public static bool IsNullOrEmpty(this Array array) => array is null || array.Length == 0;
 
         /// <summary>
         /// Determines if the string is null or empty.
         /// </summary>
         /// <param name="str">The string to check for.</param>
-        /// <returns>True if string is equal to null, or empty.</returns>
+        /// <returns>True if <paramref name="str"/> is equal to null, or empty.</returns>
         public static bool IsNullOrEmpty(this string str) => string.IsNullOrEmpty(str);
+
+        /// <summary>
+        /// Determines if the <see cref="IEnumerable{T}"/> is null or empty.
+        /// </summary>
+        /// <param name="source">The <see cref="IEnumerable{T}"/> to check for.</param>
+        /// <returns>True if <paramref name="source"/> is equal to null, or empty.</returns>
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> source) => source is null || source.Count() == 0;
 
         /// <summary>
         /// Determines if the <see cref="KMSelectable"/> is a parent of another <see cref="KMSelectable"/>.
@@ -435,6 +506,13 @@ namespace KeepCodingAndNobodyExplodes
         /// <param name="str">The string to check length for.</param>
         /// <returns><see cref="string.Length"/> - 1</returns>
         public static int GetUpperBound(this string str) => str.IsNullOrEmpty() ? throw new FormatException("The string is null or empty, meaning that the upper bound doesn't exist.") : str.Length - 1;
+
+        /// <summary>
+        /// Returns the last index of the <see cref="IEnumerable{T}"/>.
+        /// </summary>
+        /// <param name="source">The <see cref="IEnumerable{T}"/> to check length for.</param>
+        /// <returns><paramref name="source"/>.Count() - 1</returns>
+        public static int GetUpperBound<T>(this IEnumerable<T> source) => source.IsNullOrEmpty() ? throw new EmptyIteratorException("The iterator is null or empty, meaning that the upper bound doesn't exist.") : source.Count() - 1;
 
         /// <summary>
         /// Returns the length of the array, or if null, the default value 0.
@@ -548,12 +626,12 @@ namespace KeepCodingAndNobodyExplodes
         /// </summary>
         /// <param name="i">The number to convert to an ordinal.</param>
         /// <returns><paramref name="i"/> as an ordinal. (<see cref="string"/>)</returns>
-        public static string ToOrdinal(this int i) => (i / 10 % 10 == 1 ? 0 : i % 10) switch
+        public static string ToOrdinal(this int i) => $"{(i < 0 ? "-" : "")}{i}" + (Math.Abs(i) / 10 % 10 == 1 ? 0 : Math.Abs(i) % 10) switch
         {
-            1 => i + "st",
-            2 => i + "nd",
-            3 => i + "rd",
-            _ => i + "th",
+            1 => "st",
+            2 => "nd",
+            3 => "rd",
+            _ => "th",
         };
 
         /// <summary>

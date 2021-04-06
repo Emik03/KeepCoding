@@ -32,7 +32,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <param name="overrideBoolean">Return true will make it act as a module/submodule, and false as a button.</param>
         public static void Assign(this KMSelectable[] kmSelectable, Action<int> onCancel = null, Action<int> onDefocus = null, Action<int> onDeselect = null, Action<int> onFocus = null, Action<int> onHighlight = null, Action<int> onHighlightEnded = null, Action<int> onInteract = null, Action<int> onInteractEnded = null, Action<int> onLeft = null, Action<int> onRight = null, Action<int> onSelect = null, bool? overrideBoolean = null)
         {
-            kmSelectable.ThrowIfNullOrEmpty("The array is not populated. Please check your public fields in Unity.");
+            kmSelectable.AssertNotNullOrEmpty("The array is not populated. Please check your public fields in Unity.");
 
             kmSelectable.Call((s, i) => s.Assign(
                 onCancel.ToAction(i),
