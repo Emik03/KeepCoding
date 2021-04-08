@@ -635,7 +635,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <param name="str">The string to format. Typically with placeholders involving {0}, {1}, {2}...</param>
         /// <param name="args">All of the arguments to put into <paramref name="str"/>.</param>
         /// <returns>The formatted <see cref="string"/>.</returns>
-        public static string Form(this string str, params object[] args) => string.Format(str, args);
+        public static string Form(this string str, params object[] args) => string.Format(str, args.Select(o => o.UnwrapToString()).ToArray());
 
         /// <summary>
         /// Converts a number to the ordinal as <see cref="string"/>.
