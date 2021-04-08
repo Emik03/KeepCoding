@@ -378,6 +378,22 @@ namespace KeepCodingAndNobodyExplodes
         }
 
         /// <summary>
+        /// Returns a slice of an <see cref="IEnumerable{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the <paramref name="source"/> and return type.</typeparam>
+        /// <param name="source">The <see cref="IEnumerable{T}"/> to take a slice of.</param>
+        /// <param name="start">The starting index of the slice.</param>
+        /// <param name="count">The amount of items to take.</param>
+        /// <returns>A slice of <paramref name="source"/> based on <paramref name="start"/> and <paramref name="count"/>.</returns>
+        public static IEnumerable<T> Slice<T>(this IEnumerable<T> source, int start, int count)
+        {
+            if (source is null)
+                throw new NullIteratorException($"The variable {nameof(source)} cannot be null.");
+
+            return source.Skip(start).Take(count);
+        }
+
+        /// <summary>
         /// Gets the method info from an expression.
         /// </summary>
         /// <typeparam name="T">The type of the action.</typeparam>
