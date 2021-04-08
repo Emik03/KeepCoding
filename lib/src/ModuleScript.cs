@@ -171,20 +171,6 @@ namespace KeepCodingAndNobodyExplodes
         }
 
         /// <summary>
-        /// Plays a sound.
-        /// </summary>
-        /// <exception cref="UnrecognizedTypeException"></exception>
-        /// <param name="transform">The location or sound source of the sound.</param>
-        /// <param name="sounds">The sounds, these can either be <see cref="string"/> or <see cref="KMSoundOverride.SoundEffect"/>. Any other type will throw an exception.</param>
-        public void PlaySound(Transform transform, params object[] sounds)
-        {
-            var audio = Get<KMAudio>();
-
-            foreach (object sound in sounds)
-                GetSoundMethod(audio, sound)(transform);
-        }
-
-        /// <summary>
         /// Solves the module, and logs all of the parameters.
         /// </summary>
         /// <param name="logs">All of the entries to log.</param>
@@ -285,6 +271,14 @@ namespace KeepCodingAndNobodyExplodes
         /// <param name="message">The message to log.</param>
         /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
         public void Log(object message, params object[] args) => Log(message.UnwrapToString().Form(args));
+
+        /// <summary>
+        /// Plays a sound.
+        /// </summary>
+        /// <exception cref="UnrecognizedTypeException"></exception>
+        /// <param name="transform">The location or sound source of the sound.</param>
+        /// <param name="sounds">The sounds, these can either be <see cref="string"/> or <see cref="KMSoundOverride.SoundEffect"/>. Any other type will throw an exception.</param>
+        public void PlaySound(Transform transform, params object[] sounds) => sounds.ForEach(s => GetSoundMethod(Get<KMAudio>(), s)(transform));
 
         /// <summary>
         /// Plays a sound, the sound source is the game object it is attached to.
