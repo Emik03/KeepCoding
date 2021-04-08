@@ -113,9 +113,9 @@ namespace KeepCodingAndNobodyExplodes
         private static readonly UnrecognizedTypeException _unreachableException = new UnrecognizedTypeException("Module is neither a KMBombModule or a KMNeedyModule. This is a bug caused by the library, please file a bug report alongside the source code.");
 
         /// <summary>
-        /// Appends the action to OnActivate.
+        /// Sets the action of OnActivate.
         /// </summary>
-        /// <param name="action">The delegate to append.</param>
+        /// <param name="action">The delegate to set.</param>
         public void OnActivate(Action action)
         {
             switch (Module)

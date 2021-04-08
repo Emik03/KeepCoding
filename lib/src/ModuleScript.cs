@@ -220,6 +220,19 @@ namespace KeepCodingAndNobodyExplodes
         }
 
         /// <summary>
+        /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
+        /// </summary>
+        /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
+        /// <param name="logs">All of the variables to throughly log.</param>
+        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => Debug.LogWarning(Helper.DumpTemplate.Form(Module.ModuleDisplayName, ModuleId, string.Join("", logs.Select((l, n) => Helper.VariableTemplate.Form(n, Helper.NameOfVariable(l), l.Compile()()?.GetType().ToString() ?? Helper.Null, string.Join(", ", l.Compile()().Unwrap(getVariables).Select(o => o.ToString()).ToArray()))).ToArray())));
+
+        /// <summary>
+        /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
+        /// </summary>
+        /// <param name="logs">All of the variables to throughly log.</param>
+        public void Dump(params Expression<Func<object>>[] logs) => Dump(false, logs);
+
+        /// <summary>
         /// Similar to <see cref="Component.GetComponent{T}"/>, however it caches the result in a dictionary, and will return the cached result if called again.
         /// </summary>
         /// <remarks>
@@ -242,19 +255,6 @@ namespace KeepCodingAndNobodyExplodes
         /// <param name="allowNull">Whether it should throw an exception if it sees null, if not it will return the default value. (Likely null)</param>
         /// <returns>The component specified by <typeparamref name="T"/>.</returns>
         public T[] GetAll<T>(bool allowNull = false) where T : Component => Cache<T>(() => GetComponents<T>(), allowNull);
-
-        /// <summary>
-        /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
-        /// </summary>
-        /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
-        /// <param name="logs">All of the variables to throughly log.</param>
-        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => Debug.LogWarning(Helper.DumpTemplate.Form(Module.ModuleDisplayName, ModuleId, string.Join("", logs.Select((l, n) => Helper.VariableTemplate.Form(n, Helper.NameOfVariable(l), l.Compile()()?.GetType().ToString() ?? Helper.Null, string.Join(", ", l.Compile()().Unwrap(getVariables).Select(o => o.ToString()).ToArray()))).ToArray())));
-
-        /// <summary>
-        /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
-        /// </summary>
-        /// <param name="logs">All of the variables to throughly log.</param>
-        public void Dump(params Expression<Func<object>>[] logs) => Dump(false, logs);
 
         /// <summary>
         /// Logs message, but formats it to be compliant with the Logfile Analyzer.
@@ -339,7 +339,7 @@ namespace KeepCodingAndNobodyExplodes
         {
             string customSound => t => audio.PlaySoundAtTransform(customSound, t),
             KMSoundOverride.SoundEffect gameSound => t => audio.PlayGameSoundAtTransform(gameSound, t),
-            _ => throw new UnrecognizedTypeException($"sound [{sound.GetType()}]: {sound}"),
+            _ => throw new UnrecognizedTypeException($"{sound} which is a {sound.GetType()} is not a valid type."),
         };
     }
 }
