@@ -142,7 +142,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <param name="pattern">The regular expression.</param>
         /// <param name="lenient">Whether it should add the default <c>^\s* PATTERN \s*$</c> embeded into most regex usages for Twitch Plays.</param>
         /// <param name="options">Any additional options for regular expressions.</param>
-        /// <returns>True if <paramref name="lenient"/> passes the test of the <paramref name="pattern"/>.</returns>
+        /// <returns>True if <paramref name="input"/> passes the test of the <paramref name="pattern"/>.</returns>
         protected static bool IsMatch(string input, string pattern, bool lenient = true, RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.CultureInvariant) => Regex.IsMatch(input, lenient ? @"^\s*" + pattern + @"\s*$" : pattern, options);
 
         /// <summary>
