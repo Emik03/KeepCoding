@@ -152,7 +152,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <returns>An <see cref="object"/> <see cref="Array"/> of all elements within <paramref name="item"/>.</returns>
         public static object[] Unwrap(this object item, bool getVariables = false)
         {
-            IEnumerable<object> Recursion(IEnumerable ienumerable)
+            static IEnumerable<object> Recursion(IEnumerable ienumerable, bool getVariables)
             {
                 foreach (object i in ienumerable)
                 {
@@ -163,16 +163,16 @@ namespace KeepCodingAndNobodyExplodes
                 }
             }
 
-            object[] @default = new object[] { item };
+            object[] @default = new[] { item };
 
             return (item switch
             {
                 null => new object[] { Null },
                 string => @default,
-                Tuple tuple => Recursion(tuple.ToArray),
-                IEnumerable ienumerable => Recursion(ienumerable),
-                IEnumerator ienumerator => Recursion(ienumerator.ToIEnumerable()),
-                _ => getVariables ? item.GetAllValues().Prepend(item) : @default,
+                Tuple tuple => Recursion(tuple.ToArray, true),
+                IEnumerable ienumerable => Recursion(ienumerable, true),
+                IEnumerator ienumerator => Recursion(ienumerator.ToIEnumerable(), true),
+                _ => getVariables ? Recursion(item.GetAllValues().Prepend(item), false) : @default,
             }).ToArray();
         }
 
@@ -247,6 +247,26 @@ namespace KeepCodingAndNobodyExplodes
         }
 
         /// <summary>
+        /// Returns the element of an array, pretending that the array wraps around or is circular.
+        /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <typeparam name="T">The type of the array.</typeparam>
+        /// <param name="source">The array itself.</param>
+        /// <param name="i">The index, which will wrap around if it's larger than the array.</param>
+        /// <returns>The element in <paramref name="source"/> using <paramref name="i"/> with rem-euclid modulo.</returns>
+        public static T ElementAtWrap<T>(this IEnumerable<T> source, int i)
+        {
+            int count = source is null
+                ? throw new NullIteratorException($"The variable {nameof(source)} cannot be null.")
+                : source.Count();
+
+            return count == 0
+                ? throw new EmptyIteratorException($"The variable {nameof(source)} cannot be empty.")
+                : source.ElementAt(i.Modulo(count));
+        }
+
+        /// <summary>
         /// Returns the first element which doesn't return null, or null if all of them return null.
         /// </summary>
         /// <typeparam name="T">The type of array, and method.</typeparam>
@@ -294,26 +314,6 @@ namespace KeepCodingAndNobodyExplodes
             }
 
             return null;
-        }
-
-        /// <summary>
-        /// Returns the element of an array, pretending that the array wraps around or is circular.
-        /// </summary>
-        /// <exception cref="NullIteratorException"></exception>
-        /// <exception cref="EmptyIteratorException"></exception>
-        /// <typeparam name="T">The type of the array.</typeparam>
-        /// <param name="source">The array itself.</param>
-        /// <param name="i">The index, which will wrap around if it's larger than the array.</param>
-        /// <returns>The element in <paramref name="source"/> using <paramref name="i"/> with rem-euclid modulo.</returns>
-        public static T ElementAtWrap<T>(this IEnumerable<T> source, int i)
-        {
-            int count = source is null
-                ? throw new NullIteratorException($"The variable {nameof(source)} cannot be null.")
-                : source.Count();
-
-            return count == 0
-                ? throw new EmptyIteratorException($"The variable {nameof(source)} cannot be empty.")
-                : source.ElementAt(i.Modulo(count));
         }
 
         /// <summary>
@@ -666,6 +666,13 @@ namespace KeepCodingAndNobodyExplodes
         /// <param name="bigInteger">The right-hand side operator.</param>
         /// <returns>Itself mod <paramref name="bigInteger"/>.</returns>
         public static BigInteger Modulo(this object item, BigInteger bigInteger) => ((item % bigInteger) + bigInteger) % bigInteger;
+
+        /// <summary>
+        /// Flattens an <see cref="IEnumerable"/> of type <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="source">The <see cref="IEnumerable"/> to flatten.</param>
+        /// <returns><paramref name="source"/> with its nested iterators flattened.</returns>
+        public static IEnumerable<T> Flatten<T>(this IEnumerable<T> source) => source?.SelectMany(x => Flatten(x as IEnumerable<T>) ?? new[] { x });
 
         /// <summary>
         /// Appends the element provided to the <see cref="IEnumerable{T}"/>.
