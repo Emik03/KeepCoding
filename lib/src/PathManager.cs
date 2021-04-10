@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Linq;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
-using InternalModInfo = Assets.Scripts.Mods.ModInfo;
+using Info = Assets.Scripts.Mods.ModInfo;
 
 namespace KeepCodingAndNobodyExplodes
 {
@@ -59,20 +59,8 @@ namespace KeepCodingAndNobodyExplodes
                 return (ModInfo)GetCache(current);
 
             string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
-            ModInfo modInfo;
 
-            try
-            {
-                modInfo = ModInfo.Deserialize(path + "/modInfo.json");
-            }
-            catch (Exception e)
-            {
-                if (e is not FileNotFoundException and not DirectoryNotFoundException)
-                    throw;
-                modInfo = ModInfo.Deserialize(path + @"\modInfo.json");
-            }
-
-            return (ModInfo)SetCache(current, modInfo);
+            return (ModInfo)SetCache(current, ModInfo.Deserialize($"{path}{GetSlashType(path)}modInfo.json"));
         }
 
         /// <summary>
@@ -88,9 +76,9 @@ namespace KeepCodingAndNobodyExplodes
             if (IsCached(current))
                 return (string)GetCache(current);
 
-            string path = ModManager.Instance.GetEnabledModPaths(InternalModInfo.ModSourceEnum.Local)
+            string path = ModManager.Instance.GetEnabledModPaths(Info.ModSourceEnum.Local)
                               .FirstOrDefault(x => Directory.GetFiles(x, fileName).Any()) ??
-                          ModManager.Instance.GetEnabledModPaths(InternalModInfo.ModSourceEnum.SteamWorkshop)
+                          ModManager.Instance.GetEnabledModPaths(Info.ModSourceEnum.SteamWorkshop)
                               .FirstOrDefault(x => Directory.GetFiles(x, fileName).Any()) ??
                           GetDisabledPath(fileName) ?? throw new FileNotFoundException($"The file name {fileName} could not be found within your mods folder!");
 
@@ -167,5 +155,7 @@ namespace KeepCodingAndNobodyExplodes
             });
 
         private static void Log(string message) => Debug.Log($"[Keep Coding So Nobody Explodes] {message}");
+
+        private static char GetSlashType(string path) => path.Count(c => c == '/') >= path.Count(c => c == '\\') ? '/' : '\\';
     }
 }
