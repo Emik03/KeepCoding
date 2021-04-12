@@ -9,13 +9,24 @@ namespace KeepCodingAndNobodyExplodes
     public static class StructHelper
     {
         /// <summary>
+        /// Converts a hexadecimal string into colors.
+        /// </summary>
+        /// <param name="hex">A string of hexadecimal, which can be formatted as "FFFFFF", "#FFFFFF", or "0xFFFFFF"</param>
+        /// <returns><see cref="Color32"/> converted from hexadecimal string.</returns>
+        public static Color32 HexToColor(this string hex)
+        {
+            hex = hex.Replace("0x", "").Replace("#", "");
+            return new Color32(byte.Parse(hex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber), byte.Parse(hex.Substring(2, 2), System.Globalization.NumberStyles.HexNumber), byte.Parse(hex.Substring(4, 2), System.Globalization.NumberStyles.HexNumber), (byte)(hex.Length < 8 ? 255 : byte.Parse(hex.Substring(6, 2), System.Globalization.NumberStyles.HexNumber)));
+        }
+
+        /// <summary>
         /// Takes the vector, and replaces the x and y components only if they are specified.
         /// </summary>
         /// <param name="vector">The <see cref="Vector2"/> to duplicate and modify.</param>
         /// <param name="x">The x value.</param>
         /// <param name="y">The y value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
-        public static Vector2 Replace(ref Vector2 vector, float? x, float? y)
+        public static Vector2 Replace(ref Vector2 vector, float? x = null, float? y = null)
             => vector = new Vector2(
                 x ?? vector.x,
                 y ?? vector.y);
@@ -28,7 +39,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <param name="y">The y value.</param>
         /// <param name="z">The z value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
-        public static Vector3 Replace(ref Vector3 vector, float? x, float? y, float? z)
+        public static Vector3 Replace(ref Vector3 vector, float? x = null, float? y = null, float? z = null)
             => vector = new Vector3(
                 x ?? vector.x,
                 y ?? vector.y,
@@ -43,7 +54,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <param name="z">The z value.</param>
         /// <param name="w">The w value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
-        public static Vector4 Replace(ref Vector4 vector, float? x, float? y, float? z, float? w)
+        public static Vector4 Replace(ref Vector4 vector, float? x = null, float? y = null, float? z = null, float? w = null)
             => vector = new Vector4(
                 x ?? vector.x,
                 y ?? vector.y,
@@ -57,7 +68,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <param name="x">The x value.</param>
         /// <param name="y">The y value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
-        public static Vector2 Replace(this Vector2 vector, float? x, float? y)
+        public static Vector2 Replace(this Vector2 vector, float? x = null, float? y = null)
             => new Vector2(
                 x ?? vector.x,
                 y ?? vector.y);
@@ -70,7 +81,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <param name="y">The y value.</param>
         /// <param name="z">The z value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
-        public static Vector3 Replace(this Vector3 vector, float? x, float? y, float? z)
+        public static Vector3 Replace(this Vector3 vector, float? x = null, float? y = null, float? z = null)
             => new Vector3(
                 x ?? vector.x,
                 y ?? vector.y,
@@ -85,7 +96,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <param name="z">The z value.</param>
         /// <param name="w">The w value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
-        public static Vector4 Replace(this Vector4 vector, float? x, float? y, float? z, float? w)
+        public static Vector4 Replace(this Vector4 vector, float? x = null, float? y = null, float? z = null, float? w = null)
             => new Vector4(
                 x ?? vector.x,
                 y ?? vector.y,
