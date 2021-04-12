@@ -15,6 +15,26 @@ namespace KeepCodingAndNobodyExplodes
             MonoBehaviour = monoBehaviour;
         }
 
+        /// <value>
+        /// Determines whether it is currently running any coroutines.
+        /// </value>
+        public bool IsRunning { get; private protected set; }
+
+        /// <value>
+        /// The amount of coroutines stored.
+        /// </value>
+        public int Count => Coroutines.Count;
+
+        /// <value>
+        /// The list of all coroutines currently running.
+        /// </value>
+        public List<Coroutine> Coroutines { get; set; }
+
+        /// <value>
+        /// The MonoBehaviour that is being used to start the coroutines.
+        /// </value>
+        private protected MonoBehaviour MonoBehaviour { get; set; }
+
         /// <summary>
         /// Stops the first coroutine that was called, and removes it from the list of coroutines.
         /// </summary>
@@ -43,20 +63,5 @@ namespace KeepCodingAndNobodyExplodes
 
             Coroutines = new List<Coroutine>();
         }
-
-        /// <value>
-        /// Determines whether it is currently running any coroutines.
-        /// </value>
-        public bool IsRunning { get; private protected set; }
-
-        /// <value>
-        /// The list of all coroutines currently running.
-        /// </value>
-        public List<Coroutine> Coroutines { get; set; }
-
-        /// <value>
-        /// The MonoBehaviour that is being used to start the coroutines.
-        /// </value>
-        private protected MonoBehaviour MonoBehaviour { get; set; }
     }
 }

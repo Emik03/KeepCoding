@@ -47,7 +47,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <value>
         /// The instance of the module.
         /// </value>
-        protected T Module { get => _module ??= GetComponent<T>() ?? throw new UnityComponentNotFoundException("TPScript cannot find your ModuleScript. Make sure that both script files are in the same game object!"); }
+        protected T Module => _module ??= GetComponent<T>() ?? throw new UnityComponentNotFoundException("TPScript cannot find your ModuleScript. Make sure that both script files are in the same game object!");
         private T _module;
 
         /// <summary>
