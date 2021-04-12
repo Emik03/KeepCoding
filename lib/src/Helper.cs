@@ -152,11 +152,11 @@ namespace KeepCodingAndNobodyExplodes
         /// <returns>An <see cref="object"/> <see cref="Array"/> of all elements within <paramref name="item"/>.</returns>
         public static object[] Unwrap(this object item, bool getVariables = false)
         {
-            static IEnumerable<object> Recursion(IEnumerable ienumerable, bool getVariables)
+            IEnumerable<object> Recursion(IEnumerable ienumerable, bool? overrideBoolean = null)
             {
                 foreach (object i in ienumerable)
                 {
-                    object[] array = i.Unwrap(getVariables);
+                    object[] array = i.Unwrap(overrideBoolean ?? getVariables);
 
                     foreach (object o in array)
                         yield return o;
@@ -169,9 +169,9 @@ namespace KeepCodingAndNobodyExplodes
             {
                 null => new object[] { Null },
                 string => @default,
-                Tuple tuple => Recursion(tuple.ToArray, true),
-                IEnumerable ienumerable => Recursion(ienumerable, true),
-                IEnumerator ienumerator => Recursion(ienumerator.ToIEnumerable(), true),
+                Tuple tuple => Recursion(tuple.ToArray),
+                IEnumerable ienumerable => Recursion(ienumerable),
+                IEnumerator ienumerator => Recursion(ienumerator.ToIEnumerable()),
                 _ => getVariables ? Recursion(item.GetAllValues().Prepend(item), false) : @default,
             }).ToArray();
         }
@@ -184,10 +184,10 @@ namespace KeepCodingAndNobodyExplodes
         public static IEnumerable<object> GetAllValues(this object item)
         {
             foreach (var descriptor in item?.GetType()?.GetFields(Flags))
-                yield return $"\n{descriptor} (Field): {descriptor?.GetValue(item) ?? Null}";
+                yield return $"\n{descriptor} (Field): {descriptor?.GetValue(item).UnwrapToString()}";
 
             foreach (var descriptor in item?.GetType()?.GetProperties(Flags))
-                yield return $"\n{descriptor} (Property): {descriptor?.GetValue(item, null) ?? Null}";
+                yield return $"\n{descriptor} (Property): {descriptor?.GetValue(item, null).UnwrapToString()}";
         }
 
         /// <summary>
@@ -314,6 +314,20 @@ namespace KeepCodingAndNobodyExplodes
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Iterates over an array and passes in each index for an <see cref="Action{T1, T2}"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of array and return type.</typeparam>
+        /// <param name="array">The array to iterate over</param>
+        /// <param name="action">The action to apply to each index.</param>
+        /// <returns><paramref name="array"/></returns>
+        public static T[] For<T>(this T[] array, Action<T, int> action)
+        {
+            for (int i = 0; i < array.Length; i++)
+                action(array[i], i);
+            return array;
         }
 
         /// <summary>
