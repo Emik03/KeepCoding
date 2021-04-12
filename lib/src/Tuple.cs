@@ -114,7 +114,7 @@ namespace KeepCodingAndNobodyExplodes
     /// <summary>
     /// A basic tuple datatype for C# 4. Written by Emik.
     /// </summary>
-    public class Tuple<T1, T2> : Tuple
+    public class Tuple<T1, T2> : Tuple<T1>
     {
         /// <summary>
         /// Creates a tuple of size 2.
@@ -159,11 +159,6 @@ namespace KeepCodingAndNobodyExplodes
         }
 
         /// <value>
-        /// The first item of the tuple.
-        /// </value>
-        public T1 Item1 { get; set; }
-
-        /// <value>
         /// The second item of the tuple.
         /// </value>
         public T2 Item2 { get; set; }
@@ -195,7 +190,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <summary>
         /// Gets all items as an array, and returns it as a string.
         /// </summary>
-        /// <returns><see cref="Item1"/> as <see cref="string"/>.</returns>
+        /// <returns>All tuples as <see cref="string"/>.</returns>
         public override string ToString() => string.Join(" ", ToArray.ConvertAll(o => o.ToString()));
 
         /// <summary>
@@ -218,7 +213,7 @@ namespace KeepCodingAndNobodyExplodes
     /// <summary>
     /// A basic tuple datatype for C# 4. Written by Emik.
     /// </summary>
-    public class Tuple<T1, T2, T3> : Tuple
+    public class Tuple<T1, T2, T3> : Tuple<T1, T2>
     {
         /// <summary>
         /// Creates a tuple of size 3.
@@ -267,16 +262,6 @@ namespace KeepCodingAndNobodyExplodes
         }
 
         /// <value>
-        /// The first item of the tuple.
-        /// </value>
-        public T1 Item1 { get; set; }
-
-        /// <value>
-        /// The second item of the tuple.
-        /// </value>
-        public T2 Item2 { get; set; }
-
-        /// <value>
         /// The third item of the tuple.
         /// </value>
         public T3 Item3 { get; set; }
@@ -309,7 +294,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <summary>
         /// Gets all items as an array, and returns it as a string.
         /// </summary>
-        /// <returns><see cref="Item1"/> as <see cref="string"/>.</returns>
+        /// <returns>All tuples as <see cref="string"/>.</returns>
         public override string ToString() => string.Join(" ", ToArray.ConvertAll(o => o.ToString()));
 
         /// <summary>
@@ -332,7 +317,7 @@ namespace KeepCodingAndNobodyExplodes
     /// <summary>
     /// A basic tuple datatype for C# 4. Written by Emik.
     /// </summary>
-    public class Tuple<T1, T2, T3, T4> : Tuple
+    public class Tuple<T1, T2, T3, T4> : Tuple<T1, T2, T3>
     {
         /// <summary>
         /// Creates a tuple of size 4.
@@ -385,21 +370,6 @@ namespace KeepCodingAndNobodyExplodes
         }
 
         /// <value>
-        /// The first item of the tuple.
-        /// </value>
-        public T1 Item1 { get; set; }
-
-        /// <value>
-        /// The second item of the tuple.
-        /// </value>
-        public T2 Item2 { get; set; }
-
-        /// <value>
-        /// The third item of the tuple.
-        /// </value>
-        public T3 Item3 { get; set; }
-
-        /// <value>
         /// The fourth item of the tuple.
         /// </value>
         public T4 Item4 { get; set; }
@@ -433,7 +403,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <summary>
         /// Gets all items as an array, and returns it as a string.
         /// </summary>
-        /// <returns><see cref="Item1"/> as <see cref="string"/>.</returns>
+        /// <returns>All tuples as <see cref="string"/>.</returns>
         public override string ToString() => string.Join(" ", ToArray.ConvertAll(o => o.ToString()));
 
         /// <summary>
