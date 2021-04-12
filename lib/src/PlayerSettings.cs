@@ -18,7 +18,7 @@ namespace KeepCodingAndNobodyExplodes
         public static bool LockMouseToWindow => Manager.Instance.PlayerSettings.LockMouseToWindow;
 
         /// <summary>
-        /// Determines if the option to show the leaderboards from the pamphlet 
+        /// Determines if the option to show the leaderboards from the pamphlet.
         /// </summary>
         public static bool ShowLeaderBoards => Manager.Instance.PlayerSettings.ShowLeaderBoards;
 
