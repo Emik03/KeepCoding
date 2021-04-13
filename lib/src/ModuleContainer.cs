@@ -6,7 +6,7 @@ namespace KeepCodingAndNobodyExplodes
     /// <summary>
     /// Container for both regular and needy modules.
     /// </summary>
-    sealed public class ModuleContainer
+    public sealed class ModuleContainer
     {
         /// <summary>
         /// Encapsulates either a regular or needy module.
