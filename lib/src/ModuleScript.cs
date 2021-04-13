@@ -31,20 +31,25 @@ namespace KeepCodingAndNobodyExplodes
         /// <value>
         /// Determines whether it is running on Unity or in-game.
         /// </value>
-        public bool IsEditor { get => Application.isEditor; }
+        public bool IsEditor => Application.isEditor;
 
         /// <value>
-        /// Determines if the module has been solved.
+        /// Determines whether this module is the last instantiated instance.
+        /// </value>
+        public bool IsLastInstantiated => ModuleId == _moduleIds[Module.ModuleType];
+
+        /// <value>
+        /// Determines whether the module has been solved.
         /// </value>
         public bool IsSolved { get; private set; }
 
         /// <value>
-        /// Determines if the module has been struck. Twitch Plays script will set this to false when a command is interrupted.
+        /// Determines whether the module has been struck. Twitch Plays script will set this to false when a command is interrupted.
         /// </value>
         public bool IsStrike { get; internal set; }
 
         /// <value>
-        /// Determines if the needy is active.
+        /// Determines whether the needy is active.
         /// </value>
         public bool IsNeedyActive { get; private set; }
 
