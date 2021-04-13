@@ -15,9 +15,9 @@
 	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	<Copyright>Emik</Copyright>
 	<RunPostBuildEvent>Always</RunPostBuildEvent>
-	<AssemblyVersion>1.2.0.0</AssemblyVersion>
-	<FileVersion>1.2.0.0</FileVersion>
-	<Version>1.2</Version>
+	<AssemblyVersion>1.2.1.0</AssemblyVersion>
+	<FileVersion>1.2.1.0</FileVersion>
+	<Version>1.2.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -95,7 +95,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCodingAndNobodyExplodes.dll&quot;  &quot;D:\Emik's Modules\Assets\Plugins\Managed&quot;&#xD;&#xA;xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCodingAndNobodyExplodes.xml&quot; &quot;D:\Emik's Modules\Assets\Plugins\Managed&quot;&#xD;&#xA;xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCodingAndNobodyExplodes.pdb&quot; &quot;D:\Emik's Modules\Assets\Plugins\Managed&quot;" />
+    <Exec Command="xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCodingAndNobodyExplodes.dll&quot;  &quot;D:\Emik's Modules\Assets\Plugins\Managed&quot;&#xD;&#xA;xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCodingAndNobodyExplodes.xml&quot; &quot;D:\Emik's Modules\Assets\Plugins\Managed&quot;" />
   </Target>
 
 </Project>
