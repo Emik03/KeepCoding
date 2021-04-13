@@ -92,7 +92,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <param name="delay">The amount of delay before the sound starts.</param>
         /// <param name="time">The time in the audio it should start playing at.</param>
         /// <param name="pitch">The pitch of the sound.</param>
-        public void Play(string sound, bool loop = false, int priority = 0, float delay = 0, float pitch = 1, float time = 0, float volume = 1) => Play(AudioClips.FirstOrDefault(c => c.name.Call(d => Debug.Log("asdasdasd: " + d)) == sound) ?? throw new UnityComponentNotFoundException($"There is no sound effect named \"{sound}\". List of audio clips from the prefab: {AudioClips.UnwrapToString()}"), loop, priority, delay, pitch, time, volume);
+        public void Play(string sound, bool loop = false, int priority = 0, float delay = 0, float pitch = 1, float time = 0, float volume = 1) => Play(AudioClips.FirstOrDefault(c => c.name == sound) ?? throw new UnityComponentNotFoundException($"There is no sound effect named \"{sound}\". List of audio clips from the prefab: {AudioClips.UnwrapToString()}"), loop, priority, delay, pitch, time, volume);
 
         /// <summary>
         /// Stops playing the clip.
