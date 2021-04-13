@@ -73,7 +73,7 @@ namespace KeepCodingAndNobodyExplodes
         /// </value>
         /// <exception cref="OperationCanceledException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
-        public string Version { get => (IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(ModBundleName).Version) ?? throw new OperationCanceledException($"{nameof(ModBundleName)} couldn't be found. Did you spell your Mod name correctly? Refer to this link for more details: https://github.com/Emik03/KeepCodingAndNobodyExplodes/wiki/Chapter-2.3:-ModuleScript-properties-and-fields#modbundlename-string"); }
+        public string Version { get => (IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(ModBundleName).Version) ?? throw new OperationCanceledException($"{nameof(ModBundleName)} couldn't be found. Did you spell your Mod name correctly? Refer to this link for more details: https://github.com/Emik03/KeepCodingAndNobodyExplodes/wiki/Chapter-2.1:-ModuleScript#version-string"); }
 
         /// <summary>
         /// Contains either <see cref="KMBombModule"/> or <see cref="KMNeedyModule"/>, and allows for running commands through context.
@@ -97,7 +97,7 @@ namespace KeepCodingAndNobodyExplodes
         protected void Awake()
         {
             if (ModBundleName.IsNullOrEmpty())
-                throw new FormatException("The public field \"ModBundleName\" is empty! This means that when compiled it won't be able to run! Please set this field to your Mod ID located at Keep Talking ModKit -> Configure Mod. Refer to this link for more details: https://github.com/Emik03/KeepCodingAndNobodyExplodes/wiki/Chapter-2.3:-ModuleScript-properties-and-fields#modbundlename-string");
+                throw new FormatException("The public field \"ModBundleName\" is empty! This means that when compiled it won't be able to run! Please set this field to your Mod ID located at Keep Talking ModKit -> Configure Mod. Refer to this link for more details: https://github.com/Emik03/KeepCodingAndNobodyExplodes/wiki/Chapter-2.1:-ModuleScript#version-string");
 
             _setActive = () => IsActive = true;
 
