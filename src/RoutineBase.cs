@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace KeepCodingAndNobodyExplodes
+namespace KeepCoding.v13
 {
     /// <summary>
     /// Abstract class for the <see cref="Routine"/> datatype, since the different overloads are similar to each other. Written by Emik.
@@ -58,8 +58,7 @@ namespace KeepCodingAndNobodyExplodes
             if (Coroutines.Count == 0)
                 throw new EmptyIteratorException("Coroutines is empty.");
 
-            foreach (var coroutine in Coroutines)
-                MonoBehaviour.StopCoroutine(coroutine);
+            Coroutines.ForEach(c => MonoBehaviour.StopCoroutine(c));
 
             Coroutines = new List<Coroutine>();
         }

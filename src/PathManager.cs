@@ -7,8 +7,9 @@ using System.Linq;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 using Info = Assets.Scripts.Mods.ModInfo;
+using System.Reflection;
 
-namespace KeepCodingAndNobodyExplodes
+namespace KeepCoding.v13
 {
     extern alias core;
 
@@ -17,42 +18,27 @@ namespace KeepCodingAndNobodyExplodes
     /// </summary>
     public static class PathManager
     {
-        private const string 
-            FileFormat = "{0}.{1}",
-            FileExtensionWindows = "dll", 
-            FileExtensionMacOS = "dylib", 
-            FileExtensionLinux = "so";
-
-        private static readonly Dictionary<Tuple<string, string>, object> _cachedResults = new Dictionary<Tuple<string, string>, object>();
-
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void Current(string bundleFileName, out Tuple<string, string> current) => current = new StackTrace().GetFrame(1).GetMethod().Name.ToTuple(bundleFileName);
-
-        private static object SetCache(this Tuple<string, string> current, object value) 
-        { 
-            _cachedResults.Add(current, value); 
-            return value;
-        }
-
-        private static bool IsCached(this Tuple<string, string> current) => _cachedResults.ContainsKey(current);
-
-        private static object GetCache(this Tuple<string, string> current) => _cachedResults[current];
-
         /// <summary>
-        /// Combines multiple paths together.
+        /// These are the default extensions that operating systems use.
         /// </summary>
-        /// <param name="paths">The paths to combine with.</param>
-        /// <returns>A single path consisting of the combined path of the array.</returns>
-        public static string CombineMultiple(params string[] paths) => paths.Aggregate(Path.Combine);
+        public const string
+            FileFormat = "{0}.{1}",
+            FileExtensionWindows = "dll",
+            FileExtensionMacOS = "dylib",
+            FileExtensionLinux = "so";
 
         /// <summary>
         /// Gets the path and deserializes the modInfo.json located at every mod's root folder.
         /// </summary>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
         /// <param name="bundleFileName">The name of the bundle assembly.</param>
         /// <returns>The version number of the mod.</returns>
         public static ModInfo GetModInfo(string bundleFileName)
         {
+            bundleFileName.NullOrEmptyCheck("You cannot retrieve a mod's modInfo.json if the bundle file name is null or empty.");
+
             Current(bundleFileName, out var current);
 
             if (IsCached(current))
@@ -66,11 +52,15 @@ namespace KeepCodingAndNobodyExplodes
         /// <summary>
         /// Finds a path of a given file within each mod.
         /// </summary>
+        /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
         /// <param name="fileName">The file name to search for.</param>
         /// <returns>The path to <paramref name="fileName"/>.</returns>
         public static string GetPath(string fileName)
         {
+            fileName.NullOrEmptyCheck("You cannot retrieve a path if the file name is null or empty.");
+
             Current(fileName, out var current);
 
             if (IsCached(current))
@@ -93,11 +83,15 @@ namespace KeepCodingAndNobodyExplodes
         /// <remarks>
         /// If the library has already been loaded, then this method will prematurely halt.
         /// </remarks>
+        /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
         /// <param name="bundleFileName">The name of the bundle file.</param>
         /// <param name="libraryFileName">The library's name, excluding the extension.</param>
         public static void LoadLibrary(string bundleFileName, string libraryFileName)
         {
+            libraryFileName.NullOrEmptyCheck("You cannot load a library which has a null or empty name.");
+
             Current(bundleFileName + libraryFileName, out var current);
 
             if (IsCached(current))
@@ -111,6 +105,40 @@ namespace KeepCodingAndNobodyExplodes
 
             CopyLibrary(libraryFileName, path);
         }
+
+        /// <summary>
+        /// Combines multiple paths together.
+        /// </summary>
+        /// <param name="paths">The paths to combine with.</param>
+        /// <returns>A single path consisting of the combined path of the array.</returns>
+        public static string CombineMultiple(params string[] paths) => paths.Aggregate(Path.Combine);
+
+        /// <summary>
+        /// Gets the version number of this library.
+        /// </summary>
+        /// <param name="bundleFileName">The name of the bundle file.</param>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        public static FileVersionInfo GetVersionLibrary(string bundleFileName) => FileVersionInfo.GetVersionInfo(Application.isEditor ? Assembly.GetExecutingAssembly().Location : GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows)));
+
+        internal static void Log(string message) => Debug.Log($"[Keep Coding] {message}");
+
+        private static readonly Dictionary<Tuple<string, string>, object> _cachedResults = new Dictionary<Tuple<string, string>, object>();
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void Current(string bundleFileName, out Tuple<string, string> current) => current = new StackTrace().GetFrame(1).GetMethod().Name.ToTuple(bundleFileName);
+
+        private static object SetCache(this Tuple<string, string> current, object value)
+        {
+            _cachedResults.Add(current, value);
+            return value;
+        }
+
+        private static bool IsCached(this Tuple<string, string> current) => _cachedResults.ContainsKey(current);
+
+        private static object GetCache(this Tuple<string, string> current) => _cachedResults[current];
 
         private static void CopyLibrary(string libraryFileName, string path)
         {
@@ -153,8 +181,6 @@ namespace KeepCodingAndNobodyExplodes
 
                 return null;
             });
-
-        private static void Log(string message) => Debug.Log($"[Keep Coding So Nobody Explodes] {message}");
 
         private static char GetSlashType(string path) => path.Count(c => c == '/') >= path.Count(c => c == '\\') ? '/' : '\\';
     }

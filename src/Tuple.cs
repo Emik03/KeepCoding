@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace KeepCodingAndNobodyExplodes
+namespace KeepCoding.v13
 {
     /// <summary>
     /// An abstract type meant for the tuple datatype for C# 4. Written by Emik.

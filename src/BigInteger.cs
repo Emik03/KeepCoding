@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace KeepCodingAndNobodyExplodes
+namespace KeepCoding.v13
 {
     /// <summary>
     /// Stores numbers far larger than long or ulong by using arrays to store the values. Written by Emik.
@@ -12,6 +12,8 @@ namespace KeepCodingAndNobodyExplodes
         /// <summary>
         /// Creates a big integer containing the number specified.
         /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
         /// <exception cref="ConstructorArgumentException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="value">The value to store. <see cref="Array"/>, <see cref="string"/>, and any number-type are compatible.</param>
@@ -25,6 +27,8 @@ namespace KeepCodingAndNobodyExplodes
         /// <summary>
         /// Indexable number. Allows you to treat the value as an array.
         /// </summary>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <param name="i">The <paramref name="i"/>th digit to look from. (left-to-right)</param>
         /// <returns>The current value's <paramref name="i"/>th digit. (left-to-right)</returns>
         public int this[int i] { get => _value[i]; set => _value[i] = Math.Abs(value) <= 9 ? CastToCurrentNegative(value) : throw new ArgumentOutOfRangeException($"You are assigning a 1-digit number, yet your value {value} is {value.ToString().Length} digits long."); }
@@ -683,6 +687,8 @@ namespace KeepCodingAndNobodyExplodes
 
         private sbyte[] ObjectToBytes(object obj)
         {
+            obj.NullCheck("You cannot construct a BigInteger out of null.");
+
             if (obj is BigInteger big)
                 return big._value.ToArray();
 

@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace KeepCodingAndNobodyExplodes
+namespace KeepCoding.v13
 {
     /// <summary>
     /// Advanced coroutine handler. Written by Emik.

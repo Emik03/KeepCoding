@@ -3,7 +3,7 @@ using System.Collections;
 using System.Threading;
 using UnityEngine;
 
-namespace KeepCodingAndNobodyExplodes
+namespace KeepCoding.v13
 {
     /// <summary>
     /// Advanced multi-threading handler. Written by Emik.
@@ -20,7 +20,7 @@ namespace KeepCodingAndNobodyExplodes
             : base(allowSimultaneousActive, maximumThreadsActive)
             => Thread = new Thread(() =>
             {
-                work();
+                work.NullCheck($"The variable {nameof(work)} cannot be null.")();
                 IsRunning = false;
             });
 
@@ -36,11 +36,13 @@ namespace KeepCodingAndNobodyExplodes
             yield return WaitForOtherThreads();
 
             IsRunning = true;
+
             ThreadsActive++;
 
             Thread.Start();
 
             yield return WaitForOwnThread();
+
             ThreadsActive--;
         }
     }
@@ -60,7 +62,7 @@ namespace KeepCodingAndNobodyExplodes
             : base(allowSimultaneousActive, maximumThreadsActive)
             => Thread = new Thread(() =>
             {
-                Result = work();
+                Result = work.NullCheck($"The variable {nameof(work)} cannot be null.")();
                 IsRunning = false;
             });
 
@@ -76,11 +78,13 @@ namespace KeepCodingAndNobodyExplodes
             yield return WaitForOtherThreads();
 
             IsRunning = true;
+
             ThreadsActive++;
 
             Thread.Start();
 
             yield return WaitForOwnThread();
+
             ThreadsActive--;
         }
 
@@ -116,17 +120,19 @@ namespace KeepCodingAndNobodyExplodes
             yield return WaitForOtherThreads();
 
             IsRunning = true;
+
             ThreadsActive++;
 
             Thread = new Thread(() =>
             {
-                Result = _work(arg);
+                Result = _work.NullCheck($"The variable {nameof(_work)} cannot be null.")(arg);
                 IsRunning = false;
             });
 
             Thread.Start();
 
             yield return WaitForOwnThread();
+
             ThreadsActive--;
         }
 
@@ -164,17 +170,19 @@ namespace KeepCodingAndNobodyExplodes
             yield return WaitForOtherThreads();
 
             IsRunning = true;
+
             ThreadsActive++;
 
             Thread = new Thread(() =>
             {
-                Result = _work(arg1, arg2);
+                Result = _work.NullCheck($"The variable {nameof(_work)} cannot be null.")(arg1, arg2);
                 IsRunning = false;
             });
 
             Thread.Start();
 
             yield return WaitForOwnThread();
+
             ThreadsActive--;
         }
 
@@ -212,17 +220,19 @@ namespace KeepCodingAndNobodyExplodes
             yield return WaitForOtherThreads();
 
             IsRunning = true;
+
             ThreadsActive++;
 
             Thread = new Thread(() =>
             {
-                Result = _work(arg1, arg2, arg3);
+                Result = _work.NullCheck($"The variable {nameof(_work)} cannot be null.")(arg1, arg2, arg3);
                 IsRunning = false;
             });
 
             Thread.Start();
 
             yield return WaitForOwnThread();
+
             ThreadsActive--;
         }
 
@@ -260,17 +270,19 @@ namespace KeepCodingAndNobodyExplodes
             yield return WaitForOtherThreads();
 
             IsRunning = true;
+
             ThreadsActive++;
 
             Thread = new Thread(() =>
             {
-                Result = _work(arg1, arg2, arg3, arg4);
+                Result = _work.NullCheck($"The variable {nameof(_work)} cannot be null.")(arg1, arg2, arg3, arg4);
                 IsRunning = false;
             });
 
             Thread.Start();
 
             yield return WaitForOwnThread();
+
             ThreadsActive--;
         }
 

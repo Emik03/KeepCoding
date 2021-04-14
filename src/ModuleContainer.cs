@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace KeepCodingAndNobodyExplodes
+namespace KeepCoding.v13
 {
     /// <summary>
     /// Container for both regular and needy modules.
@@ -12,15 +12,15 @@ namespace KeepCodingAndNobodyExplodes
         /// Encapsulates either a regular or needy module.
         /// </summary>
         /// <exception cref="ConstructorArgumentException"></exception>
-        /// <param name="bombModule">The instance of a normal module.</param>
-        /// <param name="needyModule">The instance of a needy module.</param>
-        public ModuleContainer(KMBombModule bombModule = null, KMNeedyModule needyModule = null)
+        /// <param name="regular">The instance of a normal module.</param>
+        /// <param name="needy">The instance of a needy module.</param>
+        public ModuleContainer(KMBombModule regular = null, KMNeedyModule needy = null)
         {
-            if (bombModule is null == needyModule is null)
-                throw new ConstructorArgumentException(bombModule is null ? "Both KMBombModule and KMNeedyModule is null, and since this datatype is immutable after the constructor, cannot return anything." : "Both KMBombModule and KMNeedyModule are assigned, which will mean that it is unable to return both when calling a function that returns a single MonoBehaviour.");
+            if (regular is null == needy is null)
+                throw new ConstructorArgumentException(regular is null ? "Both KMBombModule and KMNeedyModule is null, and since this datatype is immutable after the constructor, cannot return anything." : "Both KMBombModule and KMNeedyModule are assigned, which will mean that it is unable to return both when calling a function that returns a single MonoBehaviour.");
 
-            _bombModule = bombModule;
-            _needyModule = needyModule;
+            _bombModule = regular;
+            _needyModule = needy;
         }
 
         /// <value>
@@ -93,18 +93,46 @@ namespace KeepCodingAndNobodyExplodes
         /// Returns <see cref="KMBombModule"/>, or if null, throws a <see cref="NullReferenceException"/>.
         /// </value>
         /// <exception cref="NullReferenceException"></exception>
-        public KMBombModule Regular => _bombModule ?? throw new NullReferenceException("KMBombModule is null, yet you are trying to access it.");
+        public KMBombModule Regular => _bombModule.NullCheck("KMBombModule is null, yet you are trying to access it.");
 
         /// <value>
         /// Returns <see cref="KMNeedyModule"/>, or if null, throws a <see cref="NullReferenceException"/>.
         /// </value>
         /// <exception cref="NullReferenceException"></exception>
-        public KMNeedyModule Needy => _needyModule ?? throw new NullReferenceException("KMNeedyModule is null, yet you are trying to access it.");
+        public KMNeedyModule Needy => _needyModule.NullCheck("KMNeedyModule is null, yet you are trying to access it.");
 
         /// <value>
         /// Returns <see cref="KMBombModule"/>, or if null, <see cref="KMNeedyModule"/>.
         /// </value>
         public MonoBehaviour Module => _bombModule ?? (MonoBehaviour)_needyModule;
+
+        /// <summary>
+        /// Creates a new instance of <see cref="ModuleContainer"/> where <see cref="Regular"/> is defined.
+        /// </summary>
+        /// <param name="regular">The regular module to create a new <see cref="ModuleContainer"/> of.</param>
+        /// <returns>A <see cref="ModuleContainer"/> with parameter <paramref name="regular"/>.</returns>
+        public static implicit operator ModuleContainer(KMBombModule regular) => new ModuleContainer(regular: regular);
+
+        /// <summary>
+        /// Creates a new instance of <see cref="ModuleContainer"/> where <see cref="Needy"/> is defined.
+        /// </summary>
+        /// <param name="needy">The needy module to create a new <see cref="ModuleContainer"/> of.</param>
+        /// <returns>A <see cref="ModuleContainer"/> with parameter <paramref name="needy"/>.</returns>
+        public static implicit operator ModuleContainer(KMNeedyModule needy) => new ModuleContainer(needy: needy);
+
+        /// <summary>
+        /// Returns the instance of <see cref="KMBombModule"/> from <see cref="Regular"/>.
+        /// </summary>
+        /// <param name="container">The <see cref="ModuleContainer"/> to get the <see cref="KMBombModule"/> from.</param>
+        /// <returns>A <see cref="KMBombModule"/> from <see cref="Regular"/>.</returns>
+        public static explicit operator KMBombModule(ModuleContainer container) => container.Regular;
+
+        /// <summary>
+        /// Returns the instance of <see cref="KMNeedyModule"/> from <see cref="Needy"/>.
+        /// </summary>
+        /// <param name="container">The <see cref="ModuleContainer"/> to get the <see cref="KMNeedyModule"/> from.</param>
+        /// <returns>A <see cref="KMBombModule"/> from <see cref="Needy"/>.</returns>
+        public static explicit operator KMNeedyModule(ModuleContainer container) => container.Needy;
 
         private readonly KMBombModule _bombModule;
 

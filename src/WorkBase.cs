@@ -2,7 +2,7 @@
 using System.Threading;
 using UnityEngine;
 
-namespace KeepCodingAndNobodyExplodes
+namespace KeepCoding.v13
 {
     /// <summary>
     /// Abstract class for the <see cref="Work"/> datatype, since the different overloads are similar to each other. Written by Emik.
@@ -24,7 +24,9 @@ namespace KeepCodingAndNobodyExplodes
                 return;
 
             Thread.Interrupt();
+
             IsRunning = false;
+
             ThreadsActive--;
         }
 

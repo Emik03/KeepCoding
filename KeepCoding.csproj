@@ -5,19 +5,20 @@
 	<LangVersion>9.0</LangVersion>
 	<Authors>Emik</Authors>
 	<Product>Emik</Product>
-	<Description>KeepCodingAndNobodyExplodes is a C# class library by Emik (https://github.com/Emik03) meant to help speed up the process of scripting Keep Talking and Nobody Explodes modules by giving better alternatives to common commands, and automating things universal to module-creation. (such as moduleIds, or logging)</Description>
+	<Description>KeepCoding is a C# class library by Emik (https://github.com/Emik03) meant to help speed up the process of scripting Keep Talking and Nobody Explodes modules by giving better alternatives to common commands, and automating things universal to module-creation. (such as moduleIds, or logging)</Description>
 	<PackageReleaseNotes></PackageReleaseNotes>
 	<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-	<PackageProjectUrl>https://github.com/Emik03/KeepCodingAndNobodyExplodes</PackageProjectUrl>
-	<RepositoryUrl>https://github.com/Emik03/KeepCodingAndNobodyExplodes</RepositoryUrl>
+	<PackageProjectUrl>https://github.com/Emik03/KeepCoding</PackageProjectUrl>
+	<RepositoryUrl>https://github.com/Emik03/KeepCoding</RepositoryUrl>
 	<RepositoryType>GitHub</RepositoryType>
 	<NeutralLanguage>en-150</NeutralLanguage>
 	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	<Copyright>Emik</Copyright>
 	<RunPostBuildEvent>Always</RunPostBuildEvent>
-	<AssemblyVersion>1.2.1.0</AssemblyVersion>
-	<FileVersion>1.2.1.0</FileVersion>
-	<Version>1.2.1</Version>
+	<AssemblyVersion>1.3.0.0</AssemblyVersion>
+	<FileVersion>1.3.0.0</FileVersion>
+	<Version>1.3</Version>
+	<PackageId>KeepCoding</PackageId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -26,7 +27,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>C:\Users\Emik\source\repos\KeepCodingAndNobodyExplodes\KeepCodingAndNobodyExplodes.xml</DocumentationFile>
+    <DocumentationFile>C:\Users\Emik\source\repos\KeepCoding\KeepCoding.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -61,13 +62,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="docfx.console" Version="2.56.7">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -95,7 +89,13 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCodingAndNobodyExplodes.dll&quot;  &quot;D:\Emik's Modules\Assets\Plugins\Managed&quot;&#xD;&#xA;xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCodingAndNobodyExplodes.xml&quot; &quot;D:\Emik's Modules\Assets\Plugins\Managed&quot;" />
+    <Exec Command="xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCoding.dll&quot;  &quot;D:\Emik's Modules\Assets\Plugins\Managed&quot;&#xD;&#xA;xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCoding.xml&quot; &quot;D:\Emik's Modules\Assets\Plugins\Managed&quot;&#xD;&#xA;" />
+	<GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+      <Output TaskParameter="Assemblies" ItemName="Targets" />
+    </GetAssemblyIdentity>
+    <ItemGroup>
+      <VersionNumber Include="$([System.Text.RegularExpressions.Regex]::Replace(&quot;%(Targets.Version)&quot;, &quot;^(.+?)(\.0+)$&quot;, &quot;$1&quot;))" />
+    </ItemGroup>
   </Target>
 
 </Project>

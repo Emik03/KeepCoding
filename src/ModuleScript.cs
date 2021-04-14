@@ -5,8 +5,11 @@ using System.Linq;
 using System.IO;
 using System.Linq.Expressions;
 using UnityEngine;
+using UnityEngine.Networking;
+using static KMAudio;
 
-namespace KeepCodingAndNobodyExplodes
+
+namespace KeepCoding.v13
 {
     /// <summary>
     /// Base class for regular and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
@@ -73,7 +76,12 @@ namespace KeepCodingAndNobodyExplodes
         /// </value>
         /// <exception cref="OperationCanceledException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
-        public string Version { get => (IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(ModBundleName).Version) ?? throw new OperationCanceledException($"{nameof(ModBundleName)} couldn't be found. Did you spell your Mod name correctly? Refer to this link for more details: https://github.com/Emik03/KeepCodingAndNobodyExplodes/wiki/Chapter-2.1:-ModuleScript#version-string"); }
+        public string Version { get => (IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(ModBundleName).Version) ?? throw new OperationCanceledException($"{nameof(ModBundleName)} couldn't be found. Did you spell your Mod name correctly? Refer to this link for more details: https://github.com/Emik03/KeepCoding/wiki/Chapter-2.1:-ModuleScript#version-string"); }
+
+        /// <value>
+        /// Contains an instance for every sound played by this module using <see cref="PlaySound(Transform, bool, Sound[])"/> or any of its overloads.
+        /// </value>
+        public Sound[] Sounds { get; private set; } = new Sound[0];
 
         /// <summary>
         /// Contains either <see cref="KMBombModule"/> or <see cref="KMNeedyModule"/>, and allows for running commands through context.
@@ -87,17 +95,19 @@ namespace KeepCodingAndNobodyExplodes
 
         private static readonly Dictionary<string, int> _moduleIds = new Dictionary<string, int>();
 
-        private Dictionary<Type, Component[]> _components;
-
         private Action _setActive;
+
+        private Dictionary<Type, Component[]> _components;
 
         /// <summary>
         /// This initalizes the module. If you have an Awake method, be sure to call <c>base.Awake()</c> as the first statement.
         /// </summary>
+        /// <exception cref="FormatException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
         protected void Awake()
         {
             if (ModBundleName.IsNullOrEmpty())
-                throw new FormatException("The public field \"ModBundleName\" is empty! This means that when compiled it won't be able to run! Please set this field to your Mod ID located at Keep Talking ModKit -> Configure Mod. Refer to this link for more details: https://github.com/Emik03/KeepCodingAndNobodyExplodes/wiki/Chapter-2.1:-ModuleScript#version-string");
+                throw new FormatException("The public field \"ModBundleName\" is empty! This means that when compiled it won't be able to run! Please set this field to your Mod ID located at Keep Talking ModKit -> Configure Mod. Refer to this link for more details: https://github.com/Emik03/KeepCoding/wiki/Chapter-2.1:-ModuleScript#version-string");
 
             _setActive = () => IsActive = true;
 
@@ -112,8 +122,9 @@ namespace KeepCodingAndNobodyExplodes
             if (Get<KMBombInfo>(allowNull: true) is KMBombInfo bombInfo)
                 StartCoroutine(TimeUpdate(bombInfo));
 
-            if (Version is not null)
-                Log($"Current Version: [{Version}]");
+            StartCoroutine(CheckForUpdate());
+
+            Log($"Version: [{Version.NullCheck("The version number ended up being null. This is a bug caused by the library, please file a bug report alongside the source code.", true)}]");
         }
 
         /// <summary>
@@ -142,8 +153,8 @@ namespace KeepCodingAndNobodyExplodes
         /// <exception cref="UnrecognizedTypeException"></exception>
         /// <param name="selectable">The selectable, which is used as a source for sound and bomb shake.</param>
         /// <param name="intensityModifier">The intensity of the bomb shaking.</param>
-        /// <param name="sounds">The sounds, these can either be <see cref="string"/> or <see cref="KMSoundOverride.SoundEffect"/>. Any other type will throw an exception.</param>
-        public void ButtonEffect(KMSelectable selectable, float intensityModifier = 0, params object[] sounds)
+        /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="KMSoundOverride.SoundEffect"/>.</param>
+        public void ButtonEffect(KMSelectable selectable, float intensityModifier = 0, params Sound[] sounds)
         {
             if (selectable is null)
                 throw new UnassignedReferenceException("Selectable should not be null when calling this method.");
@@ -165,12 +176,9 @@ namespace KeepCodingAndNobodyExplodes
 
             var type = GetType();
             var values = new List<object>();
-            
-            foreach (var descriptor in type.GetFields(Helper.Flags))
-                values.Add(Format(descriptor.Name, descriptor.GetValue(this)));
 
-            foreach (var descriptor in type.GetProperties(Helper.Flags))
-                values.Add(Format(descriptor.Name, descriptor.GetValue(this, null)));
+            type.GetFields(Helper.Flags).ForEach(f => values.Add(Format(f.Name, f.GetValue(this))));
+            type.GetProperties(Helper.Flags).ForEach(p => values.Add(Format(p.Name, p.GetValue(this, null))));
 
             Debug.LogWarning(Helper.DumpTemplate.Form(Module.ModuleDisplayName, ModuleId, string.Join("", values.Select(o => string.Join("", o.Unwrap(getVariables).Select(o => o.ToString()).ToArray())).ToArray())));
         }
@@ -184,8 +192,7 @@ namespace KeepCodingAndNobodyExplodes
             if (IsSolved)
                 return;
 
-            foreach (string log in logs)
-                Log(log);
+            LogMultiple(logs);
 
             IsSolved = true;
             Module.HandlePass();
@@ -197,11 +204,34 @@ namespace KeepCodingAndNobodyExplodes
         /// <param name="logs">All of the entries to log.</param>
         public void Strike(params string[] logs)
         {
-            foreach (string log in logs)
-                Log(log);
+            LogMultiple(logs);
 
             IsStrike = true;
             Module.HandleStrike();
+        }
+
+        /// <summary>
+        /// Plays a sound. Requires <see cref="KMAudio"/> to be assigned.
+        /// </summary>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="UnrecognizedTypeException"></exception>
+        /// <param name="transform">The location or sound source of the sound.</param>
+        /// <param name="loop">Whether all sounds listed should loop or not.</param>
+        /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="KMSoundOverride.SoundEffect"/>.</param>
+        /// <returns>A <see cref="KMAudioRef"/> for each argument you provide.</returns>
+        public Sound[] PlaySound(Transform transform, bool loop, params Sound[] sounds)
+        {
+            sounds.NullOrEmptyCheck($"{nameof(sounds)} is null or empty.");
+
+            if (loop && sounds.Any(s => s.Game.HasValue))
+                throw new ArgumentException("The game doesn't support looping in-game sounds.");
+
+            sounds.ForEach(s => s.Reference = GetSoundMethod(s)(transform, loop));
+
+            Sounds = Sounds.Concat(sounds).ToArray();
+
+            return sounds;
         }
 
         /// <summary>
@@ -259,7 +289,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <typeparam name="T">The type of component to search for.</typeparam>
         /// <param name="allowNull">Whether it should throw an exception if it sees null, if not it will return the default value. (Likely null)</param>
         /// <returns>The component specified by <typeparamref name="T"/>.</returns>
-        public T[] GetAll<T>(bool allowNull = false) where T : Component => Cache<T>(() => GetComponents<T>(), allowNull);
+        public T[] GetAll<T>(bool allowNull = false) where T : Component => Cache(() => GetComponents<T>(), allowNull);
 
         /// <summary>
         /// Logs message, but formats it to be compliant with the Logfile Analyzer.
@@ -278,28 +308,30 @@ namespace KeepCodingAndNobodyExplodes
         public void Log(object message, params object[] args) => Log(message.UnwrapToString().Form(args));
 
         /// <summary>
-        /// Plays a sound.
+        /// Plays a sound. Requires <see cref="KMAudio"/> to be assigned.
         /// </summary>
         /// <exception cref="UnrecognizedTypeException"></exception>
         /// <param name="transform">The location or sound source of the sound.</param>
-        /// <param name="sounds">The sounds, these can either be <see cref="string"/> or <see cref="KMSoundOverride.SoundEffect"/>. Any other type will throw an exception.</param>
-        public void PlaySound(Transform transform, params object[] sounds) => sounds.ForEach(s => GetSoundMethod(Get<KMAudio>(), s)(transform));
+        /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="KMSoundOverride.SoundEffect"/>.</param>
+        /// <returns>A <see cref="KMAudioRef"/> for each argument you provide.</returns>
+        public Sound[] PlaySound(Transform transform, params Sound[] sounds) => PlaySound(transform, false, sounds);
 
         /// <summary>
-        /// Plays a sound, the sound source is the game object it is attached to.
+        /// Plays a sound, the sound source is the game object it is attached to. Requires <see cref="KMAudio"/> to be assigned.
         /// </summary>
         /// <exception cref="UnrecognizedTypeException"></exception>
-        /// <param name="sounds">The sounds, these can either be <see cref="string"/> or <see cref="KMSoundOverride.SoundEffect"/>. Any other type will throw an exception.</param>
-        public void PlaySound(params object[] sounds) => PlaySound(transform, sounds);
+        /// <param name="loop">Whether all sounds listed should loop or not.</param>
+        /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="KMSoundOverride.SoundEffect"/>.</param>
+        /// <returns>A <see cref="KMAudioRef"/> for each argument you provide.</returns>
+        public Sound[] PlaySound(bool loop, params Sound[] sounds) => PlaySound(transform, loop, sounds);
 
-        private void CheckForTime(KMBombInfo bombInfo)
-        {
-            if (TimeLeft != (int)bombInfo.GetTime())
-            {
-                TimeLeft = (int)bombInfo.GetTime();
-                OnTimerTick();
-            }
-        }
+        /// <summary>
+        /// Plays a sound, the sound source is the game object it is attached to. Requires <see cref="KMAudio"/> to be assigned.
+        /// </summary>
+        /// <exception cref="UnrecognizedTypeException"></exception>
+        /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="KMSoundOverride.SoundEffect"/>.</param>
+        /// <returns>A <see cref="KMAudioRef"/> for each argument you provide.</returns>
+        public Sound[] PlaySound(params Sound[] sounds) => PlaySound(transform, false, sounds);
 
         private void AssignNeedy(Action onTimerExpired, Action onNeedyActivation, Action onNeedyDeactivation)
         {
@@ -321,6 +353,31 @@ namespace KeepCodingAndNobodyExplodes
                 };
         }
 
+        private void CheckForTime(KMBombInfo bombInfo)
+        {
+            if (TimeLeft != (int)bombInfo.GetTime())
+            {
+                TimeLeft = (int)bombInfo.GetTime();
+                OnTimerTick();
+            }
+        }
+
+        private IEnumerator CheckForUpdate()
+        {
+            using var req = UnityWebRequest.Get("https://raw.githubusercontent.com/Emik03/KeepCodingAndNobodyExplodes/main/latest");
+
+            yield return req.SendWebRequest();
+
+            if (req.isNetworkError || req.isHttpError)
+            {
+                PathManager.Log("The KeepCoding version could not be pulled, presumably because the user is offline.");
+                yield break;
+            }
+
+            if (req.downloadHandler.text.Trim() != PathManager.GetVersionLibrary(ModBundleName).ProductVersion)
+                Log($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.GetVersionLibrary(ModBundleName).ProductVersion}. Please download the latest version here https://github.com/Emik03/KeepCoding/releases", LogType.Error);
+        }
+
         private IEnumerator TimeUpdate(KMBombInfo bombInfo)
         {
             while (true)
@@ -340,11 +397,11 @@ namespace KeepCodingAndNobodyExplodes
             _ => throw new UnrecognizedValueException($"{logType} is not a valid log type."),
         };
 
-        private Action<Transform> GetSoundMethod(KMAudio audio, object sound) => sound switch
-        {
-            string customSound => t => audio.PlaySoundAtTransform(customSound, t),
-            KMSoundOverride.SoundEffect gameSound => t => audio.PlayGameSoundAtTransform(gameSound, t),
-            _ => throw new UnrecognizedTypeException($"{sound} which is a {sound.GetType()} is not a valid type."),
-        };
+        private Func<Transform, bool, KMAudioRef> GetSoundMethod(Sound sound) => (t, b) => 
+            sound.Custom is not null ? Get<KMAudio>().HandlePlaySoundAtTransformWithRef(sound.Custom, t, b) : 
+            sound.Game is not null ? Get<KMAudio>().HandlePlayGameSoundAtTransformWithRef(sound.Game.Value, t) : 
+            throw new UnrecognizedTypeException($"{sound} which is a {sound.GetType()} is not a valid type.");
+
+        private void LogMultiple(params string[] logs) => logs.ForEach(s => Log(s));
     }
 }

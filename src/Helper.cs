@@ -7,7 +7,7 @@ using System.Reflection;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace KeepCodingAndNobodyExplodes
+namespace KeepCoding.v13
 {
     /// <summary>
     /// General extension class covering both KMFramework and native datatypes. Written by Emik.
@@ -47,13 +47,13 @@ namespace KeepCodingAndNobodyExplodes
         /// <exception cref="EmptyIteratorException"></exception>
         /// <param name="array">The <see cref="Array"/> to check for null and empty.</param>
         /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
-        public static void AssertNotNullOrEmpty(this Array array, string message = null)
+        public static void NullOrEmptyCheck(this Array array, string message = null)
         {
             if (array is null)
-                throw new NullIteratorException(message ?? $"While asserting for null or empty, the variable {nameof(array)} ended up being null.");
+                throw new NullIteratorException(message ?? $"While asserting for null or empty, the variable ended up being null.");
 
             if (array.Length == 0)
-                throw new EmptyIteratorException(message ?? $"While asserting for null or empty, the variable {nameof(array)} ended up being null.");
+                throw new EmptyIteratorException(message ?? $"While asserting for null or empty, the variable ended up being empty.");
         }
 
         /// <summary>
@@ -63,24 +63,29 @@ namespace KeepCodingAndNobodyExplodes
         /// <exception cref="EmptyIteratorException"></exception>
         /// <param name="str">The string to check for null and empty.</param>
         /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
-        public static void AssertNotNullOrEmpty(this string str, string message = null)
+        public static void NullOrEmptyCheck(this string str, string message = null)
         {
             if (str is null)
-                throw new NullIteratorException(message ?? $"While asserting for null or empty, the variable {nameof(str)} ended up being null.");
+                throw new NullIteratorException(message ?? $"While asserting for null or empty, the variable ended up being null.");
 
             if (str.Length == 0)
-                throw new EmptyIteratorException(message ?? $"While asserting for null or empty, the variable {nameof(str)} ended up being null.");
+                throw new EmptyIteratorException(message ?? $"While asserting for null or empty, the variable ended up being empty.");
         }
 
         /// <summary>
         /// Converts any base number to base-10.
         /// </summary>
         /// <exception cref="FormatException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
         /// <param name="value">The value to convert.</param>
         /// <param name="baseChars">All of the base characters for the conversion from the base number, use <see cref="Alphanumeric"/> for Base-62, use <see cref="Decimal"/> for Base-10, use <see cref="Binary"/> for Base-2. The length of the array is the base number.</param>
         /// <returns><paramref name="value"/>, but in the base specified.</returns>
         public static long BaseToLong(this string value, string baseChars = Binary)
         {
+            value.NullCheck($"{nameof(value)} cannot be null when converting bases.", true);
+
+            baseChars.NullCheck($"{nameof(baseChars)} cannot be null when converting bases.", true);
+
             if (value.Any(c => !baseChars.Contains(c)))
                 throw new FormatException($"The value provided {value} contains at least 1 or more characters not part of the character list {baseChars}.");
 
@@ -106,11 +111,14 @@ namespace KeepCodingAndNobodyExplodes
         /// <summary>
         /// Converts any base-10 number to any base.
         /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
         /// <param name="value">The value to convert.</param>
         /// <param name="baseChars">All of the base characters for the conversion to the base number, use <see cref="Alphanumeric"/> for Base-62, use <see cref="Decimal"/> for Base-10, use <see cref="Binary"/> for Base-2. The length of the array is the base number.</param>
         /// <returns><paramref name="value"/>, but in the base specified.</returns>
         public static string LongToBase(this long value, string baseChars = Alphanumeric)
         {
+            baseChars.NullCheck($"{nameof(baseChars)} cannot be null when converting bases.", true);
+
             long targetBase = baseChars.Length;
 
             char[] buffer = new char[Math.Max((int)Math.Ceiling(Math.Log(value + 1, targetBase)), 1)];
@@ -193,7 +201,8 @@ namespace KeepCodingAndNobodyExplodes
         /// <summary>
         /// Sets or replaces the value of a dictionary with a given function.
         /// </summary>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T">Type of the key of the dictionary.</typeparam>
         /// <param name="source">Dictionary to operate on.</param>
         /// <param name="key">Key at which the list is located in the dictionary.</param>
@@ -201,11 +210,9 @@ namespace KeepCodingAndNobodyExplodes
         /// <returns>The new value at the specified key.</returns>
         public static int SetOrReplace<T>(this IDictionary<T, int> source, T key, Func<int, int> func)
         {
-            if (source is null)
-                throw new ArgumentNullException("source");
+            source.NullCheck("The dictionary cannot be null.", true);
 
-            if (key is null)
-                throw new ArgumentNullException("key", "Null values cannot be used for keys in dictionaries.");
+            key.NullCheck("Null values cannot be used for keys in dictionaries.");
 
             return source[key] = func(source.ContainsKey(key) ? source[key] : default);
         }
@@ -218,7 +225,7 @@ namespace KeepCodingAndNobodyExplodes
         /// </remarks>
         /// <typeparam name="T">The type of <paramref name="item"/> and <paramref name="action"/>.</typeparam>
         /// <param name="item">The item to use as reference and modify.</param>
-        /// <param name="action">The action to apply it to.</param>
+        /// <param name="action">The action to apply <paramref name="item"/> to.</param>
         /// <returns>The item <paramref name="item"/>.</returns>
         public static T Call<T>(this T item, Action<T> action)
         {
@@ -232,19 +239,33 @@ namespace KeepCodingAndNobodyExplodes
         /// <remarks>
         /// This can be used to intercept current variables or calculations by for example, printing the value as it is being passed as an argument.
         /// </remarks>
+        /// <exception cref="NullIteratorException"></exception>
         /// <typeparam name="T">The type of <paramref name="items"/> and <paramref name="action"/>.</typeparam>
         /// <param name="items">The item to use as reference and modify.</param>
-        /// <param name="action">The action to apply it to.</param>
+        /// <param name="action">The action to apply <paramref name="items"/> to.</param>
         /// <returns>The item <paramref name="items"/>.</returns>
         public static T[] Call<T>(this T[] items, Action<T, int> action)
         {
-            if (items is null)
-                throw new NullIteratorException($"The variable {nameof(items)} cannot be null.");
+            items.NullCheck("You cannot iterate over a null array.", true);
 
             for (int i = 0; i < items.Length; i++)
                 action(items[i], i);
+
             return items;
         }
+
+        /// <summary>
+        /// Invokes a method of <typeparamref name="TInput"/> to <typeparamref name="TOutput"/> and then returns the argument provided.
+        /// </summary>
+        /// <remarks>
+        /// This can be used to intercept current variables or calculations by for example, printing the value as it is being passed as an argument.
+        /// </remarks>
+        /// <typeparam name="TInput">The type of <paramref name="item"/>.</typeparam>
+        /// <typeparam name="TOutput">The type to return.</typeparam>
+        /// <param name="item">The item to use as reference and modify.</param>
+        /// <param name="func">The function to apply <paramref name="item"/> to.</param>
+        /// <returns>The item <paramref name="item"/> after <paramref name="func"/>.</returns>
+        public static TOutput Mutate<TInput, TOutput>(this TInput item, Func<TInput, TOutput> func) => func(item);
 
         /// <summary>
         /// Returns the element of an array, pretending that the array wraps around or is circular.
@@ -269,14 +290,14 @@ namespace KeepCodingAndNobodyExplodes
         /// <summary>
         /// Returns the first element which doesn't return null, or null if all of them return null.
         /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
         /// <typeparam name="T">The type of array, and method.</typeparam>
         /// <param name="source">The array to iterate on.</param>
         /// <param name="func">The method which returns</param>
         /// <returns>The first value from <paramref name="source"/> where <paramref name="func"/> doesn't return null, or null.</returns>
         public static T FirstValue<T>(this IEnumerable<T> source, Func<T, T> func) where T : class
         {
-            if (source is null)
-                throw new NullIteratorException($"The variable {nameof(source)} cannot be null.");
+            source.NullCheck("The source cannot be null.", true);
 
             foreach (var v in source)
             {
@@ -294,14 +315,14 @@ namespace KeepCodingAndNobodyExplodes
         /// <summary>
         /// Returns the last element which doesn't return null, or null if all of them return null.
         /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
         /// <typeparam name="T">The type of array, and method.</typeparam>
         /// <param name="source">The array to iterate on.</param>
         /// <param name="func">The method which returns</param>
         /// <returns>The last value from <paramref name="source"/> where <paramref name="func"/> doesn't return null, or null.</returns>
         public static T LastValue<T>(this IEnumerable<T> source, Func<T, T> func) where T : class
         {
-            if (source is null)
-                throw new NullIteratorException($"The variable {nameof(source)} cannot be null.");
+            source.NullCheck("The source cannot be null.", true);
 
             for (int i = source.GetUpperBound(); i >= 0; i--)
             {
@@ -327,6 +348,7 @@ namespace KeepCodingAndNobodyExplodes
         {
             for (int i = 0; i < array.Length; i++)
                 action(array[i], i);
+
             return array;
         }
 
@@ -339,16 +361,14 @@ namespace KeepCodingAndNobodyExplodes
         /// <returns><paramref name="source"/> with the elements reversed.</returns>
         public static List<T> Backwards<T>(this List<T> source)
         {
-            if (source is null)
-                throw new NullIteratorException($"The variable {nameof(source)} cannot be null.");
-
-            source.Reverse();
+            source.NullCheck("The source cannot be null.", true).Reverse();
             return source;
         }
 
         /// <summary>
         /// Replaces an index in the <see cref="IEnumerable{T}"/> and returns the new one.
         /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
         /// <typeparam name="T">The type of the <see cref="IEnumerable"/>.</typeparam>
         /// <param name="source">The initial source.</param>
         /// <param name="index">The index to change.</param>
@@ -356,8 +376,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <returns><paramref name="source"/> but the <paramref name="index"/> element is <paramref name="value"/> instead.</returns>
         public static IEnumerable<T> Replace<T>(this IEnumerable<T> source, int index, T value)
         {
-            if (source is null)
-                throw new NullIteratorException($"The variable {nameof(source)} cannot be null.");
+            source.NullCheck("The source cannot be null.", true);
 
             int current = 0;
 
@@ -371,10 +390,13 @@ namespace KeepCodingAndNobodyExplodes
         /// <summary>
         /// Converts an <see cref="IEnumerator"/> to an <see cref="IEnumerable"/>.
         /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
         /// <param name="enumerator">The <see cref="IEnumerator"/> to convert.</param>
         /// <returns><paramref name="enumerator"/> as an <see cref="IEnumerable"/>.</returns>
         public static IEnumerable ToIEnumerable(this IEnumerator enumerator)
         {
+            enumerator.NullCheck("The enumerator cannot be null.", true);
+
             while (enumerator.MoveNext())
                 yield return enumerator.Current;
         }
@@ -382,11 +404,14 @@ namespace KeepCodingAndNobodyExplodes
         /// <summary>
         /// Converts an <see cref="IEnumerator"/> to an <see cref="IEnumerable"/>.
         /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
         /// <typeparam name="T">The parameter and return type.</typeparam>
         /// <param name="enumerator">The <see cref="IEnumerator"/> to convert.</param>
         /// <returns><paramref name="enumerator"/> as an <see cref="IEnumerable"/>.</returns>
         public static IEnumerable<T> ToIEnumerable<T>(this IEnumerator<T> enumerator)
         {
+            enumerator.NullCheck("The enumerator cannot be null.", true);
+
             while (enumerator.MoveNext())
                 yield return enumerator.Current;
         }
@@ -394,6 +419,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <summary>
         /// Returns a slice of an <see cref="IEnumerable{T}"/>.
         /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
         /// <typeparam name="T">The type of the <paramref name="source"/> and return type.</typeparam>
         /// <param name="source">The <see cref="IEnumerable{T}"/> to take a slice of.</param>
         /// <param name="start">The starting index of the slice.</param>
@@ -401,9 +427,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <returns>A slice of <paramref name="source"/> based on <paramref name="start"/> and <paramref name="count"/>.</returns>
         public static IEnumerable<T> Slice<T>(this IEnumerable<T> source, int start, int count)
         {
-            if (source is null)
-                throw new NullIteratorException($"The variable {nameof(source)} cannot be null.");
-
+            source.NullCheck("The source cannot be null.", true);
             return source.Skip(start).Take(count);
         }
 
@@ -731,6 +755,18 @@ namespace KeepCodingAndNobodyExplodes
         /// <param name="item">The element to append to the <paramref name="source"/>.</param>
         /// <returns><paramref name="source"/>, but with an added <paramref name="item"/> as the first index.</returns>
         public static IEnumerable<T> Prepend<T>(this IEnumerable<T> source, T item) => new T[] { item }.Concat(source);
+
+        /// <summary>
+        /// Throws a <see cref="NullReferenceException"/> or <see cref="NullIteratorException"/> if the parameter provided is null.
+        /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="t">The parameter to check null for.</param>
+        /// <param name="message">The optional message to throw if null.</param>
+        /// <param name="isIterator">Whether it is an iterator, which will use <see cref="NullIteratorException"/> to be more specific.</param>
+        /// <returns><paramref name="t"/></returns>
+        public static T NullCheck<T>(this T t, string message = "While asserting for null, the variable ended up null.", bool isIterator = false) => t is not null ? t : throw (isIterator ? new NullIteratorException(message) : throw new NullReferenceException(message));
 
         /// <summary>
         /// Appends the element provided to the array.

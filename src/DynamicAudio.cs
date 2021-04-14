@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-namespace KeepCodingAndNobodyExplodes
+namespace KeepCoding.v13
 {
     /// <summary>
     /// Advanced audio handler. Written by Emik.
@@ -36,19 +36,30 @@ namespace KeepCodingAndNobodyExplodes
         /// </summary>
         public AudioSource AudioSource { get; private set; }
 
+        /// <summary>
+        /// Returns <see cref="AudioSource"/>.
+        /// </summary>
+        /// <param name="dynamicAudio">The instance of <see cref="DynamicAudio"/> to retrieve <see cref="AudioSource"/> from.</param>
+        public static explicit operator AudioSource(DynamicAudio dynamicAudio) => dynamicAudio.AudioSource;
+
         private Routine<float, float> _fade;
 
         private void Awake()
         {
             _fade = new Routine<float, float>(SetFade, this);
+
             AudioSource = gameObject.AddComponent<AudioSource>();
+
             AudioSource.playOnAwake = false;
+
             StartCoroutine(UpdateVolume());
         }
 
         /// <summary>
         /// Plays a sound, with optional parameters.
         /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
         /// <param name="clip">The sound clip to play.</param>
         /// <param name="volume">The volume of the sound clip relative to the game sound.</param>
         /// <param name="loop">If the sound should be looped.</param>
@@ -58,6 +69,8 @@ namespace KeepCodingAndNobodyExplodes
         /// <param name="pitch">The pitch of the sound.</param>
         public void Play(AudioClip clip, bool loop = false, int priority = 0, float delay = 0, float pitch = 1, float time = 0, float volume = 1)
         {
+            clip.NullCheck("You cannot play an audio clip which is null.");
+
             AudioSource.clip = clip;
             AudioSource.loop = loop;
             AudioSource.priority = priority;
@@ -84,6 +97,8 @@ namespace KeepCodingAndNobodyExplodes
         /// <summary>
         /// Plays a sound, with optional parameters.
         /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
         /// <exception cref="UnityComponentNotFoundException"></exception>
         /// <param name="sound">The sound clip to play.</param>
         /// <param name="volume">The volume of the sound clip relative to the game sound.</param>

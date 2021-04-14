@@ -1,7 +1,8 @@
 ﻿using System;
 using UnityEngine;
+using static KMAudio;
 
-namespace KeepCodingAndNobodyExplodes
+namespace KeepCoding.v13
 {
     /// <summary>
     /// KMFramework extension methods that makes it easier to assign multiple events to a variable in one statement. Written by Emik.
@@ -32,7 +33,7 @@ namespace KeepCodingAndNobodyExplodes
         /// <param name="overrideBoolean">Return true will make it act as a module/submodule, and false as a button.</param>
         public static void Assign(this KMSelectable[] kmSelectable, Action<int> onCancel = null, Action<int> onDefocus = null, Action<int> onDeselect = null, Action<int> onFocus = null, Action<int> onHighlight = null, Action<int> onHighlightEnded = null, Action<int> onInteract = null, Action<int> onInteractEnded = null, Action<int> onLeft = null, Action<int> onRight = null, Action<int> onSelect = null, bool? overrideBoolean = null)
         {
-            kmSelectable.AssertNotNullOrEmpty("The array is not populated. Please check your public fields in Unity.");
+            kmSelectable.NullOrEmptyCheck("The array is not populated. Please check your public fields in Unity.");
 
             kmSelectable.Call((s, i) => s.Assign(
                 onCancel.ToAction(i),
@@ -72,7 +73,7 @@ namespace KeepCodingAndNobodyExplodes
         public static void Assign(this KMSelectable kmSelectable, Action onCancel = null, Action onDefocus = null, Action onDeselect = null, Action onFocus = null, Action onHighlight = null, Action onHighlightEnded = null, Action onInteract = null, Action onInteractEnded = null, Action onLeft = null, Action onRight = null, Action onSelect = null, bool? overrideBoolean = null)
         {
             if (kmSelectable is null)
-                throw new UnassignedReferenceException("The KMSelectable is null. You cannot assign events to a KMSelectable without a reference to a KMSelectable.");
+                throw Unassigned(typeof(KMSelectable));
 
             overrideBoolean ??= kmSelectable.IsParent();
 
@@ -95,11 +96,15 @@ namespace KeepCodingAndNobodyExplodes
         /// <remarks>
         /// An event that is null will be skipped. This extension method simplifies all of the KMFramework events into Actions.
         /// </remarks>
+        /// <exception cref="UnassignedReferenceException"></exception>
         /// <param name="kmGameInfo">The game info instance to assign events to.</param>
         /// <param name="onAlarmClockChange">Called when the alarm clock changes state, and passes in whether it's on or off.</param>
         /// <param name="onLightsChange">Called when the lights change state, and passes in whether it's on or off.</param>
         public static void Assign(this KMGameInfo kmGameInfo, Action<bool> onAlarmClockChange = null, Action<bool> onLightsChange = null)
         {
+            if (kmGameInfo is null)
+                throw Unassigned(typeof(KMGameInfo));
+
             onAlarmClockChange.Set(ref kmGameInfo.OnAlarmClockChange);
             onLightsChange.Set(ref kmGameInfo.OnLightsChange);
         }
@@ -110,11 +115,15 @@ namespace KeepCodingAndNobodyExplodes
         /// <remarks>
         /// An event that is null will be skipped. This extension method simplifies all of the KMFramework events into Actions or Functions.
         /// </remarks>
+        /// <exception cref="UnassignedReferenceException"></exception>
         /// <param name="kmBombInfo">The bomb info instance to assign events to.</param>
         /// <param name="onBombExploded">Called when the bomb explodes.</param>
         /// <param name="onBombSolved">Called when the bomb is defused.</param>
         public static void Assign(this KMBombInfo kmBombInfo, Action onBombExploded = null, Action onBombSolved = null)
         {
+            if (kmBombInfo is null)
+                throw Unassigned(typeof(KMBombInfo));
+
             onBombExploded.Set(ref kmBombInfo.OnBombExploded);
             onBombSolved.Set(ref kmBombInfo.OnBombSolved);
         }
@@ -163,6 +172,18 @@ namespace KeepCodingAndNobodyExplodes
         }
 
         /// <summary>
+        /// Stops all sounds for the entire <see cref="KMAudioRef"/> <see cref="Array"/>.
+        /// </summary>
+        /// <param name="audioRefs">The <see cref="KMAudioRef"/> <see cref="Array"/> to mute all sounds from, using <see cref="KMAudioRef.StopSound"/>.</param>
+        public static void StopSound(this KMAudioRef[] audioRefs) => audioRefs.ForEach(a => a.StopSound());
+
+        /// <summary>
+        /// Stops all sounds for the entire <see cref="Sound"/> <see cref="Array"/>.
+        /// </summary>
+        /// <param name="sounds">The <see cref="Sound"/> <see cref="Array"/> to mute all sounds from, using <see cref="KMAudioRef.StopSound"/>.</param>
+        public static void StopSound(this Sound[] sounds) => sounds.ForEach(s => s.StopSound());
+
+        /// <summary>
         /// Adds a <see cref="Delegate"/> onto the referenced variable.
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
@@ -175,5 +196,7 @@ namespace KeepCodingAndNobodyExplodes
         private static Action ToAction(this Action<int> action, int i) => action is null ? (Action)null : () => action(i);
 
         private static Func<bool> ToFunc(this Action action, bool b) => action is null ? (Func<bool>)null : () => { action(); return b; };
+
+        private static UnassignedReferenceException Unassigned(Type type) => throw new UnassignedReferenceException($"The {type.Name} is null. You cannot assign events to a {type.Name} without a reference to a {type.Name}.");
     }
 }

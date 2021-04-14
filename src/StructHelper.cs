@@ -1,7 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 
-namespace KeepCodingAndNobodyExplodes
+namespace KeepCoding.v13
 {
     /// <summary>
     /// Allows you to modify colors' individual RGBA or vectors' XYZW components relatively and absolutely. Written by Emik.
@@ -11,11 +12,19 @@ namespace KeepCodingAndNobodyExplodes
         /// <summary>
         /// Converts a hexadecimal string into colors.
         /// </summary>
+        /// <exception cref="FormatException"></exception>
         /// <param name="hex">A string of hexadecimal, which can be formatted as "FFFFFF", "#FFFFFF", or "0xFFFFFF"</param>
         /// <returns><see cref="Color32"/> converted from hexadecimal string.</returns>
         public static Color32 HexToColor(this string hex)
         {
             hex = hex.Replace("0x", "").Replace("#", "");
+
+            if (hex.Length != 6 && hex.Length != 8)
+                throw new FormatException($"The hexadecimal code provided has the wrong length: {hex}");
+
+            if (hex.Any(c => !"0123456789ABCDEFabcdef".Contains(c.ToString())))
+                throw new FormatException($"The hexadecimal code provided has invalid characters: {hex}");
+
             return new Color32(byte.Parse(hex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber), byte.Parse(hex.Substring(2, 2), System.Globalization.NumberStyles.HexNumber), byte.Parse(hex.Substring(4, 2), System.Globalization.NumberStyles.HexNumber), (byte)(hex.Length < 8 ? 255 : byte.Parse(hex.Substring(6, 2), System.Globalization.NumberStyles.HexNumber)));
         }
 
@@ -397,14 +406,15 @@ namespace KeepCodingAndNobodyExplodes
         /// <param name="colors">The array of colors to compare to <paramref name="color"/>.</param>
         /// <param name="color">The color to compare it to.</param>
         /// <returns>Boolean, true only if any color in <paramref name="colors"/> is the exact same as <paramref name="color"/>'s R, G, B, and A values.</returns>
-        public static bool IsAnyEqual(this Color32[] colors, Color32 color) => colors.Any(c => c.Equals(color));
+        public static bool IsAnyEqual(this Color32[] colors, Color32 color) => colors.NullCheck("You cannot iterate over a null array.", true).Any(c => c.Equals(color));
 
         /// <summary>
         /// Checks if any elements in the array <paramref name="colors"/> are equal to <paramref name="color"/>.
         /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
         /// <param name="colors">The array of colors to compare to <paramref name="color"/>.</param>
         /// <param name="color">The color to compare it to.</param>
         /// <returns>Boolean, true only if any color in <paramref name="colors"/> is the exact same as <paramref name="color"/>'s R, G, B, and A values.</returns>
-        public static bool IsAnyEqual(this Color[] colors, Color color) => colors.Any(c => c.Equals(color));
+        public static bool IsAnyEqual(this Color[] colors, Color color) => colors.NullCheck("You cannot iterate over a null array.", true).Any(c => c.Equals(color));
     }
 }
