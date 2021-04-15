@@ -10,8 +10,12 @@
 Inside of your Unity project, drag this DLL file into **/Assets/Plugins/Managed**. Unity will start reloading the scripts at this stage. After the reload, you can start using the library's code by going into any script file and accessing the namespace:
 
 ```cs
-using KeepCoding;
+using KeepCoding.v/*<NUMBER>*/;
 ```
+
+To ensure backwards compatibility with modules using older versions of the library, the namespace will be renamed for every update. While inconvenient, it's an unfortunate consequence of the way [Keep Talking and Nobody Explodes](https://keeptalkinggame.com/) behaves.
+
+If you are downloading a newer version of `KeepCoding`, and the import causes MonoBehaviours to become unassigned, press the small dotted circle and reselect the script file. This should reimport all assignments into the new version.
 
 ### Contribute
 ---
