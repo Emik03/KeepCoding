@@ -8,6 +8,8 @@ using UnityEngine;
 using Debug = UnityEngine.Debug;
 using Info = Assets.Scripts.Mods.ModInfo;
 using System.Reflection;
+using UnityEngine.Video;
+using System.Collections;
 
 namespace KeepCoding.v13
 {
@@ -22,10 +24,13 @@ namespace KeepCoding.v13
         /// These are the default extensions that operating systems use.
         /// </summary>
         public const string
-            FileFormat = "{0}.{1}",
-            FileExtensionWindows = "dll",
+            FileExtensionBundle = "bundle",
+            FileExtensionLinux = "so",
             FileExtensionMacOS = "dylib",
-            FileExtensionLinux = "so";
+            FileExtensionWindows = "dll",
+            FileFormat = "{0}.{1}";
+
+        private static readonly Dictionary<Tuple<string, string>, object> _cachedResults = new Dictionary<Tuple<string, string>, object>();
 
         /// <summary>
         /// Gets the path and deserializes the modInfo.json located at every mod's root folder.
@@ -107,25 +112,51 @@ namespace KeepCoding.v13
         }
 
         /// <summary>
+        /// Gets the video clips, the last yield return contains all of the videos.
+        /// </summary>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <param name="bundleFileName">The name of the bundle file.</param>
+        /// <param name="bundleVideoFileName">The name of the bundle that contains videos.</param>
+        /// <returns>The <see cref="AssetBundleCreateRequest"/> needed to load the files, followed by the <see cref="VideoClip"/> <see cref="Array"/>.</returns>
+        public static IEnumerator LoadVideoClips(string bundleFileName, string bundleVideoFileName)
+        {
+            bundleVideoFileName.NullOrEmptyCheck("You cannot load a video from a nonexistent file.");
+
+            Current(bundleFileName + bundleVideoFileName, out var current);
+
+            if (IsCached(current))
+            {
+                yield return (VideoClip[])GetCache(current);
+                yield break;
+            }
+
+            string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
+
+            var request = AssetBundle.LoadFromFileAsync($"{path}{GetSlashType(path)}{FileFormat.Form(bundleVideoFileName, FileExtensionBundle)}");
+
+            yield return request;
+
+            var mainBundle = request.assetBundle.NullCheck("The bundle was null.");
+
+            var videos = mainBundle.LoadAllAssets<VideoClip>().OrderBy(clip => clip.name).ToArray().NullCheck("There are no videos.");
+
+            SetCache(current, videos);
+            
+            yield return videos;
+        }
+
+        /// <summary>
         /// Combines multiple paths together.
         /// </summary>
         /// <param name="paths">The paths to combine with.</param>
         /// <returns>A single path consisting of the combined path of the array.</returns>
         public static string CombineMultiple(params string[] paths) => paths.Aggregate(Path.Combine);
 
-        /// <summary>
-        /// Gets the version number of this library.
-        /// </summary>
-        /// <param name="bundleFileName">The name of the bundle file.</param>
-        /// <exception cref="EmptyIteratorException"></exception>
-        /// <exception cref="FileNotFoundException"></exception>
-        /// <exception cref="NotSupportedException"></exception>
-        /// <exception cref="NullIteratorException"></exception>
-        public static FileVersionInfo GetVersionLibrary(string bundleFileName) => FileVersionInfo.GetVersionInfo(Application.isEditor ? Assembly.GetExecutingAssembly().Location : GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows)));
-
         internal static void Log(string message) => Debug.Log($"[Keep Coding] {message}");
 
-        private static readonly Dictionary<Tuple<string, string>, object> _cachedResults = new Dictionary<Tuple<string, string>, object>();
+        internal static FileVersionInfo GetVersionLibrary(string bundleFileName) => FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void Current(string bundleFileName, out Tuple<string, string> current) => current = new StackTrace().GetFrame(1).GetMethod().Name.ToTuple(bundleFileName);
