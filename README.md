@@ -43,7 +43,9 @@ xcopy /y "$(ProjectDir)$(OutDir)KeepCoding.dll" "X:\My Module Directory\Assets\P
 xcopy /y "$(ProjectDir)$(OutDir)KeepCoding.xml" "X:\My Module Directory\Assets\Plugins\Managed"
 ```
 
-6. Press the key combination **CTRL+SHIFT+B**, or alternatively go to the dropdown located at the top named "Build" and press "Build Solution". Assuming no build errors occur, you can go back to Unity, which will start reloading.
+6. This step is the most important. Press **CTRL+R** twice on the namespace at the version within any class and rename it. This is because the game will assume multiple instances of the same namespace refer to the same piece of code, and will only therefore load the first one it sees. To ensure that a module will not break for this reason, rename it to something unique, such as a module's name.
+
+7. Press the key combination **CTRL+SHIFT+B**, or alternatively go to the dropdown located at the top named "Build" and press "Build Solution". Assuming no build errors occur, you can go back to Unity, which will start reloading.
 
 ### Credit
 ---
