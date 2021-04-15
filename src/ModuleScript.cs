@@ -27,6 +27,11 @@ namespace KeepCoding.v13
         protected virtual void OnTimerTick() { }
 
         /// <value>
+        /// Determines whether the module has been struck. Twitch Plays script will set this to false when a command is interrupted.
+        /// </value>
+        public bool HasStruck { get; internal set; }
+
+        /// <value>
         /// Determines whether the bomb is currently active, and the timer is ticking.
         /// </value>
         public bool IsActive { get; private set; }
@@ -45,11 +50,6 @@ namespace KeepCoding.v13
         /// Determines whether the module has been solved.
         /// </value>
         public bool IsSolved { get; private set; }
-
-        /// <value>
-        /// Determines whether the module has been struck. Twitch Plays script will set this to false when a command is interrupted.
-        /// </value>
-        public bool IsStrike { get; internal set; }
 
         /// <value>
         /// Determines whether the needy is active.
@@ -207,7 +207,7 @@ namespace KeepCoding.v13
         {
             LogMultiple(logs);
 
-            IsStrike = true;
+            HasStruck = true;
             Module.HandleStrike();
         }
 

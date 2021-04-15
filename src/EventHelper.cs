@@ -30,8 +30,8 @@ namespace KeepCoding.v13
         /// <param name="onLeft">Called when the left controller stick is pulled while selected.</param>
         /// <param name="onRight">Called when the right controller stick is pulled while selected.</param>
         /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
-        /// <param name="overrideBoolean">Return true will make it act as a module/submodule, and false as a button.</param>
-        public static void Assign(this KMSelectable[] kmSelectable, Action<int> onCancel = null, Action<int> onDefocus = null, Action<int> onDeselect = null, Action<int> onFocus = null, Action<int> onHighlight = null, Action<int> onHighlightEnded = null, Action<int> onInteract = null, Action<int> onInteractEnded = null, Action<int> onLeft = null, Action<int> onRight = null, Action<int> onSelect = null, bool? overrideBoolean = null)
+        /// <param name="overrideReturn">Return true will make it act as a module/submodule, and false as a button.</param>
+        public static void Assign(this KMSelectable[] kmSelectable, Action<int> onCancel = null, Action<int> onDefocus = null, Action<int> onDeselect = null, Action<int> onFocus = null, Action<int> onHighlight = null, Action<int> onHighlightEnded = null, Action<int> onInteract = null, Action<int> onInteractEnded = null, Action<int> onLeft = null, Action<int> onRight = null, Action<int> onSelect = null, bool? overrideReturn = null)
         {
             kmSelectable.NullOrEmptyCheck("The array is not populated. Please check your public fields in Unity.");
 
@@ -47,7 +47,7 @@ namespace KeepCoding.v13
                 onLeft.ToAction(i),
                 onRight.ToAction(i),
                 onSelect.ToAction(i),
-                overrideBoolean));
+                overrideReturn));
         }
 
         /// <summary>
@@ -69,21 +69,21 @@ namespace KeepCoding.v13
         /// <param name="onLeft">Called when the left controller stick is pulled while selected.</param>
         /// <param name="onRight">Called when the right controller stick is pulled while selected.</param>
         /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
-        /// <param name="overrideBoolean">Return true will make it act as a module/submodule, and false as a button.</param>
-        public static void Assign(this KMSelectable kmSelectable, Action onCancel = null, Action onDefocus = null, Action onDeselect = null, Action onFocus = null, Action onHighlight = null, Action onHighlightEnded = null, Action onInteract = null, Action onInteractEnded = null, Action onLeft = null, Action onRight = null, Action onSelect = null, bool? overrideBoolean = null)
+        /// <param name="overrideReturn">Return true will make it act as a module/submodule, and false as a button.</param>
+        public static void Assign(this KMSelectable kmSelectable, Action onCancel = null, Action onDefocus = null, Action onDeselect = null, Action onFocus = null, Action onHighlight = null, Action onHighlightEnded = null, Action onInteract = null, Action onInteractEnded = null, Action onLeft = null, Action onRight = null, Action onSelect = null, bool? overrideReturn = null)
         {
             if (kmSelectable is null)
                 throw Unassigned(typeof(KMSelectable));
 
-            overrideBoolean ??= kmSelectable.IsParent();
+            overrideReturn ??= kmSelectable.IsParent();
 
-            onCancel.ToFunc(overrideBoolean.Value).Set(ref kmSelectable.OnCancel);
+            onCancel.ToFunc(overrideReturn.Value).Set(ref kmSelectable.OnCancel);
             onDefocus.Set(ref kmSelectable.OnDefocus);
             onDeselect.Set(ref kmSelectable.OnDeselect);
             onFocus.Set(ref kmSelectable.OnFocus);
             onHighlight.Set(ref kmSelectable.OnHighlight);
             onHighlightEnded.Set(ref kmSelectable.OnHighlightEnded);
-            onInteract.ToFunc(overrideBoolean.Value).Set(ref kmSelectable.OnInteract);
+            onInteract.ToFunc(overrideReturn.Value).Set(ref kmSelectable.OnInteract);
             onInteractEnded.Set(ref kmSelectable.OnInteractEnded);
             onLeft.Set(ref kmSelectable.OnLeft);
             onRight.Set(ref kmSelectable.OnRight);

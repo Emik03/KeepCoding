@@ -116,7 +116,7 @@ namespace KeepCoding.v13
         protected const string HideCamera = "hide camera";
 
         /// <summary>
-        /// Presses a sequence of buttons according to <paramref name="indices"/> within <paramref name="selectables"/>, waiting <paramref name="wait"/> seconds in-between each, and interrupting as soon as <see cref="ModuleScript.IsStrike"/> is true.
+        /// Presses a sequence of buttons according to <paramref name="indices"/> within <paramref name="selectables"/>, waiting <paramref name="wait"/> seconds in-between each, and interrupting as soon as <see cref="ModuleScript.HasStruck"/> is true.
         /// </summary>
         /// <param name="selectables">The array of selectables to interact with.</param>
         /// <param name="indices">The indices to press within the array.</param>
@@ -126,15 +126,15 @@ namespace KeepCoding.v13
         {
             selectables.NullOrEmptyCheck("The KMSelectable array is null or empty.");
 
-            Module.IsStrike = false;
+            Module.HasStruck = false;
 
-            for (int i = 0; i < indices.Length && !Module.IsStrike; i++)
+            for (int i = 0; i < indices.Length && !Module.HasStruck; i++)
             {
                 selectables[indices[i]].OnInteract();
                 yield return new WaitForSecondsRealtime(wait);
             }
 
-            Module.IsStrike = false;
+            Module.HasStruck = false;
         }
 
         /// <summary>

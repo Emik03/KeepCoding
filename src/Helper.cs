@@ -766,7 +766,7 @@ namespace KeepCoding.v13
         /// <param name="item">The item to use as reference and modify.</param>
         /// <param name="func">The function to apply <paramref name="item"/> to.</param>
         /// <returns>The item <paramref name="item"/> after <paramref name="func"/>.</returns>
-        public static TOutput Mutate<TInput, TOutput>(this TInput item, Func<TInput, TOutput> func) => func(item);
+        public static TOutput Apply<TInput, TOutput>(this TInput item, Func<TInput, TOutput> func) => func(item);
 
         /// <summary>
         /// Appends the element provided to the array.
