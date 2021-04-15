@@ -122,7 +122,8 @@ namespace KeepCoding.v13
             if (Get<KMBombInfo>(allowNull: true) is KMBombInfo bombInfo)
                 StartCoroutine(TimeUpdate(bombInfo));
 
-            StartCoroutine(CheckForUpdate());
+            if (IsEditor)
+                StartCoroutine(CheckForUpdate());
 
             Log($"Version: [{Version.NullCheck("The version number ended up being null. This is a bug caused by the library, please file a bug report alongside the source code.", true)}]");
         }
