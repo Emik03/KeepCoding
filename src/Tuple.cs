@@ -5,7 +5,7 @@ using System.Linq;
 namespace KeepCoding.v13
 {
     /// <summary>
-    /// An abstract type meant for the tuple datatype for C# 4. Written by Emik.
+    /// An abstract type meant for the tuple data type for C# 4. Written by Emik.
     /// </summary>
     public abstract class Tuple
     {
@@ -29,7 +29,7 @@ namespace KeepCoding.v13
     }
 
     /// <summary>
-    /// A basic tuple datatype for C# 4. Written by Emik.
+    /// A basic tuple data type for C# 4. Written by Emik.
     /// </summary>
     public class Tuple<T> : Tuple
     {
@@ -112,7 +112,7 @@ namespace KeepCoding.v13
     }
 
     /// <summary>
-    /// A basic tuple datatype for C# 4. Written by Emik.
+    /// A basic tuple data type for C# 4. Written by Emik.
     /// </summary>
     public class Tuple<T1, T2> : Tuple<T1>
     {
@@ -211,7 +211,7 @@ namespace KeepCoding.v13
     }
 
     /// <summary>
-    /// A basic tuple datatype for C# 4. Written by Emik.
+    /// A basic tuple data type for C# 4. Written by Emik.
     /// </summary>
     public class Tuple<T1, T2, T3> : Tuple<T1, T2>
     {
@@ -315,7 +315,7 @@ namespace KeepCoding.v13
     }
 
     /// <summary>
-    /// A basic tuple datatype for C# 4. Written by Emik.
+    /// A basic tuple data type for C# 4. Written by Emik.
     /// </summary>
     public class Tuple<T1, T2, T3, T4> : Tuple<T1, T2, T3>
     {
