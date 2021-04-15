@@ -255,19 +255,6 @@ namespace KeepCoding.v13
         }
 
         /// <summary>
-        /// Invokes a method of <typeparamref name="TInput"/> to <typeparamref name="TOutput"/> and then returns the argument provided.
-        /// </summary>
-        /// <remarks>
-        /// This can be used to intercept current variables or calculations by for example, printing the value as it is being passed as an argument.
-        /// </remarks>
-        /// <typeparam name="TInput">The type of <paramref name="item"/>.</typeparam>
-        /// <typeparam name="TOutput">The type to return.</typeparam>
-        /// <param name="item">The item to use as reference and modify.</param>
-        /// <param name="func">The function to apply <paramref name="item"/> to.</param>
-        /// <returns>The item <paramref name="item"/> after <paramref name="func"/>.</returns>
-        public static TOutput Mutate<TInput, TOutput>(this TInput item, Func<TInput, TOutput> func) => func(item);
-
-        /// <summary>
         /// Returns the element of an array, pretending that the array wraps around or is circular.
         /// </summary>
         /// <exception cref="NullIteratorException"></exception>
@@ -767,6 +754,19 @@ namespace KeepCoding.v13
         /// <param name="isIterator">Whether it is an iterator, which will use <see cref="NullIteratorException"/> to be more specific.</param>
         /// <returns><paramref name="t"/></returns>
         public static T NullCheck<T>(this T t, string message = "While asserting for null, the variable ended up null.", bool isIterator = false) => t is not null ? t : throw (isIterator ? new NullIteratorException(message) : throw new NullReferenceException(message));
+
+        /// <summary>
+        /// Invokes a method of <typeparamref name="TInput"/> to <typeparamref name="TOutput"/> and then returns the argument provided.
+        /// </summary>
+        /// <remarks>
+        /// This can be used to intercept current variables or calculations by for example, printing the value as it is being passed as an argument.
+        /// </remarks>
+        /// <typeparam name="TInput">The type of <paramref name="item"/>.</typeparam>
+        /// <typeparam name="TOutput">The type to return.</typeparam>
+        /// <param name="item">The item to use as reference and modify.</param>
+        /// <param name="func">The function to apply <paramref name="item"/> to.</param>
+        /// <returns>The item <paramref name="item"/> after <paramref name="func"/>.</returns>
+        public static TOutput Mutate<TInput, TOutput>(this TInput item, Func<TInput, TOutput> func) => func(item);
 
         /// <summary>
         /// Appends the element provided to the array.
