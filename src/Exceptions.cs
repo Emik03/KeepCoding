@@ -103,31 +103,6 @@ namespace KeepCoding.v13
     }
 
     /// <summary>
-    /// An exception thrown when something is out-of-date, and requires an update. Written by Emik.
-    /// </summary>
-    [Serializable]
-    public sealed class OutOfDateException : Exception
-    {
-        /// <summary>
-        /// An exception thrown when something is out-of-date, and requires an update.
-        /// </summary>
-        public OutOfDateException() { }
-
-        /// <summary>
-        /// An exception thrown when something is out-of-date, and requires an update.
-        /// </summary>
-        /// <param name="message">The message of the exception.</param>
-        public OutOfDateException(string message) : base(message) { }
-
-        /// <summary>
-        /// An exception thrown when something is out-of-date, and requires an update.
-        /// </summary>
-        /// <param name="message">The message of the exception.</param>
-        /// <param name="innerException">An <see cref="Exception"/> within this exception.</param>
-        public OutOfDateException(string message, Exception innerException) : base(message, innerException) { }
-    }
-
-    /// <summary>
     /// An exception for when Unity searches for a component but is unable to find said component. Written by Emik.
     /// </summary>
     [Serializable]
