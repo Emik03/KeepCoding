@@ -109,6 +109,12 @@ namespace KeepCoding.v13
         /// <param name="tupleB">The right-hand side comparison.</param>
         /// <returns>True if <paramref name="tupleA.Item1"/> and <paramref name="tupleB.Item1"/> are not equal.</returns>
         public static bool operator !=(Tuple<T> tupleA, Tuple<T> tupleB) => !(tupleA == tupleB);
+
+        /// <summary>
+        /// Destructs the tuple.
+        /// </summary>
+        /// <param name="item">The variable to assign the first element of the tuple.</param>
+        public void Destruct(out T item) => item = Item1;
     }
 
     /// <summary>
@@ -208,6 +214,17 @@ namespace KeepCoding.v13
         /// <param name="tupleB">The right-hand side comparison.</param>
         /// <returns>True if <paramref name="tupleA.ToArray"/> and all of <paramref name="tupleB.ToArray"/> are not equal in sequence.</returns>
         public static bool operator !=(Tuple<T1, T2> tupleA, Tuple<T1, T2> tupleB) => !(tupleA == tupleB);
+
+        /// <summary>
+        /// Destructs the tuple.
+        /// </summary>
+        /// <param name="item1">The variable to assign the first element of the tuple.</param>
+        /// <param name="item2">The variable to assign the second element of the tuple.</param>
+        public void Destruct(out T1 item1, out T2 item2) 
+        { 
+            item1 = Item1;
+            item2 = Item2;
+        }
     }
 
     /// <summary>
@@ -312,6 +329,19 @@ namespace KeepCoding.v13
         /// <param name="tupleB">The right-hand side comparison.</param>
         /// <returns>True if <paramref name="tupleA.ToArray"/> and all of <paramref name="tupleB.ToArray"/> are not equal in sequence.</returns>
         public static bool operator !=(Tuple<T1, T2, T3> tupleA, Tuple<T1, T2, T3> tupleB) => !(tupleA == tupleB);
+
+        /// <summary>
+        /// Destructs the tuple.
+        /// </summary>
+        /// <param name="item1">The variable to assign the first element of the tuple.</param>
+        /// <param name="item2">The variable to assign the second element of the tuple.</param>
+        /// <param name="item3">The variable to assign the third element of the tuple.</param>
+        public void Destruct(out T1 item1, out T2 item2, out T3 item3)
+        {
+            item1 = Item1;
+            item2 = Item2;
+            item3 = Item3;
+        }
     }
 
     /// <summary>
@@ -421,5 +451,20 @@ namespace KeepCoding.v13
         /// <param name="tupleB">The right-hand side comparison.</param>
         /// <returns>True if <paramref name="tupleA.ToArray"/> and all of <paramref name="tupleB.ToArray"/> are not equal in sequence.</returns>
         public static bool operator !=(Tuple<T1, T2, T3, T4> tupleA, Tuple<T1, T2, T3, T4> tupleB) => !(tupleA == tupleB);
+
+        /// <summary>
+        /// Destructs the tuple.
+        /// </summary>
+        /// <param name="item1">The variable to assign the first element of the tuple.</param>
+        /// <param name="item2">The variable to assign the second element of the tuple.</param>
+        /// <param name="item3">The variable to assign the third element of the tuple.</param>
+        /// <param name="item4">The variable to assign the fourth element of the tuple.</param>
+        public void Destruct(out T1 item1, out T2 item2, out T3 item3, out T4 item4)
+        {
+            item1 = Item1;
+            item2 = Item2;
+            item3 = Item3;
+            item4 = Item4;
+        }
     }
 }
