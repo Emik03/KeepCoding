@@ -2,7 +2,7 @@
 using UnityEngine;
 using static KMAudio;
 
-namespace KeepCoding.v13
+namespace KeepCoding.v131
 {
     /// <summary>
     /// KMFramework extension methods that makes it easier to assign multiple events to a variable in one statement. Written by Emik.
@@ -19,6 +19,7 @@ namespace KeepCoding.v13
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="UnassignedReferenceException"></exception>
         /// <param name="kmSelectable">The <see cref="KMSelectable"/> array to add events to.</param>
+        /// <param name="overrideReturn">Return true will make it act as a module/submodule, and false as a button.</param>
         /// <param name="onCancel">Called when player backs out of this selectable.</param>
         /// <param name="onDefocus">Called when a different selectable becomes the focus, or the module has been backed out of.</param>
         /// <param name="onDeselect">Called when the selectable stops being the current selectable.</param>
@@ -30,12 +31,12 @@ namespace KeepCoding.v13
         /// <param name="onLeft">Called when the left controller stick is pulled while selected.</param>
         /// <param name="onRight">Called when the right controller stick is pulled while selected.</param>
         /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
-        /// <param name="overrideReturn">Return true will make it act as a module/submodule, and false as a button.</param>
-        public static void Assign(this KMSelectable[] kmSelectable, Action<int> onCancel = null, Action<int> onDefocus = null, Action<int> onDeselect = null, Action<int> onFocus = null, Action<int> onHighlight = null, Action<int> onHighlightEnded = null, Action<int> onInteract = null, Action<int> onInteractEnded = null, Action<int> onLeft = null, Action<int> onRight = null, Action<int> onSelect = null, bool? overrideReturn = null)
+        public static void Assign(this KMSelectable[] kmSelectable, bool? overrideReturn = null, Action<int> onCancel = null, Action<int> onDefocus = null, Action<int> onDeselect = null, Action<int> onFocus = null, Action<int> onHighlight = null, Action<int> onHighlightEnded = null, Action<int> onInteract = null, Action<int> onInteractEnded = null, Action<int> onLeft = null, Action<int> onRight = null, Action<int> onSelect = null)
         {
             kmSelectable.NullOrEmptyCheck("The array is not populated. Please check your public fields in Unity.");
 
             kmSelectable.Call((s, i) => s.Assign(
+                overrideReturn,
                 onCancel.ToAction(i),
                 onDefocus.ToAction(i),
                 onDeselect.ToAction(i),
@@ -46,8 +47,7 @@ namespace KeepCoding.v13
                 onInteractEnded.ToAction(i),
                 onLeft.ToAction(i),
                 onRight.ToAction(i),
-                onSelect.ToAction(i),
-                overrideReturn));
+                onSelect.ToAction(i)));
         }
 
         /// <summary>
@@ -58,6 +58,7 @@ namespace KeepCoding.v13
         /// </remarks>
         /// <exception cref="UnassignedReferenceException"></exception>
         /// <param name="kmSelectable">The KMSelectable array to add events to.</param>
+        /// <param name="overrideReturn">Return true will make it act as a module/submodule, and false as a button.</param>
         /// <param name="onCancel">Called when player backs out of this selectable. Return true will make it act as a module/submodule, and false as a button.</param>
         /// <param name="onDefocus">Called when a different selectable becomes the focus, or the module has been backed out of.</param>
         /// <param name="onDeselect">Called when the selectable stops being the current selectable.</param>
@@ -69,8 +70,7 @@ namespace KeepCoding.v13
         /// <param name="onLeft">Called when the left controller stick is pulled while selected.</param>
         /// <param name="onRight">Called when the right controller stick is pulled while selected.</param>
         /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
-        /// <param name="overrideReturn">Return true will make it act as a module/submodule, and false as a button.</param>
-        public static void Assign(this KMSelectable kmSelectable, Action onCancel = null, Action onDefocus = null, Action onDeselect = null, Action onFocus = null, Action onHighlight = null, Action onHighlightEnded = null, Action onInteract = null, Action onInteractEnded = null, Action onLeft = null, Action onRight = null, Action onSelect = null, bool? overrideReturn = null)
+        public static void Assign(this KMSelectable kmSelectable, bool? overrideReturn = null, Action onCancel = null, Action onDefocus = null, Action onDeselect = null, Action onFocus = null, Action onHighlight = null, Action onHighlightEnded = null, Action onInteract = null, Action onInteractEnded = null, Action onLeft = null, Action onRight = null, Action onSelect = null)
         {
             if (kmSelectable is null)
                 throw Unassigned(typeof(KMSelectable));
@@ -191,7 +191,8 @@ namespace KeepCoding.v13
         /// <typeparam name="T">The type of the <paramref name="mutator"/> and <see cref="Delegate"/> casting.</typeparam>
         /// <param name="dele">The <see cref="Delegate"/> to add.</param>
         /// <param name="mutator">The variable that transmutates and adds <paramref name="dele"/> onto itself.</param>
-        public static void Set<T>(this Delegate dele, ref T mutator) where T : Delegate => mutator = dele is null ? mutator : dele.Cast<T>();
+        /// <returns><paramref name="mutator"/> with <paramref name="dele"/> appended.</returns>
+        public static Delegate Set<T>(this Delegate dele, ref T mutator) where T : Delegate => mutator = dele is null ? mutator : dele.Cast<T>();
 
         private static Action ToAction(this Action<int> action, int i) => action is null ? (Action)null : () => action(i);
 

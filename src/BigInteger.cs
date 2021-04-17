@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace KeepCoding.v13
+namespace KeepCoding.v131
 {
     /// <summary>
     /// Stores numbers far larger than long or ulong by using arrays to store the values. Written by Emik.
@@ -17,7 +17,7 @@ namespace KeepCoding.v13
         /// <exception cref="ConstructorArgumentException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="value">The value to store. <see cref="Array"/>, <see cref="string"/>, and any number-type are compatible.</param>
-        public BigInteger(object value) => _value = ObjectToBytes(value);
+        public BigInteger(object value) => _value = ObjectToBytes(in value);
 
         /// <summary>
         /// Creates a big integer with the default value. (0)
@@ -82,7 +82,7 @@ namespace KeepCoding.v13
         /// <param name="bigInteger">The left-hand side operator</param>
         /// <param name="value">The right-hand side operator.</param>
         /// <returns>True if both are the same number.</returns>
-        public static bool operator ==(BigInteger bigInteger, object value) => bigInteger._value.SequenceEqual(bigInteger.ObjectToBytes(value));
+        public static bool operator ==(BigInteger bigInteger, object value) => bigInteger._value.SequenceEqual(bigInteger.ObjectToBytes(in value));
 
         /// <summary>
         /// Equals operator; determines if both integers contain the same value. The <see cref="object"/> is casted as a <see cref="BigInteger"/>.
@@ -90,7 +90,7 @@ namespace KeepCoding.v13
         /// <param name="value">The left-hand side operator.</param>
         /// <param name="bigInteger">The right-hand side operator</param>
         /// <returns>True if both are the same number.</returns>
-        public static bool operator ==(object value, BigInteger bigInteger) => bigInteger._value.SequenceEqual(bigInteger.ObjectToBytes(value));
+        public static bool operator ==(object value, BigInteger bigInteger) => bigInteger._value.SequenceEqual(bigInteger.ObjectToBytes(in value));
 
         /// <summary>
         /// Not equals operator; determines if both integers do not contain the same value.
@@ -122,7 +122,7 @@ namespace KeepCoding.v13
         /// <param name="bigIntegerA">The left-hand side operator.</param>
         /// <param name="bigIntegerB">The right-hand side operator</param>
         /// <returns>True if <paramref name="bigIntegerA"/> is more than <paramref name="bigIntegerB"/>.</returns>
-        public static bool operator >(BigInteger bigIntegerA, BigInteger bigIntegerB) => EqualityTernary(bigIntegerA, bigIntegerB) ?? false;
+        public static bool operator >(BigInteger bigIntegerA, BigInteger bigIntegerB) => EqualityTernary(in bigIntegerA, in bigIntegerB) ?? false;
 
         /// <summary>
         /// More than operator; determines if left-hand side has a greater value than right-hand side.
@@ -130,7 +130,7 @@ namespace KeepCoding.v13
         /// <param name="bigInteger">The left-hand side operator.</param>
         /// <param name="value">The right-hand side operator</param>
         /// <returns>True if <paramref name="bigInteger"/> is more than <paramref name="value"/>.</returns>
-        public static bool operator >(BigInteger bigInteger, object value) => EqualityTernary(new BigInteger(value), bigInteger) ?? false;
+        public static bool operator >(BigInteger bigInteger, object value) => EqualityTernary(new BigInteger(value), in bigInteger) ?? false;
 
         /// <summary>
         /// More than operator; determines if left-hand side has a greater value than right-hand side.
@@ -138,7 +138,7 @@ namespace KeepCoding.v13
         /// <param name="value">The left-hand side operator.</param>
         /// <param name="bigInteger">The right-hand side operator</param>
         /// <returns>True if <paramref name="value"/> is more than <paramref name="bigInteger"/>.</returns>
-        public static bool operator >(object value, BigInteger bigInteger) => EqualityTernary(new BigInteger(value), bigInteger) ?? false;
+        public static bool operator >(object value, BigInteger bigInteger) => EqualityTernary(new BigInteger(value), in bigInteger) ?? false;
 
         /// <summary>
         /// Less than operator; determines if left-hand side has a lesser value than right-hand side.
@@ -146,7 +146,7 @@ namespace KeepCoding.v13
         /// <param name="bigIntegerA">The left-hand side operator.</param>
         /// <param name="bigIntegerB">The right-hand side operator</param>
         /// <returns>True if <paramref name="bigIntegerA"/> is less than <paramref name="bigIntegerB"/>.</returns>
-        public static bool operator <(BigInteger bigIntegerA, BigInteger bigIntegerB) => !EqualityTernary(bigIntegerA, bigIntegerB) ?? false;
+        public static bool operator <(BigInteger bigIntegerA, BigInteger bigIntegerB) => !EqualityTernary(in bigIntegerA, in bigIntegerB) ?? false;
 
         /// <summary>
         /// Less than operator; determines if left-hand side has a lesser value than right-hand side.
@@ -154,7 +154,7 @@ namespace KeepCoding.v13
         /// <param name="bigInteger">The left-hand side operator.</param>
         /// <param name="value">The right-hand side operator</param>
         /// <returns>True if <paramref name="bigInteger"/> is less than <paramref name="value"/>.</returns>
-        public static bool operator <(BigInteger bigInteger, object value) => !EqualityTernary(bigInteger, new BigInteger(value)) ?? false;
+        public static bool operator <(BigInteger bigInteger, object value) => !EqualityTernary(in bigInteger, new BigInteger(value)) ?? false;
 
         /// <summary>
         /// Less than operator; determines if left-hand side has a lesser value than right-hand side.
@@ -162,7 +162,7 @@ namespace KeepCoding.v13
         /// <param name="value">The left-hand side operator.</param>
         /// <param name="bigInteger">The right-hand side operator</param>
         /// <returns>True if <paramref name="value"/> is less than <paramref name="bigInteger"/>.</returns>
-        public static bool operator <(object value, BigInteger bigInteger) => !EqualityTernary(new BigInteger(value), bigInteger) ?? false;
+        public static bool operator <(object value, BigInteger bigInteger) => !EqualityTernary(new BigInteger(value), in bigInteger) ?? false;
 
         /// <summary>
         /// More than or equals operator; determines if left-hand side has a greater value or is equal to the right-hand side.
@@ -218,7 +218,7 @@ namespace KeepCoding.v13
         /// <param name="bigIntegerA">The left-hand side operator.</param>
         /// <param name="bigIntegerB">The right-hand side operator</param>
         /// <returns>The sum of both sides.</returns>
-        public static BigInteger operator +(BigInteger bigIntegerA, BigInteger bigIntegerB) => Operate(bigIntegerA, bigIntegerB, Operator.Add);
+        public static BigInteger operator +(BigInteger bigIntegerA, BigInteger bigIntegerB) => Operate(in bigIntegerA, in bigIntegerB, Operator.Add);
 
         /// <summary>
         /// Add operator; gets the sum of 2 numbers.
@@ -226,7 +226,7 @@ namespace KeepCoding.v13
         /// <param name="bigInteger">The left-hand side operator.</param>
         /// <param name="value">The right-hand side operator</param>
         /// <returns>The sum of both sides.</returns>
-        public static BigInteger operator +(BigInteger bigInteger, object value) => Operate(bigInteger, new BigInteger(value), Operator.Add);
+        public static BigInteger operator +(BigInteger bigInteger, object value) => Operate(in bigInteger, new BigInteger(value), Operator.Add);
 
         /// <summary>
         /// Addition operator; gets the sum of 2 numbers.
@@ -234,7 +234,7 @@ namespace KeepCoding.v13
         /// <param name="value">The left-hand side operator.</param>
         /// <param name="bigInteger">The right-hand side operator</param>
         /// <returns>The sum of both sides.</returns>
-        public static BigInteger operator +(object value, BigInteger bigInteger) => Operate(new BigInteger(value), bigInteger, Operator.Add);
+        public static BigInteger operator +(object value, BigInteger bigInteger) => Operate(new BigInteger(value), in bigInteger, Operator.Add);
 
         /// <summary>
         /// Subtraction operator; gets the difference of 2 numbers.
@@ -242,7 +242,7 @@ namespace KeepCoding.v13
         /// <param name="bigIntegerA">The left-hand side operator.</param>
         /// <param name="bigIntegerB">The right-hand side operator</param>
         /// <returns>The difference of both sides.</returns>
-        public static BigInteger operator -(BigInteger bigIntegerA, BigInteger bigIntegerB) => Operate(bigIntegerA, bigIntegerB, Operator.Subtract);
+        public static BigInteger operator -(BigInteger bigIntegerA, BigInteger bigIntegerB) => Operate(in bigIntegerA, in bigIntegerB, Operator.Subtract);
 
         /// <summary>
         /// Subtraction operator; gets the difference of 2 numbers.
@@ -250,7 +250,7 @@ namespace KeepCoding.v13
         /// <param name="bigInteger">The left-hand side operator.</param>
         /// <param name="value">The right-hand side operator</param>
         /// <returns>The difference of both sides.</returns>
-        public static BigInteger operator -(BigInteger bigInteger, object value) => Operate(bigInteger, new BigInteger(value), Operator.Subtract);
+        public static BigInteger operator -(BigInteger bigInteger, object value) => Operate(in bigInteger, new BigInteger(value), Operator.Subtract);
 
         /// <summary>
         /// Subtraction operator; gets the difference of 2 numbers.
@@ -258,7 +258,7 @@ namespace KeepCoding.v13
         /// <param name="value">The left-hand side operator.</param>
         /// <param name="bigInteger">The right-hand side operator</param>
         /// <returns>The difference of both sides.</returns>
-        public static BigInteger operator -(object value, BigInteger bigInteger) => Operate(new BigInteger(value), bigInteger, Operator.Subtract);
+        public static BigInteger operator -(object value, BigInteger bigInteger) => Operate(new BigInteger(value), in bigInteger, Operator.Subtract);
 
         /// <summary>
         /// Multiplication operator; gets the product of 2 numbers.
@@ -266,7 +266,7 @@ namespace KeepCoding.v13
         /// <param name="bigIntegerA">The left-hand side operator.</param>
         /// <param name="bigIntegerB">The right-hand side operator</param>
         /// <returns>The product of both sides.</returns>
-        public static BigInteger operator *(BigInteger bigIntegerA, BigInteger bigIntegerB) => Operate(bigIntegerA, bigIntegerB, Operator.Multiply);
+        public static BigInteger operator *(BigInteger bigIntegerA, BigInteger bigIntegerB) => Operate(in bigIntegerA, in bigIntegerB, Operator.Multiply);
 
         /// <summary>
         /// Multiplication operator; gets the product of 2 numbers.
@@ -274,7 +274,7 @@ namespace KeepCoding.v13
         /// <param name="bigInteger">The left-hand side operator.</param>
         /// <param name="value">The right-hand side operator</param>
         /// <returns>The product of both sides.</returns>
-        public static BigInteger operator *(BigInteger bigInteger, object value) => Operate(bigInteger, new BigInteger(value), Operator.Multiply);
+        public static BigInteger operator *(BigInteger bigInteger, object value) => Operate(in bigInteger, new BigInteger(value), Operator.Multiply);
 
         /// <summary>
         /// Multiplication operator; gets the product of 2 numbers.
@@ -282,7 +282,7 @@ namespace KeepCoding.v13
         /// <param name="value">The left-hand side operator.</param>
         /// <param name="bigInteger">The right-hand side operator</param>
         /// <returns>The product of both sides.</returns>
-        public static BigInteger operator *(object value, BigInteger bigInteger) => Operate(new BigInteger(value), bigInteger, Operator.Multiply);
+        public static BigInteger operator *(object value, BigInteger bigInteger) => Operate(new BigInteger(value), in bigInteger, Operator.Multiply);
 
         /// <summary>
         /// Division operator; gets the quotient of 2 numbers.
@@ -290,7 +290,7 @@ namespace KeepCoding.v13
         /// <param name="bigIntegerA">The left-hand side operator.</param>
         /// <param name="bigIntegerB">The right-hand side operator</param>
         /// <returns>The quotient of both sides.</returns>
-        public static BigInteger operator /(BigInteger bigIntegerA, BigInteger bigIntegerB) => Operate(bigIntegerA, bigIntegerB, Operator.Divide);
+        public static BigInteger operator /(BigInteger bigIntegerA, BigInteger bigIntegerB) => Operate(in bigIntegerA, in bigIntegerB, Operator.Divide);
 
         /// <summary>
         /// Division operator; gets the quotient of 2 numbers.
@@ -298,7 +298,7 @@ namespace KeepCoding.v13
         /// <param name="bigInteger">The left-hand side operator.</param>
         /// <param name="value">The right-hand side operator</param>
         /// <returns>The quotient of both sides.</returns>
-        public static BigInteger operator /(BigInteger bigInteger, object value) => Operate(bigInteger, new BigInteger(value), Operator.Divide);
+        public static BigInteger operator /(BigInteger bigInteger, object value) => Operate(in bigInteger, new BigInteger(value), Operator.Divide);
 
         /// <summary>
         /// Division operator; gets the quotient of 2 numbers.
@@ -306,7 +306,7 @@ namespace KeepCoding.v13
         /// <param name="value">The left-hand side operator.</param>
         /// <param name="bigInteger">The right-hand side operator</param>
         /// <returns>The quotient of both sides.</returns>
-        public static BigInteger operator /(object value, BigInteger bigInteger) => Operate(new BigInteger(value), bigInteger, Operator.Divide);
+        public static BigInteger operator /(object value, BigInteger bigInteger) => Operate(new BigInteger(value), in bigInteger, Operator.Divide);
 
         /// <summary>
         /// Modulo operator; gets the modulo of 2 numbers.
@@ -314,7 +314,7 @@ namespace KeepCoding.v13
         /// <param name="bigIntegerA">The left-hand side operator.</param>
         /// <param name="bigIntegerB">The right-hand side operator</param>
         /// <returns>The modulo of both sides.</returns>
-        public static BigInteger operator %(BigInteger bigIntegerA, BigInteger bigIntegerB) => Operate(bigIntegerA, bigIntegerB, Operator.Modulo);
+        public static BigInteger operator %(BigInteger bigIntegerA, BigInteger bigIntegerB) => Operate(in bigIntegerA, in bigIntegerB, Operator.Modulo);
 
         /// <summary>
         /// Modulo operator; gets the modulo of 2 numbers.
@@ -322,7 +322,7 @@ namespace KeepCoding.v13
         /// <param name="bigInteger">The left-hand side operator.</param>
         /// <param name="value">The right-hand side operator</param>
         /// <returns>The modulo of both sides.</returns>
-        public static BigInteger operator %(BigInteger bigInteger, object value) => Operate(bigInteger, new BigInteger(value), Operator.Modulo);
+        public static BigInteger operator %(BigInteger bigInteger, object value) => Operate(in bigInteger, new BigInteger(value), Operator.Modulo);
 
         /// <summary>
         /// Modulo operator; gets the modulo of 2 numbers.
@@ -330,7 +330,7 @@ namespace KeepCoding.v13
         /// <param name="value">The left-hand side operator.</param>
         /// <param name="bigInteger">The right-hand side operator</param>
         /// <returns>The modulo of both sides.</returns>
-        public static BigInteger operator %(object value, BigInteger bigInteger) => Operate(new BigInteger(value), bigInteger, Operator.Modulo);
+        public static BigInteger operator %(object value, BigInteger bigInteger) => Operate(new BigInteger(value), in bigInteger, Operator.Modulo);
 
         /// <summary>
         /// Converts the <see cref="BigInteger"/> to a <see cref="int"/>.
@@ -510,13 +510,13 @@ namespace KeepCoding.v13
 
         private static readonly sbyte[] _zero = new sbyte[0], _one = new sbyte[] { 1 };
 
-        private static bool? EqualityTernary(BigInteger bigIntegerA, BigInteger bigIntegerB)
+        private static bool? EqualityTernary(in BigInteger bigIntegerA, in BigInteger bigIntegerB)
         {
             sbyte[] a = bigIntegerA._value,
                 b = bigIntegerB._value;
 
-            if (IsArrayNegative(a) != IsArrayNegative(b))
-                return IsArrayNegative(b);
+            if (IsArrayNegative(in a) != IsArrayNegative(in b))
+                return IsArrayNegative(in b);
 
             if (a.Length != b.Length)
                 return a.Length > b.Length;
@@ -532,7 +532,7 @@ namespace KeepCoding.v13
 
         private static sbyte[] Addition(sbyte[] left, sbyte[] right)
         {
-            bool isNegative = (IsArrayNegative(left) && IsArrayNegative(right)) || (IsArrayNegative(left) && new BigInteger(InvertConditional(left, IsArrayNegative(left))) > new BigInteger(right)) || (IsArrayNegative(right) && new BigInteger(InvertConditional(right, IsArrayNegative(right))) > new BigInteger(left));
+            bool isNegative = (IsArrayNegative(in left) && IsArrayNegative(in right)) || (IsArrayNegative(in left) && new BigInteger(InvertConditional(in left, IsArrayNegative(in left))) > new BigInteger(right)) || (IsArrayNegative(in right) && new BigInteger(InvertConditional(in right, IsArrayNegative(in right))) > new BigInteger(left));
 
             left = InvertConditional(left.Reverse(), isNegative);
             right = InvertConditional(right.Reverse(), isNegative);
@@ -588,10 +588,10 @@ namespace KeepCoding.v13
             if (left.SequenceEqual(right))
                 return _one;
 
-            bool isNegative = IsArrayNegative(left) ^ IsArrayNegative(right);
+            bool isNegative = IsArrayNegative(in left) ^ IsArrayNegative(in right);
 
-            left = InvertConditional(left, IsArrayNegative(left));
-            right = InvertConditional(right, IsArrayNegative(right));
+            left = InvertConditional(in left, IsArrayNegative(in left));
+            right = InvertConditional(in right, IsArrayNegative(in right));
 
             var output = Enumerable.Repeat((sbyte)0, left.Length).ToList();
             var mutator = new BigInteger(left);
@@ -615,15 +615,15 @@ namespace KeepCoding.v13
             if (right.SequenceEqual(_zero))
                 throw new DivideByZeroException("BigInteger was sent a right-hand operator that evaluated into zero on a modulo operation.");
 
-            if (IsArrayNegative(right))
+            if (IsArrayNegative(in right))
                 throw new NegativeNumberException("BigInteger was sent a right-hand operator that evaluated into the negatives on a modulo operation.");
 
             if (left.SequenceEqual(_zero) || right.SequenceEqual(_zero) || left.SequenceEqual(right))
                 return _zero;
 
-            bool isNegative = IsArrayNegative(left);
+            bool isNegative = IsArrayNegative(in left);
 
-            left = InvertConditional(left, isNegative);
+            left = InvertConditional(in left, isNegative);
 
             var output = Enumerable.Repeat((sbyte)0, left.Length).ToList();
             var mutated = new BigInteger(left);
@@ -639,7 +639,7 @@ namespace KeepCoding.v13
                 }
             }
 
-            return InvertConditional(mutated._value, isNegative);
+            return InvertConditional(in mutated._value, isNegative);
         }
 
         private static sbyte[] Multiplication(sbyte[] left, sbyte[] right)
@@ -653,10 +653,10 @@ namespace KeepCoding.v13
             if (right.SequenceEqual(_one))
                 return left;
 
-            bool isNegative = IsArrayNegative(left) ^ IsArrayNegative(right);
+            bool isNegative = IsArrayNegative(in left) ^ IsArrayNegative(in right);
 
-            left = InvertConditional(left.Reverse(), IsArrayNegative(left));
-            right = InvertConditional(right.Reverse(), IsArrayNegative(right));
+            left = InvertConditional(left.Reverse(), IsArrayNegative(in left));
+            right = InvertConditional(right.Reverse(), IsArrayNegative(in right));
 
             var output = new List<sbyte>[left.Length];
 
@@ -685,7 +685,7 @@ namespace KeepCoding.v13
             return InvertConditional(output.Last().ToArray(), isNegative);
         }
 
-        private sbyte[] ObjectToBytes(object obj)
+        private sbyte[] ObjectToBytes(in object obj)
         {
             obj.NullCheck("You cannot construct a BigInteger out of null.");
 
@@ -710,13 +710,13 @@ namespace KeepCoding.v13
             }
         }
 
-        private static bool IsArrayNegative(sbyte[] vs) => vs[0] < 0;
+        private static bool IsArrayNegative(in sbyte[] vs) => vs[0] < 0;
 
         private sbyte CastToCurrentNegative(int s) => (sbyte)(s * (s < 0 ^ IsNegative ? -1 : 1));
 
-        private static sbyte[] InvertConditional(sbyte[] vs, bool b) => b ? vs.Select(s => (sbyte)(-1 * s)).ToArray() : vs;
+        private static sbyte[] InvertConditional(in sbyte[] vs, bool b) => b ? vs.Select(s => (sbyte)(-1 * s)).ToArray() : vs;
 
-        private static BigInteger Operate(BigInteger bigIntegerA, BigInteger bigIntegerB, Operator op)
+        private static BigInteger Operate(in BigInteger bigIntegerA, in BigInteger bigIntegerB, Operator op)
             => _operations.ContainsKey(op)
                 ? new BigInteger(_operations[op](bigIntegerA._value.ToArray(), InvertConditional(bigIntegerB._value.ToArray(), op == Operator.Subtract)))
                 : throw new UnrecognizedValueException($"Unhandled operator: {op}.");

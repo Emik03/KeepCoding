@@ -11,7 +11,7 @@ using UnityEngine.Video;
 using Debug = UnityEngine.Debug;
 using Info = Assets.Scripts.Mods.ModInfo;
 
-namespace KeepCoding.v13
+namespace KeepCoding.v131
 {
     extern alias core;
 
@@ -46,12 +46,12 @@ namespace KeepCoding.v13
 
             Current(bundleFileName, out var current);
 
-            if (IsCached(current))
-                return (ModInfo)GetCache(current);
+            if (IsCached(in current))
+                return GetCache<ModInfo>(in current);
 
             string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
 
-            return (ModInfo)SetCache(current, ModInfo.Deserialize($"{path}{GetSlashType(path)}modInfo.json"));
+            return SetCache(current, ModInfo.Deserialize($"{path}{GetSlashType(in path)}modInfo.json"));
         }
 
         /// <summary>
@@ -68,8 +68,8 @@ namespace KeepCoding.v13
 
             Current(fileName, out var current);
 
-            if (IsCached(current))
-                return (string)GetCache(current);
+            if (IsCached(in current))
+                return GetCache<string>(in current);
 
             string path = ModManager.Instance.GetEnabledModPaths(Info.ModSourceEnum.Local)
                               .FirstOrDefault(x => Directory.GetFiles(x, fileName).Any()) ??
@@ -77,7 +77,7 @@ namespace KeepCoding.v13
                               .FirstOrDefault(x => Directory.GetFiles(x, fileName).Any()) ??
                           GetDisabledPath(fileName) ?? throw new FileNotFoundException($"The file name {fileName} could not be found within your mods folder!");
 
-            return (string)SetCache(current, path
+            return SetCache(current, path
                 .Replace($"/{fileName}", "")
                 .Replace(@$"\{fileName}", ""));
         }
@@ -99,16 +99,16 @@ namespace KeepCoding.v13
 
             Current(bundleFileName + libraryFileName, out var current);
 
-            if (IsCached(current))
+            if (IsCached(in current))
                 return;
 
-            SetCache(current, null);
+            SetCache<object>(current, null);
 
             string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
 
             Log($"The path to load {libraryFileName} as called from {bundleFileName} is: {path}.");
 
-            CopyLibrary(libraryFileName, path);
+            CopyLibrary(in libraryFileName, in path);
         }
 
         /// <summary>
@@ -126,15 +126,15 @@ namespace KeepCoding.v13
 
             Current(bundleFileName + bundleVideoFileName, out var current);
 
-            if (IsCached(current))
+            if (IsCached(in current))
             {
-                yield return (VideoClip[])GetCache(current);
+                yield return GetCache<VideoClip[]>(in current);
                 yield break;
             }
 
             string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
 
-            var request = AssetBundle.LoadFromFileAsync($"{path}{GetSlashType(path)}{FileFormat.Form(bundleVideoFileName, FileExtensionBundle)}");
+            var request = AssetBundle.LoadFromFileAsync($"{path}{GetSlashType(in path)}{FileFormat.Form(bundleVideoFileName, FileExtensionBundle)}");
 
             yield return request;
 
@@ -156,22 +156,18 @@ namespace KeepCoding.v13
 
         internal static void Log(string message) => Debug.Log($"[Keep Coding] {message}");
 
-        internal static FileVersionInfo GetVersionLibrary(string bundleFileName) => FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
+        internal static FileVersionInfo GetVersionLibrary() => FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void Current(string bundleFileName, out Tuple<string, string> current) => current = new StackTrace().GetFrame(1).GetMethod().Name.ToTuple(bundleFileName);
 
-        private static object SetCache(this Tuple<string, string> current, object value)
-        {
-            _cachedResults.Add(current, value);
-            return value;
-        }
+        private static bool IsCached(in Tuple<string, string> current) => _cachedResults.ContainsKey(current);
 
-        private static bool IsCached(this Tuple<string, string> current) => _cachedResults.ContainsKey(current);
+        private static T GetCache<T>(in Tuple<string, string> current) => (T)_cachedResults[current];
 
-        private static object GetCache(this Tuple<string, string> current) => _cachedResults[current];
+        private static T SetCache<T>(Tuple<string, string> current, T value) => value.Call(v => _cachedResults.Add(current, v));
 
-        private static void CopyLibrary(string libraryFileName, string path)
+        private static void CopyLibrary(in string libraryFileName, in string path)
         {
             var unhandledIntPtr = new PlatformNotSupportedException("IntPtr size is not 4 or 8, what kind of system is this?");
 
@@ -213,6 +209,6 @@ namespace KeepCoding.v13
                 return null;
             });
 
-        private static char GetSlashType(string path) => path.Count(c => c == '/') >= path.Count(c => c == '\\') ? '/' : '\\';
+        private static char GetSlashType(in string path) => path.Count(c => c == '/') >= path.Count(c => c == '\\') ? '/' : '\\';
     }
 }

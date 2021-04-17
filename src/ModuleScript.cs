@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using static KMAudio;
 
-namespace KeepCoding.v13
+namespace KeepCoding.v131
 {
     /// <summary>
     /// Base class for regular and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
@@ -192,7 +192,7 @@ namespace KeepCoding.v13
             if (IsSolved)
                 return;
 
-            LogMultiple(logs);
+            LogMultiple(in logs);
 
             IsSolved = true;
             Module.HandlePass();
@@ -204,7 +204,7 @@ namespace KeepCoding.v13
         /// <param name="logs">All of the entries to log.</param>
         public void Strike(params string[] logs)
         {
-            LogMultiple(logs);
+            LogMultiple(in logs);
 
             HasStruck = true;
             Module.HandleStrike();
@@ -353,7 +353,7 @@ namespace KeepCoding.v13
                 };
         }
 
-        private void CheckForTime(KMBombInfo bombInfo)
+        private void CheckForTime(in KMBombInfo bombInfo)
         {
             if (TimeLeft != (int)bombInfo.GetTime())
             {
@@ -374,15 +374,15 @@ namespace KeepCoding.v13
                 yield break;
             }
 
-            if (req.downloadHandler.text.Trim() != PathManager.GetVersionLibrary(ModBundleName).ProductVersion)
-                Log($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.GetVersionLibrary(ModBundleName).ProductVersion}. Please download the latest version here https://github.com/Emik03/KeepCoding/releases", LogType.Error);
+            if (req.downloadHandler.text.Trim() != PathManager.GetVersionLibrary().ProductVersion)
+                Log($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.GetVersionLibrary().ProductVersion}. Please download the latest version here https://github.com/Emik03/KeepCoding/releases", LogType.Error);
         }
 
         private IEnumerator TimeUpdate(KMBombInfo bombInfo)
         {
             while (true)
             {
-                CheckForTime(bombInfo);
+                CheckForTime(in bombInfo);
                 yield return null;
             }
         }
@@ -402,6 +402,6 @@ namespace KeepCoding.v13
             sound.Game is not null ? Get<KMAudio>().HandlePlayGameSoundAtTransformWithRef(sound.Game.Value, t) : 
             throw new UnrecognizedTypeException($"{sound} which is a {sound.GetType()} is not a valid type.");
 
-        private void LogMultiple(params string[] logs) => logs.ForEach(s => Log(s));
+        private void LogMultiple(in string[] logs) => logs.ForEach(s => Log(s));
     }
 }
