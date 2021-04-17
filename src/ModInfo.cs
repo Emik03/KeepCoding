@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security;
 
-namespace KeepCoding.v13
+namespace KeepCoding.v131
 {
     /// <summary>
     /// Contains information about the mod's info, this class can be used to deserialize every mod's "modInfo.json".

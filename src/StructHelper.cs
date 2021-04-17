@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace KeepCoding.v13
+namespace KeepCoding.v131
 {
     /// <summary>
     /// Allows you to modify colors' individual RGBA or vectors' XYZW components relatively and absolutely. Written by Emik.

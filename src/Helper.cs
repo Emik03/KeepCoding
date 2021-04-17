@@ -7,7 +7,7 @@ using System.Reflection;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace KeepCoding.v13
+namespace KeepCoding.v131
 {
     /// <summary>
     /// General extension class covering both KMFramework and native datatypes. Written by Emik.
