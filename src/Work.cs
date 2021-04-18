@@ -3,7 +3,7 @@ using System.Collections;
 using System.Threading;
 using UnityEngine;
 
-namespace KeepCoding.v131
+namespace KeepCoding.v132
 {
     /// <summary>
     /// Advanced multi-threading handler. Written by Emik.
@@ -50,7 +50,7 @@ namespace KeepCoding.v131
     /// <summary>
     /// Advanced multi-threading handler. Written by Emik.
     /// </summary>
-    public sealed class Work<TResult> : WorkBase
+    public sealed class Work<T> : WorkBase
     {
         /// <summary>
         /// Stores the method so that it can later be called when a new thread starts.
@@ -58,7 +58,7 @@ namespace KeepCoding.v131
         /// <param name="work">The method to call when thread starts.</param>
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
-        public Work(Func<TResult> work, bool allowSimultaneousActive, uint maximumThreadsActive)
+        public Work(Func<T> work, bool allowSimultaneousActive, uint maximumThreadsActive)
             : base(allowSimultaneousActive, maximumThreadsActive)
             => Thread = new Thread(() =>
             {
@@ -91,13 +91,13 @@ namespace KeepCoding.v131
         /// <value>
         /// The returned value of the thread.
         /// </value>
-        public TResult Result { get; private set; }
+        public T Result { get; private set; }
     }
 
     /// <summary>
     /// Advanced multi-threading handler. Written by Emik.
     /// </summary>
-    public sealed class Work<T1, TResult> : WorkBase
+    public sealed class Work<T, TResult> : WorkBase
     {
         /// <summary>
         /// Stores the method so that it can later be called when a new thread starts.
@@ -105,14 +105,14 @@ namespace KeepCoding.v131
         /// <param name="work">The method to call when thread starts.</param>
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
-        public Work(Func<T1, TResult> work, bool allowSimultaneousActive, uint maximumThreadsActive)
+        public Work(Func<T, TResult> work, bool allowSimultaneousActive, uint maximumThreadsActive)
             : base(allowSimultaneousActive, maximumThreadsActive) => _work = work;
 
         /// <summary>
         /// Starts a new thread, and waits until it is finished before halting.
         /// </summary>
         /// <returns><see cref="WaitWhile"/> in various places until the thread has been finished.</returns>
-        public IEnumerator Start(T1 arg)
+        public IEnumerator Start(T arg)
         {
             if (!AllowSimultaneousActive && IsRunning)
                 yield break;
@@ -141,7 +141,7 @@ namespace KeepCoding.v131
         /// </value>
         public TResult Result { get; private set; }
 
-        private readonly Func<T1, TResult> _work;
+        private readonly Func<T, TResult> _work;
     }
 
     /// <summary>
