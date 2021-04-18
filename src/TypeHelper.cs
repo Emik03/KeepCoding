@@ -8,7 +8,7 @@ namespace KeepCoding.v132
     /// <summary>
     /// Extension methods to help you create the Keep Coding's data types easier.
     /// </summary>
-    public static class KeepCodingHelper
+    public static class TypeHelper
     {
         /// <summary>
         /// Converts arguments to a new <see cref="Routine"/>.
