@@ -17,31 +17,31 @@ namespace KeepCoding.v14
     public static class Game
     {
         /// <summary>
+        /// Determines how the mod is stored.
+        /// </summary>
+        public enum ModSourceEnum
+        {
+            /// <value>
+            /// The mod is invalid.
+            /// </value>
+            Invalid,
+
+            /// <value>
+            /// The mod is stored within the local mods folder.
+            /// </value>
+            Local,
+
+            /// <value>
+            /// The mod is stored within the workshop folder.
+            /// </value>
+            SteamWorkshop
+        }
+
+        /// <summary>
         /// Allows access to methods relating mod paths.
         /// </summary>
         public static class ModManager
         {
-            /// <summary>
-            /// Determines how the mod is stored.
-            /// </summary>
-            public enum ModSourceEnum
-            {
-                /// <value>
-                /// The mod is invalid.
-                /// </value>
-                Invalid,
-
-                /// <value>
-                /// The mod is stored within the local mods folder.
-                /// </value>
-                Local,
-
-                /// <value>
-                /// The mod is stored within the workshop folder.
-                /// </value>
-                SteamWorkshop
-            }
-
             /// <value>
             /// Gets all of the disabled mod paths.
             /// </value>
