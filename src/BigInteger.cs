@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace KeepCoding.v131
+namespace KeepCoding.v132
 {
     /// <summary>
     /// Stores numbers far larger than long or ulong by using arrays to store the values. Written by Emik.
@@ -676,7 +676,7 @@ namespace KeepCoding.v131
                 if (carry != 0)
                     output[i] = output[i].Concat(carry.ToString().Select(c => (sbyte)c.ToNumber())).ToList();
 
-                output[i] = output[i].Backwards();
+                output[i] = output[i].Rev();
             }
 
             for (int i = 0; i < output.Length - 1; i++)
