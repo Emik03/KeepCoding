@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace KeepCoding.v132
+namespace KeepCoding.v14
 {
     /// <summary>
     /// Stores numbers far larger than long or ulong by using arrays to store the values. Written by Emik.
@@ -397,6 +397,13 @@ namespace KeepCoding.v132
         public static implicit operator BigInteger(ulong value) => new BigInteger(value);
 
         /// <summary>
+        /// Determins if both values are equal.
+        /// </summary>
+        /// <param name="obj">The comparison.</param>
+        /// <returns>True if both values are equal.</returns>
+        public override bool Equals(object obj) => Equals(new BigInteger(obj));
+
+        /// <summary>
         /// Gets the hash code of the current values.
         /// </summary>
         /// <returns>The hash code.</returns>
@@ -408,13 +415,6 @@ namespace KeepCoding.v132
             hashCode = (hashCode * -1521134295) + EqualityComparer<sbyte[]>.Default.GetHashCode(_value);
             return hashCode;
         }
-
-        /// <summary>
-        /// Determins if both values are equal.
-        /// </summary>
-        /// <param name="obj">The comparison.</param>
-        /// <returns>True if both values are equal.</returns>
-        public override bool Equals(object obj) => Equals(new BigInteger(obj));
 
         /// <summary>
         /// Converts the current array it stores as a string.
@@ -510,6 +510,9 @@ namespace KeepCoding.v132
 
         private static readonly sbyte[] _zero = new sbyte[0], _one = new sbyte[] { 1 };
 
+
+        private static bool IsArrayNegative(in sbyte[] vs) => vs[0] < 0;
+
         private static bool? EqualityTernary(in BigInteger bigIntegerA, in BigInteger bigIntegerB)
         {
             sbyte[] a = bigIntegerA._value,
@@ -529,6 +532,8 @@ namespace KeepCoding.v132
 
             return null;
         }
+
+        private sbyte CastToCurrentNegative(int s) => (sbyte)(s * (s < 0 ^ IsNegative ? -1 : 1));
 
         private static sbyte[] Addition(sbyte[] left, sbyte[] right)
         {
@@ -685,6 +690,8 @@ namespace KeepCoding.v132
             return InvertConditional(output.Last().ToArray(), isNegative);
         }
 
+        private static sbyte[] InvertConditional(in sbyte[] vs, bool b) => b ? vs.Select(s => (sbyte)(-1 * s)).ToArray() : vs;
+
         private sbyte[] ObjectToBytes(in object obj)
         {
             obj.NullCheck("You cannot construct a BigInteger out of null.");
@@ -709,12 +716,6 @@ namespace KeepCoding.v132
                 throw new ConstructorArgumentException($"Cannot create a big integer because the argument \"{obj.UnwrapToString()}\" supplied with the constructor is bad: {e.Message}");
             }
         }
-
-        private static bool IsArrayNegative(in sbyte[] vs) => vs[0] < 0;
-
-        private sbyte CastToCurrentNegative(int s) => (sbyte)(s * (s < 0 ^ IsNegative ? -1 : 1));
-
-        private static sbyte[] InvertConditional(in sbyte[] vs, bool b) => b ? vs.Select(s => (sbyte)(-1 * s)).ToArray() : vs;
 
         private static BigInteger Operate(in BigInteger bigIntegerA, in BigInteger bigIntegerB, Operator op)
             => _operations.ContainsKey(op)

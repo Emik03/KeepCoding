@@ -2,13 +2,68 @@
 using System.Linq;
 using UnityEngine;
 
-namespace KeepCoding.v132
+namespace KeepCoding.v14
 {
     /// <summary>
     /// Allows you to modify colors' individual RGBA or vectors' XYZW components relatively and absolutely. Written by Emik.
     /// </summary>
     public static class StructHelper
     {
+        /// <summary>
+        /// Sets the <see cref="Renderer.material"/>'s color to be a mix of 2 colors.
+        /// </summary>
+        /// <param name="renderer">The renderer to change the color of.</param>
+        /// <param name="colorA">The first color, with 0 <paramref name="concentrationOfB"/> being biased towards this color.</param>
+        /// <param name="colorB">The second color, with 1 <paramref name="concentrationOfB"/> being biased towards this color.</param>
+        /// <param name="concentrationOfB">The bias towards either color, between 0-1. 0.5 blends both colors equally.</param>
+        /// <returns>The resulting color that the <paramref name="renderer"/> becomes.</returns>
+        public static Color32 IntertwineColor(this Renderer renderer, Color32 colorA, Color32 colorB, float concentrationOfB = 0.5f)
+            => renderer.material.color = colorA.IntertwineColor(colorB, concentrationOfB);
+
+        /// <summary>
+        /// Sets the <see cref="Renderer.material"/>'s color to be a mix of 2 colors.
+        /// </summary>
+        /// <param name="renderer">The renderer to change the color of.</param>
+        /// <param name="colorA">The first color, with 0 <paramref name="concentrationOfB"/> being biased towards this color.</param>
+        /// <param name="colorB">The second color, with 1 <paramref name="concentrationOfB"/> being biased towards this color.</param>
+        /// <param name="concentrationOfB">The bias towards either color, between 0-1. 0.5 blends both colors equally.</param>
+        /// <returns>The resulting color that the <paramref name="renderer"/> becomes.</returns>
+        public static Color IntertwineColor(this Renderer renderer, Color colorA, Color colorB, float concentrationOfB = 0.5f)
+            => renderer.material.color = colorA.IntertwineColor(colorB, concentrationOfB);
+
+        /// <summary>
+        /// Checks if both colors have the same RGBA values.
+        /// </summary>
+        /// <param name="colorA">The first color.</param>
+        /// <param name="colorB">The second color.</param>
+        /// <returns>Boolean, true only if both colors have the same R, G, B, and A values.</returns>
+        public static bool IsEqual(this Color32 colorA, Color32 colorB) => colorA.r == colorB.r && colorA.g == colorB.g && colorA.b == colorB.b && colorA.a == colorB.a;
+
+        /// <summary>
+        /// Checks if both colors have the same RGBA values.
+        /// </summary>
+        /// <param name="colorA">The first color.</param>
+        /// <param name="colorB">The second color.</param>
+        /// <returns>Boolean, true only if both colors have the same R, G, B, and A values.</returns>
+        public static bool IsEqual(this Color colorA, Color colorB) => colorA.r == colorB.r && colorA.g == colorB.g && colorA.b == colorB.b && colorA.a == colorB.a;
+
+        /// <summary>
+        /// Checks if any elements in the array <paramref name="colors"/> are equal to <paramref name="color"/>.
+        /// </summary>
+        /// <param name="colors">The array of colors to compare to <paramref name="color"/>.</param>
+        /// <param name="color">The color to compare it to.</param>
+        /// <returns>Boolean, true only if any color in <paramref name="colors"/> is the exact same as <paramref name="color"/>'s R, G, B, and A values.</returns>
+        public static bool IsAnyEqual(this Color32[] colors, Color32 color) => colors.NullCheck("You cannot iterate over a null array.").Any(c => c.Equals(color));
+
+        /// <summary>
+        /// Checks if any elements in the array <paramref name="colors"/> are equal to <paramref name="color"/>.
+        /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <param name="colors">The array of colors to compare to <paramref name="color"/>.</param>
+        /// <param name="color">The color to compare it to.</param>
+        /// <returns>Boolean, true only if any color in <paramref name="colors"/> is the exact same as <paramref name="color"/>'s R, G, B, and A values.</returns>
+        public static bool IsAnyEqual(this Color[] colors, Color color) => colors.NullCheck("You cannot iterate over a null array.").Any(c => c.Equals(color));
+
         /// <summary>
         /// Converts a hexadecimal string into colors.
         /// </summary>
@@ -337,26 +392,6 @@ namespace KeepCoding.v132
                 ((float)a / byte.MaxValue) + color.a);
 
         /// <summary>
-        /// Sets the <see cref="Renderer.material"/>'s color to be a mix of 2 colors.
-        /// </summary>
-        /// <param name="renderer">The renderer to change the color of.</param>
-        /// <param name="colorA">The first color, with 0 <paramref name="concentrationOfB"/> being biased towards this color.</param>
-        /// <param name="colorB">The second color, with 1 <paramref name="concentrationOfB"/> being biased towards this color.</param>
-        /// <param name="concentrationOfB">The bias towards either color, between 0-1. 0.5 blends both colors equally.</param>
-        public static void IntertwineColor(this Renderer renderer, Color32 colorA, Color32 colorB, float concentrationOfB = 0.5f)
-            => renderer.material.color = colorA.IntertwineColor(colorB, concentrationOfB);
-
-        /// <summary>
-        /// Sets the <see cref="Renderer.material"/>'s color to be a mix of 2 colors.
-        /// </summary>
-        /// <param name="renderer">The renderer to change the color of.</param>
-        /// <param name="colorA">The first color, with 0 <paramref name="concentrationOfB"/> being biased towards this color.</param>
-        /// <param name="colorB">The second color, with 1 <paramref name="concentrationOfB"/> being biased towards this color.</param>
-        /// <param name="concentrationOfB">The bias towards either color, between 0-1. 0.5 blends both colors equally.</param>
-        public static void IntertwineColor(this Renderer renderer, Color colorA, Color colorB, float concentrationOfB = 0.5f)
-            => renderer.material.color = colorA.IntertwineColor(colorB, concentrationOfB);
-
-        /// <summary>
         /// Creates an in-between color between 2 different colors.
         /// </summary>
         /// <param name="colorA">The first color, with 0 <paramref name="concentrationOfB"/> being biased towards this color.</param>
@@ -383,38 +418,5 @@ namespace KeepCoding.v132
                 (colorA.g * (1 - concentrationOfB)) + (colorB.g * concentrationOfB),
                 (colorA.b * (1 - concentrationOfB)) + (colorB.b * concentrationOfB),
                 (colorA.a * (1 - concentrationOfB)) + (colorB.a * concentrationOfB));
-
-        /// <summary>
-        /// Checks if both colors have the same RGBA values.
-        /// </summary>
-        /// <param name="colorA">The first color.</param>
-        /// <param name="colorB">The second color.</param>
-        /// <returns>Boolean, true only if both colors have the same R, G, B, and A values.</returns>
-        public static bool IsEqual(this Color32 colorA, Color32 colorB) => colorA.r == colorB.r && colorA.g == colorB.g && colorA.b == colorB.b && colorA.a == colorB.a;
-
-        /// <summary>
-        /// Checks if both colors have the same RGBA values.
-        /// </summary>
-        /// <param name="colorA">The first color.</param>
-        /// <param name="colorB">The second color.</param>
-        /// <returns>Boolean, true only if both colors have the same R, G, B, and A values.</returns>
-        public static bool IsEqual(this Color colorA, Color colorB) => colorA.r == colorB.r && colorA.g == colorB.g && colorA.b == colorB.b && colorA.a == colorB.a;
-
-        /// <summary>
-        /// Checks if any elements in the array <paramref name="colors"/> are equal to <paramref name="color"/>.
-        /// </summary>
-        /// <param name="colors">The array of colors to compare to <paramref name="color"/>.</param>
-        /// <param name="color">The color to compare it to.</param>
-        /// <returns>Boolean, true only if any color in <paramref name="colors"/> is the exact same as <paramref name="color"/>'s R, G, B, and A values.</returns>
-        public static bool IsAnyEqual(this Color32[] colors, Color32 color) => colors.NullCheck("You cannot iterate over a null array.", true).Any(c => c.Equals(color));
-
-        /// <summary>
-        /// Checks if any elements in the array <paramref name="colors"/> are equal to <paramref name="color"/>.
-        /// </summary>
-        /// <exception cref="NullIteratorException"></exception>
-        /// <param name="colors">The array of colors to compare to <paramref name="color"/>.</param>
-        /// <param name="color">The color to compare it to.</param>
-        /// <returns>Boolean, true only if any color in <paramref name="colors"/> is the exact same as <paramref name="color"/>'s R, G, B, and A values.</returns>
-        public static bool IsAnyEqual(this Color[] colors, Color color) => colors.NullCheck("You cannot iterate over a null array.", true).Any(c => c.Equals(color));
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using static KMAudio;
 
-namespace KeepCoding.v132
+namespace KeepCoding.v14
 {
     /// <summary>
     /// Base class for regular and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
@@ -183,6 +183,19 @@ namespace KeepCoding.v132
         }
 
         /// <summary>
+        /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
+        /// </summary>
+        /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
+        /// <param name="logs">All of the variables to throughly log.</param>
+        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => Debug.LogWarning(Helper.DumpTemplate.Form(Module.ModuleDisplayName, ModuleId, string.Join("", logs.Select((l, n) => Helper.VariableTemplate.Form(n, Helper.NameOfVariable(l), l.Compile()()?.GetType().ToString() ?? Helper.Null, string.Join(", ", l.Compile()().Unwrap(getVariables).Select(o => o.ToString()).ToArray()))).ToArray())));
+
+        /// <summary>
+        /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
+        /// </summary>
+        /// <param name="logs">All of the variables to throughly log.</param>
+        public void Dump(params Expression<Func<object>>[] logs) => Dump(false, logs);
+
+        /// <summary>
         /// Solves the module, and logs all of the parameters.
         /// </summary>
         /// <param name="logs">All of the entries to log.</param>
@@ -210,30 +223,6 @@ namespace KeepCoding.v132
         }
 
         /// <summary>
-        /// Plays a sound. Requires <see cref="KMAudio"/> to be assigned.
-        /// </summary>
-        /// <exception cref="EmptyIteratorException"></exception>
-        /// <exception cref="NullIteratorException"></exception>
-        /// <exception cref="UnrecognizedTypeException"></exception>
-        /// <param name="transform">The location or sound source of the sound.</param>
-        /// <param name="loop">Whether all sounds listed should loop or not.</param>
-        /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="KMSoundOverride.SoundEffect"/>.</param>
-        /// <returns>A <see cref="KMAudioRef"/> for each argument you provide.</returns>
-        public Sound[] PlaySound(Transform transform, bool loop, params Sound[] sounds)
-        {
-            sounds.NullOrEmptyCheck($"{nameof(sounds)} is null or empty.");
-
-            if (loop && sounds.Any(s => s.Game.HasValue))
-                throw new ArgumentException("The game doesn't support looping in-game sounds.");
-
-            sounds.ForEach(s => s.Reference = GetSoundMethod(s)(transform, loop));
-
-            Sounds = Sounds.Concat(sounds).ToArray();
-
-            return sounds;
-        }
-
-        /// <summary>
         /// Caches the result of a function call that returns a component array in a dictionary, and will return the cached result if called again. Use this to alleviate expensive function calls.
         /// </summary>
         /// <remarks>
@@ -252,19 +241,6 @@ namespace KeepCoding.v132
 
             return _components.ContainsKey(typeof(T)) ? (T[])_components[typeof(T)] : allowNull ? default(T[]) : throw new UnityComponentNotFoundException($"Tried to get component {typeof(T).Name} from {this}, but was unable to find one.");
         }
-
-        /// <summary>
-        /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
-        /// </summary>
-        /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
-        /// <param name="logs">All of the variables to throughly log.</param>
-        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => Debug.LogWarning(Helper.DumpTemplate.Form(Module.ModuleDisplayName, ModuleId, string.Join("", logs.Select((l, n) => Helper.VariableTemplate.Form(n, Helper.NameOfVariable(l), l.Compile()()?.GetType().ToString() ?? Helper.Null, string.Join(", ", l.Compile()().Unwrap(getVariables).Select(o => o.ToString()).ToArray()))).ToArray())));
-
-        /// <summary>
-        /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
-        /// </summary>
-        /// <param name="logs">All of the variables to throughly log.</param>
-        public void Dump(params Expression<Func<object>>[] logs) => Dump(false, logs);
 
         /// <summary>
         /// Similar to <see cref="Component.GetComponent{T}"/>, however it caches the result in a dictionary, and will return the cached result if called again.
@@ -305,6 +281,30 @@ namespace KeepCoding.v132
         /// <param name="message">The message to log.</param>
         /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
         public void Log(object message, params object[] args) => Log(message.UnwrapToString().Form(args));
+
+        /// <summary>
+        /// Plays a sound. Requires <see cref="KMAudio"/> to be assigned.
+        /// </summary>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="UnrecognizedTypeException"></exception>
+        /// <param name="transform">The location or sound source of the sound.</param>
+        /// <param name="loop">Whether all sounds listed should loop or not.</param>
+        /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="KMSoundOverride.SoundEffect"/>.</param>
+        /// <returns>A <see cref="KMAudioRef"/> for each argument you provide.</returns>
+        public Sound[] PlaySound(Transform transform, bool loop, params Sound[] sounds)
+        {
+            sounds.NullOrEmptyCheck($"{nameof(sounds)} is null or empty.");
+
+            if (loop && sounds.Any(s => s.Game.HasValue))
+                throw new ArgumentException("The game doesn't support looping in-game sounds.");
+
+            sounds.ForEach(s => s.Reference = GetSoundMethod(s)(transform, loop));
+
+            Sounds = Sounds.Concat(sounds).ToArray();
+
+            return sounds;
+        }
 
         /// <summary>
         /// Plays a sound. Requires <see cref="KMAudio"/> to be assigned.

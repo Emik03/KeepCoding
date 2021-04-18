@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-namespace KeepCoding.v132
+namespace KeepCoding.v14
 {
     /// <summary>
     /// Base class for TwitchPlays support for regular and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
@@ -146,7 +146,7 @@ namespace KeepCoding.v132
         /// <param name="lenient">Whether it should add the default <c>^\s* PATTERN \s*$</c> embeded into most regex usages for Twitch Plays.</param>
         /// <param name="options">Any additional options for regular expressions.</param>
         /// <returns>True if <paramref name="input"/> passes the test of the <paramref name="pattern"/>.</returns>
-        protected static bool IsMatch(string input, string pattern, bool lenient = true, RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.CultureInvariant) => Regex.IsMatch(input.NullCheck("You cannot do a Regular Expression check where the message is null.", true), lenient ? @"^\s*" + pattern.NullCheck("You cannot do a Regular Expression check where the expression is null.", true) + @"\s*$" : pattern.NullCheck("You cannot do a Regular Expression check where the expression is null.", true), options);
+        protected static bool IsMatch(string input, string pattern, bool lenient = true, RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.CultureInvariant) => Regex.IsMatch(input.NullCheck("You cannot do a Regular Expression check where the message is null."), lenient ? @"^\s*" + pattern.NullCheck("You cannot do a Regular Expression check where the expression is null.") + @"\s*$" : pattern.NullCheck("You cannot do a Regular Expression check where the expression is null."), options);
 
         /// <summary>
         /// Works as a ternary operator. Returns <paramref name="then"/> if <paramref name="condition"/> is true, otherwise <paramref name="otherwise"/>.

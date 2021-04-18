@@ -11,7 +11,7 @@ using UnityEngine.Video;
 using Debug = UnityEngine.Debug;
 using Info = Assets.Scripts.Mods.ModInfo;
 
-namespace KeepCoding.v132
+namespace KeepCoding.v14
 {
     extern alias core;
 
@@ -20,10 +20,7 @@ namespace KeepCoding.v132
     /// </summary>
     public static class PathManager
     {
-        /// <summary>
-        /// These are the default extensions that operating systems use.
-        /// </summary>
-        public const string
+        private const string
             FileExtensionBundle = "bundle",
             FileExtensionLinux = "so",
             FileExtensionMacOS = "dylib",
@@ -31,6 +28,13 @@ namespace KeepCoding.v132
             FileFormat = "{0}.{1}";
 
         private static readonly Dictionary<Tuple<string, string>, object> _cachedResults = new Dictionary<Tuple<string, string>, object>();
+
+        /// <summary>
+        /// Combines multiple paths together.
+        /// </summary>
+        /// <param name="paths">The paths to combine with.</param>
+        /// <returns>A single path consisting of the combined path of the array.</returns>
+        public static string CombineMultiple(params string[] paths) => paths.Aggregate(Path.Combine);
 
         /// <summary>
         /// Gets the path and deserializes the modInfo.json located at every mod's root folder.
@@ -147,25 +151,9 @@ namespace KeepCoding.v132
             yield return videos;
         }
 
-        /// <summary>
-        /// Combines multiple paths together.
-        /// </summary>
-        /// <param name="paths">The paths to combine with.</param>
-        /// <returns>A single path consisting of the combined path of the array.</returns>
-        public static string CombineMultiple(params string[] paths) => paths.Aggregate(Path.Combine);
-
         internal static void Log(string message) => Debug.Log($"[Keep Coding] {message}");
 
         internal static FileVersionInfo GetVersionLibrary() => FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
-
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void Current(string bundleFileName, out Tuple<string, string> current) => current = new StackTrace().GetFrame(1).GetMethod().Name.ToTuple(bundleFileName);
-
-        private static bool IsCached(in Tuple<string, string> current) => _cachedResults.ContainsKey(current);
-
-        private static T GetCache<T>(in Tuple<string, string> current) => (T)_cachedResults[current];
-
-        private static T SetCache<T>(Tuple<string, string> current, T value) => value.Call(v => _cachedResults.Add(current, v));
 
         private static void CopyLibrary(in string libraryFileName, in string path)
         {
@@ -194,6 +182,13 @@ namespace KeepCoding.v132
             }
         }
 
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void Current(string bundleFileName, out Tuple<string, string> current) => current = new StackTrace().GetFrame(1).GetMethod().Name.ToTuple(bundleFileName);
+
+        private static bool IsCached(in Tuple<string, string> current) => _cachedResults.ContainsKey(current);
+
+        private static char GetSlashType(in string path) => path.Count(c => c == '/') >= path.Count(c => c == '\\') ? '/' : '\\';
+
         private static string GetDisabledPath(string fileName) 
             => ModManager.Instance.GetDisabledModPaths().FirstValue(path =>
             {
@@ -209,6 +204,8 @@ namespace KeepCoding.v132
                 return null;
             });
 
-        private static char GetSlashType(in string path) => path.Count(c => c == '/') >= path.Count(c => c == '\\') ? '/' : '\\';
+        private static T GetCache<T>(in Tuple<string, string> current) => (T)_cachedResults[current];
+
+        private static T SetCache<T>(Tuple<string, string> current, T value) => value.Call(v => _cachedResults.Add(current, v));
     }
 }

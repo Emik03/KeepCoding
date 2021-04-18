@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-namespace KeepCoding.v132
+namespace KeepCoding.v14
 {
     /// <summary>
     /// Advanced audio handler. Written by Emik.
@@ -46,7 +46,9 @@ namespace KeepCoding.v132
 
         private void Awake()
         {
-            _fade = new Routine<float, float>(SetFade, this);
+            var func = (Func<float, float, IEnumerator>)SetFade;
+
+            _fade = func.ToRoutine(this);
 
             AudioSource = gameObject.AddComponent<AudioSource>();
 

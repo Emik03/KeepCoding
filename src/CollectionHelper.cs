@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace KeepCoding.v132
+namespace KeepCoding.v14
 {
     /// <summary>
     /// Extension methods for <see cref="IEnumerable"/>. Written by Emik.
@@ -138,6 +138,15 @@ namespace KeepCoding.v132
         public static T[] Call<T>(this T[] source, Action<T, int> action) => source.Select((i, n) => { action(i, n); return i; }).ToArray();
 
         /// <summary>
+        /// Appends the element provided to the <see cref="IEnumerable{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">The datatype of both the <see cref="IEnumerable{T}"/> and element.</typeparam>
+        /// <param name="source">The <see cref="IEnumerable{T}"/> to be modified.</param>
+        /// <param name="item">The element to append to the <paramref name="source"/>.</param>
+        /// <returns><paramref name="source"/>, but with an added <paramref name="item"/> as the last index.</returns>
+        public static IEnumerable<T> Append<T>(this IEnumerable<T> source, T item) => source.Concat(new T[] { item });
+
+        /// <summary>
         /// Converts an <see cref="IEnumerator"/> to an <see cref="IEnumerable"/>.
         /// </summary>
         /// <exception cref="NullIteratorException"></exception>
@@ -151,15 +160,6 @@ namespace KeepCoding.v132
             while (source.MoveNext())
                 yield return source.Current;
         }
-
-        /// <summary>
-        /// Appends the element provided to the <see cref="IEnumerable{T}"/>.
-        /// </summary>
-        /// <typeparam name="T">The datatype of both the <see cref="IEnumerable{T}"/> and element.</typeparam>
-        /// <param name="source">The <see cref="IEnumerable{T}"/> to be modified.</param>
-        /// <param name="item">The element to append to the <paramref name="source"/>.</param>
-        /// <returns><paramref name="source"/>, but with an added <paramref name="item"/> as the last index.</returns>
-        public static IEnumerable<T> Append<T>(this IEnumerable<T> source, T item) => source.Concat(new T[] { item });
 
         /// <summary>
         /// Removes the elements whose index matches any of the indices.
