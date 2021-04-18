@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.Video;
 using Debug = UnityEngine.Debug;
 using Info = Assets.Scripts.Mods.ModInfo;
+using ModSourceEnum = KeepCoding.v14.Game.ModManager.ModSourceEnum;
 
 namespace KeepCoding.v14
 {
@@ -75,9 +76,9 @@ namespace KeepCoding.v14
             if (IsCached(in current))
                 return GetCache<string>(in current);
 
-            string path = ModManager.Instance.GetEnabledModPaths(Info.ModSourceEnum.Local)
+            string path = Game.ModManager.GetEnabledModPaths(ModSourceEnum.Local)
                               .FirstOrDefault(x => Directory.GetFiles(x, fileName).Any()) ??
-                          ModManager.Instance.GetEnabledModPaths(Info.ModSourceEnum.SteamWorkshop)
+                          Game.ModManager.GetEnabledModPaths(ModSourceEnum.SteamWorkshop)
                               .FirstOrDefault(x => Directory.GetFiles(x, fileName).Any()) ??
                           GetDisabledPath(fileName) ?? throw new FileNotFoundException($"The file name {fileName} could not be found within your mods folder!");
 
@@ -190,7 +191,7 @@ namespace KeepCoding.v14
         private static char GetSlashType(in string path) => path.Count(c => c == '/') >= path.Count(c => c == '\\') ? '/' : '\\';
 
         private static string GetDisabledPath(string fileName) 
-            => ModManager.Instance.GetDisabledModPaths().FirstValue(path =>
+            => Game.ModManager.GetDisabledModPaths().FirstValue(path =>
             {
                 try
                 {
