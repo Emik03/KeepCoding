@@ -11,7 +11,7 @@ using UnityEngine.Video;
 using Debug = UnityEngine.Debug;
 using Info = Assets.Scripts.Mods.ModInfo;
 
-namespace KeepCoding.v131
+namespace KeepCoding.v132
 {
     extern alias core;
 

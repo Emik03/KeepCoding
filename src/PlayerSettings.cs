@@ -1,6 +1,6 @@
 ﻿using Manager = Assets.Scripts.Settings.PlayerSettingsManager;
 
-namespace KeepCoding.v131
+namespace KeepCoding.v132
 {
     /// <summary>
     /// Allows access into the player settings from the game. Do not use this class in the unity editor.

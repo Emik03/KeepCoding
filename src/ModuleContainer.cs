@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace KeepCoding.v131
+namespace KeepCoding.v132
 {
     /// <summary>
     /// Container for both regular and needy modules.
