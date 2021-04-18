@@ -138,6 +138,18 @@ namespace KeepCoding.v14
         public static T[] Call<T>(this T[] source, Action<T, int> action) => source.Select((i, n) => { action(i, n); return i; }).ToArray();
 
         /// <summary>
+        /// Sets or replaces the value of a dictionary with a given function.
+        /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <typeparam name="T">Type of the key of the dictionary.</typeparam>
+        /// <param name="source">Dictionary to operate on.</param>
+        /// <param name="key">Key at which the list is located in the dictionary.</param>
+        /// <param name="func">The function that returns the new value.</param>
+        /// <returns>The new value at the specified key.</returns>
+        public static int SetOrReplace<T>(this IDictionary<T, int> source, T key, Func<int, int> func) => source.NullCheck("The dictionary cannot be null.")[key.NullCheck("Null values cannot be used for keys in dictionaries.")] = func(source.ContainsKey(key) ? source[key] : default);
+
+        /// <summary>
         /// Appends the element provided to the <see cref="IEnumerable{T}"/>.
         /// </summary>
         /// <typeparam name="T">The datatype of both the <see cref="IEnumerable{T}"/> and element.</typeparam>

@@ -123,15 +123,6 @@ namespace KeepCoding.v14
         }
 
         /// <summary>
-        /// Throws an exception if the <see cref="string"/> is null or empty.
-        /// </summary>
-        /// <exception cref="NullIteratorException"></exception>
-        /// <exception cref="EmptyIteratorException"></exception>
-        /// <param name="source">The string to check for null and empty.</param>
-        /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
-        public static string NullOrEmptyCheck(this string source, string message = null) => string.Concat(source.AsEnumerable().NullOrEmptyCheck(message));
-
-        /// <summary>
         /// Returns the name of a variable.
         /// </summary>
         /// <param name="e">The <see cref="Expression"/> which returns the object you want the name of.</param>
@@ -147,6 +138,15 @@ namespace KeepCoding.v14
                 return e.Compile()().ToString() ?? Unknown;
             }
         }
+
+        /// <summary>
+        /// Throws an exception if the <see cref="string"/> is null or empty.
+        /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <param name="source">The string to check for null and empty.</param>
+        /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
+        public static string NullOrEmptyCheck(this string source, string message = null) => string.Concat(source.AsEnumerable().NullOrEmptyCheck(message));
 
         /// <summary>
         /// Gets the method info from an expression.
