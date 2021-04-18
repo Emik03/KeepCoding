@@ -56,6 +56,18 @@ namespace KeepCoding.v132
         }
 
         /// <summary>
+        /// Fades the audio source to a specific volume from a specified duration of time linearly.
+        /// </summary>
+        /// <param name="volume">The volume to get to.</param>
+        /// <param name="time">The amount of time it takes to get to <paramref name="volume"/>.</param>
+        public void Fade(float volume, float time) => GetRoutineMethod(_fade.Count)(volume, time);
+
+        /// <summary>
+        /// Pauses playing the clip.
+        /// </summary>
+        public void Pause() => AudioSource.Pause();
+
+        /// <summary>
         /// Plays a sound, with optional parameters.
         /// </summary>
         /// <exception cref="NullIteratorException"></exception>
@@ -83,18 +95,6 @@ namespace KeepCoding.v132
         }
 
         /// <summary>
-        /// Fades the audio source to a specific volume from a specified duration of time linearly.
-        /// </summary>
-        /// <param name="volume">The volume to get to.</param>
-        /// <param name="time">The amount of time it takes to get to <paramref name="volume"/>.</param>
-        public void Fade(float volume, float time) => GetRoutineMethod(_fade.Count)(volume, time);
-
-        /// <summary>
-        /// Pauses playing the clip.
-        /// </summary>
-        public void Pause() => AudioSource.Pause();
-
-        /// <summary>
         /// Plays a sound, with optional parameters.
         /// </summary>
         /// <exception cref="NullIteratorException"></exception>
@@ -119,23 +119,22 @@ namespace KeepCoding.v132
         /// </summary>
         public void Unpause() => AudioSource.UnPause();
 
-        private IEnumerator SetFade(float endVolume, float time)
+        private IEnumerator SetFade(float to, float time)
         {
-            float startVolume = AudioSource.volume;
-            float t = 0;
+            float current = 0, from = AudioSource.volume;
 
-            while (t < time)
+            while (current < time)
             {
-                t += Time.deltaTime;
+                current += Time.deltaTime;
 
-                float end = t / time, start = 1 - end;
+                float end = current / time, start = 1 - end;
 
-                Volume = (startVolume * start) + (endVolume * end);
+                Volume = (from * start) + (to * end);
 
                 yield return null;
             }
 
-            AudioSource.volume = 0;
+            AudioSource.volume = to;
         }
 
         private IEnumerator UpdateVolume()
