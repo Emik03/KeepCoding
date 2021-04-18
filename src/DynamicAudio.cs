@@ -11,14 +11,14 @@ namespace KeepCoding.v14
     public class DynamicAudio : MonoBehaviour
     {
         /// <summary>
-        /// Setting this value to true will make the volume relative to <see cref="PlayerSettings.MusicVolume"/>, and <see cref="PlayerSettings.SFXVolume"/> otherwise.
+        /// Setting this value to true will make the volume relative to <see cref="Game.PlayerSettings.MusicVolume"/>, and <see cref="Game.PlayerSettings.SFXVolume"/> otherwise.
         /// </summary>
         public bool IsMusicLayer;
 
         /// <value>
         /// The current volume of the game. Ranges 0 to 100. In the Editor this value will always return 100.
         /// </value>
-        public int GameVolume => Application.isEditor ? 100 : IsMusicLayer ? PlayerSettings.MusicVolume : PlayerSettings.SFXVolume;
+        public int GameVolume => Application.isEditor ? 100 : IsMusicLayer ? Game.PlayerSettings.MusicVolume : Game.PlayerSettings.SFXVolume;
 
         /// <summary>
         /// The volume it plays relative to the game sound. Works the same as <see cref="AudioSource.volume"/>, meaning 0 to 1 is the main range.

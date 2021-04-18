@@ -9,7 +9,6 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Video;
 using Debug = UnityEngine.Debug;
-using Info = Assets.Scripts.Mods.ModInfo;
 using ModSourceEnum = KeepCoding.v14.Game.ModManager.ModSourceEnum;
 
 namespace KeepCoding.v14
