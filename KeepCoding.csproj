@@ -33,20 +33,27 @@
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>D:\Steam\steamapps\common\Keep Talking and Nobody Explodes\ktane_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+      <Aliases></Aliases>
     </Reference>
     <Reference Include="KMFramework">
       <HintPath>D:\ktanemodkit-master\Assets\Plugins\Managed\KMFramework.dll</HintPath>
+      <Private>false</Private>
+      <Aliases></Aliases>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>D:\ktanemodkit-master\Assets\Plugins\Managed\Newtonsoft.Json.dll</HintPath>
+      <Private>false</Private>
+      <Aliases></Aliases>
     </Reference>
-    <Reference Include="PresentationFramework" />
     <Reference Include="UnityEngine">
       <HintPath>..\..\..\..\..\Program Files\Editor\Data\Managed\UnityEngine.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\..\..\..\Program Files\Editor\Data\Managed\UnityEngine\UnityEngine.CoreModule.dll</HintPath>
       <Aliases>core</Aliases>
+      <Private>false</Private>
     </Reference>
   </ItemGroup>
 
@@ -97,5 +104,47 @@
       <VersionNumber Include="$([System.Text.RegularExpressions.Regex]::Replace(&quot;%(Targets.Version)&quot;, &quot;^(.+?)(\.0+)$&quot;, &quot;$1&quot;))" />
     </ItemGroup>
   </Target>
+
+  <ItemGroup>
+    <Reference Update="System">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Update="System.Core">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Update="System.Data">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Update="System.Drawing">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Update="System.Runtime.Serialization">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Update="System.Xml">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Update="System.Xml.Linq">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
 
 </Project>
