@@ -100,7 +100,7 @@ namespace KeepCoding.v14
         /// <param name="tupleA">The left-hand side comparison.</param>
         /// <param name="tupleB">The right-hand side comparison.</param>
         /// <returns>True if <paramref name="tupleA.Item1"/> and <paramref name="tupleB.Item1"/> are equal.</returns>
-        public static bool operator ==(Tuple<T> tupleA, Tuple<T> tupleB) => tupleA == null ? tupleB == null : tupleA.Equals(tupleB);
+        public static bool operator ==(Tuple<T> tupleA, Tuple<T> tupleB) => tupleA is null ? tupleB is null : tupleA.Equals(tupleB);
 
         /// <summary>
         /// Evaluates whether the item in the tuple is not the same.
