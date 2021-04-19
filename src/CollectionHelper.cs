@@ -47,6 +47,18 @@ namespace KeepCoding.v14
         public static int LengthOrDefault<T>(this IEnumerable<T> source) => source is not null ? source.Count() : default;
 
         /// <summary>
+        /// Creates an <see cref="Array"/> of random boolean values.
+        /// </summary>
+        /// <remarks>
+        /// As this uses <see cref="Random"/>, you may not use this in a constructor. Use it in <c>Awake()</c> or <c>Start()</c> in that case.
+        /// </remarks>
+        /// <param name="length">The length of the array.</param>
+        /// <param name="weighting">The odds of the boolean being true.</param>
+        /// <returns>An array of random booleans of length <paramref name="length"/>, with probability based off of <paramref name="weighting"/>.</returns>
+        /// <returns></returns>
+        public static bool[] RandomBooleans(this int length, float weighting) => Enumerable.Range(0, length).Select(i => Helper.RandomBoolean(weighting)).ToArray();
+
+        /// <summary>
         /// Unwraps any <see cref="IEnumerable"/>, which ends up flattening it as a <see cref="IEnumerable"/> of type <see cref="object"/>.
         /// </summary>
         /// <param name="source">The object to unwrap.</param>
