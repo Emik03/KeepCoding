@@ -19,13 +19,13 @@ namespace KeepCoding.v14
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="UnassignedReferenceException"></exception>
         /// <param name="kmSelectable">The <see cref="KMSelectable"/> array to add events to.</param>
-        /// <param name="overrideReturn">Return true will make it act as a module/submodule, and false as a button.</param>
+        /// <param name="overrideReturn">True will make it act as a module/submodule, and false as a button. Null (default) will set it to true or false based on <see cref="Helper.IsParent(KMSelectable)"/>. Note that in VR, <see cref="KMSelectable.OnHighlight"/> and <see cref="KMSelectable.OnHighlightEnded"/> are skipped out on.</param>
         /// <param name="onCancel">Called when player backs out of this selectable.</param>
         /// <param name="onDefocus">Called when a different selectable becomes the focus, or the module has been backed out of.</param>
         /// <param name="onDeselect">Called when the selectable stops being the current selectable.</param>
         /// <param name="onFocus">Called when a module is focused, this is when it is interacted with from the bomb face level and its children can be selected.</param>
-        /// <param name="onHighlight">Called when the highlight is turned on. This will not work correctly in Virtual Reality.</param>
-        /// <param name="onHighlightEnded">Called when the highlight is turned off. This will not work correctly in Virtual Reality.</param>
+        /// <param name="onHighlight">Called when the highlight is turned on.</param>
+        /// <param name="onHighlightEnded">Called when the highlight is turned off.</param>
         /// <param name="onInteract">Called when player interacts with the selctable.</param>
         /// <param name="onInteractEnded">Called when a player interacting with the selectable releases the mouse or controller button.</param>
         /// <param name="onLeft">Called when the left controller stick is pulled while selected.</param>
@@ -58,13 +58,13 @@ namespace KeepCoding.v14
         /// </remarks>
         /// <exception cref="UnassignedReferenceException"></exception>
         /// <param name="kmSelectable">The KMSelectable array to add events to.</param>
-        /// <param name="overrideReturn">Return true will make it act as a module/submodule, and false as a button.</param>
+        /// <param name="overrideReturn">True will make it act as a module/submodule, and false as a button. Null (default) will set it to true or false based on <see cref="Helper.IsParent(KMSelectable)"/>. Note that in VR, <see cref="KMSelectable.OnHighlight"/> and <see cref="KMSelectable.OnHighlightEnded"/> are skipped out on.</param>
         /// <param name="onCancel">Called when player backs out of this selectable. Return true will make it act as a module/submodule, and false as a button.</param>
         /// <param name="onDefocus">Called when a different selectable becomes the focus, or the module has been backed out of.</param>
         /// <param name="onDeselect">Called when the selectable stops being the current selectable.</param>
         /// <param name="onFocus">Called when a module is focused, this is when it is interacted with from the bomb face level and its children can be selected.</param>
-        /// <param name="onHighlight">Called when the highlight is turned on. This will not work correctly in Virtual Reality.</param>
-        /// <param name="onHighlightEnded">Called when the highlight is turned off. This will not work correctly in Virtual Reality.</param>
+        /// <param name="onHighlight">Called when the highlight is turned on.</param>
+        /// <param name="onHighlightEnded">Called when the highlight is turned off.</param>
         /// <param name="onInteract">Called when player interacts with the selctable. Return true will make it act as a module/submodule, and false as a button.</param>
         /// <param name="onInteractEnded">Called when a player interacting with the selectable releases the mouse or controller button.</param>
         /// <param name="onLeft">Called when the left controller stick is pulled while selected.</param>
