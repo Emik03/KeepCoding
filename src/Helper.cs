@@ -40,110 +40,6 @@ namespace KeepCoding.v14
             VariableTemplate = "\n\n[{0}] {1}\n({2})\n{3}";
 
         /// <summary>
-        /// Determines if the item is an iterator type.
-        /// </summary>
-        /// <param name="item">The item to check the type for.</param>
-        /// <returns><paramref name="item"/> is either <see cref="string"/>, <see cref="IEnumerable"/>, or <see cref="IEnumerator"/>.</returns>
-        public static bool IsIterator(this object item) => item is string or IEnumerable or IEnumerator;
-
-        /// <summary>
-        /// Converts any base number to base-10.
-        /// </summary>
-        /// <exception cref="FormatException"></exception>
-        /// <exception cref="NullIteratorException"></exception>
-        /// <param name="value">The value to convert.</param>
-        /// <param name="baseChars">All of the base characters for the conversion from the base number, use <see cref="Alphanumeric"/> for Base-62, use <see cref="Decimal"/> for Base-10, use <see cref="Binary"/> for Base-2. The length of the array is the base number.</param>
-        /// <returns><paramref name="value"/>, but in the base specified.</returns>
-        public static long BaseToLong(this string value, string baseChars = Binary)
-        {
-            value.NullCheck($"{nameof(value)} cannot be null when converting bases.");
-
-            baseChars.NullCheck($"{nameof(baseChars)} cannot be null when converting bases.");
-
-            if (value.Any(c => !baseChars.Contains(c)))
-                throw new FormatException($"The value provided {value} contains at least 1 or more characters not part of the character list {baseChars}.");
-
-            var dictionary = baseChars.Select((c, i) => new { Char = c, Index = i }).ToDictionary(c => c.Char, c => c.Index);
-
-            char[] chrs = value.ToCharArray();
-
-            int m = chrs.Length - 1,
-                n = baseChars.Length,
-                x;
-
-            long result = 0;
-
-            for (int i = 0; i < chrs.Length; i++)
-            {
-                x = dictionary[chrs[i]];
-                result += x * (long)Math.Pow(n, m--);
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Converts any base-10 number to any base.
-        /// </summary>
-        /// <exception cref="NullIteratorException"></exception>
-        /// <param name="value">The value to convert.</param>
-        /// <param name="baseChars">All of the base characters for the conversion to the base number, use <see cref="Alphanumeric"/> for Base-62, use <see cref="Decimal"/> for Base-10, use <see cref="Binary"/> for Base-2. The length of the array is the base number.</param>
-        /// <returns><paramref name="value"/>, but in the base specified.</returns>
-        public static string LongToBase(this long value, string baseChars = Alphanumeric)
-        {
-            baseChars.NullCheck($"{nameof(baseChars)} cannot be null when converting bases.");
-
-            long targetBase = baseChars.Length;
-
-            char[] buffer = new char[Math.Max((int)Math.Ceiling(Math.Log(value + 1, targetBase)), 1)];
-
-            int i = buffer.Length;
-
-            do
-            {
-                buffer[--i] = baseChars[(int)(value % targetBase)];
-                value /= targetBase;
-            }
-            while (value > 0);
-
-            return new string(buffer, i, buffer.Length - i);
-        }
-
-        /// <summary>
-        /// Returns the name of a variable.
-        /// </summary>
-        /// <param name="e">The <see cref="Expression"/> which returns the object you want the name of.</param>
-        /// <returns>The name of the variable, or if it cannot find it, <see cref="Unknown"/>.</returns>
-        public static string NameOfVariable(this Expression<Func<object>> e)
-        {
-            try
-            {
-                return ((MemberExpression)e.Body).Member.Name;
-            }
-            catch (InvalidCastException)
-            {
-                return e.Compile()().ToString() ?? Unknown;
-            }
-        }
-
-        /// <summary>
-        /// Throws an exception if the <see cref="string"/> is null or empty.
-        /// </summary>
-        /// <exception cref="NullIteratorException"></exception>
-        /// <exception cref="EmptyIteratorException"></exception>
-        /// <param name="source">The string to check for null and empty.</param>
-        /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
-        public static string NullOrEmptyCheck(this string source, string message = null) => string.Concat(source.AsEnumerable().NullOrEmptyCheck(message));
-
-        /// <summary>
-        /// Gets the method info from an expression.
-        /// </summary>
-        /// <typeparam name="T">The type of the action.</typeparam>
-        /// <param name="expression">The expression that retrieves the method.</param>
-        /// <returns>The method info of the function.</returns>
-        public static MethodInfo GetMethodInfo<T>(this Expression<Action<T>> expression) => expression.Body is MethodCallExpression member ? member.Method : throw new ArgumentException("Expression is not a method", "expression");
-
-        /// <summary>
         /// Determines if the current game object has a component of a specific type.
         /// </summary>
         /// <remarks>
@@ -171,6 +67,13 @@ namespace KeepCoding.v14
         /// <param name="max">The maximum value required to return true.</param>
         /// <returns>True if <paramref name="comparison"/> is more than or equal <paramref name="min"/> and less than or equal <paramref name="max"/>.</returns>
         public static bool IsBetween(this float comparison, float min, float max) => comparison >= min && comparison <= max;
+
+        /// <summary>
+        /// Determines if the item is an iterator type.
+        /// </summary>
+        /// <param name="item">The item to check the type for.</param>
+        /// <returns><paramref name="item"/> is either <see cref="string"/>, <see cref="IEnumerable"/>, or <see cref="IEnumerator"/>.</returns>
+        public static bool IsIterator(this object item) => item is string or IEnumerable or IEnumerator;
 
         /// <summary>
         /// Determines if the string is null or empty.
@@ -274,6 +177,42 @@ namespace KeepCoding.v14
         public static string Base(this string value, int fromBaseNumber, int toBaseNumber) => value.Base(new string(Alphanumeric.Take(fromBaseNumber).ToArray()), new(Alphanumeric.Take(toBaseNumber).ToArray()));
 
         /// <summary>
+        /// Converts any base number to base-10.
+        /// </summary>
+        /// <exception cref="FormatException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <param name="value">The value to convert.</param>
+        /// <param name="baseChars">All of the base characters for the conversion from the base number, use <see cref="Alphanumeric"/> for Base-62, use <see cref="Decimal"/> for Base-10, use <see cref="Binary"/> for Base-2. The length of the array is the base number.</param>
+        /// <returns><paramref name="value"/>, but in the base specified.</returns>
+        public static long BaseToLong(this string value, string baseChars = Binary)
+        {
+            value.NullCheck($"{nameof(value)} cannot be null when converting bases.");
+
+            baseChars.NullCheck($"{nameof(baseChars)} cannot be null when converting bases.");
+
+            if (value.Any(c => !baseChars.Contains(c)))
+                throw new FormatException($"The value provided {value} contains at least 1 or more characters not part of the character list {baseChars}.");
+
+            var dictionary = baseChars.Select((c, i) => new { Char = c, Index = i }).ToDictionary(c => c.Char, c => c.Index);
+
+            char[] chrs = value.ToCharArray();
+
+            int m = chrs.Length - 1,
+                n = baseChars.Length,
+                x;
+
+            long result = 0;
+
+            for (int i = 0; i < chrs.Length; i++)
+            {
+                x = dictionary[chrs[i]];
+                result += x * (long)Math.Pow(n, m--);
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Converts any base number to any base-10.
         /// </summary>
         /// <param name="value">The value to convert.</param>
@@ -282,20 +221,73 @@ namespace KeepCoding.v14
         public static long BaseToLong(this string value, int baseNumber) => value.BaseToLong(new string(Alphanumeric.Take(baseNumber).ToArray()));
 
         /// <summary>
-        /// Converts any base-10 number to any base.
-        /// </summary>
-        /// <param name="value">The value to convert.</param>
-        /// <param name="baseNumber">Which base to convert it to.</param>
-        /// <returns>The integer, but in the base specified.</returns>
-        public static string LongToBase(this long value, int baseNumber) => value.LongToBase(new string(Alphanumeric.Take(baseNumber).ToArray()));
-
-        /// <summary>
         /// Formats the string. Shorthand for <see cref="string.Format(string, object[])"/>.
         /// </summary>
         /// <param name="str">The string to format. Typically with placeholders involving {0}, {1}, {2}...</param>
         /// <param name="args">All of the arguments to put into <paramref name="str"/>.</param>
         /// <returns>The formatted <see cref="string"/>.</returns>
         public static string Form(this string str, params object[] args) => string.Format(str, args.Select(o => o.UnwrapToString()).ToArray());
+
+        /// <summary>
+        /// Returns the name of a variable.
+        /// </summary>
+        /// <param name="e">The <see cref="Expression"/> which returns the object you want the name of.</param>
+        /// <returns>The name of the variable, or if it cannot find it, <see cref="Unknown"/>.</returns>
+        public static string NameOfVariable(this Expression<Func<object>> e)
+        {
+            try
+            {
+                return ((MemberExpression)e.Body).Member.Name;
+            }
+            catch (InvalidCastException)
+            {
+                return e.Compile()().ToString() ?? Unknown;
+            }
+        }
+
+        /// <summary>
+        /// Throws an exception if the <see cref="string"/> is null or empty.
+        /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <param name="source">The string to check for null and empty.</param>
+        /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
+        public static string NullOrEmptyCheck(this string source, string message = null) => string.Concat(source.AsEnumerable().NullOrEmptyCheck(message));
+
+        /// <summary>
+        /// Converts any base-10 number to any base.
+        /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <param name="value">The value to convert.</param>
+        /// <param name="baseChars">All of the base characters for the conversion to the base number, use <see cref="Alphanumeric"/> for Base-62, use <see cref="Decimal"/> for Base-10, use <see cref="Binary"/> for Base-2. The length of the array is the base number.</param>
+        /// <returns><paramref name="value"/>, but in the base specified.</returns>
+        public static string LongToBase(this long value, string baseChars = Alphanumeric)
+        {
+            baseChars.NullCheck($"{nameof(baseChars)} cannot be null when converting bases.");
+
+            long targetBase = baseChars.Length;
+
+            char[] buffer = new char[Math.Max((int)Math.Ceiling(Math.Log(value + 1, targetBase)), 1)];
+
+            int i = buffer.Length;
+
+            do
+            {
+                buffer[--i] = baseChars[(int)(value % targetBase)];
+                value /= targetBase;
+            }
+            while (value > 0);
+
+            return new string(buffer, i, buffer.Length - i);
+        }
+
+        /// <summary>
+        /// Converts any base-10 number to any base.
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <param name="baseNumber">Which base to convert it to.</param>
+        /// <returns>The integer, but in the base specified.</returns>
+        public static string LongToBase(this long value, int baseNumber) => value.LongToBase(new string(Alphanumeric.Take(baseNumber).ToArray()));
 
         /// <summary>
         /// Converts a number to the ordinal as <see cref="string"/>.
@@ -326,6 +318,14 @@ namespace KeepCoding.v14
         /// <param name="bigInteger">The right-hand side operator.</param>
         /// <returns>Itself mod <paramref name="bigInteger"/>.</returns>
         public static BigInteger Modulo(this object item, BigInteger bigInteger) => ((item % bigInteger) + bigInteger) % bigInteger;
+
+        /// <summary>
+        /// Gets the method info from an expression.
+        /// </summary>
+        /// <typeparam name="T">The type of the action.</typeparam>
+        /// <param name="expression">The expression that retrieves the method.</param>
+        /// <returns>The method info of the function.</returns>
+        public static MethodInfo GetMethodInfo<T>(this Expression<Action<T>> expression) => expression.Body is MethodCallExpression member ? member.Method : throw new ArgumentException("Expression is not a method", "expression");
 
         /// <summary>
         /// Gets the appropriate <see cref="Exception"/> based on the data type.
