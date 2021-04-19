@@ -48,18 +48,6 @@ namespace KeepCoding.v14
         public static bool IsIterator(this object item) => item is string or IEnumerable or IEnumerator;
 
         /// <summary>
-        /// Sets or replaces the value of a dictionary with a given function.
-        /// </summary>
-        /// <exception cref="NullIteratorException"></exception>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <typeparam name="T">Type of the key of the dictionary.</typeparam>
-        /// <param name="source">Dictionary to operate on.</param>
-        /// <param name="key">Key at which the list is located in the dictionary.</param>
-        /// <param name="func">The function that returns the new value.</param>
-        /// <returns>The new value at the specified key.</returns>
-        public static int SetOrReplace<T>(this IDictionary<T, int> source, T key, Func<int, int> func) => source.NullCheck("The dictionary cannot be null.")[key.NullCheck("Null values cannot be used for keys in dictionaries.")] = func(source.ContainsKey(key) ? source[key] : default);
-
-        /// <summary>
         /// Converts any base number to base-10.
         /// </summary>
         /// <exception cref="FormatException"></exception>
