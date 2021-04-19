@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Random = UnityEngine.Random;
 
 namespace KeepCoding.v14
 {
@@ -47,6 +48,18 @@ namespace KeepCoding.v14
         public static int LengthOrDefault<T>(this IEnumerable<T> source) => source is not null ? source.Count() : default;
 
         /// <summary>
+        /// Sets or replaces the value of a dictionary with a given function.
+        /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <typeparam name="T">Type of the key of the dictionary.</typeparam>
+        /// <param name="source">Dictionary to operate on.</param>
+        /// <param name="key">Key at which the list is located in the dictionary.</param>
+        /// <param name="func">The function that returns the new value.</param>
+        /// <returns>The new value at the specified key.</returns>
+        public static int SetOrReplace<T>(this IDictionary<T, int> source, T key, Func<int, int> func) => source.NullCheck("The dictionary cannot be null.")[key.NullCheck("Null values cannot be used for keys in dictionaries.")] = func(source.ContainsKey(key) ? source[key] : default);
+
+        /// <summary>
         /// Creates an <see cref="Array"/> of random boolean values.
         /// </summary>
         /// <remarks>
@@ -56,18 +69,63 @@ namespace KeepCoding.v14
         /// <param name="weighting">The odds of the boolean being true.</param>
         /// <returns>An array of random booleans of length <paramref name="length"/>, with probability based off of <paramref name="weighting"/>.</returns>
         /// <returns></returns>
-        public static bool[] RandomBooleans(this int length, float weighting) => Enumerable.Range(0, length).Select(i => Helper.RandomBoolean(weighting)).ToArray();
+        public static bool[] RandomBooleans(this int length, float weighting = 0.5f) => Enumerable.Range(0, length).Select(i => Helper.RandomBoolean(weighting)).ToArray();
 
         /// <summary>
-        /// Unwraps any <see cref="IEnumerable"/>, which ends up flattening it as a <see cref="IEnumerable"/> of type <see cref="object"/>.
+        /// Generates a random set of integers.
+        /// </summary>
+        /// <remarks>
+        /// As this uses <see cref="Random"/>, you may not use this in a constructor. Use it in <c>Awake()</c> or <c>Start()</c> in that case.
+        /// </remarks>
+        /// <param name="length">The length of the array.</param>
+        /// <param name="min">The minimum value for each index. (inclusive)</param>
+        /// <param name="max">The maximum value for each index. (exclusive)</param>
+        /// <returns>Random integer array of length <paramref name="length"/> between <paramref name="min"/> and <paramref name="max"/>.</returns>
+        public static int[] Ranges(this int length, int min, int max) => Enumerable.Range(0, length).Select(i => Random.Range(min, max)).ToArray();
+
+        /// <summary>
+        /// Parses each element of an array into a number. If it succeeds it returns the integer array, if it fails then it returns null.
+        /// </summary>
+        /// <param name="ts">The array to convert to an integer.</param>
+        /// <param name="min">The minimum acceptable value of any given index. (inclusive)</param>
+        /// <param name="max">The maximum acceptable value of any given index. (inclusive)</param>
+        /// <param name="minLength">The minimum acceptable length of the array. (inclusive)</param>
+        /// <param name="maxLength">The maximum acceptable length of the array. (inclusive)</param>
+        /// <returns>The array as integers, or null if it fails.</returns>
+        public static int[] ToNumbers<T>(this T[] ts, int? min = null, int? max = null, int? minLength = null, int? maxLength = null) => (minLength is null || minLength.Value <= ts.Length) && (maxLength is null || maxLength.Value >= ts.Length) && ts.All(t => int.TryParse(t.ToString(), out int i) && (min is null || min.Value <= i) && (max is null || max.Value >= i)) ? ts.Select(t => int.Parse(t.ToString())).ToArray() : null;
+
+        /// <summary>
+        /// Generates a random set of floats.
+        /// </summary>
+        /// <remarks>
+        /// As this uses <see cref="Random"/>, you may not use this in a constructor. Use it in <c>Awake()</c> or <c>Start()</c> in that case.
+        /// </remarks>
+        /// <param name="length">The length of the array.</param>
+        /// <param name="min">The minimum value for each index. (inclusive)</param>
+        /// <param name="max">The maximum value for each index. (inclusive)</param>
+        /// <returns>Random float array of length <paramref name="length"/> between <paramref name="min"/> and <paramref name="max"/>.</returns>
+        public static float[] Ranges(this int length, float min, float max) => Enumerable.Range(0, length).Select(i => Random.Range(min, max)).ToArray();
+
+        /// <summary>
+        /// Unwraps any <see cref="IEnumerable"/> of type <see cref="object"/>, which ends up flattening it as a <see cref="Array"/> of type <see cref="object"/>.
         /// </summary>
         /// <param name="source">The object to unwrap.</param>
+        /// <param name="isRecursive">Whether it should search inside the variable and yield return the elements inside <paramref name="source"/>.</param>
         /// <returns>An <see cref="object"/> <see cref="Array"/> of all elements within <paramref name="source"/>.</returns>
-        public static object[] Unwrap(this IEnumerable<object> source) => source.SelectMany(x => Unwrap(x as IEnumerable<object>) ?? new[] { x }).ToArray();
+        public static IEnumerable<object> Unwrap(this IEnumerable source, bool isRecursive = false)
+        {
+            foreach (object item in source)
+            {
+                object[] items = item.Unwrap(isRecursive);
+
+                foreach (object o in items)
+                    yield return o;
+            }
+        }
 
         /// <summary>
         /// Unwraps any object, whether it be a class, list, tuple, or any other data.
-        /// </summary>
+        /// </summary>(
         /// <param name="source">The object to unwrap.</param>
         /// <param name="isRecursive">Whether it should search inside the variable and yield return the elements inside <paramref name="source"/>.</param>
         /// <returns>An <see cref="object"/> <see cref="Array"/> of all elements within <paramref name="source"/>.</returns>
@@ -125,15 +183,13 @@ namespace KeepCoding.v14
         public static T FirstValue<T>(this IEnumerable<T> source, Func<T, T> func) where T : class => source.NullCheck("The source cannot be null.").FirstOrDefault(t => func.NullCheck("The function cannot be null.")(t) is T);
 
         /// <summary>
-        /// Returns the last element which doesn't return null, or null if all of them return null.
+        /// Appends the element provided to the array.
         /// </summary>
-        /// <exception cref="NullIteratorException"></exception>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <typeparam name="T">The type of array, and method.</typeparam>
-        /// <param name="source">The array to iterate on.</param>
-        /// <param name="func">The method which returns</param>
-        /// <returns>The last value from <paramref name="source"/> where <paramref name="func"/> doesn't return null, or null.</returns>
-        public static T LastValue<T>(this IEnumerable<T> source, Func<T, T> func) where T : class => source.Reverse().FirstValue(func.NullCheck("The function cannot be null."));
+        /// <typeparam name="T">The datatype of both the array and element.</typeparam>
+        /// <param name="array">The array to be appended with.</param>
+        /// <param name="item">The element to append to the <paramref name="array"/>.</param>
+        /// <returns><paramref name="array"/>, but with an added <paramref name="item"/> as the last index.</returns>
+        public static T[] Append<T>(this T[] array, T item) => (T[])array.Resize(array.Length + 1).Set(item, array.Length);
 
         /// <summary>
         /// Invokes a method of <typeparamref name="T"/> and then returns the argument provided.
@@ -149,16 +205,39 @@ namespace KeepCoding.v14
         public static T[] Call<T>(this T[] source, Action<T, int> action) => source.Select((i, n) => { action(i, n); return i; }).ToArray();
 
         /// <summary>
-        /// Sets or replaces the value of a dictionary with a given function.
+        /// Gets all the values of an <see cref="Enum"/> as an <see cref="Array"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of <see cref="Enum"/>.</typeparam>
+        /// <returns>An <see cref="Array"/> of <typeparamref name="T"/> containing all the values of that enum.</returns>
+        public static T[] GetValues<T>() where T : Enum => (T[])Enum.GetValues(typeof(T));
+
+        /// <summary>
+        /// Gets all the values of an <see cref="Enum"/> as an <see cref="Array"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of <see cref="Enum"/>.</typeparam>
+        /// <param name="_">A discard value, which can implicitly let the method know the type.</param>
+        /// <returns>An <see cref="Array"/> of <typeparamref name="T"/> containing all the values of that enum.</returns>
+        public static T[] GetValues<T>(this T _) where T : Enum => GetValues<T>();
+
+        /// <summary>
+        /// Returns the last element which doesn't return null, or null if all of them return null.
         /// </summary>
         /// <exception cref="NullIteratorException"></exception>
         /// <exception cref="NullReferenceException"></exception>
-        /// <typeparam name="T">Type of the key of the dictionary.</typeparam>
-        /// <param name="source">Dictionary to operate on.</param>
-        /// <param name="key">Key at which the list is located in the dictionary.</param>
-        /// <param name="func">The function that returns the new value.</param>
-        /// <returns>The new value at the specified key.</returns>
-        public static int SetOrReplace<T>(this IDictionary<T, int> source, T key, Func<int, int> func) => source.NullCheck("The dictionary cannot be null.")[key.NullCheck("Null values cannot be used for keys in dictionaries.")] = func(source.ContainsKey(key) ? source[key] : default);
+        /// <typeparam name="T">The type of array, and method.</typeparam>
+        /// <param name="source">The array to iterate on.</param>
+        /// <param name="func">The method which returns</param>
+        /// <returns>The last value from <paramref name="source"/> where <paramref name="func"/> doesn't return null, or null.</returns>
+        public static T LastValue<T>(this IEnumerable<T> source, Func<T, T> func) where T : class => source.Reverse().FirstValue(func.NullCheck("The function cannot be null."));
+
+        /// <summary>
+        /// Prepends the element provided to the array.
+        /// </summary>
+        /// <typeparam name="T">The datatype of both the array and element.</typeparam>
+        /// <param name="array">The array to be appended with.</param>
+        /// <param name="item">The element to append to the <paramref name="array"/>.</param>
+        /// <returns><paramref name="array"/>, but with an added <paramref name="item"/> as the first index.</returns>
+        public static T[] Prepend<T>(this T[] array, T item) => (T[])array.Resize(array.Length + 1).Copy(0, array, 1, array.Length).Set(item, 0);
 
         /// <summary>
         /// Appends the element provided to the <see cref="IEnumerable{T}"/>.
