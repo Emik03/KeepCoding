@@ -38,8 +38,8 @@ namespace KeepCoding.v151
 
         private protected IndexOutOfRangeException IndexOutOfRange(int i) => new($"The index {i} was out of range from the tuple of length {ToArray.Length}.");
 
-        private protected WrongDatatypeException WrongDatatype(in object received, in Type expected, int index) => new($"The {(index + 1).ToOrdinal()} element in the tuple cannot be assigned because the value {received.UnwrapToString()} is type {received.GetType().Name} which doesn't match the expected type {expected.Name}.");
+        private protected T Cast<T>(in object value, int index) => value is T t ? t : throw WrongDatatype(value, typeof(T), index);
 
-        private protected T Cast<T>(object value, int index) => value is T t ? t : throw WrongDatatype(value, typeof(T), index);
+        private WrongDatatypeException WrongDatatype(in object received, in Type expected, int index) => new($"The {(index + 1).ToOrdinal()} element in the tuple cannot be assigned because the value {received.UnwrapToString()} is type {received.GetType().Name} which doesn't match the expected type {expected.Name}.");
     }
 }
