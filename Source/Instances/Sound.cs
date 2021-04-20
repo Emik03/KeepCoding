@@ -2,7 +2,7 @@
 using UnityEngine;
 using static KMAudio;
 
-namespace KeepCoding.v151
+namespace KeepCoding
 {
     /// <summary>
     /// Class meant to encapsulate all types of sound effects <see cref="KMAudio"/> uses. Currently used in <see cref="ModuleScript"/>. Written by Emik.

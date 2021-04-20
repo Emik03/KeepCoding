@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KeepCoding.v151
+namespace KeepCoding
 {
     /// <summary>
     /// An exception thrown for when the value isn't handled. Written by Emik.

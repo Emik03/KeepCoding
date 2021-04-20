@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KeepCoding.v151
+namespace KeepCoding
 {
     /// <summary>
     /// An exception for when Unity searches for a component but is unable to find said component. Written by Emik.

@@ -2,7 +2,7 @@
 using UnityEngine;
 using static KMAudio;
 
-namespace KeepCoding.v151
+namespace KeepCoding
 {
     /// <summary>
     /// KMFramework extension methods that makes it easier to assign multiple events to a variable in one statement. Written by Emik.

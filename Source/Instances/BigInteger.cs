@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace KeepCoding.v151
+namespace KeepCoding
 {
     /// <summary>
     /// Stores numbers far larger than long or ulong by using arrays to store the values. Written by Emik.

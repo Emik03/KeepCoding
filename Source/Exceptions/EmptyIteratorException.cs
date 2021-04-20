@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KeepCoding.v151
+namespace KeepCoding
 {
     /// <summary>
     /// An exception thrown when the iterator is empty. Written by Emik.

@@ -9,9 +9,9 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Video;
 using Debug = UnityEngine.Debug;
-using ModSourceEnum = KeepCoding.v151.Game.ModSourceEnum;
+using ModSourceEnum = KeepCoding.Game.ModSourceEnum;
 
-namespace KeepCoding.v151
+namespace KeepCoding
 {
     extern alias core;
 

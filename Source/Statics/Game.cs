@@ -4,7 +4,7 @@ using Player = Assets.Scripts.Settings.PlayerSettingsManager;
 using Manager = ModManager;
 using Info = Assets.Scripts.Mods.ModInfo;
 
-namespace KeepCoding.v151
+namespace KeepCoding
 {
     extern alias core;
 

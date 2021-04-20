@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using static KMAudio;
 
-namespace KeepCoding.v151
+namespace KeepCoding
 {
     /// <summary>
     /// Base class for regular and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
@@ -105,6 +105,7 @@ namespace KeepCoding.v151
         /// <exception cref="NullIteratorException"></exception>
         protected void Awake()
         {
+            Debug.Log("test" + ModBundleName);
             _setActive = () =>
             {
                 if (Get<KMBombInfo>(allowNull: true) is KMBombInfo bombInfo)

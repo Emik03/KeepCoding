@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace KeepCoding.v151
+namespace KeepCoding
 {
     /// <summary>
     /// A basic tuple data type for C# 4. Written by Emik.

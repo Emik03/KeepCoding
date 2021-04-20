@@ -3,7 +3,7 @@ using System.Collections;
 using System.Threading;
 using UnityEngine;
 
-namespace KeepCoding.v151
+namespace KeepCoding
 {
     /// <summary>
     /// Advanced multi-threading handler. Written by Emik.
