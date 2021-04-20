@@ -27,7 +27,7 @@ namespace KeepCoding.v14
             FileExtensionWindows = "dll",
             FileFormat = "{0}.{1}";
 
-        private static readonly Dictionary<Tuple<string, string>, object> _cachedResults = new Dictionary<Tuple<string, string>, object>();
+        private static readonly Dictionary<Tuple<string, string>, object> _cachedResults = new();
 
         /// <summary>
         /// Combines multiple paths together.

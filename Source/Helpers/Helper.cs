@@ -374,7 +374,7 @@ namespace KeepCoding.v14
             }
             while (value > 0);
 
-            return new string(buffer, i, buffer.Length - i);
+            return new(buffer, i, buffer.Length - i);
         }
 
         /// <summary>
@@ -432,19 +432,19 @@ namespace KeepCoding.v14
         public static BigInteger Modulo(this object item, BigInteger bigInteger) => ((item % bigInteger) + bigInteger) % bigInteger;
 
         /// <summary>
+        /// Gets the appropriate <see cref="Exception"/> based on the data type.
+        /// </summary>
+        /// <param name="item">The item to check the type for.</param>
+        /// <returns><see cref="NullIteratorException"/> if <paramref name="item"/> is an iterator, evaluated with <see cref="IsIterator(object)"/>, otherwise <see cref="NullReferenceException"/></returns>
+        public static Func<string, Exception> GetNullException(this object item) => s => item.IsIterator() ? new NullIteratorException(s) : new NullReferenceException(s);
+
+        /// <summary>
         /// Gets the method info from an expression.
         /// </summary>
         /// <typeparam name="T">The type of the action.</typeparam>
         /// <param name="expression">The expression that retrieves the method.</param>
         /// <returns>The method info of the function.</returns>
         public static MethodInfo GetMethodInfo<T>(this Expression<Action<T>> expression) => expression.Body is MethodCallExpression member ? member.Method : throw new ArgumentException("Expression is not a method", "expression");
-
-        /// <summary>
-        /// Gets the appropriate <see cref="Exception"/> based on the data type.
-        /// </summary>
-        /// <param name="item">The item to check the type for.</param>
-        /// <returns><see cref="NullIteratorException"/> if <paramref name="item"/> is an iterator, evaluated with <see cref="IsIterator(object)"/>, otherwise <see cref="NullReferenceException"/></returns>
-        public static Func<string, Exception> GetNullException(this object item) => s => item.IsIterator() ? (Exception)new NullIteratorException(s) : new NullReferenceException(s);
 
         /// <summary>
         /// Converts an <see cref="IEnumerator"/> to an <see cref="IEnumerable"/>.

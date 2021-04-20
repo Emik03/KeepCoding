@@ -138,7 +138,7 @@ namespace KeepCoding.v14
 
         private readonly KMNeedyModule _needyModule;
 
-        private static readonly UnrecognizedTypeException _unreachableException = new UnrecognizedTypeException("Module is neither a KMBombModule or a KMNeedyModule. This is a bug caused by the library, please file a bug report alongside the source code.");
+        private static readonly UnrecognizedTypeException _unreachableException = new("Module is neither a KMBombModule or a KMNeedyModule. This is a bug caused by the library, please file a bug report alongside the source code.");
 
         /// <summary>
         /// Sets the action of OnActivate.

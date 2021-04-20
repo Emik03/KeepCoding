@@ -61,12 +61,12 @@ namespace KeepCoding.v14
         /// <value>
         /// BigInteger with value zero. (Default value)
         /// </value>
-        public static BigInteger Zero => new BigInteger(0);
+        public static BigInteger Zero => new(0);
 
         /// <value>
         /// BigInteger with value one.
         /// </value>
-        public static BigInteger One => new BigInteger(1);
+        public static BigInteger One => new(1);
 
         /// <summary>
         /// Equals operator; determines if both integers contain the same value.
@@ -346,7 +346,7 @@ namespace KeepCoding.v14
         /// <exception cref="InvalidCastException"></exception>
         /// <param name="value">The value to convert into <see cref="BigInteger"/>.</param>
         /// <returns><see cref="BigInteger"/> with value <paramref name="value"/>.</returns>
-        public static implicit operator BigInteger(int value) => new BigInteger(value);
+        public static implicit operator BigInteger(int value) => new(value);
 
         /// <summary>
         /// Converts the <see cref="BigInteger"/> to a <see cref="long"/>.
@@ -362,7 +362,7 @@ namespace KeepCoding.v14
         /// <exception cref="InvalidCastException"></exception>
         /// <param name="value">The value to convert into <see cref="BigInteger"/>.</param>
         /// <returns><see cref="BigInteger"/> with value <paramref name="value"/>.</returns>
-        public static implicit operator BigInteger(long value) => new BigInteger(value);
+        public static implicit operator BigInteger(long value) => new(value);
 
         /// <summary>
         /// Converts the <see cref="BigInteger"/> to a <see cref="uint"/>.
@@ -378,7 +378,7 @@ namespace KeepCoding.v14
         /// <exception cref="InvalidCastException"></exception>
         /// <param name="value">The value to convert into <see cref="BigInteger"/>.</param>
         /// <returns><see cref="BigInteger"/> with value <paramref name="value"/>.</returns>
-        public static implicit operator BigInteger(uint value) => new BigInteger(value);
+        public static implicit operator BigInteger(uint value) => new(value);
 
         /// <summary>
         /// Converts the <see cref="BigInteger"/> to a <see cref="ulong"/>.
@@ -394,7 +394,7 @@ namespace KeepCoding.v14
         /// <exception cref="InvalidCastException"></exception>
         /// <param name="value">The value to convert into <see cref="BigInteger"/>.</param>
         /// <returns><see cref="BigInteger"/> with value <paramref name="value"/>.</returns>
-        public static implicit operator BigInteger(ulong value) => new BigInteger(value);
+        public static implicit operator BigInteger(ulong value) => new(value);
 
         /// <summary>
         /// Determins if both values are equal.
@@ -477,7 +477,7 @@ namespace KeepCoding.v14
         /// Makes a new instance/deep clone of <see cref="BigInteger"/> with the same value.
         /// </summary>
         /// <returns>A deep clone of itself.</returns>
-        public BigInteger Clone() => new BigInteger(_value);
+        public BigInteger Clone() => new(_value);
 
         /// <summary>
         /// Calculates the rem-euclid modulo, which allows negative numbers to be properly calculated.
@@ -497,7 +497,7 @@ namespace KeepCoding.v14
 
         private enum Operator { Add, Subtract, Multiply, Divide, Modulo }
 
-        private static readonly Dictionary<Operator, Func<sbyte[], sbyte[], sbyte[]>> _operations = new Dictionary<Operator, Func<sbyte[], sbyte[], sbyte[]>>()
+        private static readonly Dictionary<Operator, Func<sbyte[], sbyte[], sbyte[]>> _operations = new()
         {
             { Operator.Add, Addition },
             { Operator.Subtract, Addition },
@@ -509,7 +509,6 @@ namespace KeepCoding.v14
         private readonly sbyte[] _value;
 
         private static readonly sbyte[] _zero = new sbyte[0], _one = new sbyte[] { 1 };
-
 
         private static bool IsArrayNegative(in sbyte[] vs) => vs[0] < 0;
 
@@ -722,6 +721,6 @@ namespace KeepCoding.v14
                 ? new BigInteger(_operations[op](bigIntegerA._value.ToArray(), InvertConditional(bigIntegerB._value.ToArray(), op == Operator.Subtract)))
                 : throw new UnrecognizedValueException($"Unhandled operator: {op}.");
 
-        private InvalidCastException InvalidCast(Type type) => new InvalidCastException($"This BigInteger has the value {ToString()} which is outside the range of {type} and therefore cannot be casted!");
+        private InvalidCastException InvalidCast(Type type) => new($"This BigInteger has the value {ToString()} which is outside the range of {type} and therefore cannot be casted!");
     }
 }

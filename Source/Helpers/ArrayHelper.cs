@@ -693,7 +693,7 @@ namespace KeepCoding.v14
         /// <param name="length">The number of elements in the range to sort.</param>
         /// <param name="comparer">The <see cref="IComparer"/> implementation to use when comparing elements or <c>null</c> to use the <see cref="IComparable"/> implementation of each element.</param>
         /// <returns><paramref name="keys"/> and <paramref name="items"/></returns>
-        public static Tuple<Array, Array> Sort(this Array keys, Array items, int index, int length, IComparer comparer) { Array.Sort(keys, items, index, length, comparer); return new Tuple<Array, Array>(keys, items); }
+        public static Tuple<Array, Array> Sort(this Array keys, Array items, int index, int length, IComparer comparer) { Array.Sort(keys, items, index, length, comparer); return new(keys, items); }
 
         /// <summary>
         /// Sorts the elements in a range of elements in a one-dimensional <see cref="Array"/> using the <see cref="IComparable"/> implementation of each element of the <see cref="Array"/>.
@@ -724,7 +724,7 @@ namespace KeepCoding.v14
         /// <param name="index">The starting index of the range to sort.</param>
         /// <param name="length">The number of elements in the range to sort.</param>
         /// <returns><paramref name="keys"/> and <paramref name="items"/></returns>
-        public static Tuple<Array, Array> Sort(this Array keys, Array items, int index, int length) { Array.Sort(keys, items, index, length); return new Tuple<Array, Array>(keys, items); }
+        public static Tuple<Array, Array> Sort(this Array keys, Array items, int index, int length) { Array.Sort(keys, items, index, length); return new(keys, items); }
 
         /// <summary>
         /// Sorts the elements in a one-dimensional <see cref="Array"/> using the specified <see cref="IComparer"/>.
@@ -752,7 +752,7 @@ namespace KeepCoding.v14
         /// <param name="items">The one-dimensional <see cref="Array"/> that contains the items that correspond to each of the keys in the <paramref name="keys"/><see cref="Array"/> or <c>null</c> to sort only the <paramref name="keys"/><see cref="Array"/>.</param>
         /// <param name="comparer">The implementation to use when comparing elements or <c>null</c> to use the <see cref="IComparable"/> implementation of each element.</param>
         /// <returns><paramref name="keys"/> and <paramref name="items"/></returns>
-        public static Tuple<Array, Array> Sort(this Array keys, Array items, IComparer comparer) { Array.Sort(keys, items, comparer); return new Tuple<Array, Array>(keys, items); }
+        public static Tuple<Array, Array> Sort(this Array keys, Array items, IComparer comparer) { Array.Sort(keys, items, comparer); return new(keys, items); }
 
         /// <summary>
         /// Sorts a pair of one-dimensional <see cref="Array"/> objects (one contains the keys and the other contains the corresponding items) based on the keys in the first <see cref="Array"/> using the <see cref="IComparable"/> implementation of each key.
@@ -765,7 +765,7 @@ namespace KeepCoding.v14
         /// <param name="keys">The one-dimensional <see cref="Array"/> that contains the keys to sort.</param>
         /// <param name="items">The one-dimensional <see cref="Array"/> that contains the items that correspond to each of the keys in the <paramref name="keys"/><see cref="Array"/> or <c>null</c> to sort only the <paramref name="keys"/><see cref="Array"/>.</param>
         /// <returns><paramref name="keys"/> and <paramref name="items"/></returns>
-        public static Tuple<Array, Array> Sort(this Array keys, Array items) { Array.Sort(keys, items); return new Tuple<Array, Array>(keys, items); }
+        public static Tuple<Array, Array> Sort(this Array keys, Array items) { Array.Sort(keys, items); return new(keys, items); }
 
         /// <summary>
         /// Sorts the elements in an entire one-dimensional <see cref="Array"/> using the <see cref="IComparable"/> implementation of each element of the <see cref="Array"/>.
@@ -856,7 +856,7 @@ namespace KeepCoding.v14
         /// <param name="keys">The one-dimensional, zero-based <see cref="Array"/> that contains the keys to sort.</param>
         /// <param name="items">The one-dimensional, zero-based <see cref="Array"/> that contains the items that correspond to the keys in <paramref name="keys"/>, or <c>null</c> to sort only <paramref name="keys"/>.</param>
         /// <returns><paramref name="keys"/> and <paramref name="items"/></returns>
-        public static Tuple<TKey[], TValue[]> Sort<TKey, TValue>(this TKey[] keys, TValue[] items) { Array.Sort(keys, items); return new Tuple<TKey[], TValue[]>(keys, items); }
+        public static Tuple<TKey[], TValue[]> Sort<TKey, TValue>(this TKey[] keys, TValue[] items) { Array.Sort(keys, items); return new(keys, items); }
 
         /// <summary>
         /// Sorts a pair of <see cref="Array"/> objects (one contains the keys and the other contains the corresponding items) based on the keys in the first <see cref="Array"/> using the specified <see cref="IComparer{T}"/> generic interface.
@@ -873,7 +873,7 @@ namespace KeepCoding.v14
         /// <param name="items">The one-dimensional, zero-based <see cref="Array"/> that contains the items that correspond to the keys in <paramref name="keys"/>, or <c>null</c> to sort only <paramref name="keys"/>.</param>
         /// <param name="comparer">The <see cref="IComparable{T}"/> generic interface implementation to use when comparing elements, or <c>null</c> to use the <see cref="IComparable{T}"/> generic interface implementation of each element.</param>
         /// <returns><paramref name="keys"/> and <paramref name="items"/></returns>
-        public static Tuple<TKey[], TValue[]> Sort<TKey, TValue>(this TKey[] keys, TValue[] items, IComparer<TKey> comparer) { Array.Sort(keys, items, comparer); return new Tuple<TKey[], TValue[]>(keys, items); }
+        public static Tuple<TKey[], TValue[]> Sort<TKey, TValue>(this TKey[] keys, TValue[] items, IComparer<TKey> comparer) { Array.Sort(keys, items, comparer); return new(keys, items); }
 
         /// <summary>
         /// Sorts a range of elements in a pair of <see cref="Array"/> objects (one contains the keys and the other contains the corresponding items) based on the keys in the first <see cref="Array"/> using the <see cref="IComparable{T}"/> generic interface implementation of each key.
@@ -890,7 +890,7 @@ namespace KeepCoding.v14
         /// <param name="index">The starting index of the range to sort.</param>
         /// <param name="length">The number of elements in the range to sort.</param>
         /// <returns><paramref name="keys"/> and <paramref name="items"/></returns>
-        public static Tuple<TKey[], TValue[]> Sort<TKey, TValue>(this TKey[] keys, TValue[] items, int index, int length) { Array.Sort(keys, items, index, length); return new Tuple<TKey[], TValue[]>(keys, items); }
+        public static Tuple<TKey[], TValue[]> Sort<TKey, TValue>(this TKey[] keys, TValue[] items, int index, int length) { Array.Sort(keys, items, index, length); return new(keys, items); }
 
         /// <summary>
         /// Sorts a range of elements in a pair of <see cref="Array"/> objects (one contains the keys and the other contains the corresponding items) based on the keys in the first <see cref="Array"/> using the specified <see cref="IComparer{T}"/> generic interface.
@@ -909,7 +909,7 @@ namespace KeepCoding.v14
         /// <param name="length">The number of elements in the range to sort.</param>
         /// <param name="comparer">The implementation to use when comparing elements or <c>null</c> to use the <see cref="IComparable"/> implementation of each element.</param>
         /// <returns><paramref name="keys"/> and <paramref name="items"/></returns>
-        public static Tuple<TKey[], TValue[]> Sort<TKey, TValue>(this TKey[] keys, TValue[] items, int index, int length, IComparer<TKey> comparer) { Array.Sort(keys, items, index, length, comparer); return new Tuple<TKey[], TValue[]>(keys, items); }
+        public static Tuple<TKey[], TValue[]> Sort<TKey, TValue>(this TKey[] keys, TValue[] items, int index, int length, IComparer<TKey> comparer) { Array.Sort(keys, items, index, length, comparer); return new(keys, items); }
 
         /// <summary>
         /// Determines whether every element in the array matches the conditions defined by the specified predicate.

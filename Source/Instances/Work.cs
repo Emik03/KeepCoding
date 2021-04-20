@@ -18,7 +18,7 @@ namespace KeepCoding.v14
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         public Work(Action work, bool allowSimultaneousActive, uint maximumThreadsActive)
             : base(allowSimultaneousActive, maximumThreadsActive)
-            => Thread = new Thread(() =>
+            => Thread = new(() =>
             {
                 work.NullCheck($"The variable {nameof(work)} cannot be null.")();
                 IsRunning = false;
@@ -60,7 +60,7 @@ namespace KeepCoding.v14
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         public Work(Func<T> work, bool allowSimultaneousActive, uint maximumThreadsActive)
             : base(allowSimultaneousActive, maximumThreadsActive)
-            => Thread = new Thread(() =>
+            => Thread = new(() =>
             {
                 Result = work.NullCheck($"The variable {nameof(work)} cannot be null.")();
                 IsRunning = false;
@@ -123,7 +123,7 @@ namespace KeepCoding.v14
 
             ThreadsActive++;
 
-            Thread = new Thread(() =>
+            Thread = new(() =>
             {
                 Result = _work.NullCheck($"The variable {nameof(_work)} cannot be null.")(arg);
                 IsRunning = false;
@@ -173,7 +173,7 @@ namespace KeepCoding.v14
 
             ThreadsActive++;
 
-            Thread = new Thread(() =>
+            Thread = new(() =>
             {
                 Result = _work.NullCheck($"The variable {nameof(_work)} cannot be null.")(arg1, arg2);
                 IsRunning = false;
@@ -223,7 +223,7 @@ namespace KeepCoding.v14
 
             ThreadsActive++;
 
-            Thread = new Thread(() =>
+            Thread = new(() =>
             {
                 Result = _work.NullCheck($"The variable {nameof(_work)} cannot be null.")(arg1, arg2, arg3);
                 IsRunning = false;
@@ -273,7 +273,7 @@ namespace KeepCoding.v14
 
             ThreadsActive++;
 
-            Thread = new Thread(() =>
+            Thread = new(() =>
             {
                 Result = _work.NullCheck($"The variable {nameof(_work)} cannot be null.")(arg1, arg2, arg3, arg4);
                 IsRunning = false;

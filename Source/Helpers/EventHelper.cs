@@ -198,6 +198,6 @@ namespace KeepCoding.v14
 
         private static Func<bool> ToFunc(this Action action, bool b) => action is null ? (Func<bool>)null : () => { action(); return b; };
 
-        private static UnassignedReferenceException Unassigned(Type type) => throw new UnassignedReferenceException($"The {type.Name} is null. You cannot assign events to a {type.Name} without a reference to a {type.Name}.");
+        private static UnassignedReferenceException Unassigned(Type type) => throw new($"The {type.Name} is null. You cannot assign events to a {type.Name} without a reference to a {type.Name}.");
     }
 }
