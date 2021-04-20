@@ -194,9 +194,9 @@ namespace KeepCoding.v14
         /// <returns><paramref name="mutator"/> with <paramref name="dele"/> appended.</returns>
         public static Delegate Set<T>(this Delegate dele, ref T mutator) where T : Delegate => mutator = dele is null ? mutator : dele.Cast<T>();
 
-        private static Action ToAction(this Action<int> action, int i) => action is null ? (Action)null : () => action(i);
+        private static Action ToAction(this Action<int> action, int i) => action is null ? null : () => action(i);
 
-        private static Func<bool> ToFunc(this Action action, bool b) => action is null ? (Func<bool>)null : () => { action(); return b; };
+        private static Func<bool> ToFunc(this Action action, bool b) => action is null ? null : () => { action(); return b; };
 
         private static UnassignedReferenceException Unassigned(Type type) => throw new($"The {type.Name} is null. You cannot assign events to a {type.Name} without a reference to a {type.Name}.");
     }
