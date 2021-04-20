@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using static KMAudio;
 
 namespace KeepCoding.v14
@@ -6,7 +7,7 @@ namespace KeepCoding.v14
     /// <summary>
     /// Class meant to encapsulate all types of sound effects <see cref="KMAudio"/> uses. Currently used in <see cref="ModuleScript"/>. Written by Emik.
     /// </summary>
-    public sealed class Sound
+    public sealed class Sound : IEquatable<Sound>
     {
         /// <summary>
         /// An instance of Sound where <see cref="Custom"/> is defined.
@@ -34,7 +35,7 @@ namespace KeepCoding.v14
         /// <summary>
         /// The audio reference that is playing the sound.
         /// </summary>
-        public KMAudioRef Reference { get; set; }
+        public KMAudioRef Reference { get; internal set; }
 
         /// <summary>
         /// The in-game sound.
@@ -46,21 +47,21 @@ namespace KeepCoding.v14
         /// </summary>
         /// <param name="sound">The sound to insert.</param>
         /// <returns><see cref="Sound"/> with argument <paramref name="sound"/>.</returns>
-        public static implicit operator Sound(string sound) => new Sound(sound);
+        public static implicit operator Sound(string sound) => new(sound);
 
         /// <summary>
         /// An instance of Sound where <see cref="Custom"/> is defined.
         /// </summary>
         /// <param name="sound">The sound to insert.</param>
         /// <returns><see cref="Sound"/> with argument <paramref name="sound"/>.</returns>
-        public static implicit operator Sound(AudioClip sound) => new Sound(sound);
+        public static implicit operator Sound(AudioClip sound) => new(sound);
 
         /// <summary>
         /// An instance of Sound where <see cref="Game"/> is defined.
         /// </summary>
         /// <param name="sound">The sound to insert.</param>
         /// <returns><see cref="Sound"/> with argument <paramref name="sound"/>.</returns>
-        public static implicit operator Sound(KMSoundOverride.SoundEffect sound) => new Sound(sound);
+        public static implicit operator Sound(KMSoundOverride.SoundEffect sound) => new(sound);
 
         /// <summary>
         /// Returns <see cref="Custom"/> for the current variable.
@@ -87,5 +88,12 @@ namespace KeepCoding.v14
         /// Stops the <see cref="Reference"/>'s sound.
         /// </summary>
         public void StopSound() => Reference.StopSound();
+
+        /// <summary>
+        /// Determines if both <see cref="Sound"/> variables are equal.
+        /// </summary>
+        /// <param name="other">The comparison.</param>
+        /// <returns>True if <see cref="Custom"/>, <see cref="Reference"/>, and <see cref="Game"/> are equal.</returns>
+        public bool Equals(Sound other) => Custom == other.Custom && Reference == other.Reference && Game == other.Game;
     }
 }
