@@ -27,18 +27,16 @@ namespace KeepCoding.v14
         /// <exception cref="WrongDatatypeException"></exception>
         /// <param name="i">The index to use.</param>
         /// <returns>The item indexed into.</returns>
-        public override object this[int i]
+        public new object this[byte i]
         {
-            get => i switch
+            get => i == UpperBound ? Item1 : base[i];
+            set
             {
-                0 => Item1,
-                _ => throw IndexOutOfRange(i)
-            };
-            set => Item1 = i switch
-            {
-                0 => Item1 = Cast<T>(value, i),
-                _ => throw IndexOutOfRange(i)
-            };
+                if (i == UpperBound)
+                    Item1 = Cast<T>(value, i);
+                else
+                    base[i] = value;
+            }
         }
 
         /// <value>
@@ -128,22 +126,15 @@ namespace KeepCoding.v14
         /// <exception cref="WrongDatatypeException"></exception>
         /// <param name="i">The index to use.</param>
         /// <returns>The item indexed into.</returns>
-        public override object this[int i]
+        public new object this[byte i]
         {
-            get => i switch
-            {
-                0 => Item1,
-                1 => Item2,
-                _ => throw IndexOutOfRange(i)
-            };
+            get => i == UpperBound ? Item2 : base[i];
             set
             {
-                switch (i)
-                {
-                    case 0: Item1 = Cast<T1>(value, i); break;
-                    case 1: Item2 = Cast<T2>(value, i); break;
-                    default: throw IndexOutOfRange(i);
-                }
+                if (i == UpperBound)
+                    Item2 = Cast<T2>(value, i);
+                else
+                    base[i] = value;
             }
         }
 
@@ -247,24 +238,15 @@ namespace KeepCoding.v14
         /// <exception cref="WrongDatatypeException"></exception>
         /// <param name="i">The index to use.</param>
         /// <returns>The item indexed into.</returns>
-        public override object this[int i]
+        public new object this[byte i]
         {
-            get => i switch
-            {
-                0 => Item1,
-                1 => Item2,
-                2 => Item3,
-                _ => throw IndexOutOfRange(i)
-            };
+            get => i == UpperBound ? Item3 : base[i];
             set
             {
-                switch (i)
-                {
-                    case 0: Item1 = Cast<T1>(value, i); break;
-                    case 1: Item2 = Cast<T2>(value, i); break;
-                    case 2: Item3 = Cast<T3>(value, i); break;
-                    default: throw IndexOutOfRange(i);
-                }
+                if (i == UpperBound)
+                    Item3 = Cast<T3>(value, i);
+                else
+                    base[i] = value;
             }
         }
 
@@ -373,26 +355,15 @@ namespace KeepCoding.v14
         /// <exception cref="WrongDatatypeException"></exception>
         /// <param name="i">The index to use.</param>
         /// <returns>The item indexed into.</returns>
-        public override object this[int i]
+        public new object this[byte i]
         {
-            get => i switch
-            {
-                0 => Item1,
-                1 => Item2,
-                2 => Item3,
-                3 => Item4,
-                _ => throw IndexOutOfRange(i)
-            };
+            get => i == UpperBound ? Item4 : base[i];
             set
             {
-                switch (i)
-                {
-                    case 0: Item1 = Cast<T1>(value, i); break;
-                    case 1: Item2 = Cast<T2>(value, i); break;
-                    case 2: Item3 = Cast<T3>(value, i); break;
-                    case 3: Item4 = Cast<T4>(value, i); break;
-                    default: throw IndexOutOfRange(i);
-                }
+                if (i == UpperBound)
+                    Item4 = Cast<T4>(value, i);
+                else
+                    base[i] = value;
             }
         }
 
