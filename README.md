@@ -10,12 +10,8 @@
 Inside of your Unity project, drag this DLL file into **/Assets/Plugins/Managed**. Unity will start reloading the scripts at this stage. After the reload, you can start using the library's code by going into any script file and accessing the namespace:
 
 ```cs
-using KeepCoding.v/*<NUMBER>*/;
+using KeepCoding;
 ```
-
-To ensure backwards compatibility with modules using older versions of the library, the namespace will be renamed for every update. While inconvenient, it's an unfortunate consequence of the way [Keep Talking and Nobody Explodes](https://keeptalkinggame.com/) behaves.
-
-If you are downloading a newer version of `KeepCoding`, and the import causes MonoBehaviours to become unassigned, press the small dotted circle and reselect the script file. This should reimport all assignments into the new version.
 
 ### Contribute
 ---
@@ -47,7 +43,7 @@ xcopy /y "$(ProjectDir)$(OutDir)KeepCoding.dll" "X:\My Module Directory\Assets\P
 xcopy /y "$(ProjectDir)$(OutDir)KeepCoding.xml" "X:\My Module Directory\Assets\Plugins\Managed"
 ```
 
-6. This step is the most important. Press **CTRL+R** twice on the namespace at the version within any class and rename it. This is because the game will assume multiple instances of the same namespace refer to the same piece of code, and will only therefore load the first one it sees. To ensure that a module will not break for this reason, rename it to something unique, such as a module's name.
+6. Go to "Signing" and create your own strong name and signature. This ensures that it will not conflict with other versions of this namespace.
 
 7. Press the key combination **CTRL+SHIFT+B**, or alternatively go to the dropdown located at the top named "Build" and press "Build Solution". Assuming no build errors occur, you can go back to Unity, which will start reloading.
 
