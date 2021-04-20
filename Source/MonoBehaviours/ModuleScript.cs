@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using static KMAudio;
 
-namespace KeepCoding.v15
+namespace KeepCoding.v151
 {
     /// <summary>
     /// Base class for regular and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.

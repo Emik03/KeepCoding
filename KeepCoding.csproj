@@ -19,6 +19,8 @@
 	<FileVersion>1.5.0.0</FileVersion>
 	<Version>1.5</Version>
 	<PackageId>KeepCoding</PackageId>
+	<SignAssembly>true</SignAssembly>
+	<DelaySign>true</DelaySign>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

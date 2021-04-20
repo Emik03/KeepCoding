@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-namespace KeepCoding.v15
+namespace KeepCoding.v151
 {
     /// <summary>
     /// Extension methods to help you create data types easier. Written by Emik.

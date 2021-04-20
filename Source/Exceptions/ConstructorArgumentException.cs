@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KeepCoding.v15
+namespace KeepCoding.v151
 {
     /// <summary>
     /// An exception thrown when the constructor throws an exception due to a bad argument. Written by Emik.

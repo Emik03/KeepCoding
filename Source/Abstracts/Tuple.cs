@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KeepCoding.v15
+namespace KeepCoding.v151
 {
     /// <summary>
     /// An abstract type meant for the tuple data type for C# 4. Written by Emik.
