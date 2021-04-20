@@ -125,7 +125,7 @@ namespace KeepCoding.v14
 
         /// <summary>
         /// Unwraps any object, whether it be a class, list, tuple, or any other data.
-        /// </summary>(
+        /// </summary>
         /// <param name="source">The object to unwrap.</param>
         /// <param name="isRecursive">Whether it should search inside the variable and yield return the elements inside <paramref name="source"/>.</param>
         /// <returns>An <see cref="object"/> <see cref="Array"/> of all elements within <paramref name="source"/>.</returns>
@@ -133,9 +133,9 @@ namespace KeepCoding.v14
         {
             null => new[] { Helper.Null },
             string => new[] { source },
-            Tuple tuple => Unwrap(tuple.ToArray),
-            IEnumerable ienumerable => Unwrap(ienumerable),
-            IEnumerator ienumerator => Unwrap(ienumerator.ToIEnumerable()),
+            Tuple tuple => tuple.ToArray.Unwrap(),
+            IEnumerable ienumerable => ienumerable.Unwrap(),
+            IEnumerator ienumerator => ienumerator.AsEnumerable().Unwrap(),
             _ => isRecursive ? source.GetAllValues().Cast<object>().Prepend(source) : new[] { source },
         }).ToArray();
 
@@ -145,7 +145,7 @@ namespace KeepCoding.v14
         /// <exception cref="NullIteratorException"></exception>
         /// <param name="source">The <see cref="IEnumerator"/> to convert.</param>
         /// <returns><paramref name="source"/> as an <see cref="IEnumerable"/>.</returns>
-        public static IEnumerable ToIEnumerable(this IEnumerator source)
+        public static IEnumerable AsEnumerable(this IEnumerator source)
         {
             source.NullCheck("The enumerator cannot be null.");
 
@@ -209,7 +209,7 @@ namespace KeepCoding.v14
         /// </summary>
         /// <typeparam name="T">The type of <see cref="Enum"/>.</typeparam>
         /// <returns>An <see cref="Array"/> of <typeparamref name="T"/> containing all the values of that enum.</returns>
-        public static T[] GetValues<T>() where T : Enum => (T[])Enum.GetValues(typeof(T));
+        public static T[] GetValues<T>() where T : struct, Enum => (T[])Enum.GetValues(typeof(T));
 
         /// <summary>
         /// Gets all the values of an <see cref="Enum"/> as an <see cref="Array"/>.
@@ -217,7 +217,7 @@ namespace KeepCoding.v14
         /// <typeparam name="T">The type of <see cref="Enum"/>.</typeparam>
         /// <param name="_">A discard value, which can implicitly let the method know the type.</param>
         /// <returns>An <see cref="Array"/> of <typeparamref name="T"/> containing all the values of that enum.</returns>
-        public static T[] GetValues<T>(this T _) where T : Enum => GetValues<T>();
+        public static T[] GetValues<T>(this T _) where T : struct, Enum => GetValues<T>();
 
         /// <summary>
         /// Returns the last element which doesn't return null, or null if all of them return null.
