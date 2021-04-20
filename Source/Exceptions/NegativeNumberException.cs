@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KeepCoding.v14
+namespace KeepCoding.v15
 {
     /// <summary>
     /// An exception thrown when the number is unexpectedly negative. Written by Emik.

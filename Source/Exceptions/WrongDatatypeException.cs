@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KeepCoding.v14
+namespace KeepCoding.v15
 {
     /// <summary>
     /// An exception thrown for when the wrong datatype is used. Written by Emik.
