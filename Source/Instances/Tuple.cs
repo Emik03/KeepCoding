@@ -7,7 +7,7 @@ namespace KeepCoding.v14
     /// <summary>
     /// A basic tuple data type for C# 4. Written by Emik.
     /// </summary>
-    public class Tuple<T> : Tuple
+    public class Tuple<T> : Tuple, IEquatable<Tuple<T>>
     {
         /// <summary>
         /// Creates a singleton tuple.
@@ -56,7 +56,7 @@ namespace KeepCoding.v14
         /// </summary>
         /// <param name="obj">The <see cref="Tuple{T}"/> as <see cref="object"/>.</param>
         /// <returns>True if itself and the parameter are equal.</returns>
-        public override bool Equals(object obj) => Item1.Equals(((Tuple<T>)obj).Item1);
+        public override bool Equals(object obj) => Equals((Tuple<T>)obj);
 
         /// <summary>
         /// Gets the hash code of <see cref="Item1"/>.
@@ -91,12 +91,19 @@ namespace KeepCoding.v14
         /// </summary>
         /// <param name="item">The variable to assign the first element of the tuple.</param>
         public void Destruct(out T item) => item = Item1;
+
+        /// <summary>
+        /// Determines whether the tuple is equal.
+        /// </summary>
+        /// <param name="other">The <see cref="Tuple{T}"/> to compare to.</param>
+        /// <returns>True if itself and the parameter are equal.</returns>
+        public bool Equals(Tuple<T> other) => Item1.Equals(other.Item1);
     }
 
     /// <summary>
     /// A basic tuple data type for C# 4. Written by Emik.
     /// </summary>
-    public class Tuple<T1, T2> : Tuple<T1>
+    public class Tuple<T1, T2> : Tuple<T1>, IEquatable<Tuple<T1, T2>>
     {
         /// <summary>
         /// Creates a tuple of size 2.
@@ -155,7 +162,7 @@ namespace KeepCoding.v14
         /// </summary>
         /// <param name="obj">The <see cref="Tuple{T1, T2}"/> as <see cref="object"/>.</param>
         /// <returns>True if itself and the parameter are equal.</returns>
-        public override bool Equals(object obj) => ToArray.SequenceEqual(((Tuple<T1, T2>)obj).ToArray);
+        public override bool Equals(object obj) => Equals((Tuple<T1, T2>)obj);
 
         /// <summary>
         /// Gets the hash code of all items.
@@ -201,12 +208,19 @@ namespace KeepCoding.v14
             item1 = Item1;
             item2 = Item2;
         }
+
+        /// <summary>
+        /// Determines whether the tuple is equal.
+        /// </summary>
+        /// <param name="other">The <see cref="Tuple{T1, T2}"/> to compare to.</param>
+        /// <returns>True if itself and the parameter are equal.</returns>
+        public bool Equals(Tuple<T1, T2> other) => ToArray.SequenceEqual(other.ToArray);
     }
 
     /// <summary>
     /// A basic tuple data type for C# 4. Written by Emik.
     /// </summary>
-    public class Tuple<T1, T2, T3> : Tuple<T1, T2>
+    public class Tuple<T1, T2, T3> : Tuple<T1, T2>, IEquatable<Tuple<T1, T2, T3>>
     {
         /// <summary>
         /// Creates a tuple of size 3.
@@ -269,7 +283,7 @@ namespace KeepCoding.v14
         /// </summary>
         /// <param name="obj">The <see cref="Tuple{T1, T2, T3}"/> as <see cref="object"/>.</param>
         /// <returns>True if itself and the parameter are equal.</returns>
-        public override bool Equals(object obj) => ToArray.SequenceEqual(((Tuple<T1, T2, T3>)obj).ToArray);
+        public override bool Equals(object obj) => Equals((Tuple<T1, T2, T3>)obj);
 
         /// <summary>
         /// Gets the hash code of all items.
@@ -318,12 +332,19 @@ namespace KeepCoding.v14
             item2 = Item2;
             item3 = Item3;
         }
+
+        /// <summary>
+        /// Determines whether the tuple is equal.
+        /// </summary>
+        /// <param name="other">The <see cref="Tuple{T1, T2, T3}"/> to compare to.</param>
+        /// <returns>True if itself and the parameter are equal.</returns>
+        public bool Equals(Tuple<T1, T2, T3> other) => ToArray.SequenceEqual(other.ToArray);
     }
 
     /// <summary>
     /// A basic tuple data type for C# 4. Written by Emik.
     /// </summary>
-    public class Tuple<T1, T2, T3, T4> : Tuple<T1, T2, T3>
+    public class Tuple<T1, T2, T3, T4> : Tuple<T1, T2, T3>, IEquatable<Tuple<T1, T2, T3, T4>>
     {
         /// <summary>
         /// Creates a tuple of size 4.
@@ -390,7 +411,7 @@ namespace KeepCoding.v14
         /// </summary>
         /// <param name="obj">The <see cref="Tuple{T1, T2, T3, T4}"/> as <see cref="object"/>.</param>
         /// <returns>True if itself and the parameter are equal.</returns>
-        public override bool Equals(object obj) => ToArray.SequenceEqual(((Tuple<T1, T2, T3, T4>)obj).ToArray);
+        public override bool Equals(object obj) => Equals((Tuple<T1, T2, T3, T4>)obj);
 
         /// <summary>
         /// Gets the hash code of all items.
@@ -442,5 +463,12 @@ namespace KeepCoding.v14
             item3 = Item3;
             item4 = Item4;
         }
+
+        /// <summary>
+        /// Determines whether the tuple is equal.
+        /// </summary>
+        /// <param name="other">The <see cref="Tuple{T1, T2, T3, T4}"/> to compare to.</param>
+        /// <returns>True if itself and the parameter are equal.</returns>
+        public bool Equals(Tuple<T1, T2, T3, T4> other) => ToArray.SequenceEqual(other.ToArray);
     }
 }
