@@ -75,7 +75,7 @@ namespace KeepCoding.v14
         /// </value>
         /// <exception cref="OperationCanceledException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
-        public string Version { get => (IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(ModBundleName).Version) ?? throw new OperationCanceledException($"{nameof(ModBundleName)} couldn't be found. Did you spell your Mod name correctly? Refer to this link for more details: https://github.com/Emik03/KeepCoding/wiki/Chapter-2.1:-ModuleScript#version-string"); }
+        public string Version => (IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(ModBundleName).Version) ?? throw new OperationCanceledException($"{nameof(ModBundleName)} couldn't be found. Did you spell your Mod name correctly? Refer to this link for more details: https://github.com/Emik03/KeepCoding/wiki/Chapter-2.1:-ModuleScript#version-string");
 
         /// <value>
         /// Contains an instance for every sound played by this module using <see cref="PlaySound(Transform, bool, Sound[])"/> or any of its overloads.
@@ -105,25 +105,27 @@ namespace KeepCoding.v14
         /// <exception cref="NullIteratorException"></exception>
         protected void Awake()
         {
-            if (ModBundleName.IsNullOrEmpty())
-                throw new FormatException("The public field \"ModBundleName\" is empty! This means that when compiled it won't be able to run! Please set this field to your Mod ID located at Keep Talking ModKit -> Configure Mod. Refer to this link for more details: https://github.com/Emik03/KeepCoding/wiki/Chapter-2.1:-ModuleScript#version-string");
-
-            _setActive = () => IsActive = true;
+            _setActive = () =>
+            {
+                if (Get<KMBombInfo>(allowNull: true) is KMBombInfo bombInfo)
+                    StartCoroutine(BombTime(bombInfo));
+                IsActive = true;
+                OnActivate();
+            };
 
             _components = new Dictionary<Type, Component[]>() { { typeof(ModuleScript), new[] { this } } };
-         
+
+            ModBundleName.NullOrEmptyCheck("The public field \"ModBundleName\" is empty! This means that when compiled it won't be able to run! Please set this field to your Mod ID located at Keep Talking ModKit -> Configure Mod. Refer to this link for more details: https://github.com/Emik03/KeepCoding/wiki/Chapter-2.1:-ModuleScript#version-string");
+                     
             Module = new ModuleContainer(Get<KMBombModule>(), Get<KMNeedyModule>());
+
+            Module.OnActivate(_setActive);
 
             ModuleId = _moduleIds.SetOrReplace(Module.ModuleType, i => ++i);
 
-            Assign(onActivate: () => { OnActivate(); _setActive(); });
-
-            if (Get<KMBombInfo>(allowNull: true) is KMBombInfo bombInfo)
-                StartCoroutine(BombTime(bombInfo));
+            Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
 
             StartCoroutine(EditorCheckLatest());
-
-            Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
         }
 
         /// <summary>
@@ -139,7 +141,7 @@ namespace KeepCoding.v14
         /// <param name="onTimerExpired">Called when the timer of the needy runs out.</param>
         public void Assign(Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onTimerExpired = null)
         {
-            Module.OnActivate(onActivate + _setActive);
+            Module.OnActivate(_setActive + onActivate);
 
             if (Module.Module is KMNeedyModule)
                 AssignNeedy(onTimerExpired, onNeedyActivation, onNeedyDeactivation);
@@ -365,7 +367,7 @@ namespace KeepCoding.v14
 
         private IEnumerator EditorCheckLatest()
         {
-            if (IsEditor)
+            if (!IsEditor)
                 yield break;
 
             using var req = UnityWebRequest.Get("https://raw.githubusercontent.com/Emik03/KeepCodingAndNobodyExplodes/main/latest");
@@ -379,7 +381,7 @@ namespace KeepCoding.v14
             }
 
             if (req.downloadHandler.text.Trim() != PathManager.GetVersionLibrary().ProductVersion)
-                Log($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.GetVersionLibrary().ProductVersion}. Please download the latest version here https://github.com/Emik03/KeepCoding/releases", LogType.Error);
+                Log($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.GetVersionLibrary().ProductVersion}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases", LogType.Error);
         }
 
         private IEnumerator BombTime(KMBombInfo bombInfo)
