@@ -48,7 +48,7 @@ namespace KeepCoding.v151
         {
             bundleFileName.NullOrEmptyCheck("You cannot retrieve a mod's modInfo.json if the bundle file name is null or empty.");
 
-            Current(bundleFileName, out var current);
+            Current(in bundleFileName, out var current);
 
             if (IsCached(in current))
                 return GetCache<ModInfo>(in current);
@@ -70,7 +70,7 @@ namespace KeepCoding.v151
         {
             fileName.NullOrEmptyCheck("You cannot retrieve a path if the file name is null or empty.");
 
-            Current(fileName, out var current);
+            Current(in fileName, out var current);
 
             if (IsCached(in current))
                 return GetCache<string>(in current);
@@ -151,7 +151,7 @@ namespace KeepCoding.v151
             yield return videos;
         }
 
-        internal static void Log(string message) => Debug.Log($"[Keep Coding] {message}");
+        internal static void Log(in string message) => Debug.Log($"[Keep Coding] {message}");
 
         internal static FileVersionInfo GetVersionLibrary() => FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
 
@@ -183,7 +183,7 @@ namespace KeepCoding.v151
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void Current(string bundleFileName, out Tuple<string, string> current) => current = new StackTrace().GetFrame(1).GetMethod().Name.ToTuple(bundleFileName);
+        private static void Current(in string bundleFileName, out Tuple<string, string> current) => current = new StackTrace().GetFrame(1).GetMethod().Name.ToTuple(bundleFileName);
 
         private static bool IsCached(in Tuple<string, string> current) => _cachedResults.ContainsKey(current);
 

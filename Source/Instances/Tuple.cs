@@ -33,7 +33,7 @@ namespace KeepCoding.v151
             set
             {
                 if (i == 0)
-                    Item1 = Cast<T>(value, i);
+                    Item1 = Cast<T>(in value, i);
                 else
                     base[i] = value;
             }
@@ -132,7 +132,7 @@ namespace KeepCoding.v151
             set
             {
                 if (i == 1)
-                    Item2 = Cast<T2>(value, i);
+                    Item2 = Cast<T2>(in value, i);
                 else
                     base[i] = value;
             }
@@ -244,7 +244,7 @@ namespace KeepCoding.v151
             set
             {
                 if (i == 2)
-                    Item3 = Cast<T3>(value, i);
+                    Item3 = Cast<T3>(in value, i);
                 else
                     base[i] = value;
             }
@@ -361,7 +361,7 @@ namespace KeepCoding.v151
             set
             {
                 if (i == 3)
-                    Item4 = Cast<T4>(value, i);
+                    Item4 = Cast<T4>(in value, i);
                 else
                     base[i] = value;
             }
