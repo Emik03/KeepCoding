@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace KeepCoding.v15
+namespace KeepCoding.v151
 {
     /// <summary>
     /// A basic tuple data type for C# 4. Written by Emik.
@@ -29,10 +29,10 @@ namespace KeepCoding.v15
         /// <returns>The item indexed into.</returns>
         public new object this[byte i]
         {
-            get => i == UpperBound ? Item1 : base[i];
+            get => i == 0 ? Item1 : base[i];
             set
             {
-                if (i == UpperBound)
+                if (i == 0)
                     Item1 = Cast<T>(value, i);
                 else
                     base[i] = value;
@@ -128,10 +128,10 @@ namespace KeepCoding.v15
         /// <returns>The item indexed into.</returns>
         public new object this[byte i]
         {
-            get => i == UpperBound ? Item2 : base[i];
+            get => i == 1 ? Item2 : base[i];
             set
             {
-                if (i == UpperBound)
+                if (i == 1)
                     Item2 = Cast<T2>(value, i);
                 else
                     base[i] = value;
@@ -240,10 +240,10 @@ namespace KeepCoding.v15
         /// <returns>The item indexed into.</returns>
         public new object this[byte i]
         {
-            get => i == UpperBound ? Item3 : base[i];
+            get => i == 2 ? Item3 : base[i];
             set
             {
-                if (i == UpperBound)
+                if (i == 2)
                     Item3 = Cast<T3>(value, i);
                 else
                     base[i] = value;
@@ -357,10 +357,10 @@ namespace KeepCoding.v15
         /// <returns>The item indexed into.</returns>
         public new object this[byte i]
         {
-            get => i == UpperBound ? Item4 : base[i];
+            get => i == 3 ? Item4 : base[i];
             set
             {
-                if (i == UpperBound)
+                if (i == 3)
                     Item4 = Cast<T4>(value, i);
                 else
                     base[i] = value;
