@@ -715,5 +715,18 @@ namespace KeepCoding
         /// <param name="func">The function to apply <paramref name="item"/> to.</param>
         /// <returns>The item <paramref name="item"/> after <paramref name="func"/>.</returns>
         public static TOutput Apply<TInput, TOutput>(this TInput item, Func<TInput, TOutput> func) => func(item);
+
+        /// <summary>
+        /// Invokes a method of <typeparamref name="TInput"/> to <typeparamref name="TOutput"/> and then returns the argument provided.
+        /// </summary>
+        /// <remarks>
+        /// This can be used to intercept current variables or calculations by for example, printing the value as it is being passed as an argument.
+        /// </remarks>
+        /// <typeparam name="TInput">The type of <paramref name="items"/>.</typeparam>
+        /// <typeparam name="TOutput">The type to return.</typeparam>
+        /// <param name="items">The item to use as reference and modify.</param>
+        /// <param name="func">The function to apply <paramref name="items"/> to.</param>
+        /// <returns>The item <paramref name="items"/> after <paramref name="func"/>.</returns>
+        public static TOutput[] Apply<TInput, TOutput>(this TInput[] items, Func<TInput, int, TOutput> func) => items.Select((i, n) => func(i, n)).ToArray();
     }
 }
