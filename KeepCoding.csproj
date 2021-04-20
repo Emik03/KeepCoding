@@ -15,12 +15,14 @@
 	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	<Copyright>Emik</Copyright>
 	<RunPostBuildEvent>Always</RunPostBuildEvent>
-	<AssemblyVersion>1.5.0.0</AssemblyVersion>
-	<FileVersion>1.5.0.0</FileVersion>
-	<Version>1.5</Version>
+	<AssemblyVersion>1.5.1.0</AssemblyVersion>
+	<FileVersion>1.5.1.0</FileVersion>
+	<Version>1.5.1</Version>
 	<PackageId>KeepCoding</PackageId>
 	<SignAssembly>true</SignAssembly>
-	<DelaySign>true</DelaySign>
+	<DelaySign>false</DelaySign>
+	<AssemblyOriginatorKeyFile>KeepCoding.pfx</AssemblyOriginatorKeyFile>
+	<PackageTags>helper library extension dll unity extensions ktane keeptalking ktane-mods modkit keeptalkingandnobodyexplodes</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
