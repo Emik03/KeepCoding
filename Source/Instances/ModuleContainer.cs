@@ -6,7 +6,7 @@ namespace KeepCoding.v14
     /// <summary>
     /// Container for both regular and needy modules.
     /// </summary>
-    public sealed class ModuleContainer
+    public sealed class ModuleContainer : IEquatable<ModuleContainer>
     {
         /// <summary>
         /// Encapsulates either a regular or needy module.
@@ -111,14 +111,14 @@ namespace KeepCoding.v14
         /// </summary>
         /// <param name="regular">The regular module to create a new <see cref="ModuleContainer"/> of.</param>
         /// <returns>A <see cref="ModuleContainer"/> with parameter <paramref name="regular"/>.</returns>
-        public static implicit operator ModuleContainer(KMBombModule regular) => new ModuleContainer(regular: regular);
+        public static implicit operator ModuleContainer(KMBombModule regular) => new(regular: regular);
 
         /// <summary>
         /// Creates a new instance of <see cref="ModuleContainer"/> where <see cref="Needy"/> is defined.
         /// </summary>
         /// <param name="needy">The needy module to create a new <see cref="ModuleContainer"/> of.</param>
         /// <returns>A <see cref="ModuleContainer"/> with parameter <paramref name="needy"/>.</returns>
-        public static implicit operator ModuleContainer(KMNeedyModule needy) => new ModuleContainer(needy: needy);
+        public static implicit operator ModuleContainer(KMNeedyModule needy) => new(needy: needy);
 
         /// <summary>
         /// Returns the instance of <see cref="KMBombModule"/> from <see cref="Regular"/>.
@@ -160,5 +160,12 @@ namespace KeepCoding.v14
                     throw _unreachableException;
             }
         }
+
+        /// <summary>
+        /// Determines if both <see cref="ModuleContainer"/> variables are equal.
+        /// </summary>
+        /// <param name="other">The comparison.</param>
+        /// <returns>True if both contain the same instance of <see cref="KMBombModule"/>, null, <see cref="KMNeedyModule"/></returns>
+        public bool Equals(ModuleContainer other) => Module == other.Module;
     }
 }
