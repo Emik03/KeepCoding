@@ -9,7 +9,7 @@ namespace KeepCoding.v14
     /// <summary>
     /// Contains information about the mod's info, this class can be used to deserialize every mod's "modInfo.json".
     /// </summary>
-    public class ModInfo
+    public sealed class ModInfo
     {
         /// <value>
         /// Contains the ID of the mod, not to be mistaken with <see cref="ModuleScript.ModuleId"/>.
