@@ -15,7 +15,7 @@ namespace KeepCoding.v14
         /// <param name="func">The function to call when the <see cref="IEnumerator"/> is called.</param>
         /// <param name="monoBehaviour">The instance of the <see cref="MonoBehaviour"/> to start the <see cref="Coroutine"/> from.</param>
         /// <returns>A new <see cref="Routine"/> containing the arguments provided.</returns>
-        public static Routine ToRoutine(this Func<IEnumerator> func, MonoBehaviour monoBehaviour) => new Routine(func, monoBehaviour);
+        public static Routine ToRoutine(this Func<IEnumerator> func, MonoBehaviour monoBehaviour) => new(func, monoBehaviour);
 
         /// <summary>
         /// Converts arguments to a new <see cref="Routine{T}"/>.
@@ -23,7 +23,7 @@ namespace KeepCoding.v14
         /// <param name="func">The function to call when the <see cref="IEnumerator"/> is called.</param>
         /// <param name="monoBehaviour">The instance of the <see cref="MonoBehaviour"/> to start the <see cref="Coroutine"/> from.</param>
         /// <returns>A new <see cref="Routine{T}"/> containing the arguments provided.</returns>
-        public static Routine<T> ToRoutine<T>(this Func<T, IEnumerator> func, MonoBehaviour monoBehaviour) => new Routine<T>(func, monoBehaviour);
+        public static Routine<T> ToRoutine<T>(this Func<T, IEnumerator> func, MonoBehaviour monoBehaviour) => new(func, monoBehaviour);
 
         /// <summary>
         /// Converts arguments to a new <see cref="Routine{T1, T2}"/>.
@@ -31,7 +31,7 @@ namespace KeepCoding.v14
         /// <param name="func">The function to call when the <see cref="IEnumerator"/> is called.</param>
         /// <param name="monoBehaviour">The instance of the <see cref="MonoBehaviour"/> to start the <see cref="Coroutine"/> from.</param>
         /// <returns>A new <see cref="Routine{T1, T2}"/> containing the arguments provided.</returns>
-        public static Routine<T1, T2> ToRoutine<T1, T2>(this Func<T1, T2, IEnumerator> func, MonoBehaviour monoBehaviour) => new Routine<T1, T2>(func, monoBehaviour);
+        public static Routine<T1, T2> ToRoutine<T1, T2>(this Func<T1, T2, IEnumerator> func, MonoBehaviour monoBehaviour) => new(func, monoBehaviour);
 
         /// <summary>
         /// Converts arguments to a new <see cref="Routine{T1, T2, T3}"/>.
@@ -39,7 +39,7 @@ namespace KeepCoding.v14
         /// <param name="func">The function to call when the <see cref="IEnumerator"/> is called.</param>
         /// <param name="monoBehaviour">The instance of the <see cref="MonoBehaviour"/> to start the <see cref="Coroutine"/> from.</param>
         /// <returns>A new <see cref="Routine{T1, T2, T3}"/> containing the arguments provided.</returns>
-        public static Routine<T1, T2, T3> ToRoutine<T1, T2, T3>(this Func<T1, T2, T3, IEnumerator> func, MonoBehaviour monoBehaviour) => new Routine<T1, T2, T3>(func, monoBehaviour);
+        public static Routine<T1, T2, T3> ToRoutine<T1, T2, T3>(this Func<T1, T2, T3, IEnumerator> func, MonoBehaviour monoBehaviour) => new(func, monoBehaviour);
 
         /// <summary>
         /// Converts arguments to a new <see cref="Routine{T1, T2, T3, T4}"/>.
@@ -47,7 +47,7 @@ namespace KeepCoding.v14
         /// <param name="func">The function to call when the <see cref="IEnumerator"/> is called.</param>
         /// <param name="monoBehaviour">The instance of the <see cref="MonoBehaviour"/> to start the <see cref="Coroutine"/> from.</param>
         /// <returns>A new <see cref="Routine{T1, T2, T3, T4}"/> containing the arguments provided.</returns>
-        public static Routine<T1, T2, T3, T4> ToRoutine<T1, T2, T3, T4>(this Func<T1, T2, T3, T4, IEnumerator> func, MonoBehaviour monoBehaviour) => new Routine<T1, T2, T3, T4>(func, monoBehaviour);
+        public static Routine<T1, T2, T3, T4> ToRoutine<T1, T2, T3, T4>(this Func<T1, T2, T3, T4, IEnumerator> func, MonoBehaviour monoBehaviour) => new(func, monoBehaviour);
 
         /// <summary>
         /// Converts arguments to a new <see cref="Tuple{T}"/>.
@@ -55,7 +55,7 @@ namespace KeepCoding.v14
         /// <typeparam name="T">The type of tuple.</typeparam>
         /// <param name="item">The argument to pass into the tuple.</param>
         /// <returns>A new <see cref="Tuple{T}"/> containing <paramref name="item"/>.</returns>
-        public static Tuple<T> ToTuple<T>(this T item) => new Tuple<T>(item);
+        public static Tuple<T> ToTuple<T>(this T item) => new(item);
 
         /// <summary>
         /// Converts arguments to a new <see cref="Tuple{T1, T2}"/>.
@@ -65,7 +65,7 @@ namespace KeepCoding.v14
         /// <param name="item1">The first argument to pass into the tuple.</param>
         /// <param name="item2">The second argument to pass into the tuple.</param>
         /// <returns>A new <seealso cref="Tuple{T1, T2}"/> containing <paramref name="item1"/> and <paramref name="item2"/></returns>
-        public static Tuple<T1, T2> ToTuple<T1, T2>(this T1 item1, T2 item2) => new Tuple<T1, T2>(item1, item2);
+        public static Tuple<T1, T2> ToTuple<T1, T2>(this T1 item1, T2 item2) => new(item1, item2);
 
         /// <summary>
         /// Converts arguments to a new <see cref="Tuple{T1, T2, T3}"/>.
@@ -77,7 +77,7 @@ namespace KeepCoding.v14
         /// <param name="item2">The second argument to pass into the tuple.</param>
         /// <param name="item3">The third argument to pass into the tuple.</param>
         /// <returns>A new <seealso cref="Tuple{T1, T2, T3}"/> containing <paramref name="item1"/>, <paramref name="item2"/>, and <paramref name="item3"/></returns>
-        public static Tuple<T1, T2, T3> ToTuple<T1, T2, T3>(this T1 item1, T2 item2, T3 item3) => new Tuple<T1, T2, T3>(item1, item2, item3);
+        public static Tuple<T1, T2, T3> ToTuple<T1, T2, T3>(this T1 item1, T2 item2, T3 item3) => new(item1, item2, item3);
 
         /// <summary>
         /// Converts arguments to a new <see cref="Tuple{T1, T2, T3, T4}"/>.
@@ -91,7 +91,7 @@ namespace KeepCoding.v14
         /// <param name="item3">The third argument to pass into the tuple.</param>
         /// <param name="item4">The fourth argument to pass into the tuple.</param>
         /// <returns>A new <seealso cref="Tuple{T1, T2, T3, T4}"/> containing <paramref name="item1"/>, <paramref name="item2"/>, <paramref name="item3"/>, and <paramref name="item4"/></returns>
-        public static Tuple<T1, T2, T3, T4> ToTuple<T1, T2, T3, T4>(this T1 item1, T2 item2, T3 item3, T4 item4) => new Tuple<T1, T2, T3, T4>(item1, item2, item3, item4);
+        public static Tuple<T1, T2, T3, T4> ToTuple<T1, T2, T3, T4>(this T1 item1, T2 item2, T3 item3, T4 item4) => new(item1, item2, item3, item4);
 
         /// <summary>
         /// Converts argument to a new <see cref="Work"/>
@@ -100,7 +100,7 @@ namespace KeepCoding.v14
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         /// <returns>A new <see cref="Work"/> consisting of the arguments provided.</returns>
-        public static Work ToWork(this Action action, bool allowSimultaneousActive = false, uint maximumThreadsActive = 1) => new Work(action, allowSimultaneousActive, maximumThreadsActive);
+        public static Work ToWork(this Action action, bool allowSimultaneousActive = false, uint maximumThreadsActive = 1) => new(action, allowSimultaneousActive, maximumThreadsActive);
 
         /// <summary>
         /// Converts argument to a new <see cref="Work{T}"/>
@@ -109,7 +109,7 @@ namespace KeepCoding.v14
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         /// <returns>A new <see cref="Work{T}"/> consisting of the arguments provided.</returns>
-        public static Work<T> ToWork<T>(this Func<T> func, bool allowSimultaneousActive = false, uint maximumThreadsActive = 1) => new Work<T>(func, allowSimultaneousActive, maximumThreadsActive);
+        public static Work<T> ToWork<T>(this Func<T> func, bool allowSimultaneousActive = false, uint maximumThreadsActive = 1) => new(func, allowSimultaneousActive, maximumThreadsActive);
 
         /// <summary>
         /// Converts argument to a new <see cref="Work{T, TResult}"/>
@@ -118,7 +118,7 @@ namespace KeepCoding.v14
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         /// <returns>A new <see cref="Work{T, TResult}"/> consisting of the arguments provided.</returns>
-        public static Work<T, TResult> ToWork<T, TResult>(this Func<T, TResult> func, bool allowSimultaneousActive = false, uint maximumThreadsActive = 1) => new Work<T, TResult>(func, allowSimultaneousActive, maximumThreadsActive);
+        public static Work<T, TResult> ToWork<T, TResult>(this Func<T, TResult> func, bool allowSimultaneousActive = false, uint maximumThreadsActive = 1) => new(func, allowSimultaneousActive, maximumThreadsActive);
 
         /// <summary>
         /// Converts argument to a new <see cref="Work{T1, T2, TResult}"/>
@@ -127,7 +127,7 @@ namespace KeepCoding.v14
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         /// <returns>A new <see cref="Work{T1, T2, TResult}"/> consisting of the arguments provided.</returns>
-        public static Work<T1, T2, TResult> ToWork<T1, T2, TResult>(this Func<T1, T2, TResult> func, bool allowSimultaneousActive = false, uint maximumThreadsActive = 1) => new Work<T1, T2, TResult>(func, allowSimultaneousActive, maximumThreadsActive);
+        public static Work<T1, T2, TResult> ToWork<T1, T2, TResult>(this Func<T1, T2, TResult> func, bool allowSimultaneousActive = false, uint maximumThreadsActive = 1) => new(func, allowSimultaneousActive, maximumThreadsActive);
 
         /// <summary>
         /// Converts argument to a new <see cref="Work{T1, T2, T3, TResult}"/>
@@ -136,7 +136,7 @@ namespace KeepCoding.v14
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         /// <returns>A new <see cref="Work{T1, T2, T3, TResult}"/> consisting of the arguments provided.</returns>
-        public static Work<T1, T2, T3, TResult> ToWork<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> func, bool allowSimultaneousActive = false, uint maximumThreadsActive = 1) => new Work<T1, T2, T3, TResult>(func, allowSimultaneousActive, maximumThreadsActive);
+        public static Work<T1, T2, T3, TResult> ToWork<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> func, bool allowSimultaneousActive = false, uint maximumThreadsActive = 1) => new(func, allowSimultaneousActive, maximumThreadsActive);
 
         /// <summary>
         /// Converts argument to a new <see cref="Work{T1, T2, T3, T4, TResult}"/>
@@ -145,6 +145,6 @@ namespace KeepCoding.v14
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         /// <returns>A new <see cref="Work{T1, T2, T3, T4, TResult}"/> consisting of the arguments provided.</returns>
-        public static Work<T1, T2, T3, T4, TResult> ToWork<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, TResult> func, bool allowSimultaneousActive = false, uint maximumThreadsActive = 1) => new Work<T1, T2, T3, T4, TResult>(func, allowSimultaneousActive, maximumThreadsActive);
+        public static Work<T1, T2, T3, T4, TResult> ToWork<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, TResult> func, bool allowSimultaneousActive = false, uint maximumThreadsActive = 1) => new(func, allowSimultaneousActive, maximumThreadsActive);
     }
 }
