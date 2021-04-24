@@ -96,7 +96,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="item">The item to check the type for.</param>
         /// <returns><paramref name="item"/> is either <see cref="string"/>, <see cref="IEnumerable"/>, or <see cref="IEnumerator"/>.</returns>
-        public static bool IsIterator(this object item) => item is string or IEnumerable or IEnumerator;
+        public static bool IsIterator<T>(this T item) => item is string or IEnumerable or IEnumerator;
 
         /// <summary>
         /// Determines if the string is null or empty.
@@ -329,7 +329,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="e">The <see cref="Expression"/> which returns the object you want the name of.</param>
         /// <returns>The name of the variable, or if it cannot find it, <see cref="Unknown"/>.</returns>
-        public static string NameOfVariable(this Expression<Func<object>> e)
+        public static string NameOfVariable<T>(this Expression<Func<T>> e)
         {
             try
             {
@@ -405,7 +405,7 @@ namespace KeepCoding
         /// <param name="getVariables">Whether it should search recursively inside the variable and yield return the elements inside <paramref name="item"/>.</param>
         /// <param name="delimiter">The characters in-between each element.</param>
         /// <returns>A string consisting of all values from <paramref name="item"/>.</returns>
-        public static string UnwrapToString(this object item, bool getVariables = false, string delimiter = ", ") => string.Join(delimiter, Unwrap(item, getVariables).Select(o => o.ToString()).ToArray());
+        public static string UnwrapToString<T>(this T item, bool getVariables = false, string delimiter = ", ") => string.Join(delimiter, Unwrap(item, getVariables).Select(o => o.ToString()).ToArray());
 
         /// <summary>
         /// Unwraps any object, whether it be a class, list, tuple, or any other data.
@@ -465,7 +465,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="source">The item to get all fields and properties.</param>
         /// <returns>All fields and properties of <paramref name="source"/>.</returns>
-        public static IEnumerable<string> GetAllValues(this object source) => source?.GetType()?.GetFields(Helper.Flags).Select(f => $"\n{f} (Field): {f?.GetValue(source).UnwrapToString()}").Concat(source?.GetType()?.GetProperties(Helper.Flags).Select(p => $"\n{p} (Property): {p?.GetValue(source, null).UnwrapToString()}"));
+        public static IEnumerable<string> GetAllValues<T>(this T source) => source?.GetType()?.GetFields(Flags).Select(f => $"\n{f} (Field): {f?.GetValue(source).UnwrapToString()}").Concat(source?.GetType()?.GetProperties(Flags).Select(p => $"\n{p} (Property): {p?.GetValue(source, null).UnwrapToString()}"));
 
         /// <summary>
         /// Unwraps any <see cref="IEnumerable"/> of type <see cref="object"/>, which ends up flattening it as a <see cref="Array"/> of type <see cref="object"/>.

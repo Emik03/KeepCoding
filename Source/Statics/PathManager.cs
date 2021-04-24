@@ -106,7 +106,7 @@ namespace KeepCoding
             if (IsCached(in current))
                 return;
 
-            SetCache<object>(current, null);
+            SetCache<string>(current, null);
 
             string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
 

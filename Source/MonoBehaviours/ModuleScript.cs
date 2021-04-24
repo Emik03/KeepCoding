@@ -105,7 +105,6 @@ namespace KeepCoding
         /// <exception cref="NullIteratorException"></exception>
         protected void Awake()
         {
-            Debug.Log("test" + ModBundleName);
             _setActive = () =>
             {
                 if (Get<KMBombInfo>(allowNull: true) is KMBombInfo bombInfo)
@@ -115,7 +114,7 @@ namespace KeepCoding
             };
 
             _components = new Dictionary<Type, Component[]>() { { typeof(ModuleScript), new[] { this } } };
-
+            
             ModBundleName.NullOrEmptyCheck("The public field \"ModBundleName\" is empty! This means that when compiled it won't be able to run! Please set this field to your Mod ID located at Keep Talking ModKit -> Configure Mod. Refer to this link for more details: https://github.com/Emik03/KeepCoding/wiki/Chapter-2.1:-ModuleScript#version-string");
                      
             Module = new ModuleContainer(Get<KMBombModule>(), Get<KMNeedyModule>());
@@ -174,7 +173,7 @@ namespace KeepCoding
         {
             int index = 0;
 
-            string Format(string name, object value) => Helper.VariableTemplate.Form(index++, name, value?.GetType().ToString() ?? Helper.Null, string.Join(", ", value.Unwrap(getVariables).Select(o => o.ToString()).ToArray()));
+            string Format<T>(string name, T value) => Helper.VariableTemplate.Form(index++, name, value?.GetType().ToString() ?? Helper.Null, string.Join(", ", value.Unwrap(getVariables).Select(o => o.ToString()).ToArray()));
 
             var type = GetType();
             var values = new List<object>();
@@ -275,7 +274,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="message">The message to log.</param>
         /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
-        public void Log(object message, LogType logType = LogType.Log) => GetLogMethod(logType)($"[{Module.ModuleDisplayName} #{ModuleId}] {message.UnwrapToString()}");
+        public void Log<T>(T message, LogType logType = LogType.Log) => GetLogMethod(logType)($"[{Module.ModuleDisplayName} #{ModuleId}] {message.UnwrapToString()}");
 
         /// <summary>
         /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
@@ -283,7 +282,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="message">The message to log.</param>
         /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
-        public void Log(object message, params object[] args) => Log(message.UnwrapToString().Form(args));
+        public void Log<T>(T message, params object[] args) => Log(message.UnwrapToString().Form(args));
 
         /// <summary>
         /// Plays a sound. Requires <see cref="KMAudio"/> to be assigned.

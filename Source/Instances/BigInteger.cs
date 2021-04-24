@@ -443,7 +443,7 @@ namespace KeepCoding
         /// <param name="min">The minimum value accepted.</param>
         /// <param name="max">The maximum value accepted.</param>
         /// <returns>True if <paramref name="min"/> is smaller or equal itself and <paramref name="max"/> is greater or equal itself.</returns>
-        public bool IsInRange(object min, object max) => this >= min && this <= max;
+        public bool IsInRange<T>(T min, T max) => this >= min && this <= max;
 
         /// <summary>
         /// Converts the BigInteger to a <see cref="int"/>.
@@ -493,7 +493,7 @@ namespace KeepCoding
         /// <exception cref="NegativeNumberException"></exception>
         /// <param name="obj">The right-hand side operator.</param>
         /// <returns>Itself mod <paramref name="obj"/>.</returns>
-        public BigInteger Modulo(object obj) => ((this % obj) + obj) % obj;
+        public BigInteger Modulo<T>(T obj) => ((this % obj) + obj) % obj;
 
         private enum Operator { Add, Subtract, Multiply, Divide, Modulo }
 
@@ -691,7 +691,7 @@ namespace KeepCoding
 
         private static sbyte[] InvertConditional(in sbyte[] vs, bool b) => b ? vs.Select(s => (sbyte)(-1 * s)).ToArray() : vs;
 
-        private sbyte[] ObjectToBytes(in object obj)
+        private sbyte[] ObjectToBytes<T>(in T obj)
         {
             obj.NullCheck("You cannot construct a BigInteger out of null.");
 

@@ -154,11 +154,12 @@ namespace KeepCoding
         /// <remarks>
         /// You can yield return this to send error messages or interactions by first checking for the condition.
         /// </remarks>
+        /// <typeparam name="TThen">The type of then condition.</typeparam>
         /// <param name="condition">The boolean to check.</param>
         /// <param name="then">The output to return if <paramref name="condition"/> is true.</param>
         /// <param name="otherwise">The output to return if <paramref name="condition"/> is false.</param>
         /// <returns><paramref name="then"/> or <paramref name="otherwise"/>, depending on <paramref name="condition"/>.</returns>
-        protected static object Evaluate(bool condition, object then, object otherwise = null) => condition ? then : otherwise;
+        protected static object Evaluate<TThen>(bool condition, TThen then, object otherwise = null) => condition ? then : otherwise;
 
         /// <summary>
         /// Yield return this to allow you to tell the user why they got a strike if it isn't clear.
