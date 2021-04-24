@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 using static KMAudio;
 
@@ -73,7 +74,7 @@ namespace KeepCoding
         public static void Assign(this KMSelectable kmSelectable, bool? overrideReturn = null, Action onCancel = null, Action onDefocus = null, Action onDeselect = null, Action onFocus = null, Action onHighlight = null, Action onHighlightEnded = null, Action onInteract = null, Action onInteractEnded = null, Action onLeft = null, Action onRight = null, Action onSelect = null)
         {
             if (kmSelectable is null)
-                throw Unassigned(typeof(KMSelectable));
+                throw typeof(KMSelectable).Unassigned();
 
             overrideReturn ??= kmSelectable.IsParent();
 
@@ -103,7 +104,7 @@ namespace KeepCoding
         public static void Assign(this KMGameInfo kmGameInfo, Action<bool> onAlarmClockChange = null, Action<bool> onLightsChange = null)
         {
             if (kmGameInfo is null)
-                throw Unassigned(typeof(KMGameInfo));
+                throw typeof(KMGameInfo).Unassigned();
 
             onAlarmClockChange.Set(ref kmGameInfo.OnAlarmClockChange);
             onLightsChange.Set(ref kmGameInfo.OnLightsChange);
@@ -122,7 +123,7 @@ namespace KeepCoding
         public static void Assign(this KMBombInfo kmBombInfo, Action onBombExploded = null, Action onBombSolved = null)
         {
             if (kmBombInfo is null)
-                throw Unassigned(typeof(KMBombInfo));
+                throw typeof(KMBombInfo).Unassigned();
 
             onBombExploded.Set(ref kmBombInfo.OnBombExploded);
             onBombSolved.Set(ref kmBombInfo.OnBombSolved);
@@ -139,37 +140,7 @@ namespace KeepCoding
         /// <typeparam name="T">The type to cast the delegate into.</typeparam>
         /// <param name="dele">The delegate to cast.</param>
         /// <returns><paramref name="dele"/> as <typeparamref name="T"/>.</returns>
-        public static T Cast<T>(this Delegate dele) where T : Delegate
-        {
-            if (dele is null) 
-                return null;
-
-            var multicast = (dele as MulticastDelegate)?.GetInvocationList();
-
-            if (multicast is not null)
-            {
-                switch (multicast.Length)
-                {
-                    case 0:
-                        return null;
-
-                    case 1:
-                        if (multicast[0] != dele)
-                            return multicast[0].Cast<T>();
-                        break;
-
-                    default:
-                        var convertedItems = new Delegate[multicast.Length];
-
-                        for (int i = 0; i < multicast.Length; i++)
-                            convertedItems[i] = (Delegate)(object)multicast[i].Cast<T>();
-
-                        return (T)Delegate.Combine(convertedItems);
-                }
-            }
-
-            return (T)Delegate.CreateDelegate(typeof(T), dele.Target, dele.Method, true);
-        }
+        public static T Cast<T>(this Delegate dele) where T : Delegate => dele is null ? null : (dele as MulticastDelegate)?.GetInvocationList() is Delegate[] multicast ? dele.Multicast<T>(multicast) : dele.CreateDelegate<T>();
 
         /// <summary>
         /// Stops all sounds for the entire <see cref="KMAudioRef"/> <see cref="Array"/>.
@@ -184,6 +155,14 @@ namespace KeepCoding
         public static void StopSound(this Sound[] sounds) => sounds.ForEach(s => s.StopSound());
 
         /// <summary>
+        /// Creates a delegate of the specified type.
+        /// </summary>
+        /// <typeparam name="T">The type of delegate to create.</typeparam>
+        /// <param name="dele">The delegate to reference from.</param>
+        /// <returns>A delegate of type <typeparamref name="T"/> using <paramref name="dele"/>'s target and method.</returns>
+        public static T CreateDelegate<T>(this Delegate dele) where T : Delegate => (T)Delegate.CreateDelegate(typeof(T), dele.Target, dele.Method, true);
+
+        /// <summary>
         /// Adds a <see cref="Delegate"/> onto the referenced variable.
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
@@ -194,10 +173,17 @@ namespace KeepCoding
         /// <returns><paramref name="mutator"/> with <paramref name="dele"/> appended.</returns>
         public static Delegate Set<T>(this Delegate dele, ref T mutator) where T : Delegate => mutator = dele is null ? mutator : dele.Cast<T>();
 
+        private static T Multicast<T>(this Delegate dele, Delegate[] multicast) where T : Delegate => multicast.Length switch
+        {
+            0 => null,
+            1 => multicast[0] == dele ? dele.CreateDelegate<T>() : multicast[0].Cast<T>(),
+            _ => (T)Delegate.Combine(Enumerable.Range(0, multicast.Length).Select(i => multicast[i].Cast<T>()).ToArray())
+        };
+
         private static Action ToAction(this Action<int> action, int i) => action is null ? null : () => action(i);
 
         private static Func<bool> ToFunc(this Action action, bool b) => action is null ? null : () => { action(); return b; };
 
-        private static UnassignedReferenceException Unassigned(Type type) => throw new($"The {type.Name} is null. You cannot assign events to a {type.Name} without a reference to a {type.Name}.");
+        private static UnassignedReferenceException Unassigned(this Type type) => throw new($"The {type.Name} is null. You cannot assign events to a {type.Name} without a reference to a {type.Name}.");
     }
 }
