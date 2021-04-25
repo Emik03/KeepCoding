@@ -149,19 +149,6 @@ namespace KeepCoding
         protected static bool IsMatch(string input, string pattern, bool lenient = true, RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.CultureInvariant) => Regex.IsMatch(input.NullCheck("You cannot do a Regular Expression check where the message is null."), lenient ? @"^\s*" + pattern.NullCheck("You cannot do a Regular Expression check where the expression is null.") + @"\s*$" : pattern.NullCheck("You cannot do a Regular Expression check where the expression is null."), options);
 
         /// <summary>
-        /// Works as a ternary operator. Returns <paramref name="then"/> if <paramref name="condition"/> is true, otherwise <paramref name="otherwise"/>.
-        /// </summary>
-        /// <remarks>
-        /// You can yield return this to send error messages or interactions by first checking for the condition.
-        /// </remarks>
-        /// <typeparam name="TThen">The type of then condition.</typeparam>
-        /// <param name="condition">The boolean to check.</param>
-        /// <param name="then">The output to return if <paramref name="condition"/> is true.</param>
-        /// <param name="otherwise">The output to return if <paramref name="condition"/> is false.</param>
-        /// <returns><paramref name="then"/> or <paramref name="otherwise"/>, depending on <paramref name="condition"/>.</returns>
-        protected static object Evaluate<TThen>(bool condition, TThen then, object otherwise = null) => condition ? then : otherwise;
-
-        /// <summary>
         /// Yield return this to allow you to tell the user why they got a strike if it isn't clear.
         /// </summary>
         /// <param name="message">The message to send.</param>
@@ -181,7 +168,7 @@ namespace KeepCoding
         /// <param name="time">The amount of time to wait.</param>
         /// <param name="message">The message to send.</param>
         /// <returns>A formatted string for Twitch Plays.</returns>
-        protected static string TryWaitCancel(float time, string message = null) => AppendIfNotNullOrEmpty("strikemessage", time, message);
+        protected static string TryWaitCancel(float time, string message = null) => AppendIfNotNullOrEmpty("trywaitcancel", time, message);
 
         /// <summary>
         /// Yield return this to send a chat directly to twitch chat.
@@ -195,7 +182,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="message">The message to send.</param>
         /// <returns>A formatted string for Twitch Plays.</returns>
-        protected static string SendToChatError(string message) => AppendIfNotNullOrEmpty("sendtochaterror ", message);
+        protected static string SendToChatError(string message) => AppendIfNotNullOrEmpty("sendtochaterror", message);
 
         /// <summary>
         /// Yield return this to send a message to chat after <paramref name="time"/> seconds.
@@ -233,6 +220,19 @@ namespace KeepCoding
         /// <param name="points">The amount of points to award. Negatives supported.</param>
         /// <returns>A formatted string for Twitch Plays.</returns>
         protected static string AwardPointsOnSolve(int points) => AppendIfNotNullOrEmpty("awardpointsonsolve", points);
+
+        /// <summary>
+        /// Works as a ternary operator. Returns <paramref name="then"/> if <paramref name="condition"/> is true, otherwise <paramref name="otherwise"/>.
+        /// </summary>
+        /// <remarks>
+        /// You can yield return this to send error messages or interactions by first checking for the condition.
+        /// </remarks>
+        /// <typeparam name="TThen">The type of then condition.</typeparam>
+        /// <param name="condition">The boolean to check.</param>
+        /// <param name="then">The output to return if <paramref name="condition"/> is true.</param>
+        /// <param name="otherwise">The output to return if <paramref name="condition"/> is false.</param>
+        /// <returns><paramref name="then"/> or <paramref name="otherwise"/>, depending on <paramref name="condition"/>.</returns>
+        protected static object Evaluate<TThen>(bool condition, TThen then, object otherwise = null) => condition ? then : otherwise;
 
         private static string AppendIfNotNullOrEmpty(string main, params object[] toAppend)
         {
