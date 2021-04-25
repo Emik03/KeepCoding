@@ -82,14 +82,14 @@ namespace KeepCoding
         /// </summary>
         /// <param name="source">The <see cref="IEnumerable{T}"/> to check for.</param>
         /// <returns>True if <paramref name="source"/> is equal to null, or empty.</returns>
-        public static bool IsNullOrEmpty<T>(this IEnumerable<T> source) => source is null || source.Any();
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> source) => source is null || !source.Any();
 
         /// <summary>
         /// Determines if the <see cref="IEnumerator{T}"/> is null or empty.
         /// </summary>
         /// <param name="source">The <see cref="IEnumerable{T}"/> to check for.</param>
         /// <returns>True if <paramref name="source"/> is equal to null, or empty.</returns>
-        public static bool IsNullOrEmpty<T>(this IEnumerator<T> source) => source is null || source.AsEnumerable().Any();
+        public static bool IsNullOrEmpty<T>(this IEnumerator<T> source) => source is null || !source.AsEnumerable().Any();
 
         /// <summary>
         /// Determines if the item is an iterator type.
@@ -415,7 +415,7 @@ namespace KeepCoding
         /// <returns>An <see cref="object"/> <see cref="Array"/> of all elements within <paramref name="source"/>.</returns>
         public static object[] Unwrap(this object source, bool isRecursive = false) => (source switch
         {
-            null => new[] { Helper.Null },
+            null => new[] { Null },
             string => new[] { source },
             Tuple tuple => tuple.ToArray.Unwrap(),
             IEnumerable ienumerable => ienumerable.Unwrap(),
@@ -435,7 +435,7 @@ namespace KeepCoding
         /// Gets the appropriate <see cref="Exception"/> based on the data type.
         /// </summary>
         /// <param name="item">The item to check the type for.</param>
-        /// <returns><see cref="NullIteratorException"/> if <paramref name="item"/> is an iterator, evaluated with <see cref="IsIterator(object)"/>, otherwise <see cref="NullReferenceException"/></returns>
+        /// <returns><see cref="NullIteratorException"/> if <paramref name="item"/> is an iterator, evaluated with <see cref="IsIterator{T}(T)"/>, otherwise <see cref="NullReferenceException"/></returns>
         public static Func<string, Exception> GetNullException(this object item) => s => item.IsIterator() ? new NullIteratorException(s) : new NullReferenceException(s);
 
         /// <summary>

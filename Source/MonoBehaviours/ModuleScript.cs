@@ -92,7 +92,7 @@ namespace KeepCoding
         /// </summary>
         protected bool TimeModeActive, TwitchPlaysActive, TwitchPlaysSkipTimeAllowed, TwitchShouldCancelCommand, ZenModeActive;
 
-        private static readonly Dictionary<string, int> _moduleIds = new Dictionary<string, int>();
+        private static readonly Dictionary<string, int> _moduleIds = new();
 
         private Action _setActive;
 
@@ -113,11 +113,11 @@ namespace KeepCoding
                 OnActivate();
             };
 
-            _components = new Dictionary<Type, Component[]>() { { typeof(ModuleScript), new[] { this } } };
+            _components = new() { { typeof(ModuleScript), new[] { this } } };
             
             ModBundleName.NullOrEmptyCheck("The public field \"ModBundleName\" is empty! This means that when compiled it won't be able to run! Please set this field to your Mod ID located at Keep Talking ModKit -> Configure Mod. Refer to this link for more details: https://github.com/Emik03/KeepCoding/wiki/Chapter-2.1:-ModuleScript#version-string");
                      
-            Module = new ModuleContainer(Get<KMBombModule>(), Get<KMNeedyModule>());
+            Module = new(Get<KMBombModule>(allowNull: true), Get<KMNeedyModule>(allowNull: true));
 
             Module.OnActivate(_setActive);
 
@@ -241,7 +241,7 @@ namespace KeepCoding
             if (!_components.ContainsKey(typeof(T)))
                 _components.Add(typeof(T), func());
 
-            return _components.ContainsKey(typeof(T)) ? (T[])_components[typeof(T)] : allowNull ? default(T[]) : throw new UnityComponentNotFoundException($"Tried to get component {typeof(T).Name} from {this}, but was unable to find one.");
+            return allowNull || !_components[typeof(T)].IsNullOrEmpty() ? (T[])_components[typeof(T)] : throw new UnityComponentNotFoundException($"Tried to get component {typeof(T).Name} from {this}, but was unable to find one.");
         }
 
         /// <summary>
