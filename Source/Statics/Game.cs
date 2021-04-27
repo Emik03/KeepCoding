@@ -12,7 +12,7 @@ namespace KeepCoding
     /// Allows access into the game's internal code. Written by Emik.
     /// </summary>
     /// <remarks>
-    /// You should avoid calling this class from the Editor as it uses the game assembly as a dependancy. Written by Emik.
+    /// You should avoid calling this class from the Editor as it uses the game assembly as a dependancy.
     /// </remarks>
     public static class Game
     {
@@ -68,29 +68,29 @@ namespace KeepCoding
             /// </value>
             public static bool InvertTiltControls => Player.Instance.PlayerSettings.InvertTiltControls;
 
-            /// <summary>
+            /// <value>
             /// Determines if the option to lock the mouse to the window is enabled.
-            /// </summary>
+            /// </value>
             public static bool LockMouseToWindow => Player.Instance.PlayerSettings.LockMouseToWindow;
 
-            /// <summary>
+            /// <value>
             /// Determines if the option to show the leaderboards from the pamphlet.
-            /// </summary>
+            /// </value>
             public static bool ShowLeaderBoards => Player.Instance.PlayerSettings.ShowLeaderBoards;
 
-            /// <summary>
+            /// <value>
             /// Determines if the option to show the rotation of the User Interface is enabled.
-            /// </summary>
+            /// </value>
             public static bool ShowRotationUI => Player.Instance.PlayerSettings.ShowRotationUI;
 
-            /// <summary>
+            /// <value>
             /// Determines if the option to show scanlines is enabled.
-            /// </summary>
+            /// </value>
             public static bool ShowScanline => Player.Instance.PlayerSettings.ShowScanline;
 
-            /// <summary>
+            /// <value>
             /// Determines if the option to skip the title screen is enabled.
-            /// </summary>
+            /// </value>
             public static bool SkipTitleScreen => Player.Instance.PlayerSettings.SkipTitleScreen;
 
             /// <value>
@@ -103,24 +103,24 @@ namespace KeepCoding
             /// </value>
             public static bool TouchpadInvert => Player.Instance.PlayerSettings.TouchpadInvert;
 
-            /// <summary>
+            /// <value>
             /// Determines if the option to always use mods is enabled.
-            /// </summary>
+            /// </value>
             public static bool UseModsAlways => Player.Instance.PlayerSettings.UseModsAlways;
 
-            /// <summary>
+            /// <value>
             /// Determines if the option to use parallel/simultaneous mod loading is enabled.
-            /// </summary>
+            /// </value>
             public static bool UseParallelModLoading => Player.Instance.PlayerSettings.UseParallelModLoading;
 
-            /// <summary>
+            /// <value>
             /// Determines if VR mode is requested.
-            /// </summary>
+            /// </value>
             public static bool VRModeRequested => Player.Instance.PlayerSettings.VRModeRequested;
 
-            /// <summary>
+            /// <value>
             /// The intensity of anti-aliasing currently on the game. Ranges 0 to 8.
-            /// </summary>
+            /// </value>
             public static int AntiAliasing => Player.Instance.PlayerSettings.AntiAliasing;
 
             /// <value>
@@ -128,14 +128,14 @@ namespace KeepCoding
             /// </value>
             public static int MusicVolume => Player.Instance.PlayerSettings.MusicVolume;
 
-            /// <summary>
+            /// <value>
             /// The current sound effects volume from the dosssier menu. Ranges 0 to 100.
-            /// </summary>
+            /// </value>
             public static int SFXVolume => Player.Instance.PlayerSettings.SFXVolume;
 
-            /// <summary>
+            /// <value>
             /// Determines if VSync is on or off.
-            /// </summary>
+            /// </value>
             public static int VSync => Player.Instance.PlayerSettings.VSync;
 
             /// <value>
