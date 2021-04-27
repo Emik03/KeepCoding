@@ -132,7 +132,7 @@ namespace KeepCoding
         /// <param name="weighting">The odds of the boolean being true.</param>
         /// <returns>An array of random booleans of length <paramref name="length"/>, with probability based off of <paramref name="weighting"/>.</returns>
         /// <returns></returns>
-        public static bool[] RandomBooleans(this int length, float weighting = 0.5f) => Enumerable.Range(0, length).Select(i => Helper.RandomBoolean(weighting)).ToArray();
+        public static bool[] RandomBooleans(this int length, float weighting = 0.5f) => Enumerable.Range(0, length).Select(i => RandomBoolean(weighting)).ToArray();
 
         /// <summary>
         /// Converts a character to a number.
