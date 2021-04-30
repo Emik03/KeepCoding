@@ -41,6 +41,17 @@ namespace KeepCoding
             VariableTemplate = "\n\n[{0}] {1}\n({2})\n{3}";
 
         /// <summary>
+        /// Determines if the current game object has a component of a specific type.
+        /// </summary>
+        /// <remarks>
+        /// This uses <see cref="GameObject.GetComponent{T}"/>, meaning that the component must be part of the same game object for this to return true.
+        /// </remarks>
+        /// <typeparam name="T">The type of component to find.</typeparam>
+        /// <param name="obj">The game object to search with.</param>
+        /// <returns>True if a component has been found of type <typeparamref name="T"/> from <paramref name="obj"/>.</returns>
+        public static bool HasComponent<T>(this GameObject obj) where T : Component => obj.GetComponent<T>() is not null;
+
+        /// <summary>
         /// Determines whether the number is equal or in-between 2 values.
         /// </summary>
         /// <param name="comparison">The number to use as comparison.</param>
@@ -59,11 +70,40 @@ namespace KeepCoding
         public static bool IsBetween(this float comparison, float min, float max) => comparison >= min && comparison <= max;
 
         /// <summary>
+        /// Determines if the index is pointing to null in any way.
+        /// </summary>
+        /// <param name="source">The array to index with.</param>
+        /// <param name="index">The index.</param>
+        /// <returns>True if <paramref name="source"/> is null, if <paramref name="index"/> is out of range, or if the element is null.</returns>
+        public static bool IsIndexNull<T>(this IEnumerable<T> source, int index) => source is null || !index.IsBetween(0, source.GetUpperBound()) || source.ElementAt(index) is null;
+
+        /// <summary>
+        /// Determines if the item is an iterator type.
+        /// </summary>
+        /// <param name="item">The item to check the type for.</param>
+        /// <returns><paramref name="item"/> is either <see cref="string"/>, <see cref="IEnumerable"/>, or <see cref="IEnumerator"/>.</returns>
+        public static bool IsIterator<T>(this T item) => item is string or IEnumerable or IEnumerator;
+
+        /// <summary>
         /// Determines if the string is null or empty.
         /// </summary>
         /// <param name="str">The string to check for.</param>
         /// <returns>True if <paramref name="str"/> is equal to null, or empty.</returns>
         public static bool IsNullOrEmpty(this string str) => string.IsNullOrEmpty(str);
+
+        /// <summary>
+        /// Determines if the <see cref="IEnumerable{T}"/> is null or empty.
+        /// </summary>
+        /// <param name="source">The <see cref="IEnumerable{T}"/> to check for.</param>
+        /// <returns>True if <paramref name="source"/> is equal to null, or empty.</returns>
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> source) => source is null || !source.Any();
+
+        /// <summary>
+        /// Determines if the <see cref="IEnumerator{T}"/> is null or empty.
+        /// </summary>
+        /// <param name="source">The <see cref="IEnumerable{T}"/> to check for.</param>
+        /// <returns>True if <paramref name="source"/> is equal to null, or empty.</returns>
+        public static bool IsNullOrEmpty<T>(this IEnumerator<T> source) => source is null || !source.AsEnumerable().Any();
 
         /// <summary>
         /// Determines if the <see cref="KMSelectable"/> is a parent of another <see cref="KMSelectable"/>.
@@ -257,46 +297,6 @@ namespace KeepCoding
         /// <param name="max">The maximum value for each index. (inclusive)</param>
         /// <returns>Random float array of length <paramref name="length"/> between <paramref name="min"/> and <paramref name="max"/>.</returns>
         public static float[] Ranges(this int length, float min, float max) => Enumerable.Range(0, length).Select(i => Random.Range(min, max)).ToArray();
-
-        /// <summary>
-        /// Determines if the current game object has a component of a specific type.
-        /// </summary>
-        /// <remarks>
-        /// This uses <see cref="GameObject.GetComponent{T}"/>, meaning that the component must be part of the same game object for this to return true.
-        /// </remarks>
-        /// <typeparam name="T">The type of component to find.</typeparam>
-        /// <param name="obj">The game object to search with.</param>
-        /// <returns>True if a component has been found of type <typeparamref name="T"/> from <paramref name="obj"/>.</returns>
-        public static bool HasComponent<T>(this GameObject obj) where T : Component => obj.GetComponent<T>() is not null;
-
-        /// <summary>
-        /// Determines if the index is pointing to null in any way.
-        /// </summary>
-        /// <param name="source">The array to index with.</param>
-        /// <param name="index">The index.</param>
-        /// <returns>True if <paramref name="source"/> is null, if <paramref name="index"/> is out of range, or if the element is null.</returns>
-        public static bool IsIndexNull<T>(this IEnumerable<T> source, int index) => source is null || !index.IsBetween(0, source.GetUpperBound()) || source.ElementAt(index) is null;
-
-        /// <summary>
-        /// Determines if the item is an iterator type.
-        /// </summary>
-        /// <param name="item">The item to check the type for.</param>
-        /// <returns><paramref name="item"/> is either <see cref="string"/>, <see cref="IEnumerable"/>, or <see cref="IEnumerator"/>.</returns>
-        public static bool IsIterator<T>(this T item) => item is string or IEnumerable or IEnumerator;
-
-        /// <summary>
-        /// Determines if the <see cref="IEnumerable{T}"/> is null or empty.
-        /// </summary>
-        /// <param name="source">The <see cref="IEnumerable{T}"/> to check for.</param>
-        /// <returns>True if <paramref name="source"/> is equal to null, or empty.</returns>
-        public static bool IsNullOrEmpty<T>(this IEnumerable<T> source) => source is null || !source.Any();
-
-        /// <summary>
-        /// Determines if the <see cref="IEnumerator{T}"/> is null or empty.
-        /// </summary>
-        /// <param name="source">The <see cref="IEnumerable{T}"/> to check for.</param>
-        /// <returns>True if <paramref name="source"/> is equal to null, or empty.</returns>
-        public static bool IsNullOrEmpty<T>(this IEnumerator<T> source) => source is null || !source.AsEnumerable().Any();
 
         /// <summary>
         /// Converts any base number to any base.
