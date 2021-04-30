@@ -32,8 +32,7 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         public void Restart()
         {
-            if (Coroutines.Count == 0)
-                throw new EmptyIteratorException("Coroutines is empty.");
+            Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
             MonoBehaviour.StopCoroutine(Coroutines[0]);
 
@@ -46,8 +45,7 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         public void RestartAll()
         {
-            if (Coroutines.Count == 0)
-                throw new EmptyIteratorException("Coroutines is empty.");
+            Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
             for (int i = 0; i < Coroutines.Count; i++)
             {
@@ -96,8 +94,7 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         public void Restart(T t)
         {
-            if (Coroutines.Count == 0)
-                throw new EmptyIteratorException("Coroutines is empty.");
+            Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
             MonoBehaviour.StopCoroutine(Coroutines[0]);
 
@@ -111,8 +108,7 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         public void RestartAll(T t)
         {
-            if (Coroutines.Count == 0)
-                throw new EmptyIteratorException("Coroutines is empty.");
+            Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
             for (int i = 0; i < Coroutines.Count; i++)
             {
@@ -163,8 +159,7 @@ namespace KeepCoding
         /// <param name="t2">The second argument to pass into the coroutine.</param>
         public void Restart(T1 t1, T2 t2)
         {
-            if (Coroutines.Count == 0)
-                throw new EmptyIteratorException("Coroutines is empty.");
+            Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
             MonoBehaviour.StopCoroutine(Coroutines[0]);
 
@@ -179,8 +174,7 @@ namespace KeepCoding
         /// <param name="t2">The second argument to pass into the coroutine.</param>
         public void RestartAll(T1 t1, T2 t2)
         {
-            if (Coroutines.Count == 0)
-                throw new EmptyIteratorException("Coroutines is empty.");
+            Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
             for (int i = 0; i < Coroutines.Count; i++)
             {
@@ -233,8 +227,7 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         public void Restart(T1 t1, T2 t2, T3 t3)
         {
-            if (Coroutines.Count == 0)
-                throw new EmptyIteratorException("Coroutines is empty.");
+            Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
             MonoBehaviour.StopCoroutine(Coroutines[0]);
 
@@ -250,8 +243,7 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         public void RestartAll(T1 t1, T2 t2, T3 t3)
         {
-            if (Coroutines.Count == 0)
-                throw new EmptyIteratorException("Coroutines is empty.");
+            Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
             for (int i = 0; i < Coroutines.Count; i++)
             {
@@ -306,8 +298,7 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         public void Restart(T1 t1, T2 t2, T3 t3, T4 t4)
         {
-            if (Coroutines.Count == 0)
-                throw new EmptyIteratorException("Coroutines is empty.");
+            Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
             MonoBehaviour.StopCoroutine(Coroutines[0]);
 
@@ -324,8 +315,7 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         public void RestartAll(T1 t1, T2 t2, T3 t3, T4 t4)
         {
-            if (Coroutines.Count == 0)
-                throw new EmptyIteratorException("Coroutines is empty.");
+            Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
             for (int i = 0; i < Coroutines.Count; i++)
             {
