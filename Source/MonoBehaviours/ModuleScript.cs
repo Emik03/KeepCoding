@@ -289,7 +289,7 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="NullIteratorException"></exception>
-        /// <exception cref="UnrecognizedTypeException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="transform">The location or sound source of the sound.</param>
         /// <param name="loop">Whether all sounds listed should loop or not.</param>
         /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="KMSoundOverride.SoundEffect"/>.</param>
