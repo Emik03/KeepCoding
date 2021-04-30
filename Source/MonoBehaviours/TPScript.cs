@@ -8,31 +8,12 @@ namespace KeepCoding
     /// <summary>
     /// Base class for TwitchPlays support for regular and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
     /// </summary>
-    public abstract class TPScript<T> : MonoBehaviour where T : ModuleScript
+    public abstract class TPScript<T> : MonoBehaviour where T : ModuleScript, ITP
     {
         /// <summary>
         /// The help message that gets sent when typing <c>!{0} help</c>.
         /// </summary>
         public string TwitchHelpMessage;
-
-        /// <summary>
-        /// When a command is typed into Twitch Plays with the Id of this module, it calls this method and passes in the exact command typed.
-        /// </summary>
-        /// <remarks>
-        /// Anything that gets yield returned will be processed by Twitch Plays. This includes other <see cref="IEnumerable"/> methods, <see cref="KMSelectable"/>, an <see cref="System.Array"/> of <see cref="KMSelectable"/>, <see cref="string"/>, <c>true</c>, or <c>null</c>.
-        /// </remarks>
-        /// <param name="command">The user's command.</param>
-        /// <returns>A series of instructions for the Twitch Plays mod to handle as requested by the user.</returns>
-        protected abstract IEnumerator ProcessTwitchCommand(string command);
-
-        /// <summary>
-        /// When the module runs into an exception or the module is forced to be solved, it calls this method.
-        /// </summary>
-        /// <remarks>
-        /// Make sure that the module is solved before this method closes, otherwise it causes a forced-solve.
-        /// </remarks>
-        /// <returns>A series of instructions for the Twitch Plays mod to handle in order to guarantee a solve.</returns>
-        protected abstract IEnumerator TwitchHandleForcedSolve();
 
         /// <summary>
         /// These values are set by the Twitch Plays mod using reflection.
@@ -114,28 +95,6 @@ namespace KeepCoding
         /// Yield return this to hide the heads-up display and cameras while doing quaternion rotations, if it is expected that the camera/hud will get in the way.
         /// </summary>
         protected const string HideCamera = "hide camera";
-
-        /// <summary>
-        /// Presses a sequence of buttons according to <paramref name="indices"/> within <paramref name="selectables"/>, waiting <paramref name="wait"/> seconds in-between each, and interrupting as soon as <see cref="ModuleScript.HasStruck"/> is true.
-        /// </summary>
-        /// <param name="selectables">The array of selectables to interact with.</param>
-        /// <param name="indices">The indices to press within the array.</param>
-        /// <param name="wait">The delay between each button press in seconds.</param>
-        /// <returns>A sequence of button presses for Twitch Plays to process.</returns>
-        protected IEnumerator OnInteractSequence(KMSelectable[] selectables, float wait, params int[] indices)
-        {
-            selectables.NullOrEmptyCheck("The KMSelectable array is null or empty.");
-
-            Module.HasStruck = false;
-
-            for (int i = 0; i < indices.Length && !Module.HasStruck; i++)
-            {
-                selectables[indices[i]].OnInteract();
-                yield return new WaitForSecondsRealtime(wait);
-            }
-
-            Module.HasStruck = false;
-        }
 
         /// <summary>
         /// Determines whether the input string matches the regex of the pattern.
@@ -233,6 +192,28 @@ namespace KeepCoding
         /// <param name="otherwise">The output to return if <paramref name="condition"/> is false.</param>
         /// <returns><paramref name="then"/> or <paramref name="otherwise"/>, depending on <paramref name="condition"/>.</returns>
         protected static object Evaluate<TThen>(bool condition, TThen then, object otherwise = null) => condition ? then : otherwise;
+
+        /// <summary>
+        /// Presses a sequence of buttons according to <paramref name="indices"/> within <paramref name="selectables"/>, waiting <paramref name="wait"/> seconds in-between each, and interrupting as soon as <see cref="ModuleScript.HasStruck"/> is true.
+        /// </summary>
+        /// <param name="selectables">The array of selectables to interact with.</param>
+        /// <param name="indices">The indices to press within the array.</param>
+        /// <param name="wait">The delay between each button press in seconds.</param>
+        /// <returns>A sequence of button presses for Twitch Plays to process.</returns>
+        protected IEnumerator OnInteractSequence(KMSelectable[] selectables, float wait, params int[] indices)
+        {
+            selectables.NullOrEmptyCheck("The KMSelectable array is null or empty.");
+
+            Module.HasStruck = false;
+
+            for (int i = 0; i < indices.Length && !Module.HasStruck; i++)
+            {
+                selectables[indices[i]].OnInteract();
+                yield return new WaitForSecondsRealtime(wait);
+            }
+
+            Module.HasStruck = false;
+        }
 
         private static string AppendIfNotNullOrEmpty(string main, params object[] toAppend)
         {
