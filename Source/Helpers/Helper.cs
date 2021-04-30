@@ -429,7 +429,7 @@ namespace KeepCoding
         /// <param name="item">The left-hand side operator.</param>
         /// <param name="bigInteger">The right-hand side operator.</param>
         /// <returns>Itself mod <paramref name="bigInteger"/>.</returns>
-        public static BigInteger Modulo<T>(this T item, BigInteger bigInteger) => ((item % bigInteger) + bigInteger) % bigInteger;
+        public static BigInteger Modulo(this object item, BigInteger bigInteger) => ((item % bigInteger) + bigInteger) % bigInteger;
 
         /// <summary>
         /// Gets the appropriate <see cref="Exception"/> based on the data type.
