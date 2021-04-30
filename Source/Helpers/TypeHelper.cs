@@ -258,7 +258,7 @@ namespace KeepCoding
         /// <param name="func">The function to call when the <see cref="IEnumerator"/> is called.</param>
         /// <param name="monoBehaviour">The instance of the <see cref="MonoBehaviour"/> to start the <see cref="Coroutine"/> from.</param>
         /// <returns>A new <see cref="Routine"/> containing the arguments provided.</returns>
-        public static Routine ToRoutine(this Func<IEnumerator> func, MonoBehaviour monoBehaviour) => new(func, monoBehaviour);
+        public static Routine ToRoutine(this MonoBehaviour monoBehaviour, Func<IEnumerator> func) => new(func, monoBehaviour);
 
         /// <summary>
         /// Converts arguments to a new <see cref="Routine{T}"/>.
@@ -266,7 +266,7 @@ namespace KeepCoding
         /// <param name="func">The function to call when the <see cref="IEnumerator"/> is called.</param>
         /// <param name="monoBehaviour">The instance of the <see cref="MonoBehaviour"/> to start the <see cref="Coroutine"/> from.</param>
         /// <returns>A new <see cref="Routine{T}"/> containing the arguments provided.</returns>
-        public static Routine<T> ToRoutine<T>(this Func<T, IEnumerator> func, MonoBehaviour monoBehaviour) => new(func, monoBehaviour);
+        public static Routine<T> ToRoutine<T>(this MonoBehaviour monoBehaviour, Func<T, IEnumerator> func) => new(func, monoBehaviour);
 
         /// <summary>
         /// Converts arguments to a new <see cref="Routine{T1, T2}"/>.
@@ -274,7 +274,7 @@ namespace KeepCoding
         /// <param name="func">The function to call when the <see cref="IEnumerator"/> is called.</param>
         /// <param name="monoBehaviour">The instance of the <see cref="MonoBehaviour"/> to start the <see cref="Coroutine"/> from.</param>
         /// <returns>A new <see cref="Routine{T1, T2}"/> containing the arguments provided.</returns>
-        public static Routine<T1, T2> ToRoutine<T1, T2>(this Func<T1, T2, IEnumerator> func, MonoBehaviour monoBehaviour) => new(func, monoBehaviour);
+        public static Routine<T1, T2> ToRoutine<T1, T2>(this MonoBehaviour monoBehaviour, Func<T1, T2, IEnumerator> func) => new(func, monoBehaviour);
 
         /// <summary>
         /// Converts arguments to a new <see cref="Routine{T1, T2, T3}"/>.
@@ -282,7 +282,7 @@ namespace KeepCoding
         /// <param name="func">The function to call when the <see cref="IEnumerator"/> is called.</param>
         /// <param name="monoBehaviour">The instance of the <see cref="MonoBehaviour"/> to start the <see cref="Coroutine"/> from.</param>
         /// <returns>A new <see cref="Routine{T1, T2, T3}"/> containing the arguments provided.</returns>
-        public static Routine<T1, T2, T3> ToRoutine<T1, T2, T3>(this Func<T1, T2, T3, IEnumerator> func, MonoBehaviour monoBehaviour) => new(func, monoBehaviour);
+        public static Routine<T1, T2, T3> ToRoutine<T1, T2, T3>(this MonoBehaviour monoBehaviour, Func<T1, T2, T3, IEnumerator> func) => new(func, monoBehaviour);
 
         /// <summary>
         /// Converts arguments to a new <see cref="Routine{T1, T2, T3, T4}"/>.
@@ -290,7 +290,7 @@ namespace KeepCoding
         /// <param name="func">The function to call when the <see cref="IEnumerator"/> is called.</param>
         /// <param name="monoBehaviour">The instance of the <see cref="MonoBehaviour"/> to start the <see cref="Coroutine"/> from.</param>
         /// <returns>A new <see cref="Routine{T1, T2, T3, T4}"/> containing the arguments provided.</returns>
-        public static Routine<T1, T2, T3, T4> ToRoutine<T1, T2, T3, T4>(this Func<T1, T2, T3, T4, IEnumerator> func, MonoBehaviour monoBehaviour) => new(func, monoBehaviour);
+        public static Routine<T1, T2, T3, T4> ToRoutine<T1, T2, T3, T4>(this MonoBehaviour monoBehaviour, Func<T1, T2, T3, T4, IEnumerator> func) => new(func, monoBehaviour);
 
         /// <summary>
         /// Converts arguments to a new <see cref="Tuple{T}"/>.
@@ -335,48 +335,7 @@ namespace KeepCoding
         /// <param name="item4">The fourth argument to pass into the tuple.</param>
         /// <returns>A new <seealso cref="Tuple{T1, T2, T3, T4}"/> containing <paramref name="item1"/>, <paramref name="item2"/>, <paramref name="item3"/>, and <paramref name="item4"/></returns>
         public static Tuple<T1, T2, T3, T4> ToTuple<T1, T2, T3, T4>(this T1 item1, T2 item2, T3 item3, T4 item4) => new(item1, item2, item3, item4);
-        /// <summary>
-        /// Takes the vector, and replaces the x and y components only if they are specified.
-        /// </summary>
-        /// <param name="vector">The <see cref="Vector2"/> to duplicate and modify.</param>
-        /// <param name="x">The x value.</param>
-        /// <param name="y">The y value.</param>
-        /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
-        public static Vector2 Add(this Vector2 vector, float x = 0, float y = 0)
-            => new(
-                x + vector.x,
-                y + vector.y);
-
-        /// <summary>
-        /// Takes the vector, and replaces the x, y, and z components only if they are specified.
-        /// </summary>
-        /// <param name="vector">The <see cref="Vector3"/> to duplicate and modify.</param>
-        /// <param name="x">The x value.</param>
-        /// <param name="y">The y value.</param>
-        /// <param name="z">The z value.</param>
-        /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
-        public static Vector3 Add(this Vector3 vector, float x = 0, float y = 0, float z = 0)
-            => new(
-                x + vector.x,
-                y + vector.y,
-                z + vector.z);
-
-        /// <summary>
-        /// Takes the vector, and replaces the x, y, z, and w components only if they are specified.
-        /// </summary>
-        /// <param name="vector">The <see cref="Vector3"/> to duplicate and modify.</param>
-        /// <param name="x">The x value.</param>
-        /// <param name="y">The y value.</param>
-        /// <param name="z">The z value.</param>
-        /// <param name="w">The w value.</param>
-        /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
-        public static Vector4 Add(this Vector4 vector, float x = 0, float y = 0, float z = 0, float w = 0)
-            => new(
-                x + vector.x,
-                y + vector.y,
-                z + vector.z,
-                w + vector.w);
-
+        
         /// <summary>
         /// Duplicates the vector, and replaces the x and y components only if they are specified.
         /// </summary>
@@ -390,6 +349,18 @@ namespace KeepCoding
                 y + vector.y);
 
         /// <summary>
+        /// Takes the vector, and replaces the x and y components only if they are specified.
+        /// </summary>
+        /// <param name="vector">The <see cref="Vector2"/> to duplicate and modify.</param>
+        /// <param name="x">The x value.</param>
+        /// <param name="y">The y value.</param>
+        /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
+        public static Vector2 Add(this Vector2 vector, float x = 0, float y = 0)
+            => new(
+                x + vector.x,
+                y + vector.y);
+
+        /// <summary>
         /// Duplicates the vector, and replaces the x, y, and z components only if they are specified.
         /// </summary>
         /// <param name="vector">The <see cref="Vector3"/> to duplicate and modify.</param>
@@ -399,6 +370,20 @@ namespace KeepCoding
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
         public static Vector3 Add(ref Vector3 vector, float x = 0, float y = 0, float z = 0)
             => vector = new(
+                x + vector.x,
+                y + vector.y,
+                z + vector.z);
+
+        /// <summary>
+        /// Takes the vector, and replaces the x, y, and z components only if they are specified.
+        /// </summary>
+        /// <param name="vector">The <see cref="Vector3"/> to duplicate and modify.</param>
+        /// <param name="x">The x value.</param>
+        /// <param name="y">The y value.</param>
+        /// <param name="z">The z value.</param>
+        /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
+        public static Vector3 Add(this Vector3 vector, float x = 0, float y = 0, float z = 0)
+            => new(
                 x + vector.x,
                 y + vector.y,
                 z + vector.z);
@@ -420,6 +405,22 @@ namespace KeepCoding
                 w + vector.w);
 
         /// <summary>
+        /// Takes the vector, and replaces the x, y, z, and w components only if they are specified.
+        /// </summary>
+        /// <param name="vector">The <see cref="Vector3"/> to duplicate and modify.</param>
+        /// <param name="x">The x value.</param>
+        /// <param name="y">The y value.</param>
+        /// <param name="z">The z value.</param>
+        /// <param name="w">The w value.</param>
+        /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
+        public static Vector4 Add(this Vector4 vector, float x = 0, float y = 0, float z = 0, float w = 0)
+            => new(
+                x + vector.x,
+                y + vector.y,
+                z + vector.z,
+                w + vector.w);
+
+        /// <summary>
         /// Takes the vector, and replaces the x and y components only if they are specified.
         /// </summary>
         /// <param name="vector">The <see cref="Vector2"/> to duplicate and modify.</param>
@@ -428,6 +429,18 @@ namespace KeepCoding
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
         public static Vector2 Replace(ref Vector2 vector, float? x = null, float? y = null)
             => vector = new(
+                x ?? vector.x,
+                y ?? vector.y);
+
+        /// <summary>
+        /// Duplicates the vector, and replaces the x and y components only if they are specified.
+        /// </summary>
+        /// <param name="vector">The <see cref="Vector2"/> to duplicate and modify.</param>
+        /// <param name="x">The x value.</param>
+        /// <param name="y">The y value.</param>
+        /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
+        public static Vector2 Replace(this Vector2 vector, float? x = null, float? y = null)
+            => new(
                 x ?? vector.x,
                 y ?? vector.y);
 
@@ -441,6 +454,20 @@ namespace KeepCoding
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
         public static Vector3 Replace(ref Vector3 vector, float? x = null, float? y = null, float? z = null)
             => vector = new(
+                x ?? vector.x,
+                y ?? vector.y,
+                z ?? vector.z);
+
+        /// <summary>
+        /// Duplicates the vector, and replaces the x, y, and z components only if they are specified.
+        /// </summary>
+        /// <param name="vector">The <see cref="Vector3"/> to duplicate and modify.</param>
+        /// <param name="x">The x value.</param>
+        /// <param name="y">The y value.</param>
+        /// <param name="z">The z value.</param>
+        /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
+        public static Vector3 Replace(this Vector3 vector, float? x = null, float? y = null, float? z = null)
+            => new(
                 x ?? vector.x,
                 y ?? vector.y,
                 z ?? vector.z);
@@ -460,32 +487,6 @@ namespace KeepCoding
                 y ?? vector.y,
                 z ?? vector.z,
                 w ?? vector.w);
-
-        /// <summary>
-        /// Duplicates the vector, and replaces the x and y components only if they are specified.
-        /// </summary>
-        /// <param name="vector">The <see cref="Vector2"/> to duplicate and modify.</param>
-        /// <param name="x">The x value.</param>
-        /// <param name="y">The y value.</param>
-        /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
-        public static Vector2 Replace(this Vector2 vector, float? x = null, float? y = null)
-            => new(
-                x ?? vector.x,
-                y ?? vector.y);
-
-        /// <summary>
-        /// Duplicates the vector, and replaces the x, y, and z components only if they are specified.
-        /// </summary>
-        /// <param name="vector">The <see cref="Vector3"/> to duplicate and modify.</param>
-        /// <param name="x">The x value.</param>
-        /// <param name="y">The y value.</param>
-        /// <param name="z">The z value.</param>
-        /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
-        public static Vector3 Replace(this Vector3 vector, float? x = null, float? y = null, float? z = null)
-            => new(
-                x ?? vector.x,
-                y ?? vector.y,
-                z ?? vector.z);
 
         /// <summary>
         /// Duplicates the vector, and replaces the x, y, z, and w components only if they are specified.
@@ -510,7 +511,7 @@ namespace KeepCoding
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         /// <returns>A new <see cref="Work"/> consisting of the arguments provided.</returns>
-        public static Work ToWork(this Action action, bool allowSimultaneousActive = false, uint maximumThreadsActive = 1) => new(action, allowSimultaneousActive, maximumThreadsActive);
+        public static Work ToWork(this uint maximumThreadsActive, Action action, bool allowSimultaneousActive = false) => new(action, allowSimultaneousActive, maximumThreadsActive);
 
         /// <summary>
         /// Converts argument to a new <see cref="Work{T}"/>
@@ -519,7 +520,7 @@ namespace KeepCoding
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         /// <returns>A new <see cref="Work{T}"/> consisting of the arguments provided.</returns>
-        public static Work<T> ToWork<T>(this Func<T> func, bool allowSimultaneousActive = false, uint maximumThreadsActive = 1) => new(func, allowSimultaneousActive, maximumThreadsActive);
+        public static Work<T> ToWork<T>(this uint maximumThreadsActive, Func<T> func, bool allowSimultaneousActive = false) => new(func, allowSimultaneousActive, maximumThreadsActive);
 
         /// <summary>
         /// Converts argument to a new <see cref="Work{T, TResult}"/>
@@ -528,7 +529,7 @@ namespace KeepCoding
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         /// <returns>A new <see cref="Work{T, TResult}"/> consisting of the arguments provided.</returns>
-        public static Work<T, TResult> ToWork<T, TResult>(this Func<T, TResult> func, bool allowSimultaneousActive = false, uint maximumThreadsActive = 1) => new(func, allowSimultaneousActive, maximumThreadsActive);
+        public static Work<T, TResult> ToWork<T, TResult>(this uint maximumThreadsActive, Func<T, TResult> func, bool allowSimultaneousActive = false) => new(func, allowSimultaneousActive, maximumThreadsActive);
 
         /// <summary>
         /// Converts argument to a new <see cref="Work{T1, T2, TResult}"/>
@@ -537,7 +538,7 @@ namespace KeepCoding
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         /// <returns>A new <see cref="Work{T1, T2, TResult}"/> consisting of the arguments provided.</returns>
-        public static Work<T1, T2, TResult> ToWork<T1, T2, TResult>(this Func<T1, T2, TResult> func, bool allowSimultaneousActive = false, uint maximumThreadsActive = 1) => new(func, allowSimultaneousActive, maximumThreadsActive);
+        public static Work<T1, T2, TResult> ToWork<T1, T2, TResult>(this uint maximumThreadsActive, Func<T1, T2, TResult> func, bool allowSimultaneousActive = false) => new(func, allowSimultaneousActive, maximumThreadsActive);
 
         /// <summary>
         /// Converts argument to a new <see cref="Work{T1, T2, T3, TResult}"/>
@@ -546,7 +547,7 @@ namespace KeepCoding
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         /// <returns>A new <see cref="Work{T1, T2, T3, TResult}"/> consisting of the arguments provided.</returns>
-        public static Work<T1, T2, T3, TResult> ToWork<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> func, bool allowSimultaneousActive = false, uint maximumThreadsActive = 1) => new(func, allowSimultaneousActive, maximumThreadsActive);
+        public static Work<T1, T2, T3, TResult> ToWork<T1, T2, T3, TResult>(this uint maximumThreadsActive, Func<T1, T2, T3, TResult> func, bool allowSimultaneousActive = false) => new(func, allowSimultaneousActive, maximumThreadsActive);
 
         /// <summary>
         /// Converts argument to a new <see cref="Work{T1, T2, T3, T4, TResult}"/>
@@ -555,6 +556,6 @@ namespace KeepCoding
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         /// <returns>A new <see cref="Work{T1, T2, T3, T4, TResult}"/> consisting of the arguments provided.</returns>
-        public static Work<T1, T2, T3, T4, TResult> ToWork<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, TResult> func, bool allowSimultaneousActive = false, uint maximumThreadsActive = 1) => new(func, allowSimultaneousActive, maximumThreadsActive);
+        public static Work<T1, T2, T3, T4, TResult> ToWork<T1, T2, T3, T4, TResult>(this uint maximumThreadsActive, Func<T1, T2, T3, T4, TResult> func, bool allowSimultaneousActive = false) => new(func, allowSimultaneousActive, maximumThreadsActive);
     }
 }
