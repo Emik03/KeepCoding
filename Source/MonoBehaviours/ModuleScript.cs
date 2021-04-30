@@ -406,6 +406,6 @@ namespace KeepCoding
         private Func<Transform, bool, KMAudioRef> GetSoundMethod(Sound sound) => (t, b) => 
             sound.Custom is not null ? Get<KMAudio>().HandlePlaySoundAtTransformWithRef(sound.Custom, t, b) : 
             sound.Game is not null ? Get<KMAudio>().HandlePlayGameSoundAtTransformWithRef(sound.Game.Value, t) : 
-            throw new UnrecognizedTypeException($"{sound} which is a {sound.GetType()} is not a valid type.");
+            throw new UnrecognizedValueException($"{sound}'s properties {nameof(Sound.Custom)} and {nameof(Sound.Game)} are both null!");
     }
 }
