@@ -41,8 +41,7 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         public void Stop()
         {
-            if (Coroutines.Count == 0)
-                throw new EmptyIteratorException("Coroutines is empty.");
+            Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
             MonoBehaviour.StopCoroutine(Coroutines[0]);
 
@@ -55,8 +54,7 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         public void StopAll()
         {
-            if (Coroutines.Count == 0)
-                throw new EmptyIteratorException("Coroutines is empty.");
+            Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
             Coroutines.ForEach(c => MonoBehaviour.StopCoroutine(c));
 
