@@ -8,7 +8,7 @@ namespace KeepCoding
     /// <summary>
     /// Base class for TwitchPlays support for regular and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
     /// </summary>
-    public abstract class TPScript<T> : MonoBehaviour where T : ModuleScript, ITP
+    public abstract class TPScript<T> : MonoBehaviour, ITP where T : ModuleScript
     {
         /// <summary>
         /// The help message that gets sent when typing <c>!{0} help</c>.
@@ -95,6 +95,25 @@ namespace KeepCoding
         /// Yield return this to hide the heads-up display and cameras while doing quaternion rotations, if it is expected that the camera/hud will get in the way.
         /// </summary>
         protected const string HideCamera = "hide camera";
+
+        /// <summary>
+        /// When a command is typed into Twitch Plays with the Id of this module, it calls this method and passes in the exact command typed.
+        /// </summary>
+        /// <remarks>
+        /// Anything that gets yield returned will be processed by Twitch Plays. This includes other <see cref="IEnumerable"/> methods, <see cref="KMSelectable"/>, an <see cref="System.Array"/> of <see cref="KMSelectable"/>, <see cref="string"/>, <c>true</c>, or <c>null</c>.
+        /// </remarks>
+        /// <param name="command">The user's command.</param>
+        /// <returns>A series of instructions for the Twitch Plays mod to handle as requested by the user.</returns>
+        public abstract IEnumerator ProcessTwitchCommand(string command);
+
+        /// <summary>
+        /// When the module runs into an exception or the module is forced to be solved, it calls this method.
+        /// </summary>
+        /// <remarks>
+        /// Make sure that the module is solved before this method closes, otherwise it causes a forced-solve.
+        /// </remarks>
+        /// <returns>A series of instructions for the Twitch Plays mod to handle in order to guarantee a solve.</returns>
+        public abstract IEnumerator TwitchHandleForcedSolve();
 
         /// <summary>
         /// Determines whether the input string matches the regex of the pattern.
