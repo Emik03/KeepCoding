@@ -81,6 +81,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="bigInteger">The left-hand side operator</param>
         /// <param name="value">The right-hand side operator.</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>True if both are the same number.</returns>
         public static bool operator ==(BigInteger bigInteger, object value) => bigInteger._value.SequenceEqual(bigInteger.ObjectToBytes(in value));
 
@@ -89,6 +93,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="value">The left-hand side operator.</param>
         /// <param name="bigInteger">The right-hand side operator</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>True if both are the same number.</returns>
         public static bool operator ==(object value, BigInteger bigInteger) => bigInteger._value.SequenceEqual(bigInteger.ObjectToBytes(in value));
 
@@ -105,6 +113,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="bigInteger">The left-hand side operator</param>
         /// <param name="value">The right-hand side operator.</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>True if both are not the same number.</returns>
         public static bool operator !=(BigInteger bigInteger, object value) => !(bigInteger == value);
 
@@ -113,6 +125,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="value">The left-hand side operator</param>
         /// <param name="bigInteger">The right-hand side operator.</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>True if both are not the same number.</returns>
         public static bool operator !=(object value, BigInteger bigInteger) => !(bigInteger == value);
 
@@ -129,6 +145,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="bigInteger">The left-hand side operator.</param>
         /// <param name="value">The right-hand side operator</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>True if <paramref name="bigInteger"/> is more than <paramref name="value"/>.</returns>
         public static bool operator >(BigInteger bigInteger, object value) => EqualityTernary(new BigInteger(value), in bigInteger) ?? false;
 
@@ -137,6 +157,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="value">The left-hand side operator.</param>
         /// <param name="bigInteger">The right-hand side operator</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>True if <paramref name="value"/> is more than <paramref name="bigInteger"/>.</returns>
         public static bool operator >(object value, BigInteger bigInteger) => EqualityTernary(new BigInteger(value), in bigInteger) ?? false;
 
@@ -153,6 +177,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="bigInteger">The left-hand side operator.</param>
         /// <param name="value">The right-hand side operator</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>True if <paramref name="bigInteger"/> is less than <paramref name="value"/>.</returns>
         public static bool operator <(BigInteger bigInteger, object value) => !EqualityTernary(in bigInteger, new BigInteger(value)) ?? false;
 
@@ -161,6 +189,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="value">The left-hand side operator.</param>
         /// <param name="bigInteger">The right-hand side operator</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>True if <paramref name="value"/> is less than <paramref name="bigInteger"/>.</returns>
         public static bool operator <(object value, BigInteger bigInteger) => !EqualityTernary(new BigInteger(value), in bigInteger) ?? false;
 
@@ -177,6 +209,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="bigInteger">The left-hand side operator.</param>
         /// <param name="value">The right-hand side operator</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>True if <paramref name="bigInteger"/> is more than or equal <paramref name="value"/>.</returns>
         public static bool operator >=(BigInteger bigInteger, object value) => bigInteger == value || bigInteger > value;
 
@@ -185,6 +221,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="value">The left-hand side operator.</param>
         /// <param name="bigInteger">The right-hand side operator</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>True if <paramref name="value"/> is more than or equal <paramref name="bigInteger"/>.</returns>
         public static bool operator >=(object value, BigInteger bigInteger) => value == bigInteger || value > bigInteger;
 
@@ -201,6 +241,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="bigInteger">The left-hand side operator.</param>
         /// <param name="value">The right-hand side operator</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>True if <paramref name="bigInteger"/> is less than or equal <paramref name="value"/>.</returns>
         public static bool operator <=(BigInteger bigInteger, object value) => bigInteger == value || bigInteger < value;
 
@@ -209,6 +253,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="value">The left-hand side operator.</param>
         /// <param name="bigInteger">The right-hand side operator</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>True if <paramref name="value"/> is less than or equal <paramref name="bigInteger"/>.</returns>
         public static bool operator <=(object value, BigInteger bigInteger) => value == bigInteger || value < bigInteger;
 
@@ -225,6 +273,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="bigInteger">The left-hand side operator.</param>
         /// <param name="value">The right-hand side operator</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>The sum of both sides.</returns>
         public static BigInteger operator +(BigInteger bigInteger, object value) => Operate(in bigInteger, new BigInteger(value), Operator.Add);
 
@@ -233,6 +285,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="value">The left-hand side operator.</param>
         /// <param name="bigInteger">The right-hand side operator</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>The sum of both sides.</returns>
         public static BigInteger operator +(object value, BigInteger bigInteger) => Operate(new BigInteger(value), in bigInteger, Operator.Add);
 
@@ -249,6 +305,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="bigInteger">The left-hand side operator.</param>
         /// <param name="value">The right-hand side operator</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>The difference of both sides.</returns>
         public static BigInteger operator -(BigInteger bigInteger, object value) => Operate(in bigInteger, new BigInteger(value), Operator.Subtract);
 
@@ -257,6 +317,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="value">The left-hand side operator.</param>
         /// <param name="bigInteger">The right-hand side operator</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>The difference of both sides.</returns>
         public static BigInteger operator -(object value, BigInteger bigInteger) => Operate(new BigInteger(value), in bigInteger, Operator.Subtract);
 
@@ -273,6 +337,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="bigInteger">The left-hand side operator.</param>
         /// <param name="value">The right-hand side operator</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>The product of both sides.</returns>
         public static BigInteger operator *(BigInteger bigInteger, object value) => Operate(in bigInteger, new BigInteger(value), Operator.Multiply);
 
@@ -281,6 +349,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="value">The left-hand side operator.</param>
         /// <param name="bigInteger">The right-hand side operator</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>The product of both sides.</returns>
         public static BigInteger operator *(object value, BigInteger bigInteger) => Operate(new BigInteger(value), in bigInteger, Operator.Multiply);
 
@@ -297,6 +369,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="bigInteger">The left-hand side operator.</param>
         /// <param name="value">The right-hand side operator</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>The quotient of both sides.</returns>
         public static BigInteger operator /(BigInteger bigInteger, object value) => Operate(in bigInteger, new BigInteger(value), Operator.Divide);
 
@@ -305,6 +381,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="value">The left-hand side operator.</param>
         /// <param name="bigInteger">The right-hand side operator</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>The quotient of both sides.</returns>
         public static BigInteger operator /(object value, BigInteger bigInteger) => Operate(new BigInteger(value), in bigInteger, Operator.Divide);
 
@@ -321,6 +401,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="bigInteger">The left-hand side operator.</param>
         /// <param name="value">The right-hand side operator</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>The modulo of both sides.</returns>
         public static BigInteger operator %(BigInteger bigInteger, object value) => Operate(in bigInteger, new BigInteger(value), Operator.Modulo);
 
@@ -329,6 +413,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="value">The left-hand side operator.</param>
         /// <param name="bigInteger">The right-hand side operator</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>The modulo of both sides.</returns>
         public static BigInteger operator %(object value, BigInteger bigInteger) => Operate(new BigInteger(value), in bigInteger, Operator.Modulo);
 
@@ -343,7 +431,6 @@ namespace KeepCoding
         /// <summary>
         /// Converts the <see cref="int"/> to a <see cref="BigInteger"/>.
         /// </summary>
-        /// <exception cref="InvalidCastException"></exception>
         /// <param name="value">The value to convert into <see cref="BigInteger"/>.</param>
         /// <returns><see cref="BigInteger"/> with value <paramref name="value"/>.</returns>
         public static implicit operator BigInteger(int value) => new(value);
@@ -359,7 +446,6 @@ namespace KeepCoding
         /// <summary>
         /// Converts the <see cref="long"/> to a <see cref="BigInteger"/>.
         /// </summary>
-        /// <exception cref="InvalidCastException"></exception>
         /// <param name="value">The value to convert into <see cref="BigInteger"/>.</param>
         /// <returns><see cref="BigInteger"/> with value <paramref name="value"/>.</returns>
         public static implicit operator BigInteger(long value) => new(value);
@@ -375,7 +461,6 @@ namespace KeepCoding
         /// <summary>
         /// Converts the <see cref="uint"/> to a <see cref="BigInteger"/>.
         /// </summary>
-        /// <exception cref="InvalidCastException"></exception>
         /// <param name="value">The value to convert into <see cref="BigInteger"/>.</param>
         /// <returns><see cref="BigInteger"/> with value <paramref name="value"/>.</returns>
         public static implicit operator BigInteger(uint value) => new(value);
@@ -391,7 +476,6 @@ namespace KeepCoding
         /// <summary>
         /// Converts the <see cref="ulong"/> to a <see cref="BigInteger"/>.
         /// </summary>
-        /// <exception cref="InvalidCastException"></exception>
         /// <param name="value">The value to convert into <see cref="BigInteger"/>.</param>
         /// <returns><see cref="BigInteger"/> with value <paramref name="value"/>.</returns>
         public static implicit operator BigInteger(ulong value) => new(value);
@@ -400,6 +484,10 @@ namespace KeepCoding
         /// Determins if both values are equal.
         /// </summary>
         /// <param name="obj">The comparison.</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>True if both values are equal.</returns>
         public override bool Equals(object obj) => Equals(new BigInteger(obj));
 
@@ -442,6 +530,10 @@ namespace KeepCoding
         /// </summary>
         /// <param name="min">The minimum value accepted.</param>
         /// <param name="max">The maximum value accepted.</param>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>True if <paramref name="min"/> is smaller or equal itself and <paramref name="max"/> is greater or equal itself.</returns>
         public bool IsInRange<T>(T min, T max) => this >= min && this <= max;
 
@@ -450,28 +542,28 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="InvalidCastException"></exception>
         /// <returns>Itself as <see cref="int"/>.</returns>
-        public int ToInt() => IsInRange(int.MinValue, int.MaxValue) ? int.Parse(ToString()) : throw InvalidCast(typeof(int));
+        public int ToInt() => IsInRange(int.MinValue, int.MaxValue) ? int.Parse(ToString()) : throw InvalidCast<int>();
 
         /// <summary>
         /// Converts the BigInteger to a <see cref="long"/>.
         /// </summary>
         /// <exception cref="InvalidCastException"></exception>
         /// <returns>Itself as <see cref="long"/>.</returns>
-        public long ToLong() => IsInRange(long.MinValue, long.MaxValue) ? long.Parse(ToString()) : throw InvalidCast(typeof(long));
+        public long ToLong() => IsInRange(long.MinValue, long.MaxValue) ? long.Parse(ToString()) : throw InvalidCast<long>();
 
         /// <summary>
         /// Converts the BigInteger to a <see cref="uint"/>.
         /// </summary>
         /// <exception cref="InvalidCastException"></exception>
         /// <returns>Itself as <see cref="uint"/>.</returns>
-        public uint ToUInt() => IsInRange(uint.MinValue, uint.MaxValue) ? uint.Parse(ToString()) : throw InvalidCast(typeof(uint));
+        public uint ToUInt() => IsInRange(uint.MinValue, uint.MaxValue) ? uint.Parse(ToString()) : throw InvalidCast<uint>();
 
         /// <summary>
         /// Converts the BigInteger to a <see cref="ulong"/>.
         /// </summary>
         /// <exception cref="InvalidCastException"></exception>
         /// <returns>Itself as <see cref="ulong"/>.</returns>
-        public ulong ToULong() => IsInRange(ulong.MinValue, ulong.MaxValue) ? ulong.Parse(ToString()) : throw InvalidCast(typeof(ulong));
+        public ulong ToULong() => IsInRange(ulong.MinValue, ulong.MaxValue) ? ulong.Parse(ToString()) : throw InvalidCast<long>();
 
         /// <summary>
         /// Makes a new instance/deep clone of <see cref="BigInteger"/> with the same value.
@@ -491,6 +583,10 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="DivideByZeroException"></exception>
         /// <exception cref="NegativeNumberException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="obj">The right-hand side operator.</param>
         /// <returns>Itself mod <paramref name="obj"/>.</returns>
         public BigInteger Modulo<T>(T obj) => ((this % obj) + obj) % obj;
@@ -721,6 +817,6 @@ namespace KeepCoding
                 ? new BigInteger(_operations[op](bigIntegerA._value.ToArray(), InvertConditional(bigIntegerB._value.ToArray(), op == Operator.Subtract)))
                 : throw new UnrecognizedValueException($"Unhandled operator: {op}.");
 
-        private InvalidCastException InvalidCast(Type type) => new($"This BigInteger has the value {ToString()} which is outside the range of {type} and therefore cannot be casted!");
+        private InvalidCastException InvalidCast<T>() => new($"This BigInteger has the value {ToString()} which is outside the range of {typeof(T).Name} and therefore cannot be casted!");
     }
 }
