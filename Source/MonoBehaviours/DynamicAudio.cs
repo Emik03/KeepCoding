@@ -46,9 +46,7 @@ namespace KeepCoding
 
         private void Awake()
         {
-            var func = (Func<float, float, IEnumerator>)SetFade;
-
-            _fade = func.ToRoutine(this);
+            _fade = this.ToRoutine((float from, float to) => SetFade(from, to));
 
             AudioSource = gameObject.AddComponent<AudioSource>();
 
