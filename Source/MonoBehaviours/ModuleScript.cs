@@ -151,7 +151,7 @@ namespace KeepCoding
         /// Handles typical button <see cref="KMSelectable.OnInteract"/> behaviour.
         /// </summary>
         /// <exception cref="UnassignedReferenceException"></exception>
-        /// <exception cref="UnrecognizedTypeException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="selectable">The selectable, which is used as a source for sound and bomb shake.</param>
         /// <param name="intensityModifier">The intensity of the bomb shaking.</param>
         /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="KMSoundOverride.SoundEffect"/>.</param>
@@ -267,7 +267,7 @@ namespace KeepCoding
         /// <summary>
         /// Plays a sound. Requires <see cref="KMAudio"/> to be assigned.
         /// </summary>
-        /// <exception cref="UnrecognizedTypeException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="transform">The location or sound source of the sound.</param>
         /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="KMSoundOverride.SoundEffect"/>.</param>
         /// <returns>A <see cref="KMAudioRef"/> for each argument you provide.</returns>
@@ -276,7 +276,7 @@ namespace KeepCoding
         /// <summary>
         /// Plays a sound, the sound source is the game object it is attached to. Requires <see cref="KMAudio"/> to be assigned.
         /// </summary>
-        /// <exception cref="UnrecognizedTypeException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="loop">Whether all sounds listed should loop or not.</param>
         /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="KMSoundOverride.SoundEffect"/>.</param>
         /// <returns>A <see cref="KMAudioRef"/> for each argument you provide.</returns>
@@ -285,7 +285,7 @@ namespace KeepCoding
         /// <summary>
         /// Plays a sound, the sound source is the game object it is attached to. Requires <see cref="KMAudio"/> to be assigned.
         /// </summary>
-        /// <exception cref="UnrecognizedTypeException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="KMSoundOverride.SoundEffect"/>.</param>
         /// <returns>A <see cref="KMAudioRef"/> for each argument you provide.</returns>
         public Sound[] PlaySound(params Sound[] sounds) => PlaySound(transform, false, sounds);
