@@ -130,6 +130,29 @@ namespace KeepCoding
         }
 
         /// <summary>
+        /// Stops all sounds for the entire <see cref="KMAudioRef"/> <see cref="Array"/>.
+        /// </summary>
+        /// <param name="audioRefs">The <see cref="KMAudioRef"/> <see cref="Array"/> to mute all sounds from, using <see cref="KMAudioRef.StopSound"/>.</param>
+        public static void StopSound(this KMAudioRef[] audioRefs) => audioRefs.ForEach(a => a.StopSound());
+
+        /// <summary>
+        /// Stops all sounds for the entire <see cref="Sound"/> <see cref="Array"/>.
+        /// </summary>
+        /// <param name="sounds">The <see cref="Sound"/> <see cref="Array"/> to mute all sounds from, using <see cref="KMAudioRef.StopSound"/>.</param>
+        public static void StopSound(this Sound[] sounds) => sounds.ForEach(s => s.StopSound());
+
+        /// <summary>
+        /// Adds a <see cref="Delegate"/> onto the referenced variable.
+        /// </summary>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <typeparam name="T">The type of the <paramref name="mutator"/> and <see cref="Delegate"/> casting.</typeparam>
+        /// <param name="dele">The <see cref="Delegate"/> to add.</param>
+        /// <param name="mutator">The variable that transmutates and adds <paramref name="dele"/> onto itself.</param>
+        /// <returns><paramref name="mutator"/> with <paramref name="dele"/> appended.</returns>
+        public static Delegate Set<T>(this Delegate dele, ref T mutator) where T : Delegate => mutator = dele is null ? mutator : dele.Cast<T>();
+
+        /// <summary>
         /// Casts a <see cref="Delegate"/> onto the type <typeparamref name="T"/>.
         /// </summary>
         /// <remarks>
@@ -143,18 +166,6 @@ namespace KeepCoding
         public static T Cast<T>(this Delegate dele) where T : Delegate => dele is null ? null : (dele as MulticastDelegate)?.GetInvocationList() is Delegate[] multicast ? dele.Multicast<T>(multicast) : dele.CreateDelegate<T>();
 
         /// <summary>
-        /// Stops all sounds for the entire <see cref="KMAudioRef"/> <see cref="Array"/>.
-        /// </summary>
-        /// <param name="audioRefs">The <see cref="KMAudioRef"/> <see cref="Array"/> to mute all sounds from, using <see cref="KMAudioRef.StopSound"/>.</param>
-        public static void StopSound(this KMAudioRef[] audioRefs) => audioRefs.ForEach(a => a.StopSound());
-
-        /// <summary>
-        /// Stops all sounds for the entire <see cref="Sound"/> <see cref="Array"/>.
-        /// </summary>
-        /// <param name="sounds">The <see cref="Sound"/> <see cref="Array"/> to mute all sounds from, using <see cref="KMAudioRef.StopSound"/>.</param>
-        public static void StopSound(this Sound[] sounds) => sounds.ForEach(s => s.StopSound());
-
-        /// <summary>
         /// Creates a delegate of the specified type.
         /// </summary>
         /// <typeparam name="T">The type of delegate to create.</typeparam>
@@ -162,16 +173,11 @@ namespace KeepCoding
         /// <returns>A delegate of type <typeparamref name="T"/> using <paramref name="dele"/>'s target and method.</returns>
         public static T CreateDelegate<T>(this Delegate dele) where T : Delegate => (T)Delegate.CreateDelegate(typeof(T), dele.Target, dele.Method, true);
 
-        /// <summary>
-        /// Adds a <see cref="Delegate"/> onto the referenced variable.
-        /// </summary>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <typeparam name="T">The type of the <paramref name="mutator"/> and <see cref="Delegate"/> casting.</typeparam>
-        /// <param name="dele">The <see cref="Delegate"/> to add.</param>
-        /// <param name="mutator">The variable that transmutates and adds <paramref name="dele"/> onto itself.</param>
-        /// <returns><paramref name="mutator"/> with <paramref name="dele"/> appended.</returns>
-        public static Delegate Set<T>(this Delegate dele, ref T mutator) where T : Delegate => mutator = dele is null ? mutator : dele.Cast<T>();
+        private static Action ToAction(this Action<int> action, int i) => action is null ? null : () => action(i);
+
+        private static Func<bool> ToFunc(this Action action, bool b) => action is null ? null : () => { action(); return b; };
+
+        private static UnassignedReferenceException Unassigned(this Type type) => throw new($"The {type.Name} is null. You cannot assign events to a {type.Name} without a reference to a {type.Name}.");
 
         private static T Multicast<T>(this Delegate dele, Delegate[] multicast) where T : Delegate => multicast.Length switch
         {
@@ -179,11 +185,5 @@ namespace KeepCoding
             1 => multicast[0] == dele ? dele.CreateDelegate<T>() : multicast[0].Cast<T>(),
             _ => (T)Delegate.Combine(Enumerable.Range(0, multicast.Length).Select(i => multicast[i].Cast<T>()).ToArray())
         };
-
-        private static Action ToAction(this Action<int> action, int i) => action is null ? null : () => action(i);
-
-        private static Func<bool> ToFunc(this Action action, bool b) => action is null ? null : () => { action(); return b; };
-
-        private static UnassignedReferenceException Unassigned(this Type type) => throw new($"The {type.Name} is null. You cannot assign events to a {type.Name} without a reference to a {type.Name}.");
     }
 }

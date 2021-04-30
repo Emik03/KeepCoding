@@ -33,21 +33,21 @@ namespace KeepCoding
             set
             {
                 if (i == 0)
-                    Item1 = Cast<T>(in value, i);
+                    Item1 = Cast<object, T>(in value, i);
                 else
                     base[i] = value;
             }
         }
 
         /// <value>
-        /// The first item of the tuple.
-        /// </value>
-        public T Item1 { get; set; }
-
-        /// <value>
         /// All of the tuple's items as an array, ordered by item number.
         /// </value>
         public override object[] ToArray => new object[] { Item1 };
+
+        /// <value>
+        /// The first item of the tuple.
+        /// </value>
+        public T Item1 { get; set; }
 
         /// <summary>
         /// Determines whether the tuple is equal.
@@ -132,21 +132,21 @@ namespace KeepCoding
             set
             {
                 if (i == 1)
-                    Item2 = Cast<T2>(in value, i);
+                    Item2 = Cast<object, T2>(in value, i);
                 else
                     base[i] = value;
             }
         }
 
         /// <value>
-        /// The second item of the tuple.
-        /// </value>
-        public T2 Item2 { get; set; }
-
-        /// <value>
         /// All of the tuple's items as an array, ordered by item number.
         /// </value>
         public override object[] ToArray => new object[] { Item1, Item2 };
+
+        /// <value>
+        /// The second item of the tuple.
+        /// </value>
+        public T2 Item2 { get; set; }
 
         /// <summary>
         /// Determines whether the tuple is equal.
@@ -244,21 +244,21 @@ namespace KeepCoding
             set
             {
                 if (i == 2)
-                    Item3 = Cast<T3>(in value, i);
+                    Item3 = Cast<object, T3>(in value, i);
                 else
                     base[i] = value;
             }
         }
 
         /// <value>
-        /// The third item of the tuple.
-        /// </value>
-        public T3 Item3 { get; set; }
-
-        /// <value>
         /// All of the tuple's items as an array, ordered by item number.
         /// </value>
         public override object[] ToArray => new object[] { Item1, Item2, Item3 };
+
+        /// <value>
+        /// The third item of the tuple.
+        /// </value>
+        public T3 Item3 { get; set; }
 
         /// <summary>
         /// Determines whether the tuple is equal.
@@ -361,21 +361,21 @@ namespace KeepCoding
             set
             {
                 if (i == 3)
-                    Item4 = Cast<T4>(in value, i);
+                    Item4 = Cast<object, T4>(in value, i);
                 else
                     base[i] = value;
             }
         }
 
         /// <value>
-        /// The fourth item of the tuple.
-        /// </value>
-        public T4 Item4 { get; set; }
-
-        /// <value>
         /// All of the tuple's items as an array, ordered by item number.
         /// </value>
         public override object[] ToArray => new object[] { Item1, Item2, Item3, Item4 };
+
+        /// <value>
+        /// The fourth item of the tuple.
+        /// </value>
+        public T4 Item4 { get; set; }
 
         /// <summary>
         /// Determines whether the tuple is equal.

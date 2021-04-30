@@ -66,6 +66,11 @@ namespace KeepCoding
                 IsRunning = false;
             });
 
+        /// <value>
+        /// The returned value of the thread.
+        /// </value>
+        public T Result { get; private set; }
+
         /// <summary>
         /// Starts a new thread, and waits until it is finished before halting.
         /// </summary>
@@ -87,11 +92,6 @@ namespace KeepCoding
 
             ThreadsActive--;
         }
-
-        /// <value>
-        /// The returned value of the thread.
-        /// </value>
-        public T Result { get; private set; }
     }
 
     /// <summary>
@@ -107,6 +107,11 @@ namespace KeepCoding
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         public Work(Func<T, TResult> work, bool allowSimultaneousActive, uint maximumThreadsActive)
             : base(allowSimultaneousActive, maximumThreadsActive) => _work = work;
+
+        /// <value>
+        /// The returned value of the thread.
+        /// </value>
+        public TResult Result { get; private set; }
 
         /// <summary>
         /// Starts a new thread, and waits until it is finished before halting.
@@ -136,11 +141,6 @@ namespace KeepCoding
             ThreadsActive--;
         }
 
-        /// <value>
-        /// The returned value of the thread.
-        /// </value>
-        public TResult Result { get; private set; }
-
         private readonly Func<T, TResult> _work;
     }
 
@@ -157,6 +157,11 @@ namespace KeepCoding
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         public Work(Func<T1, T2, TResult> work, bool allowSimultaneousActive, uint maximumThreadsActive)
             : base(allowSimultaneousActive, maximumThreadsActive) => _work = work;
+
+        /// <value>
+        /// The returned value of the thread.
+        /// </value>
+        public TResult Result { get; private set; }
 
         /// <summary>
         /// Starts a new thread, and waits until it is finished before halting.
@@ -186,11 +191,6 @@ namespace KeepCoding
             ThreadsActive--;
         }
 
-        /// <value>
-        /// The returned value of the thread.
-        /// </value>
-        public TResult Result { get; private set; }
-
         private readonly Func<T1, T2, TResult> _work;
     }
 
@@ -207,6 +207,11 @@ namespace KeepCoding
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         public Work(Func<T1, T2, T3, TResult> work, bool allowSimultaneousActive, uint maximumThreadsActive)
             : base(allowSimultaneousActive, maximumThreadsActive) => _work = work;
+
+        /// <value>
+        /// The returned value of the thread.
+        /// </value>
+        public TResult Result { get; private set; }
 
         /// <summary>
         /// Starts a new thread, and waits until it is finished before halting.
@@ -236,11 +241,6 @@ namespace KeepCoding
             ThreadsActive--;
         }
 
-        /// <value>
-        /// The returned value of the thread.
-        /// </value>
-        public TResult Result { get; private set; }
-
         private readonly Func<T1, T2, T3, TResult> _work;
     }
 
@@ -257,6 +257,11 @@ namespace KeepCoding
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         public Work(Func<T1, T2, T3, T4, TResult> work, bool allowSimultaneousActive, uint maximumThreadsActive)
             : base(allowSimultaneousActive, maximumThreadsActive) => _work = work;
+
+        /// <value>
+        /// The returned value of the thread.
+        /// </value>
+        public TResult Result { get; private set; }
 
         /// <summary>
         /// Starts a new thread, and waits until it is finished before halting.
@@ -285,11 +290,6 @@ namespace KeepCoding
 
             ThreadsActive--;
         }
-
-        /// <value>
-        /// The returned value of the thread.
-        /// </value>
-        public TResult Result { get; private set; }
 
         private readonly Func<T1, T2, T3, T4, TResult> _work;
     }

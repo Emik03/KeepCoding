@@ -134,11 +134,12 @@ namespace KeepCoding
         /// <returns>A <see cref="KMBombModule"/> from <see cref="Needy"/>.</returns>
         public static explicit operator KMNeedyModule(ModuleContainer container) => container.Needy;
 
-        private readonly KMBombModule _bombModule;
-
-        private readonly KMNeedyModule _needyModule;
-
-        private static readonly UnrecognizedTypeException _unreachableException = new("Module is neither a KMBombModule or a KMNeedyModule. This is a bug caused by the library, please file a bug report alongside the source code.");
+        /// <summary>
+        /// Determines if both <see cref="ModuleContainer"/> variables are equal.
+        /// </summary>
+        /// <param name="other">The comparison.</param>
+        /// <returns>True if both contain the same instance of <see cref="KMBombModule"/>, null, <see cref="KMNeedyModule"/></returns>
+        public bool Equals(ModuleContainer other) => Module == other.Module;
 
         /// <summary>
         /// Sets the action of OnActivate.
@@ -161,11 +162,10 @@ namespace KeepCoding
             }
         }
 
-        /// <summary>
-        /// Determines if both <see cref="ModuleContainer"/> variables are equal.
-        /// </summary>
-        /// <param name="other">The comparison.</param>
-        /// <returns>True if both contain the same instance of <see cref="KMBombModule"/>, null, <see cref="KMNeedyModule"/></returns>
-        public bool Equals(ModuleContainer other) => Module == other.Module;
+        private readonly KMBombModule _bombModule;
+
+        private readonly KMNeedyModule _needyModule;
+
+        private static readonly UnrecognizedTypeException _unreachableException = new("Module is neither a KMBombModule or a KMNeedyModule. This is a bug caused by the library, please file a bug report alongside the source code.");
     }
 }
