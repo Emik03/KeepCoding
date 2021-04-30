@@ -29,7 +29,8 @@ namespace KeepCoding
         /// <value>
         /// Gets the upper bound of the tuple, which is the last index.
         /// </value>
-        public byte UpperBound => IsEmpty ? throw new EmptyIteratorException("The iterator is null or empty, meaning that the upper bound doesn't exist.") : (byte)(Length - 1);
+        /// <exception cref="InvalidOperationException"></exception>
+        public byte UpperBound => IsEmpty ? throw new InvalidOperationException("The tuple is empty, meaning that the upper bound doesn't exist.") : (byte)(Length - 1);
 
         /// <value>
         /// All of the tuple's items as an array, ordered by item number.
@@ -38,8 +39,8 @@ namespace KeepCoding
 
         private protected IndexOutOfRangeException IndexOutOfRange(int i) => new($"The index {i} was out of range from the tuple of length {ToArray.Length}.");
 
-        private protected T Cast<T>(in object value, int index) => value is T t ? t : throw WrongDatatype(value, typeof(T), index);
+        private protected TOutput Cast<TInput, TOutput>(in TInput value, int index) => value is TOutput t ? t : throw WrongDatatype(value, typeof(TOutput), index);
 
-        private WrongDatatypeException WrongDatatype(in object received, in Type expected, int index) => new($"The {(index + 1).ToOrdinal()} element in the tuple cannot be assigned because the value {received.UnwrapToString()} is type {received.GetType().Name} which doesn't match the expected type {expected.Name}.");
+        private WrongDatatypeException WrongDatatype<T>(in T received, in Type expected, int index) => new($"The {(index + 1).ToOrdinal()} element in the tuple cannot be assigned because the value {received.UnwrapToString()} is type {received.GetType().Name} which doesn't match the expected type {expected.Name}.");
     }
 }
