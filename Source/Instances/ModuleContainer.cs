@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace KeepCoding
@@ -135,13 +136,6 @@ namespace KeepCoding
         public static explicit operator KMNeedyModule(ModuleContainer container) => container.Needy;
 
         /// <summary>
-        /// Determines if both <see cref="ModuleContainer"/> variables are equal.
-        /// </summary>
-        /// <param name="other">The comparison.</param>
-        /// <returns>True if both contain the same instance of <see cref="KMBombModule"/>, null, <see cref="KMNeedyModule"/></returns>
-        public bool Equals(ModuleContainer other) => Module == other.Module;
-
-        /// <summary>
         /// Sets the action of OnActivate.
         /// </summary>
         /// <param name="action">The delegate to set.</param>
@@ -161,6 +155,26 @@ namespace KeepCoding
                     throw _unreachableException;
             }
         }
+
+        /// <summary>
+        /// Determines if both <see cref="ModuleContainer"/> variables are equal.
+        /// </summary>
+        /// <param name="obj">The comparison.</param>
+        /// <returns>True if both contain the same instance of <see cref="KMBombModule"/>, null, <see cref="KMNeedyModule"/></returns>
+        public override bool Equals(object obj) => Equals(obj as ModuleContainer);
+
+        /// <summary>
+        /// Determines if both <see cref="ModuleContainer"/> variables are equal.
+        /// </summary>
+        /// <param name="other">The comparison.</param>
+        /// <returns>True if both contain the same instance of <see cref="KMBombModule"/>, null, <see cref="KMNeedyModule"/></returns>
+        public bool Equals(ModuleContainer other) => Module == other.Module;
+
+        /// <summary>
+        /// Gets the current hash code.
+        /// </summary>
+        /// <returns>The <see cref="Module"/>'s hash code.</returns>
+        public override int GetHashCode() => 1212890949 + EqualityComparer<MonoBehaviour>.Default.GetHashCode(Module);
 
         private readonly KMBombModule _bombModule;
 
