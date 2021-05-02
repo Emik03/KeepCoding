@@ -8,7 +8,7 @@ namespace KeepCoding
     /// <summary>
     /// Base class for TwitchPlays support for regular and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
     /// </summary>
-    public abstract class TPScript<T> : MonoBehaviour, ITP where T : ModuleScript
+    public abstract class TPScript<TModule> : MonoBehaviour, ITP where TModule : ModuleScript
     {
         /// <summary>
         /// The help message that gets sent when typing <c>!{0} help</c>.
@@ -28,8 +28,8 @@ namespace KeepCoding
         /// <value>
         /// The instance of the module.
         /// </value>
-        protected T Module => _module ??= GetComponent<T>() ?? throw new UnityComponentNotFoundException("TPScript cannot find your ModuleScript. Make sure that both script files are in the same game object!");
-        private T _module;
+        protected TModule Module => _module ??= GetComponent<TModule>() ?? throw new UnityComponentNotFoundException("TPScript cannot find your ModuleScript. Make sure that both script files are in the same game object!");
+        private TModule _module;
 
         /// <summary>
         /// Yield return this to indicate that this command will cause a strike at some later point; all this does is tell Twitch Plays to attribute the strike to the author of this command.
@@ -205,12 +205,12 @@ namespace KeepCoding
         /// <remarks>
         /// You can yield return this to send error messages or interactions by first checking for the condition.
         /// </remarks>
-        /// <typeparam name="TThen">The type of then condition.</typeparam>
+        /// <typeparam name="T">The type of then condition.</typeparam>
         /// <param name="condition">The boolean to check.</param>
         /// <param name="then">The output to return if <paramref name="condition"/> is true.</param>
         /// <param name="otherwise">The output to return if <paramref name="condition"/> is false.</param>
         /// <returns><paramref name="then"/> or <paramref name="otherwise"/>, depending on <paramref name="condition"/>.</returns>
-        protected static object Evaluate<TThen>(bool condition, TThen then, object otherwise = null) => condition ? then : otherwise;
+        protected static object Evaluate<T>(bool condition, T then, object otherwise = null) => condition ? then : otherwise;
 
         /// <summary>
         /// Presses a sequence of buttons according to <paramref name="indices"/> within <paramref name="selectables"/>, waiting <paramref name="wait"/> seconds in-between each, and interrupting as soon as <see cref="ModuleScript.HasStruck"/> is true.
