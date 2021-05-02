@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using UnityEngine;
 using UnityEngine.Networking;
 using static KMAudio;
+using static KMSoundOverride;
 
 namespace KeepCoding
 {
@@ -38,7 +39,7 @@ namespace KeepCoding
         /// <value>
         /// Determines whether it is running on Unity or in-game.
         /// </value>
-        public bool IsEditor => Application.isEditor;
+        public static bool IsEditor => Application.isEditor;
 
         /// <value>
         /// Determines whether this module is the last instantiated instance.
@@ -154,7 +155,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="selectable">The selectable, which is used as a source for sound and bomb shake.</param>
         /// <param name="intensityModifier">The intensity of the bomb shaking.</param>
-        /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="KMSoundOverride.SoundEffect"/>.</param>
+        /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="SoundEffect"/>.</param>
         public void ButtonEffect(KMSelectable selectable, float intensityModifier = 0, params Sound[] sounds)
         {
             if (selectable is null)
@@ -248,7 +249,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="transform">The location or sound source of the sound.</param>
         /// <param name="loop">Whether all sounds listed should loop or not.</param>
-        /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="KMSoundOverride.SoundEffect"/>.</param>
+        /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="SoundEffect"/>.</param>
         /// <returns>A <see cref="KMAudioRef"/> for each argument you provide.</returns>
         public Sound[] PlaySound(Transform transform, bool loop, params Sound[] sounds)
         {
@@ -269,7 +270,7 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="transform">The location or sound source of the sound.</param>
-        /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="KMSoundOverride.SoundEffect"/>.</param>
+        /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="SoundEffect"/>.</param>
         /// <returns>A <see cref="KMAudioRef"/> for each argument you provide.</returns>
         public Sound[] PlaySound(Transform transform, params Sound[] sounds) => PlaySound(transform, false, sounds);
 
@@ -278,7 +279,7 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="loop">Whether all sounds listed should loop or not.</param>
-        /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="KMSoundOverride.SoundEffect"/>.</param>
+        /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="SoundEffect"/>.</param>
         /// <returns>A <see cref="KMAudioRef"/> for each argument you provide.</returns>
         public Sound[] PlaySound(bool loop, params Sound[] sounds) => PlaySound(transform, loop, sounds);
 
@@ -286,7 +287,7 @@ namespace KeepCoding
         /// Plays a sound, the sound source is the game object it is attached to. Requires <see cref="KMAudio"/> to be assigned.
         /// </summary>
         /// <exception cref="UnrecognizedValueException"></exception>
-        /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="KMSoundOverride.SoundEffect"/>.</param>
+        /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="SoundEffect"/>.</param>
         /// <returns>A <see cref="KMAudioRef"/> for each argument you provide.</returns>
         public Sound[] PlaySound(params Sound[] sounds) => PlaySound(transform, false, sounds);
 
