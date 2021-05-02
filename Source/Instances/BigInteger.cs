@@ -86,7 +86,7 @@ namespace KeepCoding
         /// <exception cref="ConstructorArgumentException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>True if both are the same number.</returns>
-        public static bool operator ==(BigInteger bigInteger, object value) => bigInteger._value.SequenceEqual(bigInteger.ObjectToBytes(in value));
+        public static bool operator ==(BigInteger bigInteger, object value) => bigInteger._value.SequenceEqual(ObjectToBytes(in value));
 
         /// <summary>
         /// Equals operator; determines if both integers contain the same value. The <see cref="object"/> is casted as a <see cref="BigInteger"/>.
@@ -98,7 +98,7 @@ namespace KeepCoding
         /// <exception cref="ConstructorArgumentException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>True if both are the same number.</returns>
-        public static bool operator ==(object value, BigInteger bigInteger) => bigInteger._value.SequenceEqual(bigInteger.ObjectToBytes(in value));
+        public static bool operator ==(object value, BigInteger bigInteger) => bigInteger._value.SequenceEqual(ObjectToBytes(in value));
 
         /// <summary>
         /// Not equals operator; determines if both integers do not contain the same value.
@@ -787,7 +787,7 @@ namespace KeepCoding
 
         private static sbyte[] InvertConditional(in sbyte[] vs, bool b) => b ? vs.Select(s => (sbyte)(-1 * s)).ToArray() : vs;
 
-        private sbyte[] ObjectToBytes<T>(in T obj)
+        private static sbyte[] ObjectToBytes<T>(in T obj)
         {
             obj.NullCheck("You cannot construct a BigInteger out of null.");
 
