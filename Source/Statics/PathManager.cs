@@ -144,7 +144,7 @@ namespace KeepCoding
 
             var mainBundle = request.assetBundle.NullCheck("The bundle was null.");
 
-            var videos = mainBundle.LoadAllAssets<VideoClip>().OrderBy(clip => clip.name).ToArray().NullCheck("There are no videos.");
+            var videos = mainBundle.LoadAllAssets<VideoClip>().OrderBy(clip => clip.name).ToArray().NullOrEmptyCheck("There are no videos.");
 
             SetCache(current, videos);
             
