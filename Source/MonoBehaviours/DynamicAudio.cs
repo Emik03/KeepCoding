@@ -8,7 +8,7 @@ namespace KeepCoding
     /// <summary>
     /// Advanced audio handler. Written by Emik.
     /// </summary>
-    public class DynamicAudio : MonoBehaviour
+    public sealed class DynamicAudio : MonoBehaviour
     {
         /// <summary>
         /// Setting this value to true will make the volume relative to <see cref="Game.PlayerSettings.MusicVolume"/>, and <see cref="Game.PlayerSettings.SFXVolume"/> otherwise.
@@ -44,7 +44,9 @@ namespace KeepCoding
 
         private Routine<float, float> _fade;
 
+#pragma warning disable IDE0051 // Remove unused private members
         private void Awake()
+#pragma warning restore IDE0051 // Remove unused private members
         {
             _fade = this.ToRoutine((float from, float to) => SetFade(from, to));
 
