@@ -18,7 +18,7 @@ namespace KeepCoding
         public ModuleContainer(KMBombModule regular = null, KMNeedyModule needy = null)
         {
             if (regular is null == needy is null)
-                throw new ConstructorArgumentException(regular is null ? "Both KMBombModule and KMNeedyModule is null, and since this datatype is immutable after the constructor, cannot return anything." : "Both KMBombModule and KMNeedyModule are assigned, which will mean that it is unable to return both when calling a function that returns a single MonoBehaviour.");
+                throw new ConstructorArgumentException(regular is null ? "Both KMBombModule and KMNeedyModule is null, and since this data type is immutable after the constructor, it is unable to return anything." : "Both KMBombModule and KMNeedyModule are assigned, which will mean that it is unable to return both when calling a function that returns a single MonoBehaviour.");
 
             _bombModule = regular;
             _needyModule = needy;
