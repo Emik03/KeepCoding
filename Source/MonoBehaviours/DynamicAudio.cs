@@ -101,7 +101,7 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="NullIteratorException"></exception>
         /// <exception cref="NullReferenceException"></exception>
-        /// <exception cref="UnityComponentNotFoundException"></exception>
+        /// <exception cref="MissingComponentException"></exception>
         /// <param name="sound">The sound clip to play.</param>
         /// <param name="volume">The volume of the sound clip relative to the game sound.</param>
         /// <param name="loop">If the sound should be looped.</param>
@@ -109,7 +109,7 @@ namespace KeepCoding
         /// <param name="delay">The amount of delay before the sound starts.</param>
         /// <param name="time">The time in the audio it should start playing at.</param>
         /// <param name="pitch">The pitch of the sound.</param>
-        public void Play(string sound, bool loop = false, int priority = 0, float delay = 0, float pitch = 1, float time = 0, float volume = 1) => Play(AudioClips.FirstOrDefault(c => c.name == sound) ?? throw new UnityComponentNotFoundException($"There is no sound effect named \"{sound}\". List of audio clips from the prefab: {AudioClips.UnwrapToString()}"), loop, priority, delay, pitch, time, volume);
+        public void Play(string sound, bool loop = false, int priority = 0, float delay = 0, float pitch = 1, float time = 0, float volume = 1) => Play(AudioClips.FirstOrDefault(c => c.name == sound) ?? throw new MissingComponentException($"There is no sound effect named \"{sound}\". List of audio clips from the prefab: {AudioClips.UnwrapToString()}"), loop, priority, delay, pitch, time, volume);
 
         /// <summary>
         /// Stops playing the clip.

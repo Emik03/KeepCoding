@@ -135,7 +135,7 @@ namespace KeepCoding
         /// <remarks>
         /// An event that is null will be skipped. This extension method simplifies all of the KMFramework events into Actions or Functions.
         /// </remarks>
-        /// <exception cref="UnityComponentNotFoundException"></exception>
+        /// <exception cref="MissingComponentException"></exception>
         /// <param name="onActivate">Called when the bomb has been activated and the timer has started.</param>
         /// <param name="onNeedyActivation">Called when the needy timer activates.</param>
         /// <param name="onNeedyDeactivation">Called when the needy gets solved or the bomb explodes.</param>
@@ -297,7 +297,7 @@ namespace KeepCoding
         /// <remarks>
         /// Use this in-place of public fields that refer to itself.
         /// </remarks>
-        /// <exception cref="UnityComponentNotFoundException"></exception>
+        /// <exception cref="MissingComponentException"></exception>
         /// <typeparam name="T">The type of component to search for.</typeparam>
         /// <param name="allowNull">Whether it should throw an exception if it sees null, if not it will return the default value. (Likely null)</param>
         /// <returns>The component specified by <typeparamref name="T"/>.</returns>
@@ -310,7 +310,7 @@ namespace KeepCoding
         /// <see cref="GameObject.GetComponent{T}"/> and <see cref="GameObject.GetComponents{T}()"/> have their own implementations already, so use these functions instead for that purpose; 
         /// <seealso cref="Get{T}(bool)"/>, <seealso cref="GetAll{T}(bool)"/>
         /// </remarks>
-        /// <exception cref="UnityComponentNotFoundException"></exception>
+        /// <exception cref="MissingComponentException"></exception>
         /// <typeparam name="T">The type of component to search for.</typeparam>
         /// <param name="func">The expensive function to call, only if it hasn't ever been called by this method on the current instance before.</param>
         /// <param name="allowNull">Whether it should throw an exception if it sees null, if not it will return the default value. (Likely null)</param>
@@ -320,7 +320,7 @@ namespace KeepCoding
             if (!_components.ContainsKey(typeof(T)))
                 _components.Add(typeof(T), func());
 
-            return allowNull || !_components[typeof(T)].IsNullOrEmpty() ? (T[])_components[typeof(T)] : throw new UnityComponentNotFoundException($"Tried to get component {typeof(T).Name} from {this}, but was unable to find one.");
+            return allowNull || !_components[typeof(T)].IsNullOrEmpty() ? (T[])_components[typeof(T)] : throw new MissingComponentException($"Tried to get component {typeof(T).Name} from {this}, but was unable to find one.");
         }
 
         /// <summary>
@@ -329,7 +329,7 @@ namespace KeepCoding
         /// <remarks>
         /// Use this in-place of public fields that refer to itself.
         /// </remarks>
-        /// <exception cref="UnityComponentNotFoundException"></exception>
+        /// <exception cref="MissingComponentException"></exception>
         /// <typeparam name="T">The type of component to search for.</typeparam>
         /// <param name="allowNull">Whether it should throw an exception if it sees null, if not it will return the default value. (Likely null)</param>
         /// <returns>The component specified by <typeparamref name="T"/>.</returns>

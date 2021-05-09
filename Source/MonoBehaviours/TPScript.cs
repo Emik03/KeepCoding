@@ -28,7 +28,7 @@ namespace KeepCoding
         /// <value>
         /// The instance of the module.
         /// </value>
-        protected TModule Module => _module ??= GetComponent<TModule>() ?? throw new UnityComponentNotFoundException("TPScript cannot find your ModuleScript. Make sure that both script files are in the same game object!");
+        protected TModule Module => _module ??= GetComponent<TModule>() ?? throw new MissingComponentException("TPScript cannot find your ModuleScript. Make sure that both script files are in the same game object!");
         private TModule _module;
 
         /// <summary>
