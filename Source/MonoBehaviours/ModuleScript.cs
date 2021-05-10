@@ -95,6 +95,8 @@ namespace KeepCoding
 
         private static readonly Dictionary<string, int> _moduleIds = new();
 
+        private static Dictionary<string, Dictionary<string, object>[]> _database;
+
         private Action _setActive;
 
         private Dictionary<Type, Component[]> _components;
@@ -115,7 +117,9 @@ namespace KeepCoding
             };
 
             _components = new() { { typeof(ModuleScript), new[] { this } } };
-            
+
+            _database = new();
+
             ModBundleName.NullOrEmptyCheck("The public field \"ModBundleName\" is empty! This means that when compiled it won't be able to run! Please set this field to your Mod ID located at Keep Talking ModKit -> Configure Mod. Refer to this link for more details: https://github.com/Emik03/KeepCoding/wiki/Chapter-2.1:-ModuleScript#version-string");
                      
             Module = new(Get<KMBombModule>(allowNull: true), Get<KMNeedyModule>(allowNull: true));
@@ -242,6 +246,31 @@ namespace KeepCoding
         public void Log<T>(T message, params object[] args) => Log(message.UnwrapToString().Form(args));
 
         /// <summary>
+        /// Sends information to a static variable such that other modules can access it.
+        /// </summary>
+        /// <remarks>
+        /// To ensure that this method works correctly, make sure that both modules have the same version of KeepCoding.
+        /// </remarks>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public void Write<T>(string key, T value)
+        {
+            if (!_database.ContainsKey(Module.ModuleType))
+                _database.Add(Module.ModuleType, new Dictionary<string, object>[] { });
+
+            int index = _moduleIds[Module.ModuleType] - ModuleId;
+
+            while (index >= _database[Module.ModuleType].Length)
+                _database[Module.ModuleType].Append(new());
+
+            if (!_database[Module.ModuleType][index].ContainsKey(key))
+                _database[Module.ModuleType][index].Add(key, null);
+
+            _database[Module.ModuleType][index][key] = value;
+        }
+
+        /// <summary>
         /// Plays a sound. Requires <see cref="KMAudio"/> to be assigned.
         /// </summary>
         /// <exception cref="EmptyIteratorException"></exception>
@@ -334,6 +363,30 @@ namespace KeepCoding
         /// <param name="allowNull">Whether it should throw an exception if it sees null, if not it will return the default value. (Likely null)</param>
         /// <returns>The component specified by <typeparamref name="T"/>.</returns>
         public T[] GetAll<T>(bool allowNull = false) where T : Component => Cache(() => GetComponents<T>(), allowNull);
+
+        /// <summary>
+        /// Allows you to read a module's data that uses <see cref="Write{T}(string, T)"/>, even from a different assembly.
+        /// </summary>
+        /// <remarks>
+        /// To ensure that this method works correctly, make sure that both modules have the same version of KeepCoding.
+        /// </remarks>
+        /// <exception cref="KeyNotFoundException"></exception>
+        /// <exception cref="WrongDatatypeException"></exception>
+        /// <typeparam name="T">The type of the expected output.</typeparam>
+        /// <param name="module">The module to look into.</param>
+        /// <param name="key">The key of the variable, a lot like a variable name.</param>
+        /// <param name="allowDefault">Whether it should throw an exception if no value is found, or provide the default value instead.</param>
+        /// <returns>Every instance of the value from the every instance of the module specified.</returns>
+        public static T[] Read<T>(string module, string key, bool allowDefault = false) => !_database.ContainsKey(module) && !IsEditor ? throw new KeyNotFoundException($"The module {module} does not have an entry!") : _database[module].ConvertAll(d =>
+        {
+            if (!d.ContainsKey(key))
+                return allowDefault || IsEditor ? default : throw new KeyNotFoundException($"The key {key} could not be found in the module {module}!");
+
+            if (d[key] is T t)
+                return t;
+
+            throw new WrongDatatypeException($"The data type {typeof(T).Name} was expected, but received {d[key].GetType()} from module {module} with key {key}!");
+        });
 
         private void AssignNeedy(Action onTimerExpired, Action onNeedyActivation, Action onNeedyDeactivation)
         {
