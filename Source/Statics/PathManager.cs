@@ -34,7 +34,7 @@ namespace KeepCoding
         /// Prints a hierarchy of all game objects.
         /// </summary>
         /// <param name="indentation">The amount of spaces used for indenting children of game objects.</param>
-        public static void PrintFullHierarchy(ushort indentation = 4) => Object.FindObjectsOfType<GameObject>().Where(g => g.transform.parent is null).ToArray().ForEach(g => PrintHierarchy(g, indentation));
+        public static void PrintFullHierarchy(ushort indentation = 4) => Object.FindObjectsOfType<GameObject>().Where(g => !g.transform.parent).ToArray().ForEach(g => PrintHierarchy(g, indentation));
 
         /// <summary>
         /// Prints the hierarchy from the game object specified.

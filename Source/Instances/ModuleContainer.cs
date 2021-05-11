@@ -17,7 +17,7 @@ namespace KeepCoding
         /// <param name="needy">The instance of a needy module.</param>
         public ModuleContainer(KMBombModule regular = null, KMNeedyModule needy = null)
         {
-            if (regular is null == needy is null)
+            if ((bool)regular == needy)
                 throw new ConstructorArgumentException(regular is null ? "Both KMBombModule and KMNeedyModule is null, and since this data type is immutable after the constructor, it is unable to return anything." : "Both KMBombModule and KMNeedyModule are assigned, which will mean that it is unable to return both when calling a function that returns a single MonoBehaviour.");
 
             _bombModule = regular;
@@ -160,14 +160,14 @@ namespace KeepCoding
         /// Determines if both <see cref="ModuleContainer"/> variables are equal.
         /// </summary>
         /// <param name="obj">The comparison.</param>
-        /// <returns>True if both contain the same instance of <see cref="KMBombModule"/>, null, <see cref="KMNeedyModule"/></returns>
+        /// <returns>True if both contain the same instance of <see cref="KMBombModule"/>, <c>null</c>, <see cref="KMNeedyModule"/></returns>
         public override bool Equals(object obj) => Equals(obj as ModuleContainer);
 
         /// <summary>
         /// Determines if both <see cref="ModuleContainer"/> variables are equal.
         /// </summary>
         /// <param name="other">The comparison.</param>
-        /// <returns>True if both contain the same instance of <see cref="KMBombModule"/>, null, <see cref="KMNeedyModule"/></returns>
+        /// <returns>True if both contain the same instance of <see cref="KMBombModule"/>, <c>null</c>, <see cref="KMNeedyModule"/></returns>
         public bool Equals(ModuleContainer other) => Module == other.Module;
 
         /// <summary>

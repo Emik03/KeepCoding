@@ -39,7 +39,7 @@ namespace KeepCoding
         /// <value>
         /// Determines whether it is running on Unity or in-game.
         /// </value>
-        public static bool IsEditor => UnityEngine.Application.isEditor;
+        public static bool IsEditor => Application.isEditor;
 
         /// <value>
         /// Determines whether this module is the last instantiated instance.
@@ -162,7 +162,7 @@ namespace KeepCoding
         /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="SoundEffect"/>.</param>
         public void ButtonEffect(KMSelectable selectable, float intensityModifier = 0, params Sound[] sounds)
         {
-            if (selectable is null)
+            if (!selectable)
                 throw new UnassignedReferenceException("Selectable should not be null when calling this method.");
 
             selectable.AddInteractionPunch(intensityModifier);

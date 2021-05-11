@@ -50,7 +50,7 @@ namespace KeepCoding
         /// <typeparam name="T">The type of component to find.</typeparam>
         /// <param name="obj">The game object to search with.</param>
         /// <returns>True if a component has been found of type <typeparamref name="T"/> from <paramref name="obj"/>.</returns>
-        public static bool HasComponent<T>(this GameObject obj) where T : Component => obj.GetComponent<T>() is not null;
+        public static bool HasComponent<T>(this GameObject obj) where T : Component => obj.GetComponent<T>();
 
         /// <summary>
         /// Determines whether the number is equal or in-between 2 values.
