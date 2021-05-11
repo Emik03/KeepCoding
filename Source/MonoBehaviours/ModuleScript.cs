@@ -14,17 +14,17 @@ namespace KeepCoding
     /// <summary>
     /// Base class for regular and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
     /// </summary>
-    public abstract class ModuleScript : MonoBehaviour
+    public abstract class ModuleScript : MonoBehaviour, IModule
     {
         /// <summary>
         /// Called when the lights turn on.
         /// </summary>
-        protected virtual void OnActivate() { }
+        public virtual void OnActivate() { }
 
         /// <summary>
         /// Called when the timer's seconds-digit changes.
         /// </summary>
-        protected virtual void OnTimerTick() { }
+        public virtual void OnTimerTick() { }
 
         /// <value>
         /// Determines whether the module has been struck. Twitch Plays script will set this to false when a command is interrupted.
@@ -39,7 +39,7 @@ namespace KeepCoding
         /// <value>
         /// Determines whether it is running on Unity or in-game.
         /// </value>
-        public static bool IsEditor => Application.isEditor;
+        public static bool IsEditor => UnityEngine.Application.isEditor;
 
         /// <value>
         /// Determines whether this module is the last instantiated instance.
@@ -115,6 +115,10 @@ namespace KeepCoding
                 IsActive = true;
                 OnActivate();
             };
+
+            Log(GetComponentsInParent<TimerComponent>());
+            Log(GetComponentInParent<TimerComponent>());
+            Log(GetComponentInParent<TimerComponent>().TimerTick);
 
             _components = new() { { typeof(ModuleScript), new[] { this } } };
 
