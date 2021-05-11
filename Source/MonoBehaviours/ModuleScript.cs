@@ -116,10 +116,6 @@ namespace KeepCoding
                 OnActivate();
             };
 
-            Log(GetComponentsInParent<TimerComponent>());
-            Log(GetComponentInParent<TimerComponent>());
-            Log(GetComponentInParent<TimerComponent>().TimerTick);
-
             _components = new() { { typeof(ModuleScript), new[] { this } } };
 
             _database = new();
