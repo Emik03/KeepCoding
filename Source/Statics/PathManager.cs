@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Video;
 using Debug = UnityEngine.Debug;
+using Object = UnityEngine.Object;
 using ModSourceEnum = KeepCoding.Game.ModSourceEnum;
 
 namespace KeepCoding
@@ -28,6 +29,29 @@ namespace KeepCoding
             FileFormat = "{0}.{1}";
 
         private static readonly Dictionary<Tuple<string, string>, object> _cachedResults = new();
+
+        /// <summary>
+        /// Prints a hierarchy of all game objects.
+        /// </summary>
+        /// <param name="indentation">The amount of spaces used for indenting children of game objects.</param>
+        public static void PrintFullHierarchy(ushort indentation = 4) => Object.FindObjectsOfType<GameObject>().Where(g => g.transform.parent is null).ToArray().ForEach(g => PrintHierarchy(g, indentation));
+
+        /// <summary>
+        /// Prints the hierarchy from the game object specified.
+        /// </summary>
+        /// <param name="obj">The game object to search the hierarchy.</param>
+        /// <param name="indentation">The amount of spaces used for indenting children of game objects.</param>
+        /// <param name="depth">The level of depth which determines level of indentation. Leave this variable as 0.</param>
+        public static void PrintHierarchy(GameObject obj, ushort indentation = 4, ushort depth = 0)
+        {
+            string indent = new(Enumerable.Repeat(' ', indentation * depth).ToArray());
+
+            Debug.Log($"{indent}{obj.name}");
+            Debug.LogWarning($"{indent}{obj.GetComponents<Component>().UnwrapToString()}");
+
+            foreach (Transform child in obj.transform)
+                PrintHierarchy(child.gameObject, (ushort)(depth + 1), indentation);
+        }
 
         /// <summary>
         /// Combines multiple paths together.
