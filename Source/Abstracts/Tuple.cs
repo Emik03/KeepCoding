@@ -5,7 +5,7 @@ namespace KeepCoding
     /// <summary>
     /// An abstract type meant for the tuple data type for C# 4. Written by Emik.
     /// </summary>
-    public abstract class Tuple
+    public abstract class Tuple : ITuple
     {
         /// <summary>
         /// Indexable tuple. Be careful when using this as the compiler will not notice if you are using the wrong type.
