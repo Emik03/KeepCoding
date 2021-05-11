@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Security;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -566,11 +567,20 @@ namespace KeepCoding
         /// <returns>An <see cref="object"/> <see cref="Array"/> of all elements within <paramref name="source"/>.</returns>
         public static IEnumerable<object> Unwrap(this IEnumerable source, bool isRecursive = false)
         {
-            foreach (object item in source)
+            List<object> list = new();
+
+            try
             {
-                foreach (object o in item.Unwrap(isRecursive))
-                    yield return o;
+                foreach (object item in source)
+                {
+                    foreach (object o in item.Unwrap(isRecursive))
+                        list.Add(o);
+                }
             }
+            catch (SecurityException) { }
+
+            foreach (object o in list)
+                yield return o;
         }
 
         /// <summary>
