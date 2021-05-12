@@ -5,7 +5,7 @@ using UnityEngine;
 namespace KeepCoding
 {
     /// <summary>
-    /// Container for both regular and needy modules.
+    /// Container for both regular and needy modules. Written by Emik.
     /// </summary>
     public sealed class ModuleContainer : IEquatable<ModuleContainer>
     {
@@ -19,7 +19,7 @@ namespace KeepCoding
         {
             if ((bool)regular == needy)
                 throw new ConstructorArgumentException(regular ? "Both KMBombModule and KMNeedyModule are assigned, which will mean that it is unable to return both when calling a function that returns a single MonoBehaviour." : "Both KMBombModule and KMNeedyModule is null, and since this data type is immutable after the constructor, it is unable to return anything.");
-
+            
             _bombModule = regular;
             _needyModule = needy;
         }
