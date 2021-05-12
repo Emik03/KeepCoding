@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Player = Assets.Scripts.Settings.PlayerSettingsManager;
 using Manager = ModManager;
 using Info = Assets.Scripts.Mods.ModInfo;
+using System.Linq;
 
 namespace KeepCoding
 {
@@ -47,8 +48,13 @@ namespace KeepCoding
             /// </value>
             public static Func<List<string>> GetDisabledModPaths => Manager.Instance.GetDisabledModPaths;
 
+            /// <summary>
+            /// Gets all of the mod paths.
+            /// </summary>
+            public static Func<List<string>> GetModPaths => () => Helper.GetValues<ModSourceEnum>().Select(m => GetAllModPathsFromSource(m)).SelectMany(l => l).ToList();
+
             /// <value>
-            /// Gets all of the enabled mod paths within the <see cref="ModSourceEnum"/> constraint.
+            /// Gets all of the mod paths within the <see cref="ModSourceEnum"/> constraint.
             /// </value>
             public static Func<ModSourceEnum, List<string>> GetAllModPathsFromSource => source => Manager.Instance.GetAllModPathsFromSource((Info.ModSourceEnum)source);
 
