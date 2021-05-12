@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Security;
+using System.Text;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -324,6 +325,48 @@ namespace KeepCoding
         /// <param name="args">All of the arguments to put into <paramref name="str"/>.</param>
         /// <returns>The formatted <see cref="string"/>.</returns>
         public static string Form(this string str, params object[] args) => string.Format(str, args.Select(o => o.UnwrapToString()).ToArray());
+
+        /// <summary>
+        /// Replaces whitespace characters with line breaks based on the line length.
+        /// </summary>
+        /// <remarks>
+        /// This can be useful to prevent a <see cref="TextMesh"/> from going outside its boundaries. A monospaced font is recommended in this case.
+        /// </remarks>
+        /// <param name="condition">The string to insert line breaks with.</param>
+        /// <param name="maxLineLength">The maximum number of characters in one line.</param>
+        /// <returns><paramref name="condition"/> with a line break every <paramref name="maxLineLength"/> or less characters.</returns>
+        public static string InsertNewlines(this string condition, ushort maxLineLength)
+        {
+            if (maxLineLength == 0)
+                throw new FormatException($"{nameof(maxLineLength)} cannot be 0 because that would insert infinite linebreaks for each character.");
+
+            condition = condition.NullCheck("Line breaks cannot be inserted in a null string.").Replace('\n', ' ');
+
+            var builder = new StringBuilder(condition);
+            int floor = -1;
+
+            for (int i = maxLineLength - 1; i <= builder.Length; i--)
+            {
+                if (floor >= i)
+                {
+                    floor += maxLineLength;
+                    i = floor + maxLineLength;
+
+                    builder.Insert(floor, "\n");
+                    continue;
+                }
+
+                if (char.IsWhiteSpace(builder[i]))
+                {
+                    builder[i] = '\n';
+
+                    floor = i + 1;
+                    i += maxLineLength;
+                }
+            }
+
+            return builder.ToString();
+        }
 
         /// <summary>
         /// Converts any base-10 number to any base.
