@@ -99,11 +99,7 @@ namespace KeepCoding
             if (IsCached(in current))
                 return GetCache<string>(in current);
 
-            string path = Game.ModManager.GetEnabledModPaths(ModSourceEnum.Local)
-                              .FirstOrDefault(x => Directory.GetFiles(x, fileName).Any()) ??
-                          Game.ModManager.GetEnabledModPaths(ModSourceEnum.SteamWorkshop)
-                              .FirstOrDefault(x => Directory.GetFiles(x, fileName).Any()) ??
-                          GetDisabledPath(fileName) ?? throw new FileNotFoundException($"The file name {fileName} could not be found within your mods folder!");
+            string path = Game.ModManager.GetModPaths().FirstOrDefault(x => Directory.GetFiles(x, fileName).Any()) ?? throw new FileNotFoundException($"The file name {fileName} could not be found within your mods folder!");
 
             return SetCache(current, path
                 .Replace($"/{fileName}", "")
@@ -212,21 +208,6 @@ namespace KeepCoding
         private static bool IsCached(in Tuple<string, string> current) => _cachedResults.ContainsKey(current);
 
         private static char GetSlashType(in string path) => path.Count(c => c == '/') >= path.Count(c => c == '\\') ? '/' : '\\';
-
-        private static string GetDisabledPath(string fileName) 
-            => Game.ModManager.GetDisabledModPaths().FirstValue(path =>
-            {
-                try
-                {
-                    string[] files = Directory.GetFiles(path, fileName);
-
-                    if (files.LengthOrDefault() > 0 && !files[0].Trim().IsNullOrEmpty())
-                        return files[0];
-                }
-                catch (Exception) { }
-
-                return null;
-            });
 
         private static T GetCache<T>(in Tuple<string, string> current) => (T)_cachedResults[current];
 
