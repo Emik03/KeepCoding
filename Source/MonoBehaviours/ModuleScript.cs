@@ -16,16 +16,6 @@ namespace KeepCoding
     /// </summary>
     public abstract class ModuleScript : MonoBehaviour, IModule
     {
-        /// <summary>
-        /// Called when the lights turn on.
-        /// </summary>
-        public virtual void OnActivate() { }
-
-        /// <summary>
-        /// Called when the timer's seconds-digit changes.
-        /// </summary>
-        public virtual void OnTimerTick() { }
-
         /// <value>
         /// Determines whether the module has been struck. Twitch Plays script will set this to false when a command is interrupted.
         /// </value>
@@ -249,6 +239,16 @@ namespace KeepCoding
         /// <param name="message">The message to log.</param>
         /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
         public void Log<T>(T message, params object[] args) => Log(message.UnwrapToString().Form(args));
+
+        /// <summary>
+        /// Called when the lights turn on.
+        /// </summary>
+        public virtual void OnActivate() { }
+
+        /// <summary>
+        /// Called when the timer's seconds-digit changes.
+        /// </summary>
+        public virtual void OnTimerTick() { }
 
         /// <summary>
         /// Sends information to a static variable such that other modules can access it.

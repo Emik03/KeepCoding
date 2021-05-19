@@ -5,6 +5,16 @@
     /// </summary>
     public interface IModule
     {
+        /// <value>
+        /// Determines whether this module is the last instantiated instance.
+        /// </value>
+        public bool IsLastInstantiated { get; }
+
+        /// <value>
+        /// The version number of the entire mod.
+        /// </value>
+        public string Version { get; }
+
         /// <summary>
         /// Called when the lights turn on.
         /// </summary>

@@ -5,8 +5,13 @@ namespace KeepCoding
     /// <summary>
     /// Interface for Twitch Plays support. Written by Emik.
     /// </summary>
-    public interface ITP
+    public interface ITP<TModule>
     {
+        /// <value>
+        /// The instance of the module.
+        /// </value>
+        public TModule Module { get; }
+
         /// <summary>
         /// When a command is typed into Twitch Plays with the Id of this module, it calls this method and passes in the exact command typed.
         /// </summary>
