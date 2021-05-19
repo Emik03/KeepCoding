@@ -37,7 +37,7 @@ namespace KeepCoding
         public bool IsActive { get; private set; }
 
         /// <value>
-        /// Determines whether it is running on Unity or in-game.
+        /// Determines whether the application is running from inside unity.
         /// </value>
         public static bool IsEditor => Application.isEditor;
 
@@ -47,14 +47,19 @@ namespace KeepCoding
         public bool IsLastInstantiated => ModuleId == _moduleIds[Module.ModuleType];
 
         /// <value>
+        /// Determines whether the needy is active.
+        /// </value>
+        public bool IsNeedyActive { get; private set; }
+
+        /// <value>
         /// Determines whether the module has been solved.
         /// </value>
         public bool IsSolved { get; private set; }
 
-        /// <value>
-        /// Determines whether the needy is active.
-        /// </value>
-        public bool IsNeedyActive { get; private set; }
+        /// <summary>
+        /// Determines whether the game is being played in Virtual Reality.
+        /// </summary>
+        public static bool IsVR => !IsEditor && Game.KTInputManager.IsCurrentControlTypeVR;
 
         /// <value>
         /// The Unique Id for this module of this type.

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Player = Assets.Scripts.Settings.PlayerSettingsManager;
+using InputManager = KTInputManager;
 using Manager = ModManager;
 using Info = Assets.Scripts.Mods.ModInfo;
 
@@ -16,6 +18,42 @@ namespace KeepCoding
     /// </remarks>
     public static class Game
     {
+        /// <summary>
+        /// Determines how the game is controlled.
+        /// </summary>
+        public enum ControlType
+        {
+            /// <summary>
+            /// The game is being controlled with a gamepad controller.
+            /// </summary>
+            Gamepad,
+
+            /// <summary>
+            /// The game is being controlled with a virtual reality headset.
+            /// </summary>
+            Gaze,
+
+            /// <summary>
+            /// The game is being controlled with a mouse.
+            /// </summary>
+            Mouse,
+
+            /// <summary>
+            /// The game is being controlled with virtual reality headset and controller.
+            /// </summary>
+            Motion,
+
+            /// <summary>
+            /// The game is being controlled with touch controls.
+            /// </summary>
+            Touch,
+
+            /// <summary>
+            /// The game is being controlled with three degrees of freedom, part of virtual reality.
+            /// </summary>
+            ThreeDOF
+        }
+
         /// <summary>
         /// Determines how the mod is stored.
         /// </summary>
@@ -35,6 +73,22 @@ namespace KeepCoding
             /// The mod is stored within the workshop folder.
             /// </value>
             SteamWorkshop
+        }
+
+        /// <summary>
+        /// Allows access relating to how the game is being interacted with.
+        /// </summary>
+        public static class KTInputManager
+        {
+            /// <summary>
+            /// Determines if the current way the game is being controlled is VR-related.
+            /// </summary>
+            public static bool IsCurrentControlTypeVR => CurrentControlType == ControlType.Gaze || CurrentControlType == ControlType.Motion || CurrentControlType == ControlType.ThreeDOF;
+
+            /// <summary>
+            /// The current way the game is being controlled.
+            /// </summary>
+            public static ControlType CurrentControlType => (ControlType)InputManager.Instance.CurrentControlType;
         }
 
         /// <summary>
