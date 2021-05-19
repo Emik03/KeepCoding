@@ -8,7 +8,7 @@ namespace KeepCoding
     /// <summary>
     /// Base class for TwitchPlays support for regular and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
     /// </summary>
-    public abstract class TPScript<TModule> : MonoBehaviour, ITP where TModule : ModuleScript
+    public abstract class TPScript<TModule> : MonoBehaviour, ITP<TModule> where TModule : ModuleScript
     {
         /// <summary>
         /// The help message that gets sent when typing <c>!{0} help</c>.
@@ -28,7 +28,7 @@ namespace KeepCoding
         /// <value>
         /// The instance of the module.
         /// </value>
-        protected TModule Module => _module ??= GetComponent<TModule>() ?? throw new MissingComponentException("TPScript cannot find your ModuleScript. Make sure that both script files are in the same game object!");
+        public TModule Module => _module ??= GetComponent<TModule>() ?? throw new MissingComponentException("TPScript cannot find your ModuleScript. Make sure that both script files are in the same game object!");
         private TModule _module;
 
         /// <summary>
