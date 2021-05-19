@@ -79,14 +79,14 @@ namespace KeepCoding
         /// </summary>
         public static class KTInputManager
         {
-            /// <summary>
+            /// <value>
             /// Determines if the current way the game is being controlled is VR-related.
-            /// </summary>
+            /// </value>
             public static bool IsCurrentControlTypeVR => CurrentControlType is ControlType.Gaze or ControlType.Motion or ControlType.ThreeDOF;
 
-            /// <summary>
+            /// <value>
             /// The current way the game is being controlled.
-            /// </summary>
+            /// </value>
             public static ControlType CurrentControlType => (ControlType)InputManager.Instance.CurrentControlType;
         }
 
