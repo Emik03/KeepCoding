@@ -46,9 +46,9 @@ namespace KeepCoding
         /// </value>
         public bool IsSolved { get; private set; }
 
-        /// <summary>
+        /// <value>
         /// Determines whether the game is being played in Virtual Reality.
-        /// </summary>
+        /// </value>
         public static bool IsVR => !IsEditor && Game.KTInputManager.IsCurrentControlTypeVR;
 
         /// <value>
