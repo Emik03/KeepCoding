@@ -429,7 +429,7 @@ namespace KeepCoding
             if (!IsEditor)
                 yield break;
 
-            using var req = UnityWebRequest.Get("https://raw.githubusercontent.com/Emik03/KeepCodingAndNobodyExplodes/main/latest");
+            using var req = UnityWebRequest.Get("https://raw.githubusercontent.com/Emik03/KeepCoding/main/latest");
 
             yield return req.SendWebRequest();
 
