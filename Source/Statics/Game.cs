@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Player = Assets.Scripts.Settings.PlayerSettingsManager;
 using InputManager = KTInputManager;
 using Manager = ModManager;
@@ -83,7 +82,7 @@ namespace KeepCoding
             /// <summary>
             /// Determines if the current way the game is being controlled is VR-related.
             /// </summary>
-            public static bool IsCurrentControlTypeVR => CurrentControlType == ControlType.Gaze || CurrentControlType == ControlType.Motion || CurrentControlType == ControlType.ThreeDOF;
+            public static bool IsCurrentControlTypeVR => CurrentControlType is ControlType.Gaze or ControlType.Motion or ControlType.ThreeDOF;
 
             /// <summary>
             /// The current way the game is being controlled.
