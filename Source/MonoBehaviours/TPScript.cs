@@ -8,6 +8,7 @@ namespace KeepCoding
     /// <summary>
     /// Base class for TwitchPlays support for regular and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
     /// </summary>
+    [RequireComponent(typeof(ModuleScript))]
     public abstract class TPScript<TModule> : MonoBehaviour, ITP<TModule> where TModule : ModuleScript
     {
         /// <summary>
