@@ -17,15 +17,20 @@ namespace KeepCoding
         public string TwitchHelpMessage;
 
         /// <summary>
-        /// These values are set by the Twitch Plays mod using reflection.
+        /// Determines if it should cancel command processing. If this returns true, then stop processing the command, clean up, then do a <c>yield return Cancelled;</c> to acknowledge the cancel.
         /// </summary>
         /// <remarks>
-        /// The Twitch Plays mod will set these values during Start. This means that you can only read these variables after Start, such as <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/>.
+        /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
-        protected bool TimeModeActive, TwitchPlaysActive, TwitchPlaysSkipTimeAllowed, TwitchShouldCancelCommand, ZenModeActive;
+        protected bool IsCancelCommand => TwitchShouldCancelCommand;
+#pragma warning disable IDE0032 // Use auto property
+#pragma warning disable IDE0044 // Add readonly modifier
+        private bool TwitchShouldCancelCommand;
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning restore IDE0032 // Use auto property
 
         /// <summary>
-        /// Declaring this field allows for Twitch Plays to inform the module that the bomb is in Time Mode, where solves change the timer. This is useful for modules that use the timer's value. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, therefore the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
+        /// Declaring this field allows for Twitch Plays to inform the module that the bomb is in Time Mode, where solves change the timer. This is useful for modules that use the timer's value. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </summary>
         protected List<KMBombModule> TwitchAbandonModule;
 

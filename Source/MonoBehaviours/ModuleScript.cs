@@ -46,10 +46,60 @@ namespace KeepCoding
         /// </value>
         public bool IsSolved { get; private set; }
 
+        /// <summary>
+        /// Determines if it is in Time Mode, where solves change the timer. This is useful for modules that use the timer's value.
+        /// </summary>
+        /// <remarks>
+        /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
+        /// </remarks>
+        public bool IsTimeMode => TimeModeActive;
+#pragma warning disable IDE0032 // Use auto property
+#pragma warning disable IDE0044 // Add readonly modifier
+        private bool TimeModeActive;
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning restore IDE0032 // Use auto property
+
+        /// <summary>
+        /// Determines if it should allow for the timer to be skipped when the module it is in, as well as any other modules that would like to skip time, are the only unsolved modules left on the bomb. 
+        /// </summary>
+        /// <remarks>
+        /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
+        /// </remarks>
+        public bool IsTimeSkippable { get => TwitchPlaysSkipTimeAllowed; set => TwitchPlaysSkipTimeAllowed = value; }
+#pragma warning disable IDE0032 // Use auto property
+        private bool TwitchPlaysSkipTimeAllowed;
+#pragma warning restore IDE0032 // Use auto property
+
+        /// <summary>
+        /// Determines if Twitch Plays is currently active. This is for modules that need to display different items, or use different rules if Twitch Plays is active.
+        /// </summary>
+        /// <remarks>
+        /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
+        /// </remarks>
+        public bool IsTP => TwitchPlaysActive;
+#pragma warning disable IDE0032 // Use auto property
+#pragma warning disable IDE0044 // Add readonly modifier
+        private bool TwitchPlaysActive;
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning restore IDE0032 // Use auto property
+
         /// <value>
         /// Determines whether the game is being played in Virtual Reality.
         /// </value>
         public static bool IsVR => !IsEditor && Game.KTInputManager.IsCurrentControlTypeVR;
+
+        /// <summary>
+        /// Determines if the timer is counting up instead of down, for special cases, such as controlling how to sort button release times, or whether there is a low timer event or not.
+        /// </summary>
+        /// <remarks>
+        /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
+        /// </remarks>
+        public bool IsZenMode => ZenModeActive;
+#pragma warning disable IDE0032 // Use auto property
+#pragma warning disable IDE0044 // Add readonly modifier
+        private bool ZenModeActive;
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning restore IDE0032 // Use auto property
 
         /// <value>
         /// The Unique Id for this module of this type.
@@ -82,14 +132,6 @@ namespace KeepCoding
         /// Contains either <see cref="KMBombModule"/> or <see cref="KMNeedyModule"/>, and allows for running commands through context.
         /// </summary>
         public ModuleContainer Module { get; private set; }
-
-        /// <summary>
-        /// These values are set by the Twitch Plays mod using reflection.
-        /// </summary>
-        /// <remarks>
-        /// The Twitch Plays mod will set these values during Start. This means that you can only read these variables after Start, such as <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/>.
-        /// </remarks>
-        protected bool TimeModeActive, TwitchPlaysActive, TwitchPlaysSkipTimeAllowed, TwitchShouldCancelCommand, ZenModeActive;
 
         private static readonly Dictionary<string, int> _moduleIds = new();
 
