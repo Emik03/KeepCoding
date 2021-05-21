@@ -74,11 +74,27 @@ namespace KeepCoding
             /// </value>
             SteamWorkshop
         }
-        
+
+        /// <summary>
+        /// Allows access relating to how the game is being interacted with.
+        /// </summary>
+        public static class KTInputManager
+        {
+            /// <value>
+            /// Determines if the current way the game is being controlled is VR-related.
+            /// </value>
+            public static bool IsCurrentControlTypeVR => CurrentControlType is ControlType.Gaze or ControlType.Motion or ControlType.ThreeDOF;
+
+            /// <value>
+            /// The current way the game is being controlled.
+            /// </value>
+            public static ControlType CurrentControlType => (ControlType)KTInput.Instance.CurrentControlType;
+        }
+
         /// <summary>
         /// Allows access relating to the current mission.
         /// </summary>
-        public class Mission
+        public static class Mission
         {
             /// <value>
             /// Determines whether or not all pacing events are enabled.
@@ -99,22 +115,6 @@ namespace KeepCoding
             /// The ID of the mission.
             /// </value>
             public static string ID => KTScene.Instance.GameplayState.Mission.ID;
-        }
-
-        /// <summary>
-        /// Allows access relating to how the game is being interacted with.
-        /// </summary>
-        public static class KTInputManager
-        {
-            /// <value>
-            /// Determines if the current way the game is being controlled is VR-related.
-            /// </value>
-            public static bool IsCurrentControlTypeVR => CurrentControlType is ControlType.Gaze or ControlType.Motion or ControlType.ThreeDOF;
-
-            /// <value>
-            /// The current way the game is being controlled.
-            /// </value>
-            public static ControlType CurrentControlType => (ControlType)KTInput.Instance.CurrentControlType;
         }
 
         /// <summary>
