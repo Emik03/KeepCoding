@@ -5,13 +5,8 @@ namespace KeepCoding
     /// <summary>
     /// Interface for Twitch Plays support. Written by Emik.
     /// </summary>
-    public interface ITP<TModule>
+    public interface ITP
     {
-        /// <value>
-        /// The instance of the module.
-        /// </value>
-        public TModule Module { get; }
-
         /// <summary>
         /// When a command is typed into Twitch Plays with the Id of this module, it calls this method and passes in the exact command typed.
         /// </summary>
@@ -30,5 +25,16 @@ namespace KeepCoding
         /// </remarks>
         /// <returns>A series of instructions for the Twitch Plays mod to handle in order to guarantee a solve.</returns>
         public IEnumerator TwitchHandleForcedSolve();
+    }
+
+    /// <summary>
+    /// Interface for Twitch Plays support. Written by Emik.
+    /// </summary>
+    public interface ITP<TModule> : ITP where TModule : ModuleScript
+    {
+        /// <value>
+        /// The instance of the module.
+        /// </value>
+        public TModule Module { get; }
     }
 }
