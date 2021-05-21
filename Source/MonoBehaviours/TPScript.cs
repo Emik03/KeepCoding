@@ -17,6 +17,17 @@ namespace KeepCoding
         public string TwitchHelpMessage;
 
         /// <value>
+        /// Determines if it should allow for the timer to be skipped when the module it is in, as well as any other modules that would like to skip time, are the only unsolved modules left on the bomb. 
+        /// </value>
+        /// <remarks>
+        /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
+        /// </remarks>
+        public bool IsTimeSkippable { get => TwitchPlaysSkipTimeAllowed; set => TwitchPlaysSkipTimeAllowed = value; }
+#pragma warning disable IDE0032 // Use auto property
+        private bool TwitchPlaysSkipTimeAllowed;
+#pragma warning restore IDE0032 // Use auto property
+
+        /// <value>
         /// Determines if it should cancel command processing. If this returns true, then stop processing the command, clean up, then do a <c>yield return Cancelled;</c> to acknowledge the cancel.
         /// </value>
         /// <remarks>
@@ -44,8 +55,6 @@ namespace KeepCoding
         /// The instance of the module.
         /// </value>
         public TModule Module => _module ??= GetComponent<TModule>() ?? throw new MissingComponentException("TPScript cannot find your ModuleScript. Make sure that both script files are in the same game object!");
-
-
         private TModule _module;
 
         /// <value>
@@ -196,7 +205,7 @@ namespace KeepCoding
         protected static string Detonate(float? time = null, string message = null) => AppendIfNotNullOrEmpty("detonate", time, message);
 
         /// <summary>
-        /// Yield return this to try advancing the clock to the specified time. You must put the full time you wish to skip to, and this time either needs to be less than the current time, if in normal/time mode, or greater than the current time, if in zen mode. Example, if you wanted to set the clock to 5:24, then you do "skiptime 324" or "skiptime 5:24". You can target partway through the seconds, such as "skiptime 45.28", which would then set the clock to 45.28, provided that time has NOT gone by already. You must also declare the <see cref="TwitchPlaysSkipTimeAllowed"/> bool, and set it to true, for this function to work.
+        /// Yield return this to try advancing the clock to the specified time. You must put the full time you wish to skip to, and this time either needs to be less than the current time, if in normal/time mode, or greater than the current time, if in zen mode. Example, if you wanted to set the clock to 5:24, then you do "skiptime 324" or "skiptime 5:24". You can target partway through the seconds, such as "skiptime 45.28", which would then set the clock to 45.28, provided that time has NOT gone by already. You must also set <see cref="IsTimeSkippable"/> to true, for this function to work.
         /// </summary>
         /// <param name="seconds">The time to skip to in seconds.</param>
         /// <returns>A formatted string for Twitch Plays.</returns>
