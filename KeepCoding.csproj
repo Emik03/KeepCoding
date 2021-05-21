@@ -15,9 +15,9 @@
 	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	<Copyright>Emik</Copyright>
 	<RunPostBuildEvent>Always</RunPostBuildEvent>
-	<AssemblyVersion>1.7.1.0</AssemblyVersion>
-	<FileVersion>1.7.1.0</FileVersion>
-	<Version>1.7.1</Version>
+	<AssemblyVersion>1.8.0.0</AssemblyVersion>
+	<FileVersion>1.8.0.0</FileVersion>
+	<Version>1.8</Version>
 	<PackageId>KeepCoding</PackageId>
 	<SignAssembly>true</SignAssembly>
 	<DelaySign>false</DelaySign>
@@ -51,6 +51,10 @@
       <HintPath>D:\ktanemodkit-master\Assets\Plugins\Managed\Newtonsoft.Json.dll</HintPath>
       <Private>false</Private>
       <Aliases></Aliases>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>..\..\..\..\..\Program Files\Editor\Data\Managed\UnityEditor.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>..\..\..\..\..\Program Files\Editor\Data\Managed\UnityEngine.dll</HintPath>
