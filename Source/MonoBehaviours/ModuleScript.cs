@@ -14,6 +14,7 @@ namespace KeepCoding
     /// <summary>
     /// Base class for regular and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
     /// </summary>
+    [RequireComponent(typeof(ModBundle))]
     public abstract class ModuleScript : MonoBehaviour, IModule
     {
         /// <value>
@@ -60,17 +61,6 @@ namespace KeepCoding
 #pragma warning restore IDE0032 // Use auto property
 
         /// <value>
-        /// Determines if it should allow for the timer to be skipped when the module it is in, as well as any other modules that would like to skip time, are the only unsolved modules left on the bomb. 
-        /// </value>
-        /// <remarks>
-        /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
-        /// </remarks>
-        public bool IsTimeSkippable { get => TwitchPlaysSkipTimeAllowed; set => TwitchPlaysSkipTimeAllowed = value; }
-#pragma warning disable IDE0032 // Use auto property
-        private bool TwitchPlaysSkipTimeAllowed;
-#pragma warning restore IDE0032 // Use auto property
-
-        /// <value>
         /// Determines if Twitch Plays is currently active. This is for modules that need to display different items, or use different rules if Twitch Plays is active.
         /// </value>
         /// <remarks>
@@ -111,17 +101,12 @@ namespace KeepCoding
         /// </value>
         public int TimeLeft { get; private set; }
 
-        /// <summary>
-        /// The name of the bundle. This is required for the version number.
-        /// </summary>
-        public string ModBundleName;
-
         /// <value>
-        /// The version number of the entire mod. Requires instance of <see cref="ModBundleName"/>.
+        /// The version number of the entire mod. Requires <see cref="ModBundle.Name"/> to be set.
         /// </value>
         /// <exception cref="OperationCanceledException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
-        public string Version => (IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(ModBundleName).Version) ?? throw new OperationCanceledException($"{nameof(ModBundleName)} couldn't be found. Did you spell your Mod name correctly? Refer to this link for more details: https://github.com/Emik03/KeepCoding/wiki/Chapter-2.1:-ModuleScript#version-string");
+        public string Version => (IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(Get<ModBundle>().Name).Version) ?? throw new OperationCanceledException($"{nameof(ModBundle.Name)} couldn't be found. Did you spell your Mod name correctly? Refer to this link for more details: https://github.com/Emik03/KeepCoding/wiki/Chapter-2.1:-ModuleScript#version-string");
 
         /// <value>
         /// Contains an instance for every sound played by this module using <see cref="PlaySound(Transform, bool, Sound[])"/> or any of its overloads.
@@ -160,7 +145,7 @@ namespace KeepCoding
 
             _database = new();
 
-            ModBundleName.NullOrEmptyCheck("The public field \"ModBundleName\" is empty! This means that when compiled it won't be able to run! Please set this field to your Mod ID located at Keep Talking ModKit -> Configure Mod. Refer to this link for more details: https://github.com/Emik03/KeepCoding/wiki/Chapter-2.1:-ModuleScript#version-string");
+            Get<ModBundle>().Name.NullOrEmptyCheck("The public field \"ModBundleName\" is empty! This means that when compiled it won't be able to run! Please set this field to your Mod ID located at Keep Talking ModKit -> Configure Mod. Refer to this link for more details: https://github.com/Emik03/KeepCoding/wiki/Chapter-2.1:-ModuleScript#version-string");
                      
             Module = new(Get<KMBombModule>(allowNull: true), Get<KMNeedyModule>(allowNull: true));
 
