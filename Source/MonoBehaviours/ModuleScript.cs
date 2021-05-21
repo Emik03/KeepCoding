@@ -145,7 +145,7 @@ namespace KeepCoding
 
             _database = new();
 
-            Get<ModBundle>().Name.NullOrEmptyCheck("The public field \"ModBundleName\" is empty! This means that when compiled it won't be able to run! Please set this field to your Mod ID located at Keep Talking ModKit -> Configure Mod. Refer to this link for more details: https://github.com/Emik03/KeepCoding/wiki/Chapter-2.1:-ModuleScript#version-string");
+            Get<ModBundle>().Name.NullOrEmptyCheck("The public field \"ModBundleName\" is empty! This means that when compiled it won't be able to run! Please set this field to your Mod ID located at Keep Talking ModKit -> Configure Mod. Refer to this link for more details: https://github.com/Emik03/KeepCoding/wiki/Chapter-2.4:-ModBundle");
                      
             Module = new(Get<KMBombModule>(allowNull: true), Get<KMNeedyModule>(allowNull: true));
 
