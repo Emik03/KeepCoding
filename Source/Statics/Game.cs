@@ -4,6 +4,7 @@ using KTInfo = Assets.Scripts.Mods.ModInfo;
 using KTInput = KTInputManager;
 using KTMod = ModManager;
 using KTPlayer = Assets.Scripts.Settings.PlayerSettingsManager;
+using KTScene = SceneManager;
 
 namespace KeepCoding
 {
@@ -72,6 +73,32 @@ namespace KeepCoding
             /// The mod is stored within the workshop folder.
             /// </value>
             SteamWorkshop
+        }
+        
+        /// <summary>
+        /// Allows access relating to the current mission.
+        /// </summary>
+        public class Mission
+        {
+            /// <summary>
+            /// Determines whether or not all pacing events are enabled.
+            /// </summary>
+            public static bool PacingEventsEnabled => KTScene.Instance.GameplayState.Mission.PacingEventsEnabled;
+
+            /// <summary>
+            /// The description as it appears in the bomb binder.
+            /// </summary>
+            public static string DescriptionTerm => KTScene.Instance.GameplayState.Mission.DescriptionTerm;
+
+            /// <summary>
+            /// The mission name as it appears in the bomb binder.
+            /// </summary>
+            public static string DisplayNameTerm => KTScene.Instance.GameplayState.Mission.DisplayNameTerm;
+
+            /// <summary>
+            /// The ID of the mission.
+            /// </summary>
+            public static string ID => KTScene.Instance.GameplayState.Mission.ID;
         }
 
         /// <summary>
