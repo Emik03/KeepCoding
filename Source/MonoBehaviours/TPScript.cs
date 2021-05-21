@@ -19,6 +19,9 @@ namespace KeepCoding
         /// <summary>
         /// These values are set by the Twitch Plays mod using reflection.
         /// </summary>
+        /// <remarks>
+        /// The Twitch Plays mod will set these values during Start. This means that you can only read these variables after Start, such as <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/>.
+        /// </remarks>
         protected bool TimeModeActive, TwitchPlaysActive, TwitchPlaysSkipTimeAllowed, TwitchShouldCancelCommand, ZenModeActive;
 
         /// <summary>
