@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Player = Assets.Scripts.Settings.PlayerSettingsManager;
-using InputManager = KTInputManager;
-using Manager = ModManager;
-using Info = Assets.Scripts.Mods.ModInfo;
+using KTInfo = Assets.Scripts.Mods.ModInfo;
+using KTInput = KTInputManager;
+using KTMod = ModManager;
+using KTPlayer = Assets.Scripts.Settings.PlayerSettingsManager;
 
 namespace KeepCoding
 {
@@ -87,7 +87,7 @@ namespace KeepCoding
             /// <value>
             /// The current way the game is being controlled.
             /// </value>
-            public static ControlType CurrentControlType => (ControlType)InputManager.Instance.CurrentControlType;
+            public static ControlType CurrentControlType => (ControlType)KTInput.Instance.CurrentControlType;
         }
 
         /// <summary>
@@ -98,17 +98,17 @@ namespace KeepCoding
             /// <value>
             /// Gets all of the disabled mod paths.
             /// </value>
-            public static Func<List<string>> GetDisabledModPaths => Manager.Instance.GetDisabledModPaths;
+            public static Func<List<string>> GetDisabledModPaths => KTMod.Instance.GetDisabledModPaths;
 
             /// <value>
             /// Gets all of the mod paths within the <see cref="ModSourceEnum"/> constraint.
             /// </value>
-            public static Func<ModSourceEnum, List<string>> GetAllModPathsFromSource => source => Manager.Instance.GetAllModPathsFromSource((Info.ModSourceEnum)source);
+            public static Func<ModSourceEnum, List<string>> GetAllModPathsFromSource => source => KTMod.Instance.GetAllModPathsFromSource((KTInfo.ModSourceEnum)source);
 
             /// <value>
             /// Gets all of the enabled mod paths within the <see cref="ModSourceEnum"/> constraint.
             /// </value>
-            public static Func<ModSourceEnum, List<string>> GetEnabledModPaths => source => Manager.Instance.GetEnabledModPaths((Info.ModSourceEnum)source);
+            public static Func<ModSourceEnum, List<string>> GetEnabledModPaths => source => KTMod.Instance.GetEnabledModPaths((KTInfo.ModSourceEnum)source);
         }
 
         /// <summary>
@@ -119,82 +119,82 @@ namespace KeepCoding
             /// <value>
             /// Determines if vertical tilting is flipped or not.
             /// </value>
-            public static bool InvertTiltControls => Player.Instance.PlayerSettings.InvertTiltControls;
+            public static bool InvertTiltControls => KTPlayer.Instance.PlayerSettings.InvertTiltControls;
 
             /// <value>
             /// Determines if the option to lock the mouse to the window is enabled.
             /// </value>
-            public static bool LockMouseToWindow => Player.Instance.PlayerSettings.LockMouseToWindow;
+            public static bool LockMouseToWindow => KTPlayer.Instance.PlayerSettings.LockMouseToWindow;
 
             /// <value>
             /// Determines if the option to show the leaderboards from the pamphlet.
             /// </value>
-            public static bool ShowLeaderBoards => Player.Instance.PlayerSettings.ShowLeaderBoards;
+            public static bool ShowLeaderBoards => KTPlayer.Instance.PlayerSettings.ShowLeaderBoards;
 
             /// <value>
             /// Determines if the option to show the rotation of the User Interface is enabled.
             /// </value>
-            public static bool ShowRotationUI => Player.Instance.PlayerSettings.ShowRotationUI;
+            public static bool ShowRotationUI => KTPlayer.Instance.PlayerSettings.ShowRotationUI;
 
             /// <value>
             /// Determines if the option to show scanlines is enabled.
             /// </value>
-            public static bool ShowScanline => Player.Instance.PlayerSettings.ShowScanline;
+            public static bool ShowScanline => KTPlayer.Instance.PlayerSettings.ShowScanline;
 
             /// <value>
             /// Determines if the option to skip the title screen is enabled.
             /// </value>
-            public static bool SkipTitleScreen => Player.Instance.PlayerSettings.SkipTitleScreen;
+            public static bool SkipTitleScreen => KTPlayer.Instance.PlayerSettings.SkipTitleScreen;
 
             /// <value>
             /// Determines if the VR or regular controllers vibrate.
             /// </value>
-            public static bool RumbleEnabled => Player.Instance.PlayerSettings.RumbleEnabled;
+            public static bool RumbleEnabled => KTPlayer.Instance.PlayerSettings.RumbleEnabled;
 
             /// <value>
             /// Determines if the touchpad controls are inverted.
             /// </value>
-            public static bool TouchpadInvert => Player.Instance.PlayerSettings.TouchpadInvert;
+            public static bool TouchpadInvert => KTPlayer.Instance.PlayerSettings.TouchpadInvert;
 
             /// <value>
             /// Determines if the option to always use mods is enabled.
             /// </value>
-            public static bool UseModsAlways => Player.Instance.PlayerSettings.UseModsAlways;
+            public static bool UseModsAlways => KTPlayer.Instance.PlayerSettings.UseModsAlways;
 
             /// <value>
             /// Determines if the option to use parallel/simultaneous mod loading is enabled.
             /// </value>
-            public static bool UseParallelModLoading => Player.Instance.PlayerSettings.UseParallelModLoading;
+            public static bool UseParallelModLoading => KTPlayer.Instance.PlayerSettings.UseParallelModLoading;
 
             /// <value>
             /// Determines if VR mode is requested.
             /// </value>
-            public static bool VRModeRequested => Player.Instance.PlayerSettings.VRModeRequested;
+            public static bool VRModeRequested => KTPlayer.Instance.PlayerSettings.VRModeRequested;
 
             /// <value>
             /// The intensity of anti-aliasing currently on the game. Ranges 0 to 8.
             /// </value>
-            public static int AntiAliasing => Player.Instance.PlayerSettings.AntiAliasing;
+            public static int AntiAliasing => KTPlayer.Instance.PlayerSettings.AntiAliasing;
 
             /// <value>
             /// The current music volume from the dossier menu. Ranges 0 to 100.
             /// </value>
-            public static int MusicVolume => Player.Instance.PlayerSettings.MusicVolume;
+            public static int MusicVolume => KTPlayer.Instance.PlayerSettings.MusicVolume;
 
             /// <value>
             /// The current sound effects volume from the dosssier menu. Ranges 0 to 100.
             /// </value>
-            public static int SFXVolume => Player.Instance.PlayerSettings.SFXVolume;
+            public static int SFXVolume => KTPlayer.Instance.PlayerSettings.SFXVolume;
 
             /// <value>
             /// Determines if VSync is on or off.
             /// </value>
-            public static int VSync => Player.Instance.PlayerSettings.VSync;
+            public static int VSync => KTPlayer.Instance.PlayerSettings.VSync;
 
             /// <value>
             /// The current language code.
             /// </value>
-            public static string LanguageCode => Player.Instance.PlayerSettings.LanguageCode;
+            public static string LanguageCode => KTPlayer.Instance.PlayerSettings.LanguageCode;
         }
     }
 }
