@@ -23,34 +23,34 @@ namespace KeepCoding
         /// </summary>
         public enum ControlType
         {
-            /// <summary>
+            /// <value>
             /// The game is being controlled with a gamepad controller.
-            /// </summary>
+            /// </value>
             Gamepad,
 
-            /// <summary>
+            /// <value>
             /// The game is being controlled with a virtual reality headset.
-            /// </summary>
+            /// </value>
             Gaze,
 
-            /// <summary>
+            /// <value>
             /// The game is being controlled with a mouse.
-            /// </summary>
+            /// </value>
             Mouse,
 
-            /// <summary>
+            /// <value>
             /// The game is being controlled with virtual reality headset and controller.
-            /// </summary>
+            /// </value>
             Motion,
 
-            /// <summary>
+            /// <value>
             /// The game is being controlled with touch controls.
-            /// </summary>
+            /// </value>
             Touch,
 
-            /// <summary>
+            /// <value>
             /// The game is being controlled with three degrees of freedom, part of virtual reality.
-            /// </summary>
+            /// </value>
             ThreeDOF
         }
 
@@ -80,24 +80,24 @@ namespace KeepCoding
         /// </summary>
         public class Mission
         {
-            /// <summary>
+            /// <value>
             /// Determines whether or not all pacing events are enabled.
-            /// </summary>
+            /// </value>
             public static bool PacingEventsEnabled => KTScene.Instance.GameplayState.Mission.PacingEventsEnabled;
 
-            /// <summary>
+            /// <value>
             /// The description as it appears in the bomb binder.
-            /// </summary>
+            /// </value>
             public static string DescriptionTerm => KTScene.Instance.GameplayState.Mission.DescriptionTerm;
 
-            /// <summary>
+            /// <value>
             /// The mission name as it appears in the bomb binder.
-            /// </summary>
+            /// </value>
             public static string DisplayNameTerm => KTScene.Instance.GameplayState.Mission.DisplayNameTerm;
 
-            /// <summary>
+            /// <value>
             /// The ID of the mission.
-            /// </summary>
+            /// </value>
             public static string ID => KTScene.Instance.GameplayState.Mission.ID;
         }
 

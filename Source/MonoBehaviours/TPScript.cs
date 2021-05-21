@@ -16,9 +16,9 @@ namespace KeepCoding
         /// </summary>
         public string TwitchHelpMessage;
 
-        /// <summary>
+        /// <value>
         /// Determines if it should cancel command processing. If this returns true, then stop processing the command, clean up, then do a <c>yield return Cancelled;</c> to acknowledge the cancel.
-        /// </summary>
+        /// </value>
         /// <remarks>
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
@@ -29,80 +29,88 @@ namespace KeepCoding
 #pragma warning restore IDE0044 // Add readonly modifier
 #pragma warning restore IDE0032 // Use auto property
 
-        /// <summary>
-        /// Declaring this field allows for Twitch Plays to inform the module that the bomb is in Time Mode, where solves change the timer. This is useful for modules that use the timer's value. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
-        /// </summary>
-        protected List<KMBombModule> TwitchAbandonModule;
+        /// <value>
+        /// Declaring this field allows for Twitch Plays to inform the module that the bomb is in Time Mode, where solves change the timer. This is useful for modules that use the timer's value.
+        /// </value>
+        /// <remarks>
+        /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
+        /// </remarks>
+        protected List<KMBombModule> AbandonModule { get => TwitchAbandonModule; set => TwitchAbandonModule = value; }
+#pragma warning disable IDE0032 // Use auto property
+        private List<KMBombModule> TwitchAbandonModule;
+#pragma warning restore IDE0032 // Use auto property
 
         /// <value>
         /// The instance of the module.
         /// </value>
         public TModule Module => _module ??= GetComponent<TModule>() ?? throw new MissingComponentException("TPScript cannot find your ModuleScript. Make sure that both script files are in the same game object!");
+
+
         private TModule _module;
 
-        /// <summary>
+        /// <value>
         /// Yield return this to indicate that this command will cause a strike at some later point; all this does is tell Twitch Plays to attribute the strike to the author of this command.
-        /// </summary>
+        /// </value>
         protected const string Strike = "strike";
 
-        /// <summary>
+        /// <value>
         /// Yield return this to indicate that this command will solve the module at some later point; all this does is tell Twitch Plays to attribute the solve to the author of this command.
-        /// </summary>
+        /// </value>
         protected const string Solve = "solve";
 
-        /// <summary>
+        /// <value>
         /// Yield return this to indicate that the command couldn't submit an answer and should only be used to prevent users from guessing the answer. This should not be used if an answer could never be submittable for a module.
-        /// </summary>
+        /// </value>
         protected const string UnsubmittablePenalty = "unsubmittablepenalty";
 
-        /// <summary>
+        /// <value>
         /// Yield return this to indicate that the <c>KMSelectable[]</c> sequence that follows this command should be cancelled if a "!cancel" or "!stop" is issued mid-way through that sequence.
-        /// </summary>
+        /// </value>
         protected const string TryCancelSequence = "trycancelsequence";
 
-        /// <summary>
+        /// <value>
         /// Yield return this to indicate that you have stopped processing the command in response to the <see cref="TwitchShouldCancelCommand"/> bool being set to true.
-        /// </summary>
+        /// </value>
         protected const string Cancelled = "cancelled";
 
-        /// <summary>
+        /// <value>
         /// Yield return this to indicate that the issued command is going to cause more than one strike, so should disable the internal strike tracker in order to avoid flooding the chat with "VoteNay Module {id} got a strike! +1 strike to {Nickname}" for as many strikes as will be awarded. This also disables the internal solve tracker as well. This allows for sending additional messages or continue processing commands regardless of the solve/strike state.
-        /// </summary>
+        /// </value>
         protected const string MultipleStrikes = "multiple strikes";
 
-        /// <summary>
+        /// <value>
         /// Yield return this to indicate that the strike tracker should be enabled. If any strikes were issued during the time it was disabled, they will be awarded and the routine stopped at that point, otherwise, it will just cancel the "VoteNay Module {id} got 0 strikes! +0 strike to {Nickname}" message that would otherwise be posted. Likewise, if the module was solved at the time this command is issued, the processing will be stopped as of that point as well.
-        /// </summary>
+        /// </value>
         protected const string EndMultipleStrikes = "end multiple strikes";
 
-        /// <summary>
+        /// <value>
         /// Yield return this to indicate automatically solving the module, as if it threw an exception while solving.
-        /// </summary>
+        /// </value>
         protected const string AutoSolve = "autosolve";
 
-        /// <summary>
+        /// <value>
         /// Yield return this to indicate cancelling a previously issued delayed detonation command on the same module.
-        /// </summary>
+        /// </value>
         protected const string CancelDetonate = "cancel detonate";
 
-        /// <summary>
+        /// <value>
         /// Yield return this to indicate playing the waiting music if a command will take long to finish.
-        /// </summary>
+        /// </value>
         protected const string WaitingMusic = "waiting music";
 
-        /// <summary>
+        /// <value>
         /// Yield return this to indicate stopping the waiting music mid-command.
-        /// </summary>
+        /// </value>
         protected const string EndWaitingMusic = "end waiting music";
 
-        /// <summary>
+        /// <value>
         /// Yield return this to toggle the waiting music on and off mid-command.
-        /// </summary>
+        /// </value>
         protected const string ToggleWaitingMusic = "toggle waiting music";
 
-        /// <summary>
+        /// <value>
         /// Yield return this to hide the heads-up display and cameras while doing quaternion rotations, if it is expected that the camera/hud will get in the way.
-        /// </summary>
+        /// </value>
         protected const string HideCamera = "hide camera";
 
         /// <summary>

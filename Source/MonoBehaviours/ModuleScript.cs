@@ -46,9 +46,9 @@ namespace KeepCoding
         /// </value>
         public bool IsSolved { get; private set; }
 
-        /// <summary>
+        /// <value>
         /// Determines if it is in Time Mode, where solves change the timer. This is useful for modules that use the timer's value.
-        /// </summary>
+        /// </value>
         /// <remarks>
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
@@ -59,9 +59,9 @@ namespace KeepCoding
 #pragma warning restore IDE0044 // Add readonly modifier
 #pragma warning restore IDE0032 // Use auto property
 
-        /// <summary>
+        /// <value>
         /// Determines if it should allow for the timer to be skipped when the module it is in, as well as any other modules that would like to skip time, are the only unsolved modules left on the bomb. 
-        /// </summary>
+        /// </value>
         /// <remarks>
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
@@ -70,9 +70,9 @@ namespace KeepCoding
         private bool TwitchPlaysSkipTimeAllowed;
 #pragma warning restore IDE0032 // Use auto property
 
-        /// <summary>
+        /// <value>
         /// Determines if Twitch Plays is currently active. This is for modules that need to display different items, or use different rules if Twitch Plays is active.
-        /// </summary>
+        /// </value>
         /// <remarks>
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
@@ -88,9 +88,9 @@ namespace KeepCoding
         /// </value>
         public static bool IsVR => !IsEditor && Game.KTInputManager.IsCurrentControlTypeVR;
 
-        /// <summary>
+        /// <value>
         /// Determines if the timer is counting up instead of down, for special cases, such as controlling how to sort button release times, or whether there is a low timer event or not.
-        /// </summary>
+        /// </value>
         /// <remarks>
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
@@ -128,9 +128,9 @@ namespace KeepCoding
         /// </value>
         public Sound[] Sounds { get; private set; } = new Sound[0];
 
-        /// <summary>
+        /// <value>
         /// Contains either <see cref="KMBombModule"/> or <see cref="KMNeedyModule"/>, and allows for running commands through context.
-        /// </summary>
+        /// </value>
         public ModuleContainer Module { get; private set; }
 
         private static readonly Dictionary<string, int> _moduleIds = new();
