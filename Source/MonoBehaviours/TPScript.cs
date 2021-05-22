@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -9,7 +11,7 @@ namespace KeepCoding
     /// Base class for TwitchPlays support for solvable and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
     /// </summary>
     [RequireComponent(typeof(ModuleScript))]
-    public abstract class TPScript<TModule> : MonoBehaviour, ITP<TModule> where TModule : ModuleScript
+    public abstract class TPScript<TModule> : MonoBehaviour, ITP where TModule : ModuleScript
     {
         /// <summary>
         /// The help message that gets sent when typing <c>!{0} help</c>.
@@ -160,6 +162,19 @@ namespace KeepCoding
         /// Yield return this to hide the heads-up display and cameras while doing quaternion rotations, if it is expected that the camera/hud will get in the way.
         /// </value>
         protected const string HideCamera = "hide camera";
+
+        /// <summary>
+        /// Sends a message to the Twitch Plays mod.
+        /// </summary>
+        /// <param name="message">The message to send.</param>
+        public static void Send(string message)
+        {
+            try
+            {
+                IRCConnection.SendMessage(message);
+            }
+            catch (DllNotFoundException) { }
+        }
 
         /// <summary>
         /// When a command is typed into Twitch Plays with the Id of this module, it calls this method and passes in the exact command typed.
