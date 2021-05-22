@@ -468,7 +468,7 @@ namespace KeepCoding
             var bomb = GetComponentInParent<KMBomb>();
 
             var solvables = bomb.GetComponentsInChildren<KMBombModule>();
-            var needies = bomb.GetComponentsInChildren<KMBombModule>();
+            var needies = bomb.GetComponentsInChildren<KMNeedyModule>();
             
             solvables.ForEach(m => 
             {
