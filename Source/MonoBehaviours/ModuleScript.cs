@@ -48,48 +48,9 @@ namespace KeepCoding
         public bool IsSolved { get; private set; }
 
         /// <value>
-        /// Determines if it is in Time Mode, where solves change the timer. This is useful for modules that use the timer's value.
-        /// </value>
-        /// <remarks>
-        /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
-        /// </remarks>
-        public bool IsTimeMode => TimeModeActive;
-#pragma warning disable IDE0032 // Use auto property
-#pragma warning disable IDE0044 // Add readonly modifier
-        private bool TimeModeActive;
-#pragma warning restore IDE0044 // Add readonly modifier
-#pragma warning restore IDE0032 // Use auto property
-
-        /// <value>
-        /// Determines if Twitch Plays is currently active. This is for modules that need to display different items, or use different rules if Twitch Plays is active.
-        /// </value>
-        /// <remarks>
-        /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
-        /// </remarks>
-        public bool IsTP => TwitchPlaysActive;
-#pragma warning disable IDE0032 // Use auto property
-#pragma warning disable IDE0044 // Add readonly modifier
-        private bool TwitchPlaysActive;
-#pragma warning restore IDE0044 // Add readonly modifier
-#pragma warning restore IDE0032 // Use auto property
-
-        /// <value>
         /// Determines whether the game is being played in Virtual Reality.
         /// </value>
         public static bool IsVR => !IsEditor && Game.KTInputManager.IsCurrentControlTypeVR;
-
-        /// <value>
-        /// Determines if the timer is counting up instead of down, for special cases, such as controlling how to sort button release times, or whether there is a low timer event or not.
-        /// </value>
-        /// <remarks>
-        /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
-        /// </remarks>
-        public bool IsZenMode => ZenModeActive;
-#pragma warning disable IDE0032 // Use auto property
-#pragma warning disable IDE0044 // Add readonly modifier
-        private bool ZenModeActive;
-#pragma warning restore IDE0044 // Add readonly modifier
-#pragma warning restore IDE0032 // Use auto property
 
         /// <value>
         /// The Unique Id for this module of this type.
@@ -109,7 +70,7 @@ namespace KeepCoding
         public string Version => (IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(Get<ModBundle>().Name).Version) ?? throw new OperationCanceledException($"{nameof(ModBundle.Name)} couldn't be found. Did you spell your Mod name correctly? Refer to this link for more details: https://github.com/Emik03/KeepCoding/wiki/Chapter-2.1:-ModuleScript#version-string");
 
         /// <value>
-        /// Contains an instance for every sound played by this module using <see cref="PlaySound(Transform, bool, Sound[])"/> or any of its overloads.
+        /// Contains an instance for every <see cref="Sound"/> played by this module using <see cref="PlaySound(Transform, bool, Sound[])"/> or any of its overloads.
         /// </value>
         public Sound[] Sounds { get; private set; } = new Sound[0];
 
@@ -117,6 +78,15 @@ namespace KeepCoding
         /// Contains either <see cref="KMBombModule"/> or <see cref="KMNeedyModule"/>, and allows for running commands through context.
         /// </value>
         public ModuleContainer Module { get; private set; }
+
+        /// <value>
+        /// Gets the Twitch Plays <see cref="Component"/> attached to this <see cref="GameObject"/>.
+        /// </value>
+        /// <remarks>
+        /// Due to type ambiguity, a non-generic interface is returned.
+        /// </remarks>
+        public ITP TP => _tp ??= GetComponents<Component>().FirstValue(c => c is ITP ? c : null) as ITP;
+        private ITP _tp;
 
         private static readonly Dictionary<string, int> _moduleIds = new();
 

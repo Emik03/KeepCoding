@@ -1,4 +1,7 @@
-﻿namespace KeepCoding
+﻿using System;
+using UnityEngine;
+
+namespace KeepCoding
 {
     /// <summary>
     /// Interface for regular and needy modded modules. Written by Emik.
@@ -14,6 +17,14 @@
         /// The version number of the entire mod.
         /// </value>
         public string Version { get; }
+
+        /// <value>
+        /// Gets the Twitch Plays <see cref="Component"/> attached to this <see cref="GameObject"/>.
+        /// </value>
+        /// <remarks>
+        /// Due to type ambiguity, a non-generic interface is returned.
+        /// </remarks>
+        public ITP TP { get; }
 
         /// <summary>
         /// Called when the lights turn on.
