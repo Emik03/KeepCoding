@@ -177,7 +177,7 @@ namespace KeepCoding
 
         internal static void Log(in string message) => Debug.Log($"[Keep Coding] {message}");
 
-        internal static FileVersionInfo GetVersionLibrary() => FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
+        internal static FileVersionInfo Version() => FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
 
         private static void CopyLibrary(in string libraryFileName, in string path)
         {
