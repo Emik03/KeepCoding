@@ -223,7 +223,7 @@ namespace KeepCoding
                     if (files.LengthOrDefault() > 0 && !files[0].Trim().IsNullOrEmpty())
                         return files[0];
                 }
-                catch (Exception ex) when (ex is UnauthorizedAccessException or ArgumentException or ArgumentNullException) { }
+                catch (Exception ex) when (ex is ArgumentException or ArgumentNullException or DirectoryNotFoundException or UnauthorizedAccessException) { }
 
                 return null;
             });
