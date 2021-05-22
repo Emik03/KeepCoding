@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static KeepCoding.ComponentPool;
 using KTInfo = Assets.Scripts.Mods.ModInfo;
 using KTInput = KTInputManager;
 using KTMod = ModManager;
@@ -99,23 +100,48 @@ namespace KeepCoding
             /// <value>
             /// Determines whether or not all pacing events are enabled.
             /// </value>
-            public static bool PacingEventsEnabled => KTScene.Instance.GameplayState.Mission.PacingEventsEnabled;
+            public static bool IsPacingEventsOn => KTScene.Instance.GameplayState.Mission.PacingEventsEnabled;
 
             /// <value>
             /// The description as it appears in the bomb binder.
             /// </value>
-            public static string DescriptionTerm => KTScene.Instance.GameplayState.Mission.DescriptionTerm;
+            public static string Description => Localization.GetLocalizedString(KTScene.Instance.GameplayState.Mission.DescriptionTerm);
 
             /// <value>
             /// The mission name as it appears in the bomb binder.
             /// </value>
-            public static string DisplayNameTerm => KTScene.Instance.GameplayState.Mission.DisplayNameTerm;
+            public static string DisplayName => Localization.GetLocalizedString(KTScene.Instance.GameplayState.Mission.DisplayNameTerm);
 
             /// <value>
             /// The ID of the mission.
             /// </value>
             public static string ID => KTScene.Instance.GameplayState.Mission.ID;
+
+            /// <value>
+            /// Gets the generator setting of the mission.
+            /// </value>
+            public static GeneratorSetting GeneratorSetting
+            {
+                get
+                {
+                    var setting = KTScene.Instance.GameplayState.Mission.GeneratorSetting;
+
+                    return new(
+                        setting.FrontFaceOnly, 
+                        setting.OptionalWidgetCount, 
+                        setting.NumStrikes, 
+                        setting.TimeBeforeNeedyActivation,
+                        setting.TimeLimit, 
+                        setting.ComponentPools.ConvertAll(c => new ComponentPool(
+                            c.Count, 
+                            (ComponentSource)c.AllowedSources,
+                            (SpecialComponentTypeEnum)c.SpecialComponentType,
+                            c.ModTypes, 
+                            c.ComponentTypes.ConvertAll(c => (ComponentTypeEnum)c))));
+                }
+            }
         }
+
 
         /// <summary>
         /// Allows access to methods relating mod paths.
