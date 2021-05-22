@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -59,6 +60,16 @@ namespace KeepCoding
             Coroutines.ForEach(c => MonoBehaviour.StopCoroutine(c));
 
             Coroutines = new();
+        }
+
+        private protected void Remove(Coroutine coroutine) => MonoBehaviour.StopCoroutine(coroutine);
+
+        private protected Coroutine Add(IEnumerator enumerator) => MonoBehaviour.StartCoroutine(enumerator);
+
+        private protected IEnumerator Wait(bool oneByOne)
+        {
+            if (oneByOne)
+                yield return new WaitWhile(() => IsRunning);
         }
     }
 }

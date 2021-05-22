@@ -17,45 +17,49 @@ namespace KeepCoding
         public Routine(Func<IEnumerator> enumerator, MonoBehaviour monoBehaviour) : base(monoBehaviour) => _enumerator = enumerator;
 
         /// <summary>
-        /// Starts the coroutine. Unless specified by <paramref name="allowSimultaneousRuns"/>, it will not be called if this class is in the middle of running the coroutine.
+        /// Starts the coroutine. Unless specified by <paramref name="allowMultiple"/>, it will not be called if this class is in the middle of running the coroutine.
         /// </summary>
-        /// <param name="allowSimultaneousRuns">Determines whether it should be allowed to create another instance of the coroutine even if it's running another one.</param>
-        public void Start(bool allowSimultaneousRuns = true)
+        /// <param name="allowMultiple">Determines whether it should be allowed to create another instance of the coroutine even if it's running another one.</param>
+        /// <param name="oneByOne">If called multiple times, waits until the others are finished.</param>
+        public void Start(bool allowMultiple = true, bool oneByOne = false)
         {
-            if (!IsRunning || allowSimultaneousRuns)
-                Coroutines.Add(MonoBehaviour.StartCoroutine(Coroutine()));
+            if (!IsRunning || allowMultiple)
+                Coroutines.Add(Add(Coroutine(oneByOne)));
         }
 
         /// <summary>
         /// Stops and restarts the first coroutine that was run.
         /// </summary>
         /// <exception cref="EmptyIteratorException"></exception>
-        public void Restart()
+        /// <param name="oneByOne">If called multiple times, waits until the others are finished.</param>
+        public void Restart(bool oneByOne)
         {
             Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
-            MonoBehaviour.StopCoroutine(Coroutines[0]);
+            Remove(Coroutines[0]);
 
-            Coroutines[0] = MonoBehaviour.StartCoroutine(Coroutine());
+            Coroutines[0] = Add(Coroutine(oneByOne));
         }
 
         /// <summary>
         /// Restarts all coroutines currently running.
         /// </summary>
         /// <exception cref="EmptyIteratorException"></exception>
-        public void RestartAll()
+        /// <param name="oneByOne">If called multiple times, waits until the others are finished.</param>
+        public void RestartAll(bool oneByOne)
         {
             Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
             for (int i = 0; i < Coroutines.Count; i++)
             {
-                MonoBehaviour.StopCoroutine(Coroutines[i]);
-                Coroutines[i] = MonoBehaviour.StartCoroutine(Coroutine());
+                Remove(Coroutines[i]);
+                Coroutines[i] = Add(Coroutine(oneByOne));
             }
         }
 
-        private IEnumerator Coroutine()
+        private IEnumerator Coroutine(bool oneByOne)
         {
+            yield return Wait(oneByOne);
             IsRunning = true;
             yield return _enumerator();
             IsRunning = false;
@@ -77,14 +81,15 @@ namespace KeepCoding
         public Routine(Func<T, IEnumerator> enumerator, MonoBehaviour monoBehaviour) : base(monoBehaviour) => _enumerator = enumerator;
 
         /// <summary>
-        /// Starts the coroutine. Unless specified by <paramref name="allowSimultaneousRuns"/>, it will not be called if this class is in the middle of running the coroutine.
+        /// Starts the coroutine. Unless specified by <paramref name="allowMultiple"/>, it will not be called if this class is in the middle of running the coroutine.
         /// </summary>
         /// <param name="t">The first argument to pass into the coroutine.</param>
-        /// <param name="allowSimultaneousRuns">Determines whether it should be allowed to create another instance of the coroutine even if it's running another one.</param>
-        public void Start(T t, bool allowSimultaneousRuns = true)
+        /// <param name="allowMultiple">Determines whether it should be allowed to create another instance of the coroutine even if it's running another one.</param>
+        /// <param name="oneByOne">If called multiple times, waits until the others are finished.</param>
+        public void Start(T t, bool allowMultiple = true, bool oneByOne = false)
         {
-            if (!IsRunning || allowSimultaneousRuns)
-                Coroutines.Add(MonoBehaviour.StartCoroutine(Coroutine(t)));
+            if (!IsRunning || allowMultiple)
+                Coroutines.Add(Add(Coroutine(t, oneByOne)));
         }
 
         /// <summary>
@@ -92,13 +97,14 @@ namespace KeepCoding
         /// </summary>
         /// <param name="t">The first argument to pass into the coroutine.</param>
         /// <exception cref="EmptyIteratorException"></exception>
-        public void Restart(T t)
+        /// <param name="oneByOne">If called multiple times, waits until the others are finished.</param>
+        public void Restart(T t, bool oneByOne = false)
         {
             Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
-            MonoBehaviour.StopCoroutine(Coroutines[0]);
+            Remove(Coroutines[0]);
 
-            Coroutines[0] = MonoBehaviour.StartCoroutine(Coroutine(t));
+            Coroutines[0] = Add(Coroutine(t, oneByOne));
         }
 
         /// <summary>
@@ -106,19 +112,21 @@ namespace KeepCoding
         /// </summary>
         /// <param name="t">The first argument to pass into the coroutine.</param>
         /// <exception cref="EmptyIteratorException"></exception>
-        public void RestartAll(T t)
+        /// <param name="oneByOne">If called multiple times, waits until the others are finished.</param>
+        public void RestartAll(T t, bool oneByOne = false)
         {
             Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
             for (int i = 0; i < Coroutines.Count; i++)
             {
-                MonoBehaviour.StopCoroutine(Coroutines[i]);
-                Coroutines[i] = MonoBehaviour.StartCoroutine(Coroutine(t));
+                Remove(Coroutines[i]);
+                Coroutines[i] = Add(Coroutine(t, oneByOne));
             }
         }
 
-        private IEnumerator Coroutine(T t)
+        private IEnumerator Coroutine(T t, bool oneByOne)
         {
+            yield return Wait(oneByOne);
             IsRunning = true;
             yield return _enumerator(t);
             IsRunning = false;
@@ -140,15 +148,16 @@ namespace KeepCoding
         public Routine(Func<T1, T2, IEnumerator> enumerator, MonoBehaviour monoBehaviour) : base(monoBehaviour) => _enumerator = enumerator;
 
         /// <summary>
-        /// Starts the coroutine. Unless specified by <paramref name="allowSimultaneousRuns"/>, it will not be called if this class is in the middle of running the coroutine.
+        /// Starts the coroutine. Unless specified by <paramref name="allowMultiple"/>, it will not be called if this class is in the middle of running the coroutine.
         /// </summary>
         /// <param name="t1">The first argument to pass into the coroutine.</param>
         /// <param name="t2">The second argument to pass into the coroutine.</param>
-        /// <param name="allowSimultaneousRuns">Determines whether it should be allowed to create another instance of the coroutine even if it's running another one.</param>
-        public void Start(T1 t1, T2 t2, bool allowSimultaneousRuns = true)
+        /// <param name="allowMultiple">Determines whether it should be allowed to create another instance of the coroutine even if it's running another one.</param>
+        /// <param name="oneByOne">If called multiple times, waits until the others are finished.</param>
+        public void Start(T1 t1, T2 t2, bool allowMultiple = true, bool oneByOne = false)
         {
-            if (!IsRunning || allowSimultaneousRuns)
-                Coroutines.Add(MonoBehaviour.StartCoroutine(Coroutine(t1, t2)));
+            if (!IsRunning || allowMultiple)
+                Coroutines.Add(Add(Coroutine(t1, t2, oneByOne)));
         }
 
         /// <summary>
@@ -157,13 +166,14 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         /// <param name="t1">The first argument to pass into the coroutine.</param>
         /// <param name="t2">The second argument to pass into the coroutine.</param>
-        public void Restart(T1 t1, T2 t2)
+        /// <param name="oneByOne">If called multiple times, waits until the others are finished.</param>
+        public void Restart(T1 t1, T2 t2, bool oneByOne = false)
         {
             Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
-            MonoBehaviour.StopCoroutine(Coroutines[0]);
+            Remove(Coroutines[0]);
 
-            Coroutines[0] = MonoBehaviour.StartCoroutine(Coroutine(t1, t2));
+            Coroutines[0] = Add(Coroutine(t1, t2, oneByOne));
         }
 
         /// <summary>
@@ -172,19 +182,21 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         /// <param name="t1">The first argument to pass into the coroutine.</param>
         /// <param name="t2">The second argument to pass into the coroutine.</param>
-        public void RestartAll(T1 t1, T2 t2)
+        /// <param name="oneByOne">If called multiple times, waits until the others are finished.</param>
+        public void RestartAll(T1 t1, T2 t2, bool oneByOne = false)
         {
             Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
             for (int i = 0; i < Coroutines.Count; i++)
             {
-                MonoBehaviour.StopCoroutine(Coroutines[i]);
-                Coroutines[i] = MonoBehaviour.StartCoroutine(Coroutine(t1, t2));
+                Remove(Coroutines[i]);
+                Coroutines[i] = Add(Coroutine(t1, t2, oneByOne));
             }
         }
 
-        private IEnumerator Coroutine(T1 t1, T2 t2)
+        private IEnumerator Coroutine(T1 t1, T2 t2, bool oneByOne)
         {
+            yield return Wait(oneByOne);
             IsRunning = true;
             yield return _enumerator(t1, t2);
             IsRunning = false;
@@ -206,16 +218,17 @@ namespace KeepCoding
         public Routine(Func<T1, T2, T3, IEnumerator> enumerator, MonoBehaviour monoBehaviour) : base(monoBehaviour) => _enumerator = enumerator;
 
         /// <summary>
-        /// Starts the coroutine. Unless specified by <paramref name="allowSimultaneousRuns"/>, it will not be called if this class is in the middle of running the coroutine.
+        /// Starts the coroutine. Unless specified by <paramref name="allowMultiple"/>, it will not be called if this class is in the middle of running the coroutine.
         /// </summary>
         /// <param name="t1">The first argument to pass into the coroutine.</param>
         /// <param name="t2">The second argument to pass into the coroutine.</param>
         /// <param name="t3">The third argument to pass into the coroutine.</param>
-        /// <param name="allowSimultaneousRuns">Determines whether it should be allowed to create another instance of the coroutine even if it's running another one.</param>
-        public void Start(T1 t1, T2 t2, T3 t3, bool allowSimultaneousRuns = true)
+        /// <param name="allowMultiple">Determines whether it should be allowed to create another instance of the coroutine even if it's running another one.</param>
+        /// <param name="oneByOne">If called multiple times, waits until the others are finished.</param>
+        public void Start(T1 t1, T2 t2, T3 t3, bool allowMultiple = true, bool oneByOne = false)
         {
-            if (!IsRunning || allowSimultaneousRuns)
-                Coroutines.Add(MonoBehaviour.StartCoroutine(Coroutine(t1, t2, t3)));
+            if (!IsRunning || allowMultiple)
+                Coroutines.Add(Add(Coroutine(t1, t2, t3, oneByOne)));
         }
 
         /// <summary>
@@ -225,13 +238,14 @@ namespace KeepCoding
         /// <param name="t2">The second argument to pass into the coroutine.</param>
         /// <param name="t3">The third argument to pass into the coroutine.</param>
         /// <exception cref="EmptyIteratorException"></exception>
-        public void Restart(T1 t1, T2 t2, T3 t3)
+        /// <param name="oneByOne">If called multiple times, waits until the others are finished.</param>
+        public void Restart(T1 t1, T2 t2, T3 t3, bool oneByOne = false)
         {
             Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
-            MonoBehaviour.StopCoroutine(Coroutines[0]);
+            Remove(Coroutines[0]);
 
-            Coroutines[0] = MonoBehaviour.StartCoroutine(Coroutine(t1, t2, t3));
+            Coroutines[0] = Add(Coroutine(t1, t2, t3, oneByOne));
         }
 
         /// <summary>
@@ -241,19 +255,21 @@ namespace KeepCoding
         /// <param name="t2">The second argument to pass into the coroutine.</param>
         /// <param name="t3">The third argument to pass into the coroutine.</param>
         /// <exception cref="EmptyIteratorException"></exception>
-        public void RestartAll(T1 t1, T2 t2, T3 t3)
+        /// <param name="oneByOne">If called multiple times, waits until the others are finished.</param>
+        public void RestartAll(T1 t1, T2 t2, T3 t3, bool oneByOne = false)
         {
             Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
             for (int i = 0; i < Coroutines.Count; i++)
             {
-                MonoBehaviour.StopCoroutine(Coroutines[i]);
-                Coroutines[i] = MonoBehaviour.StartCoroutine(Coroutine(t1, t2, t3));
+                Remove(Coroutines[i]);
+                Coroutines[i] = Add(Coroutine(t1, t2, t3, oneByOne));
             }
         }
 
-        private IEnumerator Coroutine(T1 t1, T2 t2, T3 t3)
+        private IEnumerator Coroutine(T1 t1, T2 t2, T3 t3, bool oneByOne)
         {
+            yield return Wait(oneByOne);
             IsRunning = true;
             yield return _enumerator(t1, t2, t3);
             IsRunning = false;
@@ -275,17 +291,18 @@ namespace KeepCoding
         public Routine(Func<T1, T2, T3, T4, IEnumerator> enumerator, MonoBehaviour monoBehaviour) : base(monoBehaviour) => _enumerator = enumerator;
 
         /// <summary>
-        /// Starts the coroutine. Unless specified by <paramref name="allowSimultaneousRuns"/>, it will not be called if this class is in the middle of running the coroutine.
+        /// Starts the coroutine. Unless specified by <paramref name="allowMultiple"/>, it will not be called if this class is in the middle of running the coroutine.
         /// </summary>
         /// <param name="t1">The first argument to pass into the coroutine.</param>
         /// <param name="t2">The second argument to pass into the coroutine.</param>
         /// <param name="t3">The third argument to pass into the coroutine.</param>
         /// <param name="t4">The fourth argument to pass into the coroutine.</param>
-        /// <param name="allowSimultaneousRuns">Determines whether it should be allowed to create another instance of the coroutine even if it's running another one.</param>
-        public void Start(T1 t1, T2 t2, T3 t3, T4 t4, bool allowSimultaneousRuns = true)
+        /// <param name="allowMultiple">Determines whether it should be allowed to create another instance of the coroutine even if it's running another one.</param>
+        /// <param name="oneByOne">If called multiple times, waits until the others are finished.</param>
+        public void Start(T1 t1, T2 t2, T3 t3, T4 t4, bool allowMultiple = true, bool oneByOne = false)
         {
-            if (!IsRunning || allowSimultaneousRuns)
-                Coroutines.Add(MonoBehaviour.StartCoroutine(Coroutine(t1, t2, t3, t4)));
+            if (!IsRunning || allowMultiple)
+                Coroutines.Add(Add(Coroutine(t1, t2, t3, t4, oneByOne)));
         }
 
         /// <summary>
@@ -296,13 +313,14 @@ namespace KeepCoding
         /// <param name="t3">The third argument to pass into the coroutine.</param>
         /// <param name="t4">The fourth argument to pass into the coroutine.</param>
         /// <exception cref="EmptyIteratorException"></exception>
-        public void Restart(T1 t1, T2 t2, T3 t3, T4 t4)
+        /// <param name="oneByOne">If called multiple times, waits until the others are finished.</param>
+        public void Restart(T1 t1, T2 t2, T3 t3, T4 t4, bool oneByOne = false)
         {
             Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
-            MonoBehaviour.StopCoroutine(Coroutines[0]);
+            Remove(Coroutines[0]);
 
-            Coroutines[0] = MonoBehaviour.StartCoroutine(Coroutine(t1, t2, t3, t4));
+            Coroutines[0] = Add(Coroutine(t1, t2, t3, t4, oneByOne));
         }
 
         /// <summary>
@@ -313,19 +331,21 @@ namespace KeepCoding
         /// <param name="t3">The third argument to pass into the coroutine.</param>
         /// <param name="t4">The fourth argument to pass into the coroutine.</param>
         /// <exception cref="EmptyIteratorException"></exception>
-        public void RestartAll(T1 t1, T2 t2, T3 t3, T4 t4)
+        /// <param name="oneByOne">If called multiple times, waits until the others are finished.</param>
+        public void RestartAll(T1 t1, T2 t2, T3 t3, T4 t4, bool oneByOne = false)
         {
             Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
             for (int i = 0; i < Coroutines.Count; i++)
             {
-                MonoBehaviour.StopCoroutine(Coroutines[i]);
-                Coroutines[i] = MonoBehaviour.StartCoroutine(Coroutine(t1, t2, t3, t4));
+                Remove(Coroutines[i]);
+                Coroutines[i] = Add(Coroutine(t1, t2, t3, t4, oneByOne));
             }
         }
 
-        private IEnumerator Coroutine(T1 t1, T2 t2, T3 t3, T4 t4)
+        private IEnumerator Coroutine(T1 t1, T2 t2, T3 t3, T4 t4, bool oneByOne)
         {
+            yield return Wait(oneByOne);
             IsRunning = true;
             yield return _enumerator(t1, t2, t3, t4);
             IsRunning = false;
