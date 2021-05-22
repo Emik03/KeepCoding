@@ -56,7 +56,7 @@ namespace KeepCoding
         /// <param name="a">The alpha component; opacity.</param>
         /// <returns>A new instance of the <paramref name="color"/>, with the arguments replacing the values.</returns>
         public static Color Add(this Color color, float r = 0, float g = 0, float b = 0, float a = 0)
-            => new(
+            => new Color(
                 r + color.r,
                 g + color.g,
                 b + color.b,
@@ -75,7 +75,7 @@ namespace KeepCoding
         /// <param name="a">The alpha component; opacity.</param>
         /// <returns>A new instance of the <paramref name="color"/>, with the arguments replacing the values.</returns>
         public static Color Add(this Color color, byte r = 0, byte g = 0, byte b = 0, byte a = 0)
-            => new(
+            => new Color(
                 ((float)r / byte.MaxValue) + color.r,
                 ((float)g / byte.MaxValue) + color.g,
                 ((float)b / byte.MaxValue) + color.b,
@@ -89,7 +89,7 @@ namespace KeepCoding
         /// <param name="concentrationOfB">The bias towards either color, between 0-1. 0.5 blends both colors equally.</param>
         /// <returns>A blended color of the 2 provided.</returns>
         public static Color IntertwineColor(this Color colorA, Color colorB, float concentrationOfB = 0.5f)
-            => new(
+            => new Color(
                 (colorA.r * (1 - concentrationOfB)) + (colorB.r * concentrationOfB),
                 (colorA.g * (1 - concentrationOfB)) + (colorB.g * concentrationOfB),
                 (colorA.b * (1 - concentrationOfB)) + (colorB.b * concentrationOfB),
@@ -116,7 +116,7 @@ namespace KeepCoding
         /// <param name="a">The alpha component; opacity.</param>
         /// <returns>A new instance of the <paramref name="color"/>, with the arguments replacing the values.</returns>
         public static Color Replace(this Color color, float? r = null, float? g = null, float? b = null, float? a = null)
-            => new(
+            => new Color(
                 r ?? color.r,
                 g ?? color.g,
                 b ?? color.b,
@@ -132,7 +132,7 @@ namespace KeepCoding
         /// <param name="a">The alpha component; opacity.</param>
         /// <returns>A new instance of the <paramref name="color"/>, with the arguments replacing the values.</returns>
         public static Color Replace(this Color color, byte? r = null, byte? g = null, byte? b = null, byte? a = null)
-            => new(
+            => new Color(
                 r.HasValue ? (float)r.Value / byte.MaxValue : color.r,
                 g.HasValue ? (float)g.Value / byte.MaxValue : color.g,
                 b.HasValue ? (float)b.Value / byte.MaxValue : color.b,
@@ -151,7 +151,7 @@ namespace KeepCoding
         /// <param name="a">The alpha component; opacity.</param>
         /// <returns>A new instance of the <paramref name="color"/>, with the arguments replacing the values.</returns>
         public static Color32 Add(this Color32 color, float r = 0, float g = 0, float b = 0, float a = 0)
-            => new(
+            => new Color32(
                 (byte)((r * byte.MaxValue) + color.r),
                 (byte)((g * byte.MaxValue) + color.g),
                 (byte)((b * byte.MaxValue) + color.b),
@@ -170,7 +170,7 @@ namespace KeepCoding
         /// <param name="a">The alpha component; opacity.</param>
         /// <returns>A new instance of the <paramref name="color"/>, with the arguments replacing the values.</returns>
         public static Color32 Add(this Color32 color, byte r = 0, byte g = 0, byte b = 0, byte a = 0)
-            => new(
+            => new Color32(
                 (byte)(r + color.r),
                 (byte)(g + color.g),
                 (byte)(b + color.b),
@@ -192,7 +192,7 @@ namespace KeepCoding
             if (hex.Any(c => !"0123456789ABCDEFabcdef".Contains(c.ToString())))
                 throw new FormatException($"The hexadecimal code provided has invalid characters: {hex}");
 
-            return new(byte.Parse(hex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber), byte.Parse(hex.Substring(2, 2), System.Globalization.NumberStyles.HexNumber), byte.Parse(hex.Substring(4, 2), System.Globalization.NumberStyles.HexNumber), (byte)(hex.Length < 8 ? 255 : byte.Parse(hex.Substring(6, 2), System.Globalization.NumberStyles.HexNumber)));
+            return new Color32(byte.Parse(hex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber), byte.Parse(hex.Substring(2, 2), System.Globalization.NumberStyles.HexNumber), byte.Parse(hex.Substring(4, 2), System.Globalization.NumberStyles.HexNumber), (byte)(hex.Length < 8 ? 255 : byte.Parse(hex.Substring(6, 2), System.Globalization.NumberStyles.HexNumber)));
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace KeepCoding
         /// <param name="concentrationOfB">The bias towards either color, between 0-1. 0.5 blends both colors equally.</param>
         /// <returns>A blended color of the 2 provided.</returns>
         public static Color32 IntertwineColor(this Color32 colorA, Color32 colorB, float concentrationOfB = 0.5f)
-            => new(
+            => new Color32(
                 (byte)((colorA.r * (1 - concentrationOfB)) + (colorB.r * concentrationOfB)),
                 (byte)((colorA.g * (1 - concentrationOfB)) + (colorB.g * concentrationOfB)),
                 (byte)((colorA.b * (1 - concentrationOfB)) + (colorB.b * concentrationOfB)),
@@ -230,7 +230,7 @@ namespace KeepCoding
         /// <param name="a">The alpha component; opacity.</param>
         /// <returns>A new instance of the <paramref name="color"/>, with the arguments replacing the values.</returns>
         public static Color32 Replace(this Color32 color, float? r = null, float? g = null, float? b = null, float? a = null)
-            => new(
+            => new Color32(
                 r.HasValue ? (byte)(r.Value * byte.MaxValue) : color.r,
                 g.HasValue ? (byte)(g.Value * byte.MaxValue) : color.g,
                 b.HasValue ? (byte)(b.Value * byte.MaxValue) : color.b,
@@ -246,7 +246,7 @@ namespace KeepCoding
         /// <param name="a">The alpha component; opacity.</param>
         /// <returns>A new instance of the <paramref name="color"/>, with the arguments replacing the values.</returns>
         public static Color32 Replace(this Color32 color, byte? r = null, byte? g = null, byte? b = null, byte? a = null)
-            => new(
+            => new Color32(
                 r ?? color.r,
                 g ?? color.g,
                 b ?? color.b,
@@ -258,7 +258,7 @@ namespace KeepCoding
         /// <param name="func">The function to call when the <see cref="IEnumerator"/> is called.</param>
         /// <param name="monoBehaviour">The instance of the <see cref="MonoBehaviour"/> to start the <see cref="Coroutine"/> from.</param>
         /// <returns>A new <see cref="Routine"/> containing the arguments provided.</returns>
-        public static Routine ToRoutine(this MonoBehaviour monoBehaviour, Func<IEnumerator> func) => new(func, monoBehaviour);
+        public static Routine ToRoutine(this MonoBehaviour monoBehaviour, Func<IEnumerator> func) => new Routine(func, monoBehaviour);
 
         /// <summary>
         /// Converts arguments to a new <see cref="Routine{T}"/>.
@@ -266,7 +266,7 @@ namespace KeepCoding
         /// <param name="func">The function to call when the <see cref="IEnumerator"/> is called.</param>
         /// <param name="monoBehaviour">The instance of the <see cref="MonoBehaviour"/> to start the <see cref="Coroutine"/> from.</param>
         /// <returns>A new <see cref="Routine{T}"/> containing the arguments provided.</returns>
-        public static Routine<T> ToRoutine<T>(this MonoBehaviour monoBehaviour, Func<T, IEnumerator> func) => new(func, monoBehaviour);
+        public static Routine<T> ToRoutine<T>(this MonoBehaviour monoBehaviour, Func<T, IEnumerator> func) => new Routine<T>(func, monoBehaviour);
 
         /// <summary>
         /// Converts arguments to a new <see cref="Routine{T1, T2}"/>.
@@ -274,7 +274,7 @@ namespace KeepCoding
         /// <param name="func">The function to call when the <see cref="IEnumerator"/> is called.</param>
         /// <param name="monoBehaviour">The instance of the <see cref="MonoBehaviour"/> to start the <see cref="Coroutine"/> from.</param>
         /// <returns>A new <see cref="Routine{T1, T2}"/> containing the arguments provided.</returns>
-        public static Routine<T1, T2> ToRoutine<T1, T2>(this MonoBehaviour monoBehaviour, Func<T1, T2, IEnumerator> func) => new(func, monoBehaviour);
+        public static Routine<T1, T2> ToRoutine<T1, T2>(this MonoBehaviour monoBehaviour, Func<T1, T2, IEnumerator> func) => new Routine<T1, T2>(func, monoBehaviour);
 
         /// <summary>
         /// Converts arguments to a new <see cref="Routine{T1, T2, T3}"/>.
@@ -282,7 +282,7 @@ namespace KeepCoding
         /// <param name="func">The function to call when the <see cref="IEnumerator"/> is called.</param>
         /// <param name="monoBehaviour">The instance of the <see cref="MonoBehaviour"/> to start the <see cref="Coroutine"/> from.</param>
         /// <returns>A new <see cref="Routine{T1, T2, T3}"/> containing the arguments provided.</returns>
-        public static Routine<T1, T2, T3> ToRoutine<T1, T2, T3>(this MonoBehaviour monoBehaviour, Func<T1, T2, T3, IEnumerator> func) => new(func, monoBehaviour);
+        public static Routine<T1, T2, T3> ToRoutine<T1, T2, T3>(this MonoBehaviour monoBehaviour, Func<T1, T2, T3, IEnumerator> func) => new Routine<T1, T2, T3>(func, monoBehaviour);
 
         /// <summary>
         /// Converts arguments to a new <see cref="Routine{T1, T2, T3, T4}"/>.
@@ -290,7 +290,7 @@ namespace KeepCoding
         /// <param name="func">The function to call when the <see cref="IEnumerator"/> is called.</param>
         /// <param name="monoBehaviour">The instance of the <see cref="MonoBehaviour"/> to start the <see cref="Coroutine"/> from.</param>
         /// <returns>A new <see cref="Routine{T1, T2, T3, T4}"/> containing the arguments provided.</returns>
-        public static Routine<T1, T2, T3, T4> ToRoutine<T1, T2, T3, T4>(this MonoBehaviour monoBehaviour, Func<T1, T2, T3, T4, IEnumerator> func) => new(func, monoBehaviour);
+        public static Routine<T1, T2, T3, T4> ToRoutine<T1, T2, T3, T4>(this MonoBehaviour monoBehaviour, Func<T1, T2, T3, T4, IEnumerator> func) => new Routine<T1, T2, T3, T4>(func, monoBehaviour);
 
         /// <summary>
         /// Converts arguments to a new <see cref="Tuple{T}"/>.
@@ -298,7 +298,7 @@ namespace KeepCoding
         /// <typeparam name="T">The type of tuple.</typeparam>
         /// <param name="item">The argument to pass into the tuple.</param>
         /// <returns>A new <see cref="Tuple{T}"/> containing <paramref name="item"/>.</returns>
-        public static Tuple<T> ToTuple<T>(this T item) => new(item);
+        public static Tuple<T> ToTuple<T>(this T item) => new Tuple<T>(item);
 
         /// <summary>
         /// Converts arguments to a new <see cref="Tuple{T1, T2}"/>.
@@ -308,7 +308,7 @@ namespace KeepCoding
         /// <param name="item1">The first argument to pass into the tuple.</param>
         /// <param name="item2">The second argument to pass into the tuple.</param>
         /// <returns>A new <seealso cref="Tuple{T1, T2}"/> containing <paramref name="item1"/> and <paramref name="item2"/></returns>
-        public static Tuple<T1, T2> ToTuple<T1, T2>(this T1 item1, T2 item2) => new(item1, item2);
+        public static Tuple<T1, T2> ToTuple<T1, T2>(this T1 item1, T2 item2) => new Tuple<T1, T2>(item1, item2);
 
         /// <summary>
         /// Converts arguments to a new <see cref="Tuple{T1, T2, T3}"/>.
@@ -320,7 +320,7 @@ namespace KeepCoding
         /// <param name="item2">The second argument to pass into the tuple.</param>
         /// <param name="item3">The third argument to pass into the tuple.</param>
         /// <returns>A new <seealso cref="Tuple{T1, T2, T3}"/> containing <paramref name="item1"/>, <paramref name="item2"/>, and <paramref name="item3"/></returns>
-        public static Tuple<T1, T2, T3> ToTuple<T1, T2, T3>(this T1 item1, T2 item2, T3 item3) => new(item1, item2, item3);
+        public static Tuple<T1, T2, T3> ToTuple<T1, T2, T3>(this T1 item1, T2 item2, T3 item3) => new Tuple<T1, T2, T3>(item1, item2, item3);
 
         /// <summary>
         /// Converts arguments to a new <see cref="Tuple{T1, T2, T3, T4}"/>.
@@ -334,7 +334,7 @@ namespace KeepCoding
         /// <param name="item3">The third argument to pass into the tuple.</param>
         /// <param name="item4">The fourth argument to pass into the tuple.</param>
         /// <returns>A new <seealso cref="Tuple{T1, T2, T3, T4}"/> containing <paramref name="item1"/>, <paramref name="item2"/>, <paramref name="item3"/>, and <paramref name="item4"/></returns>
-        public static Tuple<T1, T2, T3, T4> ToTuple<T1, T2, T3, T4>(this T1 item1, T2 item2, T3 item3, T4 item4) => new(item1, item2, item3, item4);
+        public static Tuple<T1, T2, T3, T4> ToTuple<T1, T2, T3, T4>(this T1 item1, T2 item2, T3 item3, T4 item4) => new Tuple<T1, T2, T3, T4>(item1, item2, item3, item4);
         
         /// <summary>
         /// Duplicates the vector, and replaces the x and y components only if they are specified.
@@ -344,7 +344,7 @@ namespace KeepCoding
         /// <param name="y">The y value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
         public static Vector2 Add(ref Vector2 vector, float x = 0, float y = 0)
-            => vector = new(
+            => vector = new Vector2(
                 x + vector.x,
                 y + vector.y);
 
@@ -356,7 +356,7 @@ namespace KeepCoding
         /// <param name="y">The y value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
         public static Vector2 Add(this Vector2 vector, float x = 0, float y = 0)
-            => new(
+            => new Vector2(
                 x + vector.x,
                 y + vector.y);
 
@@ -369,7 +369,7 @@ namespace KeepCoding
         /// <param name="z">The z value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
         public static Vector3 Add(ref Vector3 vector, float x = 0, float y = 0, float z = 0)
-            => vector = new(
+            => vector = new Vector3(
                 x + vector.x,
                 y + vector.y,
                 z + vector.z);
@@ -383,7 +383,7 @@ namespace KeepCoding
         /// <param name="z">The z value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
         public static Vector3 Add(this Vector3 vector, float x = 0, float y = 0, float z = 0)
-            => new(
+            => new Vector3(
                 x + vector.x,
                 y + vector.y,
                 z + vector.z);
@@ -398,7 +398,7 @@ namespace KeepCoding
         /// <param name="w">The w value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
         public static Vector4 Add(ref Vector4 vector, float x = 0, float y = 0, float z = 0, float w = 0)
-            => vector = new(
+            => vector = new Vector4(
                 x + vector.x,
                 y + vector.y,
                 z + vector.z,
@@ -414,7 +414,7 @@ namespace KeepCoding
         /// <param name="w">The w value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
         public static Vector4 Add(this Vector4 vector, float x = 0, float y = 0, float z = 0, float w = 0)
-            => new(
+            => new Vector4(
                 x + vector.x,
                 y + vector.y,
                 z + vector.z,
@@ -428,7 +428,7 @@ namespace KeepCoding
         /// <param name="y">The y value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
         public static Vector2 Replace(ref Vector2 vector, float? x = null, float? y = null)
-            => vector = new(
+            => vector = new Vector2(
                 x ?? vector.x,
                 y ?? vector.y);
 
@@ -440,7 +440,7 @@ namespace KeepCoding
         /// <param name="y">The y value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
         public static Vector2 Replace(this Vector2 vector, float? x = null, float? y = null)
-            => new(
+            => new Vector2(
                 x ?? vector.x,
                 y ?? vector.y);
 
@@ -453,7 +453,7 @@ namespace KeepCoding
         /// <param name="z">The z value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
         public static Vector3 Replace(ref Vector3 vector, float? x = null, float? y = null, float? z = null)
-            => vector = new(
+            => vector = new Vector3(
                 x ?? vector.x,
                 y ?? vector.y,
                 z ?? vector.z);
@@ -467,7 +467,7 @@ namespace KeepCoding
         /// <param name="z">The z value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
         public static Vector3 Replace(this Vector3 vector, float? x = null, float? y = null, float? z = null)
-            => new(
+            => new Vector3(
                 x ?? vector.x,
                 y ?? vector.y,
                 z ?? vector.z);
@@ -482,7 +482,7 @@ namespace KeepCoding
         /// <param name="w">The w value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
         public static Vector4 Replace(ref Vector4 vector, float? x = null, float? y = null, float? z = null, float? w = null)
-            => vector = new(
+            => vector = new Vector4(
                 x ?? vector.x,
                 y ?? vector.y,
                 z ?? vector.z,
@@ -498,7 +498,7 @@ namespace KeepCoding
         /// <param name="w">The w value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
         public static Vector4 Replace(this Vector4 vector, float? x = null, float? y = null, float? z = null, float? w = null)
-            => new(
+            => new Vector4(
                 x ?? vector.x,
                 y ?? vector.y,
                 z ?? vector.z,
@@ -511,7 +511,7 @@ namespace KeepCoding
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         /// <returns>A new <see cref="Work"/> consisting of the arguments provided.</returns>
-        public static Work ToWork(this uint maximumThreadsActive, Action action, bool allowSimultaneousActive = false) => new(action, allowSimultaneousActive, maximumThreadsActive);
+        public static Work ToWork(this uint maximumThreadsActive, Action action, bool allowSimultaneousActive = false) => new Work(action, allowSimultaneousActive, maximumThreadsActive);
 
         /// <summary>
         /// Converts argument to a new <see cref="Work{T}"/>
@@ -520,7 +520,7 @@ namespace KeepCoding
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         /// <returns>A new <see cref="Work{T}"/> consisting of the arguments provided.</returns>
-        public static Work<T> ToWork<T>(this uint maximumThreadsActive, Func<T> func, bool allowSimultaneousActive = false) => new(func, allowSimultaneousActive, maximumThreadsActive);
+        public static Work<T> ToWork<T>(this uint maximumThreadsActive, Func<T> func, bool allowSimultaneousActive = false) => new Work<T>(func, allowSimultaneousActive, maximumThreadsActive);
 
         /// <summary>
         /// Converts argument to a new <see cref="Work{T, TResult}"/>
@@ -529,7 +529,7 @@ namespace KeepCoding
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         /// <returns>A new <see cref="Work{T, TResult}"/> consisting of the arguments provided.</returns>
-        public static Work<T, TResult> ToWork<T, TResult>(this uint maximumThreadsActive, Func<T, TResult> func, bool allowSimultaneousActive = false) => new(func, allowSimultaneousActive, maximumThreadsActive);
+        public static Work<T, TResult> ToWork<T, TResult>(this uint maximumThreadsActive, Func<T, TResult> func, bool allowSimultaneousActive = false) => new Work<T, TResult>(func, allowSimultaneousActive, maximumThreadsActive);
 
         /// <summary>
         /// Converts argument to a new <see cref="Work{T1, T2, TResult}"/>
@@ -538,7 +538,7 @@ namespace KeepCoding
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         /// <returns>A new <see cref="Work{T1, T2, TResult}"/> consisting of the arguments provided.</returns>
-        public static Work<T1, T2, TResult> ToWork<T1, T2, TResult>(this uint maximumThreadsActive, Func<T1, T2, TResult> func, bool allowSimultaneousActive = false) => new(func, allowSimultaneousActive, maximumThreadsActive);
+        public static Work<T1, T2, TResult> ToWork<T1, T2, TResult>(this uint maximumThreadsActive, Func<T1, T2, TResult> func, bool allowSimultaneousActive = false) => new Work<T1, T2, TResult>(func, allowSimultaneousActive, maximumThreadsActive);
 
         /// <summary>
         /// Converts argument to a new <see cref="Work{T1, T2, T3, TResult}"/>
@@ -547,7 +547,7 @@ namespace KeepCoding
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         /// <returns>A new <see cref="Work{T1, T2, T3, TResult}"/> consisting of the arguments provided.</returns>
-        public static Work<T1, T2, T3, TResult> ToWork<T1, T2, T3, TResult>(this uint maximumThreadsActive, Func<T1, T2, T3, TResult> func, bool allowSimultaneousActive = false) => new(func, allowSimultaneousActive, maximumThreadsActive);
+        public static Work<T1, T2, T3, TResult> ToWork<T1, T2, T3, TResult>(this uint maximumThreadsActive, Func<T1, T2, T3, TResult> func, bool allowSimultaneousActive = false) => new Work<T1, T2, T3, TResult>(func, allowSimultaneousActive, maximumThreadsActive);
 
         /// <summary>
         /// Converts argument to a new <see cref="Work{T1, T2, T3, T4, TResult}"/>
@@ -556,6 +556,6 @@ namespace KeepCoding
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         /// <returns>A new <see cref="Work{T1, T2, T3, T4, TResult}"/> consisting of the arguments provided.</returns>
-        public static Work<T1, T2, T3, T4, TResult> ToWork<T1, T2, T3, T4, TResult>(this uint maximumThreadsActive, Func<T1, T2, T3, T4, TResult> func, bool allowSimultaneousActive = false) => new(func, allowSimultaneousActive, maximumThreadsActive);
+        public static Work<T1, T2, T3, T4, TResult> ToWork<T1, T2, T3, T4, TResult>(this uint maximumThreadsActive, Func<T1, T2, T3, T4, TResult> func, bool allowSimultaneousActive = false) => new Work<T1, T2, T3, T4, TResult>(func, allowSimultaneousActive, maximumThreadsActive);
     }
 }

@@ -12,7 +12,7 @@ namespace KeepCoding
     {
         internal RoutineBase(MonoBehaviour monoBehaviour)
         {
-            Coroutines = new();
+            Coroutines = new List<Coroutine>();
             MonoBehaviour = monoBehaviour;
         }
 
@@ -59,7 +59,7 @@ namespace KeepCoding
 
             Coroutines.ForEach(c => MonoBehaviour.StopCoroutine(c));
 
-            Coroutines = new();
+            Coroutines = new List<Coroutine>();
         }
 
         private protected void Remove(Coroutine coroutine) => MonoBehaviour.StopCoroutine(coroutine);

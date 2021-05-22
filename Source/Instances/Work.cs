@@ -18,7 +18,7 @@ namespace KeepCoding
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         public Work(Action work, bool allowSimultaneousActive, uint maximumThreadsActive)
             : base(allowSimultaneousActive, maximumThreadsActive)
-            => Thread = new(() =>
+            => Thread = new Thread(() =>
             {
                 work.NullCheck($"The variable {nameof(work)} cannot be null.")();
                 IsRunning = false;
@@ -60,7 +60,7 @@ namespace KeepCoding
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         public Work(Func<T> work, bool allowSimultaneousActive, uint maximumThreadsActive)
             : base(allowSimultaneousActive, maximumThreadsActive)
-            => Thread = new(() =>
+            => Thread = new Thread(() =>
             {
                 Result = work.NullCheck($"The variable {nameof(work)} cannot be null.")();
                 IsRunning = false;
@@ -128,7 +128,7 @@ namespace KeepCoding
 
             ThreadsActive++;
 
-            Thread = new(() =>
+            Thread = new Thread(() =>
             {
                 Result = _work.NullCheck($"The variable {nameof(_work)} cannot be null.")(arg);
                 IsRunning = false;
@@ -178,7 +178,7 @@ namespace KeepCoding
 
             ThreadsActive++;
 
-            Thread = new(() =>
+            Thread = new Thread(() =>
             {
                 Result = _work.NullCheck($"The variable {nameof(_work)} cannot be null.")(arg1, arg2);
                 IsRunning = false;
@@ -278,7 +278,7 @@ namespace KeepCoding
 
             ThreadsActive++;
 
-            Thread = new(() =>
+            Thread = new Thread(() =>
             {
                 Result = _work.NullCheck($"The variable {nameof(_work)} cannot be null.")(arg1, arg2, arg3, arg4);
                 IsRunning = false;

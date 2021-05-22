@@ -88,7 +88,7 @@ namespace KeepCoding
         public ITP TP => _tp ??= GetComponents<Component>().FirstValue(c => c is ITP ? c : null) as ITP;
         private ITP _tp;
 
-        private static readonly Dictionary<string, int> _moduleIds = new();
+        private static readonly Dictionary<string, int> _moduleIds = new Dictionary<string, int>();
 
         private static Dictionary<string, Dictionary<string, object>[]> _database;
 
@@ -111,13 +111,13 @@ namespace KeepCoding
                 OnActivate();
             };
 
-            _components = new() { { typeof(ModuleScript), new[] { this } } };
+            _components = new Dictionary<Type, Component[]>() { { typeof(ModuleScript), new[] { this } } };
 
-            _database = new();
+            _database = new Dictionary<string, Dictionary<string, object>[]>();
 
             Get<ModBundle>().Name.NullOrEmptyCheck("The public field \"ModBundleName\" is empty! This means that when compiled it won't be able to run! Please set this field to your Mod ID located at Keep Talking ModKit -> Configure Mod. Refer to this link for more details: https://github.com/Emik03/KeepCoding/wiki/Chapter-2.4:-ModBundle");
                      
-            Module = new(Get<KMBombModule>(allowNull: true), Get<KMNeedyModule>(allowNull: true));
+            Module = new ModuleContainer(Get<KMBombModule>(allowNull: true), Get<KMNeedyModule>(allowNull: true));
 
             Module.OnActivate(_setActive);
 
@@ -285,7 +285,7 @@ namespace KeepCoding
             int index = _moduleIds[Module.ModuleType] - ModuleId;
 
             while (index >= _database[Module.ModuleType].Length)
-                _database[Module.ModuleType].Append(new());
+                _database[Module.ModuleType].Append(new Dictionary<string, object>());
 
             if (!_database[Module.ModuleType][index].ContainsKey(key))
                 _database[Module.ModuleType][index].Add(key, null);
@@ -403,7 +403,7 @@ namespace KeepCoding
         public static T[] Read<T>(string module, string key, bool allowDefault = false) => !_database.ContainsKey(module) && !IsEditor ? throw new KeyNotFoundException($"The module {module} does not have an entry!") : _database[module].ConvertAll(d =>
         {
             if (!d.ContainsKey(key))
-                return allowDefault || IsEditor ? default : throw new KeyNotFoundException($"The key {key} could not be found in the module {module}!");
+                return allowDefault || IsEditor ? default(T) : throw new KeyNotFoundException($"The key {key} could not be found in the module {module}!");
 
             if (d[key] is T t)
                 return t;
@@ -413,17 +413,17 @@ namespace KeepCoding
 
         private void AssignNeedy(Action onTimerExpired, Action onNeedyActivation, Action onNeedyDeactivation)
         {
-            if (onTimerExpired is not null)
+            if (onTimerExpired is { })
                 Module.Needy.OnTimerExpired += () => onTimerExpired();
 
-            if (onNeedyActivation is not null)
+            if (onNeedyActivation is { })
                 Module.Needy.OnNeedyActivation += () =>
                 {
                     onNeedyActivation();
                     IsNeedyActive = true;
                 };
 
-            if (onNeedyDeactivation is not null)
+            if (onNeedyDeactivation is { })
                 Module.Needy.OnNeedyDeactivation += () =>
                 {
                     onNeedyDeactivation();
@@ -500,8 +500,8 @@ namespace KeepCoding
         };
 
         private Func<Transform, bool, KMAudioRef> GetSoundMethod(Sound sound) => (t, b) => 
-            sound.Custom is not null ? Get<KMAudio>().HandlePlaySoundAtTransformWithRef(sound.Custom, t, b) : 
-            sound.Game is not null ? Get<KMAudio>().HandlePlayGameSoundAtTransformWithRef(sound.Game.Value, t) : 
+            sound.Custom is { } ? Get<KMAudio>().HandlePlaySoundAtTransformWithRef(sound.Custom, t, b) : 
+            sound.Game is { } ? Get<KMAudio>().HandlePlayGameSoundAtTransformWithRef(sound.Game.Value, t) : 
             throw new UnrecognizedValueException($"{sound}'s properties {nameof(Sound.Custom)} and {nameof(Sound.Game)} are both null!");
     }
 }

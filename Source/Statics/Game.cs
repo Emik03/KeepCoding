@@ -84,7 +84,7 @@ namespace KeepCoding
             /// <value>
             /// Determines if the current way the game is being controlled is VR-related.
             /// </value>
-            public static bool IsCurrentControlTypeVR => CurrentControlType is ControlType.Gaze or ControlType.Motion or ControlType.ThreeDOF;
+            public static bool IsCurrentControlTypeVR => CurrentControlType is ControlType.Gaze || CurrentControlType is ControlType.Motion || CurrentControlType is ControlType.ThreeDOF;
 
             /// <value>
             /// The current way the game is being controlled.

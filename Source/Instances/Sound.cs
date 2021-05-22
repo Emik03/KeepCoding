@@ -49,21 +49,21 @@ namespace KeepCoding
         /// </summary>
         /// <param name="sound">The sound to insert.</param>
         /// <returns><see cref="Sound"/> with argument <paramref name="sound"/>.</returns>
-        public static implicit operator Sound(string sound) => new(sound);
+        public static implicit operator Sound(string sound) => new Sound(sound);
 
         /// <summary>
         /// An instance of Sound where <see cref="Custom"/> is defined.
         /// </summary>
         /// <param name="sound">The sound to insert.</param>
         /// <returns><see cref="Sound"/> with argument <paramref name="sound"/>.</returns>
-        public static implicit operator Sound(AudioClip sound) => new(sound);
+        public static implicit operator Sound(AudioClip sound) => new Sound(sound);
 
         /// <summary>
         /// An instance of Sound where <see cref="Game"/> is defined.
         /// </summary>
         /// <param name="sound">The sound to insert.</param>
         /// <returns><see cref="Sound"/> with argument <paramref name="sound"/>.</returns>
-        public static implicit operator Sound(SoundEffect sound) => new(sound);
+        public static implicit operator Sound(SoundEffect sound) => new Sound(sound);
 
         /// <summary>
         /// Returns <see cref="Custom"/> for the current variable.
@@ -103,7 +103,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="other">The comparison.</param>
         /// <returns>True if <see cref="Custom"/>, <see cref="Reference"/>, and <see cref="Game"/> are equal.</returns>
-        public bool Equals(Sound other) => other is not null && Custom == other.Custom && Reference == other.Reference && Game == other.Game;
+        public bool Equals(Sound other) => other is null && Reference == other.Reference && Game == other.Game && Custom == other.Custom;
 
         /// <summary>
         /// Gets the current hash code.

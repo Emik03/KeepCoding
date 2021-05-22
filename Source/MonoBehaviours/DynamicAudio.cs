@@ -148,6 +148,6 @@ namespace KeepCoding
             }
         }
 
-        private Action<float, float> GetRoutineMethod(int length) => length == 0 ? (i, j) => _fade.Start(i, j, false) : (i, j) => _fade.Restart(i, j);
+        private Action<float, float> GetRoutineMethod(int length) => length == 0 ? (Action<float, float>)((i, j) => _fade.Start(i, j, false)) : (i, j) => _fade.Restart(i, j);
     }
 }

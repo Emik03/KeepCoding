@@ -173,11 +173,11 @@ namespace KeepCoding
         /// <returns>A delegate of type <typeparamref name="T"/> using <paramref name="dele"/>'s target and method.</returns>
         public static T CreateDelegate<T>(this Delegate dele) where T : Delegate => (T)Delegate.CreateDelegate(typeof(T), dele.Target, dele.Method, true);
 
-        private static Action ToAction(this Action<int> action, int i) => action is null ? null : () => action(i);
+        private static Action ToAction(this Action<int> action, int i) => action is null ? (Action)null : () => action(i);
 
-        private static Func<bool> ToFunc(this Action action, bool b) => action is null ? null : () => { action(); return b; };
+        private static Func<bool> ToFunc(this Action action, bool b) => action is null ? (Func<bool>)null : () => { action(); return b; };
 
-        private static UnassignedReferenceException Unassigned(this Type type) => throw new($"The {type.Name} is null. You cannot assign events to a {type.Name} without a reference to a {type.Name}.");
+        private static UnassignedReferenceException Unassigned(this Type type) => throw new Exception($"The {type.Name} is null. You cannot assign events to a {type.Name} without a reference to a {type.Name}.");
 
         private static T Multicast<T>(this Delegate dele, Delegate[] multicast) where T : Delegate => multicast.Length switch
         {

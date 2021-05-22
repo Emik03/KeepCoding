@@ -84,7 +84,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="item">The item to check the type for.</param>
         /// <returns><paramref name="item"/> is either <see cref="string"/>, <see cref="IEnumerable"/>, or <see cref="IEnumerator"/>.</returns>
-        public static bool IsIterator<T>(this T item) => item is string or IEnumerable or IEnumerator;
+        public static bool IsIterator<T>(this T item) => item is string || item is IEnumerable || item is IEnumerator;
 
         /// <summary>
         /// Determines if the string is null or empty.
@@ -184,7 +184,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="source">The <see cref="IEnumerable{T}"/> to check its length.</param>
         /// <returns><paramref name="source"/>'s length, or 0.</returns>
-        public static int LengthOrDefault<T>(this IEnumerable<T> source) => source is not null ? source.Count() : default;
+        public static int LengthOrDefault<T>(this IEnumerable<T> source) => source is null ? default : source.Count();
 
         /// <summary>
         /// Counts the number of members in an enum.
@@ -316,7 +316,7 @@ namespace KeepCoding
         /// <param name="fromBaseNumber">Which base it currently is.</param>
         /// <param name="toBaseNumber">Which base to convert it to.</param>
         /// <returns>The integer, but in the base specified.</returns>
-        public static string Base(this string value, int fromBaseNumber, int toBaseNumber) => value.Base(new string(Alphanumeric.Take(fromBaseNumber).ToArray()), new(Alphanumeric.Take(toBaseNumber).ToArray()));
+        public static string Base(this string value, int fromBaseNumber, int toBaseNumber) => value.Base(new string(Alphanumeric.Take(fromBaseNumber).ToArray()), new string(Alphanumeric.Take(toBaseNumber).ToArray()));
 
         /// <summary>
         /// Formats the string. Shorthand for <see cref="string.Format(string, object[])"/>.
@@ -392,7 +392,7 @@ namespace KeepCoding
             }
             while (value > 0);
 
-            return new(buffer, i, buffer.Length - i);
+            return new string(buffer, i, buffer.Length - i);
         }
 
         /// <summary>
@@ -460,7 +460,7 @@ namespace KeepCoding
         public static object[] Unwrap<T>(this T source, bool isRecursive = false) => (source switch
         {
             null => new object[] { Null },
-            string => new object[] { source },
+            string s => new object[] { s },
             Tuple tuple => tuple.ToArray.Unwrap(),
             IEnumerable ienumerable => ienumerable.Unwrap(),
             IEnumerator ienumerator => ienumerator.AsEnumerable().Unwrap(),
@@ -480,7 +480,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="item">The item to check the type for.</param>
         /// <returns><see cref="NullIteratorException"/> if <paramref name="item"/> is an iterator, evaluated with <see cref="IsIterator{T}(T)"/>, otherwise <see cref="NullReferenceException"/></returns>
-        public static Func<string, Exception> GetNullException<T>(this T item) => s => item.IsIterator() ? new NullIteratorException(s) : new NullReferenceException(s);
+        public static Func<string, Exception> GetNullException<T>(this T item) => s => item.IsIterator() ? (Exception)new NullIteratorException(s) : new NullReferenceException(s);
 
         /// <summary>
         /// Converts an <see cref="IEnumerator"/> to an <see cref="IEnumerable"/>.
@@ -610,7 +610,7 @@ namespace KeepCoding
         /// <returns>An <see cref="object"/> <see cref="Array"/> of all elements within <paramref name="source"/>.</returns>
         public static IEnumerable<object> Unwrap(this IEnumerable source, bool isRecursive = false)
         {
-            List<object> list = new();
+            List<object> list = new List<object>();
 
             try
             {
@@ -624,6 +624,30 @@ namespace KeepCoding
 
             foreach (object o in list)
                 yield return o;
+        }
+
+        /// <summary>
+        /// Gives list of module names that are unsolved.
+        /// </summary>
+        /// <param name="bombInfo">The instance of <see cref="KMBombInfo"/> needed to get the modules.</param>
+        /// <returns>A list of unsolved module names.</returns>
+        public static List<string> GetUnsolvedModuleIDs(this KMBombInfo bombInfo)
+        {
+            var modules = bombInfo.GetSolvableModuleIDs();
+            bombInfo.GetSolvedModuleIDs().ForEach(m => modules.Remove(m));
+            return modules;
+        }
+
+        /// <summary>
+        /// Gives list of module names that are unsolved.
+        /// </summary>
+        /// <param name="bombInfo">The instance of <see cref="KMBombInfo"/> needed to get the modules.</param>
+        /// <returns>A list of unsolved modules.</returns>
+        public static List<string> GetUnsolvedModuleNames(this KMBombInfo bombInfo)
+        {
+            var modules = bombInfo.GetSolvableModuleNames();
+            bombInfo.GetSolvedModuleNames().ForEach(m => modules.Remove(m));
+            return modules;
         }
 
         /// <summary>

@@ -61,12 +61,12 @@ namespace KeepCoding
         /// <value>
         /// BigInteger with value zero. (Default value)
         /// </value>
-        public static BigInteger Zero => new(0);
+        public static BigInteger Zero => new BigInteger(0);
 
         /// <value>
         /// BigInteger with value one.
         /// </value>
-        public static BigInteger One => new(1);
+        public static BigInteger One => new BigInteger(1);
 
         /// <summary>
         /// Equals operator; determines if both integers contain the same value.
@@ -448,7 +448,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="value">The value to convert into <see cref="BigInteger"/>.</param>
         /// <returns><see cref="BigInteger"/> with value <paramref name="value"/>.</returns>
-        public static implicit operator BigInteger(long value) => new(value);
+        public static implicit operator BigInteger(long value) => new BigInteger(value);
 
         /// <summary>
         /// Converts the <see cref="BigInteger"/> to a <see cref="uint"/>.
@@ -463,7 +463,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="value">The value to convert into <see cref="BigInteger"/>.</param>
         /// <returns><see cref="BigInteger"/> with value <paramref name="value"/>.</returns>
-        public static implicit operator BigInteger(uint value) => new(value);
+        public static implicit operator BigInteger(uint value) => new BigInteger(value);
 
         /// <summary>
         /// Converts the <see cref="BigInteger"/> to a <see cref="ulong"/>.
@@ -478,7 +478,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="value">The value to convert into <see cref="BigInteger"/>.</param>
         /// <returns><see cref="BigInteger"/> with value <paramref name="value"/>.</returns>
-        public static implicit operator BigInteger(ulong value) => new(value);
+        public static implicit operator BigInteger(ulong value) => new BigInteger(value);
 
         /// <summary>
         /// Determins if both values are equal.
@@ -569,7 +569,7 @@ namespace KeepCoding
         /// Makes a new instance/deep clone of <see cref="BigInteger"/> with the same value.
         /// </summary>
         /// <returns>A deep clone of itself.</returns>
-        public BigInteger Clone() => new(_value);
+        public BigInteger Clone() => new BigInteger(_value);
 
         /// <summary>
         /// Calculates the rem-euclid modulo, which allows negative numbers to be properly calculated.
@@ -593,7 +593,7 @@ namespace KeepCoding
 
         private enum Operator { Add, Subtract, Multiply, Divide, Modulo }
 
-        private static readonly Dictionary<Operator, Func<sbyte[], sbyte[], sbyte[]>> _operations = new()
+        private static readonly Dictionary<Operator, Func<sbyte[], sbyte[], sbyte[]>> _operations = new Dictionary<Operator, Func<sbyte[], sbyte[], sbyte[]>>()
         {
             { Operator.Add, Addition },
             { Operator.Subtract, Addition },
@@ -817,6 +817,6 @@ namespace KeepCoding
                 ? new BigInteger(_operations[op](bigIntegerA._value.ToArray(), InvertConditional(bigIntegerB._value.ToArray(), op == Operator.Subtract)))
                 : throw new UnrecognizedValueException($"Unhandled operator: {op}.");
 
-        private InvalidCastException InvalidCast<T>() => new($"This BigInteger has the value {ToString()} which is outside the range of {typeof(T).Name} and therefore cannot be casted!");
+        private InvalidCastException InvalidCast<T>() => new InvalidCastException($"This BigInteger has the value {ToString()} which is outside the range of {typeof(T).Name} and therefore cannot be casted!");
     }
 }

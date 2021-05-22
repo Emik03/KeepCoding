@@ -28,7 +28,7 @@ namespace KeepCoding
             FileExtensionWindows = "dll",
             FileFormat = "{0}.{1}";
 
-        private static readonly Dictionary<Tuple<string, string>, object> _cachedResults = new();
+        private static readonly Dictionary<Tuple<string, string>, object> _cachedResults = new Dictionary<Tuple<string, string>, object>();
 
         /// <summary>
         /// Prints a hierarchy of all game objects.
@@ -44,7 +44,7 @@ namespace KeepCoding
         /// <param name="depth">The level of depth which determines level of indentation. Leave this variable as 0.</param>
         public static void PrintHierarchy(GameObject obj, ushort indentation = 4, ushort depth = 0)
         {
-            string indent = new(Enumerable.Repeat(' ', indentation * depth).ToArray());
+            string indent = new string(Enumerable.Repeat(' ', indentation * depth).ToArray());
 
             Debug.Log($"{indent}{obj.name}");
             Debug.LogWarning($"{indent}{obj.GetComponents<Component>().UnwrapToString()}");
@@ -223,7 +223,7 @@ namespace KeepCoding
                     if (files.LengthOrDefault() > 0 && !files[0].Trim().IsNullOrEmpty())
                         return files[0];
                 }
-                catch (Exception ex) when (ex is ArgumentException or ArgumentNullException or DirectoryNotFoundException or UnauthorizedAccessException) { }
+                catch (Exception ex) when (ex is ArgumentException || ex is ArgumentNullException || ex is DirectoryNotFoundException || ex is UnauthorizedAccessException) { }
 
                 return null;
             });

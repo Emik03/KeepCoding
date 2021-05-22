@@ -50,7 +50,7 @@ namespace KeepCoding
         /// <value>
         /// Returns the current values of this <see cref="ModInfo"/> as a dictionary, where the key is the variable name and the value is the variable value.
         /// </value>
-        public Dictionary<string, string> Values => new() 
+        public Dictionary<string, string> Values => new Dictionary<string, string>() 
         { 
             { nameof(Id), Id },
             { nameof(Title), Title }, 

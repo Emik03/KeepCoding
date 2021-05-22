@@ -112,14 +112,14 @@ namespace KeepCoding
         /// </summary>
         /// <param name="solvable">The solvable module to create a new <see cref="ModuleContainer"/> of.</param>
         /// <returns>A <see cref="ModuleContainer"/> with parameter <paramref name="solvable"/>.</returns>
-        public static implicit operator ModuleContainer(KMBombModule solvable) => new(solvable: solvable);
+        public static implicit operator ModuleContainer(KMBombModule solvable) => new ModuleContainer(solvable: solvable);
 
         /// <summary>
         /// Creates a new instance of <see cref="ModuleContainer"/> where <see cref="Needy"/> is defined.
         /// </summary>
         /// <param name="needy">The needy module to create a new <see cref="ModuleContainer"/> of.</param>
         /// <returns>A <see cref="ModuleContainer"/> with parameter <paramref name="needy"/>.</returns>
-        public static implicit operator ModuleContainer(KMNeedyModule needy) => new(needy: needy);
+        public static implicit operator ModuleContainer(KMNeedyModule needy) => new ModuleContainer(needy: needy);
 
         /// <summary>
         /// Returns the instance of <see cref="KMBombModule"/> from <see cref="Solvable"/>.
@@ -180,6 +180,6 @@ namespace KeepCoding
 
         private readonly KMNeedyModule _needyModule;
 
-        private static readonly UnrecognizedTypeException _unreachableException = new("Module is neither a KMBombModule or a KMNeedyModule. This is a bug caused by the library, please file a bug report alongside the source code.");
+        private static readonly UnrecognizedTypeException _unreachableException = new UnrecognizedTypeException("Module is neither a KMBombModule or a KMNeedyModule. This is a bug caused by the library, please file a bug report alongside the source code.");
     }
 }
