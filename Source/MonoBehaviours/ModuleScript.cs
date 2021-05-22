@@ -251,7 +251,7 @@ namespace KeepCoding
         public virtual void OnTimerTick() { }
 
         /// <summary>
-        /// Called when any module on the current bomb has been solved.
+        /// Called when any module on the current bomb has issued a strike.
         /// </summary>
         /// <param name="moduleId">The sender's module id, which caused a strike.</param>
         public virtual void OnModuleStrike(string moduleId) { }
