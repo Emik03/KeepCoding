@@ -52,6 +52,14 @@
       <Private>false</Private>
       <Aliases></Aliases>
     </Reference>
+    <Reference Include="TweaksAssembly">
+      <HintPath>D:\Steam\steamapps\workshop\content\341800\1366808675\TweaksAssembly.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="TwitchPlaysAssembly">
+      <HintPath>D:\Steam\steamapps\workshop\content\341800\1711408527\TwitchPlaysAssembly.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>..\..\..\..\..\Program Files\Editor\Data\Managed\UnityEditor.dll</HintPath>
       <Private>false</Private>
