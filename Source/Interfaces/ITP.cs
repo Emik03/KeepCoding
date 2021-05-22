@@ -57,12 +57,6 @@ namespace KeepCoding
         public List<KMBombModule> AbandonModule { get; set; }
 
         /// <summary>
-        /// Sends a message to the Twitch Plays mod.
-        /// </summary>
-        /// <param name="message">The message to send.</param>
-        public void Send(string message);
-
-        /// <summary>
         /// When a command is typed into Twitch Plays with the Id of this module, it calls this method and passes in the exact command typed.
         /// </summary>
         /// <remarks>
