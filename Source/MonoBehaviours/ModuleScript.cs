@@ -246,11 +246,6 @@ namespace KeepCoding
         public virtual void OnActivate() { }
 
         /// <summary>
-        /// Called when the timer's seconds-digit changes.
-        /// </summary>
-        public virtual void OnTimerTick() { }
-
-        /// <summary>
         /// Called when any module on the current bomb has issued a strike.
         /// </summary>
         /// <param name="moduleId">The sender's module id, which caused a strike.</param>
@@ -267,6 +262,11 @@ namespace KeepCoding
         /// </summary>
         /// <param name="moduleId">The sender's module id, which was solved.</param>
         public virtual void OnSolvableSolved(string moduleId) { }
+
+        /// <summary>
+        /// Called when the timer's seconds-digit changes.
+        /// </summary>
+        public virtual void OnTimerTick() { }
 
         /// <summary>
         /// Sends information to a static variable such that other modules can access it.
