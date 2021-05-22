@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -167,13 +167,20 @@ namespace KeepCoding
         /// Sends a message to the Twitch Plays mod.
         /// </summary>
         /// <param name="message">The message to send.</param>
-        public static void Send(string message)
+        /// <param name="args">The variables to format into message.</param>
+        public static void Send(string message, params object[] args)
         {
+            string send = message.Form(args);
+
             try
             {
-                IRCConnection.SendMessage(message);
+                IRCConnection.SendMessage(send);
+                Debug.Log($"Sent message to Twitch Plays: {send}");
             }
-            catch (DllNotFoundException) { }
+            catch (Exception ex) when (ex is DllNotFoundException || ex is FileNotFoundException) 
+            {
+                Debug.LogError($"Failed to send message to Twitch Plays: {send}");
+            }
         }
 
         /// <summary>
