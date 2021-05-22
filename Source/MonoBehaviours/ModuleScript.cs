@@ -15,7 +15,7 @@ namespace KeepCoding
     /// Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
     /// </summary>
     [RequireComponent(typeof(ModBundle))]
-    public abstract class ModuleScript : MonoBehaviour, IModule
+    public abstract class ModuleScript : MonoBehaviour
     {
         /// <value>
         /// Determines whether the module has been struck. Twitch Plays script will set this to false when a command is interrupted.
