@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using static KeepCoding.ComponentPool;
+using Connection = IRCConnection;
 using KTInfo = Assets.Scripts.Mods.ModInfo;
 using KTInput = KTInputManager;
 using KTMod = ModManager;
@@ -77,6 +78,30 @@ namespace KeepCoding
         }
 
         /// <summary>
+        /// Allows access into Twitch Plays messaging system.
+        /// </summary>
+        public static class IRCConnection
+        {
+            /// <value>
+            /// Sends a message to the chat.
+            /// </value>
+            /// <remarks>Arguments: <c>message</c>.</remarks>
+            public static Action<string> SendMessage => Connection.SendMessage;
+
+            /// <value>
+            /// Sends a message to the chat.
+            /// </value>
+            /// <remarks>Arguments: <c>message</c> and <c>args</c>.</remarks>
+            public static Action<string, object[]> SendMessageFormat => Connection.SendMessageFormat;
+                           
+            /// <value>
+            /// Whispers a message to a person.
+            /// </value>
+            /// <remarks>Arguments: <c>userNickName</c>, <c>message</c>, and <c>args</c>.</remarks>
+            public static Action<string, string, object[]> SendWhisper => Connection.SendWhisper;
+        }
+
+        /// <summary>
         /// Allows access relating to how the game is being interacted with.
         /// </summary>
         public static class KTInputManager
@@ -125,19 +150,31 @@ namespace KeepCoding
                 get
                 {
                     var setting = KTScene.Instance.GameplayState.Mission.GeneratorSetting;
+                    var list = new List<ComponentPool>();
+
+                    foreach (var pool in setting.ComponentPools)
+                    {
+                        var types = new List<ComponentTypeEnum>();
+
+                        foreach (var type in pool.ComponentTypes)
+                            types.Add((ComponentTypeEnum)type);
+
+                        list.Add(new ComponentPool(
+                            pool.Count,
+                            (ComponentSource)pool.AllowedSources,
+                            (SpecialComponentTypeEnum)pool.SpecialComponentType,
+                            pool.ModTypes,
+                            types));
+                    }
 
                     return new GeneratorSetting(
-                        setting.FrontFaceOnly, 
-                        setting.OptionalWidgetCount, 
-                        setting.NumStrikes, 
+                        setting.FrontFaceOnly,
+                        setting.OptionalWidgetCount,
+                        setting.NumStrikes,
                         setting.TimeBeforeNeedyActivation,
-                        setting.TimeLimit, 
-                        setting.ComponentPools.ConvertAll(c => new ComponentPool(
-                            c.Count, 
-                            (ComponentSource)c.AllowedSources,
-                            (SpecialComponentTypeEnum)c.SpecialComponentType,
-                            c.ModTypes, 
-                            c.ComponentTypes.ConvertAll(c => (ComponentTypeEnum)c))));
+                        setting.TimeLimit,
+                        list
+                        );
                 }
             }
         }
