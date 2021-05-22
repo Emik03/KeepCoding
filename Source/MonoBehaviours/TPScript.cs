@@ -33,10 +33,49 @@ namespace KeepCoding
         /// <remarks>
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
-        protected bool IsCancelCommand => TwitchShouldCancelCommand;
+        public bool IsCancelCommand => TwitchShouldCancelCommand;
 #pragma warning disable IDE0032 // Use auto property
 #pragma warning disable IDE0044 // Add readonly modifier
         private bool TwitchShouldCancelCommand;
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning restore IDE0032 // Use auto property
+
+        /// <value>
+        /// Determines if it is in Time Mode, where solves change the timer. This is useful for modules that use the timer's value.
+        /// </value>
+        /// <remarks>
+        /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
+        /// </remarks>
+        public bool IsTimeMode => TimeModeActive;
+#pragma warning disable IDE0032 // Use auto property
+#pragma warning disable IDE0044 // Add readonly modifier
+        private bool TimeModeActive;
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning restore IDE0032 // Use auto property
+
+        /// <value>
+        /// Determines if Twitch Plays is currently active. This is for modules that need to display different items, or use different rules if Twitch Plays is active.
+        /// </value>
+        /// <remarks>
+        /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
+        /// </remarks>
+        public bool IsTP => TwitchPlaysActive;
+#pragma warning disable IDE0032 // Use auto property
+#pragma warning disable IDE0044 // Add readonly modifier
+        private bool TwitchPlaysActive;
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning restore IDE0032 // Use auto property
+
+        /// <value>
+        /// Determines if the timer is counting up instead of down, for special cases, such as controlling how to sort button release times, or whether there is a low timer event or not.
+        /// </value>
+        /// <remarks>
+        /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
+        /// </remarks>
+        public bool IsZenMode => ZenModeActive;
+#pragma warning disable IDE0032 // Use auto property
+#pragma warning disable IDE0044 // Add readonly modifier
+        private bool ZenModeActive;
 #pragma warning restore IDE0044 // Add readonly modifier
 #pragma warning restore IDE0032 // Use auto property
 
@@ -46,7 +85,7 @@ namespace KeepCoding
         /// <remarks>
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
-        protected List<KMBombModule> AbandonModule { get => TwitchAbandonModule; set => TwitchAbandonModule = value; }
+        public List<KMBombModule> AbandonModule { get => TwitchAbandonModule; set => TwitchAbandonModule = value; }
 #pragma warning disable IDE0032 // Use auto property
         private List<KMBombModule> TwitchAbandonModule;
 #pragma warning restore IDE0032 // Use auto property
