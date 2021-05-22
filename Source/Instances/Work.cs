@@ -228,7 +228,7 @@ namespace KeepCoding
 
             ThreadsActive++;
 
-            Thread = new(() =>
+            Thread = new Thread(() =>
             {
                 Result = _work.NullCheck($"The variable {nameof(_work)} cannot be null.")(arg1, arg2, arg3);
                 IsRunning = false;

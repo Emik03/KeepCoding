@@ -126,7 +126,7 @@ namespace KeepCoding
                 {
                     var setting = KTScene.Instance.GameplayState.Mission.GeneratorSetting;
 
-                    return new(
+                    return new GeneratorSetting(
                         setting.FrontFaceOnly, 
                         setting.OptionalWidgetCount, 
                         setting.NumStrikes, 

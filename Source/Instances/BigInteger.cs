@@ -433,7 +433,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="value">The value to convert into <see cref="BigInteger"/>.</param>
         /// <returns><see cref="BigInteger"/> with value <paramref name="value"/>.</returns>
-        public static implicit operator BigInteger(int value) => new(value);
+        public static implicit operator BigInteger(int value) => new BigInteger(value);
 
         /// <summary>
         /// Converts the <see cref="BigInteger"/> to a <see cref="long"/>.
