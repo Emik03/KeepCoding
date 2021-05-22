@@ -424,6 +424,8 @@ namespace KeepCoding
 
         private void LogMultiple(in string[] logs) => logs.ForEach(s => Log(s));
 
+        private static short VersionToNumber(string s) => short.Parse(s.Replace(".", "").PadRight(4, '0'));
+
         private IEnumerator EditorCheckLatest()
         {
             if (!IsEditor)
@@ -439,8 +441,8 @@ namespace KeepCoding
                 yield break;
             }
 
-            if (req.downloadHandler.text.Trim() != PathManager.GetVersionLibrary().ProductVersion)
-                Log($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.GetVersionLibrary().ProductVersion}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases", LogType.Error);
+            if (VersionToNumber(PathManager.Version().ProductVersion) < VersionToNumber(req.downloadHandler.text.Trim()))
+                Log($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.Version().ProductVersion}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases", LogType.Error);
         }
 
         private IEnumerator BombTime(KMBombInfo bombInfo)
