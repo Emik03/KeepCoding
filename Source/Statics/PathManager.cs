@@ -134,8 +134,6 @@ namespace KeepCoding
 
             string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
 
-            Log($"The path to load {libraryFileName} as called from {bundleFileName} is: {path}.");
-
             CopyLibrary(in libraryFileName, in path);
         }
 
@@ -174,8 +172,6 @@ namespace KeepCoding
             
             yield return videos;
         }
-
-        internal static void Log(in string message) => Debug.Log($"[Keep Coding] {message}");
 
         internal static FileVersionInfo Version() => FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
 

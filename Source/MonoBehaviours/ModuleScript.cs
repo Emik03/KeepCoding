@@ -455,7 +455,7 @@ namespace KeepCoding
 
             if (req.isNetworkError || req.isHttpError)
             {
-                PathManager.Log("The KeepCoding version could not be pulled, presumably because the user is offline.");
+                Log("The KeepCoding version could not be pulled, presumably because the user is offline.");
                 yield break;
             }
 
