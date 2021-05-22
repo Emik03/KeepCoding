@@ -4,7 +4,7 @@ using UnityEngine;
 namespace KeepCoding
 {
     /// <summary>
-    /// Interface for regular and needy modded modules. Written by Emik.
+    /// Interface for solvable and needy modded modules. Written by Emik.
     /// </summary>
     public interface IModule
     {
@@ -35,5 +35,23 @@ namespace KeepCoding
         /// Called when the timer's seconds-digit changes.
         /// </summary>
         public void OnTimerTick();
+
+        /// <summary>
+        /// Called when any module on the current bomb has been solved.
+        /// </summary>
+        /// <param name="moduleId">The sender's module id, which caused a strike.</param>
+        public void OnModuleStrike(string moduleId);
+
+        /// <summary>
+        /// Called when any <see cref="KMNeedyModule"/> on the current bomb has been solved.
+        /// </summary>
+        /// <param name="moduleId">The sender's module id, which was solved.</param>
+        public void OnNeedySolved(string moduleId);
+
+        /// <summary>
+        /// Called when any <see cref="KMBombModule"/> on the current bomb has been solved.
+        /// </summary>
+        /// <param name="moduleId">The sender's module id, which was solved.</param>
+        public void OnSolvableSolved(string moduleId);
     }
 }

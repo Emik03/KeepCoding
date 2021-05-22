@@ -5,22 +5,22 @@ using UnityEngine;
 namespace KeepCoding
 {
     /// <summary>
-    /// Container for both regular and needy modules. Written by Emik.
+    /// Container for both solvable and needy modules. Written by Emik.
     /// </summary>
     public sealed class ModuleContainer : IEquatable<ModuleContainer>
     {
         /// <summary>
-        /// Encapsulates either a regular or needy module.
+        /// Encapsulates either a solvable or needy module.
         /// </summary>
         /// <exception cref="ConstructorArgumentException"></exception>
-        /// <param name="regular">The instance of a normal module.</param>
+        /// <param name="solvable">The instance of a normal module.</param>
         /// <param name="needy">The instance of a needy module.</param>
-        public ModuleContainer(KMBombModule regular = null, KMNeedyModule needy = null)
+        public ModuleContainer(KMBombModule solvable = null, KMNeedyModule needy = null)
         {
-            if ((bool)regular == needy)
-                throw new ConstructorArgumentException(regular ? "Both KMBombModule and KMNeedyModule are assigned, which will mean that it is unable to return both when calling a function that returns a single MonoBehaviour." : "Both KMBombModule and KMNeedyModule is null, and since this data type is immutable after the constructor, it is unable to return anything.");
+            if ((bool)solvable == needy)
+                throw new ConstructorArgumentException(solvable ? "Both KMBombModule and KMNeedyModule are assigned, which will mean that it is unable to return both when calling a function that returns a single MonoBehaviour." : "Both KMBombModule and KMNeedyModule is null, and since this data type is immutable after the constructor, it is unable to return anything.");
             
-            _bombModule = regular;
+            _bombModule = solvable;
             _needyModule = needy;
         }
 
@@ -94,7 +94,7 @@ namespace KeepCoding
         /// Returns <see cref="KMBombModule"/>, or if null, throws a <see cref="NullReferenceException"/>.
         /// </value>
         /// <exception cref="NullReferenceException"></exception>
-        public KMBombModule Regular => _bombModule.NullCheck("KMBombModule is null, yet you are trying to access it.");
+        public KMBombModule Solvable => _bombModule.NullCheck("KMBombModule is null, yet you are trying to access it.");
 
         /// <value>
         /// Returns <see cref="KMNeedyModule"/>, or if null, throws a <see cref="NullReferenceException"/>.
@@ -108,11 +108,11 @@ namespace KeepCoding
         public MonoBehaviour Module => _bombModule ?? (MonoBehaviour)_needyModule;
 
         /// <summary>
-        /// Creates a new instance of <see cref="ModuleContainer"/> where <see cref="Regular"/> is defined.
+        /// Creates a new instance of <see cref="ModuleContainer"/> where <see cref="Solvable"/> is defined.
         /// </summary>
-        /// <param name="regular">The regular module to create a new <see cref="ModuleContainer"/> of.</param>
-        /// <returns>A <see cref="ModuleContainer"/> with parameter <paramref name="regular"/>.</returns>
-        public static implicit operator ModuleContainer(KMBombModule regular) => new(regular: regular);
+        /// <param name="solvable">The solvable module to create a new <see cref="ModuleContainer"/> of.</param>
+        /// <returns>A <see cref="ModuleContainer"/> with parameter <paramref name="solvable"/>.</returns>
+        public static implicit operator ModuleContainer(KMBombModule solvable) => new(solvable: solvable);
 
         /// <summary>
         /// Creates a new instance of <see cref="ModuleContainer"/> where <see cref="Needy"/> is defined.
@@ -122,11 +122,11 @@ namespace KeepCoding
         public static implicit operator ModuleContainer(KMNeedyModule needy) => new(needy: needy);
 
         /// <summary>
-        /// Returns the instance of <see cref="KMBombModule"/> from <see cref="Regular"/>.
+        /// Returns the instance of <see cref="KMBombModule"/> from <see cref="Solvable"/>.
         /// </summary>
         /// <param name="container">The <see cref="ModuleContainer"/> to get the <see cref="KMBombModule"/> from.</param>
-        /// <returns>A <see cref="KMBombModule"/> from <see cref="Regular"/>.</returns>
-        public static explicit operator KMBombModule(ModuleContainer container) => container.Regular;
+        /// <returns>A <see cref="KMBombModule"/> from <see cref="Solvable"/>.</returns>
+        public static explicit operator KMBombModule(ModuleContainer container) => container.Solvable;
 
         /// <summary>
         /// Returns the instance of <see cref="KMNeedyModule"/> from <see cref="Needy"/>.

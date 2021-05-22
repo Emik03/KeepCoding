@@ -12,7 +12,7 @@ using static KMSoundOverride;
 namespace KeepCoding
 {
     /// <summary>
-    /// Base class for regular and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
+    /// Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
     /// </summary>
     [RequireComponent(typeof(ModBundle))]
     public abstract class ModuleScript : MonoBehaviour, IModule
@@ -106,7 +106,7 @@ namespace KeepCoding
             _setActive = () =>
             {
                 if (Get<KMBombInfo>(allowNull: true) is KMBombInfo bombInfo)
-                    StartCoroutine(BombTime(bombInfo));
+                    StartCoroutine(BombInfo(bombInfo));
                 IsActive = true;
                 OnActivate();
             };
@@ -249,6 +249,12 @@ namespace KeepCoding
         /// Called when the timer's seconds-digit changes.
         /// </summary>
         public virtual void OnTimerTick() { }
+
+        /// <summary>
+        /// Called when any module on the current bomb has been solved.
+        /// </summary>
+        /// <param name="moduleId">The sender's module id, which was solved.</param>
+        public virtual void OnModuleSolved(string moduleId) { }
 
         /// <summary>
         /// Sends information to a static variable such that other modules can access it.
@@ -445,8 +451,17 @@ namespace KeepCoding
                 Log($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.Version().ProductVersion}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Error);
         }
 
-        private IEnumerator BombTime(KMBombInfo bombInfo)
+        private IEnumerator BombInfo(KMBombInfo bombInfo)
         {
+            var bomb = GetComponentInParent<KMBomb>();
+
+            var solvables = bomb.GetComponentsInChildren<KMBombModule>();
+            var needies = bomb.GetComponentsInChildren<KMBombModule>();
+
+            solvables.ForEach(m => m.OnPass += () => false.Call(b => OnModuleSolved(m.ModuleType)));
+
+            solvables.ForEach(m => m.OnPass += () => false.Call(b => OnModuleSolved(m.ModuleType)));
+
             while (true)
             {
                 CheckForTime(in bombInfo);
