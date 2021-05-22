@@ -253,8 +253,20 @@ namespace KeepCoding
         /// <summary>
         /// Called when any module on the current bomb has been solved.
         /// </summary>
+        /// <param name="moduleId">The sender's module id, which caused a strike.</param>
+        public virtual void OnModuleStrike(string moduleId) { }
+
+        /// <summary>
+        /// Called when any <see cref="KMNeedyModule"/> on the current bomb has been solved.
+        /// </summary>
         /// <param name="moduleId">The sender's module id, which was solved.</param>
-        public virtual void OnModuleSolved(string moduleId) { }
+        public virtual void OnNeedySolved(string moduleId) { }
+
+        /// <summary>
+        /// Called when any <see cref="KMBombModule"/> on the current bomb has been solved.
+        /// </summary>
+        /// <param name="moduleId">The sender's module id, which was solved.</param>
+        public virtual void OnSolvableSolved(string moduleId) { }
 
         /// <summary>
         /// Sends information to a static variable such that other modules can access it.
@@ -457,10 +469,18 @@ namespace KeepCoding
 
             var solvables = bomb.GetComponentsInChildren<KMBombModule>();
             var needies = bomb.GetComponentsInChildren<KMBombModule>();
+            
+            solvables.ForEach(m => 
+            {
+                m.OnPass += () => false.Call(b => OnSolvableSolved(m.ModuleType));
+                m.OnStrike += () => false.Call(b => OnModuleStrike(m.ModuleType));
+            });
 
-            solvables.ForEach(m => m.OnPass += () => false.Call(b => OnModuleSolved(m.ModuleType)));
-
-            solvables.ForEach(m => m.OnPass += () => false.Call(b => OnModuleSolved(m.ModuleType)));
+            needies.ForEach(m =>
+            {
+                m.OnPass += () => false.Call(b => OnNeedySolved(m.ModuleType));
+                m.OnStrike += () => false.Call(b => OnModuleStrike(m.ModuleType));
+            });
 
             while (true)
             {
