@@ -100,7 +100,7 @@ namespace KeepCoding
             /// <value>
             /// Determines whether or not all pacing events are enabled.
             /// </value>
-            public static bool IsPacingEventsOn => KTScene.Instance.GameplayState.Mission.PacingEventsEnabled;
+            public static bool IsPacingEvents => KTScene.Instance.GameplayState.Mission.PacingEventsEnabled;
 
             /// <value>
             /// The description as it appears in the bomb binder.
