@@ -164,26 +164,6 @@ namespace KeepCoding
         protected const string HideCamera = "hide camera";
 
         /// <summary>
-        /// Sends a message to the Twitch Plays mod.
-        /// </summary>
-        /// <param name="message">The message to send.</param>
-        /// <param name="args">The variables to format into message.</param>
-        public static void Send(string message, params object[] args)
-        {
-            string send = message.Form(args);
-
-            try
-            {
-                IRCConnection.SendMessage(send);
-                Debug.Log($"Sent message to Twitch Plays: {send}");
-            }
-            catch (Exception ex) when (ex is DllNotFoundException || ex is FileNotFoundException) 
-            {
-                Debug.LogError($"Failed to send message to Twitch Plays: {send}");
-            }
-        }
-
-        /// <summary>
         /// When a command is typed into Twitch Plays with the Id of this module, it calls this method and passes in the exact command typed.
         /// </summary>
         /// <remarks>
