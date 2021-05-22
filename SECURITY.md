@@ -9,7 +9,7 @@ To ensure that your modules remain stable, ensure that your version of `KeepCodi
 
 | Version       | Supported          |
 | ------------- | ------------------ |
-| 1.8.2+        | :white_check_mark: |
+| 1.9+          | :white_check_mark: |
 | 1.7.1 - 1.8.1 | :x:                |
 | 1.6.2 - 1.7   | :white_check_mark: |
 | 1.6 - 1.6.1   | :x:                |
