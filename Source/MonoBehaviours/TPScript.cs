@@ -80,7 +80,7 @@ namespace KeepCoding
 #pragma warning restore IDE0032 // Use auto property
 
         /// <value>
-        /// Declaring this field allows for Twitch Plays to inform the module that the bomb is in Time Mode, where solves change the timer. This is useful for modules that use the timer's value.
+        /// This list contains modules that it should stop processing. Currently, the only module that uses this capability is Souvenir.
         /// </value>
         /// <remarks>
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
