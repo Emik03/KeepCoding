@@ -442,7 +442,7 @@ namespace KeepCoding
             }
 
             if (VersionToNumber(PathManager.Version().ProductVersion) < VersionToNumber(req.downloadHandler.text.Trim()))
-                Log($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.Version().ProductVersion}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases", LogType.Error);
+                Log($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.Version().ProductVersion}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Error);
         }
 
         private IEnumerator BombTime(KMBombInfo bombInfo)
