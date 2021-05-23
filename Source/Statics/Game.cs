@@ -1,12 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using static KeepCoding.ComponentPool;
-using Connection = IRCConnection;
-using KTInfo = Assets.Scripts.Mods.ModInfo;
-using KTInput = KTInputManager;
-using KTMod = ModManager;
-using KTPlayer = Assets.Scripts.Settings.PlayerSettingsManager;
-using KTScene = SceneManager;
+using UnityEngine;
 
 namespace KeepCoding
 {
@@ -86,19 +80,19 @@ namespace KeepCoding
             /// Sends a message to the chat.
             /// </value>
             /// <remarks>Arguments: <c>message</c>.</remarks>
-            public static Action<string> SendMessage => Connection.SendMessage;
+            public static Action<string> SendMessage => message => Debug.Log($"Sending message to chat: {message}");
 
             /// <value>
             /// Sends a message to the chat.
             /// </value>
             /// <remarks>Arguments: <c>message</c> and <c>args</c>.</remarks>
-            public static Action<string, object[]> SendMessageFormat => Connection.SendMessageFormat;
+            public static Action<string, object[]> SendMessageFormat => (message, args) => Debug.Log($"Sending message to chat: {message.Form(args)}");
                            
             /// <value>
             /// Whispers a message to a person.
             /// </value>
             /// <remarks>Arguments: <c>userNickName</c>, <c>message</c>, and <c>args</c>.</remarks>
-            public static Action<string, string, object[]> SendWhisper => Connection.SendWhisper;
+            public static Action<string, string, object[]> SendWhisper => (userNickName, message, args) => Debug.Log($"Whispering message to user {userNickName}: {message.Form(args)}");
         }
 
         /// <summary>
@@ -114,7 +108,7 @@ namespace KeepCoding
             /// <value>
             /// The current way the game is being controlled.
             /// </value>
-            public static ControlType CurrentControlType => (ControlType)KTInput.Instance.CurrentControlType;
+            public static ControlType CurrentControlType => ControlType.Mouse;
         }
 
         /// <summary>
@@ -125,58 +119,27 @@ namespace KeepCoding
             /// <value>
             /// Determines whether or not all pacing events are enabled.
             /// </value>
-            public static bool IsPacingEvents => KTScene.Instance.GameplayState.Mission.PacingEventsEnabled;
+            public static bool IsPacingEvents => false;
 
             /// <value>
             /// The description as it appears in the bomb binder.
             /// </value>
-            public static string Description => Localization.GetLocalizedString(KTScene.Instance.GameplayState.Mission.DescriptionTerm);
+            public static string Description => "Everybody has to start somewhere. Let's just hope it doesn't end here too.\n\nMake sure your experts have the manual and are ready to help.";
 
             /// <value>
             /// The mission name as it appears in the bomb binder.
             /// </value>
-            public static string DisplayName => Localization.GetLocalizedString(KTScene.Instance.GameplayState.Mission.DisplayNameTerm);
+            public static string DisplayName => "The First Bomb";
 
             /// <value>
             /// The ID of the mission.
             /// </value>
-            public static string ID => KTScene.Instance.GameplayState.Mission.ID;
+            public static string ID => "firsttime";
 
             /// <value>
             /// Gets the generator setting of the mission.
             /// </value>
-            public static GeneratorSetting GeneratorSetting
-            {
-                get
-                {
-                    var setting = KTScene.Instance.GameplayState.Mission.GeneratorSetting;
-                    var list = new List<ComponentPool>();
-
-                    foreach (var pool in setting.ComponentPools)
-                    {
-                        var types = new List<ComponentTypeEnum>();
-
-                        foreach (var type in pool.ComponentTypes)
-                            types.Add((ComponentTypeEnum)type);
-
-                        list.Add(new ComponentPool(
-                            pool.Count,
-                            (ComponentSource)pool.AllowedSources,
-                            (SpecialComponentTypeEnum)pool.SpecialComponentType,
-                            pool.ModTypes,
-                            types));
-                    }
-
-                    return new GeneratorSetting(
-                        setting.FrontFaceOnly,
-                        setting.OptionalWidgetCount,
-                        setting.NumStrikes,
-                        setting.TimeBeforeNeedyActivation,
-                        setting.TimeLimit,
-                        list
-                        );
-                }
-            }
+            public static GeneratorSetting GeneratorSetting => new GeneratorSetting();
         }
 
         /// <summary>
@@ -187,17 +150,17 @@ namespace KeepCoding
             /// <value>
             /// Gets all of the disabled mod paths.
             /// </value>
-            public static Func<List<string>> GetDisabledModPaths => KTMod.Instance.GetDisabledModPaths;
+            public static Func<List<string>> GetDisabledModPaths => () => new List<string>();
 
             /// <value>
             /// Gets all of the mod paths within the <see cref="ModSourceEnum"/> constraint.
             /// </value>
-            public static Func<ModSourceEnum, List<string>> GetAllModPathsFromSource => source => KTMod.Instance.GetAllModPathsFromSource((KTInfo.ModSourceEnum)source);
+            public static Func<ModSourceEnum, List<string>> GetAllModPathsFromSource => source => new List<string>();
 
             /// <value>
             /// Gets all of the enabled mod paths within the <see cref="ModSourceEnum"/> constraint.
             /// </value>
-            public static Func<ModSourceEnum, List<string>> GetEnabledModPaths => source => KTMod.Instance.GetEnabledModPaths((KTInfo.ModSourceEnum)source);
+            public static Func<ModSourceEnum, List<string>> GetEnabledModPaths => source => new List<string>();
         }
 
         /// <summary>
@@ -208,82 +171,82 @@ namespace KeepCoding
             /// <value>
             /// Determines if vertical tilting is flipped or not.
             /// </value>
-            public static bool InvertTiltControls => KTPlayer.Instance.PlayerSettings.InvertTiltControls;
+            public static bool InvertTiltControls => false;
 
             /// <value>
             /// Determines if the option to lock the mouse to the window is enabled.
             /// </value>
-            public static bool LockMouseToWindow => KTPlayer.Instance.PlayerSettings.LockMouseToWindow;
+            public static bool LockMouseToWindow => false;
 
             /// <value>
             /// Determines if the option to show the leaderboards from the pamphlet.
             /// </value>
-            public static bool ShowLeaderBoards => KTPlayer.Instance.PlayerSettings.ShowLeaderBoards;
+            public static bool ShowLeaderBoards => true;
 
             /// <value>
             /// Determines if the option to show the rotation of the User Interface is enabled.
             /// </value>
-            public static bool ShowRotationUI => KTPlayer.Instance.PlayerSettings.ShowRotationUI;
+            public static bool ShowRotationUI => true;
 
             /// <value>
             /// Determines if the option to show scanlines is enabled.
             /// </value>
-            public static bool ShowScanline => KTPlayer.Instance.PlayerSettings.ShowScanline;
+            public static bool ShowScanline => true;
 
             /// <value>
             /// Determines if the option to skip the title screen is enabled.
             /// </value>
-            public static bool SkipTitleScreen => KTPlayer.Instance.PlayerSettings.SkipTitleScreen;
+            public static bool SkipTitleScreen => false;
 
             /// <value>
             /// Determines if the VR or regular controllers vibrate.
             /// </value>
-            public static bool RumbleEnabled => KTPlayer.Instance.PlayerSettings.RumbleEnabled;
+            public static bool RumbleEnabled => false;
 
             /// <value>
             /// Determines if the touchpad controls are inverted.
             /// </value>
-            public static bool TouchpadInvert => KTPlayer.Instance.PlayerSettings.TouchpadInvert;
+            public static bool TouchpadInvert => false;
 
             /// <value>
             /// Determines if the option to always use mods is enabled.
             /// </value>
-            public static bool UseModsAlways => KTPlayer.Instance.PlayerSettings.UseModsAlways;
+            public static bool UseModsAlways => false;
 
             /// <value>
             /// Determines if the option to use parallel/simultaneous mod loading is enabled.
             /// </value>
-            public static bool UseParallelModLoading => KTPlayer.Instance.PlayerSettings.UseParallelModLoading;
+            public static bool UseParallelModLoading => false;
 
             /// <value>
             /// Determines if VR mode is requested.
             /// </value>
-            public static bool VRModeRequested => KTPlayer.Instance.PlayerSettings.VRModeRequested;
+            public static bool VRModeRequested => true;
 
             /// <value>
             /// The intensity of anti-aliasing currently on the game. Ranges 0 to 8.
             /// </value>
-            public static int AntiAliasing => KTPlayer.Instance.PlayerSettings.AntiAliasing;
+            public static int AntiAliasing => 8;
 
             /// <value>
             /// The current music volume from the dossier menu. Ranges 0 to 100.
             /// </value>
-            public static int MusicVolume => KTPlayer.Instance.PlayerSettings.MusicVolume;
+            public static int MusicVolume => 100;
 
             /// <value>
             /// The current sound effects volume from the dosssier menu. Ranges 0 to 100.
             /// </value>
-            public static int SFXVolume => KTPlayer.Instance.PlayerSettings.SFXVolume;
+            public static int SFXVolume => 100;
 
             /// <value>
             /// Determines if VSync is on or off.
             /// </value>
-            public static int VSync => KTPlayer.Instance.PlayerSettings.VSync;
+            public static int VSync => 1;
 
             /// <value>
             /// The current language code.
             /// </value>
-            public static string LanguageCode => KTPlayer.Instance.PlayerSettings.LanguageCode;
+            public static string LanguageCode => "en";
         }
     }
 }
