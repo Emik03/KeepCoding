@@ -67,7 +67,7 @@ namespace KeepCoding
         /// <exception cref="NullIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
         /// <param name="bundleFileName">The name of the bundle assembly.</param>
-        /// <returns>The version number of the mod.</returns>
+        /// <returns>A <see cref="ModInfo"/> of the mod info json file located in the mod.</returns>
         public static ModInfo GetModInfo(string bundleFileName)
         {
             bundleFileName.NullOrEmptyCheck("You cannot retrieve a mod's modInfo.json if the bundle file name is null or empty.");
@@ -81,6 +81,13 @@ namespace KeepCoding
 
             return SetCache(current, ModInfo.Deserialize($"{path}{GetSlashType(in path)}modInfo.json"));
         }
+
+        /// <summary>
+        /// Gets the path and deserializes the modInfo.json located at every mod's root folder.
+        /// </summary>
+        /// <param name="modBundle">The bundle component.</param>
+        /// <returns>A <see cref="ModInfo"/> of the mod info json file located in the mod.</returns>
+        public static ModInfo GetModInfo(ModBundle modBundle) => GetModInfo(modBundle.NullCheck("You cannot pass in a null mod bundle when getting mod info!").Name);
 
         /// <summary>
         /// Finds a path of a given file within each mod.
@@ -138,6 +145,19 @@ namespace KeepCoding
         }
 
         /// <summary>
+        /// Loads a library by searching for the bundle. Do not run this on the Editor.
+        /// </summary>
+        /// <remarks>
+        /// If the library has already been loaded, then this method will prematurely halt.
+        /// </remarks>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <param name="modBundle">The bundle component.</param>
+        /// <param name="libraryFileName">The library's name, excluding the extension.</param>
+        public static void LoadLibrary(ModBundle modBundle, string libraryFileName) => LoadLibrary(modBundle.NullCheck("The mod bundle is null, which is needed to get the path of the library!").Name, libraryFileName);
+
+        /// <summary>
         /// Gets the video clips, the last yield return contains all of the videos.
         /// </summary>
         /// <exception cref="EmptyIteratorException"></exception>
@@ -172,6 +192,17 @@ namespace KeepCoding
             
             yield return videos;
         }
+
+        /// <summary>
+        /// Gets the video clips, the last yield return contains all of the videos.
+        /// </summary>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <param name="modBundle">The mod bundle component.</param>
+        /// <param name="bundleVideoFileName">The name of the bundle that contains videos.</param>
+        /// <returns>The <see cref="AssetBundleCreateRequest"/> needed to load the files, followed by the <see cref="VideoClip"/> <see cref="Array"/>.</returns>
+        public static IEnumerator LoadVideoClips(ModBundle modBundle, string bundleVideoFileName) => LoadVideoClips(modBundle.NullCheck("You cannot load a video if the mod bundle is null, and therefore its path cannot be located."), bundleVideoFileName);
 
         internal static FileVersionInfo Version() => FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
 
