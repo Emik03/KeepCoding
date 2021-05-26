@@ -21,6 +21,15 @@ namespace KeepCoding
     /// </summary>
     public static class PathManager
     {
+        /// <summary>
+        /// Gets the current library's version number. Currently used by <see cref="ModuleScript"/> to log the version number of this library.
+        /// </summary>
+        /// <remarks>
+        /// If you want the version number of your modules, refer to <see cref="ModuleScript.Version"/> instead, or <see cref="GetModInfo(ModBundle)"/>.
+        /// </remarks>
+        /// <returns>The version of this library.</returns>
+        public static Version Version => Assembly.GetExecutingAssembly().GetName().Version;
+
         private const string
             FileExtensionBundle = "bundle",
             FileExtensionLinux = "so",
@@ -203,8 +212,6 @@ namespace KeepCoding
         /// <param name="bundleVideoFileName">The name of the bundle that contains videos.</param>
         /// <returns>The <see cref="AssetBundleCreateRequest"/> needed to load the files, followed by the <see cref="VideoClip"/> <see cref="Array"/>.</returns>
         public static IEnumerator LoadVideoClips(ModBundle modBundle, string bundleVideoFileName) => LoadVideoClips(modBundle.NullCheck("You cannot load a video if the mod bundle is null, and therefore its path cannot be located."), bundleVideoFileName);
-
-        internal static FileVersionInfo Version() => FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
 
         private static void CopyLibrary(in string libraryFileName, in string path)
         {

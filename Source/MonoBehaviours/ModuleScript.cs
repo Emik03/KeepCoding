@@ -123,6 +123,8 @@ namespace KeepCoding
 
             ModuleId = _moduleIds.SetOrReplace(Module.ModuleType, i => ++i);
 
+            Debug.Log($"The module \"{Module.ModuleDisplayName}\" ({Module.ModuleType}) uses KeepCoding version {PathManager.Version}.");
+
             Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
 
             StartCoroutine(EditorCheckLatest());
@@ -442,7 +444,7 @@ namespace KeepCoding
 
         private void LogMultiple(in string[] logs) => logs.ForEach(s => Log(s));
 
-        private static short VersionToNumber(string s) => short.Parse(s.Replace(".", "").PadRight(4, '0'));
+        private static uint VersionToNumber(string s) => uint.Parse(s.Replace(".", "").PadRight(9, '0'));
 
         private IEnumerator EditorCheckLatest()
         {
@@ -459,8 +461,8 @@ namespace KeepCoding
                 yield break;
             }
 
-            if (VersionToNumber(PathManager.Version().ProductVersion) < VersionToNumber(req.downloadHandler.text.Trim()))
-                Log($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.Version().ProductVersion}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Error);
+            if (VersionToNumber(PathManager.Version.ToString()) < VersionToNumber(req.downloadHandler.text.Trim()))
+                Log($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Error);
         }
 
         private IEnumerator BombInfo(KMBombInfo bombInfo)
