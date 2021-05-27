@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -303,8 +301,8 @@ namespace KeepCoding
 
         private static string AppendIfNotNullOrEmpty(string main, params object[] toAppend)
         {
-            for (int i = 0; i < toAppend.LengthOrDefault(); i++)
-                main += ' ' + toAppend[i].ToString();
+            if (!toAppend.IsNullOrEmpty())
+                toAppend.ForEach(s => main += $" {s}");
 
             return main;
         }
