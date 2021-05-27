@@ -150,6 +150,7 @@ namespace KeepCoding
                 get
                 {
                     var setting = KTScene.Instance.GameplayState.Mission.GeneratorSetting;
+
                     var list = new List<ComponentPool>();
 
                     foreach (var pool in setting.ComponentPools)
@@ -173,8 +174,7 @@ namespace KeepCoding
                         setting.NumStrikes,
                         setting.TimeBeforeNeedyActivation,
                         setting.TimeLimit,
-                        list
-                        );
+                        list);
                 }
             }
         }
