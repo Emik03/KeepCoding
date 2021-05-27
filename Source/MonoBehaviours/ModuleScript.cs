@@ -36,7 +36,7 @@ namespace KeepCoding
         /// <value>
         /// Determines whether this module is the last instantiated instance.
         /// </value>
-        public bool IsLastInstantiated => ModuleId == _moduleIds[Module.ModuleType];
+        public bool IsLastInstantiated => ModuleId == _moduleIds[Module.Id];
 
         /// <value>
         /// Determines whether the needy is active.
@@ -114,9 +114,9 @@ namespace KeepCoding
 
             Module.OnActivate(_setActive);
 
-            ModuleId = _moduleIds.SetOrReplace(Module.ModuleType, i => ++i);
+            ModuleId = _moduleIds.SetOrReplace(Module.Id, i => ++i);
 
-            Debug.Log($"The module \"{Module.ModuleDisplayName}\" ({Module.ModuleType}) uses KeepCoding version {PathManager.Version}.");
+            Debug.Log($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
 
             Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
 
@@ -176,7 +176,7 @@ namespace KeepCoding
             type.GetFields(Helper.Flags).ForEach(f => values.Add(Format(f.Name, f.GetValue(this))));
             type.GetProperties(Helper.Flags).ForEach(p => values.Add(Format(p.Name, p.GetValue(this, null))));
 
-            Debug.LogWarning(Helper.DumpTemplate.Form(Module.ModuleDisplayName, ModuleId, string.Join("", values.Select(o => string.Join("", o.Unwrap(getVariables).Select(o => o.ToString()).ToArray())).ToArray())));
+            Debug.LogWarning(Helper.DumpTemplate.Form(Module.Name, ModuleId, string.Join("", values.Select(o => string.Join("", o.Unwrap(getVariables).Select(o => o.ToString()).ToArray())).ToArray())));
         }
 
         /// <summary>
@@ -184,7 +184,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
         /// <param name="logs">All of the variables to throughly log.</param>
-        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => Debug.LogWarning(Helper.DumpTemplate.Form(Module.ModuleDisplayName, ModuleId, string.Join("", logs.Select((l, n) => Helper.VariableTemplate.Form(n, Helper.NameOfVariable(l), l.Compile()()?.GetType().ToString() ?? Helper.Null, string.Join(", ", l.Compile()().Unwrap(getVariables).Select(o => o.ToString()).ToArray()))).ToArray())));
+        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => Debug.LogWarning(Helper.DumpTemplate.Form(Module.Name, ModuleId, string.Join("", logs.Select((l, n) => Helper.VariableTemplate.Form(n, Helper.NameOfVariable(l), l.Compile()()?.GetType().ToString() ?? Helper.Null, string.Join(", ", l.Compile()().Unwrap(getVariables).Select(o => o.ToString()).ToArray()))).ToArray())));
 
         /// <summary>
         /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
@@ -204,7 +204,7 @@ namespace KeepCoding
             LogMultiple(in logs);
 
             IsSolved = true;
-            Module.HandlePass();
+            Module.Pass();
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace KeepCoding
             LogMultiple(in logs);
 
             HasStruck = true;
-            Module.HandleStrike();
+            Module.Strike();
         }
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="message">The message to log.</param>
         /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
-        public void Log<T>(T message, LogType logType = LogType.Log) => logType.Log()($"[{Module.ModuleDisplayName} #{ModuleId}] {message.UnwrapToString()}");
+        public void Log<T>(T message, LogType logType = LogType.Log) => logType.Log()($"[{Module.Name} #{ModuleId}] {message.UnwrapToString()}");
 
         /// <summary>
         /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
@@ -274,18 +274,18 @@ namespace KeepCoding
         /// <param name="value">The value to store in the key.</param>
         public void Write<T>(string key, T value)
         {
-            if (!_database.ContainsKey(Module.ModuleType))
-                _database.Add(Module.ModuleType, new Dictionary<string, object>[] { });
+            if (!_database.ContainsKey(Module.Id))
+                _database.Add(Module.Id, new Dictionary<string, object>[] { });
 
-            int index = _moduleIds[Module.ModuleType] - ModuleId;
+            int index = _moduleIds[Module.Id] - ModuleId;
 
-            while (index >= _database[Module.ModuleType].Length)
-                _database[Module.ModuleType].Append(new Dictionary<string, object>());
+            while (index >= _database[Module.Id].Length)
+                _database[Module.Id].Append(new Dictionary<string, object>());
 
-            if (!_database[Module.ModuleType][index].ContainsKey(key))
-                _database[Module.ModuleType][index].Add(key, null);
+            if (!_database[Module.Id][index].ContainsKey(key))
+                _database[Module.Id][index].Add(key, null);
 
-            _database[Module.ModuleType][index][key] = value;
+            _database[Module.Id][index][key] = value;
         }
 
         /// <summary>
@@ -511,7 +511,7 @@ namespace KeepCoding
 
             static bool Run(ModuleContainer module, Action<string> action)
             {
-                action(module.ModuleType);
+                action(module.Id);
                 return false;
             }
 

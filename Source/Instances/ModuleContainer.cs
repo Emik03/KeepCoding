@@ -39,7 +39,7 @@ namespace KeepCoding
         /// The nice display name shown to players. e.g. "The Button"
         /// </value>
         /// <exception cref="UnrecognizedTypeException"></exception>
-        public string ModuleDisplayName => Module switch
+        public string Name => Module switch
         {
             KMBombModule bombModule => bombModule.ModuleDisplayName,
             KMNeedyModule needyModule => needyModule.ModuleDisplayName,
@@ -50,7 +50,7 @@ namespace KeepCoding
         /// The identifier for the module as referenced in missions. e.g. "BigButton" Also known as a "Module ID".
         /// </value>
         /// <exception cref="UnrecognizedTypeException"></exception>
-        public string ModuleType => Module switch
+        public string Id => Module switch
         {
             KMBombModule bombModule => bombModule.ModuleType,
             KMNeedyModule needyModule => needyModule.ModuleType,
@@ -61,7 +61,7 @@ namespace KeepCoding
         /// Call this when the entire module has been solved.
         /// </value>
         /// <exception cref="UnrecognizedTypeException"></exception>
-        public Action HandlePass => Module switch
+        public Action Pass => Module switch
         {
             KMBombModule bombModule => bombModule.HandlePass,
             KMNeedyModule needyModule => needyModule.HandlePass,
@@ -72,7 +72,7 @@ namespace KeepCoding
         /// Call this on any mistake that you want to cause a bomb strike.
         /// </value>
         /// <exception cref="UnrecognizedTypeException"></exception>
-        public Action HandleStrike => Module switch
+        public Action Strike => Module switch
         {
             KMBombModule bombModule => bombModule.HandleStrike,
             KMNeedyModule needyModule => needyModule.HandleStrike,
@@ -83,7 +83,7 @@ namespace KeepCoding
         /// Returns the random seed used to generate the rules for this game. Not currently used.
         /// </value>
         /// <exception cref="UnrecognizedTypeException"></exception>
-        public Func<int> GetRuleGenerationSeed => Module switch
+        public Func<int> RuleGeneration => Module switch
         {
             KMBombModule bombModule => bombModule.GetRuleGenerationSeed,
             KMNeedyModule needyModule => needyModule.GetRuleGenerationSeed,
