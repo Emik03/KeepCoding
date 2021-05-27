@@ -465,7 +465,7 @@ namespace KeepCoding
             Tuple tuple => tuple.ToArray.Unwrap(),
             IEnumerable ienumerable => ienumerable.Unwrap(),
             IEnumerator ienumerator => ienumerator.AsEnumerable().Unwrap(),
-            _ => isRecursive ? source.GetAllValues().Cast<object>().Prepend(source) : new object[] { source },
+            _ => isRecursive ? source.ReflectAll().Cast<object>().Prepend(source) : new object[] { source },
         }).ToArray();
 
         /// <summary>
@@ -535,7 +535,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="source">The item to get all fields and properties.</param>
         /// <returns>All fields and properties of <paramref name="source"/>.</returns>
-        public static IEnumerable<string> GetAllValues<T>(this T source) => source?.GetType().GetFields(Flags).Select(f => $"\n{f} (Field): {f?.GetValue(source).UnwrapToString()}").Concat(source?.GetType().GetProperties(Flags).Select(p => $"\n{p} (Property): {p?.GetValue(source, null).UnwrapToString()}"));
+        public static IEnumerable<string> ReflectAll<T>(this T source) => source?.GetType().GetFields(Flags).Select(f => $"\n{f} (Field): {f?.GetValue(source).UnwrapToString()}").Concat(source?.GetType().GetProperties(Flags).Select(p => $"\n{p} (Property): {p?.GetValue(source, null).UnwrapToString()}"));
 
         /// <summary>
         /// Removes the elements whose index does not match any of the indices.
