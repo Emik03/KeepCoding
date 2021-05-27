@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 using static KeepCoding.ComponentPool;
 using Connection = IRCConnection;
 using KTInfo = Assets.Scripts.Mods.ModInfo;
@@ -285,5 +286,21 @@ namespace KeepCoding
             /// </value>
             public static string LanguageCode => KTPlayer.Instance.PlayerSettings.LanguageCode;
         }
+
+        /// <value>
+        /// Gets the bomb by recursively looking at parent objects until it is found.
+        /// </value>
+        /// <remarks>
+        /// To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to Bomb or <see cref="MonoBehaviour"/> type to restore its functionality.
+        /// </remarks>
+        public static Func<GameObject, object> Bomb => gameObject =>
+        {
+            if (gameObject.transform.parent is null)
+                return null;
+
+            var bomb = gameObject.GetComponentInParent(typeof(Bomb));
+
+            return bomb ?? Bomb(gameObject.transform.parent.gameObject);
+        };
     }
 }
