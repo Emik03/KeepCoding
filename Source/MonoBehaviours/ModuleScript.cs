@@ -464,17 +464,23 @@ namespace KeepCoding
 
             var solvables = bomb.GetComponentsInChildren<KMBombModule>();
             var needies = bomb.GetComponentsInChildren<KMNeedyModule>();
-            
+
+            static bool Run(ModuleContainer module, Action<string> action)
+            {
+                action(module.ModuleType);
+                return false;
+            }
+
             solvables.ForEach(m => 
             {
-                m.OnPass += () => false.Call(b => OnSolvableSolved(m.ModuleType));
-                m.OnStrike += () => false.Call(b => OnModuleStrike(m.ModuleType));
+                m.OnPass += () => Run(m, OnSolvableSolved);
+                m.OnStrike += () => Run(m, OnModuleStrike);
             });
 
             needies.ForEach(m =>
             {
-                m.OnPass += () => false.Call(b => OnNeedySolved(m.ModuleType));
-                m.OnStrike += () => false.Call(b => OnModuleStrike(m.ModuleType));
+                m.OnPass += () => Run(m, OnNeedySolved);
+                m.OnStrike += () => Run(m, OnModuleStrike);
             });
 
             while (true)
