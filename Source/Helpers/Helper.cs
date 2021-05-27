@@ -469,6 +469,21 @@ namespace KeepCoding
         }).ToArray();
 
         /// <summary>
+        /// Gets the appropriate log method depending on the type of <see cref="LogType"/>.
+        /// </summary>
+        /// <param name="logType">The type of method to get.</param>
+        /// <returns>The log method representing the enum <paramref name="logType"/>.</returns>
+        public static Action<object> Log(this LogType logType) => logType switch
+        {
+            LogType.Error => Debug.LogError,
+            LogType.Assert => o => Debug.LogAssertion(o),
+            LogType.Warning => Debug.LogWarning,
+            LogType.Log => Debug.Log,
+            LogType.Exception => o => Debug.LogException((Exception)o),
+            _ => throw new UnrecognizedValueException($"{logType} is not a valid log type."),
+        };
+
+        /// <summary>
         /// Calculates the rem-euclid modulo, which allows negative numbers to be properly calculated.
         /// </summary>
         /// <param name="item">The left-hand side operator.</param>
@@ -700,6 +715,15 @@ namespace KeepCoding
             action.NullCheck("The action cannot be null.")(item);
             return item;
         }
+
+        /// <summary>
+        /// Invokes a logging method and then returns the argument provided.
+        /// </summary>
+        /// <typeparam name="T">The type of logging.</typeparam>
+        /// <param name="item">The item to log</param>
+        /// <param name="logType">The type of logging.</param>
+        /// <returns>The item <paramref name="item"/>.</returns>
+        public static T Call<T>(this T item, LogType logType = LogType.Log) => item.Call(t => logType.Log()(t));
 
         /// <summary>
         /// Returns the element of an array, pretending that the array wraps around or is circular.
