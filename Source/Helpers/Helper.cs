@@ -113,7 +113,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="kmSelectable">This is required to check the children field.</param>
         /// <returns>True if <see cref="KMSelectable.Children"/> is empty.</returns>
-        public static bool IsParent(this KMSelectable kmSelectable) => kmSelectable.Children.Length > 0;
+        public static bool IsParent(this KMSelectable kmSelectable) => !kmSelectable.Children.IsNullOrEmpty();
 
         /// <summary>
         /// Generates a random boolean.
