@@ -5,7 +5,7 @@ using System.Linq;
 namespace KeepCoding
 {
     /// <summary>
-    /// Stores numbers far larger than long or ulong by using arrays to store the values. Written by Emik.
+    /// Stores an arbitrarily large number. Written by Emik.
     /// </summary>
     public sealed class BigInteger : IEquatable<BigInteger>
     {
