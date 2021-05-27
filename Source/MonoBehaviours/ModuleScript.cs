@@ -84,7 +84,7 @@ namespace KeepCoding
         /// <remarks>
         /// Due to type ambiguity, a non-generic interface is returned.
         /// </remarks>
-        public ITP TP => _tp ??= GetComponents<Component>().FirstValue(c => c is ITP ? c : null) as ITP;
+        public ITP TP => _tp ??= GetComponents<Component>().First(c => c is ITP) as ITP;
         private ITP _tp;
 
         private static readonly Dictionary<string, int> _moduleIds = new Dictionary<string, int>();
