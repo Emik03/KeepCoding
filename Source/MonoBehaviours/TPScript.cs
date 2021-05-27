@@ -14,7 +14,8 @@ namespace KeepCoding
         /// <summary>
         /// The help message that gets sent when typing <c>!{0} help</c>.
         /// </summary>
-        public string TwitchHelpMessage;
+        [SerializeField]
+        private string TwitchHelpMessage;
 
         /// <value>
         /// Determines if it should allow for the timer to be skipped when the module it is in, as well as any other modules that would like to skip time, are the only unsolved modules left on the bomb. 
