@@ -14,7 +14,6 @@ namespace KeepCoding
     /// <summary>
     /// Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
     /// </summary>
-    [RequireComponent(typeof(ModBundle))]
     public abstract class ModuleScript : MonoBehaviour
     {
         /// <value>
@@ -63,11 +62,11 @@ namespace KeepCoding
         public int TimeLeft { get; private set; }
 
         /// <value>
-        /// The version number of the entire mod. Requires <see cref="ModBundle.Name"/> to be set.
+        /// The version number of the entire mod.
         /// </value>
         /// <exception cref="OperationCanceledException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
-        public string Version => (IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(Get<ModBundle>().Name).Version) ?? throw new OperationCanceledException($"{nameof(ModBundle.Name)} couldn't be found. Did you spell your Mod name correctly? Refer to this link for more details: https://github.com/Emik03/KeepCoding/wiki/Chapter-2.1:-ModuleScript#version-string");
+        public string Version => (IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(PathManager.AssemblyDirectory(GetType())).Version) ?? throw new OperationCanceledException($"The assembly directory could not be determined. This is a bug caused by the library, please file a bug report alongside the source code.");
 
         /// <value>
         /// Contains an instance for every <see cref="Sound"/> played by this module using <see cref="PlaySound(Transform, bool, Sound[])"/> or any of its overloads.
@@ -114,9 +113,7 @@ namespace KeepCoding
             _components = new Dictionary<Type, Component[]>() { { typeof(ModuleScript), new[] { this } } };
 
             _database = new Dictionary<string, Dictionary<string, object>[]>();
-
-            Get<ModBundle>().Name.NullOrEmptyCheck("The public field \"ModBundleName\" is empty! This means that when compiled it won't be able to run! Please set this field to your Mod ID located at Keep Talking ModKit -> Configure Mod. Refer to this link for more details: https://github.com/Emik03/KeepCoding/wiki/Chapter-2.4:-ModBundle");
-                     
+            
             Module = new ModuleContainer(Get<KMBombModule>(allowNull: true), Get<KMNeedyModule>(allowNull: true));
 
             Module.OnActivate(_setActive);
