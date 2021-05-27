@@ -13,7 +13,7 @@ namespace KeepCoding
     public class TPScriptEditor : Editor
     {
         /// <summary>
-        /// Creates the force solve button.
+        /// Creates the force solve buttons.
         /// </summary>
         public override void OnInspectorGUI()
         {
