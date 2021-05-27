@@ -32,7 +32,7 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="EmptyIteratorException"></exception>
         /// <param name="oneByOne">If called multiple times, waits until the others are finished.</param>
-        public void Restart(bool oneByOne)
+        public void Restart(bool oneByOne = false)
         {
             Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
