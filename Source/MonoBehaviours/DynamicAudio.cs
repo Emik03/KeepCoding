@@ -14,7 +14,9 @@ namespace KeepCoding
         /// Setting this value to true will make the volume relative to <see cref="Game.PlayerSettings.MusicVolume"/>, and <see cref="Game.PlayerSettings.SFXVolume"/> otherwise.
         /// </summary>
         [SerializeField]
+#pragma warning disable IDE0044 // Add readonly modifier
         private bool _isMusic;
+#pragma warning restore IDE0044 // Add readonly modifier
 
         /// <value>
         /// The current volume of the game. Ranges 0 to 100. In the Editor this value will always return 100.
@@ -32,7 +34,9 @@ namespace KeepCoding
         /// The <see cref="Array"/> of clips it can play from.
         /// </summary>
         [SerializeField]
+#pragma warning disable IDE0044 // Add readonly modifier
         private AudioClip[] _audioClips;
+#pragma warning restore IDE0044 // Add readonly modifier
 
         /// <summary>
         /// The audio source.
