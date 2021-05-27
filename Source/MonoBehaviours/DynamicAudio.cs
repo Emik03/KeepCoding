@@ -13,34 +13,38 @@ namespace KeepCoding
         /// <summary>
         /// Setting this value to true will make the volume relative to <see cref="Game.PlayerSettings.MusicVolume"/>, and <see cref="Game.PlayerSettings.SFXVolume"/> otherwise.
         /// </summary>
-        public bool IsMusicLayer;
+        [SerializeField]
+        private bool _isMusic;
 
         /// <value>
         /// The current volume of the game. Ranges 0 to 100. In the Editor this value will always return 100.
         /// </value>
-        public int GameVolume => Application.isEditor ? 100 : IsMusicLayer ? Game.PlayerSettings.MusicVolume : Game.PlayerSettings.SFXVolume;
+        public int GameVolume => Application.isEditor ? 100 : _isMusic ? Game.PlayerSettings.MusicVolume : Game.PlayerSettings.SFXVolume;
 
         /// <summary>
         /// The volume it plays relative to the game sound. Works the same as <see cref="AudioSource.volume"/>, meaning 0 to 1 is the main range.
         /// </summary>
         [Range(0, 1)]
-        public float Volume;
+        [SerializeField]
+        private float _volume;
 
         /// <summary>
         /// The <see cref="Array"/> of clips it can play from.
         /// </summary>
-        public AudioClip[] AudioClips;
+        [SerializeField]
+        private AudioClip[] _audioClips;
 
         /// <summary>
         /// The audio source.
         /// </summary>
-        public AudioSource AudioSource { get; private set; }
+        [SerializeField]
+        private AudioSource _audioSource;
 
         /// <summary>
-        /// Returns <see cref="AudioSource"/>.
+        /// Returns <see cref="_audioSource"/>.
         /// </summary>
-        /// <param name="dynamicAudio">The instance of <see cref="DynamicAudio"/> to retrieve <see cref="AudioSource"/> from.</param>
-        public static explicit operator AudioSource(DynamicAudio dynamicAudio) => dynamicAudio.AudioSource;
+        /// <param name="dynamicAudio">The instance of <see cref="DynamicAudio"/> to retrieve <see cref="_audioSource"/> from.</param>
+        public static explicit operator AudioSource(DynamicAudio dynamicAudio) => dynamicAudio._audioSource;
 
         private Routine<float, float> _fade;
 
@@ -50,9 +54,9 @@ namespace KeepCoding
         {
             _fade = this.ToRoutine((float from, float to) => SetFade(from, to));
 
-            AudioSource = gameObject.AddComponent<AudioSource>();
+            _audioSource = gameObject.AddComponent<AudioSource>();
 
-            AudioSource.playOnAwake = false;
+            _audioSource.playOnAwake = false;
 
             StartCoroutine(UpdateVolume());
         }
@@ -67,7 +71,7 @@ namespace KeepCoding
         /// <summary>
         /// Pauses playing the clip.
         /// </summary>
-        public void Pause() => AudioSource.Pause();
+        public void Pause() => _audioSource.Pause();
 
         /// <summary>
         /// Plays a sound, with optional parameters.
@@ -85,15 +89,15 @@ namespace KeepCoding
         {
             clip.NullCheck("You cannot play an audio clip which is null.");
 
-            AudioSource.clip = clip;
-            AudioSource.loop = loop;
-            AudioSource.priority = priority;
-            AudioSource.pitch = pitch;
-            AudioSource.time = time;
+            _audioSource.clip = clip;
+            _audioSource.loop = loop;
+            _audioSource.priority = priority;
+            _audioSource.pitch = pitch;
+            _audioSource.time = time;
 
-            Volume = volume;
+            _volume = volume;
 
-            AudioSource.PlayDelayed(delay);
+            _audioSource.PlayDelayed(delay);
         }
 
         /// <summary>
@@ -109,21 +113,21 @@ namespace KeepCoding
         /// <param name="delay">The amount of delay before the sound starts.</param>
         /// <param name="time">The time in the audio it should start playing at.</param>
         /// <param name="pitch">The pitch of the sound.</param>
-        public void Play(string sound, bool loop = false, int priority = 0, float delay = 0, float pitch = 1, float time = 0, float volume = 1) => Play(AudioClips.FirstOrDefault(c => c.name == sound) ?? throw new MissingComponentException($"There is no sound effect named \"{sound}\". List of audio clips from the prefab: {AudioClips.UnwrapToString()}"), loop, priority, delay, pitch, time, volume);
+        public void Play(string sound, bool loop = false, int priority = 0, float delay = 0, float pitch = 1, float time = 0, float volume = 1) => Play(_audioClips.FirstOrDefault(c => c.name == sound) ?? throw new MissingComponentException($"There is no sound effect named \"{sound}\". List of audio clips from the prefab: {_audioClips.UnwrapToString()}"), loop, priority, delay, pitch, time, volume);
 
         /// <summary>
         /// Stops playing the clip.
         /// </summary>
-        public void Stop() => AudioSource.Stop();
+        public void Stop() => _audioSource.Stop();
 
         /// <summary>
         /// Unpauses the paused playback of this <see cref="UnityEngine.AudioSource"/>.
         /// </summary>
-        public void Unpause() => AudioSource.UnPause();
+        public void Unpause() => _audioSource.UnPause();
 
         private IEnumerator SetFade(float to, float time)
         {
-            float current = 0, from = AudioSource.volume;
+            float current = 0, from = _audioSource.volume;
 
             while (current < time)
             {
@@ -131,19 +135,19 @@ namespace KeepCoding
 
                 float end = current / time, start = 1 - end;
 
-                Volume = (from * start) + (to * end);
+                _volume = (from * start) + (to * end);
 
                 yield return null;
             }
 
-            AudioSource.volume = to;
+            _audioSource.volume = to;
         }
 
         private IEnumerator UpdateVolume()
         {
             while (true)
             {
-                AudioSource.volume = Volume * GameVolume / 100f;
+                _audioSource.volume = _volume * GameVolume / 100f;
                 yield return null;
             }
         }
