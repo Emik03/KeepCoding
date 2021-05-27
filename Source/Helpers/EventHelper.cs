@@ -105,7 +105,7 @@ namespace KeepCoding
         /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
         public static void Assign(this KMSelectable kmSelectable, bool? overrideReturn = null, Action onCancel = null, Action onDefocus = null, Action onDeselect = null, Action onFocus = null, Action onHighlight = null, Action onHighlightEnded = null, Action onInteract = null, Action onInteractEnded = null, Action onLeft = null, Action onRight = null, Action onSelect = null)
         {
-            if (kmSelectable is null)
+            if (!kmSelectable)
                 throw typeof(KMSelectable).Unassigned();
 
             overrideReturn ??= kmSelectable.IsParent();
@@ -135,7 +135,7 @@ namespace KeepCoding
         /// <param name="onLightsChange">Called when the lights change state, and passes in whether it's on or off.</param>
         public static void Assign(this KMGameInfo kmGameInfo, Action<bool> onAlarmClockChange = null, Action<bool> onLightsChange = null)
         {
-            if (kmGameInfo is null)
+            if (!kmGameInfo)
                 throw typeof(KMGameInfo).Unassigned();
 
             onAlarmClockChange.Set(ref kmGameInfo.OnAlarmClockChange);
@@ -154,7 +154,7 @@ namespace KeepCoding
         /// <param name="onBombSolved">Called when the bomb is defused.</param>
         public static void Assign(this KMBombInfo kmBombInfo, Action onBombExploded = null, Action onBombSolved = null)
         {
-            if (kmBombInfo is null)
+            if (!kmBombInfo)
                 throw typeof(KMBombInfo).Unassigned();
 
             onBombExploded.Set(ref kmBombInfo.OnBombExploded);
