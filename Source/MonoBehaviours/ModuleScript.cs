@@ -106,6 +106,7 @@ namespace KeepCoding
             {
                 if (Get<KMBombInfo>(allowNull: true) is KMBombInfo bombInfo)
                     StartCoroutine(BombInfo(bombInfo));
+
                 IsActive = true;
                 OnActivate();
             };
@@ -451,13 +452,10 @@ namespace KeepCoding
             yield return req.SendWebRequest();
 
             if (req.isNetworkError || req.isHttpError)
-            {
-                Log("The KeepCoding version could not be pulled, presumably because the user is offline.");
-                yield break;
-            }
+                Log($"The KeepCoding version could not be pulled: {req.error}.", LogType.Warning);
 
-            if (VersionToNumber(PathManager.Version.ToString()) < VersionToNumber(req.downloadHandler.text.Trim()))
-                Log($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Error);
+            else if (VersionToNumber(PathManager.Version.ToString()) < VersionToNumber(req.downloadHandler.text.Trim()))
+                Log($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
         }
 
         private IEnumerator BombInfo(KMBombInfo bombInfo)
