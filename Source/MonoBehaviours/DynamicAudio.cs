@@ -41,7 +41,7 @@ namespace KeepCoding
         private AudioSource _audioSource;
 
         /// <summary>
-        /// Returns <see cref="_audioSource"/>.
+        /// Returns the <see cref="AudioSource"/>.
         /// </summary>
         /// <param name="dynamicAudio">The instance of <see cref="DynamicAudio"/> to retrieve <see cref="_audioSource"/> from.</param>
         public static explicit operator AudioSource(DynamicAudio dynamicAudio) => dynamicAudio._audioSource;
@@ -66,7 +66,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="volume">The volume to get to.</param>
         /// <param name="time">The amount of time it takes to get to <paramref name="volume"/>.</param>
-        public void Fade(float volume, float time) => GetRoutineMethod(_fade.Count)(volume, time);
+        public void Fade(float volume, float time) => _fade.StartOrRestart(volume, time);
 
         /// <summary>
         /// Pauses playing the clip.
@@ -151,7 +151,5 @@ namespace KeepCoding
                 yield return null;
             }
         }
-
-        private Action<float, float> GetRoutineMethod(int length) => length == 0 ? (Action<float, float>)((i, j) => _fade.Start(i, j, false)) : (i, j) => _fade.Restart(i, j);
     }
 }
