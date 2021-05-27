@@ -32,11 +32,8 @@ namespace KeepCoding
         /// <param name="onLeft">Called when the left controller stick is pulled while selected.</param>
         /// <param name="onRight">Called when the right controller stick is pulled while selected.</param>
         /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
-        public static void Assign(this KMSelectable[] kmSelectable, bool? overrideReturn = null, Action<int> onCancel = null, Action<int> onDefocus = null, Action<int> onDeselect = null, Action<int> onFocus = null, Action<int> onHighlight = null, Action<int> onHighlightEnded = null, Action<int> onInteract = null, Action<int> onInteractEnded = null, Action<int> onLeft = null, Action<int> onRight = null, Action<int> onSelect = null)
-        {
-            kmSelectable.NullOrEmptyCheck("The array is not populated. Please check your public fields in Unity.");
-
-            kmSelectable.Call((s, i) => s.Assign(
+        public static void Assign(this KMSelectable[] kmSelectable, bool? overrideReturn = null, Action<int> onCancel = null, Action<int> onDefocus = null, Action<int> onDeselect = null, Action<int> onFocus = null, Action<int> onHighlight = null, Action<int> onHighlightEnded = null, Action<int> onInteract = null, Action<int> onInteractEnded = null, Action<int> onLeft = null, Action<int> onRight = null, Action<int> onSelect = null) =>
+            kmSelectable.NullOrEmptyCheck("The array is not populated. Please check your public fields in Unity.").ToArray().Call((s, i) => s.Assign(
                 overrideReturn,
                 onCancel.ToAction(i),
                 onDefocus.ToAction(i),
@@ -49,7 +46,6 @@ namespace KeepCoding
                 onLeft.ToAction(i),
                 onRight.ToAction(i),
                 onSelect.ToAction(i)));
-        }
 
         /// <summary>
         /// Assigns events specified into <paramref name="kmSelectable"/>. Reassigning them will replace their values.
