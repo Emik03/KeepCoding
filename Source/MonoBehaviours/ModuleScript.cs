@@ -93,7 +93,7 @@ namespace KeepCoding
 
         private Action _setActive;
 
-        private Dictionary<Type, Component[]> _components;
+        private readonly Dictionary<Type, Component[]> _components = new Dictionary<Type, Component[]>();
 
         /// <summary>
         /// This initalizes the module. If you have an Awake method, be sure to call <c>base.Awake()</c> as the first statement.
@@ -109,8 +109,6 @@ namespace KeepCoding
                 IsActive = true;
                 OnActivate();
             };
-
-            _components = new Dictionary<Type, Component[]>() { { typeof(ModuleScript), new[] { this } } };
 
             _database = new Dictionary<string, Dictionary<string, object>[]>();
             
