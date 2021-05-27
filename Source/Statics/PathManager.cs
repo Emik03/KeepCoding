@@ -25,7 +25,7 @@ namespace KeepCoding
         /// Gets the current library's version number. Currently used by <see cref="ModuleScript"/> to log the version number of this library.
         /// </summary>
         /// <remarks>
-        /// If you want the version number of your modules, refer to <see cref="ModuleScript.Version"/> instead, or <see cref="GetModInfo(ModuleScript)"/>.
+        /// If you want the version number of your modules, refer to <see cref="ModuleScript.Version"/> instead, or <see cref="GetModInfo{T}(T)"/>.
         /// </remarks>
         /// <returns>The version of this library.</returns>
         public static Version Version => Assembly.GetExecutingAssembly().GetName().Version;
@@ -67,14 +67,14 @@ namespace KeepCoding
         /// </summary>
         /// <typeparam name="T">The type to get the assembly directory of.</typeparam>
         /// <returns>The path to the directory of the assembly where the type <typeparamref name="T"/> comes from.</returns>
-        public static string AssemblyDirectory<T>() => AssemblyDirectory(typeof(T));
+        public static string NameOfAssembly<T>() => NameOfAssembly(typeof(T));
 
         /// <summary>
         /// Gets the assembly's directory where the type <paramref name="type"/> exists.
         /// </summary>
         /// <param name="type">The type to get the assembly directory of.</param>
         /// <returns>The path to the directory of the assembly where the type <paramref name="type"/> comes from.</returns>
-        public static string AssemblyDirectory(Type type) => Path.GetDirectoryName(Assembly.GetAssembly(type).Location);
+        public static string NameOfAssembly(Type type) => type.Assembly.GetName().Name;
 
         /// <summary>
         /// Combines multiple paths together.
@@ -108,13 +108,12 @@ namespace KeepCoding
         /// <summary>
         /// Gets the path and deserializes the modInfo.json located at every mod's root folder.
         /// </summary>
-        /// <param name="module">The module component.</param>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
+        /// <param name="_">Any data from the assembly, which is used to get the name.</param>
         /// <returns>A <see cref="ModInfo"/> of the mod info json file located in the mod.</returns>
-        public static ModInfo GetModInfo(ModuleScript module)
-        {
-            string directory = AssemblyDirectory(module.GetType());
-            return ModInfo.Deserialize($"{directory}{GetSlashType(in directory)}modInfo.json");
-        }
+        public static ModInfo GetModInfo<T>(T _) => GetModInfo(NameOfAssembly<T>());
 
         /// <summary>
         /// Finds a path of a given file within each mod.
@@ -178,9 +177,9 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
         /// <exception cref="NullIteratorException"></exception>
-        /// <param name="module">The module component.</param>
+        /// <param name="_">Any data from the assembly, which is used to get the name.</param>
         /// <param name="libraryFileName">The library's name, excluding the extension.</param>
-        public static void LoadLibrary(ModuleScript module, string libraryFileName) => CopyLibrary(in libraryFileName, AssemblyDirectory(module.GetType()));
+        public static void LoadLibrary<T>(T _, string libraryFileName) => LoadLibrary(NameOfAssembly<T>(), libraryFileName);
 
         /// <summary>
         /// Gets the video clips, the last yield return contains all of the videos.
@@ -224,23 +223,10 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
         /// <exception cref="NullIteratorException"></exception>
-        /// <param name="module">The module component.</param>
+        /// <param name="_">Any data from the assembly, which is used to get the name.</param>
         /// <param name="bundleVideoFileName">The name of the bundle that contains videos.</param>
         /// <returns>The <see cref="AssetBundleCreateRequest"/> needed to load the files, followed by the <see cref="VideoClip"/> <see cref="Array"/>.</returns>
-        public static IEnumerator LoadVideoClips(ModuleScript module, string bundleVideoFileName)
-        {
-            string path = AssemblyDirectory(module.GetType());
-
-            var request = AssetBundle.LoadFromFileAsync($"{path}{GetSlashType(in path)}{FileFormat.Form(bundleVideoFileName, FileExtensionBundle)}");
-
-            yield return request;
-
-            var mainBundle = request.assetBundle.NullCheck("The bundle was null.");
-
-            var videos = mainBundle.LoadAllAssets<VideoClip>().OrderBy(clip => clip.name).ToArray().NullOrEmptyCheck("There are no videos.");
-
-            yield return videos;
-        }
+        public static IEnumerator LoadVideoClips<T>(T _, string bundleVideoFileName) => LoadVideoClips(NameOfAssembly<T>(), bundleVideoFileName);
 
         private static void CopyLibrary(in string libraryFileName, in string path)
         {

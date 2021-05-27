@@ -66,7 +66,7 @@ namespace KeepCoding
         /// </value>
         /// <exception cref="OperationCanceledException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
-        public string Version => (IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(PathManager.AssemblyDirectory(GetType())).Version) ?? throw new OperationCanceledException($"The assembly directory could not be determined. This is a bug caused by the library, please file a bug report alongside the source code.");
+        public string Version => (IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(this).Version) ?? throw new OperationCanceledException($"The assembly directory could not be determined. This is a bug caused by the library, please file a bug report alongside the source code.");
 
         /// <value>
         /// Contains an instance for every <see cref="Sound"/> played by this module using <see cref="PlaySound(Transform, bool, Sound[])"/> or any of its overloads.
