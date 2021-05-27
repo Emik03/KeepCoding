@@ -161,7 +161,17 @@ namespace KeepCoding
             /// On the Subject of Knobs.
             /// </value>
             /// <remarks><seealso href="https://ktane.timwi.de/HTML/Knob.html"/></remarks>
-            NeedyKnob
+            NeedyKnob,
+
+            /// <value>
+            /// Any solvable modded module.
+            /// </value>
+            Mod,
+
+            /// <value>
+            /// Any needy modded module.
+            /// </value>
+            NeedyMod
         }
 
         /// <value>
