@@ -25,7 +25,7 @@ namespace KeepCoding
         /// Gets the current library's version number. Currently used by <see cref="ModuleScript"/> to log the version number of this library.
         /// </summary>
         /// <remarks>
-        /// If you want the version number of your modules, refer to <see cref="ModuleScript.Version"/> instead, or <see cref="GetModInfo(ModBundle)"/>.
+        /// If you want the version number of your modules, refer to <see cref="ModuleScript.Version"/> instead, or <see cref="GetModInfo(ModuleScript)"/>.
         /// </remarks>
         /// <returns>The version of this library.</returns>
         public static Version Version => Assembly.GetExecutingAssembly().GetName().Version;
@@ -43,7 +43,7 @@ namespace KeepCoding
         /// Prints a hierarchy of all game objects.
         /// </summary>
         /// <param name="indentation">The amount of spaces used for indenting children of game objects.</param>
-        public static void PrintFullHierarchy(ushort indentation = 4) => Object.FindObjectsOfType<GameObject>().Where(g => !g.transform.parent).ToArray().ForEach(g => PrintHierarchy(g, indentation));
+        public static void PrintHierarchy(ushort indentation = 4) => Object.FindObjectsOfType<GameObject>().Where(g => !g.transform.parent).ToArray().ForEach(g => PrintHierarchy(g, indentation));
 
         /// <summary>
         /// Prints the hierarchy from the game object specified.
@@ -61,6 +61,20 @@ namespace KeepCoding
             foreach (Transform child in obj.transform)
                 PrintHierarchy(child.gameObject, (ushort)(depth + 1), indentation);
         }
+
+        /// <summary>
+        /// Gets the assembly's directory where the type <typeparamref name="T"/> exists.
+        /// </summary>
+        /// <typeparam name="T">The type to get the assembly directory of.</typeparam>
+        /// <returns>The path to the directory of the assembly where the type <typeparamref name="T"/> comes from.</returns>
+        public static string AssemblyDirectory<T>() => AssemblyDirectory(typeof(T));
+
+        /// <summary>
+        /// Gets the assembly's directory where the type <paramref name="type"/> exists.
+        /// </summary>
+        /// <param name="type">The type to get the assembly directory of.</param>
+        /// <returns>The path to the directory of the assembly where the type <paramref name="type"/> comes from.</returns>
+        public static string AssemblyDirectory(Type type) => Path.GetDirectoryName(Assembly.GetAssembly(type).Location);
 
         /// <summary>
         /// Combines multiple paths together.
@@ -94,9 +108,13 @@ namespace KeepCoding
         /// <summary>
         /// Gets the path and deserializes the modInfo.json located at every mod's root folder.
         /// </summary>
-        /// <param name="modBundle">The bundle component.</param>
+        /// <param name="module">The module component.</param>
         /// <returns>A <see cref="ModInfo"/> of the mod info json file located in the mod.</returns>
-        public static ModInfo GetModInfo(ModBundle modBundle) => GetModInfo(modBundle.NullCheck("You cannot pass in a null mod bundle when getting mod info!").Name);
+        public static ModInfo GetModInfo(ModuleScript module)
+        {
+            string directory = AssemblyDirectory(module.GetType());
+            return ModInfo.Deserialize($"{directory}{GetSlashType(in directory)}modInfo.json");
+        }
 
         /// <summary>
         /// Finds a path of a given file within each mod.
@@ -106,7 +124,7 @@ namespace KeepCoding
         /// <exception cref="NullIteratorException"></exception>
         /// <param name="fileName">The file name to search for.</param>
         /// <returns>The path to <paramref name="fileName"/>.</returns>
-        public static string GetPath(string fileName)
+        private static string GetPath(string fileName)
         {
             fileName.NullOrEmptyCheck("You cannot retrieve a path if the file name is null or empty.");
 
@@ -121,9 +139,7 @@ namespace KeepCoding
                               .FirstOrDefault(x => Directory.GetFiles(x, fileName).Any()) ??
                           GetDisabledPath(fileName) ?? throw new FileNotFoundException($"The file name {fileName} could not be found within your mods folder!");
 
-            return SetCache(current, path
-                .Replace($"/{fileName}", "")
-                .Replace(@$"\{fileName}", ""));
+            return SetCache(current, Path.GetDirectoryName(path));
         }
 
         /// <summary>
@@ -162,9 +178,9 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
         /// <exception cref="NullIteratorException"></exception>
-        /// <param name="modBundle">The bundle component.</param>
+        /// <param name="module">The module component.</param>
         /// <param name="libraryFileName">The library's name, excluding the extension.</param>
-        public static void LoadLibrary(ModBundle modBundle, string libraryFileName) => LoadLibrary(modBundle.NullCheck("The mod bundle is null, which is needed to get the path of the library!").Name, libraryFileName);
+        public static void LoadLibrary(ModuleScript module, string libraryFileName) => CopyLibrary(in libraryFileName, AssemblyDirectory(module.GetType()));
 
         /// <summary>
         /// Gets the video clips, the last yield return contains all of the videos.
@@ -208,10 +224,23 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
         /// <exception cref="NullIteratorException"></exception>
-        /// <param name="modBundle">The mod bundle component.</param>
+        /// <param name="module">The module component.</param>
         /// <param name="bundleVideoFileName">The name of the bundle that contains videos.</param>
         /// <returns>The <see cref="AssetBundleCreateRequest"/> needed to load the files, followed by the <see cref="VideoClip"/> <see cref="Array"/>.</returns>
-        public static IEnumerator LoadVideoClips(ModBundle modBundle, string bundleVideoFileName) => LoadVideoClips(modBundle.NullCheck("You cannot load a video if the mod bundle is null, and therefore its path cannot be located."), bundleVideoFileName);
+        public static IEnumerator LoadVideoClips(ModuleScript module, string bundleVideoFileName)
+        {
+            string path = AssemblyDirectory(module.GetType());
+
+            var request = AssetBundle.LoadFromFileAsync($"{path}{GetSlashType(in path)}{FileFormat.Form(bundleVideoFileName, FileExtensionBundle)}");
+
+            yield return request;
+
+            var mainBundle = request.assetBundle.NullCheck("The bundle was null.");
+
+            var videos = mainBundle.LoadAllAssets<VideoClip>().OrderBy(clip => clip.name).ToArray().NullOrEmptyCheck("There are no videos.");
+
+            yield return videos;
+        }
 
         private static void CopyLibrary(in string libraryFileName, in string path)
         {
