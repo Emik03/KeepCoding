@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
 using static KMAudio;
 using static KMSoundOverride;
+using static UnityEngine.Application;
 
 namespace KeepCoding
 {
@@ -29,7 +31,7 @@ namespace KeepCoding
         /// <value>
         /// Determines whether the application is running from inside unity.
         /// </value>
-        public static bool IsEditor => Application.isEditor;
+        public static bool IsEditor => isEditor;
 
         /// <value>
         /// Determines whether this module is the last instantiated instance.
@@ -84,7 +86,7 @@ namespace KeepCoding
         /// <remarks>
         /// Due to type ambiguity, a non-generic interface is returned.
         /// </remarks>
-        public ITP TP => _tp ??= GetComponents<Component>().First(c => c is ITP) as ITP;
+        public ITP TP => _tp ??= GetComponents<Component>().FirstOrDefault(c => c is ITP) as ITP;
         private ITP _tp;
 
         private static readonly Dictionary<string, int> _moduleIds = new Dictionary<string, int>();
@@ -102,14 +104,9 @@ namespace KeepCoding
         /// <exception cref="NullIteratorException"></exception>
         protected void Awake()
         {
-            _setActive = () =>
-            {
-                if (Get<KMBombInfo>(allowNull: true) is KMBombInfo bombInfo)
-                    StartCoroutine(BombInfo(bombInfo));
+            logMessageReceived += IsEditor ? SolveOnException : (LogCallback)SolveOnException + RemoveStrikeOnException;
 
-                IsActive = true;
-                OnActivate();
-            };
+            _setActive = Active;
 
             _database = new Dictionary<string, Dictionary<string, object>[]>();
             
@@ -228,7 +225,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="message">The message to log.</param>
         /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
-        public void Log<T>(T message, LogType logType = LogType.Log) => GetLogMethod(logType)($"[{Module.ModuleDisplayName} #{ModuleId}] {message.UnwrapToString()}");
+        public void Log<T>(T message, LogType logType = LogType.Log) => logType.Log()($"[{Module.ModuleDisplayName} #{ModuleId}] {message.UnwrapToString()}");
 
         /// <summary>
         /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
@@ -409,6 +406,15 @@ namespace KeepCoding
             throw new WrongDatatypeException($"The data type {typeof(T).Name} was expected, but received {d[key].GetType()} from module {module} with key {key}!");
         });
 
+        private void Active()
+        {
+            if (Get<KMBombInfo>(allowNull: true) is KMBombInfo bombInfo)
+                StartCoroutine(BombInfo(bombInfo));
+
+            IsActive = true;
+            OnActivate();
+        }
+
         private void AssignNeedy(Action onTimerExpired, Action onNeedyActivation, Action onNeedyDeactivation)
         {
             if (onTimerExpired is { })
@@ -429,7 +435,7 @@ namespace KeepCoding
                 };
         }
 
-        private void CheckForTime(in KMBombInfo bombInfo)
+        private void TimerTickEditor(in KMBombInfo bombInfo)
         {
             if (TimeLeft != (int)bombInfo.GetTime())
             {
@@ -438,9 +444,47 @@ namespace KeepCoding
             }
         }
 
-        private void LogMultiple(in string[] logs) => logs.ForEach(s => Log(s));
+        private void LogMultiple(in string[] logs) => logs?.ForEach(s => Log(s));
+
+        private void RemoveStrikeOnException(string condition, string stackTrace, LogType type)
+        {
+            var bomb = (Bomb)Game.Bomb(gameObject);
+
+            bomb.NumStrikes--;
+            bomb.StrikeIndicator.StrikeCount = bomb.NumStrikes;
+        }
+
+        private void SolveOnException(string condition, string stackTrace, LogType type)
+        {
+            if (type != LogType.Exception || !IsLogFromThis(stackTrace))
+                return;
+
+            Log("Module ran into an exception, autosolving: {0}", condition);
+            LogMultiple(stackTrace.Split('\n').Where(s => !s.IsNullOrEmpty()).ToArray());
+
+            if (!(bool)(TP?.IsTP))
+                StartCoroutine(WaitForSolve());
+        }
+
+        private void TimerTick()
+        {
+            var bomb = (Bomb)Game.Bomb(gameObject);
+
+            bomb.GetTimer().TimerTick += (elapsed, remaining) =>
+            {
+                OnTimerTick();
+                TimeLeft = remaining;
+            };
+        }
+
+        private bool IsLogFromThis(string stackTrace) => stackTrace.Split('\n').Any(s => Regex.IsMatch(s.Call(), @$"^{GetType().Name}"));
 
         private static uint VersionToNumber(string s) => uint.Parse(s.Replace(".", "").PadRight(9, '0'));
+
+        private Func<Transform, bool, KMAudioRef> GetSoundMethod(Sound sound) => (t, b) =>
+            sound.Custom is { } ? Get<KMAudio>().HandlePlaySoundAtTransformWithRef(sound.Custom, t, b) :
+            sound.Game is { } ? Get<KMAudio>().HandlePlayGameSoundAtTransformWithRef(sound.Game.Value, t) :
+            throw new UnrecognizedValueException($"{sound}'s properties {nameof(Sound.Custom)} and {nameof(Sound.Game)} are both null!");
 
         private IEnumerator EditorCheckLatest()
         {
@@ -483,26 +527,23 @@ namespace KeepCoding
                 m.OnStrike += () => Run(m, OnModuleStrike);
             });
 
+            if (!IsEditor)
+            {
+                TimerTick();
+                yield break;
+            }
+
             while (true)
             {
-                CheckForTime(in bombInfo);
+                TimerTickEditor(in bombInfo);
                 yield return null;
             }
         }
 
-        private static Action<object> GetLogMethod(LogType logType) => logType switch
+        private IEnumerator WaitForSolve(params string[] args)
         {
-            LogType.Error => Debug.LogError,
-            LogType.Assert => o => Debug.LogAssertion(o),
-            LogType.Warning => Debug.LogWarning,
-            LogType.Log => Debug.Log,
-            LogType.Exception => o => Debug.LogException((Exception)o),
-            _ => throw new UnrecognizedValueException($"{logType} is not a valid log type."),
-        };
-
-        private Func<Transform, bool, KMAudioRef> GetSoundMethod(Sound sound) => (t, b) => 
-            sound.Custom is { } ? Get<KMAudio>().HandlePlaySoundAtTransformWithRef(sound.Custom, t, b) : 
-            sound.Game is { } ? Get<KMAudio>().HandlePlayGameSoundAtTransformWithRef(sound.Game.Value, t) : 
-            throw new UnrecognizedValueException($"{sound}'s properties {nameof(Sound.Custom)} and {nameof(Sound.Game)} are both null!");
+            yield return new WaitWhile(() => Get<KMBombModule>(allowNull: true).OnPass is null && Get<KMNeedyModule>(allowNull: true).OnPass is null);
+            Solve(args);
+        }
     }
 }
