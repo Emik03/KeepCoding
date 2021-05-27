@@ -74,6 +74,7 @@ namespace KeepCoding
         {
             yield return Wait(oneByOne);
             IsRunning = true;
+
             yield return _enumerator();
             IsRunning = false;
         }
@@ -155,6 +156,7 @@ namespace KeepCoding
         {
             yield return Wait(oneByOne);
             IsRunning = true;
+
             yield return _enumerator(t);
             IsRunning = false;
         }
@@ -240,6 +242,7 @@ namespace KeepCoding
         {
             yield return Wait(oneByOne);
             IsRunning = true;
+
             yield return _enumerator(t1, t2);
             IsRunning = false;
         }
@@ -329,6 +332,7 @@ namespace KeepCoding
         {
             yield return Wait(oneByOne);
             IsRunning = true;
+
             yield return _enumerator(t1, t2, t3);
             IsRunning = false;
         }
@@ -422,6 +426,7 @@ namespace KeepCoding
         {
             yield return Wait(oneByOne);
             IsRunning = true;
+
             yield return _enumerator(t1, t2, t3, t4);
             IsRunning = false;
         }
