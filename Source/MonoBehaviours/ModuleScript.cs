@@ -272,9 +272,9 @@ namespace KeepCoding
         /// <remarks>
         /// To ensure that this method works correctly, make sure that both modules have the same version of KeepCoding.
         /// </remarks>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
+        /// <typeparam name="T">The type of the expected input.</typeparam>
+        /// <param name="key">The key of the variable, a lot like a variable name.</param>
+        /// <param name="value">The value to store in the key.</param>
         public void Write<T>(string key, T value)
         {
             if (!_database.ContainsKey(Module.ModuleType))
