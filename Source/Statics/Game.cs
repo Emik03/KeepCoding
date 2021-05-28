@@ -255,6 +255,6 @@ namespace KeepCoding
         /// <remarks>
         /// To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to Bomb or <see cref="MonoBehaviour"/> type to restore its functionality.
         /// </remarks>
-        public static Func<GameObject, object> Bomb => gameObject => gameObject.GetComponentInParent(typeof(Bomb));
+        public static Func<GameObject, object> Bomb => gameObject => null;
     }
 }
