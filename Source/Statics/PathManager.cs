@@ -123,7 +123,7 @@ namespace KeepCoding
         /// <exception cref="FileNotFoundException"></exception>
         /// <param name="type">Any data from the assembly, which is used to get the name.</param>
         /// <returns>A <see cref="ModInfo"/> of the mod info json file located in the mod.</returns>
-        public static ModInfo GetModInfo(Type type) => GetModInfo(FileFormat.Form(NameOfAssembly(type), FileExtensionWindows));
+        public static ModInfo GetModInfo(Type type) => GetModInfo(NameOfAssembly(type));
 
         /// <summary>
         /// Gets the path and deserializes the modInfo.json located at every mod's root folder.
@@ -131,12 +131,13 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="NullIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
+        /// <typeparam name="T">The type to get the assembly from, which is used to get the name.</typeparam>
         /// <param name="_">Any data from the assembly, which is used to get the name.</param>
         /// <returns>A <see cref="ModInfo"/> of the mod info json file located in the mod.</returns>
-        public static ModInfo GetModInfo<T>(T _) => GetModInfo(FileFormat.Form(NameOfAssembly<T>(), FileExtensionWindows));
+        public static ModInfo GetModInfo<T>(T _) => GetModInfo(NameOfAssembly<T>());
 
         /// <summary>
-        /// Finds a path of a given file within each mod.
+        /// Finds the path of a given file within each mod.
         /// </summary>
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
@@ -162,6 +163,21 @@ namespace KeepCoding
                 .Replace($"/{fileName}", "")
                 .Replace(@$"\{fileName}", ""));
         }
+
+        /// <summary>
+        /// Finds the path of the mod.
+        /// </summary>
+        /// <param name="type">Any data from the assembly, which is used to get the name.</param>
+        /// <returns>The path to the mod.</returns>
+        public static string GetPath(Type type) => GetPath(FileFormat.Form(NameOfAssembly(type), FileExtensionWindows));
+
+        /// <summary>
+        /// Finds the path of the mod.
+        /// </summary>
+        /// <typeparam name="T">The type to get the assembly from, which is used to get the name.</typeparam>
+        /// <param name="_">Any data from the assembly, which is used to get the name.</param>
+        /// <returns>The path to the mod.</returns>
+        public static string GetPath<T>(T _) => GetPath(FileFormat.Form(NameOfAssembly<T>(), FileExtensionWindows));
 
         /// <summary>
         /// Loads a library by searching for the bundle. Do not run this on the Editor.
@@ -201,7 +217,7 @@ namespace KeepCoding
         /// <exception cref="NullIteratorException"></exception>
         /// <param name="type">Any data from the assembly, which is used to get the name.</param>
         /// <param name="libraryFileName">The library's name, excluding the extension.</param>
-        public static void LoadLibrary(Type type, string libraryFileName) => LoadLibrary(FileFormat.Form(NameOfAssembly(type), FileExtensionWindows), libraryFileName);
+        public static void LoadLibrary(Type type, string libraryFileName) => LoadLibrary(NameOfAssembly(type), libraryFileName);
 
         /// <summary>
         /// Loads a library by searching for the bundle. Do not run this on the Editor.
@@ -212,9 +228,10 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
         /// <exception cref="NullIteratorException"></exception>
+        /// <typeparam name="T">The type to get the assembly from, which is used to get the name.</typeparam>
         /// <param name="_">Any data from the assembly, which is used to get the name.</param>
         /// <param name="libraryFileName">The library's name, excluding the extension.</param>
-        public static void LoadLibrary<T>(T _, string libraryFileName) => LoadLibrary(FileFormat.Form(NameOfAssembly<T>(), FileExtensionWindows), libraryFileName);
+        public static void LoadLibrary<T>(T _, string libraryFileName) => LoadLibrary(NameOfAssembly<T>(), libraryFileName);
 
         /// <summary>
         /// Gets the video clips, the last yield return contains all of the videos.
@@ -261,7 +278,7 @@ namespace KeepCoding
         /// <param name="type">Any data from the assembly, which is used to get the name.</param>
         /// <param name="bundleVideoFileName">The name of the bundle that contains videos.</param>
         /// <returns>The <see cref="AssetBundleCreateRequest"/> needed to load the files, followed by the <see cref="VideoClip"/> <see cref="Array"/>.</returns>
-        public static IEnumerator LoadVideoClips(Type type, string bundleVideoFileName) => LoadVideoClips(FileFormat.Form(NameOfAssembly(type), FileExtensionWindows), bundleVideoFileName);
+        public static IEnumerator LoadVideoClips(Type type, string bundleVideoFileName) => LoadVideoClips(NameOfAssembly(type), bundleVideoFileName);
 
         /// <summary>
         /// Gets the video clips, the last yield return contains all of the videos.
@@ -269,10 +286,11 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
         /// <exception cref="NullIteratorException"></exception>
+        /// <typeparam name="T">The type to get the assembly from, which is used to get the name.</typeparam>
         /// <param name="_">Any data from the assembly, which is used to get the name.</param>
         /// <param name="bundleVideoFileName">The name of the bundle that contains videos.</param>
         /// <returns>The <see cref="AssetBundleCreateRequest"/> needed to load the files, followed by the <see cref="VideoClip"/> <see cref="Array"/>.</returns>
-        public static IEnumerator LoadVideoClips<T>(T _, string bundleVideoFileName) => LoadVideoClips(FileFormat.Form(NameOfAssembly<T>(), FileExtensionWindows), bundleVideoFileName);
+        public static IEnumerator LoadVideoClips<T>(T _, string bundleVideoFileName) => LoadVideoClips(NameOfAssembly<T>(), bundleVideoFileName);
 
         private static void CopyLibrary(in string libraryFileName, in string path)
         {
