@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.Application;
+using static KeepCoding.Game.PlayerSettings;
 
 namespace KeepCoding
 {
@@ -21,7 +23,7 @@ namespace KeepCoding
         /// <value>
         /// The current volume of the game. Ranges 0 to 100. In the Editor this value will always return 100.
         /// </value>
-        public int GameVolume => Application.isEditor ? 100 : _isMusic ? Game.PlayerSettings.MusicVolume : Game.PlayerSettings.SFXVolume;
+        public int GameVolume => isEditor ? 100 : _isMusic ? MusicVolume : SFXVolume;
 
         /// <summary>
         /// The volume it plays relative to the game sound. Works the same as <see cref="AudioSource.volume"/>, meaning 0 to 1 is the main range.
@@ -56,7 +58,7 @@ namespace KeepCoding
         private void Awake()
 #pragma warning restore IDE0051 // Remove unused private members
         {
-            _fade = this.ToRoutine((float from, float to) => SetFade(from, to));
+            _fade = this.ToRoutine((float from, float to) => TweenFade(from, to));
 
             _audioSource = gameObject.AddComponent<AudioSource>();
 
@@ -125,11 +127,11 @@ namespace KeepCoding
         public void Stop() => _audioSource.Stop();
 
         /// <summary>
-        /// Unpauses the paused playback of this <see cref="UnityEngine.AudioSource"/>.
+        /// Unpauses the paused playback of this <see cref="AudioSource"/>.
         /// </summary>
         public void Unpause() => _audioSource.UnPause();
 
-        private IEnumerator SetFade(float to, float time)
+        private IEnumerator TweenFade(float to, float time)
         {
             float current = 0, from = _audioSource.volume;
 
