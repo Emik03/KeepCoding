@@ -111,6 +111,16 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="NullIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
+        /// <param name="type">Any data from the assembly, which is used to get the name.</param>
+        /// <returns>A <see cref="ModInfo"/> of the mod info json file located in the mod.</returns>
+        public static ModInfo GetModInfo(Type type) => GetModInfo(NameOfAssembly(type));
+
+        /// <summary>
+        /// Gets the path and deserializes the modInfo.json located at every mod's root folder.
+        /// </summary>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
         /// <param name="_">Any data from the assembly, which is used to get the name.</param>
         /// <returns>A <see cref="ModInfo"/> of the mod info json file located in the mod.</returns>
         public static ModInfo GetModInfo<T>(T _) => GetModInfo(NameOfAssembly<T>());
@@ -138,7 +148,9 @@ namespace KeepCoding
                               .FirstOrDefault(x => Directory.GetFiles(x, fileName).Any()) ??
                           GetDisabledPath(fileName) ?? throw new FileNotFoundException($"The file name {fileName} could not be found within your mods folder!");
 
-            return SetCache(current, Path.GetDirectoryName(path));
+            return SetCache(current, path
+                .Replace($"/{fileName}", "")
+                .Replace(@$"\{fileName}", ""));
         }
 
         /// <summary>
@@ -167,6 +179,19 @@ namespace KeepCoding
 
             CopyLibrary(in libraryFileName, in path);
         }
+
+        /// <summary>
+        /// Loads a library by searching for the bundle. Do not run this on the Editor.
+        /// </summary>
+        /// <remarks>
+        /// If the library has already been loaded, then this method will prematurely halt.
+        /// </remarks>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <param name="type">Any data from the assembly, which is used to get the name.</param>
+        /// <param name="libraryFileName">The library's name, excluding the extension.</param>
+        public static void LoadLibrary(Type type, string libraryFileName) => LoadLibrary(NameOfAssembly(type), libraryFileName);
 
         /// <summary>
         /// Loads a library by searching for the bundle. Do not run this on the Editor.
@@ -216,6 +241,17 @@ namespace KeepCoding
             
             yield return videos;
         }
+
+        /// <summary>
+        /// Gets the video clips, the last yield return contains all of the videos.
+        /// </summary>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <param name="type">Any data from the assembly, which is used to get the name.</param>
+        /// <param name="bundleVideoFileName">The name of the bundle that contains videos.</param>
+        /// <returns>The <see cref="AssetBundleCreateRequest"/> needed to load the files, followed by the <see cref="VideoClip"/> <see cref="Array"/>.</returns>
+        public static IEnumerator LoadVideoClips(Type type, string bundleVideoFileName) => LoadVideoClips(NameOfAssembly(type), bundleVideoFileName);
 
         /// <summary>
         /// Gets the video clips, the last yield return contains all of the videos.
