@@ -2,6 +2,7 @@
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using static UnityEngine.GUILayout;
 
 namespace KeepCoding
 {
@@ -19,10 +20,10 @@ namespace KeepCoding
         {
             DrawDefaultInspector();
 
-            if (GUILayout.Button("Force Solve"))
+            if (Button("Force Solve"))
                 StartVerification((MonoBehaviour)target);
 
-            if (GUILayout.Button("Force Solve All"))
+            if (Button("Force Solve All"))
                 FindObjectsOfType<MonoBehaviour>().Where(m => m is ITP).Distinct().ToArray().ForEach(m => StartVerification(m));
         }
 
