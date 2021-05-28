@@ -45,8 +45,13 @@ namespace KeepCoding
         private AudioClip[] _audioClips;
 #pragma warning restore IDE0044 // Add readonly modifier
 
+        /// <value>
+        /// The audio source property. If the field it is referencing is <see langword="null"/> then it adds a component.
+        /// </value>
+        public AudioSource AudioSource => _audioSource ??= gameObject.AddComponent<AudioSource>();
+
         /// <summary>
-        /// The audio source.
+        /// The audio source field.
         /// </summary>
         [SerializeField]
         private AudioSource _audioSource;
@@ -54,8 +59,8 @@ namespace KeepCoding
         /// <summary>
         /// Returns the <see cref="AudioSource"/>.
         /// </summary>
-        /// <param name="dynamicAudio">The instance of <see cref="DynamicAudio"/> to retrieve <see cref="_audioSource"/> from.</param>
-        public static explicit operator AudioSource(DynamicAudio dynamicAudio) => dynamicAudio._audioSource;
+        /// <param name="dynamicAudio">The instance of <see cref="DynamicAudio"/> to retrieve <see cref="AudioSource"/> from.</param>
+        public static explicit operator AudioSource(DynamicAudio dynamicAudio) => dynamicAudio.AudioSource;
 
         private Routine<float, float> _fade;
 
@@ -65,9 +70,7 @@ namespace KeepCoding
         {
             _fade = this.ToRoutine((float from, float to) => TweenFade(from, to));
 
-            _audioSource = gameObject.AddComponent<AudioSource>();
-
-            _audioSource.playOnAwake = false;
+            AudioSource.playOnAwake = false;
 
             StartCoroutine(UpdateVolume());
         }
@@ -82,7 +85,7 @@ namespace KeepCoding
         /// <summary>
         /// Pauses playing the clip.
         /// </summary>
-        public void Pause() => _audioSource.Pause();
+        public void Pause() => AudioSource.Pause();
 
         /// <summary>
         /// Plays a sound, with optional parameters.
@@ -100,15 +103,15 @@ namespace KeepCoding
         {
             clip.NullCheck("You cannot play an audio clip which is null.");
 
-            _audioSource.clip = clip;
-            _audioSource.loop = loop;
-            _audioSource.priority = priority;
-            _audioSource.pitch = pitch;
-            _audioSource.time = time;
+            AudioSource.clip = clip;
+            AudioSource.loop = loop;
+            AudioSource.priority = priority;
+            AudioSource.pitch = pitch;
+            AudioSource.time = time;
 
             _volume = volume;
 
-            _audioSource.PlayDelayed(delay);
+            AudioSource.PlayDelayed(delay);
         }
 
         /// <summary>
@@ -129,16 +132,16 @@ namespace KeepCoding
         /// <summary>
         /// Stops playing the clip.
         /// </summary>
-        public void Stop() => _audioSource.Stop();
+        public void Stop() => AudioSource.Stop();
 
         /// <summary>
         /// Unpauses the paused playback of this <see cref="AudioSource"/>.
         /// </summary>
-        public void Unpause() => _audioSource.UnPause();
+        public void Unpause() => AudioSource.UnPause();
 
         private IEnumerator TweenFade(float to, float time)
         {
-            float current = 0, from = _audioSource.volume;
+            float current = 0, from = AudioSource.volume;
 
             while (current < time)
             {
@@ -151,14 +154,14 @@ namespace KeepCoding
                 yield return null;
             }
 
-            _audioSource.volume = to;
+            AudioSource.volume = to;
         }
 
         private IEnumerator UpdateVolume()
         {
             while (true)
             {
-                _audioSource.volume = _volume * GameVolume / 100f;
+                AudioSource.volume = _volume * GameVolume / 100f;
                 yield return null;
             }
         }
