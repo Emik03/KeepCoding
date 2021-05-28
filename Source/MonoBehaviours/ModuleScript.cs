@@ -7,6 +7,8 @@ using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
+using static KeepCoding.Game;
+using static KeepCoding.Game.KTInputManager;
 using static KMAudio;
 using static KMSoundOverride;
 using static UnityEngine.Application;
@@ -51,7 +53,7 @@ namespace KeepCoding
         /// <value>
         /// Determines whether the game is being played in Virtual Reality.
         /// </value>
-        public static bool IsVR => !IsEditor && Game.KTInputManager.IsCurrentControlTypeVR;
+        public static bool IsVR => !IsEditor && IsCurrentControlTypeVR;
 
         /// <value>
         /// The Unique Id for this module of this type.
@@ -204,7 +206,7 @@ namespace KeepCoding
             LogMultiple(in logs);
 
             IsSolved = true;
-            Module.Pass();
+            Module.Solve();
         }
 
         /// <summary>
@@ -371,7 +373,7 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// Similar to <see cref="Component.GetComponents{T}()"/>, however it caches the result in a dictionary, and will return the cached result if called again.
+        /// Similar to <see cref="GameObject.GetComponents{T}()"/>, however it caches the result in a dictionary, and will return the cached result if called again.
         /// </summary>
         /// <remarks>
         /// Use this in-place of public fields that refer to itself.
@@ -448,7 +450,7 @@ namespace KeepCoding
 
         private void RemoveStrikeOnException(string condition, string stackTrace, LogType type)
         {
-            var bomb = (Bomb)Game.Bomb(gameObject);
+            var bomb = (Bomb)Bomb(gameObject);
 
             bomb.NumStrikes--;
             bomb.StrikeIndicator.StrikeCount = bomb.NumStrikes;

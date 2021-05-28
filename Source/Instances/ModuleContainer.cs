@@ -61,7 +61,7 @@ namespace KeepCoding
         /// Call this when the entire module has been solved.
         /// </value>
         /// <exception cref="UnrecognizedTypeException"></exception>
-        public Action Pass => Module switch
+        public Action Solve => Module switch
         {
             KMBombModule bombModule => bombModule.HandlePass,
             KMNeedyModule needyModule => needyModule.HandlePass,
