@@ -13,7 +13,7 @@ namespace KeepCoding
     public sealed class DynamicAudio : MonoBehaviour
     {
         /// <summary>
-        /// Setting this value to true will make the volume relative to <see cref="Game.PlayerSettings.MusicVolume"/>, and <see cref="Game.PlayerSettings.SFXVolume"/> otherwise.
+        /// Setting this value to true will make the volume relative to <see cref="MusicVolume"/>, and <see cref="SFXVolume"/> otherwise.
         /// </summary>
         [SerializeField]
 #pragma warning disable IDE0044 // Add readonly modifier
