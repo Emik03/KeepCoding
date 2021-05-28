@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using static System.Text.RegularExpressions.RegexOptions;
 
 namespace KeepCoding
 {
@@ -192,7 +193,7 @@ namespace KeepCoding
         /// <param name="lenient">Whether it should add the default <c>^\s* PATTERN \s*$</c> embeded into most regex usages for Twitch Plays.</param>
         /// <param name="options">Any additional options for regular expressions.</param>
         /// <returns>True if <paramref name="input"/> passes the test of the <paramref name="pattern"/>.</returns>
-        protected static bool IsMatch(string input, string pattern, bool lenient = true, RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.CultureInvariant) => Regex.IsMatch(input.NullCheck("You cannot do a Regular Expression check where the message is null."), lenient ? @"^\s*" + pattern.NullCheck("You cannot do a Regular Expression check where the expression is null.") + @"\s*$" : pattern.NullCheck("You cannot do a Regular Expression check where the expression is null."), options);
+        protected static bool IsMatch(string input, string pattern, bool lenient = true, RegexOptions options = IgnoreCase | CultureInvariant) => Regex.IsMatch(input.NullCheck("You cannot do a Regular Expression check where the message is null."), lenient ? @"^\s*" + pattern.NullCheck("You cannot do a Regular Expression check where the expression is null.") + @"\s*$" : pattern.NullCheck("You cannot do a Regular Expression check where the expression is null."), options);
 
         /// <summary>
         /// Yield return this to allow you to tell the user why they got a strike if it isn't clear.
