@@ -177,7 +177,7 @@ namespace KeepCoding
         /// <typeparam name="T">The type to get the assembly from, which is used to get the name.</typeparam>
         /// <param name="_">Any data from the assembly, which is used to get the name.</param>
         /// <returns>The path to the mod.</returns>
-        public static string GetPath<T>(T _) => GetPath(FileFormat.Form(NameOfAssembly<T>(), FileExtensionWindows));
+        public static string GetPath<T>(T _ = default) => GetPath(FileFormat.Form(NameOfAssembly<T>(), FileExtensionWindows));
 
         /// <summary>
         /// Loads a library by searching for the bundle. Do not run this on the Editor.
