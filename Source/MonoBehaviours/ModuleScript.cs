@@ -459,7 +459,7 @@ namespace KeepCoding
             if (type != LogType.Exception || !IsLogFromThis(stackTrace))
                 return;
 
-            Log("Module ran into an exception, autosolving: {0}", condition);
+            Log("This module ran into an exception and will now therefore solve... {0}", condition);
             LogMultiple(stackTrace.Split('\n').Where(s => !s.IsNullOrEmpty()).ToArray());
 
             if (!(bool)(TP?.IsTP))
