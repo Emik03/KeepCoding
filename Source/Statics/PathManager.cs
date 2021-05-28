@@ -4,13 +4,21 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Video;
-using Debug = UnityEngine.Debug;
-using Object = UnityEngine.Object;
-using ModSourceEnum = KeepCoding.Game.ModSourceEnum;
+using static UnityEngine.Debug;
+using static KeepCoding.Game.ModManager;
+using static KeepCoding.Game.ModSourceEnum;
+using static KeepCoding.ModInfo;
+using static System.IntPtr;
+using static System.Linq.Enumerable;
+using static System.Reflection.Assembly;
+using static System.Runtime.CompilerServices.MethodImplOptions;
+using static UnityEngine.Application;
+using static UnityEngine.AssetBundle;
+using static UnityEngine.Object;
+using static UnityEngine.RuntimePlatform;
 
 namespace KeepCoding
 {
@@ -28,7 +36,7 @@ namespace KeepCoding
         /// If you want the version number of your modules, refer to <see cref="ModuleScript.Version"/> instead, or <see cref="GetModInfo{T}(T)"/>.
         /// </remarks>
         /// <returns>The version of this library.</returns>
-        public static Version Version => Assembly.GetExecutingAssembly().GetName().Version;
+        public static Version Version => GetExecutingAssembly().GetName().Version;
 
         private const string
             FileExtensionBundle = "bundle",
@@ -39,11 +47,13 @@ namespace KeepCoding
 
         private static readonly Dictionary<Tuple<string, string>, object> _cachedResults = new Dictionary<Tuple<string, string>, object>();
 
+        private static readonly PlatformNotSupportedException _intPtrException = new PlatformNotSupportedException("IntPtr size is not 4 or 8, what kind of system is this?");
+
         /// <summary>
         /// Prints a hierarchy of all game objects.
         /// </summary>
         /// <param name="indentation">The amount of spaces used for indenting children of game objects.</param>
-        public static void PrintHierarchy(ushort indentation = 4) => Object.FindObjectsOfType<GameObject>().Where(g => !g.transform.parent).ToArray().ForEach(g => PrintHierarchy(g, indentation));
+        public static void PrintHierarchy(ushort indentation = 4) => FindObjectsOfType<GameObject>().Where(g => !g.transform.parent).ToArray().ForEach(g => PrintHierarchy(g, indentation));
 
         /// <summary>
         /// Prints the hierarchy from the game object specified.
@@ -53,10 +63,10 @@ namespace KeepCoding
         /// <param name="depth">The level of depth which determines level of indentation. Leave this variable as 0.</param>
         public static void PrintHierarchy(GameObject obj, ushort indentation = 4, ushort depth = 0)
         {
-            string indent = new string(Enumerable.Repeat(' ', indentation * depth).ToArray());
+            string indent = new string(Repeat(' ', indentation * depth).ToArray());
 
-            Debug.Log($"{indent}{obj.name}");
-            Debug.LogWarning($"{indent}{obj.GetComponents<Component>().UnwrapToString()}");
+            Log($"{indent}{obj.name}");
+            LogWarning($"{indent}{obj.GetComponents<Component>().UnwrapToString()}");
 
             foreach (Transform child in obj.transform)
                 PrintHierarchy(child.gameObject, (ushort)(depth + 1), indentation);
@@ -102,7 +112,7 @@ namespace KeepCoding
 
             string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
 
-            return SetCache(current, ModInfo.Deserialize($"{path}{GetSlashType(in path)}modInfo.json"));
+            return SetCache(current, Deserialize($"{path}{GetSlashType(in path)}modInfo.json"));
         }
 
         /// <summary>
@@ -142,9 +152,9 @@ namespace KeepCoding
             if (IsCached(in current))
                 return GetCache<string>(in current);
 
-            string path = Game.ModManager.GetEnabledModPaths(ModSourceEnum.Local)
+            string path = GetEnabledModPaths(Local)
                               .FirstOrDefault(x => Directory.GetFiles(x, fileName).Any()) ??
-                          Game.ModManager.GetEnabledModPaths(ModSourceEnum.SteamWorkshop)
+                          GetEnabledModPaths(SteamWorkshop)
                               .FirstOrDefault(x => Directory.GetFiles(x, fileName).Any()) ??
                           GetDisabledPath(fileName) ?? throw new FileNotFoundException($"The file name {fileName} could not be found within your mods folder!");
 
@@ -229,7 +239,7 @@ namespace KeepCoding
 
             string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
 
-            var request = AssetBundle.LoadFromFileAsync($"{path}{GetSlashType(in path)}{FileFormat.Form(bundleVideoFileName, FileExtensionBundle)}");
+            var request = LoadFromFileAsync($"{path}{GetSlashType(in path)}{FileFormat.Form(bundleVideoFileName, FileExtensionBundle)}");
 
             yield return request;
 
@@ -266,16 +276,14 @@ namespace KeepCoding
 
         private static void CopyLibrary(in string libraryFileName, in string path)
         {
-            var unhandledIntPtr = new PlatformNotSupportedException("IntPtr size is not 4 or 8, what kind of system is this?");
-
-            switch (Application.platform)
+            switch (platform)
             {
-                case RuntimePlatform.WindowsPlayer:
-                    File.Copy(path + (IntPtr.Size == 4 ? "\\dlls\\x86\\" : IntPtr.Size == 8 ? "\\dlls\\x86_64\\" : throw unhandledIntPtr) + FileFormat.Form(libraryFileName, FileExtensionWindows), Application.dataPath + "\\Mono\\" + FileFormat.Form(libraryFileName, FileExtensionWindows), true);
+                case WindowsPlayer:
+                    File.Copy(path + (Size == 4 ? @"\dlls\x86\" : Size == 8 ? @"\dlls\x86_64\" : throw _intPtrException) + FileFormat.Form(libraryFileName, FileExtensionWindows), dataPath + @"\Mono\" + FileFormat.Form(libraryFileName, FileExtensionWindows), true);
                     break;
 
-                case RuntimePlatform.OSXPlayer:
-                    string dest = CombineMultiple(Application.dataPath, "Frameworks", "MonoEmbedRuntime", "osx");
+                case OSXPlayer:
+                    string dest = CombineMultiple(dataPath, "Frameworks", "MonoEmbedRuntime", "osx");
 
                     if (!Directory.Exists(dest))
                         Directory.CreateDirectory(dest);
@@ -283,15 +291,15 @@ namespace KeepCoding
                     File.Copy(CombineMultiple(path, "dlls", FileFormat.Form(libraryFileName, FileExtensionMacOS)), Path.Combine(dest, FileFormat.Form(libraryFileName, FileExtensionMacOS)), true);
                     break;
 
-                case RuntimePlatform.LinuxPlayer:
-                    File.Copy(CombineMultiple(path, "dlls", FileFormat.Form(libraryFileName, FileExtensionLinux)), CombineMultiple(Application.dataPath, "Mono", IntPtr.Size == 4 ? "x86" : IntPtr.Size == 8 ? "x86_64" : throw unhandledIntPtr, FileFormat.Form(libraryFileName, FileExtensionLinux)), true);
+                case LinuxPlayer:
+                    File.Copy(CombineMultiple(path, "dlls", FileFormat.Form(libraryFileName, FileExtensionLinux)), CombineMultiple(dataPath, "Mono", Size == 4 ? "x86" : Size == 8 ? "x86_64" : throw _intPtrException, FileFormat.Form(libraryFileName, FileExtensionLinux)), true);
                     break;
 
                 default: throw new PlatformNotSupportedException("The OS is not windows, linux, or mac, what kind of system is this?");
             }
         }
 
-        [MethodImpl(MethodImplOptions.NoInlining)]
+        [MethodImpl(NoInlining)]
         private static void Current(in string bundleFileName, out Tuple<string, string> current) => current = new StackTrace().GetFrame(1).GetMethod().Name.ToTuple(bundleFileName);
 
         private static bool IsCached(in Tuple<string, string> current) => _cachedResults.ContainsKey(current);
@@ -299,7 +307,7 @@ namespace KeepCoding
         private static char GetSlashType(in string path) => path.Count(c => c == '/') >= path.Count(c => c == '\\') ? '/' : '\\';
 
         private static string GetDisabledPath(string fileName) 
-            => Game.ModManager.GetDisabledModPaths().FirstValue(path =>
+            => GetDisabledModPaths().FirstValue(path =>
             {
                 try
                 {
