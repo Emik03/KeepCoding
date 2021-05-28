@@ -8,6 +8,9 @@ using System.Security;
 using System.Text;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using static System.Linq.Enumerable;
+using static System.Math;
+using static System.Reflection.BindingFlags;
 
 namespace KeepCoding
 {
@@ -19,7 +22,7 @@ namespace KeepCoding
         /// <summary>
         /// Contains the most commonly used flags, use this as a "catch-all" expression.
         /// </summary>
-        public const BindingFlags Flags = BindingFlags.IgnoreCase | BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
+        public const BindingFlags Flags = IgnoreCase | DeclaredOnly | Instance | Static | Public | NonPublic;
 
         /// <summary>
         /// The entire alphanumeric series, also known as base-62. From 0-9, A-Z, a-z.
@@ -135,7 +138,7 @@ namespace KeepCoding
         /// <param name="weighting">The odds of the boolean being true.</param>
         /// <returns>An array of random booleans of length <paramref name="length"/>, with probability based off of <paramref name="weighting"/>.</returns>
         /// <returns></returns>
-        public static bool[] RandomBooleans(this int length, float weighting = 0.5f) => Enumerable.Range(0, length).Select(i => RandomBoolean(weighting)).ToArray();
+        public static bool[] RandomBooleans(this int length, float weighting = 0.5f) => Range(0, length).Select(i => RandomBoolean(weighting)).ToArray();
 
         /// <summary>
         /// Converts a character to a number.
@@ -224,7 +227,7 @@ namespace KeepCoding
         /// <param name="min">The minimum value for each index. (inclusive)</param>
         /// <param name="max">The maximum value for each index. (exclusive)</param>
         /// <returns>Random integer array of length <paramref name="length"/> between <paramref name="min"/> and <paramref name="max"/>.</returns>
-        public static int[] Ranges(this int length, int min, int max) => Enumerable.Range(0, length).Select(i => Random.Range(min, max)).ToArray();
+        public static int[] Ranges(this int length, int min, int max) => Range(0, length).Select(i => Random.Range(min, max)).ToArray();
 
         /// <summary>
         /// Parses each element of an array into a number. If it succeeds it returns the integer array, if it fails then it returns null.
@@ -275,7 +278,7 @@ namespace KeepCoding
             for (int i = 0; i < chrs.Length; i++)
             {
                 x = dictionary[chrs[i]];
-                result += x * (long)Math.Pow(n, m--);
+                result += x * (long)Pow(n, m--);
             }
 
             return result;
@@ -299,7 +302,7 @@ namespace KeepCoding
         /// <param name="min">The minimum value for each index. (inclusive)</param>
         /// <param name="max">The maximum value for each index. (inclusive)</param>
         /// <returns>Random float array of length <paramref name="length"/> between <paramref name="min"/> and <paramref name="max"/>.</returns>
-        public static float[] Ranges(this int length, float min, float max) => Enumerable.Range(0, length).Select(i => Random.Range(min, max)).ToArray();
+        public static float[] Ranges(this int length, float min, float max) => Range(0, length).Select(i => Random.Range(min, max)).ToArray();
 
         /// <summary>
         /// Converts any base number to any base.
@@ -382,7 +385,7 @@ namespace KeepCoding
 
             long targetBase = baseChars.Length;
 
-            char[] buffer = new char[Math.Max((int)Math.Ceiling(Math.Log(value + 1, targetBase)), 1)];
+            char[] buffer = new char[Max((int)Ceiling(Log(value + 1, targetBase)), 1)];
 
             int i = buffer.Length;
 
@@ -473,7 +476,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="logType">The type of method to get.</param>
         /// <returns>The log method representing the enum <paramref name="logType"/>.</returns>
-        public static Action<object> Log(this LogType logType) => logType switch
+        public static Action<object> Logger(this LogType logType) => logType switch
         {
             LogType.Error => Debug.LogError,
             LogType.Assert => o => Debug.LogAssertion(o),
@@ -723,7 +726,7 @@ namespace KeepCoding
         /// <param name="item">The item to log</param>
         /// <param name="logType">The type of logging.</param>
         /// <returns>The item <paramref name="item"/>.</returns>
-        public static T Call<T>(this T item, LogType logType = LogType.Log) => item.Call(t => logType.Log()(t));
+        public static T Call<T>(this T item, LogType logType = LogType.Log) => item.Call(t => logType.Logger()(t));
 
         /// <summary>
         /// Returns the element of an array, pretending that the array wraps around or is circular.
