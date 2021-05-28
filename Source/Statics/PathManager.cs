@@ -143,7 +143,7 @@ namespace KeepCoding
         /// <exception cref="NullIteratorException"></exception>
         /// <param name="fileName">The file name to search for.</param>
         /// <returns>The path to <paramref name="fileName"/>.</returns>
-        private static string GetPath(string fileName)
+        public static string GetPath(string fileName)
         {
             fileName.NullOrEmptyCheck("You cannot retrieve a path if the file name is null or empty.");
 

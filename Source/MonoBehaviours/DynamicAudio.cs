@@ -48,7 +48,7 @@ namespace KeepCoding
         /// <value>
         /// The audio source property. If the field it is referencing is <see langword="null"/> then it adds a component.
         /// </value>
-        public AudioSource AudioSource => _audioSource ??= gameObject.AddComponent<AudioSource>();
+        public AudioSource AudioSource => _audioSource;
 
         /// <summary>
         /// The audio source field.
@@ -68,9 +68,12 @@ namespace KeepCoding
         private void Awake()
 #pragma warning restore IDE0051 // Remove unused private members
         {
-            _fade = this.ToRoutine((float from, float to) => TweenFade(from, to));
+            if (!_audioSource)
+                _audioSource = gameObject.AddComponent<AudioSource>();
 
             AudioSource.playOnAwake = false;
+
+            _fade = this.ToRoutine((float from, float to) => TweenFade(from, to));
 
             StartCoroutine(UpdateVolume());
         }
