@@ -457,6 +457,11 @@ namespace KeepCoding
         {
             if (type != LogType.Exception || !IsLogFromThis(stackTrace))
                 return;
+
+            var bomb = (Bomb)Bomb(gameObject);
+
+            bomb.NumStrikes--;
+            bomb.StrikeIndicator.StrikeCount = bomb.NumStrikes;
         }
 
         private void SolveOnException(string condition, string stackTrace, LogType type)
@@ -473,6 +478,13 @@ namespace KeepCoding
 
         private void TimerTick()
         {
+            var bomb = (Bomb)Bomb(gameObject);
+
+            bomb.GetTimer().TimerTick += (elapsed, remaining) =>
+            {
+                OnTimerTick();
+                TimeLeft = remaining;
+            };
         }
 
         private bool IsLogFromThis(string stackTrace) => stackTrace.Split('\n').Any(s => Regex.IsMatch(s, @$"^{GetType().Name}"));

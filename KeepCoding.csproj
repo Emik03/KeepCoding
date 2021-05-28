@@ -15,9 +15,9 @@
 	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	<Copyright>Emik</Copyright>
 	<RunPostBuildEvent>Always</RunPostBuildEvent>
-	<AssemblyVersion>3.1.0.0</AssemblyVersion>
-	<FileVersion>3.1.0.0</FileVersion>
-	<Version>3.1</Version>
+	<AssemblyVersion>3.2.0.0</AssemblyVersion>
+	<FileVersion>3.2.0.0</FileVersion>
+	<Version>3.2</Version>
 	<PackageId>KeepCoding</PackageId>
 	<SignAssembly>true</SignAssembly>
 	<DelaySign>false</DelaySign>
@@ -39,6 +39,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>D:\Steam\steamapps\common\Keep Talking and Nobody Explodes\ktane_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+      <Aliases></Aliases>
+    </Reference>
     <Reference Include="KMFramework">
       <HintPath>D:\ktanemodkit-master\Assets\Plugins\Managed\KMFramework.dll</HintPath>
       <Private>false</Private>
@@ -51,6 +56,14 @@
     </Reference>
     <Reference Include="UnityEditor">
       <HintPath>..\..\..\..\..\Program Files\Editor\Data\Managed\UnityEditor.dll</HintPath>
+      <Private>false</Private>
+    </Reference>    
+	<Reference Include="TweaksAssembly">
+      <HintPath>D:\Steam\steamapps\workshop\content\341800\1366808675\TweaksAssembly.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="TwitchPlaysAssembly">
+      <HintPath>D:\Steam\steamapps\workshop\content\341800\1711408527\TwitchPlaysAssembly.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine">
