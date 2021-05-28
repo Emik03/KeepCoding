@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Security;
+using static Newtonsoft.Json.JsonConvert;
+using static System.IO.File;
 
 namespace KeepCoding
 {
@@ -76,6 +78,6 @@ namespace KeepCoding
         /// <exception cref="SecurityException"></exception>
         /// <param name="path">The path of the file to deserialize.</param>
         /// <returns><paramref name="path"/> deserialized as <see cref="ModInfo"/>.</returns>
-        public static ModInfo Deserialize(string path) => JsonConvert.DeserializeObject<ModInfo>(File.ReadAllText(path.NullCheck("A \"null\" path cannot be searched.")));
+        public static ModInfo Deserialize(string path) => DeserializeObject<ModInfo>(ReadAllText(path.NullCheck("A \"null\" path cannot be searched.")));
     }
 }
