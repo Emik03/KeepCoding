@@ -11,8 +11,8 @@ The `EditorOnly` dll is optional. It replaces all references to the game with de
 
 Inside of your Unity project, drag `KeepCoding.dll` in **/Assets/Plugins/Managed**, and `KeepCoding-EditorOnly.dll` in **/Assets/Plugins**. 
 
-- Select `KeepCoding` and tick the checkbox `Standalone` under `Exclude Platforms`.
-- Select `KeepCoding-EditorOnly` and tick the checkbox `Editor` under `Exclude Platforms`.
+- Select `KeepCoding` and tick the checkbox `Editor` under `Exclude Platforms`.
+- Select `KeepCoding-EditorOnly` and tick the checkbox `Standalone` under `Exclude Platforms`.
 
 Unity will start reloading the scripts at this stage. After the reload, you can start using the library's code by going into any script file and accessing the namespace:
 
