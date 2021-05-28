@@ -540,10 +540,13 @@ namespace KeepCoding
             }
         }
 
-        private IEnumerator WaitForSolve(params string[] args)
+        private IEnumerator WaitForSolve()
         {
             yield return new WaitWhile(() => Get<KMBombModule>(allowNull: true)?.OnPass is null && Get<KMNeedyModule>(allowNull: true)?.OnPass is null);
-            Solve(args);
+            yield return TP?.TwitchHandleForcedSolve();
+
+            if (!IsSolved)
+                Solve();
         }
     }
 }
