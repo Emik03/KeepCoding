@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static KeepCoding.ComponentPool.SpecialComponentTypeEnum;
 
 namespace KeepCoding
 {
@@ -203,7 +204,7 @@ namespace KeepCoding
         /// Converts itself to a string.
         /// </summary>
         /// <returns>The list of mod types with a count at the end.</returns>
-        public override string ToString() => SpecialComponentType == SpecialComponentTypeEnum.None
+        public override string ToString() => SpecialComponentType == None
                 ? $"[{ComponentTypes.Select(c => c.ToString()).Concat(ModTypes.Where(s => !s.IsNullOrEmpty())).UnwrapToString()}] Count: {Count}"
                 : $"[{SpecialComponentType}] Count: {Count}";
     }
