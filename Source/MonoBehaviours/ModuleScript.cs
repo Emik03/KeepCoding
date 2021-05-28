@@ -126,6 +126,11 @@ namespace KeepCoding
         }
 
         /// <summary>
+        /// This removed the exception catcher. If you have an OnDestroy method, be sure to call <c>base.OnDestroy()</c> as the first statement.
+        /// </summary>
+        protected void OnDestroy() => logMessageReceived -= IsEditor ? SolveOnException : (LogCallback)SolveOnException + RemoveStrikeOnException;
+
+        /// <summary>
         /// Assigns events specified into <see cref="KMBombModule"/> or <see cref="KMNeedyModule"/>. Reassigning them will replace their values.
         /// </summary>
         /// <remarks>
