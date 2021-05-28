@@ -21,6 +21,11 @@ namespace KeepCoding
 #pragma warning restore IDE0044 // Add readonly modifier
 
         /// <value>
+        /// Determines if the audio source is currently playing.
+        /// </value>
+        public bool IsPlaying => _audioSource.isPlaying;
+
+        /// <value>
         /// The current volume of the game. Ranges 0 to 100. In the Editor this value will always return 100.
         /// </value>
         public int GameVolume => isEditor ? 100 : _isMusic ? MusicVolume : SFXVolume;
