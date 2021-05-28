@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -248,5 +248,13 @@ namespace KeepCoding
             /// </value>
             public static string LanguageCode => "en";
         }
+
+        /// <value>
+        /// Gets the game's internal bomb component, not to be mistaken with <see cref="KMBomb"/>.
+        /// </value>
+        /// <remarks>
+        /// To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to Bomb or <see cref="MonoBehaviour"/> type to restore its functionality.
+        /// </remarks>
+        public static Func<GameObject, object> Bomb => gameObject => gameObject.GetComponentInParent(typeof(Bomb));
     }
 }

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using static System.Text.RegularExpressions.RegexOptions;
 
 namespace KeepCoding
 {
@@ -16,7 +15,10 @@ namespace KeepCoding
         /// <summary>
         /// The help message that gets sent when typing <c>!{0} help</c>.
         /// </summary>
-        public string TwitchHelpMessage;
+        [SerializeField]
+#pragma warning disable IDE0044 // Add readonly modifier
+        private string TwitchHelpMessage;
+#pragma warning restore IDE0044 // Add readonly modifier
 
         /// <value>
         /// Determines if it should allow for the timer to be skipped when the module it is in, as well as any other modules that would like to skip time, are the only unsolved modules left on the bomb. 
@@ -191,7 +193,7 @@ namespace KeepCoding
         /// <param name="lenient">Whether it should add the default <c>^\s* PATTERN \s*$</c> embeded into most regex usages for Twitch Plays.</param>
         /// <param name="options">Any additional options for regular expressions.</param>
         /// <returns>True if <paramref name="input"/> passes the test of the <paramref name="pattern"/>.</returns>
-        protected static bool IsMatch(string input, string pattern, bool lenient = true, RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.CultureInvariant) => Regex.IsMatch(input.NullCheck("You cannot do a Regular Expression check where the message is null."), lenient ? @"^\s*" + pattern.NullCheck("You cannot do a Regular Expression check where the expression is null.") + @"\s*$" : pattern.NullCheck("You cannot do a Regular Expression check where the expression is null."), options);
+        protected static bool IsMatch(string input, string pattern, bool lenient = true, RegexOptions options = IgnoreCase | CultureInvariant) => Regex.IsMatch(input.NullCheck("You cannot do a Regular Expression check where the message is null."), lenient ? @"^\s*" + pattern.NullCheck("You cannot do a Regular Expression check where the expression is null.") + @"\s*$" : pattern.NullCheck("You cannot do a Regular Expression check where the expression is null."), options);
 
         /// <summary>
         /// Yield return this to allow you to tell the user why they got a strike if it isn't clear.
@@ -303,8 +305,8 @@ namespace KeepCoding
 
         private static string AppendIfNotNullOrEmpty(string main, params object[] toAppend)
         {
-            for (int i = 0; i < toAppend.LengthOrDefault(); i++)
-                main += ' ' + toAppend[i].ToString();
+            if (!toAppend.IsNullOrEmpty())
+                toAppend.ForEach(s => main += $" {s}");
 
             return main;
         }

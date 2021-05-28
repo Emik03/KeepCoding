@@ -15,13 +15,13 @@ namespace KeepCoding
         /// An instance of Sound where <see cref="Custom"/> is defined.
         /// </summary>
         /// <param name="sound">The sound to insert.</param>
-        public Sound(string sound) => Custom = sound;
+        public Sound(string sound) => Custom = sound.NullCheck("The string provided is null!");
 
         /// <summary>
         /// An instance of Sound where <see cref="Custom"/> is defined.
         /// </summary>
         /// <param name="sound">The sound to insert.</param>
-        public Sound(AudioClip sound) => Custom = sound.name;
+        public Sound(AudioClip sound) => Custom = sound.NullCheck("The AudioClip provided is null!").name;
 
         /// <summary>
         /// An instance of sound where <see cref="Game"/> is defined.

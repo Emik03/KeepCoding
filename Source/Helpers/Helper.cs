@@ -8,6 +8,9 @@ using System.Security;
 using System.Text;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using static System.Linq.Enumerable;
+using static System.Math;
+using static System.Reflection.BindingFlags;
 
 namespace KeepCoding
 {
@@ -19,7 +22,7 @@ namespace KeepCoding
         /// <summary>
         /// Contains the most commonly used flags, use this as a "catch-all" expression.
         /// </summary>
-        public const BindingFlags Flags = BindingFlags.IgnoreCase | BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
+        public const BindingFlags Flags = IgnoreCase | DeclaredOnly | Instance | Static | Public | NonPublic;
 
         /// <summary>
         /// The entire alphanumeric series, also known as base-62. From 0-9, A-Z, a-z.
@@ -50,8 +53,9 @@ namespace KeepCoding
         /// </remarks>
         /// <typeparam name="T">The type of component to find.</typeparam>
         /// <param name="obj">The game object to search with.</param>
+        /// <param name="component">The variable to store the component in.</param>
         /// <returns>True if a component has been found of type <typeparamref name="T"/> from <paramref name="obj"/>.</returns>
-        public static bool HasComponent<T>(this GameObject obj) where T : Component => obj.GetComponent<T>();
+        public static bool HasComponent<T>(this GameObject obj, out T component) where T : Component => (component = obj.GetComponent<T>()) is T;
 
         /// <summary>
         /// Determines whether the number is equal or in-between 2 values.
@@ -112,7 +116,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="kmSelectable">This is required to check the children field.</param>
         /// <returns>True if <see cref="KMSelectable.Children"/> is empty.</returns>
-        public static bool IsParent(this KMSelectable kmSelectable) => kmSelectable.Children.Length > 0;
+        public static bool IsParent(this KMSelectable kmSelectable) => !kmSelectable.Children.IsNullOrEmpty();
 
         /// <summary>
         /// Generates a random boolean.
@@ -134,7 +138,7 @@ namespace KeepCoding
         /// <param name="weighting">The odds of the boolean being true.</param>
         /// <returns>An array of random booleans of length <paramref name="length"/>, with probability based off of <paramref name="weighting"/>.</returns>
         /// <returns></returns>
-        public static bool[] RandomBooleans(this int length, float weighting = 0.5f) => Enumerable.Range(0, length).Select(i => RandomBoolean(weighting)).ToArray();
+        public static bool[] RandomBooleans(this int length, float weighting = 0.5f) => Range(0, length).Select(i => RandomBoolean(weighting)).ToArray();
 
         /// <summary>
         /// Converts a character to a number.
@@ -223,7 +227,7 @@ namespace KeepCoding
         /// <param name="min">The minimum value for each index. (inclusive)</param>
         /// <param name="max">The maximum value for each index. (exclusive)</param>
         /// <returns>Random integer array of length <paramref name="length"/> between <paramref name="min"/> and <paramref name="max"/>.</returns>
-        public static int[] Ranges(this int length, int min, int max) => Enumerable.Range(0, length).Select(i => Random.Range(min, max)).ToArray();
+        public static int[] Ranges(this int length, int min, int max) => Range(0, length).Select(i => Random.Range(min, max)).ToArray();
 
         /// <summary>
         /// Parses each element of an array into a number. If it succeeds it returns the integer array, if it fails then it returns null.
@@ -274,7 +278,7 @@ namespace KeepCoding
             for (int i = 0; i < chrs.Length; i++)
             {
                 x = dictionary[chrs[i]];
-                result += x * (long)Math.Pow(n, m--);
+                result += x * (long)Pow(n, m--);
             }
 
             return result;
@@ -298,7 +302,7 @@ namespace KeepCoding
         /// <param name="min">The minimum value for each index. (inclusive)</param>
         /// <param name="max">The maximum value for each index. (inclusive)</param>
         /// <returns>Random float array of length <paramref name="length"/> between <paramref name="min"/> and <paramref name="max"/>.</returns>
-        public static float[] Ranges(this int length, float min, float max) => Enumerable.Range(0, length).Select(i => Random.Range(min, max)).ToArray();
+        public static float[] Ranges(this int length, float min, float max) => Range(0, length).Select(i => Random.Range(min, max)).ToArray();
 
         /// <summary>
         /// Converts any base number to any base.
@@ -381,7 +385,7 @@ namespace KeepCoding
 
             long targetBase = baseChars.Length;
 
-            char[] buffer = new char[Math.Max((int)Math.Ceiling(Math.Log(value + 1, targetBase)), 1)];
+            char[] buffer = new char[Max((int)Ceiling(Log(value + 1, targetBase)), 1)];
 
             int i = buffer.Length;
 
@@ -464,8 +468,23 @@ namespace KeepCoding
             Tuple tuple => tuple.ToArray.Unwrap(),
             IEnumerable ienumerable => ienumerable.Unwrap(),
             IEnumerator ienumerator => ienumerator.AsEnumerable().Unwrap(),
-            _ => isRecursive ? source.GetAllValues().Cast<object>().Prepend(source) : new object[] { source },
+            _ => isRecursive ? source.ReflectAll().Cast<object>().Prepend(source) : new object[] { source },
         }).ToArray();
+
+        /// <summary>
+        /// Gets the appropriate log method depending on the type of <see cref="LogType"/>.
+        /// </summary>
+        /// <param name="logType">The type of method to get.</param>
+        /// <returns>The log method representing the enum <paramref name="logType"/>.</returns>
+        public static Action<object> Logger(this LogType logType) => logType switch
+        {
+            LogType.Error => Debug.LogError,
+            LogType.Assert => o => Debug.LogAssertion(o),
+            LogType.Warning => Debug.LogWarning,
+            LogType.Log => Debug.Log,
+            LogType.Exception => o => Debug.LogException((Exception)o),
+            _ => throw new UnrecognizedValueException($"{logType} is not a valid log type."),
+        };
 
         /// <summary>
         /// Calculates the rem-euclid modulo, which allows negative numbers to be properly calculated.
@@ -534,7 +553,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="source">The item to get all fields and properties.</param>
         /// <returns>All fields and properties of <paramref name="source"/>.</returns>
-        public static IEnumerable<string> GetAllValues<T>(this T source) => source?.GetType().GetFields(Flags).Select(f => $"\n{f} (Field): {f?.GetValue(source).UnwrapToString()}").Concat(source?.GetType().GetProperties(Flags).Select(p => $"\n{p} (Property): {p?.GetValue(source, null).UnwrapToString()}"));
+        public static IEnumerable<string> ReflectAll<T>(this T source) => source?.GetType().GetFields(Flags).Select(f => $"\n{f} (Field): {f?.GetValue(source).UnwrapToString()}").Concat(source?.GetType().GetProperties(Flags).Select(p => $"\n{p} (Property): {p?.GetValue(source, null).UnwrapToString()}"));
 
         /// <summary>
         /// Removes the elements whose index does not match any of the indices.
@@ -699,6 +718,15 @@ namespace KeepCoding
             action.NullCheck("The action cannot be null.")(item);
             return item;
         }
+
+        /// <summary>
+        /// Invokes a logging method and then returns the argument provided.
+        /// </summary>
+        /// <typeparam name="T">The type of logging.</typeparam>
+        /// <param name="item">The item to log</param>
+        /// <param name="logType">The type of logging.</param>
+        /// <returns>The item <paramref name="item"/>.</returns>
+        public static T Call<T>(this T item, LogType logType = LogType.Log) => item.Call(t => logType.Logger()(t));
 
         /// <summary>
         /// Returns the element of an array, pretending that the array wraps around or is circular.

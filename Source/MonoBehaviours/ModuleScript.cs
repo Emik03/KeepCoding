@@ -4,17 +4,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
+using static KeepCoding.Game;
+using static KeepCoding.Game.KTInputManager;
 using static KMAudio;
 using static KMSoundOverride;
+using static UnityEngine.Application;
 
 namespace KeepCoding
 {
     /// <summary>
     /// Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
     /// </summary>
-    [RequireComponent(typeof(ModBundle))]
     public abstract class ModuleScript : MonoBehaviour
     {
         /// <value>
@@ -30,12 +33,12 @@ namespace KeepCoding
         /// <value>
         /// Determines whether the application is running from inside unity.
         /// </value>
-        public static bool IsEditor => Application.isEditor;
+        public static bool IsEditor => isEditor;
 
         /// <value>
         /// Determines whether this module is the last instantiated instance.
         /// </value>
-        public bool IsLastInstantiated => ModuleId == _moduleIds[Module.ModuleType];
+        public bool IsLastInstantiated => ModuleId == _moduleIds[Module.Id];
 
         /// <value>
         /// Determines whether the needy is active.
@@ -50,7 +53,7 @@ namespace KeepCoding
         /// <value>
         /// Determines whether the game is being played in Virtual Reality.
         /// </value>
-        public static bool IsVR => !IsEditor && Game.KTInputManager.IsCurrentControlTypeVR;
+        public static bool IsVR => !IsEditor && IsCurrentControlTypeVR;
 
         /// <value>
         /// The Unique Id for this module of this type.
@@ -63,11 +66,11 @@ namespace KeepCoding
         public int TimeLeft { get; private set; }
 
         /// <value>
-        /// The version number of the entire mod. Requires <see cref="ModBundle.Name"/> to be set.
+        /// The version number of the entire mod.
         /// </value>
         /// <exception cref="OperationCanceledException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
-        public string Version => (IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(Get<ModBundle>().Name).Version) ?? throw new OperationCanceledException($"{nameof(ModBundle.Name)} couldn't be found. Did you spell your Mod name correctly? Refer to this link for more details: https://github.com/Emik03/KeepCoding/wiki/Chapter-2.1:-ModuleScript#version-string");
+        public string Version => (IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(GetType()).Version) ?? throw new OperationCanceledException($"The assembly directory could not be determined. This is a bug caused by the library, please file a bug report alongside the source code.");
 
         /// <value>
         /// Contains an instance for every <see cref="Sound"/> played by this module using <see cref="PlaySound(Transform, bool, Sound[])"/> or any of its overloads.
@@ -85,7 +88,7 @@ namespace KeepCoding
         /// <remarks>
         /// Due to type ambiguity, a non-generic interface is returned.
         /// </remarks>
-        public ITP TP => _tp ??= GetComponents<Component>().FirstValue(c => c is ITP ? c : null) as ITP;
+        public ITP TP => _tp ??= GetComponents<Component>().FirstOrDefault(c => c is ITP) as ITP;
         private ITP _tp;
 
         private static readonly Dictionary<string, int> _moduleIds = new Dictionary<string, int>();
@@ -94,7 +97,7 @@ namespace KeepCoding
 
         private Action _setActive;
 
-        private Dictionary<Type, Component[]> _components;
+        private readonly Dictionary<Type, Component[]> _components = new Dictionary<Type, Component[]>();
 
         /// <summary>
         /// This initalizes the module. If you have an Awake method, be sure to call <c>base.Awake()</c> as the first statement.
@@ -103,30 +106,29 @@ namespace KeepCoding
         /// <exception cref="NullIteratorException"></exception>
         protected void Awake()
         {
-            _setActive = () =>
-            {
-                if (Get<KMBombInfo>(allowNull: true) is KMBombInfo bombInfo)
-                    StartCoroutine(BombInfo(bombInfo));
-                IsActive = true;
-                OnActivate();
-            };
+            logMessageReceived += IsEditor ? SolveOnException : (LogCallback)SolveOnException + RemoveStrikeOnException;
 
-            _components = new Dictionary<Type, Component[]>() { { typeof(ModuleScript), new[] { this } } };
+            _setActive = Active;
 
             _database = new Dictionary<string, Dictionary<string, object>[]>();
-
-            Get<ModBundle>().Name.NullOrEmptyCheck("The public field \"ModBundleName\" is empty! This means that when compiled it won't be able to run! Please set this field to your Mod ID located at Keep Talking ModKit -> Configure Mod. Refer to this link for more details: https://github.com/Emik03/KeepCoding/wiki/Chapter-2.4:-ModBundle");
-                     
+            
             Module = new ModuleContainer(Get<KMBombModule>(allowNull: true), Get<KMNeedyModule>(allowNull: true));
 
             Module.OnActivate(_setActive);
 
-            ModuleId = _moduleIds.SetOrReplace(Module.ModuleType, i => ++i);
+            ModuleId = _moduleIds.SetOrReplace(Module.Id, i => ++i);
+
+            Debug.Log($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
 
             Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
 
             StartCoroutine(EditorCheckLatest());
         }
+
+        /// <summary>
+        /// This removed the exception catcher. If you have an OnDestroy method, be sure to call <c>base.OnDestroy()</c> as the first statement.
+        /// </summary>
+        protected void OnDestroy() => logMessageReceived -= IsEditor ? SolveOnException : (LogCallback)SolveOnException + RemoveStrikeOnException;
 
         /// <summary>
         /// Assigns events specified into <see cref="KMBombModule"/> or <see cref="KMNeedyModule"/>. Reassigning them will replace their values.
@@ -181,7 +183,7 @@ namespace KeepCoding
             type.GetFields(Helper.Flags).ForEach(f => values.Add(Format(f.Name, f.GetValue(this))));
             type.GetProperties(Helper.Flags).ForEach(p => values.Add(Format(p.Name, p.GetValue(this, null))));
 
-            Debug.LogWarning(Helper.DumpTemplate.Form(Module.ModuleDisplayName, ModuleId, string.Join("", values.Select(o => string.Join("", o.Unwrap(getVariables).Select(o => o.ToString()).ToArray())).ToArray())));
+            Debug.LogWarning(Helper.DumpTemplate.Form(Module.Name, ModuleId, string.Join("", values.Select(o => string.Join("", o.Unwrap(getVariables).Select(o => o.ToString()).ToArray())).ToArray())));
         }
 
         /// <summary>
@@ -189,7 +191,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
         /// <param name="logs">All of the variables to throughly log.</param>
-        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => Debug.LogWarning(Helper.DumpTemplate.Form(Module.ModuleDisplayName, ModuleId, string.Join("", logs.Select((l, n) => Helper.VariableTemplate.Form(n, Helper.NameOfVariable(l), l.Compile()()?.GetType().ToString() ?? Helper.Null, string.Join(", ", l.Compile()().Unwrap(getVariables).Select(o => o.ToString()).ToArray()))).ToArray())));
+        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => Debug.LogWarning(Helper.DumpTemplate.Form(Module.Name, ModuleId, string.Join("", logs.Select((l, n) => Helper.VariableTemplate.Form(n, Helper.NameOfVariable(l), l.Compile()()?.GetType().ToString() ?? Helper.Null, string.Join(", ", l.Compile()().Unwrap(getVariables).Select(o => o.ToString()).ToArray()))).ToArray())));
 
         /// <summary>
         /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
@@ -209,7 +211,7 @@ namespace KeepCoding
             LogMultiple(in logs);
 
             IsSolved = true;
-            Module.HandlePass();
+            Module.Solve();
         }
 
         /// <summary>
@@ -221,7 +223,7 @@ namespace KeepCoding
             LogMultiple(in logs);
 
             HasStruck = true;
-            Module.HandleStrike();
+            Module.Strike();
         }
 
         /// <summary>
@@ -230,7 +232,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="message">The message to log.</param>
         /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
-        public void Log<T>(T message, LogType logType = LogType.Log) => GetLogMethod(logType)($"[{Module.ModuleDisplayName} #{ModuleId}] {message.UnwrapToString()}");
+        public void Log<T>(T message, LogType logType = LogType.Log) => logType.Logger()($"[{Module.Name} #{ModuleId}] {message.UnwrapToString()}");
 
         /// <summary>
         /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
@@ -274,23 +276,23 @@ namespace KeepCoding
         /// <remarks>
         /// To ensure that this method works correctly, make sure that both modules have the same version of KeepCoding.
         /// </remarks>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
+        /// <typeparam name="T">The type of the expected input.</typeparam>
+        /// <param name="key">The key of the variable, a lot like a variable name.</param>
+        /// <param name="value">The value to store in the key.</param>
         public void Write<T>(string key, T value)
         {
-            if (!_database.ContainsKey(Module.ModuleType))
-                _database.Add(Module.ModuleType, new Dictionary<string, object>[] { });
+            if (!_database.ContainsKey(Module.Id))
+                _database.Add(Module.Id, new Dictionary<string, object>[] { });
 
-            int index = _moduleIds[Module.ModuleType] - ModuleId;
+            int index = _moduleIds[Module.Id] - ModuleId;
 
-            while (index >= _database[Module.ModuleType].Length)
-                _database[Module.ModuleType].Append(new Dictionary<string, object>());
+            while (index >= _database[Module.Id].Length)
+                _database[Module.Id].Append(new Dictionary<string, object>());
 
-            if (!_database[Module.ModuleType][index].ContainsKey(key))
-                _database[Module.ModuleType][index].Add(key, null);
+            if (!_database[Module.Id][index].ContainsKey(key))
+                _database[Module.Id][index].Add(key, null);
 
-            _database[Module.ModuleType][index][key] = value;
+            _database[Module.Id][index][key] = value;
         }
 
         /// <summary>
@@ -376,7 +378,7 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// Similar to <see cref="Component.GetComponents{T}()"/>, however it caches the result in a dictionary, and will return the cached result if called again.
+        /// Similar to <see cref="GameObject.GetComponents{T}()"/>, however it caches the result in a dictionary, and will return the cached result if called again.
         /// </summary>
         /// <remarks>
         /// Use this in-place of public fields that refer to itself.
@@ -411,6 +413,15 @@ namespace KeepCoding
             throw new WrongDatatypeException($"The data type {typeof(T).Name} was expected, but received {d[key].GetType()} from module {module} with key {key}!");
         });
 
+        private void Active()
+        {
+            if (Get<KMBombInfo>(allowNull: true) is KMBombInfo bombInfo)
+                StartCoroutine(BombInfo(bombInfo));
+
+            IsActive = true;
+            OnActivate();
+        }
+
         private void AssignNeedy(Action onTimerExpired, Action onNeedyActivation, Action onNeedyDeactivation)
         {
             if (onTimerExpired is { })
@@ -431,7 +442,7 @@ namespace KeepCoding
                 };
         }
 
-        private void CheckForTime(in KMBombInfo bombInfo)
+        private void TimerTickEditor(in KMBombInfo bombInfo)
         {
             if (TimeLeft != (int)bombInfo.GetTime())
             {
@@ -440,9 +451,50 @@ namespace KeepCoding
             }
         }
 
-        private void LogMultiple(in string[] logs) => logs.ForEach(s => Log(s));
+        private void LogMultiple(in string[] logs) => logs?.ForEach(s => Log(s));
 
-        private static short VersionToNumber(string s) => short.Parse(s.Replace(".", "").PadRight(4, '0'));
+        private void RemoveStrikeOnException(string condition, string stackTrace, LogType type)
+        {
+            if (type != LogType.Exception || !IsLogFromThis(stackTrace))
+                return;
+
+            var bomb = (Bomb)Bomb(gameObject);
+
+            bomb.NumStrikes--;
+            bomb.StrikeIndicator.StrikeCount = bomb.NumStrikes;
+        }
+
+        private void SolveOnException(string condition, string stackTrace, LogType type)
+        {
+            if (type != LogType.Exception || !IsLogFromThis(stackTrace))
+                return;
+
+            Log("This module ran into an exception and will now therefore solve... {0}", condition);
+            LogMultiple(stackTrace.Split('\n').Where(s => !s.IsNullOrEmpty()).ToArray());
+
+            if (!(bool)(TP?.IsTP))
+                StartCoroutine(WaitForSolve());
+        }
+
+        private void TimerTick()
+        {
+            var bomb = (Bomb)Game.Bomb(gameObject);
+
+            bomb.GetTimer().TimerTick += (elapsed, remaining) =>
+            {
+                OnTimerTick();
+                TimeLeft = remaining;
+            };
+        }
+
+        private bool IsLogFromThis(string stackTrace) => stackTrace.Split('\n').Any(s => Regex.IsMatch(s, @$"^{GetType().Name}"));
+
+        private static uint VersionToNumber(string s) => uint.Parse(s.Replace(".", "").PadRight(9, '0'));
+
+        private Func<Transform, bool, KMAudioRef> GetSoundMethod(Sound sound) => (t, b) =>
+            sound.Custom is { } ? Get<KMAudio>().HandlePlaySoundAtTransformWithRef(sound.Custom, t, b) :
+            sound.Game is { } ? Get<KMAudio>().HandlePlayGameSoundAtTransformWithRef(sound.Game.Value, t) :
+            throw new UnrecognizedValueException($"{sound}'s properties {nameof(Sound.Custom)} and {nameof(Sound.Game)} are both null!");
 
         private IEnumerator EditorCheckLatest()
         {
@@ -454,13 +506,10 @@ namespace KeepCoding
             yield return req.SendWebRequest();
 
             if (req.isNetworkError || req.isHttpError)
-            {
-                Log("The KeepCoding version could not be pulled, presumably because the user is offline.");
-                yield break;
-            }
+                Log($"The KeepCoding version could not be pulled: {req.error}.", LogType.Warning);
 
-            if (VersionToNumber(PathManager.Version().ProductVersion) < VersionToNumber(req.downloadHandler.text.Trim()))
-                Log($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.Version().ProductVersion}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Error);
+            else if (VersionToNumber(PathManager.Version.ToString()) < VersionToNumber(req.downloadHandler.text.Trim()))
+                Log($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
         }
 
         private IEnumerator BombInfo(KMBombInfo bombInfo)
@@ -469,39 +518,45 @@ namespace KeepCoding
 
             var solvables = bomb.GetComponentsInChildren<KMBombModule>();
             var needies = bomb.GetComponentsInChildren<KMNeedyModule>();
-            
+
+            static bool Run(ModuleContainer module, Action<string> action)
+            {
+                action(module.Id);
+                return false;
+            }
+
             solvables.ForEach(m => 
             {
-                m.OnPass += () => false.Call(b => OnSolvableSolved(m.ModuleType));
-                m.OnStrike += () => false.Call(b => OnModuleStrike(m.ModuleType));
+                m.OnPass += () => Run(m, OnSolvableSolved);
+                m.OnStrike += () => Run(m, OnModuleStrike);
             });
 
             needies.ForEach(m =>
             {
-                m.OnPass += () => false.Call(b => OnNeedySolved(m.ModuleType));
-                m.OnStrike += () => false.Call(b => OnModuleStrike(m.ModuleType));
+                m.OnPass += () => Run(m, OnNeedySolved);
+                m.OnStrike += () => Run(m, OnModuleStrike);
             });
+
+            if (!IsEditor)
+            {
+                TimerTick();
+                yield break;
+            }
 
             while (true)
             {
-                CheckForTime(in bombInfo);
+                TimerTickEditor(in bombInfo);
                 yield return null;
             }
         }
 
-        private static Action<object> GetLogMethod(LogType logType) => logType switch
+        private IEnumerator WaitForSolve()
         {
-            LogType.Error => Debug.LogError,
-            LogType.Assert => o => Debug.LogAssertion(o),
-            LogType.Warning => Debug.LogWarning,
-            LogType.Log => Debug.Log,
-            LogType.Exception => o => Debug.LogException((Exception)o),
-            _ => throw new UnrecognizedValueException($"{logType} is not a valid log type."),
-        };
+            yield return new WaitWhile(() => Get<KMBombModule>(allowNull: true)?.OnPass is null && Get<KMNeedyModule>(allowNull: true)?.OnPass is null);
+            yield return TP?.TwitchHandleForcedSolve();
 
-        private Func<Transform, bool, KMAudioRef> GetSoundMethod(Sound sound) => (t, b) => 
-            sound.Custom is { } ? Get<KMAudio>().HandlePlaySoundAtTransformWithRef(sound.Custom, t, b) : 
-            sound.Game is { } ? Get<KMAudio>().HandlePlayGameSoundAtTransformWithRef(sound.Game.Value, t) : 
-            throw new UnrecognizedValueException($"{sound}'s properties {nameof(Sound.Custom)} and {nameof(Sound.Game)} are both null!");
+            if (!IsSolved)
+                Solve();
+        }
     }
 }

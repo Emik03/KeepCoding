@@ -28,11 +28,24 @@ namespace KeepCoding
         }
 
         /// <summary>
+        /// Starts a coroutine if no coroutines are running, otherwise restarts.
+        /// </summary>
+        /// <param name="allowMultiple">Determines whether it should be allowed to create another instance of the coroutine even if it's running another one.</param>
+        /// <param name="oneByOne">If called multiple times, waits until the others are finished.</param>
+        public void StartOrRestart(bool allowMultiple = true, bool oneByOne = false)
+        {
+            if (Coroutines.IsNullOrEmpty())
+                Start(allowMultiple, oneByOne);
+            else
+                Restart(oneByOne);
+        }
+
+        /// <summary>
         /// Stops and restarts the first coroutine that was run.
         /// </summary>
         /// <exception cref="EmptyIteratorException"></exception>
         /// <param name="oneByOne">If called multiple times, waits until the others are finished.</param>
-        public void Restart(bool oneByOne)
+        public void Restart(bool oneByOne = false)
         {
             Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
@@ -61,6 +74,7 @@ namespace KeepCoding
         {
             yield return Wait(oneByOne);
             IsRunning = true;
+
             yield return _enumerator();
             IsRunning = false;
         }
@@ -90,6 +104,20 @@ namespace KeepCoding
         {
             if (!IsRunning || allowMultiple)
                 Coroutines.Add(Add(Coroutine(t, oneByOne)));
+        }
+
+        /// <summary>
+        /// Starts a coroutine if no coroutines are running, otherwise restarts.
+        /// </summary>
+        /// <param name="t">The first argument to pass into the coroutine.</param>
+        /// <param name="allowMultiple">Determines whether it should be allowed to create another instance of the coroutine even if it's running another one.</param>
+        /// <param name="oneByOne">If called multiple times, waits until the others are finished.</param>
+        public void StartOrRestart(T t, bool allowMultiple = true, bool oneByOne = false)
+        {
+            if (Coroutines.IsNullOrEmpty())
+                Start(t, allowMultiple, oneByOne);
+            else
+                Restart(t, oneByOne);
         }
 
         /// <summary>
@@ -128,6 +156,7 @@ namespace KeepCoding
         {
             yield return Wait(oneByOne);
             IsRunning = true;
+
             yield return _enumerator(t);
             IsRunning = false;
         }
@@ -158,6 +187,21 @@ namespace KeepCoding
         {
             if (!IsRunning || allowMultiple)
                 Coroutines.Add(Add(Coroutine(t1, t2, oneByOne)));
+        }
+
+        /// <summary>
+        /// Starts a coroutine if no coroutines are running, otherwise restarts.
+        /// </summary>
+        /// <param name="t1">The first argument to pass into the coroutine.</param>
+        /// <param name="t2">The second argument to pass into the coroutine.</param>
+        /// <param name="allowMultiple">Determines whether it should be allowed to create another instance of the coroutine even if it's running another one.</param>
+        /// <param name="oneByOne">If called multiple times, waits until the others are finished.</param>
+        public void StartOrRestart(T1 t1, T2 t2, bool allowMultiple = true, bool oneByOne = false)
+        {
+            if (Coroutines.IsNullOrEmpty())
+                Start(t1, t2, allowMultiple, oneByOne);
+            else
+                Restart(t1, t2, oneByOne);
         }
 
         /// <summary>
@@ -198,6 +242,7 @@ namespace KeepCoding
         {
             yield return Wait(oneByOne);
             IsRunning = true;
+
             yield return _enumerator(t1, t2);
             IsRunning = false;
         }
@@ -229,6 +274,22 @@ namespace KeepCoding
         {
             if (!IsRunning || allowMultiple)
                 Coroutines.Add(Add(Coroutine(t1, t2, t3, oneByOne)));
+        }
+
+        /// <summary>
+        /// Starts a coroutine if no coroutines are running, otherwise restarts.
+        /// </summary>
+        /// <param name="t1">The first argument to pass into the coroutine.</param>
+        /// <param name="t2">The second argument to pass into the coroutine.</param>
+        /// <param name="t3">The third argument to pass into the coroutine.</param>
+        /// <param name="allowMultiple">Determines whether it should be allowed to create another instance of the coroutine even if it's running another one.</param>
+        /// <param name="oneByOne">If called multiple times, waits until the others are finished.</param>
+        public void StartOrRestart(T1 t1, T2 t2, T3 t3, bool allowMultiple = true, bool oneByOne = false)
+        {
+            if (Coroutines.IsNullOrEmpty())
+                Start(t1, t2, t3, allowMultiple, oneByOne);
+            else
+                Restart(t1, t2, t3, oneByOne);
         }
 
         /// <summary>
@@ -271,6 +332,7 @@ namespace KeepCoding
         {
             yield return Wait(oneByOne);
             IsRunning = true;
+
             yield return _enumerator(t1, t2, t3);
             IsRunning = false;
         }
@@ -303,6 +365,23 @@ namespace KeepCoding
         {
             if (!IsRunning || allowMultiple)
                 Coroutines.Add(Add(Coroutine(t1, t2, t3, t4, oneByOne)));
+        }
+
+        /// <summary>
+        /// Starts a coroutine if no coroutines are running, otherwise restarts.
+        /// </summary>
+        /// <param name="t1">The first argument to pass into the coroutine.</param>
+        /// <param name="t2">The second argument to pass into the coroutine.</param>
+        /// <param name="t3">The third argument to pass into the coroutine.</param>
+        /// <param name="t4">The fourth argument to pass into the coroutine.</param>
+        /// <param name="allowMultiple">Determines whether it should be allowed to create another instance of the coroutine even if it's running another one.</param>
+        /// <param name="oneByOne">If called multiple times, waits until the others are finished.</param>
+        public void StartOrRestart(T1 t1, T2 t2, T3 t3, T4 t4, bool allowMultiple = true, bool oneByOne = false)
+        {
+            if (Coroutines.IsNullOrEmpty())
+                Start(t1, t2, t3, t4, allowMultiple, oneByOne);
+            else
+                Restart(t1, t2, t3, t4, oneByOne);
         }
 
         /// <summary>
@@ -347,6 +426,7 @@ namespace KeepCoding
         {
             yield return Wait(oneByOne);
             IsRunning = true;
+
             yield return _enumerator(t1, t2, t3, t4);
             IsRunning = false;
         }

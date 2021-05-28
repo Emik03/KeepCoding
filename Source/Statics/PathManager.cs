@@ -4,13 +4,21 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Video;
-using Debug = UnityEngine.Debug;
-using Object = UnityEngine.Object;
-using ModSourceEnum = KeepCoding.Game.ModSourceEnum;
+using static UnityEngine.Debug;
+using static KeepCoding.Game.ModManager;
+using static KeepCoding.Game.ModSourceEnum;
+using static KeepCoding.ModInfo;
+using static System.IntPtr;
+using static System.Linq.Enumerable;
+using static System.Reflection.Assembly;
+using static System.Runtime.CompilerServices.MethodImplOptions;
+using static UnityEngine.Application;
+using static UnityEngine.AssetBundle;
+using static UnityEngine.Object;
+using static UnityEngine.RuntimePlatform;
 
 namespace KeepCoding
 {
@@ -21,6 +29,15 @@ namespace KeepCoding
     /// </summary>
     public static class PathManager
     {
+        /// <summary>
+        /// Gets the current library's version number. Currently used by <see cref="ModuleScript"/> to log the version number of this library.
+        /// </summary>
+        /// <remarks>
+        /// If you want the version number of your modules, refer to <see cref="ModuleScript.Version"/> instead, or <see cref="GetModInfo{T}(T)"/>.
+        /// </remarks>
+        /// <returns>The version of this library.</returns>
+        public static Version Version => GetExecutingAssembly().GetName().Version;
+
         private const string
             FileExtensionBundle = "bundle",
             FileExtensionLinux = "so",
@@ -30,11 +47,13 @@ namespace KeepCoding
 
         private static readonly Dictionary<Tuple<string, string>, object> _cachedResults = new Dictionary<Tuple<string, string>, object>();
 
+        private static readonly PlatformNotSupportedException _intPtrException = new PlatformNotSupportedException("IntPtr size is not 4 or 8, what kind of system is this?");
+
         /// <summary>
         /// Prints a hierarchy of all game objects.
         /// </summary>
         /// <param name="indentation">The amount of spaces used for indenting children of game objects.</param>
-        public static void PrintFullHierarchy(ushort indentation = 4) => Object.FindObjectsOfType<GameObject>().Where(g => !g.transform.parent).ToArray().ForEach(g => PrintHierarchy(g, indentation));
+        public static void PrintHierarchy(ushort indentation = 4) => FindObjectsOfType<GameObject>().Where(g => !g.transform.parent).ToArray().ForEach(g => PrintHierarchy(g, indentation));
 
         /// <summary>
         /// Prints the hierarchy from the game object specified.
@@ -44,14 +63,28 @@ namespace KeepCoding
         /// <param name="depth">The level of depth which determines level of indentation. Leave this variable as 0.</param>
         public static void PrintHierarchy(GameObject obj, ushort indentation = 4, ushort depth = 0)
         {
-            string indent = new string(Enumerable.Repeat(' ', indentation * depth).ToArray());
+            string indent = new string(Repeat(' ', indentation * depth).ToArray());
 
-            Debug.Log($"{indent}{obj.name}");
-            Debug.LogWarning($"{indent}{obj.GetComponents<Component>().UnwrapToString()}");
+            Log($"{indent}{obj.name}");
+            LogWarning($"{indent}{obj.GetComponents<Component>().UnwrapToString()}");
 
             foreach (Transform child in obj.transform)
                 PrintHierarchy(child.gameObject, (ushort)(depth + 1), indentation);
         }
+
+        /// <summary>
+        /// Gets the assembly's directory where the type <typeparamref name="T"/> exists.
+        /// </summary>
+        /// <typeparam name="T">The type to get the assembly directory of.</typeparam>
+        /// <returns>The path to the directory of the assembly where the type <typeparamref name="T"/> comes from.</returns>
+        public static string NameOfAssembly<T>() => NameOfAssembly(typeof(T));
+
+        /// <summary>
+        /// Gets the assembly's directory where the type <paramref name="type"/> exists.
+        /// </summary>
+        /// <param name="type">The type to get the assembly directory of.</param>
+        /// <returns>The path to the directory of the assembly where the type <paramref name="type"/> comes from.</returns>
+        public static string NameOfAssembly(Type type) => type.Assembly.GetName().Name;
 
         /// <summary>
         /// Combines multiple paths together.
@@ -67,7 +100,7 @@ namespace KeepCoding
         /// <exception cref="NullIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
         /// <param name="bundleFileName">The name of the bundle assembly.</param>
-        /// <returns>The version number of the mod.</returns>
+        /// <returns>A <see cref="ModInfo"/> of the mod info json file located in the mod.</returns>
         public static ModInfo GetModInfo(string bundleFileName)
         {
             bundleFileName.NullOrEmptyCheck("You cannot retrieve a mod's modInfo.json if the bundle file name is null or empty.");
@@ -79,8 +112,28 @@ namespace KeepCoding
 
             string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
 
-            return SetCache(current, ModInfo.Deserialize($"{path}{GetSlashType(in path)}modInfo.json"));
+            return SetCache(current, Deserialize($"{path}{GetSlashType(in path)}modInfo.json"));
         }
+
+        /// <summary>
+        /// Gets the path and deserializes the modInfo.json located at every mod's root folder.
+        /// </summary>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
+        /// <param name="type">Any data from the assembly, which is used to get the name.</param>
+        /// <returns>A <see cref="ModInfo"/> of the mod info json file located in the mod.</returns>
+        public static ModInfo GetModInfo(Type type) => GetModInfo(NameOfAssembly(type));
+
+        /// <summary>
+        /// Gets the path and deserializes the modInfo.json located at every mod's root folder.
+        /// </summary>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
+        /// <param name="_">Any data from the assembly, which is used to get the name.</param>
+        /// <returns>A <see cref="ModInfo"/> of the mod info json file located in the mod.</returns>
+        public static ModInfo GetModInfo<T>(T _) => GetModInfo(NameOfAssembly<T>());
 
         /// <summary>
         /// Finds a path of a given file within each mod.
@@ -90,7 +143,7 @@ namespace KeepCoding
         /// <exception cref="NullIteratorException"></exception>
         /// <param name="fileName">The file name to search for.</param>
         /// <returns>The path to <paramref name="fileName"/>.</returns>
-        public static string GetPath(string fileName)
+        private static string GetPath(string fileName)
         {
             fileName.NullOrEmptyCheck("You cannot retrieve a path if the file name is null or empty.");
 
@@ -99,9 +152,9 @@ namespace KeepCoding
             if (IsCached(in current))
                 return GetCache<string>(in current);
 
-            string path = Game.ModManager.GetEnabledModPaths(ModSourceEnum.Local)
+            string path = GetEnabledModPaths(Local)
                               .FirstOrDefault(x => Directory.GetFiles(x, fileName).Any()) ??
-                          Game.ModManager.GetEnabledModPaths(ModSourceEnum.SteamWorkshop)
+                          GetEnabledModPaths(SteamWorkshop)
                               .FirstOrDefault(x => Directory.GetFiles(x, fileName).Any()) ??
                           GetDisabledPath(fileName) ?? throw new FileNotFoundException($"The file name {fileName} could not be found within your mods folder!");
 
@@ -138,6 +191,32 @@ namespace KeepCoding
         }
 
         /// <summary>
+        /// Loads a library by searching for the bundle. Do not run this on the Editor.
+        /// </summary>
+        /// <remarks>
+        /// If the library has already been loaded, then this method will prematurely halt.
+        /// </remarks>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <param name="type">Any data from the assembly, which is used to get the name.</param>
+        /// <param name="libraryFileName">The library's name, excluding the extension.</param>
+        public static void LoadLibrary(Type type, string libraryFileName) => LoadLibrary(NameOfAssembly(type), libraryFileName);
+
+        /// <summary>
+        /// Loads a library by searching for the bundle. Do not run this on the Editor.
+        /// </summary>
+        /// <remarks>
+        /// If the library has already been loaded, then this method will prematurely halt.
+        /// </remarks>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <param name="_">Any data from the assembly, which is used to get the name.</param>
+        /// <param name="libraryFileName">The library's name, excluding the extension.</param>
+        public static void LoadLibrary<T>(T _, string libraryFileName) => LoadLibrary(NameOfAssembly<T>(), libraryFileName);
+
+        /// <summary>
         /// Gets the video clips, the last yield return contains all of the videos.
         /// </summary>
         /// <exception cref="EmptyIteratorException"></exception>
@@ -160,7 +239,7 @@ namespace KeepCoding
 
             string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
 
-            var request = AssetBundle.LoadFromFileAsync($"{path}{GetSlashType(in path)}{FileFormat.Form(bundleVideoFileName, FileExtensionBundle)}");
+            var request = LoadFromFileAsync($"{path}{GetSlashType(in path)}{FileFormat.Form(bundleVideoFileName, FileExtensionBundle)}");
 
             yield return request;
 
@@ -173,20 +252,38 @@ namespace KeepCoding
             yield return videos;
         }
 
-        internal static FileVersionInfo Version() => FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
+        /// <summary>
+        /// Gets the video clips, the last yield return contains all of the videos.
+        /// </summary>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <param name="type">Any data from the assembly, which is used to get the name.</param>
+        /// <param name="bundleVideoFileName">The name of the bundle that contains videos.</param>
+        /// <returns>The <see cref="AssetBundleCreateRequest"/> needed to load the files, followed by the <see cref="VideoClip"/> <see cref="Array"/>.</returns>
+        public static IEnumerator LoadVideoClips(Type type, string bundleVideoFileName) => LoadVideoClips(NameOfAssembly(type), bundleVideoFileName);
+
+        /// <summary>
+        /// Gets the video clips, the last yield return contains all of the videos.
+        /// </summary>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <param name="_">Any data from the assembly, which is used to get the name.</param>
+        /// <param name="bundleVideoFileName">The name of the bundle that contains videos.</param>
+        /// <returns>The <see cref="AssetBundleCreateRequest"/> needed to load the files, followed by the <see cref="VideoClip"/> <see cref="Array"/>.</returns>
+        public static IEnumerator LoadVideoClips<T>(T _, string bundleVideoFileName) => LoadVideoClips(NameOfAssembly<T>(), bundleVideoFileName);
 
         private static void CopyLibrary(in string libraryFileName, in string path)
         {
-            var unhandledIntPtr = new PlatformNotSupportedException("IntPtr size is not 4 or 8, what kind of system is this?");
-
-            switch (Application.platform)
+            switch (platform)
             {
-                case RuntimePlatform.WindowsPlayer:
-                    File.Copy(path + (IntPtr.Size == 4 ? "\\dlls\\x86\\" : IntPtr.Size == 8 ? "\\dlls\\x86_64\\" : throw unhandledIntPtr) + FileFormat.Form(libraryFileName, FileExtensionWindows), Application.dataPath + "\\Mono\\" + FileFormat.Form(libraryFileName, FileExtensionWindows), true);
+                case WindowsPlayer:
+                    File.Copy(path + (Size == 4 ? @"\dlls\x86\" : Size == 8 ? @"\dlls\x86_64\" : throw _intPtrException) + FileFormat.Form(libraryFileName, FileExtensionWindows), dataPath + @"\Mono\" + FileFormat.Form(libraryFileName, FileExtensionWindows), true);
                     break;
 
-                case RuntimePlatform.OSXPlayer:
-                    string dest = CombineMultiple(Application.dataPath, "Frameworks", "MonoEmbedRuntime", "osx");
+                case OSXPlayer:
+                    string dest = CombineMultiple(dataPath, "Frameworks", "MonoEmbedRuntime", "osx");
 
                     if (!Directory.Exists(dest))
                         Directory.CreateDirectory(dest);
@@ -194,15 +291,15 @@ namespace KeepCoding
                     File.Copy(CombineMultiple(path, "dlls", FileFormat.Form(libraryFileName, FileExtensionMacOS)), Path.Combine(dest, FileFormat.Form(libraryFileName, FileExtensionMacOS)), true);
                     break;
 
-                case RuntimePlatform.LinuxPlayer:
-                    File.Copy(CombineMultiple(path, "dlls", FileFormat.Form(libraryFileName, FileExtensionLinux)), CombineMultiple(Application.dataPath, "Mono", IntPtr.Size == 4 ? "x86" : IntPtr.Size == 8 ? "x86_64" : throw unhandledIntPtr, FileFormat.Form(libraryFileName, FileExtensionLinux)), true);
+                case LinuxPlayer:
+                    File.Copy(CombineMultiple(path, "dlls", FileFormat.Form(libraryFileName, FileExtensionLinux)), CombineMultiple(dataPath, "Mono", Size == 4 ? "x86" : Size == 8 ? "x86_64" : throw _intPtrException, FileFormat.Form(libraryFileName, FileExtensionLinux)), true);
                     break;
 
                 default: throw new PlatformNotSupportedException("The OS is not windows, linux, or mac, what kind of system is this?");
             }
         }
 
-        [MethodImpl(MethodImplOptions.NoInlining)]
+        [MethodImpl(NoInlining)]
         private static void Current(in string bundleFileName, out Tuple<string, string> current) => current = new StackTrace().GetFrame(1).GetMethod().Name.ToTuple(bundleFileName);
 
         private static bool IsCached(in Tuple<string, string> current) => _cachedResults.ContainsKey(current);
@@ -210,7 +307,7 @@ namespace KeepCoding
         private static char GetSlashType(in string path) => path.Count(c => c == '/') >= path.Count(c => c == '\\') ? '/' : '\\';
 
         private static string GetDisabledPath(string fileName) 
-            => Game.ModManager.GetDisabledModPaths().FirstValue(path =>
+            => GetDisabledModPaths().FirstValue(path =>
             {
                 try
                 {
