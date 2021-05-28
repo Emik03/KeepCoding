@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static KeepCoding.ComponentPool;
+using static Localization;
 using Connection = IRCConnection;
-using KTInfo = Assets.Scripts.Mods.ModInfo;
 using KTInput = KTInputManager;
 using KTMod = ModManager;
 using KTPlayer = Assets.Scripts.Settings.PlayerSettingsManager;
 using KTScene = SceneManager;
+using KTModSourceEnum = Assets.Scripts.Mods.ModInfo.ModSourceEnum;
 
 namespace KeepCoding
 {
@@ -131,12 +132,12 @@ namespace KeepCoding
             /// <value>
             /// The description as it appears in the bomb binder.
             /// </value>
-            public static string Description => Localization.GetLocalizedString(KTScene.Instance.GameplayState.Mission.DescriptionTerm);
+            public static string Description => GetLocalizedString(KTScene.Instance.GameplayState.Mission.DescriptionTerm);
 
             /// <value>
             /// The mission name as it appears in the bomb binder.
             /// </value>
-            public static string DisplayName => Localization.GetLocalizedString(KTScene.Instance.GameplayState.Mission.DisplayNameTerm);
+            public static string DisplayName => GetLocalizedString(KTScene.Instance.GameplayState.Mission.DisplayNameTerm);
 
             /// <value>
             /// The ID of the mission.
@@ -193,12 +194,12 @@ namespace KeepCoding
             /// <value>
             /// Gets all of the mod paths within the <see cref="ModSourceEnum"/> constraint.
             /// </value>
-            public static Func<ModSourceEnum, List<string>> GetAllModPathsFromSource => source => KTMod.Instance.GetAllModPathsFromSource((KTInfo.ModSourceEnum)source);
+            public static Func<ModSourceEnum, List<string>> GetAllModPathsFromSource => source => KTMod.Instance.GetAllModPathsFromSource((KTModSourceEnum)source);
 
             /// <value>
             /// Gets all of the enabled mod paths within the <see cref="ModSourceEnum"/> constraint.
             /// </value>
-            public static Func<ModSourceEnum, List<string>> GetEnabledModPaths => source => KTMod.Instance.GetEnabledModPaths((KTInfo.ModSourceEnum)source);
+            public static Func<ModSourceEnum, List<string>> GetEnabledModPaths => source => KTMod.Instance.GetEnabledModPaths((KTModSourceEnum)source);
         }
 
         /// <summary>
@@ -288,19 +289,11 @@ namespace KeepCoding
         }
 
         /// <value>
-        /// Gets the bomb by recursively looking at parent objects until it is found.
+        /// Gets the game's internal bomb component, not to be mistaken with <see cref="KMBomb"/>.
         /// </value>
         /// <remarks>
         /// To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to Bomb or <see cref="MonoBehaviour"/> type to restore its functionality.
         /// </remarks>
-        public static Func<GameObject, object> Bomb => gameObject =>
-        {
-            if (gameObject.transform.parent is null)
-                return null;
-
-            var bomb = gameObject.GetComponentInParent(typeof(Bomb));
-
-            return bomb ?? Bomb(gameObject.transform.parent.gameObject);
-        };
+        public static Func<GameObject, object> Bomb => gameObject => gameObject.GetComponentInParent(typeof(Bomb));
     }
 }
