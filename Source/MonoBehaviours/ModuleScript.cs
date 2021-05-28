@@ -455,6 +455,9 @@ namespace KeepCoding
 
         private void RemoveStrikeOnException(string condition, string stackTrace, LogType type)
         {
+            if (type != LogType.Exception || !IsLogFromThis(stackTrace))
+                return;
+
             var bomb = (Bomb)Bomb(gameObject);
 
             bomb.NumStrikes--;
