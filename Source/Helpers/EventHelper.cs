@@ -2,6 +2,8 @@
 using System.Linq;
 using UnityEngine;
 using static KMAudio;
+using static System.Delegate;
+using static System.Linq.Enumerable;
 
 namespace KeepCoding
 {
@@ -217,7 +219,7 @@ namespace KeepCoding
         {
             0 => null,
             1 => multicast[0] == dele ? dele.CreateDelegate<T>() : multicast[0].Cast<T>(),
-            _ => (T)Delegate.Combine(Enumerable.Range(0, multicast.Length).Select(i => multicast[i].Cast<T>()).ToArray())
+            _ => (T)Combine(Range(0, multicast.Length).Select(i => multicast[i].Cast<T>()).ToArray())
         };
     }
 }
