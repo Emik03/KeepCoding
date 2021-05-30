@@ -469,7 +469,7 @@ namespace KeepCoding
             if (!(bool)(TP?.IsTP))
                 StartCoroutine(WaitForSolve());
 
-            if (IsEditor)
+            if (!IsEditor)
                 Game.AddStrikes(gameObject, -_strikes);
         }
 
