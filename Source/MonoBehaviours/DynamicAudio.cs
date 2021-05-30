@@ -27,6 +27,11 @@ namespace KeepCoding
         /// </value>
         public int GameVolume => isEditor ? 100 : _isMusic ? MusicVolume : SFXVolume;
 
+        /// <summary>
+        /// The volume of the sound relative to the game.
+        /// </summary>
+        public float Volume { get; set; }
+
         /// <value>
         /// The audio source property. If the field it is referencing is <see langword="null"/> then it adds a component.
         /// </value>
@@ -39,8 +44,6 @@ namespace KeepCoding
 #pragma warning disable IDE0044 // Add readonly modifier
         private bool _isMusic;
 #pragma warning restore IDE0044 // Add readonly modifier
-
-        private float _volume;
 
         /// <summary>
         /// The <see cref="Array"/> of clips it can play from.
@@ -68,15 +71,16 @@ namespace KeepCoding
         private void Awake()
 #pragma warning restore IDE0051 // Remove unused private members
         {
-            if (!_audioSource)
-                _audioSource = gameObject.AddComponent<AudioSource>();
-
-            AudioSource.playOnAwake = false;
-
+            _audioSource ??= gameObject.AddComponent<AudioSource>();
             _fade = this.ToRoutine((Func<float, float, IEnumerator>)TweenFade);
 
-            StartCoroutine(UpdateVolume());
+            AudioSource.playOnAwake = false;
+            AudioSource.volume = 0;
         }
+
+#pragma warning disable IDE0051 // Remove unused private members
+        private void Update() => AudioSource.volume = Volume * (GameVolume / 100f);
+#pragma warning restore IDE0051 // Remove unused private members
 
         /// <summary>
         /// Fades the audio source to a specific volume from a specified duration of time linearly.
@@ -106,13 +110,13 @@ namespace KeepCoding
         {
             clip.NullCheck("You cannot play an audio clip which is null.");
 
+            Volume = volume;
+
             AudioSource.clip = clip;
             AudioSource.loop = loop;
             AudioSource.priority = priority;
             AudioSource.pitch = pitch;
             AudioSource.time = time;
-
-            _volume = volume;
 
             AudioSource.PlayDelayed(delay);
         }
@@ -144,7 +148,8 @@ namespace KeepCoding
 
         private IEnumerator TweenFade(float to, float time)
         {
-            float current = 0, from = AudioSource.volume;
+            float from = Volume,
+                current = 0;
 
             while (current < time)
             {
@@ -153,22 +158,12 @@ namespace KeepCoding
                 float end = current / time,
                     start = 1 - end;
 
-                _volume = (from * start) + (to * end);
+                Volume = (from * start) + (to * end);
 
                 yield return null;
             }
 
-            _volume = to;
-        }
-
-        private IEnumerator UpdateVolume()
-        {
-            while (true)
-            {
-                if (IsUpdating)
-                    AudioSource.volume = (_volume * GameVolume) / 100f;
-                yield return null;
-            }
+            Volume = to;
         }
     }
 }
