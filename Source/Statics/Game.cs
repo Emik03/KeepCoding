@@ -289,11 +289,45 @@ namespace KeepCoding
         }
 
         /// <value>
+        /// Sets the amount of strikes on the bomb.
+        /// </value>
+        public static Action<GameObject, int> AddStrikes => (gameObject, amount) =>
+        {
+            var bomb = (Bomb)Bomb(gameObject);
+            bomb.StrikeIndicator.StrikeCount = bomb.NumStrikes += amount;
+        };
+
+        /// <value>
+        /// Sets the amount of strikes on the bomb.
+        /// </value>
+        public static Action<GameObject, int> SetStrikes => (gameObject, amount) =>
+        {
+            var bomb = (Bomb)Bomb(gameObject);
+            bomb.StrikeIndicator.StrikeCount = bomb.NumStrikes = amount;
+        };
+
+        /// <value>
         /// Gets the game's internal bomb component, not to be mistaken with <see cref="KMBomb"/>.
         /// </value>
         /// <remarks>
         /// To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to Bomb or <see cref="MonoBehaviour"/> type to restore its functionality.
         /// </remarks>
         public static Func<GameObject, object> Bomb => gameObject => gameObject.GetComponentInParent(typeof(Bomb));
+
+        /// <value>
+        /// Gets the game's internal timer component.
+        /// </value>
+        /// <remarks>
+        /// To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to TimerComponent or <see cref="MonoBehaviour"/> type to restore its functionality.
+        /// </remarks>
+        public static Func<GameObject, object> Timer => gameObject => ((Bomb)Bomb(gameObject)).GetTimer();
+
+        /// <value>
+        /// Gets the game's internal timer on tick event.
+        /// </value>
+        /// <remarks>
+        /// To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to TimerTickEvent to restore its functionality.
+        /// </remarks>
+        public static Func<GameObject, object> TimerTick => gameObject => ((TimerComponent)Timer(gameObject)).TimerTick;
     }
 }
