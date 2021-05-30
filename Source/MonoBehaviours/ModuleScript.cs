@@ -475,9 +475,9 @@ namespace KeepCoding
 
         private void TimerTick()
         {
-            var tick = (TimerTickEvent)Game.TimerTick(gameObject);
+            var timer = (TimerComponent)Game.Timer(gameObject);
 
-            tick += (elapsed, remaining) =>
+            timer.TimerTick += (elapsed, remaining) =>
             {
                 TimeLeft = remaining;
                 OnTimerTick();
