@@ -12,14 +12,6 @@ namespace KeepCoding
     /// </summary>
     public sealed class DynamicAudio : MonoBehaviour
     {
-        /// <summary>
-        /// Setting this value to true will make the volume relative to <see cref="MusicVolume"/>, and <see cref="SFXVolume"/> otherwise.
-        /// </summary>
-        [SerializeField]
-#pragma warning disable IDE0044 // Add readonly modifier
-        private bool _isMusic;
-#pragma warning restore IDE0044 // Add readonly modifier
-
         /// <value>
         /// Determines if the audio source is currently playing.
         /// </value>
@@ -39,6 +31,14 @@ namespace KeepCoding
         /// The audio source property. If the field it is referencing is <see langword="null"/> then it adds a component.
         /// </value>
         public AudioSource AudioSource => _audioSource;
+
+        /// <summary>
+        /// Setting this value to true will make the volume relative to <see cref="MusicVolume"/>, and <see cref="SFXVolume"/> otherwise.
+        /// </summary>
+        [SerializeField]
+#pragma warning disable IDE0044 // Add readonly modifier
+        private bool _isMusic;
+#pragma warning restore IDE0044 // Add readonly modifier
 
         private float _volume;
 
@@ -166,7 +166,7 @@ namespace KeepCoding
             while (true)
             {
                 if (IsUpdating)
-                    AudioSource.volume = _volume * GameVolume / 100f;
+                    AudioSource.volume = (_volume * GameVolume) / 100f;
                 yield return null;
             }
         }
