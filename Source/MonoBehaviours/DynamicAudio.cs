@@ -73,7 +73,7 @@ namespace KeepCoding
 
             AudioSource.playOnAwake = false;
 
-            _fade = this.ToRoutine((float from, float to) => TweenFade(from, to));
+            _fade = this.ToRoutine((Func<float, float, IEnumerator>)TweenFade);
 
             StartCoroutine(UpdateVolume());
         }
@@ -150,14 +150,15 @@ namespace KeepCoding
             {
                 current += Time.deltaTime;
 
-                float end = current / time, start = 1 - end;
+                float end = current / time,
+                    start = 1 - end;
 
                 _volume = (from * start) + (to * end);
 
                 yield return null;
             }
 
-            AudioSource.volume = to;
+            _volume = to;
         }
 
         private IEnumerator UpdateVolume()
