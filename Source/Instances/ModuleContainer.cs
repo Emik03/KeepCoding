@@ -19,7 +19,7 @@ namespace KeepCoding
         {
             if ((bool)solvable == needy)
                 throw new ConstructorArgumentException(solvable ? "Both KMBombModule and KMNeedyModule are assigned, which will mean that it is unable to return both when calling a function that returns a single MonoBehaviour." : "Both KMBombModule and KMNeedyModule is null, and since this data type is immutable after the constructor, it is unable to return anything.");
-            
+
             _bombModule = solvable;
             _needyModule = needy;
         }
@@ -134,6 +134,32 @@ namespace KeepCoding
         /// <param name="container">The <see cref="ModuleContainer"/> to get the <see cref="KMNeedyModule"/> from.</param>
         /// <returns>A <see cref="KMBombModule"/> from <see cref="Needy"/>.</returns>
         public static explicit operator KMNeedyModule(ModuleContainer container) => container.Needy;
+
+        /// <summary>
+        /// Assigns events to a module container, replacing their values.
+        /// </summary>
+        /// <param name="onActivate">Called when the lights turn on.</param>
+        /// <param name="onNeedyActivation">Called when the needy activates.</param>
+        /// <param name="onNeedyDeactivation">Called when the needy deactivates.</param>
+        /// <param name="onPass">Called when the needy is solved.</param>
+        /// <param name="onStrike">Called when the needy strikes.</param>
+        /// <param name="onTimerExpired">Called when the timer runs out of time.</param>
+        public void Assign(Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null)
+        {
+            switch (Module)
+            {
+                case KMBombModule bombModule:
+                    bombModule.Assign(onActivate, onPass, onStrike);
+                    break;
+
+                case KMNeedyModule needyModule:
+                    needyModule.Assign(onActivate, onNeedyActivation, onNeedyDeactivation, onPass, onStrike, onTimerExpired);
+                    break;
+
+                default:
+                    throw _unreachableException;
+            }
+        }
 
         /// <summary>
         /// Sets the action of OnActivate.
