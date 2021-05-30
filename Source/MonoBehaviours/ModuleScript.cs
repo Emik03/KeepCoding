@@ -7,10 +7,10 @@ using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
-using static KeepCoding.Game;
 using static KeepCoding.Game.KTInputManager;
 using static KMAudio;
 using static KMSoundOverride;
+using static TimerComponent;
 using static UnityEngine.Application;
 
 namespace KeepCoding
@@ -211,6 +211,9 @@ namespace KeepCoding
         {
             if (IsSolved)
                 return;
+
+            if (!IsEditor && _hasException)
+                Game.AddStrikes(gameObject, _strikes);
 
             LogMultiple(in logs);
 
@@ -466,23 +469,18 @@ namespace KeepCoding
             if (!(bool)(TP?.IsTP))
                 StartCoroutine(WaitForSolve());
 
-            RemoveStrikes(_strikes);
-        }
-
-        private void RemoveStrikes(int amount)
-        {
-            var bomb = (Bomb)Bomb(gameObject);
-            bomb.StrikeIndicator.StrikeCount = bomb.NumStrikes -= amount;
+            if (IsEditor)
+                Game.AddStrikes(gameObject, -_strikes);
         }
 
         private void TimerTick()
         {
-            var bomb = (Bomb)Bomb(gameObject);
+            var tick = (TimerTickEvent)Game.TimerTick(gameObject);
 
-            bomb.GetTimer().TimerTick += (elapsed, remaining) =>
+            tick += (elapsed, remaining) =>
             {
-                OnTimerTick();
                 TimeLeft = remaining;
+                OnTimerTick();
             };
         }
 
