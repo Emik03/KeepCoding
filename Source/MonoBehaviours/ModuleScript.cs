@@ -95,6 +95,10 @@ namespace KeepCoding
 
         private static Dictionary<string, Dictionary<string, object>[]> _database;
 
+        private bool _hasException;
+
+        private int _strikes;
+
         private Action _setActive;
 
         private readonly Dictionary<Type, Component[]> _components = new Dictionary<Type, Component[]>();
@@ -106,7 +110,7 @@ namespace KeepCoding
         /// <exception cref="NullIteratorException"></exception>
         protected void Awake()
         {
-            logMessageReceived += IsEditor ? SolveOnException : (LogCallback)SolveOnException + RemoveStrikeOnException;
+            logMessageReceived += OnException;
 
             _setActive = Active;
 
@@ -128,7 +132,7 @@ namespace KeepCoding
         /// <summary>
         /// This removed the exception catcher. If you have an OnDestroy method, be sure to call <c>base.OnDestroy()</c> as the first statement.
         /// </summary>
-        protected void OnDestroy() => logMessageReceived -= IsEditor ? SolveOnException : (LogCallback)SolveOnException + RemoveStrikeOnException;
+        protected void OnDestroy() => logMessageReceived -= OnException;
 
         /// <summary>
         /// Assigns events specified into <see cref="KMBombModule"/> or <see cref="KMNeedyModule"/>. Reassigning them will replace their values.
@@ -220,9 +224,14 @@ namespace KeepCoding
         /// <param name="logs">All of the entries to log.</param>
         public void Strike(params string[] logs)
         {
+            if (_hasException)
+                return;
+
             LogMultiple(in logs);
 
             HasStruck = true;
+            _strikes++;
+
             Module.Strike();
         }
 
@@ -442,38 +451,28 @@ namespace KeepCoding
                 };
         }
 
-        private void TimerTickEditor(in KMBombInfo bombInfo)
-        {
-            if (TimeLeft != (int)bombInfo.GetTime())
-            {
-                TimeLeft = (int)bombInfo.GetTime();
-                OnTimerTick();
-            }
-        }
-
         private void LogMultiple(in string[] logs) => logs?.ForEach(s => Log(s));
 
-        private void RemoveStrikeOnException(string condition, string stackTrace, LogType type)
+        private void OnException(string condition, string stackTrace, LogType type)
         {
             if (type != LogType.Exception || !IsLogFromThis(stackTrace))
                 return;
 
-            var bomb = (Bomb)Bomb(gameObject);
+            _hasException = true;
 
-            bomb.NumStrikes--;
-            bomb.StrikeIndicator.StrikeCount = bomb.NumStrikes;
-        }
-
-        private void SolveOnException(string condition, string stackTrace, LogType type)
-        {
-            if (type != LogType.Exception || !IsLogFromThis(stackTrace))
-                return;
-
-            Log("This module ran into an exception and will now therefore solve... {0}", condition);
+            Log("The module threw an unhandled exception... {0}", condition);
             LogMultiple(stackTrace.Split('\n').Where(s => !s.IsNullOrEmpty()).ToArray());
 
             if (!(bool)(TP?.IsTP))
                 StartCoroutine(WaitForSolve());
+
+            RemoveStrikes(_strikes);
+        }
+
+        private void RemoveStrikes(int amount)
+        {
+            var bomb = (Bomb)Bomb(gameObject);
+            bomb.StrikeIndicator.StrikeCount = bomb.NumStrikes -= amount;
         }
 
         private void TimerTick()
@@ -485,6 +484,15 @@ namespace KeepCoding
                 OnTimerTick();
                 TimeLeft = remaining;
             };
+        }
+
+        private void TimerTickEditor(in KMBombInfo bombInfo)
+        {
+            if (TimeLeft != (int)bombInfo.GetTime())
+            {
+                TimeLeft = (int)bombInfo.GetTime();
+                OnTimerTick();
+            }
         }
 
         private bool IsLogFromThis(string stackTrace) => stackTrace.Split('\n').Any(s => Regex.IsMatch(s, @$"^{GetType().Name}"));
