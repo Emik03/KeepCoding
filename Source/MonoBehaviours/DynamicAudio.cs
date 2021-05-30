@@ -76,7 +76,9 @@ namespace KeepCoding
         private void Awake()
 #pragma warning restore IDE0051 // Remove unused private members
         {
-            _audioSource ??= gameObject.AddComponent<AudioSource>();
+            if (!_audioSource)
+                _audioSource = gameObject.AddComponent<AudioSource>();
+
             _fade = this.ToRoutine((Func<float, float, IEnumerator>)TweenFade);
 
             AudioSource.playOnAwake = false;
