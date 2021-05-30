@@ -112,8 +112,8 @@ namespace KeepCoding
         /// <param name="onHighlight">Called when the highlight is turned on.</param>
         /// <param name="onHighlightEnded">Called when the highlight is turned off.</param>
         /// <param name="onInteract">Called when player interacts with the selctable. Return true will make it act as a module/submodule, and false as a button.</param>
-        /// <param name="onInteractionPunch">Called when the interaction punch method is called.</param>
         /// <param name="onInteractEnded">Called when a player interacting with the selectable releases the mouse or controller button.</param>
+        /// <param name="onInteractionPunch">Called when the interaction punch method is called.</param>
         /// <param name="onLeft">Called when the left controller stick is pulled while selected.</param>
         /// <param name="onRight">Called when the right controller stick is pulled while selected.</param>
         /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
@@ -131,8 +131,8 @@ namespace KeepCoding
             onHighlight.Set(ref selectable.OnHighlight);
             onHighlightEnded.Set(ref selectable.OnHighlightEnded);
             onInteract.ToFunc(overrideReturn.Value).Set(ref selectable.OnInteract);
-            onInteractionPunch.Set(ref selectable.OnInteractionPunch);
             onInteractEnded.Set(ref selectable.OnInteractEnded);
+            onInteractionPunch.Set(ref selectable.OnInteractionPunch);
             onLeft.Set(ref selectable.OnLeft);
             onRight.Set(ref selectable.OnRight);
             onSelect.Set(ref selectable.OnSelect);
@@ -158,9 +158,11 @@ namespace KeepCoding
         /// <param name="onHighlightEnded">Called when the highlight is turned off.</param>
         /// <param name="onInteract">Called when player interacts with the selctable.</param>
         /// <param name="onInteractEnded">Called when a player interacting with the selectable releases the mouse or controller button.</param>
+        /// <param name="onInteractionPunch">Called when the interaction punch method is called.</param>
         /// <param name="onLeft">Called when the left controller stick is pulled while selected.</param>
         /// <param name="onRight">Called when the right controller stick is pulled while selected.</param>
         /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
+        /// <param name="onUpdateChildren">Called when the selectable updates its children.</param>
         public static void Assign(this KMSelectable[] selectable, bool? overrideReturn = null, Action<int> onCancel = null, Action<int> onDefocus = null, Action<int> onDeselect = null, Action<int> onFocus = null, Action<int> onHighlight = null, Action<int> onHighlightEnded = null, Action<int> onInteract = null, Action<int> onInteractEnded = null, Action<int, float> onInteractionPunch = null, Action<int> onLeft = null, Action<int> onRight = null, Action<int> onSelect = null, Action<int, KMSelectable> onUpdateChildren = null) =>
             selectable.NullOrEmptyCheck("The array is not populated. Please check your public fields in Unity.").ToArray().Call((s, i) => s.Assign(
                 overrideReturn,
@@ -197,9 +199,11 @@ namespace KeepCoding
         /// <param name="onHighlightEnded">Called when the highlight is turned off.</param>
         /// <param name="onInteract">Called when player interacts with the selctable.</param>
         /// <param name="onInteractEnded">Called when a player interacting with the selectable releases the mouse or controller button.</param>
+        /// <param name="onInteractionPunch">Called when the interaction punch method is called.</param>
         /// <param name="onLeft">Called when the left controller stick is pulled while selected.</param>
         /// <param name="onRight">Called when the right controller stick is pulled while selected.</param>
         /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
+        /// <param name="onUpdateChildren">Called when the selectable updates its children.</param>
         public static void Assign(this KMSelectable[] selectable, bool? overrideReturn = null, Action<KMSelectable> onCancel = null, Action<KMSelectable> onDefocus = null, Action<KMSelectable> onDeselect = null, Action<KMSelectable> onFocus = null, Action<KMSelectable> onHighlight = null, Action<KMSelectable> onHighlightEnded = null, Action<KMSelectable> onInteract = null, Action<KMSelectable> onInteractEnded = null, Action<KMSelectable, float> onInteractionPunch = null, Action<KMSelectable> onLeft = null, Action<KMSelectable> onRight = null, Action<KMSelectable> onSelect = null, Action<KMSelectable, KMSelectable> onUpdateChildren = null) =>
             selectable.NullOrEmptyCheck("The array is not populated. Please check your public fields in Unity.").ToArray().ForEach(s => s.Assign(
                 overrideReturn,
