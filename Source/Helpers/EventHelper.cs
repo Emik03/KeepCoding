@@ -13,7 +13,7 @@ namespace KeepCoding
     public static class EventHelper
     {
         /// <summary>
-        /// Assigns events specified into <paramref name="kmSelectable"/>. Reassigning them will replace their values. The number passed into each method represents the index that came from the array.
+        /// Assigns events specified into <paramref name="selectable"/>. Reassigning them will replace their values. The number passed into each method represents the index that came from the array.
         /// </summary>
         /// <remarks>
         /// An event that is null will be skipped. This extension method simplifies all of the KMFramework events into Actions.
@@ -21,7 +21,7 @@ namespace KeepCoding
         /// <exception cref="NullIteratorException"></exception>
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="UnassignedReferenceException"></exception>
-        /// <param name="kmSelectable">The <see cref="KMSelectable"/> array to add events to.</param>
+        /// <param name="selectable">The <see cref="KMSelectable"/> array to add events to.</param>
         /// <param name="overrideReturn">True will make it act as a module/submodule, and false as a button. Null (default) will set it to true or false based on <see cref="Helper.IsParent(KMSelectable)"/>. Note that in VR, <see cref="KMSelectable.OnHighlight"/> and <see cref="KMSelectable.OnHighlightEnded"/> are skipped out on.</param>
         /// <param name="onCancel">Called when player backs out of this selectable.</param>
         /// <param name="onDefocus">Called when a different selectable becomes the focus, or the module has been backed out of.</param>
@@ -34,8 +34,8 @@ namespace KeepCoding
         /// <param name="onLeft">Called when the left controller stick is pulled while selected.</param>
         /// <param name="onRight">Called when the right controller stick is pulled while selected.</param>
         /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
-        public static void Assign(this KMSelectable[] kmSelectable, bool? overrideReturn = null, Action<int> onCancel = null, Action<int> onDefocus = null, Action<int> onDeselect = null, Action<int> onFocus = null, Action<int> onHighlight = null, Action<int> onHighlightEnded = null, Action<int> onInteract = null, Action<int> onInteractEnded = null, Action<int> onLeft = null, Action<int> onRight = null, Action<int> onSelect = null) =>
-            kmSelectable.NullOrEmptyCheck("The array is not populated. Please check your public fields in Unity.").ToArray().Call((s, i) => s.Assign(
+        public static void Assign(this KMSelectable[] selectable, bool? overrideReturn = null, Action<int> onCancel = null, Action<int> onDefocus = null, Action<int> onDeselect = null, Action<int> onFocus = null, Action<int> onHighlight = null, Action<int> onHighlightEnded = null, Action<int> onInteract = null, Action<int> onInteractEnded = null, Action<int> onLeft = null, Action<int> onRight = null, Action<int> onSelect = null) =>
+            selectable.NullOrEmptyCheck("The array is not populated. Please check your public fields in Unity.").ToArray().Call((s, i) => s.Assign(
                 overrideReturn,
                 onCancel.ToAction(i),
                 onDefocus.ToAction(i),
@@ -48,8 +48,9 @@ namespace KeepCoding
                 onLeft.ToAction(i),
                 onRight.ToAction(i),
                 onSelect.ToAction(i)));
+
         /// <summary>
-        /// Assigns events specified into <paramref name="kmSelectable"/>. Reassigning them will replace their values. The number passed into each method represents the index that came from the array.
+        /// Assigns events specified into <paramref name="selectable"/>. Reassigning them will replace their values. The number passed into each method represents the index that came from the array.
         /// </summary>
         /// <remarks>
         /// An event that is null will be skipped. This extension method simplifies all of the KMFramework events into Actions.
@@ -57,7 +58,7 @@ namespace KeepCoding
         /// <exception cref="NullIteratorException"></exception>
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="UnassignedReferenceException"></exception>
-        /// <param name="kmSelectable">The <see cref="KMSelectable"/> array to add events to.</param>
+        /// <param name="selectable">The <see cref="KMSelectable"/> array to add events to.</param>
         /// <param name="overrideReturn">True will make it act as a module/submodule, and false as a button. Null (default) will set it to true or false based on <see cref="Helper.IsParent(KMSelectable)"/>. Note that in VR, <see cref="KMSelectable.OnHighlight"/> and <see cref="KMSelectable.OnHighlightEnded"/> are skipped out on.</param>
         /// <param name="onCancel">Called when player backs out of this selectable.</param>
         /// <param name="onDefocus">Called when a different selectable becomes the focus, or the module has been backed out of.</param>
@@ -70,8 +71,8 @@ namespace KeepCoding
         /// <param name="onLeft">Called when the left controller stick is pulled while selected.</param>
         /// <param name="onRight">Called when the right controller stick is pulled while selected.</param>
         /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
-        public static void Assign(this KMSelectable[] kmSelectable, bool? overrideReturn = null, Action<KMSelectable> onCancel = null, Action<KMSelectable> onDefocus = null, Action<KMSelectable> onDeselect = null, Action<KMSelectable> onFocus = null, Action<KMSelectable> onHighlight = null, Action<KMSelectable> onHighlightEnded = null, Action<KMSelectable> onInteract = null, Action<KMSelectable> onInteractEnded = null, Action<KMSelectable> onLeft = null, Action<KMSelectable> onRight = null, Action<KMSelectable> onSelect = null) =>
-            kmSelectable.NullOrEmptyCheck("The array is not populated. Please check your public fields in Unity.").ToArray().ForEach(s => s.Assign(
+        public static void Assign(this KMSelectable[] selectable, bool? overrideReturn = null, Action<KMSelectable> onCancel = null, Action<KMSelectable> onDefocus = null, Action<KMSelectable> onDeselect = null, Action<KMSelectable> onFocus = null, Action<KMSelectable> onHighlight = null, Action<KMSelectable> onHighlightEnded = null, Action<KMSelectable> onInteract = null, Action<KMSelectable> onInteractEnded = null, Action<KMSelectable> onLeft = null, Action<KMSelectable> onRight = null, Action<KMSelectable> onSelect = null) =>
+            selectable.NullOrEmptyCheck("The array is not populated. Please check your public fields in Unity.").ToArray().ForEach(s => s.Assign(
                 overrideReturn,
                 onCancel.ToAction(s),
                 onDefocus.ToAction(s),
@@ -86,13 +87,13 @@ namespace KeepCoding
                 onSelect.ToAction(s)));
 
         /// <summary>
-        /// Assigns events specified into <paramref name="kmSelectable"/>. Reassigning them will replace their values.
+        /// Assigns events specified into <paramref name="selectable"/>. Reassigning them will replace their values.
         /// </summary>
         /// <remarks>
         /// An event that is null will be skipped. This extension method simplifies all of the KMFramework events into Actions.
         /// </remarks>
         /// <exception cref="UnassignedReferenceException"></exception>
-        /// <param name="kmSelectable">The KMSelectable array to add events to.</param>
+        /// <param name="selectable">The KMSelectable array to add events to.</param>
         /// <param name="overrideReturn">True will make it act as a module/submodule, and false as a button. Null (default) will set it to true or false based on <see cref="Helper.IsParent(KMSelectable)"/>. Note that in VR, <see cref="KMSelectable.OnHighlight"/> and <see cref="KMSelectable.OnHighlightEnded"/> are skipped out on.</param>
         /// <param name="onCancel">Called when player backs out of this selectable. Return true will make it act as a module/submodule, and false as a button.</param>
         /// <param name="onDefocus">Called when a different selectable becomes the focus, or the module has been backed out of.</param>
@@ -105,62 +106,62 @@ namespace KeepCoding
         /// <param name="onLeft">Called when the left controller stick is pulled while selected.</param>
         /// <param name="onRight">Called when the right controller stick is pulled while selected.</param>
         /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
-        public static void Assign(this KMSelectable kmSelectable, bool? overrideReturn = null, Action onCancel = null, Action onDefocus = null, Action onDeselect = null, Action onFocus = null, Action onHighlight = null, Action onHighlightEnded = null, Action onInteract = null, Action onInteractEnded = null, Action onLeft = null, Action onRight = null, Action onSelect = null)
+        public static void Assign(this KMSelectable selectable, bool? overrideReturn = null, Action onCancel = null, Action onDefocus = null, Action onDeselect = null, Action onFocus = null, Action onHighlight = null, Action onHighlightEnded = null, Action onInteract = null, Action onInteractEnded = null, Action onLeft = null, Action onRight = null, Action onSelect = null)
         {
-            if (!kmSelectable)
+            if (!selectable)
                 throw typeof(KMSelectable).Unassigned();
 
-            overrideReturn ??= kmSelectable.IsParent();
+            overrideReturn ??= selectable.IsParent();
 
-            onCancel.ToFunc(overrideReturn.Value).Set(ref kmSelectable.OnCancel);
-            onDefocus.Set(ref kmSelectable.OnDefocus);
-            onDeselect.Set(ref kmSelectable.OnDeselect);
-            onFocus.Set(ref kmSelectable.OnFocus);
-            onHighlight.Set(ref kmSelectable.OnHighlight);
-            onHighlightEnded.Set(ref kmSelectable.OnHighlightEnded);
-            onInteract.ToFunc(overrideReturn.Value).Set(ref kmSelectable.OnInteract);
-            onInteractEnded.Set(ref kmSelectable.OnInteractEnded);
-            onLeft.Set(ref kmSelectable.OnLeft);
-            onRight.Set(ref kmSelectable.OnRight);
-            onSelect.Set(ref kmSelectable.OnSelect);
+            onCancel.ToFunc(overrideReturn.Value).Set(ref selectable.OnCancel);
+            onDefocus.Set(ref selectable.OnDefocus);
+            onDeselect.Set(ref selectable.OnDeselect);
+            onFocus.Set(ref selectable.OnFocus);
+            onHighlight.Set(ref selectable.OnHighlight);
+            onHighlightEnded.Set(ref selectable.OnHighlightEnded);
+            onInteract.ToFunc(overrideReturn.Value).Set(ref selectable.OnInteract);
+            onInteractEnded.Set(ref selectable.OnInteractEnded);
+            onLeft.Set(ref selectable.OnLeft);
+            onRight.Set(ref selectable.OnRight);
+            onSelect.Set(ref selectable.OnSelect);
         }
 
         /// <summary>
-        /// Assigns events specified into <paramref name="kmGameInfo"/>. Reassigning them will replace their values.
+        /// Assigns events specified into <paramref name="gameInfo"/>. Reassigning them will replace their values.
         /// </summary>
         /// <remarks>
         /// An event that is null will be skipped. This extension method simplifies all of the KMFramework events into Actions.
         /// </remarks>
         /// <exception cref="UnassignedReferenceException"></exception>
-        /// <param name="kmGameInfo">The game info instance to assign events to.</param>
+        /// <param name="gameInfo">The game info instance to assign events to.</param>
         /// <param name="onAlarmClockChange">Called when the alarm clock changes state, and passes in whether it's on or off.</param>
         /// <param name="onLightsChange">Called when the lights change state, and passes in whether it's on or off.</param>
-        public static void Assign(this KMGameInfo kmGameInfo, Action<bool> onAlarmClockChange = null, Action<bool> onLightsChange = null)
+        public static void Assign(this KMGameInfo gameInfo, Action<bool> onAlarmClockChange = null, Action<bool> onLightsChange = null)
         {
-            if (!kmGameInfo)
+            if (!gameInfo)
                 throw typeof(KMGameInfo).Unassigned();
 
-            onAlarmClockChange.Set(ref kmGameInfo.OnAlarmClockChange);
-            onLightsChange.Set(ref kmGameInfo.OnLightsChange);
+            onAlarmClockChange.Set(ref gameInfo.OnAlarmClockChange);
+            onLightsChange.Set(ref gameInfo.OnLightsChange);
         }
 
         /// <summary>
-        /// Assigns events specified into <paramref name="kmBombInfo"/>. Reassigning them will replace their values.
+        /// Assigns events specified into <paramref name="bombInfo"/>. Reassigning them will replace their values.
         /// </summary>
         /// <remarks>
         /// An event that is null will be skipped. This extension method simplifies all of the KMFramework events into Actions or Functions.
         /// </remarks>
         /// <exception cref="UnassignedReferenceException"></exception>
-        /// <param name="kmBombInfo">The bomb info instance to assign events to.</param>
+        /// <param name="bombInfo">The bomb info instance to assign events to.</param>
         /// <param name="onBombExploded">Called when the bomb explodes.</param>
         /// <param name="onBombSolved">Called when the bomb is defused.</param>
-        public static void Assign(this KMBombInfo kmBombInfo, Action onBombExploded = null, Action onBombSolved = null)
+        public static void Assign(this KMBombInfo bombInfo, Action onBombExploded = null, Action onBombSolved = null)
         {
-            if (!kmBombInfo)
+            if (!bombInfo)
                 throw typeof(KMBombInfo).Unassigned();
 
-            onBombExploded.Set(ref kmBombInfo.OnBombExploded);
-            onBombSolved.Set(ref kmBombInfo.OnBombSolved);
+            onBombExploded.Set(ref bombInfo.OnBombExploded);
+            onBombSolved.Set(ref bombInfo.OnBombSolved);
         }
 
         /// <summary>
