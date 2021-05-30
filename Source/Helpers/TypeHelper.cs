@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using static System.Globalization.NumberStyles;
 
 namespace KeepCoding
 {
@@ -32,7 +33,7 @@ namespace KeepCoding
         /// <param name="colors">The array of colors to compare to <paramref name="color"/>.</param>
         /// <param name="color">The color to compare it to.</param>
         /// <returns>Boolean, true only if any color in <paramref name="colors"/> is the exact same as <paramref name="color"/>'s R, G, B, and A values.</returns>
-        public static bool IsAnyEqual(this Color32[] colors, Color32 color) => colors.NullCheck("You cannot iterate over a null array.").Any(c => c.Equals(color));
+        public static bool IsAnyEqual(this Color32[] colors, Color32 color) => colors.NullCheck("You cannot iterate over a null array.").Any(c => c.IsEqual(color));
 
         /// <summary>
         /// Checks if any elements in the array <paramref name="colors"/> are equal to <paramref name="color"/>.
@@ -41,7 +42,7 @@ namespace KeepCoding
         /// <param name="colors">The array of colors to compare to <paramref name="color"/>.</param>
         /// <param name="color">The color to compare it to.</param>
         /// <returns>Boolean, true only if any color in <paramref name="colors"/> is the exact same as <paramref name="color"/>'s R, G, B, and A values.</returns>
-        public static bool IsAnyEqual(this Color[] colors, Color color) => colors.NullCheck("You cannot iterate over a null array.").Any(c => c.Equals(color));
+        public static bool IsAnyEqual(this Color[] colors, Color color) => colors.NullCheck("You cannot iterate over a null array.").Any(c => c.IsEqual(color));
 
         /// <summary>
         /// Duplicates the color, and adds the RGBA components only if they are specified.
@@ -107,7 +108,7 @@ namespace KeepCoding
             => renderer.material.color = colorA.IntertwineColor(colorB, concentrationOfB);
 
         /// <summary>
-        /// Duplicates the color, and replaces the RGBA components only if they are specified.
+        /// Duplicates the color, and sets the RGBA components only if they are specified.
         /// </summary>
         /// <param name="color">The <see cref="Color"/> to duplicate and modify.</param>
         /// <param name="r">The red component.</param>
@@ -115,7 +116,7 @@ namespace KeepCoding
         /// <param name="b">The green component.</param>
         /// <param name="a">The alpha component; opacity.</param>
         /// <returns>A new instance of the <paramref name="color"/>, with the arguments replacing the values.</returns>
-        public static Color Replace(this Color color, float? r = null, float? g = null, float? b = null, float? a = null)
+        public static Color Set(this Color color, float? r = null, float? g = null, float? b = null, float? a = null)
             => new Color(
                 r ?? color.r,
                 g ?? color.g,
@@ -123,7 +124,7 @@ namespace KeepCoding
                 a ?? color.a);
 
         /// <summary>
-        /// Duplicates the color, and replaces the RGBA components only if they are specified.
+        /// Duplicates the color, and sets the RGBA components only if they are specified.
         /// </summary>
         /// <param name="color">The <see cref="Color"/> to duplicate and modify.</param>
         /// <param name="r">The red component.</param>
@@ -131,7 +132,7 @@ namespace KeepCoding
         /// <param name="b">The green component.</param>
         /// <param name="a">The alpha component; opacity.</param>
         /// <returns>A new instance of the <paramref name="color"/>, with the arguments replacing the values.</returns>
-        public static Color Replace(this Color color, byte? r = null, byte? g = null, byte? b = null, byte? a = null)
+        public static Color Set(this Color color, byte? r = null, byte? g = null, byte? b = null, byte? a = null)
             => new Color(
                 r.HasValue ? (float)r.Value / byte.MaxValue : color.r,
                 g.HasValue ? (float)g.Value / byte.MaxValue : color.g,
@@ -192,7 +193,7 @@ namespace KeepCoding
             if (hex.Any(c => !"0123456789ABCDEFabcdef".Contains(c.ToString())))
                 throw new FormatException($"The hexadecimal code provided has invalid characters: {hex}");
 
-            return new Color32(byte.Parse(hex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber), byte.Parse(hex.Substring(2, 2), System.Globalization.NumberStyles.HexNumber), byte.Parse(hex.Substring(4, 2), System.Globalization.NumberStyles.HexNumber), (byte)(hex.Length < 8 ? 255 : byte.Parse(hex.Substring(6, 2), System.Globalization.NumberStyles.HexNumber)));
+            return new Color32(byte.Parse(hex.Substring(0, 2), HexNumber), byte.Parse(hex.Substring(2, 2), HexNumber), byte.Parse(hex.Substring(4, 2), HexNumber), (byte)(hex.Length < 8 ? 255 : byte.Parse(hex.Substring(6, 2), HexNumber)));
         }
 
         /// <summary>
@@ -221,7 +222,7 @@ namespace KeepCoding
             => renderer.material.color = colorA.IntertwineColor(colorB, concentrationOfB);
 
         /// <summary>
-        /// Duplicates the color, and replaces the RGBA components only if they are specified.
+        /// Duplicates the color, and sets the RGBA components only if they are specified.
         /// </summary>
         /// <param name="color">The <see cref="Color32"/> to duplicate and modify.</param>
         /// <param name="r">The red component.</param>
@@ -229,7 +230,7 @@ namespace KeepCoding
         /// <param name="b">The green component.</param>
         /// <param name="a">The alpha component; opacity.</param>
         /// <returns>A new instance of the <paramref name="color"/>, with the arguments replacing the values.</returns>
-        public static Color32 Replace(this Color32 color, float? r = null, float? g = null, float? b = null, float? a = null)
+        public static Color32 Set(this Color32 color, float? r = null, float? g = null, float? b = null, float? a = null)
             => new Color32(
                 r.HasValue ? (byte)(r.Value * byte.MaxValue) : color.r,
                 g.HasValue ? (byte)(g.Value * byte.MaxValue) : color.g,
@@ -237,7 +238,7 @@ namespace KeepCoding
                 a.HasValue ? (byte)(a.Value * byte.MaxValue) : color.a);
 
         /// <summary>
-        /// Duplicates the color, and replaces the RGBA components only if they are specified.
+        /// Duplicates the color, and sets the RGBA components only if they are specified.
         /// </summary>
         /// <param name="color">The <see cref="Color32"/> to duplicate and modify.</param>
         /// <param name="r">The red component.</param>
@@ -245,7 +246,7 @@ namespace KeepCoding
         /// <param name="b">The green component.</param>
         /// <param name="a">The alpha component; opacity.</param>
         /// <returns>A new instance of the <paramref name="color"/>, with the arguments replacing the values.</returns>
-        public static Color32 Replace(this Color32 color, byte? r = null, byte? g = null, byte? b = null, byte? a = null)
+        public static Color32 Set(this Color32 color, byte? r = null, byte? g = null, byte? b = null, byte? a = null)
             => new Color32(
                 r ?? color.r,
                 g ?? color.g,
@@ -337,7 +338,7 @@ namespace KeepCoding
         public static Tuple<T1, T2, T3, T4> ToTuple<T1, T2, T3, T4>(this T1 item1, T2 item2, T3 item3, T4 item4) => new Tuple<T1, T2, T3, T4>(item1, item2, item3, item4);
         
         /// <summary>
-        /// Duplicates the vector, and replaces the x and y components only if they are specified.
+        /// Duplicates the vector, and sets the x and y components only if they are specified.
         /// </summary>
         /// <param name="vector">The <see cref="Vector2"/> to duplicate and modify.</param>
         /// <param name="x">The x value.</param>
@@ -349,7 +350,7 @@ namespace KeepCoding
                 y + vector.y);
 
         /// <summary>
-        /// Takes the vector, and replaces the x and y components only if they are specified.
+        /// Takes the vector, and sets the x and y components only if they are specified.
         /// </summary>
         /// <param name="vector">The <see cref="Vector2"/> to duplicate and modify.</param>
         /// <param name="x">The x value.</param>
@@ -361,7 +362,7 @@ namespace KeepCoding
                 y + vector.y);
 
         /// <summary>
-        /// Duplicates the vector, and replaces the x, y, and z components only if they are specified.
+        /// Duplicates the vector, and sets the x, y, and z components only if they are specified.
         /// </summary>
         /// <param name="vector">The <see cref="Vector3"/> to duplicate and modify.</param>
         /// <param name="x">The x value.</param>
@@ -375,7 +376,7 @@ namespace KeepCoding
                 z + vector.z);
 
         /// <summary>
-        /// Takes the vector, and replaces the x, y, and z components only if they are specified.
+        /// Takes the vector, and sets the x, y, and z components only if they are specified.
         /// </summary>
         /// <param name="vector">The <see cref="Vector3"/> to duplicate and modify.</param>
         /// <param name="x">The x value.</param>
@@ -389,7 +390,7 @@ namespace KeepCoding
                 z + vector.z);
 
         /// <summary>
-        /// Duplicates the vector, and replaces the x, y, z, and w components only if they are specified.
+        /// Duplicates the vector, and sets the x, y, z, and w components only if they are specified.
         /// </summary>
         /// <param name="vector">The <see cref="Vector3"/> to duplicate and modify.</param>
         /// <param name="x">The x value.</param>
@@ -405,7 +406,7 @@ namespace KeepCoding
                 w + vector.w);
 
         /// <summary>
-        /// Takes the vector, and replaces the x, y, z, and w components only if they are specified.
+        /// Takes the vector, and sets the x, y, z, and w components only if they are specified.
         /// </summary>
         /// <param name="vector">The <see cref="Vector3"/> to duplicate and modify.</param>
         /// <param name="x">The x value.</param>
@@ -421,59 +422,59 @@ namespace KeepCoding
                 w + vector.w);
 
         /// <summary>
-        /// Takes the vector, and replaces the x and y components only if they are specified.
+        /// Takes the vector, and sets the x and y components only if they are specified.
         /// </summary>
         /// <param name="vector">The <see cref="Vector2"/> to duplicate and modify.</param>
         /// <param name="x">The x value.</param>
         /// <param name="y">The y value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
-        public static Vector2 Replace(ref Vector2 vector, float? x = null, float? y = null)
+        public static Vector2 Set(ref Vector2 vector, float? x = null, float? y = null)
             => vector = new Vector2(
                 x ?? vector.x,
                 y ?? vector.y);
 
         /// <summary>
-        /// Duplicates the vector, and replaces the x and y components only if they are specified.
+        /// Duplicates the vector, and sets the x and y components only if they are specified.
         /// </summary>
         /// <param name="vector">The <see cref="Vector2"/> to duplicate and modify.</param>
         /// <param name="x">The x value.</param>
         /// <param name="y">The y value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
-        public static Vector2 Replace(this Vector2 vector, float? x = null, float? y = null)
+        public static Vector2 Set(this Vector2 vector, float? x = null, float? y = null)
             => new Vector2(
                 x ?? vector.x,
                 y ?? vector.y);
 
         /// <summary>
-        /// Takes the vector, and replaces the x, y, and z components only if they are specified.
+        /// Takes the vector, and sets the x, y, and z components only if they are specified.
         /// </summary>
         /// <param name="vector">The <see cref="Vector3"/> to duplicate and modify.</param>
         /// <param name="x">The x value.</param>
         /// <param name="y">The y value.</param>
         /// <param name="z">The z value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
-        public static Vector3 Replace(ref Vector3 vector, float? x = null, float? y = null, float? z = null)
+        public static Vector3 Set(ref Vector3 vector, float? x = null, float? y = null, float? z = null)
             => vector = new Vector3(
                 x ?? vector.x,
                 y ?? vector.y,
                 z ?? vector.z);
 
         /// <summary>
-        /// Duplicates the vector, and replaces the x, y, and z components only if they are specified.
+        /// Duplicates the vector, and sets the x, y, and z components only if they are specified.
         /// </summary>
         /// <param name="vector">The <see cref="Vector3"/> to duplicate and modify.</param>
         /// <param name="x">The x value.</param>
         /// <param name="y">The y value.</param>
         /// <param name="z">The z value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
-        public static Vector3 Replace(this Vector3 vector, float? x = null, float? y = null, float? z = null)
+        public static Vector3 Set(this Vector3 vector, float? x = null, float? y = null, float? z = null)
             => new Vector3(
                 x ?? vector.x,
                 y ?? vector.y,
                 z ?? vector.z);
 
         /// <summary>
-        /// Takes the vector, and replaces the x, y, z, and w components only if they are specified.
+        /// Takes the vector, and sets the x, y, z, and w components only if they are specified.
         /// </summary>
         /// <param name="vector">The <see cref="Vector3"/> to duplicate and modify.</param>
         /// <param name="x">The x value.</param>
@@ -481,7 +482,7 @@ namespace KeepCoding
         /// <param name="z">The z value.</param>
         /// <param name="w">The w value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
-        public static Vector4 Replace(ref Vector4 vector, float? x = null, float? y = null, float? z = null, float? w = null)
+        public static Vector4 Set(ref Vector4 vector, float? x = null, float? y = null, float? z = null, float? w = null)
             => vector = new Vector4(
                 x ?? vector.x,
                 y ?? vector.y,
@@ -489,7 +490,7 @@ namespace KeepCoding
                 w ?? vector.w);
 
         /// <summary>
-        /// Duplicates the vector, and replaces the x, y, z, and w components only if they are specified.
+        /// Duplicates the vector, and sets the x, y, z, and w components only if they are specified.
         /// </summary>
         /// <param name="vector">The <see cref="Vector3"/> to duplicate and modify.</param>
         /// <param name="x">The x value.</param>
@@ -497,7 +498,7 @@ namespace KeepCoding
         /// <param name="z">The z value.</param>
         /// <param name="w">The w value.</param>
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
-        public static Vector4 Replace(this Vector4 vector, float? x = null, float? y = null, float? z = null, float? w = null)
+        public static Vector4 Set(this Vector4 vector, float? x = null, float? y = null, float? z = null, float? w = null)
             => new Vector4(
                 x ?? vector.x,
                 y ?? vector.y,
