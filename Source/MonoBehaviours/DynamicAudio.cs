@@ -26,15 +26,20 @@ namespace KeepCoding
         public bool IsPlaying => _audioSource.isPlaying;
 
         /// <value>
+        /// Determines if the audio volume should update every frame.
+        /// </value>
+        public bool IsUpdating { get; set; } = true;
+
+        /// <value>
         /// The current volume of the game. Ranges 0 to 100. In the Editor this value will always return 100.
         /// </value>
         public int GameVolume => isEditor ? 100 : _isMusic ? MusicVolume : SFXVolume;
 
-        /// <summary>
-        /// The volume it plays relative to the game sound. Works the same as <see cref="AudioSource.volume"/>, meaning 0 to 1 is the main range.
-        /// </summary>
-        [Range(0, 1)]
-        [SerializeField]
+        /// <value>
+        /// The audio source property. If the field it is referencing is <see langword="null"/> then it adds a component.
+        /// </value>
+        public AudioSource AudioSource => _audioSource;
+
         private float _volume;
 
         /// <summary>
@@ -45,24 +50,19 @@ namespace KeepCoding
         private AudioClip[] _audioClips;
 #pragma warning restore IDE0044 // Add readonly modifier
 
-        /// <value>
-        /// The audio source property. If the field it is referencing is <see langword="null"/> then it adds a component.
-        /// </value>
-        public AudioSource AudioSource => _audioSource;
-
         /// <summary>
         /// The audio source field.
         /// </summary>
         [SerializeField]
         private AudioSource _audioSource;
 
+        private Routine<float, float> _fade;
+
         /// <summary>
         /// Returns the <see cref="AudioSource"/>.
         /// </summary>
         /// <param name="dynamicAudio">The instance of <see cref="DynamicAudio"/> to retrieve <see cref="AudioSource"/> from.</param>
         public static explicit operator AudioSource(DynamicAudio dynamicAudio) => dynamicAudio.AudioSource;
-
-        private Routine<float, float> _fade;
 
 #pragma warning disable IDE0051 // Remove unused private members
         private void Awake()
@@ -164,7 +164,8 @@ namespace KeepCoding
         {
             while (true)
             {
-                AudioSource.volume = _volume * GameVolume / 100f;
+                if (IsUpdating)
+                    AudioSource.volume = _volume * GameVolume / 100f;
                 yield return null;
             }
         }
