@@ -12,6 +12,11 @@ namespace KeepCoding
     /// </summary>
     public sealed class DynamicAudio : MonoBehaviour
     {
+        /// <summary>
+        /// Determines if the <see cref="AudioSource"/> is muted.
+        /// </summary>
+        public bool IsMuted { get => AudioSource.mute; set => AudioSource.mute = value; }
+
         /// <value>
         /// Determines if the audio source is currently playing.
         /// </value>
