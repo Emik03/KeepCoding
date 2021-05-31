@@ -24,6 +24,12 @@ namespace KeepCoding
             _needyModule = needy;
         }
 
+        /// <summary>
+        /// Encapsulates either a solvable or needy module. Uses <see cref="Component.GetComponent{T}"/>.
+        /// </summary>
+        /// <param name="component">The component to get the modules from.</param>
+        public ModuleContainer(Component component) : this(component.GetComponent<KMBombModule>(), component.GetComponent<KMNeedyModule>()) { }
+
         /// <value>
         /// Set to true to only allow this module to be placed on the same face as the timer. Useful when the rules involve the timer in some way (like the Big Button), but should be used sparingly as it limits generation possibilities.
         /// </value>
