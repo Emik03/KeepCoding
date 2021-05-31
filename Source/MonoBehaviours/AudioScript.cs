@@ -23,11 +23,6 @@ namespace KeepCoding
         public bool IsPlaying => _audioSource.isPlaying;
 
         /// <value>
-        /// Determines if the audio volume should update every frame.
-        /// </value>
-        public bool IsUpdating { get; set; } = true;
-
-        /// <value>
         /// The current volume of the game. Ranges 0 to 100. In the Editor this value will always return 100.
         /// </value>
         public int Game => isEditor ? 100 : _isSFX ? SFXVolume : MusicVolume;
