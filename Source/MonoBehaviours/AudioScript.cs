@@ -12,9 +12,9 @@ namespace KeepCoding
     /// </summary>
     public sealed class AudioScript : MonoBehaviour
     {
-        /// <summary>
+        /// <value>
         /// Determines if the <see cref="AudioSource"/> is muted.
-        /// </summary>
+        /// </value>
         public bool IsMuted { get => AudioSource.mute; set => AudioSource.mute = value; }
 
         /// <value>
@@ -27,9 +27,14 @@ namespace KeepCoding
         /// </value>
         public int Game => isEditor ? 100 : _isSFX ? SFXVolume : MusicVolume;
 
-        /// <summary>
+        /// <value>
+        /// The volume the <see cref="AudioSource"/> is playing at, determined by <see cref="Volume"/> and <see cref="Game"/>.
+        /// </value>
+        public float Relative => Volume * (Game / 100f);
+
+        /// <value>
         /// The volume of the sound relative to the game.
-        /// </summary>
+        /// </value>
         public float Volume { get; set; }
 
         /// <value>
@@ -44,8 +49,6 @@ namespace KeepCoding
 #pragma warning disable IDE0044 // Add readonly modifier
         private bool _isSFX = true;
 #pragma warning restore IDE0044 // Add readonly modifier
-
-        private float Relative => Volume * (Game / 100f);
 
         /// <summary>
         /// The <see cref="Array"/> of clips it can play from.
