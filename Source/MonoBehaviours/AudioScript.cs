@@ -30,7 +30,7 @@ namespace KeepCoding
         /// <value>
         /// The current volume of the game. Ranges 0 to 100. In the Editor this value will always return 100.
         /// </value>
-        public int GameVolume => isEditor ? 100 : _isMusic ? MusicVolume : SFXVolume;
+        public int GameVolume => isEditor ? 100 : _isSFX ? SFXVolume : MusicVolume;
 
         /// <summary>
         /// The volume of the sound relative to the game.
@@ -47,7 +47,7 @@ namespace KeepCoding
         /// </summary>
         [SerializeField]
 #pragma warning disable IDE0044 // Add readonly modifier
-        private bool _isMusic;
+        private bool _isSFX;
 #pragma warning restore IDE0044 // Add readonly modifier
 
         /// <summary>
