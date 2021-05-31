@@ -23,7 +23,7 @@ namespace KeepCoding
         /// <value>
         /// Determines whether the module has been struck. Twitch Plays script will set this to false when a command is interrupted.
         /// </value>
-        public bool HasStruck { get; internal set; }
+        public bool HasStruck { get; set; }
 
         /// <value>
         /// Determines whether the bomb is currently active, and the timer is ticking.
