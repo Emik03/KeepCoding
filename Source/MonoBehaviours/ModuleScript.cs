@@ -131,23 +131,18 @@ namespace KeepCoding
         protected void OnDestroy() => logMessageReceived -= OnException;
 
         /// <summary>
-        /// Assigns events specified into <see cref="KMBombModule"/> or <see cref="KMNeedyModule"/>. Reassigning them will replace their values.
+        /// Assigns events specified into <see cref="Module"/>. Reassigning them will replace their values.
         /// </summary>
         /// <remarks>
         /// An event that is null will be skipped. This extension method simplifies all of the KMFramework events into Actions or Functions.
         /// </remarks>
-        /// <exception cref="MissingComponentException"></exception>
-        /// <param name="onActivate">Called when the bomb has been activated and the timer has started.</param>
-        /// <param name="onNeedyActivation">Called when the needy timer activates.</param>
-        /// <param name="onNeedyDeactivation">Called when the needy gets solved or the bomb explodes.</param>
-        /// <param name="onTimerExpired">Called when the timer of the needy runs out.</param>
-        public void Assign(Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onTimerExpired = null)
-        {
-            Module.OnActivate(_setActive + onActivate);
-
-            if (Module.Module is KMNeedyModule)
-                AssignNeedy(onTimerExpired, onNeedyActivation, onNeedyDeactivation);
-        }
+        /// <param name="onActivate">Called when the lights turn on.</param>
+        /// <param name="onNeedyActivation">Called when the needy activates.</param>
+        /// <param name="onNeedyDeactivation">Called when the needy deactivates.</param>
+        /// <param name="onPass">Called when the needy is solved.</param>
+        /// <param name="onStrike">Called when the needy strikes.</param>
+        /// <param name="onTimerExpired">Called when the timer runs out of time.</param>
+        public void Assign(Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null) => Module.Assign(_setActive.Combine(onActivate), onNeedyActivation.Combine(() => IsNeedyActive = true), onNeedyDeactivation.Combine(() => IsNeedyActive = false), onPass, onStrike, onTimerExpired);
 
         /// <summary>
         /// Handles typical button <see cref="KMSelectable.OnInteract"/> behaviour.
@@ -428,26 +423,6 @@ namespace KeepCoding
 
             IsActive = true;
             OnActivate();
-        }
-
-        private void AssignNeedy(Action onTimerExpired, Action onNeedyActivation, Action onNeedyDeactivation)
-        {
-            if (onTimerExpired is { })
-                Module.Needy.OnTimerExpired += () => onTimerExpired();
-
-            if (onNeedyActivation is { })
-                Module.Needy.OnNeedyActivation += () =>
-                {
-                    onNeedyActivation();
-                    IsNeedyActive = true;
-                };
-
-            if (onNeedyDeactivation is { })
-                Module.Needy.OnNeedyDeactivation += () =>
-                {
-                    onNeedyDeactivation();
-                    IsNeedyActive = false;
-                };
         }
 
         private void LogMultiple(in string[] logs) => logs?.ForEach(s => Log(s));
