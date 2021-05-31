@@ -10,7 +10,7 @@ namespace KeepCoding
     /// <summary>
     /// Advanced audio handler. Written by Emik.
     /// </summary>
-    public sealed class DynamicAudio : MonoBehaviour
+    public sealed class AudioScript : MonoBehaviour
     {
         /// <summary>
         /// Determines if the <see cref="AudioSource"/> is muted.
@@ -69,8 +69,8 @@ namespace KeepCoding
         /// <summary>
         /// Returns the <see cref="AudioSource"/>.
         /// </summary>
-        /// <param name="dynamicAudio">The instance of <see cref="DynamicAudio"/> to retrieve <see cref="AudioSource"/> from.</param>
-        public static explicit operator AudioSource(DynamicAudio dynamicAudio) => dynamicAudio.AudioSource;
+        /// <param name="dynamicAudio">The instance of <see cref="AudioScript"/> to retrieve <see cref="AudioSource"/> from.</param>
+        public static explicit operator AudioSource(AudioScript dynamicAudio) => dynamicAudio.AudioSource;
 
 #pragma warning disable IDE0051 // Remove unused private members
         private void Awake()
