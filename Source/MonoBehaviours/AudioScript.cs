@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-using static UnityEngine.Application;
 using static KeepCoding.Game.PlayerSettings;
+using static UnityEngine.Application;
 
 namespace KeepCoding
 {
@@ -30,7 +30,7 @@ namespace KeepCoding
         /// <value>
         /// The current volume of the game. Ranges 0 to 100. In the Editor this value will always return 100.
         /// </value>
-        public int GameVolume => isEditor ? 100 : _isSFX ? SFXVolume : MusicVolume;
+        public int Game => isEditor ? 100 : _isSFX ? SFXVolume : MusicVolume;
 
         /// <summary>
         /// The volume of the sound relative to the game.
@@ -49,6 +49,8 @@ namespace KeepCoding
 #pragma warning disable IDE0044 // Add readonly modifier
         private bool _isSFX = true;
 #pragma warning restore IDE0044 // Add readonly modifier
+
+        private float Relative => Volume * (Game / 100f);
 
         /// <summary>
         /// The <see cref="Array"/> of clips it can play from.
@@ -83,7 +85,7 @@ namespace KeepCoding
         }
 
 #pragma warning disable IDE0051 // Remove unused private members
-        private void Update() => AudioSource.volume = Volume * (GameVolume / 100f);
+        private void Update() => AudioSource.volume = Relative;
 #pragma warning restore IDE0051 // Remove unused private members
 
         /// <summary>
@@ -101,8 +103,10 @@ namespace KeepCoding
         /// <summary>
         /// Plays a sound, with optional parameters.
         /// </summary>
+        /// <remarks>
+        /// The sound can be cancelled with this method, but multiple sounds cannot play simultaneously.
+        /// </remarks>
         /// <exception cref="NullIteratorException"></exception>
-        /// <exception cref="NullReferenceException"></exception>
         /// <param name="clip">The sound clip to play.</param>
         /// <param name="volume">The volume of the sound clip relative to the game sound.</param>
         /// <param name="loop">If the sound should be looped.</param>
@@ -112,33 +116,63 @@ namespace KeepCoding
         /// <param name="pitch">The pitch of the sound.</param>
         public void Play(AudioClip clip, bool loop = false, byte priority = 128, float delay = 0, float pitch = 1, float time = 0, float volume = 1)
         {
-            clip.NullCheck("You cannot play an audio clip which is null.");
-
-            Volume = volume;
-
-            AudioSource.clip = clip;
-            AudioSource.loop = loop;
-            AudioSource.priority = priority;
-            AudioSource.pitch = pitch;
-            AudioSource.time = time;
-
+            Set(clip, loop, priority, delay, pitch, time, volume);
             AudioSource.PlayDelayed(delay);
         }
 
         /// <summary>
         /// Plays a sound, with optional parameters.
         /// </summary>
+        /// <remarks>
+        /// The sound can be cancelled with this method, but multiple sounds cannot play simultaneously.
+        /// </remarks>
         /// <exception cref="NullIteratorException"></exception>
-        /// <exception cref="NullReferenceException"></exception>
         /// <exception cref="MissingComponentException"></exception>
-        /// <param name="sound">The sound clip to play.</param>
+        /// <param name="name">The name of the sound clip to play.</param>
         /// <param name="volume">The volume of the sound clip relative to the game sound.</param>
         /// <param name="loop">If the sound should be looped.</param>
         /// <param name="priority">The priority of the sound.</param>
         /// <param name="delay">The amount of delay before the sound starts.</param>
         /// <param name="time">The time in the audio it should start playing at.</param>
         /// <param name="pitch">The pitch of the sound.</param>
-        public void Play(string sound, bool loop = false, byte priority = 128, float delay = 0, float pitch = 1, float time = 0, float volume = 1) => Play(_audioClips.FirstOrDefault(c => c.name == sound) ?? throw new MissingComponentException($"There is no sound effect named \"{sound}\". List of audio clips from the prefab: {_audioClips.UnwrapToString()}"), loop, priority, delay, pitch, time, volume);
+        public void Play(string name, bool loop = false, byte priority = 128, float delay = 0, float pitch = 1, float time = 0, float volume = 1) => Play(_audioClips.FirstOrDefault(c => c.name == name) ?? throw new MissingComponentException($"There is no sound effect named \"{name}\". List of audio clips from the prefab: {_audioClips.UnwrapToString()}"), loop, priority, delay, pitch, time, volume);
+
+        /// <summary>
+        /// Plays a sound, with optional parameters.
+        /// </summary>
+        /// <remarks>
+        /// Multiple sounds can be played simultaneously with this method, however they cannot be cancelled.
+        /// </remarks>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <param name="clip">The sound clip to play.</param>
+        /// <param name="volume">The volume of the sound clip relative to the game sound.</param>
+        /// <param name="loop">If the sound should be looped.</param>
+        /// <param name="priority">The priority of the sound.</param>
+        /// <param name="delay">The amount of delay before the sound starts.</param>
+        /// <param name="time">The time in the audio it should start playing at.</param>
+        /// <param name="pitch">The pitch of the sound.</param>
+        public void PlayStackable(AudioClip clip, bool loop = false, byte priority = 128, float delay = 0, float pitch = 1, float time = 0, float volume = 1)
+        {
+            Set(clip, loop, priority, delay, pitch, time, volume);
+            AudioSource.PlayOneShot(clip, Relative);
+        }
+
+        /// <summary>
+        /// Plays a sound, with optional parameters.
+        /// </summary>
+        /// <remarks>
+        /// Multiple sounds can be played simultaneously with this method, however they cannot be cancelled.
+        /// </remarks>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="MissingComponentException"></exception>
+        /// <param name="name">The name of the sound clip to play.</param>
+        /// <param name="volume">The volume of the sound clip relative to the game sound.</param>
+        /// <param name="loop">If the sound should be looped.</param>
+        /// <param name="priority">The priority of the sound.</param>
+        /// <param name="delay">The amount of delay before the sound starts.</param>
+        /// <param name="time">The time in the audio it should start playing at.</param>
+        /// <param name="pitch">The pitch of the sound.</param>
+        public void PlayStackable(string name, bool loop = false, byte priority = 128, float delay = 0, float pitch = 1, float time = 0, float volume = 1) => PlayStackable(_audioClips.FirstOrDefault(c => c.name == name) ?? throw new MissingComponentException($"There is no sound effect named \"{name}\". List of audio clips from the prefab: {_audioClips.UnwrapToString()}"), loop, priority, delay, pitch, time, volume);
 
         /// <summary>
         /// Stops playing the clip.
@@ -149,6 +183,19 @@ namespace KeepCoding
         /// Unpauses the paused playback of this <see cref="AudioSource"/>.
         /// </summary>
         public void Unpause() => AudioSource.UnPause();
+
+        private void Set(AudioClip clip, bool loop, byte priority, float delay, float pitch, float time, float volume)
+        {
+            clip.NullCheck("You cannot play an audio clip which is null.");
+
+            Volume = volume;
+
+            AudioSource.clip = clip;
+            AudioSource.loop = loop;
+            AudioSource.priority = priority;
+            AudioSource.pitch = pitch;
+            AudioSource.time = time;
+        }
 
         private IEnumerator TweenFade(float to, float time)
         {
