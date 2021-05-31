@@ -10,7 +10,6 @@ using UnityEngine.Networking;
 using static KeepCoding.Game.KTInputManager;
 using static KMAudio;
 using static KMSoundOverride;
-using static TimerComponent;
 using static UnityEngine.Application;
 
 namespace KeepCoding
