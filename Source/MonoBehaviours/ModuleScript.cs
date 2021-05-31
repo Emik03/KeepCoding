@@ -91,15 +91,15 @@ namespace KeepCoding
         public ITP TP => _tp ??= GetComponents<Component>().FirstOrDefault(c => c is ITP) as ITP;
         private ITP _tp;
 
-        private static readonly Dictionary<string, int> _moduleIds = new Dictionary<string, int>();
-
-        private static Dictionary<string, Dictionary<string, object>[]> _database;
-
         private bool _hasException;
 
         private int _strikes;
 
         private Action _setActive;
+
+        private static readonly Dictionary<string, int> _moduleIds = new Dictionary<string, int>();
+
+        private static Dictionary<string, Dictionary<string, object>[]> _database;
 
         private readonly Dictionary<Type, Component[]> _components = new Dictionary<Type, Component[]>();
 
@@ -112,13 +112,9 @@ namespace KeepCoding
         {
             logMessageReceived += OnException;
 
-            _setActive = Active;
-
             _database = new Dictionary<string, Dictionary<string, object>[]>();
             
-            Module = new ModuleContainer(Get<KMBombModule>(allowNull: true), Get<KMNeedyModule>(allowNull: true));
-
-            Module.OnActivate(_setActive);
+            (Module = new ModuleContainer(this)).OnActivate(_setActive = Active);
 
             ModuleId = _moduleIds.SetOrReplace(Module.Id, i => ++i);
 
