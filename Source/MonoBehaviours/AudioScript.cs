@@ -40,14 +40,14 @@ namespace KeepCoding
         /// <value>
         /// The audio source property. If the field it is referencing is <see langword="null"/> then it adds a component.
         /// </value>
-        public AudioSource AudioSource => _audioSource;
+        public AudioSource AudioSource => _audioSource ? _audioSource : _audioSource = gameObject.AddComponent<AudioSource>();
 
         /// <summary>
         /// Setting this value to true will make the volume relative to <see cref="MusicVolume"/>, and <see cref="SFXVolume"/> otherwise.
         /// </summary>
         [SerializeField]
 #pragma warning disable IDE0044 // Add readonly modifier
-        private bool _isSFX;
+        private bool _isSFX = true;
 #pragma warning restore IDE0044 // Add readonly modifier
 
         /// <summary>
@@ -76,9 +76,6 @@ namespace KeepCoding
         private void Awake()
 #pragma warning restore IDE0051 // Remove unused private members
         {
-            if (!_audioSource)
-                _audioSource = gameObject.AddComponent<AudioSource>();
-
             _fade = this.ToRoutine((Func<float, float, IEnumerator>)TweenFade);
 
             AudioSource.playOnAwake = false;
