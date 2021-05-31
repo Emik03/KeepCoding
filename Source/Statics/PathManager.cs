@@ -15,8 +15,8 @@ using static System.Linq.Enumerable;
 using static System.Reflection.Assembly;
 using static System.Runtime.CompilerServices.MethodImplOptions;
 using static UnityEngine.Application;
-using static UnityEngine.Debug;
 using static UnityEngine.AssetBundle;
+using static UnityEngine.Debug;
 using static UnityEngine.Object;
 using static UnityEngine.RuntimePlatform;
 
