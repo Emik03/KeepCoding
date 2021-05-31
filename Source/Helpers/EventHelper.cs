@@ -3,7 +3,6 @@ using System.Linq;
 using UnityEngine;
 using static KMAudio;
 using static KMGameInfo;
-using static System.Delegate;
 using static System.Linq.Enumerable;
 using Object = UnityEngine.Object;
 
@@ -234,6 +233,96 @@ namespace KeepCoding
         public static void StopSound(this Sound[] sounds) => sounds.ForEach(s => s.StopSound());
 
         /// <summary>
+        /// Combines actions together, only if these actions are not <see langword="null"/>.
+        /// </summary>
+        /// <param name="self">The action to modify.</param>
+        /// <param name="others">The actions to combine with <paramref name="self"/>.</param>
+        /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
+        public static Action Combine(this Action self, params Action[] others) 
+        {
+            if (self is null)
+                return self;
+
+            foreach (var other in others)
+                if (other is { })
+                    self += other;
+
+            return self;
+        }
+
+        /// <summary>
+        /// Combines actions together, only if these actions are not <see langword="null"/>.
+        /// </summary>
+        /// <param name="self">The action to modify.</param>
+        /// <param name="others">The actions to combine with <paramref name="self"/>.</param>
+        /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
+        public static Action<T> Combine<T>(this Action<T> self, params Action<T>[] others)
+        {
+            if (self is null)
+                return self;
+
+            foreach (var other in others)
+                if (other is { })
+                    self += other;
+
+            return self;
+        }
+
+        /// <summary>
+        /// Combines actions together, only if these actions are not <see langword="null"/>.
+        /// </summary>
+        /// <param name="self">The action to modify.</param>
+        /// <param name="others">The actions to combine with <paramref name="self"/>.</param>
+        /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
+        public static Action<T1, T2> Combine<T1, T2>(this Action<T1, T2> self, params Action<T1, T2>[] others)
+        {
+            if (self is null)
+                return self;
+
+            foreach (var other in others)
+                if (other is { })
+                    self += other;
+
+            return self;
+        }
+
+        /// <summary>
+        /// Combines actions together, only if these actions are not <see langword="null"/>.
+        /// </summary>
+        /// <param name="self">The action to modify.</param>
+        /// <param name="others">The actions to combine with <paramref name="self"/>.</param>
+        /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
+        public static Action<T1, T2, T3> Combine<T1, T2, T3>(this Action<T1, T2, T3> self, params Action<T1, T2, T3>[] others)
+        {
+            if (self is null)
+                return self;
+
+            foreach (var other in others)
+                if (other is { })
+                    self += other;
+
+            return self;
+        }
+
+        /// <summary>
+        /// Combines actions together, only if these actions are not <see langword="null"/>.
+        /// </summary>
+        /// <param name="self">The action to modify.</param>
+        /// <param name="others">The actions to combine with <paramref name="self"/>.</param>
+        /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
+        public static Action<T1, T2, T3, T4> Combine<T1, T2, T3, T4>(this Action<T1, T2, T3, T4> self, params Action<T1, T2, T3, T4>[] others)
+        {
+            if (self is null)
+                return self;
+
+            foreach (var other in others)
+                if (other is { })
+                    self += other;
+
+            return self;
+        }
+
+        /// <summary>
         /// Adds a <see cref="Delegate"/> onto the referenced variable.
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
@@ -270,6 +359,96 @@ namespace KeepCoding
         /// <returns>A delegate of type <typeparamref name="T"/> using <paramref name="dele"/>'s target and method.</returns>
         public static T CreateDelegate<T>(this Delegate dele) where T : Delegate => (T)Delegate.CreateDelegate(typeof(T), dele.Target, dele.Method, true);
 
+        /// <summary>
+        /// Combines actions together, only if these functions are not <see langword="null"/>.
+        /// </summary>
+        /// <param name="self">The function to modify.</param>
+        /// <param name="others">The functions to combine with <paramref name="self"/>.</param>
+        /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
+        public static Func<TResult> Combine<TResult>(this Func<TResult> self, params Func<TResult>[] others)
+        {
+            if (self is null)
+                return self;
+
+            foreach (var other in others)
+                if (other is { })
+                    self += other;
+
+            return self;
+        }
+
+        /// <summary>
+        /// Combines actions together, only if these functions are not <see langword="null"/>.
+        /// </summary>
+        /// <param name="self">The function to modify.</param>
+        /// <param name="others">The functions to combine with <paramref name="self"/>.</param>
+        /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
+        public static Func<T, TResult> Combine<T, TResult>(this Func<T, TResult> self, params Func<T, TResult>[] others)
+        {
+            if (self is null)
+                return self;
+
+            foreach (var other in others)
+                if (other is { })
+                    self += other;
+
+            return self;
+        }
+
+        /// <summary>
+        /// Combines actions together, only if these functions are not <see langword="null"/>.
+        /// </summary>
+        /// <param name="self">The function to modify.</param>
+        /// <param name="others">The functions to combine with <paramref name="self"/>.</param>
+        /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
+        public static Func<T1, T2, TResult> Combine<T1, T2, TResult>(this Func<T1, T2, TResult> self, params Func<T1, T2, TResult>[] others)
+        {
+            if (self is null)
+                return self;
+
+            foreach (var other in others)
+                if (other is { })
+                    self += other;
+
+            return self;
+        }
+
+        /// <summary>
+        /// Combines actions together, only if these functions are not <see langword="null"/>.
+        /// </summary>
+        /// <param name="self">The function to modify.</param>
+        /// <param name="others">The functions to combine with <paramref name="self"/>.</param>
+        /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
+        public static Func<T1, T2, T3, TResult> Combine<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> self, params Func<T1, T2, T3, TResult>[] others)
+        {
+            if (self is null)
+                return self;
+
+            foreach (var other in others)
+                if (other is { })
+                    self += other;
+
+            return self;
+        }
+
+        /// <summary>
+        /// Combines actions together, only if these functions are not <see langword="null"/>.
+        /// </summary>
+        /// <param name="self">The function to modify.</param>
+        /// <param name="others">The functions to combine with <paramref name="self"/>.</param>
+        /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
+        public static Func<T1, T2, T3, T4, TResult> Combine<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, TResult> self, params Func<T1, T2, T3, T4, TResult>[] others)
+        {
+            if (self is null)
+                return self;
+
+            foreach (var other in others)
+                if (other is { })
+                    self += other;
+
+            return self;
+        }
+
         private static void Throw<T>(this T t) where T : Object
         {
             if (!t)
@@ -294,7 +473,7 @@ namespace KeepCoding
         {
             0 => null,
             1 => multicast[0] == dele ? dele.CreateDelegate<T>() : multicast[0].Cast<T>(),
-            _ => (T)Combine(Range(0, multicast.Length).Select(i => multicast[i].Cast<T>()).ToArray())
+            _ => (T)Delegate.Combine(Range(0, multicast.Length).Select(i => multicast[i].Cast<T>()).ToArray())
         };
     }
 }
