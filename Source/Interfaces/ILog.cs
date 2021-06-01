@@ -27,6 +27,6 @@ namespace KeepCoding
         /// Logs multiple entries to the console.
         /// </summary>
         /// <param name="logs">The array of logs to individual output into the console.</param>
-        public void LogMultiple(in string[] logs);
+        public void LogMultiple(params string[] logs);
     }
 }

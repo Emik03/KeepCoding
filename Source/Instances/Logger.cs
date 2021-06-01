@@ -129,7 +129,7 @@ namespace KeepCoding
         /// Logs multiple entries to the console.
         /// </summary>
         /// <param name="logs">The array of logs to individual output into the console.</param>
-        public void LogMultiple(in string[] logs) => logs?.ForEach(s => Log(s));
+        public void LogMultiple(params string[] logs) => logs?.ForEach(s => Log(s));
 
         internal static void Self(string message, LogType logType = LogType.Log) => logType.Method()(Format.Form(SelfName, message));
     }

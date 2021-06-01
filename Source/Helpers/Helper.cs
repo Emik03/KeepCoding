@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Security;
 using System.Text;
 using UnityEngine;
-using Random = UnityEngine.Random;
 using static System.Linq.Enumerable;
 using static System.Math;
 using static System.Reflection.BindingFlags;
-using System.IO;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace KeepCoding
 {
@@ -509,7 +510,7 @@ namespace KeepCoding
         /// <param name="monoBehaviour">The <see cref="MonoBehaviour"/> instance needed to stop coroutines.</param>
         /// <param name="coroutines">The <see cref="Coroutine"/>s to stop.</param>
         /// <returns>The array of <see cref="Coroutine"/>s given.</returns>
-        public static Coroutine[] Stop(this MonoBehaviour monoBehaviour, params Coroutine[] coroutines) => coroutines.ForEach(c =>
+        public static Coroutine[] Stop(this MonoBehaviour monoBehaviour, params Coroutine[] coroutines) => coroutines?.ForEach(c =>
         {
             if (c is { })
                 monoBehaviour.StopCoroutine(c);
@@ -712,13 +713,13 @@ namespace KeepCoding
         public static MethodInfo GetMethodInfo<T>(this Expression<Action<T>> expression) => expression.Body is MethodCallExpression member ? member.Method : throw new ArgumentException($"The expression {nameof(expression)} is not a method");
 
         /// <summary>
-        /// Throws a <see cref="MissingComponentException"/> if the component given is <see langword="null"/>, then returning the component <paramref name="component"/>.
+        /// Throws a <see cref="MissingComponentException"/> if the <see cref="Object"/> given is <see langword="null"/>, then returning the <see cref="Object"/> <paramref name="obj"/>.
         /// </summary>
-        /// <typeparam name="T">The type of component.</typeparam>
-        /// <param name="component">The component to do a null check on.</param>
+        /// <typeparam name="T">The type of <see cref="Object"/>.</typeparam>
+        /// <param name="obj">The <see cref="Object"/> to do a null check on.</param>
         /// <param name="message">The message of the exception.</param>
-        /// <returns>The component <paramref name="component"/>.</returns>
-        public static T Assert<T>(this T component, string message = "While asserting for null, the variable ended up null.") where T : Component => component ? component : throw new MissingComponentException(message);
+        /// <returns>The component <paramref name="obj"/>.</returns>
+        public static T Assert<T>(this T obj, string message = "While asserting for null, the variable ended up null.") where T : Object => obj ? obj : throw new MissingComponentException(message);
 
         /// <summary>
         /// Invokes a method of <typeparamref name="T"/> and then returns the argument provided.
