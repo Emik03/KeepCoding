@@ -52,6 +52,8 @@ namespace KeepCoding
 
         private readonly bool _showId;
 
+        private const string Format = "[{0}] {1}";
+
         private static readonly string SelfName = PathManager.AssemblyName.Name;
 
         /// <summary>
@@ -113,7 +115,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="message">The message to log.</param>
         /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
-        public void Log<T>(T message, LogType logType = LogType.Log) => logType.Method()($"[{Name}{(_showId ? $" #{Id}" : "")}] {message.UnwrapToString()}");
+        public void Log<T>(T message, LogType logType = LogType.Log) => logType.Method()(Format.Form(_showId ? $" #{Id}" : "", message.UnwrapToString()));
 
         /// <summary>
         /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
@@ -129,6 +131,6 @@ namespace KeepCoding
         /// <param name="logs">The array of logs to individual output into the console.</param>
         public void LogMultiple(in string[] logs) => logs?.ForEach(s => Log(s));
 
-        internal static void Self(string message, LogType logType = LogType.Log) => logType.Method()(message);
+        internal static void Self(string message, LogType logType = LogType.Log) => logType.Method()(Format.Form(SelfName, message));
     }
 }
