@@ -38,21 +38,21 @@ namespace KeepCoding
         /// <param name="showId">Determines whether to show the unique identifier when logging.</param>
         public Logger(Type type, bool showId = false) : this(type?.Name, showId) { }
 
-        /// <summary>
+        /// <value>
         /// The unique identifier of the current name.
-        /// </summary>
+        /// </value>
         public int Id { get; private set; }
 
-        /// <summary>
+        /// <value>
         /// The name of the logger.
-        /// </summary>
+        /// </value>
         public string Name { get; private set; }
 
         internal static readonly Dictionary<string, int> ids = new Dictionary<string, int>();
 
         private readonly bool _showId;
 
-        private const string SelfName = "KeepCoding";
+        private static readonly string SelfName = PathManager.AssemblyName.Name;
 
         /// <summary>
         /// Dumps all information that it can find of the type using reflection. This should only be used to debug.
