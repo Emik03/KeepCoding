@@ -15,12 +15,18 @@ namespace KeepCoding
         /// <summary>
         /// The string constructor. The string determines the name.
         /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="FormatException"></exception>
         /// <param name="name">The name of the value.</param>
         /// <param name="showId">Determines whether to show the unique identifier when logging.</param>
         public Logger(string name, bool showId = false)
         {
             Name = name.NullCheck("The name cannot be null!");
-            Id = _ids.SetOrReplace(Name, i => ++i);
+
+            if (Name == SelfName)
+                throw new FormatException($"The name {SelfName} is reserved for the library.");
+
+            Id = ids.SetOrReplace(Name, i => ++i);
 
             _showId = showId;
         }
@@ -42,16 +48,18 @@ namespace KeepCoding
         /// </summary>
         public string Name { get; private set; }
 
+        internal static readonly Dictionary<string, int> ids = new Dictionary<string, int>();
+
         private readonly bool _showId;
 
-        private static readonly Dictionary<string, int> _ids = new Dictionary<string, int>();
+        private const string SelfName = "KeepCoding";
 
         /// <summary>
         /// Dumps all information that it can find of the type using reflection. This should only be used to debug.
         /// </summary>
         /// <param name="obj">The object to reflect on.</param>
         /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
-        public void Dump(object obj, bool getVariables = false)
+        public static void Dump(object obj, bool getVariables = false)
         {
             int index = 0;
 
@@ -62,7 +70,7 @@ namespace KeepCoding
             obj.GetType().GetFields(Helper.Flags).ForEach(f => values.Add(Format(f.Name, f.GetValue(obj))));
             obj.GetType().GetProperties(Helper.Flags).ForEach(p => values.Add(Format(p.Name, p.GetValue(obj, null))));
 
-            Debug.LogWarning(Helper.DumpTemplate.Form(Name, Id, string.Join("", values.Select(o => string.Join("", o.Unwrap(getVariables).Select(o => o.ToString()).ToArray())).ToArray())));
+            Debug.LogWarning(Helper.DumpTemplate.Form(string.Join("", values.Select(o => string.Join("", o.Unwrap(getVariables).Select(o => o.ToString()).ToArray())).ToArray())));
         }
 
         /// <summary>
@@ -105,7 +113,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="message">The message to log.</param>
         /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
-        public void Log<T>(T message, LogType logType = LogType.Log) => logType.Logger()($"[{Name}{(_showId ? $" #{Id}" : "")}] {message.UnwrapToString()}");
+        public void Log<T>(T message, LogType logType = LogType.Log) => logType.Method()($"[{Name}{(_showId ? $" #{Id}" : "")}] {message.UnwrapToString()}");
 
         /// <summary>
         /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
@@ -120,5 +128,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="logs">The array of logs to individual output into the console.</param>
         public void LogMultiple(in string[] logs) => logs?.ForEach(s => Log(s));
+
+        internal static void Self(string message, LogType logType = LogType.Log) => logType.Method()(message);
     }
 }
