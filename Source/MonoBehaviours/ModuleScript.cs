@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InControl;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -17,7 +18,7 @@ namespace KeepCoding
     /// <summary>
     /// Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
     /// </summary>
-    public abstract class ModuleScript : MonoBehaviour
+    public abstract class ModuleScript : MonoBehaviour, IDump, ILog
     {
         /// <value>
         /// Determines whether the module has been struck. Twitch Plays script will set this to false when a command is interrupted.
@@ -102,6 +103,8 @@ namespace KeepCoding
 
         private readonly Dictionary<Type, Component[]> _components = new Dictionary<Type, Component[]>();
 
+        private Logger logger;
+
         /// <summary>
         /// This initalizes the module. If you have an Awake method, be sure to call <c>base.Awake()</c> as the first statement.
         /// </summary>
@@ -109,14 +112,14 @@ namespace KeepCoding
         /// <exception cref="NullIteratorException"></exception>
         protected void Awake()
         {
+            (Module = new ModuleContainer(this)).OnActivate(_setActive = Active);
+
+            logger = new Logger(Module.Name, true);
+            
             logMessageReceived += OnException;
 
             _database = new Dictionary<string, Dictionary<string, object>[]>();
             
-            (Module = new ModuleContainer(this)).OnActivate(_setActive = Active);
-
-            ModuleId = _moduleIds.SetOrReplace(Module.Id, i => ++i);
-
             Debug.Log($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
 
             Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
@@ -162,36 +165,46 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// Dumps all information that it can find of the module using reflection. This should only be used to debug.
+        /// Dumps all information that it can find of the type using reflection. This should only be used to debug.
         /// </summary>
+        /// <param name="obj">The object to reflect on.</param>
         /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
-        public void Dump(bool getVariables = false)
-        {
-            int index = 0;
-
-            string Format<T>(string name, T value) => Helper.VariableTemplate.Form(index++, name, value?.GetType().ToString() ?? Helper.Null, string.Join(", ", value.Unwrap(getVariables).Select(o => o.ToString()).ToArray()));
-
-            var type = GetType();
-            var values = new List<object>();
-
-            type.GetFields(Helper.Flags).ForEach(f => values.Add(Format(f.Name, f.GetValue(this))));
-            type.GetProperties(Helper.Flags).ForEach(p => values.Add(Format(p.Name, p.GetValue(this, null))));
-
-            Debug.LogWarning(Helper.DumpTemplate.Form(Module.Name, ModuleId, string.Join("", values.Select(o => string.Join("", o.Unwrap(getVariables).Select(o => o.ToString()).ToArray())).ToArray())));
-        }
+        public void Dump(object obj, bool getVariables = false) => ((IDump)logger).Dump(obj, getVariables);
 
         /// <summary>
         /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
         /// </summary>
         /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
         /// <param name="logs">All of the variables to throughly log.</param>
-        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => Debug.LogWarning(Helper.DumpTemplate.Form(Module.Name, ModuleId, string.Join("", logs.Select((l, n) => Helper.VariableTemplate.Form(n, Helper.NameOfVariable(l), l.Compile()()?.GetType().ToString() ?? Helper.Null, string.Join(", ", l.Compile()().Unwrap(getVariables).Select(o => o.ToString()).ToArray()))).ToArray())));
+        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => ((IDump)logger).Dump(getVariables, logs);
 
         /// <summary>
         /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
         /// </summary>
         /// <param name="logs">All of the variables to throughly log.</param>
-        public void Dump(params Expression<Func<object>>[] logs) => Dump(false, logs);
+        public void Dump(params Expression<Func<object>>[] logs) => ((IDump)logger).Dump(logs);
+
+        /// <summary>
+        /// Logs message, but formats it to be compliant with the Logfile Analyzer.
+        /// </summary>
+        /// <exception cref="UnrecognizedValueException"></exception>
+        /// <param name="message">The message to log.</param>
+        /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
+        public void Log<T>(T message, LogType logType = LogType.Log) => ((ILog)logger).Log(message, logType);
+
+        /// <summary>
+        /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
+        /// </summary>
+        /// <exception cref="UnrecognizedValueException"></exception>
+        /// <param name="message">The message to log.</param>
+        /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
+        public void Log<T>(T message, params object[] args) => ((ILog)logger).Log(message, args);
+
+        /// <summary>
+        /// Logs multiple entries to the console.
+        /// </summary>
+        /// <param name="logs">The array of logs to individual output into the console.</param>
+        public void LogMultiple(in string[] logs) => ((ILog)logger).LogMultiple(logs);
 
         /// <summary>
         /// Solves the module, and logs all of the parameters.
@@ -227,22 +240,6 @@ namespace KeepCoding
 
             Module.Strike();
         }
-
-        /// <summary>
-        /// Logs message, but formats it to be compliant with the Logfile Analyzer.
-        /// </summary>
-        /// <exception cref="UnrecognizedValueException"></exception>
-        /// <param name="message">The message to log.</param>
-        /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
-        public void Log<T>(T message, LogType logType = LogType.Log) => logType.Logger()($"[{Module.Name} #{ModuleId}] {message.UnwrapToString()}");
-
-        /// <summary>
-        /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
-        /// </summary>
-        /// <exception cref="UnrecognizedValueException"></exception>
-        /// <param name="message">The message to log.</param>
-        /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
-        public void Log<T>(T message, params object[] args) => Log(message.UnwrapToString().Form(args));
 
         /// <summary>
         /// Called when the lights turn on.
@@ -423,8 +420,6 @@ namespace KeepCoding
             IsActive = true;
             OnActivate();
         }
-
-        private void LogMultiple(in string[] logs) => logs?.ForEach(s => Log(s));
 
         private void OnException(string condition, string stackTrace, LogType type)
         {
