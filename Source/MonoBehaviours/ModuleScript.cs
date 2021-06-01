@@ -436,9 +436,6 @@ namespace KeepCoding
 
             if (!(bool)(TP?.IsTP))
                 StartCoroutine(WaitForSolve());
-
-            if (!IsEditor)
-                Game.AddStrikes(gameObject, -_strikes);
         }
 
         private void TimerTick()
