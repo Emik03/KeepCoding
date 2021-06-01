@@ -11,6 +11,7 @@ using Random = UnityEngine.Random;
 using static System.Linq.Enumerable;
 using static System.Math;
 using static System.Reflection.BindingFlags;
+using System.IO;
 
 namespace KeepCoding
 {
@@ -321,6 +322,14 @@ namespace KeepCoding
         /// <param name="toBaseNumber">Which base to convert it to.</param>
         /// <returns>The integer, but in the base specified.</returns>
         public static string Base(this string value, int fromBaseNumber, int toBaseNumber) => value.Base(new string(Alphanumeric.Take(fromBaseNumber).ToArray()), new string(Alphanumeric.Take(toBaseNumber).ToArray()));
+
+        /// <summary>
+        /// Finds a file name within a list of directories, or <see langword="null"/> if none is found.
+        /// </summary>
+        /// <param name="directories">The list of directories.</param>
+        /// <param name="file">The file to search for.</param>
+        /// <returns>The directory containing the path to the file searched for, or <see langword="null"/>.</returns>
+        public static string Find(this List<string> directories, string file) => directories.FirstOrDefault(x => Directory.GetFiles(x, file).Any());
 
         /// <summary>
         /// Formats the string. Shorthand for <see cref="string.Format(string, object[])"/>.
