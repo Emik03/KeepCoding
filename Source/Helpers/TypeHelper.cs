@@ -254,6 +254,16 @@ namespace KeepCoding
                 a ?? color.a);
 
         /// <summary>
+        /// Converts arguments to a new <see cref="Logger"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the argument, which is used as the name if <paramref name="name"/> is null.</typeparam>
+        /// <param name="_">The discard which is only needed for the type.</param>
+        /// <param name="name">The name of the value.</param>
+        /// <param name="showId">Determines whether to show the unique identifier when logging.</param>
+        /// <returns>A new <see cref="Logger"/> containing the arguments specified.</returns>
+        public static Logger ToLogger<T>(this T _, string name = null, bool showId = false) => new Logger(name ?? typeof(T).Name, showId);
+
+        /// <summary>
         /// Converts arguments to a new <see cref="Routine"/>.
         /// </summary>
         /// <param name="func">The function to call when the <see cref="IEnumerator"/> is called.</param>
