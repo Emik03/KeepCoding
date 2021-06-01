@@ -7,7 +7,6 @@ using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
-using static KeepCoding.Game;
 using static KeepCoding.Game.KTInputManager;
 using static KMAudio;
 using static KMSoundOverride;
@@ -18,12 +17,12 @@ namespace KeepCoding
     /// <summary>
     /// Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
     /// </summary>
-    public abstract class ModuleScript : MonoBehaviour
+    public abstract class ModuleScript : MonoBehaviour, IDump, ILog
     {
         /// <value>
         /// Determines whether the module has been struck. Twitch Plays script will set this to false when a command is interrupted.
         /// </value>
-        public bool HasStruck { get; internal set; }
+        public bool HasStruck { get; set; }
 
         /// <value>
         /// Determines whether the bomb is currently active, and the timer is ticking.
@@ -38,7 +37,7 @@ namespace KeepCoding
         /// <value>
         /// Determines whether this module is the last instantiated instance.
         /// </value>
-        public bool IsLastInstantiated => ModuleId == _moduleIds[Module.Id];
+        public bool IsLastInstantiated => Id == LastId;
 
         /// <value>
         /// Determines whether the needy is active.
@@ -51,14 +50,19 @@ namespace KeepCoding
         public bool IsSolved { get; private set; }
 
         /// <value>
-        /// Determines whether the game is being played in Virtual Reality.
+        /// Determines whether the game is being played in Virtual Reality. In the Editor, it always returns false.
         /// </value>
         public static bool IsVR => !IsEditor && IsCurrentControlTypeVR;
 
         /// <value>
-        /// The Unique Id for this module of this type.
+        /// The Unique Id for the module of this type.
         /// </value>
-        public int ModuleId { get; private set; }
+        public int Id => _logger.Id;
+
+        /// <summary>
+        /// The last Id instantiation for the module of this type.
+        /// </summary>
+        internal int LastId => Logger.ids[Module.Name];
 
         /// <value>
         /// The amount of time left on the bomb, in seconds, rounded down.
@@ -70,7 +74,7 @@ namespace KeepCoding
         /// </value>
         /// <exception cref="OperationCanceledException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
-        public string Version => (IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(GetType()).Version) ?? throw new OperationCanceledException($"The assembly directory could not be determined. This is a bug caused by the library, please file a bug report alongside the source code.");
+        public string Version => IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(GetType()).Version;
 
         /// <value>
         /// Contains an instance for every <see cref="Sound"/> played by this module using <see cref="PlaySound(Transform, bool, Sound[])"/> or any of its overloads.
@@ -91,13 +95,17 @@ namespace KeepCoding
         public ITP TP => _tp ??= GetComponents<Component>().FirstOrDefault(c => c is ITP) as ITP;
         private ITP _tp;
 
-        private static readonly Dictionary<string, int> _moduleIds = new Dictionary<string, int>();
+        private bool _hasException;
 
-        private static Dictionary<string, Dictionary<string, object>[]> _database;
+        private int _strikes;
 
         private Action _setActive;
 
+        private static Dictionary<string, Dictionary<string, object>[]> _database;
+
         private readonly Dictionary<Type, Component[]> _components = new Dictionary<Type, Component[]>();
+
+        private Logger _logger;
 
         /// <summary>
         /// This initalizes the module. If you have an Awake method, be sure to call <c>base.Awake()</c> as the first statement.
@@ -106,19 +114,17 @@ namespace KeepCoding
         /// <exception cref="NullIteratorException"></exception>
         protected void Awake()
         {
-            logMessageReceived += IsEditor ? SolveOnException : (LogCallback)SolveOnException + RemoveStrikeOnException;
+            (Module = new ModuleContainer(this)).OnActivate(_setActive = Active);
 
-            _setActive = Active;
+            Logger.Self($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
+
+            _logger = new Logger(Module.Name, true);
+
+            Logger.Self($"Subscribing {Module.Name}'s {nameof(OnException)} to {nameof(logMessageReceived)}.");
+
+            logMessageReceived += OnException;
 
             _database = new Dictionary<string, Dictionary<string, object>[]>();
-            
-            Module = new ModuleContainer(Get<KMBombModule>(allowNull: true), Get<KMNeedyModule>(allowNull: true));
-
-            Module.OnActivate(_setActive);
-
-            ModuleId = _moduleIds.SetOrReplace(Module.Id, i => ++i);
-
-            Debug.Log($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
 
             Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
 
@@ -128,26 +134,25 @@ namespace KeepCoding
         /// <summary>
         /// This removed the exception catcher. If you have an OnDestroy method, be sure to call <c>base.OnDestroy()</c> as the first statement.
         /// </summary>
-        protected void OnDestroy() => logMessageReceived -= IsEditor ? SolveOnException : (LogCallback)SolveOnException + RemoveStrikeOnException;
+        protected void OnDestroy()
+        {
+            Logger.Self($"Unsubscribing {Module.Name}'s {nameof(OnException)} to {nameof(logMessageReceived)}.");
+            logMessageReceived -= OnException;
+        }
 
         /// <summary>
-        /// Assigns events specified into <see cref="KMBombModule"/> or <see cref="KMNeedyModule"/>. Reassigning them will replace their values.
+        /// Assigns events specified into <see cref="Module"/>. Reassigning them will replace their values.
         /// </summary>
         /// <remarks>
         /// An event that is null will be skipped. This extension method simplifies all of the KMFramework events into Actions or Functions.
         /// </remarks>
-        /// <exception cref="MissingComponentException"></exception>
-        /// <param name="onActivate">Called when the bomb has been activated and the timer has started.</param>
-        /// <param name="onNeedyActivation">Called when the needy timer activates.</param>
-        /// <param name="onNeedyDeactivation">Called when the needy gets solved or the bomb explodes.</param>
-        /// <param name="onTimerExpired">Called when the timer of the needy runs out.</param>
-        public void Assign(Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onTimerExpired = null)
-        {
-            Module.OnActivate(_setActive + onActivate);
-
-            if (Module.Module is KMNeedyModule)
-                AssignNeedy(onTimerExpired, onNeedyActivation, onNeedyDeactivation);
-        }
+        /// <param name="onActivate">Called when the lights turn on.</param>
+        /// <param name="onNeedyActivation">Called when the needy activates.</param>
+        /// <param name="onNeedyDeactivation">Called when the needy deactivates.</param>
+        /// <param name="onPass">Called when the needy is solved.</param>
+        /// <param name="onStrike">Called when the needy strikes.</param>
+        /// <param name="onTimerExpired">Called when the timer runs out of time.</param>
+        public void Assign(Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null) => Module.Assign(_setActive.Combine(onActivate), onNeedyActivation.Combine(() => IsNeedyActive = true), onNeedyDeactivation.Combine(() => IsNeedyActive = false), onPass, onStrike, onTimerExpired);
 
         /// <summary>
         /// Handles typical button <see cref="KMSelectable.OnInteract"/> behaviour.
@@ -168,36 +173,39 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// Dumps all information that it can find of the module using reflection. This should only be used to debug.
-        /// </summary>
-        /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
-        public void Dump(bool getVariables = false)
-        {
-            int index = 0;
-
-            string Format<T>(string name, T value) => Helper.VariableTemplate.Form(index++, name, value?.GetType().ToString() ?? Helper.Null, string.Join(", ", value.Unwrap(getVariables).Select(o => o.ToString()).ToArray()));
-
-            var type = GetType();
-            var values = new List<object>();
-
-            type.GetFields(Helper.Flags).ForEach(f => values.Add(Format(f.Name, f.GetValue(this))));
-            type.GetProperties(Helper.Flags).ForEach(p => values.Add(Format(p.Name, p.GetValue(this, null))));
-
-            Debug.LogWarning(Helper.DumpTemplate.Form(Module.Name, ModuleId, string.Join("", values.Select(o => string.Join("", o.Unwrap(getVariables).Select(o => o.ToString()).ToArray())).ToArray())));
-        }
-
-        /// <summary>
         /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
         /// </summary>
         /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
         /// <param name="logs">All of the variables to throughly log.</param>
-        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => Debug.LogWarning(Helper.DumpTemplate.Form(Module.Name, ModuleId, string.Join("", logs.Select((l, n) => Helper.VariableTemplate.Form(n, Helper.NameOfVariable(l), l.Compile()()?.GetType().ToString() ?? Helper.Null, string.Join(", ", l.Compile()().Unwrap(getVariables).Select(o => o.ToString()).ToArray()))).ToArray())));
+        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => _logger.Dump(getVariables, logs);
 
         /// <summary>
         /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
         /// </summary>
         /// <param name="logs">All of the variables to throughly log.</param>
-        public void Dump(params Expression<Func<object>>[] logs) => Dump(false, logs);
+        public void Dump(params Expression<Func<object>>[] logs) => _logger.Dump(logs);
+
+        /// <summary>
+        /// Logs message, but formats it to be compliant with the Logfile Analyzer.
+        /// </summary>
+        /// <exception cref="UnrecognizedValueException"></exception>
+        /// <param name="message">The message to log.</param>
+        /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
+        public void Log<T>(T message, LogType logType = LogType.Log) => _logger.Log(message, logType);
+
+        /// <summary>
+        /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
+        /// </summary>
+        /// <exception cref="UnrecognizedValueException"></exception>
+        /// <param name="message">The message to log.</param>
+        /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
+        public void Log<T>(T message, params object[] args) => _logger.Log(message, args);
+
+        /// <summary>
+        /// Logs multiple entries to the console.
+        /// </summary>
+        /// <param name="logs">The array of logs to individual output into the console.</param>
+        public void LogMultiple(in string[] logs) => _logger.LogMultiple(logs);
 
         /// <summary>
         /// Solves the module, and logs all of the parameters.
@@ -207,6 +215,9 @@ namespace KeepCoding
         {
             if (IsSolved)
                 return;
+
+            if (!IsEditor && _hasException)
+                Game.AddStrikes(gameObject, -_strikes);
 
             LogMultiple(in logs);
 
@@ -220,27 +231,16 @@ namespace KeepCoding
         /// <param name="logs">All of the entries to log.</param>
         public void Strike(params string[] logs)
         {
+            if (_hasException)
+                return;
+
             LogMultiple(in logs);
 
             HasStruck = true;
+            _strikes++;
+
             Module.Strike();
         }
-
-        /// <summary>
-        /// Logs message, but formats it to be compliant with the Logfile Analyzer.
-        /// </summary>
-        /// <exception cref="UnrecognizedValueException"></exception>
-        /// <param name="message">The message to log.</param>
-        /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
-        public void Log<T>(T message, LogType logType = LogType.Log) => logType.Logger()($"[{Module.Name} #{ModuleId}] {message.UnwrapToString()}");
-
-        /// <summary>
-        /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
-        /// </summary>
-        /// <exception cref="UnrecognizedValueException"></exception>
-        /// <param name="message">The message to log.</param>
-        /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
-        public void Log<T>(T message, params object[] args) => Log(message.UnwrapToString().Form(args));
 
         /// <summary>
         /// Called when the lights turn on.
@@ -284,15 +284,17 @@ namespace KeepCoding
             if (!_database.ContainsKey(Module.Id))
                 _database.Add(Module.Id, new Dictionary<string, object>[] { });
 
-            int index = _moduleIds[Module.Id] - ModuleId;
+            int index = LastId - Id;
 
-            while (index >= _database[Module.Id].Length)
-                _database[Module.Id].Append(new Dictionary<string, object>());
+            Enumerable.Range(0, index - _database[Module.Id].Length + 1).ToArray().ForEach(i => _database[Module.Id].Append(new Dictionary<string, object>()));
 
             if (!_database[Module.Id][index].ContainsKey(key))
                 _database[Module.Id][index].Add(key, null);
 
             _database[Module.Id][index][key] = value;
+
+            if (IsEditor)
+                Logger.Self($"Added \"{value}\" to {nameof(_database)}: [{nameof(Module.Id)}, {Module.Id}: [{nameof(index)}, {index}: {value}]]");
         }
 
         /// <summary>
@@ -422,24 +424,32 @@ namespace KeepCoding
             OnActivate();
         }
 
-        private void AssignNeedy(Action onTimerExpired, Action onNeedyActivation, Action onNeedyDeactivation)
+        private void OnException(string condition, string stackTrace, LogType type)
         {
-            if (onTimerExpired is { })
-                Module.Needy.OnTimerExpired += () => onTimerExpired();
+            if (type != LogType.Exception || !IsLogFromThis(stackTrace))
+                return;
 
-            if (onNeedyActivation is { })
-                Module.Needy.OnNeedyActivation += () =>
-                {
-                    onNeedyActivation();
-                    IsNeedyActive = true;
-                };
+            _hasException = true;
 
-            if (onNeedyDeactivation is { })
-                Module.Needy.OnNeedyDeactivation += () =>
-                {
-                    onNeedyDeactivation();
-                    IsNeedyActive = false;
-                };
+            Log("The module threw an unhandled exception... {0}", condition);
+            LogMultiple(stackTrace.Split('\n').Where(s => !s.IsNullOrEmpty()).ToArray());
+
+            if (!(bool)(TP?.IsTP))
+                StartCoroutine(WaitForSolve());
+
+            if (!IsEditor)
+                Game.AddStrikes(gameObject, -_strikes);
+        }
+
+        private void TimerTick()
+        {
+            var timer = (TimerComponent)Game.Timer(gameObject);
+
+            timer.TimerTick += (elapsed, remaining) =>
+            {
+                TimeLeft = remaining;
+                OnTimerTick();
+            };
         }
 
         private void TimerTickEditor(in KMBombInfo bombInfo)
@@ -449,30 +459,6 @@ namespace KeepCoding
                 TimeLeft = (int)bombInfo.GetTime();
                 OnTimerTick();
             }
-        }
-
-        private void LogMultiple(in string[] logs) => logs?.ForEach(s => Log(s));
-
-        private void RemoveStrikeOnException(string condition, string stackTrace, LogType type)
-        {
-            if (type != LogType.Exception || !IsLogFromThis(stackTrace))
-                return;
-        }
-
-        private void SolveOnException(string condition, string stackTrace, LogType type)
-        {
-            if (type != LogType.Exception || !IsLogFromThis(stackTrace))
-                return;
-
-            Log("This module ran into an exception and will now therefore solve... {0}", condition);
-            LogMultiple(stackTrace.Split('\n').Where(s => !s.IsNullOrEmpty()).ToArray());
-
-            if (!(bool)(TP?.IsTP))
-                StartCoroutine(WaitForSolve());
-        }
-
-        private void TimerTick()
-        {
         }
 
         private bool IsLogFromThis(string stackTrace) => stackTrace.Split('\n').Any(s => Regex.IsMatch(s, @$"^{GetType().Name}"));
@@ -494,10 +480,10 @@ namespace KeepCoding
             yield return req.SendWebRequest();
 
             if (req.isNetworkError || req.isHttpError)
-                Log($"The KeepCoding version could not be pulled: {req.error}.", LogType.Warning);
+                Logger.Self($"The KeepCoding version could not be pulled: {req.error}.", LogType.Warning);
 
             else if (VersionToNumber(PathManager.Version.ToString()) < VersionToNumber(req.downloadHandler.text.Trim()))
-                Log($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
+                Logger.Self($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
         }
 
         private IEnumerator BombInfo(KMBombInfo bombInfo)

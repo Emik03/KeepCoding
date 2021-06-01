@@ -17,7 +17,9 @@ namespace KeepCoding
         /// </summary>
         [SerializeField]
 #pragma warning disable IDE0044 // Add readonly modifier
+#pragma warning disable IDE0051 // Remove unused private members
         private string TwitchHelpMessage;
+#pragma warning restore IDE0051 // Remove unused private members
 #pragma warning restore IDE0044 // Add readonly modifier
 
         /// <value>
@@ -200,14 +202,14 @@ namespace KeepCoding
         /// </summary>
         /// <param name="message">The message to send.</param>
         /// <returns>A formatted string for Twitch Plays.</returns>
-        protected static string StrikeMessage(string message) => AppendIfNotNullOrEmpty("strikemessage", message);
+        protected static string StrikeMessage(string message) => Combine("strikemessage", message);
 
         /// <summary>
         /// Yield return this to indicate that this command is allowed to be cancelled at the given time of the yield. Just know that you won't be able to clean up if you do your cancel this way, and there is a pending !cancel or !stop.
         /// </summary>
         /// <param name="message">The message to send.</param>
         /// <returns>A formatted string for Twitch Plays.</returns>
-        protected static string TryCancel(string message = null) => AppendIfNotNullOrEmpty("trycancel", message);
+        protected static string TryCancel(string message = null) => Combine("trycancel", message);
 
         /// <summary>
         /// Yield return this to cause Twitch Plays to wait for the given time, and any time during the entire duration, the command may cancel. Like "trycancel", you won't be able to clean up if you cancel this way. Also like "trycancel", <paramref name="message"/> is optional.
@@ -215,21 +217,21 @@ namespace KeepCoding
         /// <param name="time">The amount of time to wait.</param>
         /// <param name="message">The message to send.</param>
         /// <returns>A formatted string for Twitch Plays.</returns>
-        protected static string TryWaitCancel(float time, string message = null) => AppendIfNotNullOrEmpty("trywaitcancel", time, message);
+        protected static string TryWaitCancel(float time, string message = null) => Combine("trywaitcancel", time, message);
 
         /// <summary>
         /// Yield return this to send a chat directly to twitch chat.
         /// </summary>
         /// <param name="message">The message to send.</param>
         /// <returns>A formatted string for Twitch Plays.</returns>
-        protected static string SendToChat(string message) => AppendIfNotNullOrEmpty("sendtochat", message);
+        protected static string SendToChat(string message) => Combine("sendtochat", message);
 
         /// <summary>
         /// Yield return this to send a message to the chat about why a users' command was invalid.
         /// </summary>
         /// <param name="message">The message to send.</param>
         /// <returns>A formatted string for Twitch Plays.</returns>
-        protected static string SendToChatError(string message) => AppendIfNotNullOrEmpty("sendtochaterror", message);
+        protected static string SendToChatError(string message) => Combine("sendtochaterror", message);
 
         /// <summary>
         /// Yield return this to send a message to chat after <paramref name="time"/> seconds.
@@ -237,7 +239,7 @@ namespace KeepCoding
         /// <param name="time">The amount of time to wait before the message gets sent.</param>
         /// <param name="message">The message to send.</param>
         /// <returns>A formatted string for Twitch Plays.</returns>
-        protected static string SendDelayedMessage(float time, string message) => AppendIfNotNullOrEmpty("senddelayedmessage", time, message);
+        protected static string SendDelayedMessage(float time, string message) => Combine("senddelayedmessage", time, message);
 
         /// <summary>
         /// Yield return this to explode the bomb instantly. <paramref name="time"/> is specified in number of seconds before the bomb explodes. (Note, sending another detonate command will auto-cancel the previous one on the same module if it hasn't happened already.). <paramref name="message"/> is the message to send to chat upon detonation. Both of the parameters are optional.
@@ -245,28 +247,28 @@ namespace KeepCoding
         /// <param name="time">The amount of time before the bomb blows up.</param>
         /// <param name="message">The message to send.</param>
         /// <returns>A formatted string for Twitch Plays.</returns>
-        protected static string Detonate(float? time = null, string message = null) => AppendIfNotNullOrEmpty("detonate", time, message);
+        protected static string Detonate(float? time = null, string message = null) => Combine("detonate", time, message);
 
         /// <summary>
         /// Yield return this to try advancing the clock to the specified time. You must put the full time you wish to skip to, and this time either needs to be less than the current time, if in normal/time mode, or greater than the current time, if in zen mode. Example, if you wanted to set the clock to 5:24, then you do "skiptime 324" or "skiptime 5:24". You can target partway through the seconds, such as "skiptime 45.28", which would then set the clock to 45.28, provided that time has NOT gone by already. You must also set <see cref="IsTimeSkippable"/> to true, for this function to work.
         /// </summary>
         /// <param name="seconds">The time to skip to in seconds.</param>
         /// <returns>A formatted string for Twitch Plays.</returns>
-        protected static string SkipTime(string seconds = null) => AppendIfNotNullOrEmpty("skiptime", seconds);
+        protected static string SkipTime(string seconds = null) => Combine("skiptime", seconds);
 
         /// <summary>
         /// Yield return this to award the user that sent the command points directly, this is currently used for mods like Souvenir to give points to users that answered the questions equally.
         /// </summary>
         /// <param name="points">The amount of points to award. Negatives supported.</param>
         /// <returns>A formatted string for Twitch Plays.</returns>
-        protected static string AwardPoints(int points) => AppendIfNotNullOrEmpty("awardpoints", points);
+        protected static string AwardPoints(int points) => Combine("awardpoints", points);
 
         /// <summary>
         /// Yield return this to award the last user that sent the command points when the module is solved. The module must prevent any user from sending commands afterward in order for Twitch Plays to award points to the correct user. This is currently used by the Twin module when extra points must be given but the module is not solved immediately.
         /// </summary>
         /// <param name="points">The amount of points to award. Negatives supported.</param>
         /// <returns>A formatted string for Twitch Plays.</returns>
-        protected static string AwardPointsOnSolve(int points) => AppendIfNotNullOrEmpty("awardpointsonsolve", points);
+        protected static string AwardPointsOnSolve(int points) => Combine("awardpointsonsolve", points);
 
         /// <summary>
         /// Works as a ternary operator. Returns <paramref name="then"/> if <paramref name="condition"/> is true, otherwise <paramref name="otherwise"/>.
@@ -303,7 +305,7 @@ namespace KeepCoding
             Module.HasStruck = false;
         }
 
-        private static string AppendIfNotNullOrEmpty(string main, params object[] toAppend)
+        private static string Combine(string main, params object[] toAppend)
         {
             if (!toAppend.IsNullOrEmpty())
                 toAppend.ForEach(s => main += $" {s}");
