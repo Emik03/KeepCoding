@@ -40,7 +40,7 @@ namespace KeepCoding
         public const string Binary = "01";
 
         internal const string
-            DumpTemplate = "[{0} #{1}]: <DUMP>{2}\n",
+            DumpTemplate = "[KeepCoding] <DUMP>{0}\n",
             Null = "<null>",
             Unknown = "<unknown>",
             VariableTemplate = "\n\n[{0}] {1}\n({2})\n{3}";
@@ -476,7 +476,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="logType">The type of method to get.</param>
         /// <returns>The log method representing the enum <paramref name="logType"/>.</returns>
-        public static Action<object> Logger(this LogType logType) => logType switch
+        public static Action<object> Method(this LogType logType) => logType switch
         {
             LogType.Error => Debug.LogError,
             LogType.Assert => o => Debug.LogAssertion(o),
@@ -493,6 +493,18 @@ namespace KeepCoding
         /// <param name="bigInteger">The right-hand side operator.</param>
         /// <returns>Itself mod <paramref name="bigInteger"/>.</returns>
         public static BigInteger Modulo(this object item, BigInteger bigInteger) => ((item % bigInteger) + bigInteger) % bigInteger;
+
+        /// <summary>
+        /// Stops the coroutines only if they aren't <see langword="null"/>.
+        /// </summary>
+        /// <param name="monoBehaviour">The <see cref="MonoBehaviour"/> instance needed to stop coroutines.</param>
+        /// <param name="coroutines">The <see cref="Coroutine"/>s to stop.</param>
+        /// <returns>The array of <see cref="Coroutine"/>s given.</returns>
+        public static Coroutine[] Stop(this MonoBehaviour monoBehaviour, params Coroutine[] coroutines) => coroutines.ForEach(c =>
+        {
+            if (c is { })
+                monoBehaviour.StopCoroutine(c);
+        });
 
         /// <summary>
         /// Gets the appropriate <see cref="Exception"/> based on the data type.
@@ -691,17 +703,13 @@ namespace KeepCoding
         public static MethodInfo GetMethodInfo<T>(this Expression<Action<T>> expression) => expression.Body is MethodCallExpression member ? member.Method : throw new ArgumentException($"The expression {nameof(expression)} is not a method");
 
         /// <summary>
-        /// Invokes a method of <typeparamref name="TInput"/> to <typeparamref name="TOutput"/> and then returns the argument provided.
+        /// Throws a <see cref="MissingComponentException"/> if the component given is <see langword="null"/>, then returning the component <paramref name="component"/>.
         /// </summary>
-        /// <remarks>
-        /// This can be used to intercept current variables or calculations by for example, printing the value as it is being passed as an argument.
-        /// </remarks>
-        /// <typeparam name="TInput">The type of <paramref name="item"/>.</typeparam>
-        /// <typeparam name="TOutput">The type to return.</typeparam>
-        /// <param name="item">The item to use as reference and modify.</param>
-        /// <param name="func">The function to apply <paramref name="item"/> to.</param>
-        /// <returns>The item <paramref name="item"/> after <paramref name="func"/>.</returns>
-        public static TOutput Apply<TInput, TOutput>(this TInput item, Func<TInput, TOutput> func) => func(item);
+        /// <typeparam name="T">The type of component.</typeparam>
+        /// <param name="component">The component to do a null check on.</param>
+        /// <param name="message">The message of the exception.</param>
+        /// <returns>The component <paramref name="component"/>.</returns>
+        public static T Assert<T>(this T component, string message = "While asserting for null, the variable ended up null.") where T : Component => component ? component : throw new MissingComponentException(message);
 
         /// <summary>
         /// Invokes a method of <typeparamref name="T"/> and then returns the argument provided.
@@ -726,7 +734,7 @@ namespace KeepCoding
         /// <param name="item">The item to log</param>
         /// <param name="logType">The type of logging.</param>
         /// <returns>The item <paramref name="item"/>.</returns>
-        public static T Call<T>(this T item, LogType logType = LogType.Log) => item.Call(t => logType.Logger()(t));
+        public static T Call<T>(this T item, LogType logType = LogType.Log) => item.Call(t => logType.Method()(t));
 
         /// <summary>
         /// Returns the element of an array, pretending that the array wraps around or is circular.
@@ -778,12 +786,12 @@ namespace KeepCoding
         /// <remarks>
         /// This can be used to intercept current variables or calculations by for example, printing the value as it is being passed as an argument.
         /// </remarks>
-        /// <typeparam name="TInput">The type of <paramref name="items"/>.</typeparam>
+        /// <typeparam name="TInput">The type of <paramref name="item"/>.</typeparam>
         /// <typeparam name="TOutput">The type to return.</typeparam>
-        /// <param name="items">The item to use as reference and modify.</param>
-        /// <param name="func">The function to apply <paramref name="items"/> to.</param>
-        /// <returns>The item <paramref name="items"/> after <paramref name="func"/>.</returns>
-        public static TOutput[] Apply<TInput, TOutput>(this TInput[] items, Func<TInput, int, TOutput> func) => items.Select((i, n) => func(i, n)).ToArray();
+        /// <param name="item">The item to use as reference and modify.</param>
+        /// <param name="func">The function to apply <paramref name="item"/> to.</param>
+        /// <returns>The item <paramref name="item"/> after <paramref name="func"/>.</returns>
+        public static TOutput Apply<TInput, TOutput>(this TInput item, Func<TInput, TOutput> func) => func(item);
 
         /// <summary>
         /// Appends the element provided to the array.
@@ -830,5 +838,19 @@ namespace KeepCoding
         /// <param name="item">The element to append to the <paramref name="array"/>.</param>
         /// <returns><paramref name="array"/>, but with an added <paramref name="item"/> as the first index.</returns>
         public static T[] Prepend<T>(this T[] array, T item) => (T[])array.Resize(array.Length + 1).Copy(0, array, 1, array.Length).Set(item, 0);
+
+        /// <summary>
+        /// Invokes a method of <typeparamref name="TInput"/> to <typeparamref name="TOutput"/> and then returns the argument provided.
+        /// </summary>
+        /// <remarks>
+        /// This can be used to intercept current variables or calculations by for example, printing the value as it is being passed as an argument.
+        /// </remarks>
+        /// <typeparam name="TInput">The type of <paramref name="items"/>.</typeparam>
+        /// <typeparam name="TOutput">The type to return.</typeparam>
+        /// <param name="items">The item to use as reference and modify.</param>
+        /// <param name="func">The function to apply <paramref name="items"/> to.</param>
+        /// <returns>The item <paramref name="items"/> after <paramref name="func"/>.</returns>
+        public static TOutput[] Apply<TInput, TOutput>(this TInput[] items, Func<TInput, int, TOutput> func) => items.Select((i, n) => func(i, n)).ToArray();
+
     }
 }
