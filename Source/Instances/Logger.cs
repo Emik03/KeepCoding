@@ -83,12 +83,9 @@ namespace KeepCoding
         /// </summary>
         /// <param name="obj">The comparison.</param>
         /// <returns>Whether both objects are equal.</returns>
-        public override bool Equals(object obj)
-        {
-            return obj is Logger loggable &&
+        public override bool Equals(object obj) => obj is Logger loggable &&
                    Id == loggable.Id &&
                    Name == loggable.Name;
-        }
 
         /// <summary>
         /// Gets the hash code of the object.
