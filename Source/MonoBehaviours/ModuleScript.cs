@@ -169,20 +169,20 @@ namespace KeepCoding
         /// </summary>
         /// <param name="obj">The object to reflect on.</param>
         /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
-        public void Dump(object obj, bool getVariables = false) => ((IDump)logger).Dump(obj, getVariables);
+        public void Dump(object obj, bool getVariables = false) => logger.Dump(obj, getVariables);
 
         /// <summary>
         /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
         /// </summary>
         /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
         /// <param name="logs">All of the variables to throughly log.</param>
-        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => ((IDump)logger).Dump(getVariables, logs);
+        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => logger.Dump(getVariables, logs);
 
         /// <summary>
         /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
         /// </summary>
         /// <param name="logs">All of the variables to throughly log.</param>
-        public void Dump(params Expression<Func<object>>[] logs) => ((IDump)logger).Dump(logs);
+        public void Dump(params Expression<Func<object>>[] logs) => logger.Dump(logs);
 
         /// <summary>
         /// Logs message, but formats it to be compliant with the Logfile Analyzer.
@@ -190,7 +190,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="message">The message to log.</param>
         /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
-        public void Log<T>(T message, LogType logType = LogType.Log) => ((ILog)logger).Log(message, logType);
+        public void Log<T>(T message, LogType logType = LogType.Log) => logger.Log(message, logType);
 
         /// <summary>
         /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
@@ -198,13 +198,13 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="message">The message to log.</param>
         /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
-        public void Log<T>(T message, params object[] args) => ((ILog)logger).Log(message, args);
+        public void Log<T>(T message, params object[] args) => logger.Log(message, args);
 
         /// <summary>
         /// Logs multiple entries to the console.
         /// </summary>
         /// <param name="logs">The array of logs to individual output into the console.</param>
-        public void LogMultiple(in string[] logs) => ((ILog)logger).LogMultiple(logs);
+        public void LogMultiple(in string[] logs) => logger.LogMultiple(logs);
 
         /// <summary>
         /// Solves the module, and logs all of the parameters.
