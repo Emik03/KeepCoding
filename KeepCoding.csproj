@@ -39,11 +39,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>D:\Steam\steamapps\common\Keep Talking and Nobody Explodes\ktane_Data\Managed\Assembly-CSharp.dll</HintPath>
-      <Private>false</Private>
-      <Aliases></Aliases>
-    </Reference>
     <Reference Include="KMFramework">
       <HintPath>D:\ktanemodkit-master\Assets\Plugins\Managed\KMFramework.dll</HintPath>
       <Private>false</Private>
@@ -56,14 +51,6 @@
     </Reference>
     <Reference Include="UnityEditor">
       <HintPath>..\..\..\..\..\Program Files\Editor\Data\Managed\UnityEditor.dll</HintPath>
-      <Private>false</Private>
-    </Reference>    
-	<Reference Include="TweaksAssembly">
-      <HintPath>D:\Steam\steamapps\workshop\content\341800\1366808675\TweaksAssembly.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="TwitchPlaysAssembly">
-      <HintPath>D:\Steam\steamapps\workshop\content\341800\1711408527\TwitchPlaysAssembly.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine">
