@@ -14,7 +14,7 @@ namespace KeepCoding
     public sealed class ModInfo
     {
         /// <value>
-        /// Contains the ID of the mod, not to be mistaken with <see cref="ModuleScript.ModuleId"/>.
+        /// Contains the ID of the mod, not to be mistaken with <see cref="ModuleScript.Id"/>.
         /// </value>
         [JsonProperty("id")]
         public string Id { get; private set; }

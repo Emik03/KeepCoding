@@ -38,7 +38,7 @@ namespace KeepCoding
         /// <value>
         /// Determines whether this module is the last instantiated instance.
         /// </value>
-        public bool IsLastInstantiated => ModuleId == _moduleIds[Module.Id];
+        public bool IsLastInstantiated => Id == LastId;
 
         /// <value>
         /// Determines whether the needy is active.
@@ -56,9 +56,14 @@ namespace KeepCoding
         public static bool IsVR => !IsEditor && IsCurrentControlTypeVR;
 
         /// <value>
-        /// The Unique Id for this module of this type.
+        /// The Unique Id for the module of this type.
         /// </value>
-        public int ModuleId { get; private set; }
+        public int Id => _logger.Id;
+
+        /// <summary>
+        /// The last Id instantiation for the module of this type.
+        /// </summary>
+        internal int LastId => Logger.ids[Module.Name];
 
         /// <value>
         /// The amount of time left on the bomb, in seconds, rounded down.
@@ -97,13 +102,11 @@ namespace KeepCoding
 
         private Action _setActive;
 
-        private static readonly Dictionary<string, int> _moduleIds = new Dictionary<string, int>();
-
         private static Dictionary<string, Dictionary<string, object>[]> _database;
 
         private readonly Dictionary<Type, Component[]> _components = new Dictionary<Type, Component[]>();
 
-        private Logger logger;
+        private Logger _logger;
 
         /// <summary>
         /// This initalizes the module. If you have an Awake method, be sure to call <c>base.Awake()</c> as the first statement.
@@ -114,13 +117,13 @@ namespace KeepCoding
         {
             (Module = new ModuleContainer(this)).OnActivate(_setActive = Active);
 
-            logger = new Logger(Module.Name, true);
+            _logger = new Logger(Module.Name, true);
             
             logMessageReceived += OnException;
 
             _database = new Dictionary<string, Dictionary<string, object>[]>();
             
-            Debug.Log($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
+            Logger.Self($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
 
             Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
 
@@ -165,24 +168,17 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// Dumps all information that it can find of the type using reflection. This should only be used to debug.
-        /// </summary>
-        /// <param name="obj">The object to reflect on.</param>
-        /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
-        public void Dump(object obj, bool getVariables = false) => logger.Dump(obj, getVariables);
-
-        /// <summary>
         /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
         /// </summary>
         /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
         /// <param name="logs">All of the variables to throughly log.</param>
-        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => logger.Dump(getVariables, logs);
+        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => _logger.Dump(getVariables, logs);
 
         /// <summary>
         /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
         /// </summary>
         /// <param name="logs">All of the variables to throughly log.</param>
-        public void Dump(params Expression<Func<object>>[] logs) => logger.Dump(logs);
+        public void Dump(params Expression<Func<object>>[] logs) => _logger.Dump(logs);
 
         /// <summary>
         /// Logs message, but formats it to be compliant with the Logfile Analyzer.
@@ -190,7 +186,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="message">The message to log.</param>
         /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
-        public void Log<T>(T message, LogType logType = LogType.Log) => logger.Log(message, logType);
+        public void Log<T>(T message, LogType logType = LogType.Log) => _logger.Log(message, logType);
 
         /// <summary>
         /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
@@ -198,13 +194,13 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="message">The message to log.</param>
         /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
-        public void Log<T>(T message, params object[] args) => logger.Log(message, args);
+        public void Log<T>(T message, params object[] args) => _logger.Log(message, args);
 
         /// <summary>
         /// Logs multiple entries to the console.
         /// </summary>
         /// <param name="logs">The array of logs to individual output into the console.</param>
-        public void LogMultiple(in string[] logs) => logger.LogMultiple(logs);
+        public void LogMultiple(in string[] logs) => _logger.LogMultiple(logs);
 
         /// <summary>
         /// Solves the module, and logs all of the parameters.
@@ -283,10 +279,9 @@ namespace KeepCoding
             if (!_database.ContainsKey(Module.Id))
                 _database.Add(Module.Id, new Dictionary<string, object>[] { });
 
-            int index = _moduleIds[Module.Id] - ModuleId;
+            int index = LastId - Id;
 
-            while (index >= _database[Module.Id].Length)
-                _database[Module.Id].Append(new Dictionary<string, object>());
+            Enumerable.Range(0, index - _database[Module.Id].Length + 1).ToArray().ForEach(i => _database[Module.Id].Append(new Dictionary<string, object>()));
 
             if (!_database[Module.Id][index].ContainsKey(key))
                 _database[Module.Id][index].Add(key, null);
