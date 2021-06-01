@@ -250,6 +250,16 @@ namespace KeepCoding
         }
 
         /// <value>
+        /// Adds an amount of strikes on the bomb.
+        /// </value>
+        public static Action<GameObject, int> AddStrikes => (gameObject, amount) => Logger.Self($"Adding the bomb's strike count with {amount}.");
+
+        /// <value>
+        /// Sets an amount of strikes on the bomb.
+        /// </value>
+        public static Action<GameObject, int> SetStrikes => (gameObject, amount) => Logger.Self($"Setting the bomb's strike count to {amount}.");
+
+        /// <value>
         /// Gets the game's internal bomb component, not to be mistaken with <see cref="KMBomb"/>.
         /// </value>
         /// <remarks>
