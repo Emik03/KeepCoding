@@ -7,7 +7,7 @@
 
 *KeepCoding* is compiled as a Managed DLL file. You may either compile this DLL yourself, or download one of the [release builds](https://github.com/Emik03/KeepCodingAndNobodyExplodes/releases).
 
-The `EditorOnly` dll is optional. It replaces all references to the game with default values.
+The `EditorOnly` dll is provided for those who need it. Its purpose is to not cause Unity to depend on the game when calling methods that require such information. However, the AssetBundle will include this file which will mess up your code. **Do not include `KeepCoding-EditorOnly.dll` in your builds!**
 
 Inside of your Unity project, drag `KeepCoding.dll` in **/Assets/Plugins/Managed**, and `KeepCoding-EditorOnly.dll` in **/Assets/Plugins**. 
 
