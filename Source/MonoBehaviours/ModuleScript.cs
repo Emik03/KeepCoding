@@ -216,9 +216,6 @@ namespace KeepCoding
             if (IsSolved)
                 return;
 
-            if (!IsEditor && _hasException)
-                Game.AddStrikes(gameObject, -_strikes);
-
             LogMultiple(logs);
 
             IsSolved = true;
@@ -440,13 +437,7 @@ namespace KeepCoding
 
         private void TimerTick()
         {
-            var timer = (TimerComponent)Game.Timer(gameObject);
-
-            timer.TimerTick += (elapsed, remaining) =>
-            {
-                TimeLeft = remaining;
-                OnTimerTick();
-            };
+            var timer = Game.Timer(gameObject);
         }
 
         private void TimerTickEditor(in KMBombInfo bombInfo)
