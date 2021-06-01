@@ -116,15 +116,15 @@ namespace KeepCoding
         {
             (Module = new ModuleContainer(this)).OnActivate(_setActive = Active);
 
+            Logger.Self($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
+
             _logger = new Logger(Module.Name, true);
 
-            Logger.Self($"Subscribing {nameof(OnException)} to {nameof(logMessageReceived)}.");
+            Logger.Self($"Subscribing {Module.Name}'s {nameof(OnException)} to {nameof(logMessageReceived)}.");
 
             logMessageReceived += OnException;
 
             _database = new Dictionary<string, Dictionary<string, object>[]>();
-            
-            Logger.Self($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
 
             Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
 
@@ -136,7 +136,7 @@ namespace KeepCoding
         /// </summary>
         protected void OnDestroy()
         {
-            Logger.Self($"Unsubscribing {nameof(OnException)} to {nameof(logMessageReceived)}.");
+            Logger.Self($"Unsubscribing {Module.Name}'s {nameof(OnException)} to {nameof(logMessageReceived)}.");
             logMessageReceived -= OnException;
         }
 
