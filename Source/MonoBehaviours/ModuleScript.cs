@@ -205,7 +205,7 @@ namespace KeepCoding
         /// Logs multiple entries to the console.
         /// </summary>
         /// <param name="logs">The array of logs to individual output into the console.</param>
-        public void LogMultiple(in string[] logs) => _logger.LogMultiple(logs);
+        public void LogMultiple(params string[] logs) => _logger.LogMultiple(logs);
 
         /// <summary>
         /// Solves the module, and logs all of the parameters.
@@ -219,7 +219,7 @@ namespace KeepCoding
             if (!IsEditor && _hasException)
                 Game.AddStrikes(gameObject, -_strikes);
 
-            LogMultiple(in logs);
+            LogMultiple(logs);
 
             IsSolved = true;
             Module.Solve();
@@ -234,7 +234,7 @@ namespace KeepCoding
             if (_hasException)
                 return;
 
-            LogMultiple(in logs);
+            LogMultiple(logs);
 
             HasStruck = true;
             _strikes++;
@@ -467,7 +467,7 @@ namespace KeepCoding
             sound.Game is { } ? Get<KMAudio>().HandlePlayGameSoundAtTransformWithRef(sound.Game.Value, t) :
             throw new UnrecognizedValueException($"{sound}'s properties {nameof(Sound.Custom)} and {nameof(Sound.Game)} are both null!");
 
-        private IEnumerator EditorCheckLatest()
+        private static IEnumerator EditorCheckLatest()
         {
             if (!IsEditor)
                 yield break;
