@@ -115,7 +115,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="message">The message to log.</param>
         /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
-        public void Log<T>(T message, LogType logType = LogType.Log) => logType.Method()(Format.Form(_showId ? $" #{Id}" : "", message.UnwrapToString()));
+        public void Log<T>(T message, LogType logType = LogType.Log) => logType.Method()(Format.Form($"{Name}{(_showId ? $" #{Id}" : "")}", message.UnwrapToString()));
 
         /// <summary>
         /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
