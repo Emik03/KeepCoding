@@ -25,7 +25,7 @@ namespace KeepCoding
         /// <param name="onBombSolved">Called when the bomb is defused.</param>
         public static void Assign(this KMBombInfo bombInfo, Action onBombExploded = null, Action onBombSolved = null)
         {
-            bombInfo.Throw();
+            bombInfo.AssertDefault();
 
             onBombExploded.Set(ref bombInfo.OnBombExploded);
             onBombSolved.Set(ref bombInfo.OnBombSolved);
@@ -43,7 +43,7 @@ namespace KeepCoding
         /// <param name="onStrike">Called when the module strikes.</param>
         public static void Assign(this KMBombModule bombModule, Action onActivate = null, Action onPass = null, Action onStrike = null)
         {
-            bombModule.Throw();
+            bombModule.AssertDefault();
 
             onActivate.Set(ref bombModule.OnActivate);
             onPass.ToFunc(false).Set(ref bombModule.OnPass);
@@ -63,7 +63,7 @@ namespace KeepCoding
         /// <param name="onLightsChange">Called when the lights change state, and passes in whether it's on or off.</param>
         public static void Assign(this KMGameInfo gameInfo, Action<State> onStateChange, Action<bool> onAlarmClockChange = null, Action<bool> onLightsChange = null)
         {
-            gameInfo.Throw();
+            gameInfo.AssertDefault();
 
             onStateChange.Set(ref gameInfo.OnStateChange);
             onAlarmClockChange.Set(ref gameInfo.OnAlarmClockChange);
@@ -85,7 +85,7 @@ namespace KeepCoding
         /// <param name="onTimerExpired">Called when the timer runs out of time.</param>
         public static void Assign(this KMNeedyModule needyModule, Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null)
         {
-            needyModule.Throw();
+            needyModule.AssertDefault();
 
             onActivate.Set(ref needyModule.OnActivate);
             onNeedyActivation.Set(ref needyModule.OnNeedyActivation);
@@ -119,7 +119,7 @@ namespace KeepCoding
         /// <param name="onUpdateChildren">Called when the selectable updates its children.</param>
         public static void Assign(this KMSelectable selectable, bool? overrideReturn = null, Action onCancel = null, Action onDefocus = null, Action onDeselect = null, Action onFocus = null, Action onHighlight = null, Action onHighlightEnded = null, Action onInteract = null, Action onInteractEnded = null, Action<float> onInteractionPunch = null, Action onLeft = null, Action onRight = null, Action onSelect = null, Action<KMSelectable> onUpdateChildren = null)
         {
-            selectable.Throw();
+            selectable.AssertDefault();
 
             overrideReturn ??= selectable.IsParent();
 
@@ -449,11 +449,7 @@ namespace KeepCoding
             return self;
         }
 
-        private static void Throw<T>(this T t) where T : Object
-        {
-            if (!t)
-                throw new UnassignedReferenceException($"The {typeof(T).Name} is null. You cannot assign events to a {typeof(T).Name} without a reference to a {typeof(T).Name}.");
-        }
+        private static void AssertDefault<T>(this T t) where T : Object => t.Assert($"The {typeof(T).Name} is null. You cannot assign events to a {typeof(T).Name} without a reference to a {typeof(T).Name}.");
 
         private static Action ToAction(this Action<int> action, int i) => action is null ? (Action)null : () => action(i);
 
