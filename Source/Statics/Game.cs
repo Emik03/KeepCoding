@@ -289,19 +289,21 @@ namespace KeepCoding
         }
 
         /// <value>
-        /// Sets the amount of strikes on the bomb.
+        /// Adds an amount of strikes on the bomb.
         /// </value>
         public static Action<GameObject, int> AddStrikes => (gameObject, amount) =>
         {
+            Logger.Self($"Adding the bomb's strike count with {amount}.");
             var bomb = (Bomb)Bomb(gameObject);
             bomb.StrikeIndicator.StrikeCount = bomb.NumStrikes += amount;
         };
 
         /// <value>
-        /// Sets the amount of strikes on the bomb.
+        /// Sets an amount of strikes on the bomb.
         /// </value>
         public static Action<GameObject, int> SetStrikes => (gameObject, amount) =>
         {
+            Logger.Self($"Setting the bomb's strike count to {amount}.");
             var bomb = (Bomb)Bomb(gameObject);
             bomb.StrikeIndicator.StrikeCount = bomb.NumStrikes = amount;
         };

@@ -1,5 +1,4 @@
-﻿using InControl;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -118,7 +117,9 @@ namespace KeepCoding
             (Module = new ModuleContainer(this)).OnActivate(_setActive = Active);
 
             _logger = new Logger(Module.Name, true);
-            
+
+            Logger.Self($"Subscribing {nameof(OnException)} to {nameof(logMessageReceived)}.");
+
             logMessageReceived += OnException;
 
             _database = new Dictionary<string, Dictionary<string, object>[]>();
@@ -133,7 +134,11 @@ namespace KeepCoding
         /// <summary>
         /// This removed the exception catcher. If you have an OnDestroy method, be sure to call <c>base.OnDestroy()</c> as the first statement.
         /// </summary>
-        protected void OnDestroy() => logMessageReceived -= OnException;
+        protected void OnDestroy()
+        {
+            Logger.Self($"Unsubscribing {nameof(OnException)} to {nameof(logMessageReceived)}.");
+            logMessageReceived -= OnException;
+        }
 
         /// <summary>
         /// Assigns events specified into <see cref="Module"/>. Reassigning them will replace their values.
@@ -212,7 +217,7 @@ namespace KeepCoding
                 return;
 
             if (!IsEditor && _hasException)
-                Game.AddStrikes(gameObject, _strikes);
+                Game.AddStrikes(gameObject, -_strikes);
 
             LogMultiple(in logs);
 
@@ -287,6 +292,9 @@ namespace KeepCoding
                 _database[Module.Id][index].Add(key, null);
 
             _database[Module.Id][index][key] = value;
+
+            if (IsEditor)
+                Logger.Self($"Added \"{value}\" to {nameof(_database)}: [{nameof(Module.Id)}, {Module.Id}: [{nameof(index)}, {index}: {value}]]");
         }
 
         /// <summary>
@@ -472,10 +480,10 @@ namespace KeepCoding
             yield return req.SendWebRequest();
 
             if (req.isNetworkError || req.isHttpError)
-                Log($"The KeepCoding version could not be pulled: {req.error}.", LogType.Warning);
+                Logger.Self($"The KeepCoding version could not be pulled: {req.error}.", LogType.Warning);
 
             else if (VersionToNumber(PathManager.Version.ToString()) < VersionToNumber(req.downloadHandler.text.Trim()))
-                Log($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
+                Logger.Self($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
         }
 
         private IEnumerator BombInfo(KMBombInfo bombInfo)

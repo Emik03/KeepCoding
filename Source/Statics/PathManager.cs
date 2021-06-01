@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Video;
@@ -29,14 +30,18 @@ namespace KeepCoding
     /// </summary>
     public static class PathManager
     {
-        /// <summary>
-        /// Gets the current library's version number. Currently used by <see cref="ModuleScript"/> to log the version number of this library.
-        /// </summary>
+        /// <value>
+        /// Gets this library's <see cref="AssemblyName"/>.
+        /// </value>
+        public static AssemblyName AssemblyName => GetExecutingAssembly().GetName();
+
+        /// <value>
+        /// Gets this library's version number. Currently used by <see cref="ModuleScript"/> to log the version number of this library.
+        /// </value>
         /// <remarks>
         /// If you want the version number of your modules, refer to <see cref="ModuleScript.Version"/> instead, or <see cref="GetModInfo{T}(T)"/>.
         /// </remarks>
-        /// <returns>The version of this library.</returns>
-        public static Version Version => GetExecutingAssembly().GetName().Version;
+        public static Version Version => AssemblyName.Version;
 
         private const string
             FileExtensionBundle = "bundle",
@@ -103,6 +108,8 @@ namespace KeepCoding
         /// <returns>A <see cref="ModInfo"/> of the mod info json file located in the mod.</returns>
         public static ModInfo GetModInfo(string bundleFileName)
         {
+            Logger.Self($"Retrieving the {nameof(ModInfo)} data from \"{bundleFileName}\"...");
+
             bundleFileName.NullOrEmptyCheck("You cannot retrieve a mod's modInfo.json if the bundle file name is null or empty.");
 
             Current(in bundleFileName, out var current);
@@ -110,9 +117,17 @@ namespace KeepCoding
             if (IsCached(in current))
                 return GetCache<ModInfo>(in current);
 
-            string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
+            string search = FileFormat.Form(bundleFileName, FileExtensionWindows);
 
-            return SetCache(current, Deserialize($"{path}{GetSlashType(in path)}modInfo.json"));
+            string path = GetPath(search);
+            string file = $"{path}{GetSlashType(in path)}modInfo.json";
+
+            if (!File.Exists(file))
+                throw new FileNotFoundException($"The mod bundle was found in {path}, but no mod info was found! (Expected to find \"{file}\")");
+
+            Logger.Self($"File found! Returning {file}");
+
+            return SetCache(current, Deserialize(file));
         }
 
         /// <summary>
@@ -139,29 +154,33 @@ namespace KeepCoding
         /// <summary>
         /// Finds the path of a given file within each mod.
         /// </summary>
+        /// <remarks>
+        /// You need to specify the extensions of the file too, otherwise the file cannot be found.
+        /// </remarks>
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
         /// <exception cref="NullIteratorException"></exception>
-        /// <param name="fileName">The file name to search for.</param>
-        /// <returns>The path to <paramref name="fileName"/>.</returns>
-        public static string GetPath(string fileName)
+        /// <param name="search">The file to search for. Make sure to include extensions!</param>
+        /// <returns>The path to <paramref name="search"/>.</returns>
+        public static string GetPath(string search)
         {
-            fileName.NullOrEmptyCheck("You cannot retrieve a path if the file name is null or empty.");
+            Logger.Self($"Searching for file \"{search}\" anywhere in the mods folder...");
 
-            Current(in fileName, out var current);
+            search.NullOrEmptyCheck("You cannot retrieve a path if the file name is null or empty.");
+
+            Current(in search, out var current);
 
             if (IsCached(in current))
                 return GetCache<string>(in current);
 
-            string path = GetEnabledModPaths(Local)
-                              .FirstOrDefault(x => Directory.GetFiles(x, fileName).Any()) ??
-                          GetEnabledModPaths(SteamWorkshop)
-                              .FirstOrDefault(x => Directory.GetFiles(x, fileName).Any()) ??
-                          GetDisabledPath(fileName) ?? throw new FileNotFoundException($"The file name {fileName} could not be found within your mods folder!");
+            string path = GetAllModPathsFromSource(Local).Call(f => Logger.Self("Searching for enabled local mods...")).Find(search) ??
+                GetAllModPathsFromSource(SteamWorkshop).Call(f => Logger.Self("Searching for enabled steam workshop mods...")).Find(search);
 
-            return SetCache(current, path
-                .Replace($"/{fileName}", "")
-                .Replace(@$"\{fileName}", ""));
+            string file = SetCache(current, path
+                .Replace($"/{search}", "")
+                .Replace(@$"\{search}", ""));
+
+            return file;
         }
 
         /// <summary>
@@ -192,6 +211,8 @@ namespace KeepCoding
         /// <param name="libraryFileName">The library's name, excluding the extension.</param>
         public static void LoadLibrary(string bundleFileName, string libraryFileName)
         {
+            Logger.Self($"Preparing to copy library \"{libraryFileName}\" which exists in \"{bundleFileName}\".");
+
             libraryFileName.NullOrEmptyCheck("You cannot load a library which has a null or empty name.");
 
             Current(bundleFileName + libraryFileName, out var current);
@@ -204,6 +225,8 @@ namespace KeepCoding
             string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
 
             CopyLibrary(in libraryFileName, in path);
+
+            Logger.Self($"The library has been copied over. They are now ready to be referenced.");
         }
 
         /// <summary>
@@ -244,6 +267,8 @@ namespace KeepCoding
         /// <returns>The <see cref="AssetBundleCreateRequest"/> needed to load the files, followed by the <see cref="VideoClip"/> <see cref="Array"/>.</returns>
         public static IEnumerator LoadVideoClips(string bundleFileName, string bundleVideoFileName)
         {
+            Logger.Self($"Loading videos from \"{bundleVideoFileName}\" which exists in \"{bundleFileName}\".");
+
             bundleVideoFileName.NullOrEmptyCheck("You cannot load a video from a nonexistent file.");
 
             Current(bundleFileName + bundleVideoFileName, out var current);
@@ -263,6 +288,8 @@ namespace KeepCoding
             var mainBundle = request.assetBundle.NullCheck("The bundle was null.");
 
             var videos = mainBundle.LoadAllAssets<VideoClip>().OrderBy(clip => clip.name).ToArray().NullOrEmptyCheck("There are no videos.");
+
+            Logger.Self($"{videos.Count()} video(s) have been loaded into memory!");
 
             SetCache(current, videos);
             
@@ -324,18 +351,22 @@ namespace KeepCoding
 
         private static char GetSlashType(in string path) => path.Count(c => c == '/') >= path.Count(c => c == '\\') ? '/' : '\\';
 
-        private static string GetDisabledPath(string fileName) 
-            => GetDisabledModPaths().FirstValue(path =>
+        private static string Find(List<string> directories, string search) 
+            => directories.FirstValue(path =>
             {
                 try
                 {
-                    string[] files = Directory.GetFiles(path, fileName);
+                    string[] files = Directory.GetFiles(path, search);
 
                     if (files.LengthOrDefault() > 0 && !files[0].Trim().IsNullOrEmpty())
-                        return files[0];
+                        return files[0].Call(s => Logger.Self($"Found \"{search}\" in {files[0]}!"));
                 }
-                catch (Exception ex) when (ex is ArgumentException || ex is ArgumentNullException || ex is DirectoryNotFoundException || ex is UnauthorizedAccessException) { }
+                catch (Exception ex) when (ex is ArgumentException || ex is ArgumentNullException || ex is DirectoryNotFoundException || ex is UnauthorizedAccessException) 
+                {
+                    Logger.Self($"Caught {ex.GetType()}!");
+                }
 
+                Logger.Self($"The file \"{search}\" could not be found.");
                 return null;
             });
 
