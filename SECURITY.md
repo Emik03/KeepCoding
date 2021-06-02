@@ -27,4 +27,4 @@ A vulnerability will be acknowledged if it fits in one of four (4) conditions:
 - The library itself allows to make other modules ━ regardless if they use `KeepCoding` ━ unstable.
 - The library can be overriden with malicious code.
 
-[System.Reflection](https://docs.microsoft.com/en-us/dotnet/api/system.reflection?view=net-5.0) **WILL NOT** count as a vulnerability by itself, as this is an inherit feature of C# and cannot be prevented.
+[System.Reflection](https://docs.microsoft.com/en-us/dotnet/api/system.reflection?view=net-5.0) **WILL NOT** count as a vulnerability by itself, as this is an inherent feature of C# and cannot be prevented.
