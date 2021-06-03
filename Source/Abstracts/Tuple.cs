@@ -12,9 +12,9 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="IndexOutOfRangeException"></exception>
         /// <exception cref="WrongDatatypeException"></exception>
-        /// <param name="i">The index to use.</param>
+        /// <param name="index">The index to use.</param>
         /// <returns>The item indexed into.</returns>
-        public object this[byte i] { get => throw IndexOutOfRange(i); set => throw IndexOutOfRange(i); }
+        public object this[byte index] { get => throw IndexOutOfRange(index); set => throw IndexOutOfRange(index); }
 
         /// <value>
         /// Determines if the tuple data type is empty.

@@ -19,9 +19,9 @@ namespace KeepCoding
         /// <summary>
         /// Indexes into <see cref="Coroutines"/>.
         /// </summary>
-        /// <param name="i">The index to index into <see cref="Coroutines"/>.</param>
+        /// <param name="index">The index to index into <see cref="Coroutines"/>.</param>
         /// <returns>The <see cref="Coroutine"/> from <see cref="Coroutines"/>.</returns>
-        public Coroutine this[int i] => Coroutines[i];
+        public Coroutine this[int index] => Coroutines[index];
 
         /// <value>
         /// Determines whether it is currently running any coroutines.
