@@ -62,7 +62,7 @@ namespace KeepCoding
         /// <summary>
         /// The last Id instantiation for the module of this type.
         /// </summary>
-        internal int LastId => Logger.ids[Module.Name];
+        public int LastId => Logger.ids[Module.Name];
 
         /// <value>
         /// The amount of time left on the bomb, in seconds, rounded down.
@@ -164,10 +164,7 @@ namespace KeepCoding
         /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="SoundEffect"/>.</param>
         public void ButtonEffect(KMSelectable selectable, float intensityModifier = 0, params Sound[] sounds)
         {
-            if (!selectable)
-                throw new UnassignedReferenceException("Selectable should not be null when calling this method.");
-
-            selectable.AddInteractionPunch(intensityModifier);
+            selectable.Assert("Selectable should not be null when calling this method.").AddInteractionPunch(intensityModifier);
 
             PlaySound(selectable.transform, sounds);
         }

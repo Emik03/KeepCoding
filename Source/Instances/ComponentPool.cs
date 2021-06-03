@@ -178,27 +178,27 @@ namespace KeepCoding
         /// <value>
         /// How many components from this pool should be selected.
         /// </value>
-        public int Count { get; private set; }
+        public int Count { get; }
 
         /// <value>
         /// Controls where components can come from (either the base game, mods, or both).
         /// </value>
-        public ComponentSource AllowedSources { get; private set; } = ComponentSource.Base;
+        public ComponentSource AllowedSources { get; } = ComponentSource.Base;
 
         /// <value>
-        /// Special types which are calculated at runtime, such as <see cref="SpecialComponentTypeEnum.ALL_SOLVABLE"/>.
+        /// Special types which are calculated at runtime, such as <see cref="ALL_SOLVABLE"/>.
         /// </value>
-        public SpecialComponentTypeEnum SpecialComponentType { get; private set; }
+        public SpecialComponentTypeEnum SpecialComponentType { get; }
 
         /// <value>
         /// A list of mod types to be included in the pool, if they exist.
         /// </value>
-        public List<string> ModTypes { get; private set; }
+        public List<string> ModTypes { get; }
 
         /// <value>
         /// The list of component types, not including any calculated at runtime special types, like ALL_SOLVABLE. Use GetComponentTypes to get the calculated list.
         /// </value>
-        public List<ComponentTypeEnum> ComponentTypes { get; private set; }
+        public List<ComponentTypeEnum> ComponentTypes { get; }
 
         /// <summary>
         /// Converts itself to a string.

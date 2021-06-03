@@ -861,6 +861,5 @@ namespace KeepCoding
         /// <param name="func">The function to apply <paramref name="items"/> to.</param>
         /// <returns>The item <paramref name="items"/> after <paramref name="func"/>.</returns>
         public static TOutput[] Apply<TInput, TOutput>(this TInput[] items, Func<TInput, int, TOutput> func) => items.Select((i, n) => func(i, n)).ToArray();
-
     }
 }

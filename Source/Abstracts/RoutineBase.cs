@@ -10,11 +10,18 @@ namespace KeepCoding
     /// </summary>
     public abstract class RoutineBase
     {
-        internal RoutineBase(MonoBehaviour monoBehaviour)
-        {
-            Coroutines = new List<Coroutine>();
-            MonoBehaviour = monoBehaviour;
-        }
+        /// <summary>
+        /// Creates a list of coroutines so that you can start, restart, or stop any coroutine running inside this class.
+        /// </summary>
+        /// <param name="monoBehaviour">The MonoBehaviour to reference when calling the method.</param>
+        public RoutineBase(MonoBehaviour monoBehaviour) => _monoBehaviour = monoBehaviour;
+
+        /// <summary>
+        /// Indexes into <see cref="Coroutines"/>.
+        /// </summary>
+        /// <param name="i">The index to index into <see cref="Coroutines"/>.</param>
+        /// <returns>The <see cref="Coroutine"/> from <see cref="Coroutines"/>.</returns>
+        public Coroutine this[int i] => Coroutines[i];
 
         /// <value>
         /// Determines whether it is currently running any coroutines.
@@ -29,12 +36,9 @@ namespace KeepCoding
         /// <value>
         /// The list of all coroutines currently running.
         /// </value>
-        public List<Coroutine> Coroutines { get; set; }
+        public List<Coroutine> Coroutines { get; private protected set; } = new List<Coroutine>();
 
-        /// <value>
-        /// The MonoBehaviour that is being used to start the coroutines.
-        /// </value>
-        private protected MonoBehaviour MonoBehaviour { get; set; }
+        private readonly MonoBehaviour _monoBehaviour;
 
         /// <summary>
         /// Stops the first coroutine that was called, and removes it from the list of coroutines.
@@ -44,7 +48,7 @@ namespace KeepCoding
         {
             Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
-            MonoBehaviour.StopCoroutine(Coroutines[0]);
+            _monoBehaviour.StopCoroutine(Coroutines[0]);
 
             Coroutines = Coroutines.Skip(1).ToList();
         }
@@ -57,14 +61,14 @@ namespace KeepCoding
         {
             Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
 
-            Coroutines.ForEach(c => MonoBehaviour.StopCoroutine(c));
+            Coroutines.ForEach(c => _monoBehaviour.StopCoroutine(c));
 
             Coroutines = new List<Coroutine>();
         }
 
-        private protected void Remove(Coroutine coroutine) => MonoBehaviour.StopCoroutine(coroutine);
+        private protected void Remove(Coroutine coroutine) => _monoBehaviour.StopCoroutine(coroutine);
 
-        private protected Coroutine Add(IEnumerator enumerator) => MonoBehaviour.StartCoroutine(enumerator);
+        private protected Coroutine Add(IEnumerator enumerator) => _monoBehaviour.StartCoroutine(enumerator);
 
         private protected IEnumerator Wait(bool oneByOne)
         {

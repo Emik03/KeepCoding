@@ -14,52 +14,52 @@ namespace KeepCoding
     public sealed class ModInfo
     {
         /// <value>
-        /// Contains the ID of the mod, not to be mistaken with <see cref="ModuleScript.Id"/>.
-        /// </value>
-        [JsonProperty("id")]
-        public string Id { get; private set; }
-
-        /// <value>
-        /// Contains the title of the mod.
-        /// </value>
-        [JsonProperty("title")]
-        public string Title { get; private set; }
-
-        /// <value>
         /// Contains the author of the mod.
         /// </value>
         [JsonProperty("author")]
-        public string Author { get; private set; }
+        public string Author { get; }
 
         /// <value>
         /// Contains the description of the mod.
         /// </value>
         [JsonProperty("description")]
-        public string Description { get; private set; }
+        public string Description { get; }
 
         /// <value>
-        /// Contains the current version of the mod.
+        /// Contains the ID of the mod, not to be mistaken with <see cref="ModuleScript.Id"/>.
         /// </value>
-        [JsonProperty("version")]
-        public string Version { get; private set; }
+        [JsonProperty("id")]
+        public string Id { get; }
+
+        /// <value>
+        /// Contains the title of the mod.
+        /// </value>
+        [JsonProperty("title")]
+        public string Title { get; }
 
         /// <summary>
         /// Contains the current unity version of the mod.
         /// </summary>
         [JsonProperty("unityVersion")]
-        public string UnityVersion { get; private set; }
+        public string UnityVersion { get; }
+
+        /// <value>
+        /// Contains the current version of the mod.
+        /// </value>
+        [JsonProperty("version")]
+        public string Version { get; }
 
         /// <value>
         /// Returns the current values of this <see cref="ModInfo"/> as a dictionary, where the key is the variable name and the value is the variable value.
         /// </value>
-        public Dictionary<string, string> Values => new Dictionary<string, string>() 
-        { 
+        public Dictionary<string, string> Values => new Dictionary<string, string>()
+        {
+            { nameof(Author), Author },
+            { nameof(Description), Description },
             { nameof(Id), Id },
-            { nameof(Title), Title }, 
-            { nameof(Author), Author }, 
-            { nameof(Description), Description }, 
-            { nameof(Version), Version }, 
-            { nameof(UnityVersion), UnityVersion } 
+            { nameof(Title), Title },
+            { nameof(UnityVersion), UnityVersion },
+            { nameof(Version), Version }
         };
 
         /// <summary>

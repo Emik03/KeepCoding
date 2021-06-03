@@ -35,32 +35,32 @@ namespace KeepCoding
         /// <value>
         /// Force modules to be placed only on the front face. By default this will limit the module count to 5 (+1 for the timer). Useful in rare circumstances where you wish to generate a bomb with a few modules and guarantee that they will all be visibile simultaneously.
         /// </value>
-        public bool FrontFaceOnly { get; private set; }
+        public bool FrontFaceOnly { get; }
 
         /// <value>
         /// Set how many optional widgets (widgets other than serial number) that should be placed on the bomb.
         /// </value>
-        public int OptionalWidgetCount { get; private set; }
+        public int OptionalWidgetCount { get; }
 
         /// <value>
         /// The number of strikes at which the bomb explodes. Hardcore is 1. More forgiving is 3.
         /// </value>
-        public int NumStrikes { get; private set; }
+        public int NumStrikes { get; }
 
         /// <value>
         /// Time, in seconds, which must elapse before any unactivated Needy modules are automatically activated.
         /// </value>
-        public int TimeBeforeNeedyActivation { get; private set; }
+        public int TimeBeforeNeedyActivation { get; }
 
         /// <value>
         /// Initial value for the timer when the bomb is activated, in seconds.
         /// </value>
-        public float TimeLimit { get; private set; }
+        public float TimeLimit { get; }
 
         /// <value>
         /// The pools of modules that will be used when generating a bomb.
         /// </value>
-        public List<ComponentPool> ComponentPools { get; private set; }
+        public List<ComponentPool> ComponentPools { get; }
 
         /// <summary>
         /// The total count of modules that will be added according to the component pools.
