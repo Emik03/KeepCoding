@@ -30,8 +30,9 @@ namespace KeepCoding
         /// <exception cref="IndexOutOfRangeException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <param name="index">The <paramref name="index"/>th digit to look from.</param>
+        /// <param name="isLeftToRight">Determines if the index goes from left-to-right (<see langword="true"/>), or right-to-left (<see langword="false"/>).</param>
         /// <returns>The current value's <paramref name="index"/>th digit.</returns>
-        public int this[int index] { get => _value[index]; set => _value[index] = Math.Abs(value) <= 9 ? CastToCurrentNegative(value) : throw new ArgumentOutOfRangeException($"You are assigning a 1-digit number, yet your value {value} is {value.ToString().Replace("-", "").Length} digits long."); }
+        public int this[int index, bool isLeftToRight = true] { get => _value[isLeftToRight ? index : GetUpperBound - index]; set => _value[isLeftToRight ? index : GetUpperBound - index] = Math.Abs(value) <= 9 ? CastToCurrentNegative(value) : throw new ArgumentOutOfRangeException($"You are assigning a 1-digit number, yet your value {value} is {value.ToString().Replace("-", "").Length} digits long."); }
 
         /// <value>
         /// Whether or not the number is negative.
