@@ -32,7 +32,7 @@ namespace KeepCoding
         /// <summary>
         /// The custom sound, written out by name.
         /// </summary>
-        public string Custom { get; private set; }
+        public string Custom { get; }
 
         /// <summary>
         /// The audio reference that is playing the sound.
@@ -42,7 +42,7 @@ namespace KeepCoding
         /// <summary>
         /// The in-game sound.
         /// </summary>
-        public SoundEffect? Game { get; private set; }
+        public SoundEffect? Game { get; }
 
         /// <summary>
         /// An instance of Sound where <see cref="Custom"/> is defined.
@@ -103,7 +103,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="other">The comparison.</param>
         /// <returns>True if <see cref="Custom"/>, <see cref="Reference"/>, and <see cref="Game"/> are equal.</returns>
-        public bool Equals(Sound other) => other is null && Reference == other.Reference && Game == other.Game && Custom == other.Custom;
+        public bool Equals(Sound other) => other is { } && Reference == other.Reference && Game == other.Game && Custom == other.Custom;
 
         /// <summary>
         /// Gets the current hash code.
