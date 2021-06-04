@@ -43,7 +43,7 @@ namespace KeepCoding
         /// Gets the enumerator of the <see cref="Tuple"/>, using <see cref="ToArray"/>.
         /// </summary>
         /// <returns>All of the items in <see cref="Tuple"/>.</returns>
-        public IEnumerator GetEnumerator() => (IEnumerator)ToArray.GetEnumerator();
+        public IEnumerator GetEnumerator() => ToArray.GetEnumerator();
 
         private protected static TOutput Cast<TInput, TOutput>(in TInput value, int index) => value is TOutput t ? t : throw WrongDatatype(value, typeof(TOutput), index);
 
