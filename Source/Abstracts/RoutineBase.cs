@@ -8,7 +8,7 @@ namespace KeepCoding
     /// <summary>
     /// Abstract class for the <see cref="Routine"/> datatype, since the different overloads are similar to each other. Written by Emik.
     /// </summary>
-    public abstract class RoutineBase
+    public abstract class RoutineBase : IEnumerable
     {
         /// <summary>
         /// Creates a list of coroutines so that you can start, restart, or stop any coroutine running inside this class.
@@ -65,6 +65,13 @@ namespace KeepCoding
 
             Coroutines = new List<Coroutine>();
         }
+
+
+        /// <summary>
+        /// Gets the enumerator of the <see cref="Routine"/>, using <see cref="Coroutines"/>.
+        /// </summary>
+        /// <returns>The list of <see cref="Coroutines"/> in this <see cref="Routine"/>.</returns>
+        public IEnumerator GetEnumerator() => Coroutines.GetEnumerator();
 
         private protected void Remove(Coroutine coroutine) => _monoBehaviour.StopCoroutine(coroutine);
 

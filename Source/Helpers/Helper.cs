@@ -475,7 +475,6 @@ namespace KeepCoding
         {
             null => new object[] { Null },
             string s => new object[] { s },
-            Tuple tuple => tuple.ToArray.Unwrap(),
             IEnumerable ienumerable => ienumerable.Unwrap(),
             IEnumerator ienumerator => ienumerator.AsEnumerable().Unwrap(),
             _ => isRecursive ? source.ReflectAll().Cast<object>().Prepend(source) : new object[] { source },

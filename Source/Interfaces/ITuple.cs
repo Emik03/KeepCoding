@@ -1,20 +1,21 @@
 ﻿using System;
+using System.Collections;
 
 namespace KeepCoding
 {
     /// <summary>
     /// Interface for tuple type. Written by Emik.
     /// </summary>
-    public interface ITuple
+    public interface ITuple : IEnumerable
     {
         /// <summary>
         /// Indexable tuple. Be careful when using this as the compiler will not notice if you are using the wrong type.
         /// </summary>
         /// <exception cref="IndexOutOfRangeException"></exception>
         /// <exception cref="WrongDatatypeException"></exception>
-        /// <param name="i">The index to use.</param>
+        /// <param name="index">The index to use.</param>
         /// <returns>The item indexed into.</returns>
-        public object this[byte i] { get; set; }
+        public object this[byte index] { get; set; }
 
         /// <value>
         /// Determines if the tuple data type is empty.

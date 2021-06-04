@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,7 +8,7 @@ namespace KeepCoding
     /// <summary>
     /// Stores an arbitrarily large number. Written by Emik.
     /// </summary>
-    public sealed class BigInteger : IEquatable<BigInteger>
+    public sealed class BigInteger : IEnumerable, IEquatable<BigInteger>
     {
         /// <summary>
         /// Creates a big integer containing the number specified.
@@ -591,6 +592,12 @@ namespace KeepCoding
         /// <param name="obj">The right-hand side operator.</param>
         /// <returns>Itself mod <paramref name="obj"/>.</returns>
         public BigInteger Modulo<T>(T obj) => ((this % obj) + obj) % obj;
+
+        /// <summary>
+        /// Gets the enumerator of the <see cref="BigInteger"/>, using <see cref="Value"/>.
+        /// </summary>
+        /// <returns>The current number of this <see cref="BigInteger"/>.</returns>
+        public IEnumerator GetEnumerator() => Value.GetEnumerator();
 
         private enum Operator { Add, Subtract, Multiply, Divide, Modulo }
 

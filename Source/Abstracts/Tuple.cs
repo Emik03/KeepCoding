@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Linq;
 
 namespace KeepCoding
 {
@@ -36,6 +38,12 @@ namespace KeepCoding
         /// All of the tuple's items as an array, ordered by item number.
         /// </value>
         public abstract object[] ToArray { get; }
+
+        /// <summary>
+        /// Gets the enumerator of the <see cref="Tuple"/>, using <see cref="ToArray"/>.
+        /// </summary>
+        /// <returns>All of the items in <see cref="Tuple"/>.</returns>
+        public IEnumerator GetEnumerator() => (IEnumerator)ToArray.GetEnumerator();
 
         private protected static TOutput Cast<TInput, TOutput>(in TInput value, int index) => value is TOutput t ? t : throw WrongDatatype(value, typeof(TOutput), index);
 
