@@ -54,7 +54,7 @@ namespace KeepCoding
         public string Help { get; set; }
 
         /// <value>
-        /// Specifies the manual that is looked up on The Manual Repository when !{id} manual is entered into chat.
+        /// Specifies the manual that is looked up on The Manual Repository when <c>!{id} manual</c> is entered into chat.
         /// </value>
         public string Manual { get; set; }
 
