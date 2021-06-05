@@ -493,6 +493,8 @@ namespace KeepCoding
                 return false;
             }
 
+            Logger.Self($"Subscribing current bomb's {solvables.Length + needies.Length} modules to {nameof(OnSolvableSolved)}, {nameof(OnNeedySolved)}, and {nameof(OnModuleStrike)}.");
+
             solvables.ForEach(m => 
             {
                 m.OnPass += () => Run(m, OnSolvableSolved);
