@@ -30,7 +30,7 @@ namespace KeepCoding
         /// <remarks>
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
-        public bool IsTimeMode { get; }
+        public bool IsTime { get; }
 
         /// <value>
         /// Determines if Twitch Plays is currently active. This is for modules that need to display different items, or use different rules if Twitch Plays is active.
@@ -46,7 +46,7 @@ namespace KeepCoding
         /// <remarks>
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
-        public bool IsZenMode { get; }
+        public bool IsZen { get; }
 
         /// <value>
         /// Declaring this field allows for Twitch Plays to inform the module that the bomb is in Time Mode, where solves change the timer. This is useful for modules that use the timer's value.
@@ -54,7 +54,7 @@ namespace KeepCoding
         /// <remarks>
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
-        public List<KMBombModule> AbandonModule { get; set; }
+        public List<KMBombModule> Abandons { get; set; }
 
         /// <summary>
         /// When a command is typed into Twitch Plays with the Id of this module, it calls this method and passes in the exact command typed.

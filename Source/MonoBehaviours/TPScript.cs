@@ -12,16 +12,6 @@ namespace KeepCoding
     [RequireComponent(typeof(ModuleScript))]
     public abstract class TPScript<TModule> : MonoBehaviour, ITP where TModule : ModuleScript
     {
-        /// <summary>
-        /// The help message that gets sent when typing <c>!{0} help</c>.
-        /// </summary>
-        [SerializeField]
-#pragma warning disable IDE0044 // Add readonly modifier
-#pragma warning disable IDE0051 // Remove unused private members
-        private string TwitchHelpMessage;
-#pragma warning restore IDE0051 // Remove unused private members
-#pragma warning restore IDE0044 // Add readonly modifier
-
         /// <value>
         /// Determines if it should allow for the timer to be skipped when the module it is in, as well as any other modules that would like to skip time, are the only unsolved modules left on the bomb. 
         /// </value>
@@ -52,7 +42,7 @@ namespace KeepCoding
         /// <remarks>
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
-        public bool IsTimeMode => TimeModeActive;
+        public bool IsTime => TimeModeActive;
 #pragma warning disable IDE0032 // Use auto property
 #pragma warning disable IDE0044 // Add readonly modifier
         private bool TimeModeActive;
@@ -78,11 +68,26 @@ namespace KeepCoding
         /// <remarks>
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
-        public bool IsZenMode => ZenModeActive;
+        public bool IsZen => ZenModeActive;
 #pragma warning disable IDE0032 // Use auto property
 #pragma warning disable IDE0044 // Add readonly modifier
         private bool ZenModeActive;
 #pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning restore IDE0032 // Use auto property
+
+        /// <value>
+        /// The help message that gets sent when typing <c>!{id} help</c>.
+        /// </value>
+        public string Help { get => TwitchHelpMessage; set => TwitchHelpMessage = value; }
+        [SerializeField]
+        private string TwitchHelpMessage;
+
+        /// <value>
+        /// Specifies the manual that is looked up on The Manual Repository when !{id} manual is entered into chat.
+        /// </value>
+        public string Manual { get => TwitchManualCode; set => TwitchManualCode = value; }
+#pragma warning disable IDE0032 // Use auto property
+        private string TwitchManualCode;
 #pragma warning restore IDE0032 // Use auto property
 
         /// <value>
@@ -91,7 +96,7 @@ namespace KeepCoding
         /// <remarks>
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
-        public List<KMBombModule> AbandonModule { get => TwitchAbandonModule; set => TwitchAbandonModule = value; }
+        public List<KMBombModule> Abandons { get => TwitchAbandonModule; set => TwitchAbandonModule = value; }
 #pragma warning disable IDE0032 // Use auto property
         private List<KMBombModule> TwitchAbandonModule;
 #pragma warning restore IDE0032 // Use auto property
