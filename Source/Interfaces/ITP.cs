@@ -49,6 +49,16 @@ namespace KeepCoding
         public bool IsZen { get; }
 
         /// <value>
+        /// The help message that gets sent when typing <c>!{id} help</c>.
+        /// </value>
+        public string Help { get; set; }
+
+        /// <value>
+        /// Specifies the manual that is looked up on The Manual Repository when !{id} manual is entered into chat.
+        /// </value>
+        public string Manual { get; set; }
+
+        /// <value>
         /// Declaring this field allows for Twitch Plays to inform the module that the bomb is in Time Mode, where solves change the timer. This is useful for modules that use the timer's value.
         /// </value>
         /// <remarks>
