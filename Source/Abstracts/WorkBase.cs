@@ -16,7 +16,7 @@ namespace KeepCoding
         }
 
         /// <value>
-        /// Determines whether any thread in this class in running.
+        /// Determines whether any thread in this class is running.
         /// </value>
         public bool IsRunning { get; private protected set; }
 
