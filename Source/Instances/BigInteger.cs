@@ -553,7 +553,7 @@ namespace KeepCoding
         /// <param name="min">The minimum value accepted.</param>
         /// <param name="max">The maximum value accepted.</param>
         /// <returns>True if <paramref name="min"/> is smaller or equal itself and <paramref name="max"/> is greater or equal itself.</returns>
-        public bool IsInRange(BigInteger min, BigInteger max) => this >= min && this < max;
+        public bool IsInRange(BigInteger min, BigInteger max) => !(this < min || this > max);
 
         /// <summary>
         /// Determines if it is between 2 other variables. Equality will count as true.
@@ -565,7 +565,7 @@ namespace KeepCoding
         /// <exception cref="ConstructorArgumentException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>True if <paramref name="min"/> is smaller or equal itself and <paramref name="max"/> is greater or equal itself.</returns>
-        public bool IsInRange<T>(T min, T max) => this >= min && this < max;
+        public bool IsInRange<T>(T min, T max) => !(this < min || this > max);
 
         /// <summary>
         /// Converts the BigInteger to a <see cref="int"/>.
