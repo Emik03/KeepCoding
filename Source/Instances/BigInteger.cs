@@ -263,6 +263,34 @@ namespace KeepCoding
         public static bool operator <=(object value, BigInteger bigInteger) => value == bigInteger || value < bigInteger;
 
         /// <summary>
+        /// Positive operator; returns itself.
+        /// </summary>
+        /// <param name="bigInteger">The number.</param>
+        /// <returns>The number.</returns>
+        public static BigInteger operator +(BigInteger bigInteger) => bigInteger;
+
+        /// <summary>
+        /// Negative operator; inverts <see cref="IsNegative"/>.
+        /// </summary>
+        /// <param name="bigInteger">The number.</param>
+        /// <returns>The number, inverting <see cref="IsNegative"/>.</returns>
+        public static BigInteger operator -(BigInteger bigInteger) => new BigInteger(InvertConditional(bigInteger.Value, true));
+
+        /// <summary>
+        /// Addition operator; adds 1.
+        /// </summary>
+        /// <param name="bigInteger">The number.</param>
+        /// <returns>The number + 1.</returns>
+        public static BigInteger operator ++(BigInteger bigInteger) => bigInteger += 1;
+
+        /// <summary>
+        /// Subtraction operator; subtracts 1.
+        /// </summary>
+        /// <param name="bigInteger">The number.</param>
+        /// <returns>The number - 1.</returns>
+        public static BigInteger operator --(BigInteger bigInteger) => bigInteger -= 1;
+
+        /// <summary>
         /// Add operator; gets the sum of 2 numbers.
         /// </summary>
         /// <param name="bigIntegerA">The left-hand side operator.</param>
