@@ -553,7 +553,7 @@ namespace KeepCoding
         /// <param name="min">The minimum value accepted.</param>
         /// <param name="max">The maximum value accepted.</param>
         /// <returns>True if <paramref name="min"/> is smaller or equal itself and <paramref name="max"/> is greater or equal itself.</returns>
-        public bool IsInRange(BigInteger min, BigInteger max) => !(this < min || this > max);
+        public bool IsBetween(BigInteger min, BigInteger max) => !(this < min || this > max);
 
         /// <summary>
         /// Determines if it is between 2 other variables. Equality will count as true.
@@ -565,35 +565,35 @@ namespace KeepCoding
         /// <exception cref="ConstructorArgumentException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <returns>True if <paramref name="min"/> is smaller or equal itself and <paramref name="max"/> is greater or equal itself.</returns>
-        public bool IsInRange<T>(T min, T max) => !(this < min || this > max);
+        public bool IsBetween<T>(T min, T max) => !(this < min || this > max);
 
         /// <summary>
         /// Converts the BigInteger to a <see cref="int"/>.
         /// </summary>
         /// <exception cref="InvalidCastException"></exception>
         /// <returns>Itself as <see cref="int"/>.</returns>
-        public int ToInt() => IsInRange(int.MinValue, int.MaxValue) ? int.Parse(ToString()) : throw InvalidCast<int>();
+        public int ToInt() => IsBetween(int.MinValue, int.MaxValue) ? int.Parse(ToString()) : throw InvalidCast<int>();
 
         /// <summary>
         /// Converts the BigInteger to a <see cref="long"/>.
         /// </summary>
         /// <exception cref="InvalidCastException"></exception>
         /// <returns>Itself as <see cref="long"/>.</returns>
-        public long ToLong() => IsInRange(long.MinValue, long.MaxValue) ? long.Parse(ToString()) : throw InvalidCast<long>();
+        public long ToLong() => IsBetween(long.MinValue, long.MaxValue) ? long.Parse(ToString()) : throw InvalidCast<long>();
 
         /// <summary>
         /// Converts the BigInteger to a <see cref="uint"/>.
         /// </summary>
         /// <exception cref="InvalidCastException"></exception>
         /// <returns>Itself as <see cref="uint"/>.</returns>
-        public uint ToUInt() => IsInRange(uint.MinValue, uint.MaxValue) ? uint.Parse(ToString()) : throw InvalidCast<uint>();
+        public uint ToUInt() => IsBetween(uint.MinValue, uint.MaxValue) ? uint.Parse(ToString()) : throw InvalidCast<uint>();
 
         /// <summary>
         /// Converts the BigInteger to a <see cref="ulong"/>.
         /// </summary>
         /// <exception cref="InvalidCastException"></exception>
         /// <returns>Itself as <see cref="ulong"/>.</returns>
-        public ulong ToULong() => IsInRange(ulong.MinValue, ulong.MaxValue) ? ulong.Parse(ToString()) : throw InvalidCast<long>();
+        public ulong ToULong() => IsBetween(ulong.MinValue, ulong.MaxValue) ? ulong.Parse(ToString()) : throw InvalidCast<long>();
 
         /// <summary>
         /// Makes a new instance/deep clone of <see cref="BigInteger"/> with the same value.
