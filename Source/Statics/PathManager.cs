@@ -48,6 +48,8 @@ namespace KeepCoding
             FileExtensionWindows = "dll",
             FileFormat = "{0}.{1}";
 
+        private static readonly Dictionary<string, string> _paths = new Dictionary<string, string>();
+
         private static readonly Dictionary<string, ModInfo> _modInfos = new Dictionary<string, ModInfo>();
 
         private static readonly PlatformNotSupportedException _intPtrException = new PlatformNotSupportedException("IntPtr size is not 4 or 8, what kind of system is this?");
@@ -167,14 +169,21 @@ namespace KeepCoding
         {
             Logger.Self($"Searching for file \"{search}\" anywhere in the mods folder...");
 
+            if (_paths.TryGetValue(search, out string path))
+            {
+                Logger.Self($"{path}'s path has already been cached. Returning cached result.");
+                return path;
+            }
+
             search.NullOrEmptyCheck("You cannot retrieve a path if the file name is null or empty.");
 
-            string path = GetAllModPathsFromSource(Local).Call(f => Logger.Self("Searching for enabled local mods...")).Find(search) ??
-                GetAllModPathsFromSource(SteamWorkshop).Call(f => Logger.Self("Searching for enabled steam workshop mods...")).Find(search);
+            path = (GetAllModPathsFromSource(Local).Call(f => Logger.Self("Searching for enabled local mods...")).Find(search) ??
+                GetAllModPathsFromSource(SteamWorkshop).Call(f => Logger.Self("Searching for enabled steam workshop mods...")).Find(search))
+                .Replace($"/{search}", "").Replace(@$"\{search}", "");
 
-            return path
-                .Replace($"/{search}", "")
-                .Replace(@$"\{search}", "");
+            _paths.Add(search, path);
+
+            return path;
         }
 
         /// <summary>
