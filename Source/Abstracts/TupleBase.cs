@@ -7,7 +7,7 @@ namespace KeepCoding
     /// <summary>
     /// An abstract type meant for the tuple data type for C# 4. Written by Emik.
     /// </summary>
-    public abstract class Tuple : ITuple
+    public abstract class TupleBase : ITuple
     {
         /// <summary>
         /// Indexable tuple. Be careful when using this as the compiler will not notice if you are using the wrong type.
@@ -40,9 +40,9 @@ namespace KeepCoding
         public abstract object[] ToArray { get; }
 
         /// <summary>
-        /// Gets the enumerator of the <see cref="Tuple"/>, using <see cref="ToArray"/>.
+        /// Gets the enumerator of the <see cref="TupleBase"/>, using <see cref="ToArray"/>.
         /// </summary>
-        /// <returns>All of the items in <see cref="Tuple"/>.</returns>
+        /// <returns>All of the items in <see cref="TupleBase"/>.</returns>
         public IEnumerator GetEnumerator() => ToArray.GetEnumerator();
 
         private protected static TOutput Cast<TInput, TOutput>(in TInput value, int index) => value is TOutput t ? t : throw WrongDatatype(value, typeof(TOutput), index);

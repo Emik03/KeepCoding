@@ -7,7 +7,7 @@ namespace KeepCoding
     /// <summary>
     /// A basic tuple data type for C# 4. Written by Emik.
     /// </summary>
-    public class Tuple<T> : Tuple, IEquatable<Tuple<T>>
+    public class Tuple<T> : TupleBase, IEquatable<Tuple<T>>
     {
         /// <summary>
         /// Creates a singleton tuple.
