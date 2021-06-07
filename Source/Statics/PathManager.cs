@@ -48,6 +48,8 @@ namespace KeepCoding
             FileExtensionWindows = "dll",
             FileFormat = "{0}.{1}";
 
+        private static readonly Dictionary<string, ModInfo> _modInfos = new Dictionary<string, ModInfo>();
+
         private static readonly PlatformNotSupportedException _intPtrException = new PlatformNotSupportedException("IntPtr size is not 4 or 8, what kind of system is this?");
 
         /// <summary>
@@ -106,6 +108,9 @@ namespace KeepCoding
         {
             Logger.Self($"Retrieving the {nameof(ModInfo)} data from \"{bundleFileName}\"...");
 
+            if (_modInfos.TryGetValue(bundleFileName, out var info))
+                return info;
+
             bundleFileName.NullOrEmptyCheck("You cannot retrieve a mod's modInfo.json if the bundle file name is null or empty.");
 
             string search = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows)),
@@ -116,7 +121,11 @@ namespace KeepCoding
 
             Logger.Self($"File found! Returning {file}");
 
-            return Deserialize(file);
+            info = Deserialize(file);
+
+            _modInfos.Add(bundleFileName, info);
+
+            return info;
         }
 
         /// <summary>
