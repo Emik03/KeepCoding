@@ -109,7 +109,10 @@ namespace KeepCoding
             Logger.Self($"Retrieving the {nameof(ModInfo)} data from \"{bundleFileName}\"...");
 
             if (_modInfos.TryGetValue(bundleFileName, out var info))
+            {
+                Logger.Self($"{bundleFileName}'s {nameof(ModInfo)} has already been cached. Returning cached result.");
                 return info;
+            }
 
             bundleFileName.NullOrEmptyCheck("You cannot retrieve a mod's modInfo.json if the bundle file name is null or empty.");
 
@@ -119,7 +122,7 @@ namespace KeepCoding
             if (!File.Exists(file))
                 throw new FileNotFoundException($"The mod bundle was found in {search}, but no mod info was found! (Expected to find \"{file}\")");
 
-            Logger.Self($"File found! Returning {file}");
+            Logger.Self($"File found! Returning {file}.");
 
             info = Deserialize(file);
 
