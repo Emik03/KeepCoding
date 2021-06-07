@@ -40,9 +40,9 @@ namespace KeepCoding
         public abstract object[] ToArray { get; }
 
         /// <summary>
-        /// Gets the enumerator of the <see cref="TupleBase"/>, using <see cref="ToArray"/>.
+        /// Gets the enumerator of the tuple, using <see cref="ToArray"/>.
         /// </summary>
-        /// <returns>All of the items in <see cref="TupleBase"/>.</returns>
+        /// <returns>All of the items in tuple.</returns>
         public IEnumerator GetEnumerator() => ToArray.GetEnumerator();
 
         private protected static TOutput Cast<TInput, TOutput>(in TInput value, int index) => value is TOutput t ? t : throw WrongDatatype(value, typeof(TOutput), index);
