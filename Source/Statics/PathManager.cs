@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Video;
 using static KeepCoding.Game.ModManager;
@@ -14,12 +12,12 @@ using static KeepCoding.ModInfo;
 using static System.IntPtr;
 using static System.Linq.Enumerable;
 using static System.Reflection.Assembly;
-using static System.Runtime.CompilerServices.MethodImplOptions;
 using static UnityEngine.Application;
 using static UnityEngine.AssetBundle;
 using static UnityEngine.Debug;
 using static UnityEngine.Object;
 using static UnityEngine.RuntimePlatform;
+using Object = UnityEngine.Object;
 
 namespace KeepCoding
 {
@@ -49,8 +47,6 @@ namespace KeepCoding
             FileExtensionMacOS = "dylib",
             FileExtensionWindows = "dll",
             FileFormat = "{0}.{1}";
-
-        private static readonly Dictionary<Tuple<string, string>, object> _cachedResults = new Dictionary<Tuple<string, string>, object>();
 
         private static readonly PlatformNotSupportedException _intPtrException = new PlatformNotSupportedException("IntPtr size is not 4 or 8, what kind of system is this?");
 
@@ -112,22 +108,15 @@ namespace KeepCoding
 
             bundleFileName.NullOrEmptyCheck("You cannot retrieve a mod's modInfo.json if the bundle file name is null or empty.");
 
-            Current(in bundleFileName, out var current);
-
-            if (IsCached(in current))
-                return GetCache<ModInfo>(in current);
-
-            string search = FileFormat.Form(bundleFileName, FileExtensionWindows);
-
-            string path = GetPath(search);
-            string file = $"{path}{GetSlashType(in path)}modInfo.json";
+            string search = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows)),
+                file = $"{search}{GetSlashType(in search)}modInfo.json";
 
             if (!File.Exists(file))
-                throw new FileNotFoundException($"The mod bundle was found in {path}, but no mod info was found! (Expected to find \"{file}\")");
+                throw new FileNotFoundException($"The mod bundle was found in {search}, but no mod info was found! (Expected to find \"{file}\")");
 
             Logger.Self($"File found! Returning {file}");
 
-            return SetCache(current, Deserialize(file));
+            return Deserialize(file);
         }
 
         /// <summary>
@@ -168,19 +157,12 @@ namespace KeepCoding
 
             search.NullOrEmptyCheck("You cannot retrieve a path if the file name is null or empty.");
 
-            Current(in search, out var current);
-
-            if (IsCached(in current))
-                return GetCache<string>(in current);
-
             string path = GetAllModPathsFromSource(Local).Call(f => Logger.Self("Searching for enabled local mods...")).Find(search) ??
                 GetAllModPathsFromSource(SteamWorkshop).Call(f => Logger.Self("Searching for enabled steam workshop mods...")).Find(search);
 
-            string file = SetCache(current, path
+            return path
                 .Replace($"/{search}", "")
-                .Replace(@$"\{search}", ""));
-
-            return file;
+                .Replace(@$"\{search}", "");
         }
 
         /// <summary>
@@ -214,13 +196,6 @@ namespace KeepCoding
             Logger.Self($"Preparing to copy library \"{libraryFileName}\" which exists in \"{bundleFileName}\".");
 
             libraryFileName.NullOrEmptyCheck("You cannot load a library which has a null or empty name.");
-
-            Current(bundleFileName + libraryFileName, out var current);
-
-            if (IsCached(in current))
-                return;
-
-            SetCache<string>(current, null);
 
             string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
 
@@ -256,45 +231,15 @@ namespace KeepCoding
         /// <param name="libraryFileName">The library's name, excluding the extension.</param>
         public static void LoadLibrary<T>(T _, string libraryFileName) => LoadLibrary(NameOfAssembly<T>(), libraryFileName);
 
+
         /// <summary>
-        /// Gets the video clips, the last yield return contains all of the videos.
+        /// Retrieves assets of a specific type from a different bundle file.
         /// </summary>
-        /// <exception cref="EmptyIteratorException"></exception>
-        /// <exception cref="FileNotFoundException"></exception>
-        /// <exception cref="NullIteratorException"></exception>
+        /// <typeparam name="T">The type of asset to retrieve.</typeparam>
         /// <param name="bundleFileName">The name of the bundle file.</param>
-        /// <param name="bundleVideoFileName">The name of the bundle that contains videos.</param>
-        /// <returns>The <see cref="AssetBundleCreateRequest"/> needed to load the files, followed by the <see cref="VideoClip"/> <see cref="Array"/>.</returns>
-        public static IEnumerator LoadVideoClips(string bundleFileName, string bundleVideoFileName)
-        {
-            Logger.Self($"Loading videos from \"{bundleVideoFileName}\" which exists in \"{bundleFileName}\".");
-
-            bundleVideoFileName.NullOrEmptyCheck("You cannot load a video from a nonexistent file.");
-
-            Current(bundleFileName + bundleVideoFileName, out var current);
-
-            if (IsCached(in current))
-            {
-                yield return GetCache<VideoClip[]>(in current);
-                yield break;
-            }
-
-            string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
-
-            var request = LoadFromFileAsync($"{path}{GetSlashType(in path)}{FileFormat.Form(bundleVideoFileName, FileExtensionBundle)}");
-
-            yield return request;
-
-            var mainBundle = request.assetBundle.NullCheck("The bundle was null.");
-
-            var videos = mainBundle.LoadAllAssets<VideoClip>().OrderBy(clip => clip.name).ToArray().NullOrEmptyCheck("There are no videos.");
-
-            Logger.Self($"{videos.Count()} video(s) have been loaded into memory!");
-
-            SetCache(current, videos);
-            
-            yield return videos;
-        }
+        /// <param name="bundleAssetFileName">The name of the bundle file to grab the assets from.</param>
+        /// <returns>The assets retrieved from the file.</returns>
+        public static T[] GetAssets<T>(string bundleFileName, string bundleAssetFileName) where T : Object => (T[])LoadAssets<T>(bundleFileName, bundleAssetFileName).AsEnumerable().OfType<object>().Last();
 
         /// <summary>
         /// Gets the video clips, the last yield return contains all of the videos.
@@ -305,7 +250,7 @@ namespace KeepCoding
         /// <param name="type">Any data from the assembly, which is used to get the name.</param>
         /// <param name="bundleVideoFileName">The name of the bundle that contains videos.</param>
         /// <returns>The <see cref="AssetBundleCreateRequest"/> needed to load the files, followed by the <see cref="VideoClip"/> <see cref="Array"/>.</returns>
-        public static IEnumerator LoadVideoClips(Type type, string bundleVideoFileName) => LoadVideoClips(NameOfAssembly(type), bundleVideoFileName);
+        public static TAsset[] GetAssets<TAsset>(Type type, string bundleVideoFileName) where TAsset : Object => GetAssets<TAsset>(NameOfAssembly(type), bundleVideoFileName);
 
         /// <summary>
         /// Gets the video clips, the last yield return contains all of the videos.
@@ -314,10 +259,11 @@ namespace KeepCoding
         /// <exception cref="FileNotFoundException"></exception>
         /// <exception cref="NullIteratorException"></exception>
         /// <typeparam name="T">The type to get the assembly from, which is used to get the name.</typeparam>
+        /// <typeparam name="TAsset">The type of asset to return.</typeparam>
         /// <param name="_">Any data from the assembly, which is used to get the name.</param>
         /// <param name="bundleVideoFileName">The name of the bundle that contains videos.</param>
         /// <returns>The <see cref="AssetBundleCreateRequest"/> needed to load the files, followed by the <see cref="VideoClip"/> <see cref="Array"/>.</returns>
-        public static IEnumerator LoadVideoClips<T>(T _, string bundleVideoFileName) => LoadVideoClips(NameOfAssembly<T>(), bundleVideoFileName);
+        public static TAsset[] GetAssets<T, TAsset>(T _, string bundleVideoFileName) where TAsset : Object => GetAssets<TAsset>(NameOfAssembly<T>(), bundleVideoFileName);
 
         private static void CopyLibrary(in string libraryFileName, in string path)
         {
@@ -344,11 +290,6 @@ namespace KeepCoding
             }
         }
 
-        [MethodImpl(NoInlining)]
-        private static void Current(in string bundleFileName, out Tuple<string, string> current) => current = new StackTrace().GetFrame(1).GetMethod().Name.ToTuple(bundleFileName);
-
-        private static bool IsCached(in Tuple<string, string> current) => _cachedResults.ContainsKey(current);
-
         private static char GetSlashType(in string path) => path.Count(c => c == '/') >= path.Count(c => c == '\\') ? '/' : '\\';
 
         private static string Find(List<string> directories, string search) 
@@ -370,8 +311,25 @@ namespace KeepCoding
                 return null;
             });
 
-        private static T GetCache<T>(in Tuple<string, string> current) => (T)_cachedResults[current];
+        private static IEnumerator LoadAssets<TAsset>(string bundleFileName, string bundleAssetFileName) where TAsset : Object
+        {
+            Logger.Self($"Loading type {typeof(TAsset).Name} from \"{bundleAssetFileName}\" which exists in \"{bundleFileName}\".");
 
-        private static T SetCache<T>(Tuple<string, string> current, T value) => value.Call(v => _cachedResults.Add(current, v));
+            bundleAssetFileName.NullOrEmptyCheck("You cannot load a video from a nonexistent file.");
+
+            string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
+
+            var request = LoadFromFileAsync($"{path}{GetSlashType(in path)}{FileFormat.Form(bundleAssetFileName, FileExtensionBundle)}");
+
+            yield return request;
+
+            var mainBundle = request.assetBundle.NullCheck("The bundle was null.");
+
+            var assets = mainBundle.LoadAllAssets<TAsset>().OrderBy(o => o.name).ToArray().NullOrEmptyCheck($"There are no assets of type {typeof(TAsset).Name}.");
+
+            Logger.Self($"{assets.Count()} assets of type {typeof(TAsset).Name} have been loaded into memory!");
+
+            yield return assets;
+        }
     }
 }
