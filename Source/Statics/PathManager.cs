@@ -74,11 +74,11 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// Gets the assembly's directory where the type <typeparamref name="T"/> exists.
+        /// Combines multiple paths together.
         /// </summary>
-        /// <typeparam name="T">The type to get the assembly directory of.</typeparam>
-        /// <returns>The path to the directory of the assembly where the type <typeparamref name="T"/> comes from.</returns>
-        public static string NameOfAssembly<T>() => NameOfAssembly(typeof(T));
+        /// <param name="paths">The paths to combine with.</param>
+        /// <returns>A single path consisting of the combined path of the array.</returns>
+        public static string CombineMultiple(params string[] paths) => paths.Aggregate(Path.Combine);
 
         /// <summary>
         /// Gets the assembly's directory where the type <paramref name="type"/> exists.
@@ -88,11 +88,11 @@ namespace KeepCoding
         public static string NameOfAssembly(Type type) => type.Assembly.GetName().Name;
 
         /// <summary>
-        /// Combines multiple paths together.
+        /// Gets the assembly's directory where the type <typeparamref name="T"/> exists.
         /// </summary>
-        /// <param name="paths">The paths to combine with.</param>
-        /// <returns>A single path consisting of the combined path of the array.</returns>
-        public static string CombineMultiple(params string[] paths) => paths.Aggregate(Path.Combine);
+        /// <typeparam name="T">The type to get the assembly directory of.</typeparam>
+        /// <returns>The path to the directory of the assembly where the type <typeparamref name="T"/> comes from.</returns>
+        public static string NameOfAssembly<T>() => NameOfAssembly(typeof(T));
 
         /// <summary>
         /// Gets the path and deserializes the modInfo.json located at every mod's root folder.
