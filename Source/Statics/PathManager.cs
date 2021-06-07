@@ -247,11 +247,11 @@ namespace KeepCoding
         /// <summary>
         /// Retrieves assets of a specific type from a different bundle file.
         /// </summary>
-        /// <typeparam name="T">The type of asset to retrieve.</typeparam>
+        /// <typeparam name="TAsset">The type of asset to retrieve.</typeparam>
         /// <param name="bundleFileName">The name of the bundle file.</param>
         /// <param name="bundleAssetFileName">The name of the bundle file to grab the assets from.</param>
         /// <returns>The assets retrieved from the file.</returns>
-        public static T[] GetAssets<T>(string bundleFileName, string bundleAssetFileName) where T : Object => (T[])LoadAssets<T>(bundleFileName, bundleAssetFileName).AsEnumerable().OfType<object>().Last();
+        public static TAsset[] GetAssets<TAsset>(string bundleFileName, string bundleAssetFileName) where TAsset : Object => (TAsset[])LoadAssets<TAsset>(bundleFileName, bundleAssetFileName).AsEnumerable().OfType<object>().Last();
 
         /// <summary>
         /// Gets the video clips, the last yield return contains all of the videos.
