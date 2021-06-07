@@ -124,7 +124,16 @@ namespace KeepCoding
 
             logMessageReceived += OnException;
 
+            if (Get<KMBombInfo>(allowNull: true) is KMBombInfo bombInfo)
+                BombInfo(bombInfo);
+
             _database = new Dictionary<string, Dictionary<string, object>[]>();
+
+            _setActive = () =>
+            {
+                IsActive = true;
+                OnActivate();
+            };
 
             Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
 
@@ -412,15 +421,6 @@ namespace KeepCoding
             throw new WrongDatatypeException($"The data type {typeof(T).Name} was expected, but received {d[key].GetType()} from module {module} with key {key}!");
         });
 
-        private void Active()
-        {
-            if (Get<KMBombInfo>(allowNull: true) is KMBombInfo bombInfo)
-                StartCoroutine(BombInfo(bombInfo));
-
-            IsActive = true;
-            OnActivate();
-        }
-
         private void OnException(string condition, string stackTrace, LogType type)
         {
             if (type != LogType.Exception || !IsLogFromThis(stackTrace))
@@ -480,7 +480,7 @@ namespace KeepCoding
                 Logger.Self($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
         }
 
-        private IEnumerator BombInfo(KMBombInfo bombInfo)
+        private void BombInfo(KMBombInfo bombInfo)
         {
             var bomb = GetComponentInParent<KMBomb>();
 
@@ -507,12 +507,17 @@ namespace KeepCoding
                 m.OnStrike += () => Run(m, OnModuleStrike);
             });
 
-            if (!IsEditor)
+            if (IsEditor)
             {
-                TimerTick();
-                yield break;
+                StartCoroutine(EditorBombInfo(bombInfo));
+                return;
             }
 
+            TimerTick();
+        }
+
+        private IEnumerator EditorBombInfo(KMBombInfo bombInfo)
+        {
             while (true)
             {
                 TimerTickEditor(in bombInfo);
