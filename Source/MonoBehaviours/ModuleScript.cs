@@ -79,16 +79,6 @@ namespace KeepCoding
         public string Version => IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(GetType()).Version;
 
         /// <value>
-        /// Contains an instance for every <see cref="Sound"/> played by this module using <see cref="PlaySound(Transform, bool, Sound[])"/> or any of its overloads.
-        /// </value>
-        public Sound[] Sounds { get; private set; } = new Sound[0];
-
-        /// <value>
-        /// Contains either <see cref="KMBombModule"/> or <see cref="KMNeedyModule"/>, and allows for running commands through context.
-        /// </value>
-        public ModuleContainer Module { get; private set; }
-
-        /// <value>
         /// Gets the Twitch Plays <see cref="Component"/> attached to this <see cref="GameObject"/>.
         /// </value>
         /// <remarks>
@@ -97,15 +87,30 @@ namespace KeepCoding
         public ITP TP => _tp ??= GetComponents<Component>().FirstOrDefault(c => c is ITP) as ITP;
         private ITP _tp;
 
+        /// <value>
+        /// The current bomb.
+        /// </value>
+        public KMBomb Bomb { get; private set; }
+
+        /// <value>
+        /// Contains either <see cref="KMBombModule"/> or <see cref="KMNeedyModule"/>, and allows for running commands through context.
+        /// </value>
+        public ModuleContainer Module { get; private set; }
+
+        /// <value>
+        /// Contains an instance for every <see cref="Sound"/> played by this module using <see cref="PlaySound(Transform, bool, Sound[])"/> or any of its overloads.
+        /// </value>
+        public Sound[] Sounds { get; private set; } = new Sound[0];
+
         private bool _hasException;
 
         private int _strikes;
 
-        private Action _setActive;
-
         private static Dictionary<string, Dictionary<string, object>[]> _database;
 
         private readonly Dictionary<Type, Component[]> _components = new Dictionary<Type, Component[]>();
+
+        private Action _setActive;
 
         private Logger _logger;
 
@@ -449,10 +454,10 @@ namespace KeepCoding
             sound.Game is { } ? Get<KMAudio>().HandlePlayGameSoundAtTransformWithRef(sound.Game.Value, t) :
             throw new UnrecognizedValueException($"{sound}'s properties {nameof(Sound.Custom)} and {nameof(Sound.Game)} are both null!");
 
-        private void HookBomb(in KMBomb bomb)
+        private void HookBomb()
         {
-            var solvables = bomb.GetComponentsInChildren<KMBombModule>();
-            var needies = bomb.GetComponentsInChildren<KMNeedyModule>();
+            var solvables = Bomb.GetComponentsInChildren<KMBombModule>();
+            var needies = Bomb.GetComponentsInChildren<KMNeedyModule>();
 
             static bool Run(ModuleContainer module, Action<string> action)
             {
@@ -532,7 +537,9 @@ namespace KeepCoding
 
             Logger.Self($"{nameof(KMBomb)} located.");
 
-            HookBomb(in bomb);
+            Bomb = bomb;
+
+            HookBomb();
         }
 
         private IEnumerator WaitForSolve()
