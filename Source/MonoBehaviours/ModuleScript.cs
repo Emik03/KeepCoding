@@ -486,11 +486,11 @@ namespace KeepCoding
                 m.OnStrike += () => Run(m, OnModuleStrike);
             });
 
-            if (!IsEditor)
-                TimerTick();
+            if (IsEditor)
+                StartCoroutine(EditorTimerTick());
 
             else
-                StartCoroutine(EditorTimerTick());
+                TimerTick();
         }
 
         private static IEnumerator EditorCheckLatest()
