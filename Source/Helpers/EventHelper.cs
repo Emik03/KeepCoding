@@ -463,7 +463,11 @@ namespace KeepCoding
 
         private static Action<KMSelectable> ToAction(this Action<KMSelectable, KMSelectable> action, KMSelectable s) => action is null ? (Action<KMSelectable>)null : t => action(s, t);
 
-        private static Func<bool> ToFunc(this Action action, bool b) => action is null ? (Func<bool>)null : () => { action(); return b; };
+        private static Func<bool> ToFunc(this Action action, bool b) => action is null ? (Func<bool>)null : () =>
+        {
+            action();
+            return b;
+        };
 
         private static T Multicast<T>(this Delegate dele, Delegate[] multicast) where T : Delegate => multicast.Length switch
         {

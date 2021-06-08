@@ -207,7 +207,7 @@ namespace KeepCoding
                 float end = current / time,
                     start = 1 - end;
 
-                Volume = (from * start) + (to * end);
+                Volume = from * start + to * end;
 
                 yield return null;
             }

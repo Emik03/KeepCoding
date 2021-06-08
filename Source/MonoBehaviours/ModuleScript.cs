@@ -17,7 +17,9 @@ namespace KeepCoding
     /// <summary>
     /// Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
     /// </summary>
+#pragma warning disable IDE1006 // Naming Styles
     public abstract class ModuleScript : MonoBehaviour, IDump, ILog
+#pragma warning restore IDE1006 // Naming Styles
     {
         /// <value>
         /// Determines whether the module has been struck. Twitch Plays script will set this to false when a command is interrupted.
@@ -124,16 +126,7 @@ namespace KeepCoding
 
             logMessageReceived += OnException;
 
-            if (Get<KMBombInfo>(allowNull: true) is KMBombInfo bombInfo)
-                BombInfo(bombInfo);
-
             _database = new Dictionary<string, Dictionary<string, object>[]>();
-
-            _setActive = () =>
-            {
-                IsActive = true;
-                OnActivate();
-            };
 
             Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
 
@@ -410,16 +403,20 @@ namespace KeepCoding
         /// <param name="key">The key of the variable, a lot like a variable name.</param>
         /// <param name="allowDefault">Whether it should throw an exception if no value is found, or provide the default value instead.</param>
         /// <returns>Every instance of the value from the every instance of the module specified.</returns>
-        public static T[] Read<T>(string module, string key, bool allowDefault = false) => !_database.ContainsKey(module) && !IsEditor ? throw new KeyNotFoundException($"The module {module} does not have an entry!") : _database[module].ConvertAll(d =>
+        public static T[] Read<T>(string module, string key, bool allowDefault = false) =>
+            !_database.ContainsKey(module) && !IsEditor ? throw new KeyNotFoundException($"The module {module} does not have an entry!") : _database[module].ConvertAll(d => !d.ContainsKey(key)
+                ? allowDefault || IsEditor ? default(T) : throw new KeyNotFoundException($"The key {key} could not be found in the module {module}!")
+                : d[key] is T t
+                ? t
+                : throw new WrongDatatypeException($"The data type {typeof(T).Name} was expected, but received {d[key].GetType()} from module {module} with key {key}!"));
+
+        private void Active()
         {
-            if (!d.ContainsKey(key))
-                return allowDefault || IsEditor ? default(T) : throw new KeyNotFoundException($"The key {key} could not be found in the module {module}!");
+            StartCoroutine(HookBomb());
 
-            if (d[key] is T t)
-                return t;
-
-            throw new WrongDatatypeException($"The data type {typeof(T).Name} was expected, but received {d[key].GetType()} from module {module} with key {key}!");
-        });
+            IsActive = true;
+            OnActivate();
+        }
 
         private void OnException(string condition, string stackTrace, LogType type)
         {
@@ -480,7 +477,7 @@ namespace KeepCoding
                 Logger.Self($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
         }
 
-        private void BombInfo(KMBombInfo bombInfo)
+        private IEnumerator HookBomb()
         {
             var bomb = GetComponentInParent<KMBomb>();
 
@@ -507,17 +504,17 @@ namespace KeepCoding
                 m.OnStrike += () => Run(m, OnModuleStrike);
             });
 
-            if (IsEditor)
+            if (!IsEditor)
             {
-                StartCoroutine(EditorBombInfo(bombInfo));
-                return;
+                TimerTick();
+                yield break;
             }
 
-            TimerTick();
-        }
+            if (!GetComponent<KMBombInfo>())
+                gameObject.AddComponent<KMBombInfo>();
 
-        private IEnumerator EditorBombInfo(KMBombInfo bombInfo)
-        {
+            var bombInfo = Get<KMBombInfo>();
+
             while (true)
             {
                 TimerTickEditor(in bombInfo);

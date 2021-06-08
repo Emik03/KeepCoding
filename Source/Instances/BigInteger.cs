@@ -528,9 +528,9 @@ namespace KeepCoding
         public override int GetHashCode()
         {
             int hashCode = 26699601;
-            hashCode = (hashCode * -1521134295) + IsNegative.GetHashCode();
-            hashCode = (hashCode * -1521134295) + Length.GetHashCode();
-            hashCode = (hashCode * -1521134295) + EqualityComparer<sbyte[]>.Default.GetHashCode(_value);
+            hashCode = hashCode * -1521134295 + IsNegative.GetHashCode();
+            hashCode = hashCode * -1521134295 + Length.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<sbyte[]>.Default.GetHashCode(_value);
             return hashCode;
         }
 
@@ -606,7 +606,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="bigInteger">The right-hand side operator.</param>
         /// <returns>Itself mod <paramref name="bigInteger"/>.</returns>
-        public BigInteger Modulo(BigInteger bigInteger) => ((this % bigInteger) + bigInteger) % bigInteger;
+        public BigInteger Modulo(BigInteger bigInteger) => (this % bigInteger + bigInteger) % bigInteger;
 
         /// <summary>
         /// Calculates the rem-euclid modulo, which allows negative numbers to be properly calculated.
@@ -619,7 +619,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="obj">The right-hand side operator.</param>
         /// <returns>Itself mod <paramref name="obj"/>.</returns>
-        public BigInteger Modulo<T>(T obj) => ((this % obj) + obj) % obj;
+        public BigInteger Modulo<T>(T obj) => (this % obj + obj) % obj;
 
         /// <summary>
         /// Gets the enumerator of the <see cref="BigInteger"/>, using <see cref="Value"/>.
@@ -668,7 +668,7 @@ namespace KeepCoding
 
         private static sbyte[] Addition(sbyte[] left, sbyte[] right)
         {
-            bool isNegative = (IsArrayNegative(in left) && IsArrayNegative(in right)) || (IsArrayNegative(in left) && new BigInteger(InvertConditional(in left, IsArrayNegative(in left))) > new BigInteger(right)) || (IsArrayNegative(in right) && new BigInteger(InvertConditional(in right, IsArrayNegative(in right))) > new BigInteger(left));
+            bool isNegative = IsArrayNegative(in left) && IsArrayNegative(in right) || IsArrayNegative(in left) && new BigInteger(InvertConditional(in left, IsArrayNegative(in left))) > new BigInteger(right) || IsArrayNegative(in right) && new BigInteger(InvertConditional(in right, IsArrayNegative(in right))) > new BigInteger(left);
 
             left = InvertConditional(left.Reverse(), isNegative);
             right = InvertConditional(right.Reverse(), isNegative);

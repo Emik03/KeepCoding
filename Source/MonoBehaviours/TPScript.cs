@@ -10,7 +10,9 @@ namespace KeepCoding
     /// Base class for TwitchPlays support for solvable and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
     /// </summary>
     [RequireComponent(typeof(ModuleScript))]
+#pragma warning disable IDE1006 // Naming Styles
     public abstract class TPScript<TModule> : MonoBehaviour, ITP where TModule : ModuleScript
+#pragma warning restore IDE1006 // Naming Styles
     {
         /// <value>
         /// Determines if it should allow for the timer to be skipped when the module it is in, as well as any other modules that would like to skip time, are the only unsolved modules left on the bomb. 
@@ -20,7 +22,9 @@ namespace KeepCoding
         /// </remarks>
         public bool IsTimeSkippable { get => TwitchPlaysSkipTimeAllowed; set => TwitchPlaysSkipTimeAllowed = value; }
 #pragma warning disable IDE0032 // Use auto property
+#pragma warning disable IDE1006 // Naming Styles
         private bool TwitchPlaysSkipTimeAllowed;
+#pragma warning restore IDE1006 // Naming Styles
 #pragma warning restore IDE0032 // Use auto property
 
         /// <value>
@@ -32,7 +36,9 @@ namespace KeepCoding
         public bool IsCancelCommand => TwitchShouldCancelCommand;
 #pragma warning disable IDE0032 // Use auto property
 #pragma warning disable IDE0044 // Add readonly modifier
+#pragma warning disable IDE1006 // Naming Styles
         private bool TwitchShouldCancelCommand;
+#pragma warning restore IDE1006 // Naming Styles
 #pragma warning restore IDE0044 // Add readonly modifier
 #pragma warning restore IDE0032 // Use auto property
 
@@ -45,7 +51,9 @@ namespace KeepCoding
         public bool IsTime => TimeModeActive;
 #pragma warning disable IDE0032 // Use auto property
 #pragma warning disable IDE0044 // Add readonly modifier
+#pragma warning disable IDE1006 // Naming Styles
         private bool TimeModeActive;
+#pragma warning restore IDE1006 // Naming Styles
 #pragma warning restore IDE0044 // Add readonly modifier
 #pragma warning restore IDE0032 // Use auto property
 
@@ -58,7 +66,9 @@ namespace KeepCoding
         public bool IsTP => TwitchPlaysActive;
 #pragma warning disable IDE0032 // Use auto property
 #pragma warning disable IDE0044 // Add readonly modifier
+#pragma warning disable IDE1006 // Naming Styles
         private bool TwitchPlaysActive;
+#pragma warning restore IDE1006 // Naming Styles
 #pragma warning restore IDE0044 // Add readonly modifier
 #pragma warning restore IDE0032 // Use auto property
 
@@ -71,7 +81,9 @@ namespace KeepCoding
         public bool IsZen => ZenModeActive;
 #pragma warning disable IDE0032 // Use auto property
 #pragma warning disable IDE0044 // Add readonly modifier
+#pragma warning disable IDE1006 // Naming Styles
         private bool ZenModeActive;
+#pragma warning restore IDE1006 // Naming Styles
 #pragma warning restore IDE0044 // Add readonly modifier
 #pragma warning restore IDE0032 // Use auto property
 
@@ -80,14 +92,18 @@ namespace KeepCoding
         /// </value>
         public string Help { get => TwitchHelpMessage; set => TwitchHelpMessage = value; }
         [SerializeField]
+#pragma warning disable IDE1006 // Naming Styles
         private string TwitchHelpMessage;
+#pragma warning restore IDE1006 // Naming Styles
 
         /// <value>
         /// Specifies the manual that is looked up on The Manual Repository when <c>!{id} manual</c> is entered into chat.
         /// </value>
         public string Manual { get => TwitchManualCode; set => TwitchManualCode = value; }
 #pragma warning disable IDE0032 // Use auto property
+#pragma warning disable IDE1006 // Naming Styles
         private string TwitchManualCode;
+#pragma warning restore IDE1006 // Naming Styles
 #pragma warning restore IDE0032 // Use auto property
 
         /// <value>
@@ -98,7 +114,9 @@ namespace KeepCoding
         /// </remarks>
         public List<KMBombModule> Abandons { get => TwitchAbandonModule; set => TwitchAbandonModule = value; }
 #pragma warning disable IDE0032 // Use auto property
+#pragma warning disable IDE1006 // Naming Styles
         private List<KMBombModule> TwitchAbandonModule;
+#pragma warning restore IDE1006 // Naming Styles
 #pragma warning restore IDE0032 // Use auto property
 
         /// <value>

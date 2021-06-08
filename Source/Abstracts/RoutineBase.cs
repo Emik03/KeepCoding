@@ -66,7 +66,6 @@ namespace KeepCoding
             Coroutines = new List<Coroutine>();
         }
 
-
         /// <summary>
         /// Gets the enumerator of the <see cref="Routine"/>, using <see cref="Coroutines"/>.
         /// </summary>

@@ -169,7 +169,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="number">The number to get the digital root of.</param>
         /// <returns>The digital root of <paramref name="number"/>.</returns>
-        public static int DigitalRoot(this int number) => ((number - 1) % 9) + 1;
+        public static int DigitalRoot(this int number) => (number - 1) % 9 + 1;
 
         /// <summary>
         /// Returns the last index of the string.
@@ -205,7 +205,7 @@ namespace KeepCoding
         /// <param name="number">The left-hand side operator</param>
         /// <param name="modulo">The right-hand side operator.</param>
         /// <returns><paramref name="number"/> mod <paramref name="modulo"/>.</returns>
-        public static int Modulo(this int number, int modulo) => ((number % modulo) + modulo) % modulo;
+        public static int Modulo(this int number, int modulo) => (number % modulo + modulo) % modulo;
 
         /// <summary>
         /// Sets or replaces the value of a dictionary with a given function.
@@ -292,7 +292,7 @@ namespace KeepCoding
         /// <param name="number">The left-hand side operator</param>
         /// <param name="modulo">The right-hand side operator.</param>
         /// <returns><paramref name="number"/> mod <paramref name="modulo"/>.</returns>
-        public static float Modulo(this float number, float modulo) => ((number % modulo) + modulo) % modulo;
+        public static float Modulo(this float number, float modulo) => (number % modulo + modulo) % modulo;
 
         /// <summary>
         /// Generates a random set of floats.
@@ -501,7 +501,7 @@ namespace KeepCoding
         /// <param name="item">The left-hand side operator.</param>
         /// <param name="bigInteger">The right-hand side operator.</param>
         /// <returns>Itself mod <paramref name="bigInteger"/>.</returns>
-        public static BigInteger Modulo(this object item, BigInteger bigInteger) => ((item % bigInteger) + bigInteger) % bigInteger;
+        public static BigInteger Modulo(this object item, BigInteger bigInteger) => (item % bigInteger + bigInteger) % bigInteger;
 
         /// <summary>
         /// Stops the coroutines only if they aren't <see langword="null"/>.
@@ -650,7 +650,7 @@ namespace KeepCoding
         /// <returns>An <see cref="object"/> <see cref="Array"/> of all elements within <paramref name="source"/>.</returns>
         public static IEnumerable<object> Unwrap(this IEnumerable source, bool isRecursive = false)
         {
-            List<object> list = new List<object>();
+            var list = new List<object>();
 
             try
             {
@@ -822,7 +822,11 @@ namespace KeepCoding
         /// <param name="source">The item to use as reference and modify.</param>
         /// <param name="action">The action to apply <paramref name="source"/> to.</param>
         /// <returns>The item <paramref name="source"/>.</returns>
-        public static T[] Call<T>(this T[] source, Action<T, int> action) => source.Select((i, n) => { action(i, n); return i; }).ToArray();
+        public static T[] Call<T>(this T[] source, Action<T, int> action) => source.Select((i, n) =>
+        {
+            action(i, n);
+            return i;
+        }).ToArray();
 
         /// <summary>
         /// Gets all the values of an <see cref="Enum"/> as an <see cref="Array"/>.

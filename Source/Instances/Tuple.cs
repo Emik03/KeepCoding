@@ -274,9 +274,9 @@ namespace KeepCoding
         public override int GetHashCode()
         {
             int hashCode = 341329424;
-            hashCode = (hashCode * -1521134295) + EqualityComparer<T1>.Default.GetHashCode(Item1);
-            hashCode = (hashCode * -1521134295) + EqualityComparer<T2>.Default.GetHashCode(Item2);
-            hashCode = (hashCode * -1521134295) + EqualityComparer<T3>.Default.GetHashCode(Item3);
+            hashCode = hashCode * -1521134295 + EqualityComparer<T1>.Default.GetHashCode(Item1);
+            hashCode = hashCode * -1521134295 + EqualityComparer<T2>.Default.GetHashCode(Item2);
+            hashCode = hashCode * -1521134295 + EqualityComparer<T3>.Default.GetHashCode(Item3);
             return hashCode;
         }
 
@@ -391,10 +391,10 @@ namespace KeepCoding
         public override int GetHashCode()
         {
             int hashCode = -1041475770;
-            hashCode = (hashCode * -1521134295) + EqualityComparer<T1>.Default.GetHashCode(Item1);
-            hashCode = (hashCode * -1521134295) + EqualityComparer<T2>.Default.GetHashCode(Item2);
-            hashCode = (hashCode * -1521134295) + EqualityComparer<T3>.Default.GetHashCode(Item3);
-            hashCode = (hashCode * -1521134295) + EqualityComparer<T4>.Default.GetHashCode(Item4);
+            hashCode = hashCode * -1521134295 + EqualityComparer<T1>.Default.GetHashCode(Item1);
+            hashCode = hashCode * -1521134295 + EqualityComparer<T2>.Default.GetHashCode(Item2);
+            hashCode = hashCode * -1521134295 + EqualityComparer<T3>.Default.GetHashCode(Item3);
+            hashCode = hashCode * -1521134295 + EqualityComparer<T4>.Default.GetHashCode(Item4);
             return hashCode;
         }
 

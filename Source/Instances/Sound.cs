@@ -112,9 +112,9 @@ namespace KeepCoding
         public override int GetHashCode()
         {
             int hashCode = -675929889;
-            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(Custom);
-            hashCode = (hashCode * -1521134295) + EqualityComparer<KMAudioRef>.Default.GetHashCode(Reference);
-            hashCode = (hashCode * -1521134295) + Game.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Custom);
+            hashCode = hashCode * -1521134295 + EqualityComparer<KMAudioRef>.Default.GetHashCode(Reference);
+            hashCode = hashCode * -1521134295 + Game.GetHashCode();
             return hashCode;
         }
 

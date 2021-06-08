@@ -143,7 +143,11 @@ namespace KeepCoding
         /// <param name="index">The starting index of the range of elements to clear.</param>
         /// <param name="length">The number of elements to clear.</param>
         /// <returns><paramref name="array"/></returns>
-        public static Array Clear(this Array array, int index, int length) { Array.Clear(array, index, length); return array; }
+        public static Array Clear(this Array array, int index, int length)
+        {
+            Array.Clear(array, index, length);
+            return array;
+        }
 
         /// <summary>
         /// Copies a range of elements from an <see cref="Array"/> starting at the specified source index and pastes them to another <see cref="Array"/> starting at the specified destination index. Guarantees that all changes are undone if the copy does not succeed completely.
@@ -161,7 +165,11 @@ namespace KeepCoding
         /// <param name="destinationIndex">A 32-bit integer that represents the index in the <paramref name="destinationArray"/> at which storing begins.</param>
         /// <param name="length">A 32-bit integer that represents the number of elements to copy.</param>
         /// <returns><paramref name="destinationArray"/></returns>
-        public static Array ConstrainedCopy(this Array sourceArray, int sourceIndex, Array destinationArray, int destinationIndex, int length) { Array.ConstrainedCopy(sourceArray, sourceIndex, destinationArray, destinationIndex, length); return destinationArray; }
+        public static Array ConstrainedCopy(this Array sourceArray, int sourceIndex, Array destinationArray, int destinationIndex, int length)
+        {
+            Array.ConstrainedCopy(sourceArray, sourceIndex, destinationArray, destinationIndex, length);
+            return destinationArray;
+        }
 
         /// <summary>
         /// Converts an array of one type to an array of another type.
@@ -191,7 +199,11 @@ namespace KeepCoding
         /// <param name="destinationIndex">A 64-bit integer that represents the index in the <paramref name="destinationIndex"/> at which storing begins.</param>
         /// <param name="length">A 64-bit integer that represents the number of elements to copy. The integer must be between zero and <see cref="int.MaxValue"/>, inclusive.</param>
         /// <returns><paramref name="destinationArray"/></returns>
-        public static Array Copy(this Array sourceArray, long sourceIndex, Array destinationArray, long destinationIndex, long length) { Array.Copy(sourceArray, sourceIndex, destinationArray, destinationIndex, length); return destinationArray; }
+        public static Array Copy(this Array sourceArray, long sourceIndex, Array destinationArray, long destinationIndex, long length)
+        {
+            Array.Copy(sourceArray, sourceIndex, destinationArray, destinationIndex, length);
+            return destinationArray;
+        }
 
         /// <summary>
         /// Copies a range of elements from an <see cref="Array"/> starting at the specified source index and pastes them to another <see cref="Array"/> starting at the specified destination index. The length and the indexes are specified as 32-bit integers.
@@ -209,7 +221,11 @@ namespace KeepCoding
         /// <param name="destinationIndex">A 32-bit integer that represents the index in the <paramref name="destinationIndex"/> at which storing begins.</param>
         /// <param name="length">A 32-bit integer that represents the number of elements to copy.</param>
         /// <returns><paramref name="destinationArray"/></returns>
-        public static Array Copy(this Array sourceArray, int sourceIndex, Array destinationArray, int destinationIndex, int length) { Array.Copy(sourceArray, sourceIndex, destinationArray, destinationIndex, length); return destinationArray; }
+        public static Array Copy(this Array sourceArray, int sourceIndex, Array destinationArray, int destinationIndex, int length)
+        {
+            Array.Copy(sourceArray, sourceIndex, destinationArray, destinationIndex, length);
+            return destinationArray;
+        }
 
         /// <summary>
         /// Copies a range of elements from an Array starting at the first element and pastes them into another Array starting at the first element. The length is specified as a 64-bit integer.
@@ -225,7 +241,11 @@ namespace KeepCoding
         /// <param name="destinationArray">The <see cref="Array"/> that receives the data.</param>
         /// <param name="length">A 64-bit integer that represents the number of elements to copy. The integer must be between zero and <see cref="int.MaxValue"/>, inclusive.</param>
         /// <returns><paramref name="destinationArray"/></returns>
-        public static Array Copy(this Array sourceArray, Array destinationArray, long length) { Array.Copy(sourceArray, destinationArray, length); return destinationArray; }
+        public static Array Copy(this Array sourceArray, Array destinationArray, long length)
+        {
+            Array.Copy(sourceArray, destinationArray, length);
+            return destinationArray;
+        }
 
         /// <summary>
         /// Copies a range of elements from an <see cref="Array"/> starting at the first element and pastes them into another <see cref="Array"/> starting at the first element. The length is specified as a 32-bit integer.
@@ -241,7 +261,11 @@ namespace KeepCoding
         /// <param name="destinationArray">The <see cref="Array"/> that receives the data.</param>
         /// <param name="length">A 32-bit integer that represents the number of elements to copy.</param>
         /// <returns><paramref name="destinationArray"/></returns>
-        public static Array Copy(this Array sourceArray, Array destinationArray, int length) { Array.Copy(sourceArray, destinationArray, length); return destinationArray; }
+        public static Array Copy(this Array sourceArray, Array destinationArray, int length)
+        {
+            Array.Copy(sourceArray, destinationArray, length);
+            return destinationArray;
+        }
 
         /// <summary>
         /// Creates a one-dimensional <see cref="Array"/> of the specified <see cref="Type"/> and length, with zero-based indexing.
@@ -447,7 +471,11 @@ namespace KeepCoding
         /// <param name="array">The one-dimensional, zero-based <see cref="Array"/> on whose elements the action is to be performed.</param>
         /// <param name="action">The <see cref="Action{T}"/> to perform on each element of <paramref name="array"/>.</param>
         /// <returns><paramref name="array"/></returns>
-        public static T[] ForEach<T>(this T[] array, Action<T> action) { Array.ForEach(array, action); return array; }
+        public static T[] ForEach<T>(this T[] array, Action<T> action)
+        {
+            Array.ForEach(array, action);
+            return array;
+        }
 
         /// <summary>
         /// Searches for the specified object and returns the index of its first occurrence in a one-dimensional array.
@@ -610,7 +638,11 @@ namespace KeepCoding
         /// <param name="array">The one-dimensional, zero-based array to resize, or <c>null</c> to create a new array with the specified size.</param>
         /// <param name="newSize">The size of the new array.</param>
         /// <returns><paramref name="array"/></returns>
-        public static T[] Resize<T>(this T[] array, int newSize) { Array.Resize(ref array, newSize); return array; }
+        public static T[] Resize<T>(this T[] array, int newSize)
+        {
+            Array.Resize(ref array, newSize);
+            return array;
+        }
 
         /// <summary>
         /// Reverses the sequence of a subset of the elements in the one-dimensional <see cref="Array"/>.
@@ -624,7 +656,11 @@ namespace KeepCoding
         /// <param name="index">The starting index of the section to reverse.</param>
         /// <param name="length">The number of elements in the section to reverse.</param>
         /// <returns><paramref name="array"/></returns>
-        internal static Array Reverse(this Array array, int index, int length) { Array.Reverse(array, index, length); return array; }
+        internal static Array Reverse(this Array array, int index, int length)
+        {
+            Array.Reverse(array, index, length);
+            return array;
+        }
 
         /// <summary>
         /// Reverses the sequence of the elements in the entire one-dimensional <see cref="Array"/>.
@@ -634,7 +670,11 @@ namespace KeepCoding
         /// <exception cref="RankException"></exception>
         /// <param name="array">The one-dimensional <see cref="Array"/> to reverse.</param>
         /// <returns><paramref name="array"/></returns>
-        internal static Array Reverse(this Array array) { Array.Reverse(array); return array; }
+        internal static Array Reverse(this Array array)
+        {
+            Array.Reverse(array);
+            return array;
+        }
 
         /// <summary>
         /// Reverses the sequence of the elements in the one-dimensional generic array.
@@ -645,7 +685,11 @@ namespace KeepCoding
         /// <typeparam name="T">The type of the elements in <paramref name="array"/>.</typeparam>
         /// <param name="array">The one-dimensional array of elements to reverse.</param>
         /// <returns><paramref name="array"/></returns>
-        internal static T[] Reverse<T>(this T[] array) { Array.Reverse(array); return array; }
+        internal static T[] Reverse<T>(this T[] array)
+        {
+            Array.Reverse(array);
+            return array;
+        }
 
         /// <summary>
         /// Reverses the sequence of a subset of the elements in the one-dimensional generic array.
@@ -660,7 +704,11 @@ namespace KeepCoding
         /// <param name="index">The starting index of the section to reverse.</param>
         /// <param name="length">The number of elements in the section to reverse.</param>
         /// <returns><paramref name="array"/></returns>
-        internal static T[] Reverse<T>(this T[] array, int index, int length) { Array.Reverse(array, index, length); return array; }
+        internal static T[] Reverse<T>(this T[] array, int index, int length)
+        {
+            Array.Reverse(array, index, length);
+            return array;
+        }
 
         /// <summary>
         /// Sorts the elements in a range of elements in a one-dimensional <see cref="Array"/> using the specified <see cref="IComparer"/>.
@@ -676,7 +724,11 @@ namespace KeepCoding
         /// <param name="length">The number of elements in the range to sort</param>
         /// <param name="comparer">The <see cref="IComparer"/> implementation to use when comparing elements.</param>
         /// <returns><paramref name="array"/></returns>
-        public static Array Sort(this Array array, int index, int length, IComparer comparer) { Array.Sort(array, index, length, comparer); return array; }
+        public static Array Sort(this Array array, int index, int length, IComparer comparer)
+        {
+            Array.Sort(array, index, length, comparer);
+            return array;
+        }
 
         /// <summary>
         /// Sorts a range of elements in a pair of one-dimensional <see cref="Array"/> objects (one contains the keys and the other contains the corresponding items) based on the keys in the first <see cref="Array"/> using the specified <see cref="IComparer"/>.
@@ -693,7 +745,11 @@ namespace KeepCoding
         /// <param name="length">The number of elements in the range to sort.</param>
         /// <param name="comparer">The <see cref="IComparer"/> implementation to use when comparing elements or <c>null</c> to use the <see cref="IComparable"/> implementation of each element.</param>
         /// <returns><paramref name="keys"/> and <paramref name="items"/></returns>
-        public static Tuple<Array, Array> Sort(this Array keys, Array items, int index, int length, IComparer comparer) { Array.Sort(keys, items, index, length, comparer); return new Tuple<Array, Array>(keys, items); }
+        public static Tuple<Array, Array> Sort(this Array keys, Array items, int index, int length, IComparer comparer)
+        {
+            Array.Sort(keys, items, index, length, comparer);
+            return new Tuple<Array, Array>(keys, items);
+        }
 
         /// <summary>
         /// Sorts the elements in a range of elements in a one-dimensional <see cref="Array"/> using the <see cref="IComparable"/> implementation of each element of the <see cref="Array"/>.
@@ -708,7 +764,11 @@ namespace KeepCoding
         /// <param name="index">The starting index of the range to sort.</param>
         /// <param name="length">The number of elements in the range to sort.</param>
         /// <returns><paramref name="array"/></returns>
-        public static Array Sort(this Array array, int index, int length) { Array.Sort(array, index, length); return array; }
+        public static Array Sort(this Array array, int index, int length)
+        {
+            Array.Sort(array, index, length);
+            return array;
+        }
 
         /// <summary>
         /// Sorts a range of elements in a pair of one-dimensional <see cref="Array"/> objects (one contains the keys and the other contains the corresponding items) based on the keys in the first <see cref="Array"/> using the <see cref="IComparable"/> implementation of each key.
@@ -724,7 +784,11 @@ namespace KeepCoding
         /// <param name="index">The starting index of the range to sort.</param>
         /// <param name="length">The number of elements in the range to sort.</param>
         /// <returns><paramref name="keys"/> and <paramref name="items"/></returns>
-        public static Tuple<Array, Array> Sort(this Array keys, Array items, int index, int length) { Array.Sort(keys, items, index, length); return new Tuple<Array, Array>(keys, items); }
+        public static Tuple<Array, Array> Sort(this Array keys, Array items, int index, int length)
+        {
+            Array.Sort(keys, items, index, length);
+            return new Tuple<Array, Array>(keys, items);
+        }
 
         /// <summary>
         /// Sorts the elements in a one-dimensional <see cref="Array"/> using the specified <see cref="IComparer"/>.
@@ -738,7 +802,11 @@ namespace KeepCoding
         /// <param name="array">The one-dimensional array to sort.</param>
         /// <param name="comparer">The implementation to use when comparing elements or <c>null</c> to use the <see cref="IComparable"/> implementation of each element.</param>
         /// <returns><paramref name="array"/></returns>
-        public static Array Sort(this Array array, IComparer comparer) { Array.Sort(array, comparer); return array; }
+        public static Array Sort(this Array array, IComparer comparer)
+        {
+            Array.Sort(array, comparer);
+            return array;
+        }
 
         /// <summary>
         /// Sorts a pair of one-dimensional <see cref="Array"/> objects (one contains the keys and the other contains the corresponding items) based on the keys in the first <see cref="Array"/> using the specified <see cref="IComparer"/>.
@@ -752,7 +820,11 @@ namespace KeepCoding
         /// <param name="items">The one-dimensional <see cref="Array"/> that contains the items that correspond to each of the keys in the <paramref name="keys"/><see cref="Array"/> or <c>null</c> to sort only the <paramref name="keys"/><see cref="Array"/>.</param>
         /// <param name="comparer">The implementation to use when comparing elements or <c>null</c> to use the <see cref="IComparable"/> implementation of each element.</param>
         /// <returns><paramref name="keys"/> and <paramref name="items"/></returns>
-        public static Tuple<Array, Array> Sort(this Array keys, Array items, IComparer comparer) { Array.Sort(keys, items, comparer); return new Tuple<Array, Array>(keys, items); }
+        public static Tuple<Array, Array> Sort(this Array keys, Array items, IComparer comparer)
+        {
+            Array.Sort(keys, items, comparer);
+            return new Tuple<Array, Array>(keys, items);
+        }
 
         /// <summary>
         /// Sorts a pair of one-dimensional <see cref="Array"/> objects (one contains the keys and the other contains the corresponding items) based on the keys in the first <see cref="Array"/> using the <see cref="IComparable"/> implementation of each key.
@@ -765,7 +837,11 @@ namespace KeepCoding
         /// <param name="keys">The one-dimensional <see cref="Array"/> that contains the keys to sort.</param>
         /// <param name="items">The one-dimensional <see cref="Array"/> that contains the items that correspond to each of the keys in the <paramref name="keys"/><see cref="Array"/> or <c>null</c> to sort only the <paramref name="keys"/><see cref="Array"/>.</param>
         /// <returns><paramref name="keys"/> and <paramref name="items"/></returns>
-        public static Tuple<Array, Array> Sort(this Array keys, Array items) { Array.Sort(keys, items); return new Tuple<Array, Array>(keys, items); }
+        public static Tuple<Array, Array> Sort(this Array keys, Array items)
+        {
+            Array.Sort(keys, items);
+            return new Tuple<Array, Array>(keys, items);
+        }
 
         /// <summary>
         /// Sorts the elements in an entire one-dimensional <see cref="Array"/> using the <see cref="IComparable"/> implementation of each element of the <see cref="Array"/>.
@@ -776,7 +852,11 @@ namespace KeepCoding
         /// <exception cref="InvalidOperationException"></exception>
         /// <param name="array">The one-dimensional <see cref="Array"/> to sort.</param>
         /// <returns><paramref name="array"/></returns>
-        public static Array Sort(this Array array) { Array.Sort(array); return array; }
+        public static Array Sort(this Array array)
+        {
+            Array.Sort(array);
+            return array;
+        }
 
         /// <summary>
         /// Sorts the elements in an entire <see cref="Array"/> using the <see cref="IComparable{T}"/> generic interface implementation of each element of the <see cref="Array"/>.
@@ -787,7 +867,11 @@ namespace KeepCoding
         /// <typeparam name="T">The type of the elements of the array.</typeparam>
         /// <param name="array">The one-dimensional, zero-based Array to sort.</param>
         /// <returns><paramref name="array"/></returns>
-        public static T[] Sort<T>(this T[] array) { Array.Sort(array); return array; }
+        public static T[] Sort<T>(this T[] array)
+        {
+            Array.Sort(array);
+            return array;
+        }
 
         /// <summary>
         /// Sorts the elements in an <see cref="Array"/> using the specified <see cref="IComparer{T}"/> generic interface.
@@ -800,7 +884,11 @@ namespace KeepCoding
         /// <param name="array">The one-dimensional, zero-base <see cref="Array"/> to sort.</param>
         /// <param name="comparer">The <see cref="IComparable{T}"/> generic interface implementation to use when comparing elements, or <c>null</c> to use the <see cref="IComparable{T}"/> generic interface implementation of each element.</param>
         /// <returns><paramref name="array"/></returns>
-        public static T[] Sort<T>(this T[] array, IComparer<T> comparer) { Array.Sort(array, comparer); return array; }
+        public static T[] Sort<T>(this T[] array, IComparer<T> comparer)
+        {
+            Array.Sort(array, comparer);
+            return array;
+        }
 
         /// <summary>
         /// Sorts the elements in an <see cref="Array"/> using the specified <see cref="Comparison{T}"/>.
@@ -811,7 +899,11 @@ namespace KeepCoding
         /// <param name="array">The one-dimensional, zero-based <see cref="Array"/> to sort.</param>
         /// <param name="comparison">The <see cref="Comparison{T}"/> to use when comparing elements.</param>
         /// <returns><paramref name="array"/></returns>
-        public static T[] Sort<T>(this T[] array, Comparison<T> comparison) { Array.Sort(array, comparison); return array; }
+        public static T[] Sort<T>(this T[] array, Comparison<T> comparison)
+        {
+            Array.Sort(array, comparison);
+            return array;
+        }
 
         /// <summary>
         /// Sorts the elements in a range of elements in an <see cref="Array"/> using the <see cref="IComparable{T}"/> generic interface implementation of each element of the <see cref="Array"/>.
@@ -826,7 +918,11 @@ namespace KeepCoding
         /// <param name="index">The starting index of the range to sort.</param>
         /// <param name="length">The number of elements in the range to sort.</param>
         /// <returns><paramref name="array"/></returns>
-        public static T[] Sort<T>(this T[] array, int index, int length) { Array.Sort(array, index, length); return array; }
+        public static T[] Sort<T>(this T[] array, int index, int length)
+        {
+            Array.Sort(array, index, length);
+            return array;
+        }
 
         /// <summary>
         /// Sorts the elements in a range of elements in an <see cref="Array"/> using the specified <see cref="IComparer{T}"/> generic interface.
@@ -842,7 +938,11 @@ namespace KeepCoding
         /// <param name="length">The number of elements in the range to sort.</param>
         /// <param name="comparer">The implementation to use when comparing elements or <c>null</c> to use the <see cref="IComparable"/> implementation of each element.</param>
         /// <returns><paramref name="array"/></returns>
-        public static T[] Sort<T>(this T[] array, int index, int length, IComparer<T> comparer) { Array.Sort(array, index, length, comparer); return array; }
+        public static T[] Sort<T>(this T[] array, int index, int length, IComparer<T> comparer)
+        {
+            Array.Sort(array, index, length, comparer);
+            return array;
+        }
 
         /// <summary>
         /// Sorts a pair of <see cref="Array"/> objects (one contains the keys and the other contains the corresponding items) based on the keys in the first <see cref="Array"/> using the <see cref="IComparable{T}"/> generic interface implementation of each key.
@@ -856,7 +956,11 @@ namespace KeepCoding
         /// <param name="keys">The one-dimensional, zero-based <see cref="Array"/> that contains the keys to sort.</param>
         /// <param name="items">The one-dimensional, zero-based <see cref="Array"/> that contains the items that correspond to the keys in <paramref name="keys"/>, or <c>null</c> to sort only <paramref name="keys"/>.</param>
         /// <returns><paramref name="keys"/> and <paramref name="items"/></returns>
-        public static Tuple<TKey[], TValue[]> Sort<TKey, TValue>(this TKey[] keys, TValue[] items) { Array.Sort(keys, items); return new Tuple<TKey[], TValue[]>(keys, items); }
+        public static Tuple<TKey[], TValue[]> Sort<TKey, TValue>(this TKey[] keys, TValue[] items)
+        {
+            Array.Sort(keys, items);
+            return new Tuple<TKey[], TValue[]>(keys, items);
+        }
 
         /// <summary>
         /// Sorts a pair of <see cref="Array"/> objects (one contains the keys and the other contains the corresponding items) based on the keys in the first <see cref="Array"/> using the specified <see cref="IComparer{T}"/> generic interface.
@@ -873,7 +977,11 @@ namespace KeepCoding
         /// <param name="items">The one-dimensional, zero-based <see cref="Array"/> that contains the items that correspond to the keys in <paramref name="keys"/>, or <c>null</c> to sort only <paramref name="keys"/>.</param>
         /// <param name="comparer">The <see cref="IComparable{T}"/> generic interface implementation to use when comparing elements, or <c>null</c> to use the <see cref="IComparable{T}"/> generic interface implementation of each element.</param>
         /// <returns><paramref name="keys"/> and <paramref name="items"/></returns>
-        public static Tuple<TKey[], TValue[]> Sort<TKey, TValue>(this TKey[] keys, TValue[] items, IComparer<TKey> comparer) { Array.Sort(keys, items, comparer); return new Tuple<TKey[], TValue[]>(keys, items); }
+        public static Tuple<TKey[], TValue[]> Sort<TKey, TValue>(this TKey[] keys, TValue[] items, IComparer<TKey> comparer)
+        {
+            Array.Sort(keys, items, comparer);
+            return new Tuple<TKey[], TValue[]>(keys, items);
+        }
 
         /// <summary>
         /// Sorts a range of elements in a pair of <see cref="Array"/> objects (one contains the keys and the other contains the corresponding items) based on the keys in the first <see cref="Array"/> using the <see cref="IComparable{T}"/> generic interface implementation of each key.
@@ -890,7 +998,11 @@ namespace KeepCoding
         /// <param name="index">The starting index of the range to sort.</param>
         /// <param name="length">The number of elements in the range to sort.</param>
         /// <returns><paramref name="keys"/> and <paramref name="items"/></returns>
-        public static Tuple<TKey[], TValue[]> Sort<TKey, TValue>(this TKey[] keys, TValue[] items, int index, int length) { Array.Sort(keys, items, index, length); return new Tuple<TKey[], TValue[]>(keys, items); }
+        public static Tuple<TKey[], TValue[]> Sort<TKey, TValue>(this TKey[] keys, TValue[] items, int index, int length)
+        {
+            Array.Sort(keys, items, index, length);
+            return new Tuple<TKey[], TValue[]>(keys, items);
+        }
 
         /// <summary>
         /// Sorts a range of elements in a pair of <see cref="Array"/> objects (one contains the keys and the other contains the corresponding items) based on the keys in the first <see cref="Array"/> using the specified <see cref="IComparer{T}"/> generic interface.
@@ -909,7 +1021,11 @@ namespace KeepCoding
         /// <param name="length">The number of elements in the range to sort.</param>
         /// <param name="comparer">The implementation to use when comparing elements or <c>null</c> to use the <see cref="IComparable"/> implementation of each element.</param>
         /// <returns><paramref name="keys"/> and <paramref name="items"/></returns>
-        public static Tuple<TKey[], TValue[]> Sort<TKey, TValue>(this TKey[] keys, TValue[] items, int index, int length, IComparer<TKey> comparer) { Array.Sort(keys, items, index, length, comparer); return new Tuple<TKey[], TValue[]>(keys, items); }
+        public static Tuple<TKey[], TValue[]> Sort<TKey, TValue>(this TKey[] keys, TValue[] items, int index, int length, IComparer<TKey> comparer)
+        {
+            Array.Sort(keys, items, index, length, comparer);
+            return new Tuple<TKey[], TValue[]>(keys, items);
+        }
 
         /// <summary>
         /// Determines whether every element in the array matches the conditions defined by the specified predicate.
@@ -941,7 +1057,11 @@ namespace KeepCoding
         /// <param name="array">The one-dimensional array that is the destination of the elements copied from the current array.</param>
         /// <param name="index">A 32-bit integer that represents the index in <paramref name="array"/> at which copying begins.</param>
         /// <returns><paramref name="array"/></returns>
-        public static Array CopyTo(this Array @this, Array array, int index) { @this.CopyTo(array, index); return array; }
+        public static Array CopyTo(this Array @this, Array array, int index)
+        {
+            @this.CopyTo(array, index);
+            return array;
+        }
 
         /// <summary>
         /// Copies all the elements of the current one-dimensional array to the specified one-dimensional array starting at the specified destination array index. The index is specified as a 64-bit integer.
@@ -954,7 +1074,11 @@ namespace KeepCoding
         /// <param name="array">The one-dimensional array that is the destination of the elements copied from the current array.</param>
         /// <param name="index">A 64-bit integer that represents the index in <paramref name="array"/> at which copying begins.</param>
         /// <returns><paramref name="array"/></returns>
-        public static Array CopyTo(this Array @this, Array array, long index) { @this.CopyTo(array, index); return array; }
+        public static Array CopyTo(this Array @this, Array array, long index)
+        {
+            @this.CopyTo(array, index);
+            return array;
+        }
 
         /// <summary>
         /// Returns an <see cref="IEnumerator"/> for the <see cref="Array"/>.
@@ -1104,7 +1228,11 @@ namespace KeepCoding
         /// <remarks><seealso href="https://docs.microsoft.com/en-us/dotnet/api/system.array.initialize?view=net-5.0"/></remarks>
         /// <param name="this"><c>this</c></param>
         /// <returns><paramref name="this"/></returns>
-        public static Array Initialize(this Array @this) { @this.Initialize(); return @this; }
+        public static Array Initialize(this Array @this)
+        {
+            @this.Initialize();
+            return @this;
+        }
 
         /// <summary>
         /// Sets a value to the element at the specified position in the one-dimensional Array. The index is specified as a 32-bit integer.
@@ -1117,7 +1245,11 @@ namespace KeepCoding
         /// <param name="value">The new value for the specified element.</param>
         /// <param name="index">A 32-bit integer that represents the position of the <see cref="Array"/> element to set.</param>
         /// <returns><paramref name="this"/></returns>
-        public static Array Set(this Array @this, object value, int index) { @this.SetValue(value, index); return @this; }
+        public static Array Set(this Array @this, object value, int index)
+        {
+            @this.SetValue(value, index);
+            return @this;
+        }
 
         /// <summary>
         /// Sets a value to the element at the specified position in the multi-dimensional Array. The index is specified as a 32-bit integer.
@@ -1130,7 +1262,11 @@ namespace KeepCoding
         /// <param name="value">The new value for the specified element.</param>
         /// <param name="indices">A one-dimensional array of 32-bit integers that represent the indexes specifying the position of the element to set.</param>
         /// <returns><paramref name="this"/></returns>
-        public static Array Set(this Array @this, object value, params int[] indices) { @this.SetValue(value, indices); return @this; }
+        public static Array Set(this Array @this, object value, params int[] indices)
+        {
+            @this.SetValue(value, indices);
+            return @this;
+        }
 
         /// <summary>
         /// Sets a value to the element at the specified position in the one-dimensional Array. The index is specified as a 64-bit integer.
@@ -1143,7 +1279,11 @@ namespace KeepCoding
         /// <param name="value">The new value for the specified element.</param>
         /// <param name="index">A 64-bit integer that represents the position of the <see cref="Array"/> element to set.</param>
         /// <returns><paramref name="this"/></returns>
-        public static Array Set(this Array @this, object value, long index) { @this.SetValue(value, index); return @this; }
+        public static Array Set(this Array @this, object value, long index)
+        {
+            @this.SetValue(value, index);
+            return @this;
+        }
 
         /// <summary>
         /// Sets a value to the element at the specified position in the multi-dimensional Array. The index is specified as a 64-bit integer.
@@ -1156,7 +1296,11 @@ namespace KeepCoding
         /// <param name="value">The new value for the specified element.</param>
         /// <param name="indices">A one-dimensional array of 64-bit integers that represent the indexes specifying the position of the element to set.</param>
         /// <returns><paramref name="this"/></returns>
-        public static Array Set(this Array @this, object value, params long[] indices) { @this.SetValue(value, indices); return @this; }
+        public static Array Set(this Array @this, object value, params long[] indices)
+        {
+            @this.SetValue(value, indices);
+            return @this;
+        }
 
         /// <summary>
         /// Sets a value to the element at the specified position in the two-dimensional Array. The index is specified as a 32-bit integer.
@@ -1170,7 +1314,11 @@ namespace KeepCoding
         /// <param name="index1">A 32-bit integer that represents the first-dimension index of the <see cref="Array"/> element to set.</param>
         /// <param name="index2">A 32-bit integer that represents the second-dimension index of the <see cref="Array"/> element to set.</param>
         /// <returns><paramref name="this"/></returns>
-        public static Array Set(this Array @this, object value, int index1, int index2) { @this.SetValue(value, index1, index2); return @this; }
+        public static Array Set(this Array @this, object value, int index1, int index2)
+        {
+            @this.SetValue(value, index1, index2);
+            return @this;
+        }
 
         /// <summary>
         /// Sets a value to the element at the specified position in the two-dimensional Array. The index is specified as a 64-bit integer.
@@ -1184,7 +1332,11 @@ namespace KeepCoding
         /// <param name="index1">A 64-bit integer that represents the first-dimension index of the <see cref="Array"/> element to set.</param>
         /// <param name="index2">A 64-bit integer that represents the second-dimension index of the <see cref="Array"/> element to set.</param>
         /// <returns><paramref name="this"/></returns>
-        public static Array Set(this Array @this, object value, long index1, long index2) { @this.SetValue(value, index1, index2); return @this; }
+        public static Array Set(this Array @this, object value, long index1, long index2)
+        {
+            @this.SetValue(value, index1, index2);
+            return @this;
+        }
 
         /// <summary>
         /// Sets a value to the element at the specified position in the three-dimensional Array. The index is specified as a 32-bit integer.
@@ -1199,7 +1351,11 @@ namespace KeepCoding
         /// <param name="index2">A 32-bit integer that represents the second-dimension index of the <see cref="Array"/> element to set.</param>
         /// <param name="index3">A 32-bit integer that represents the third-dimension index of the <see cref="Array"/> element to set.</param>
         /// <returns><paramref name="this"/></returns>
-        public static Array Set(this Array @this, object value, int index1, int index2, int index3) { @this.SetValue(value, index1, index2, index3); return @this; }
+        public static Array Set(this Array @this, object value, int index1, int index2, int index3)
+        {
+            @this.SetValue(value, index1, index2, index3);
+            return @this;
+        }
 
         /// <summary>
         /// Sets a value to the element at the specified position in the three-dimensional Array. The index is specified as a 64-bit integer.
@@ -1214,6 +1370,10 @@ namespace KeepCoding
         /// <param name="index2">A 64-bit integer that represents the second-dimension index of the <see cref="Array"/> element to set.</param>
         /// <param name="index3">A 64-bit integer that represents the third-dimension index of the <see cref="Array"/> element to set.</param>
         /// <returns><paramref name="this"/></returns>
-        public static Array Set(this Array @this, object value, long index1, long index2, long index3) { @this.SetValue(value, index1, index2, index3); return @this; }
+        public static Array Set(this Array @this, object value, long index1, long index2, long index3)
+        {
+            @this.SetValue(value, index1, index2, index3);
+            return @this;
+        }
     }
 }

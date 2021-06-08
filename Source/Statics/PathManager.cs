@@ -252,7 +252,6 @@ namespace KeepCoding
         /// <param name="libraryFileName">The library's name, excluding the extension.</param>
         public static void LoadLibrary<T>(T _, string libraryFileName) => LoadLibrary(NameOfAssembly<T>(), libraryFileName);
 
-
         /// <summary>
         /// Retrieves assets of a specific type from a different bundle file.
         /// </summary>

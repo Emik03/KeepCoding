@@ -77,10 +77,10 @@ namespace KeepCoding
         /// <returns>A new instance of the <paramref name="color"/>, with the arguments replacing the values.</returns>
         public static Color Add(this Color color, byte r = 0, byte g = 0, byte b = 0, byte a = 0)
             => new Color(
-                ((float)r / byte.MaxValue) + color.r,
-                ((float)g / byte.MaxValue) + color.g,
-                ((float)b / byte.MaxValue) + color.b,
-                ((float)a / byte.MaxValue) + color.a);
+                (float)r / byte.MaxValue + color.r,
+                (float)g / byte.MaxValue + color.g,
+                (float)b / byte.MaxValue + color.b,
+                (float)a / byte.MaxValue + color.a);
 
         /// <summary>
         /// Creates an in-between color between 2 different colors.
@@ -91,10 +91,10 @@ namespace KeepCoding
         /// <returns>A blended color of the 2 provided.</returns>
         public static Color IntertwineColor(this Color colorA, Color colorB, float concentrationOfB = 0.5f)
             => new Color(
-                (colorA.r * (1 - concentrationOfB)) + (colorB.r * concentrationOfB),
-                (colorA.g * (1 - concentrationOfB)) + (colorB.g * concentrationOfB),
-                (colorA.b * (1 - concentrationOfB)) + (colorB.b * concentrationOfB),
-                (colorA.a * (1 - concentrationOfB)) + (colorB.a * concentrationOfB));
+                colorA.r * (1 - concentrationOfB) + colorB.r * concentrationOfB,
+                colorA.g * (1 - concentrationOfB) + colorB.g * concentrationOfB,
+                colorA.b * (1 - concentrationOfB) + colorB.b * concentrationOfB,
+                colorA.a * (1 - concentrationOfB) + colorB.a * concentrationOfB);
 
         /// <summary>
         /// Sets the <see cref="Renderer.material"/>'s color to be a mix of 2 colors.
@@ -153,10 +153,10 @@ namespace KeepCoding
         /// <returns>A new instance of the <paramref name="color"/>, with the arguments replacing the values.</returns>
         public static Color32 Add(this Color32 color, float r = 0, float g = 0, float b = 0, float a = 0)
             => new Color32(
-                (byte)((r * byte.MaxValue) + color.r),
-                (byte)((g * byte.MaxValue) + color.g),
-                (byte)((b * byte.MaxValue) + color.b),
-                (byte)((a * byte.MaxValue) + color.a));
+                (byte)(r * byte.MaxValue + color.r),
+                (byte)(g * byte.MaxValue + color.g),
+                (byte)(b * byte.MaxValue + color.b),
+                (byte)(a * byte.MaxValue + color.a));
 
         /// <summary>
         /// Duplicates the color, and adds the RGBA components only if they are specified.
@@ -187,13 +187,11 @@ namespace KeepCoding
         {
             hex = hex.Replace("0x", "").Replace("#", "");
 
-            if (hex.Length != 6 && hex.Length != 8)
-                throw new FormatException($"The hexadecimal code provided has the wrong length: {hex}");
-
-            if (hex.Any(c => !"0123456789ABCDEFabcdef".Contains(c.ToString())))
-                throw new FormatException($"The hexadecimal code provided has invalid characters: {hex}");
-
-            return new Color32(byte.Parse(hex.Substring(0, 2), HexNumber), byte.Parse(hex.Substring(2, 2), HexNumber), byte.Parse(hex.Substring(4, 2), HexNumber), (byte)(hex.Length < 8 ? 255 : byte.Parse(hex.Substring(6, 2), HexNumber)));
+            return hex.Length != 6 && hex.Length != 8
+                ? throw new FormatException($"The hexadecimal code provided has the wrong length: {hex}")
+                : hex.Any(c => !"0123456789ABCDEFabcdef".Contains(c.ToString()))
+                ? throw new FormatException($"The hexadecimal code provided has invalid characters: {hex}")
+                : new Color32(byte.Parse(hex.Substring(0, 2), HexNumber), byte.Parse(hex.Substring(2, 2), HexNumber), byte.Parse(hex.Substring(4, 2), HexNumber), (byte)(hex.Length < 8 ? 255 : byte.Parse(hex.Substring(6, 2), HexNumber)));
         }
 
         /// <summary>
@@ -205,10 +203,10 @@ namespace KeepCoding
         /// <returns>A blended color of the 2 provided.</returns>
         public static Color32 IntertwineColor(this Color32 colorA, Color32 colorB, float concentrationOfB = 0.5f)
             => new Color32(
-                (byte)((colorA.r * (1 - concentrationOfB)) + (colorB.r * concentrationOfB)),
-                (byte)((colorA.g * (1 - concentrationOfB)) + (colorB.g * concentrationOfB)),
-                (byte)((colorA.b * (1 - concentrationOfB)) + (colorB.b * concentrationOfB)),
-                (byte)((colorA.a * (1 - concentrationOfB)) + (colorB.a * concentrationOfB)));
+                (byte)(colorA.r * (1 - concentrationOfB) + colorB.r * concentrationOfB),
+                (byte)(colorA.g * (1 - concentrationOfB) + colorB.g * concentrationOfB),
+                (byte)(colorA.b * (1 - concentrationOfB) + colorB.b * concentrationOfB),
+                (byte)(colorA.a * (1 - concentrationOfB) + colorB.a * concentrationOfB));
 
         /// <summary>
         /// Sets the <see cref="Renderer.material"/>'s color to be a mix of 2 colors.
