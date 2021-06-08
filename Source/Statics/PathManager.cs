@@ -112,7 +112,7 @@ namespace KeepCoding
 
             if (isEditor)
             {
-                Logger.Self("This method is being run on the Editor, therefore null will be returned.");
+                Logger.Self($"This method is being run on the Editor, therefore a new instance of {nameof(ModInfo)} will be returned.");
                 return new ModInfo();
             }
 
