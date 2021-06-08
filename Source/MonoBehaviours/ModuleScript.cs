@@ -116,7 +116,11 @@ namespace KeepCoding
         /// <exception cref="NullIteratorException"></exception>
         protected void Awake()
         {
-            (Module = new ModuleContainer(this)).OnActivate(_setActive = Active);
+            (Module = new ModuleContainer(this)).OnActivate(_setActive = () => 
+            {
+                IsActive = true;
+                OnActivate();
+            });
 
             Logger.Self($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
 
@@ -131,6 +135,7 @@ namespace KeepCoding
             Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
 
             StartCoroutine(EditorCheckLatest());
+            StartCoroutine(WaitForBomb());
         }
 
         /// <summary>
@@ -410,14 +415,6 @@ namespace KeepCoding
                 ? t
                 : throw new WrongDatatypeException($"The data type {typeof(T).Name} was expected, but received {d[key].GetType()} from module {module} with key {key}!"));
 
-        private void Active()
-        {
-            StartCoroutine(HookBomb());
-
-            IsActive = true;
-            OnActivate();
-        }
-
         private void OnException(string condition, string stackTrace, LogType type)
         {
             if (type != LogType.Exception || !IsLogFromThis(stackTrace))
@@ -443,15 +440,6 @@ namespace KeepCoding
             };
         }
 
-        private void TimerTickEditor(in KMBombInfo bombInfo)
-        {
-            if (TimeLeft != (int)bombInfo.GetTime())
-            {
-                TimeLeft = (int)bombInfo.GetTime();
-                OnTimerTick();
-            }
-        }
-
         private bool IsLogFromThis(string stackTrace) => stackTrace.Split('\n').Any(s => Regex.IsMatch(s, @$"^{GetType().Name}"));
 
         private static uint VersionToNumber(string s) => uint.Parse(s.Replace(".", "").PadRight(9, '0'));
@@ -461,26 +449,8 @@ namespace KeepCoding
             sound.Game is { } ? Get<KMAudio>().HandlePlayGameSoundAtTransformWithRef(sound.Game.Value, t) :
             throw new UnrecognizedValueException($"{sound}'s properties {nameof(Sound.Custom)} and {nameof(Sound.Game)} are both null!");
 
-        private static IEnumerator EditorCheckLatest()
+        private void HookBomb(in KMBomb bomb)
         {
-            if (!IsEditor)
-                yield break;
-
-            using var req = UnityWebRequest.Get("https://raw.githubusercontent.com/Emik03/KeepCoding/main/latest");
-
-            yield return req.SendWebRequest();
-
-            if (req.isNetworkError || req.isHttpError)
-                Logger.Self($"The KeepCoding version could not be pulled: {req.error}.", LogType.Warning);
-
-            else if (VersionToNumber(PathManager.Version.ToString()) < VersionToNumber(req.downloadHandler.text.Trim()))
-                Logger.Self($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
-        }
-
-        private IEnumerator HookBomb()
-        {
-            var bomb = GetComponentInParent<KMBomb>();
-
             var solvables = bomb.GetComponentsInChildren<KMBombModule>();
             var needies = bomb.GetComponentsInChildren<KMNeedyModule>();
 
@@ -505,21 +475,64 @@ namespace KeepCoding
             });
 
             if (!IsEditor)
-            {
                 TimerTick();
-                yield break;
-            }
 
+            else
+                StartCoroutine(EditorTimerTick());
+        }
+
+        private static IEnumerator EditorCheckLatest()
+        {
+            if (!IsEditor)
+                yield break;
+
+            using var req = UnityWebRequest.Get("https://raw.githubusercontent.com/Emik03/KeepCoding/main/latest");
+
+            yield return req.SendWebRequest();
+
+            if (req.isNetworkError || req.isHttpError)
+                Logger.Self($"The KeepCoding version could not be pulled: {req.error}.", LogType.Warning);
+
+            else if (VersionToNumber(PathManager.Version.ToString()) < VersionToNumber(req.downloadHandler.text.Trim()))
+                Logger.Self($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
+        }
+
+        private IEnumerator EditorTimerTick()
+        {
             if (!GetComponent<KMBombInfo>())
+            {
+                Logger.Self($"Adding a {nameof(KMBombInfo)} component automatically only to capture timer ticks in the Editor.");
                 gameObject.AddComponent<KMBombInfo>();
+            }
 
             var bombInfo = Get<KMBombInfo>();
 
             while (true)
             {
-                TimerTickEditor(in bombInfo);
+                if (TimeLeft != (int)bombInfo.GetTime())
+                {
+                    TimeLeft = (int)bombInfo.GetTime();
+                    OnTimerTick();
+                }
+
                 yield return null;
             }
+        }
+
+        private IEnumerator WaitForBomb()
+        {
+            KMBomb bomb;
+
+            do
+            {
+                bomb = GetComponentInParent<KMBomb>();
+                yield return null;
+            }
+            while (!bomb);
+
+            Logger.Self($"{nameof(KMBomb)} located.");
+
+            HookBomb(in bomb);
         }
 
         private IEnumerator WaitForSolve()
