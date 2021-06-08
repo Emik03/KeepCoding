@@ -8,7 +8,7 @@ namespace KeepCoding
     /// <summary>
     /// Stores an arbitrarily large number. Written by Emik.
     /// </summary>
-    public sealed class BigInteger : IEnumerable, IEquatable<BigInteger>
+    public sealed class BigInteger : ICloneable, IEnumerable, IEquatable<BigInteger>
     {
         /// <summary>
         /// Creates a big integer containing the number specified.
@@ -599,7 +599,14 @@ namespace KeepCoding
         /// Makes a new instance/deep clone of <see cref="BigInteger"/> with the same value.
         /// </summary>
         /// <returns>A deep clone of itself.</returns>
-        public BigInteger Clone() => new BigInteger(_value);
+        public object Clone() => Clone(this);
+
+        /// <summary>
+        /// Makes a new instance/deep clone of <see cref="BigInteger"/> with the same value.
+        /// </summary>
+        /// <param name="bigInteger">The <see cref="BigInteger"/> to clone.</param>
+        /// <returns>A deep clone of itself.</returns>
+        public static BigInteger Clone(BigInteger bigInteger) => new BigInteger(bigInteger._value);
 
         /// <summary>
         /// Calculates the rem-euclid modulo, which allows negative numbers to be properly calculated.
