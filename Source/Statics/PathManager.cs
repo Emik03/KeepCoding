@@ -110,6 +110,12 @@ namespace KeepCoding
         {
             Logger.Self($"Retrieving the {nameof(ModInfo)} data from \"{bundleFileName}\"...");
 
+            if (isEditor)
+            {
+                Logger.Self("This method is being run on the Editor, therefore null will be returned.");
+                return null;
+            }
+
             if (_modInfos.TryGetValue(bundleFileName, out var info))
             {
                 Logger.Self($"{bundleFileName}'s {nameof(ModInfo)} has already been cached. Returning cached result.");
@@ -169,6 +175,12 @@ namespace KeepCoding
         {
             Logger.Self($"Searching for file \"{search}\" anywhere in the mods folder...");
 
+            if (isEditor)
+            {
+                Logger.Self("This method is being run on the Editor, therefore null will be returned.");
+                return null;
+            }
+
             if (_paths.TryGetValue(search, out string path))
             {
                 Logger.Self($"{path}'s path has already been cached. Returning cached result.");
@@ -215,6 +227,12 @@ namespace KeepCoding
         public static void LoadLibrary(string bundleFileName, string libraryFileName)
         {
             Logger.Self($"Preparing to copy library \"{libraryFileName}\" which exists in \"{bundleFileName}\".");
+
+            if (isEditor)
+            {
+                Logger.Self($"This method is being run on the Editor, therefore nothing will be done.");
+                return;
+            }
 
             libraryFileName.NullOrEmptyCheck("You cannot load a library which has a null or empty name.");
 
