@@ -54,7 +54,7 @@ namespace KeepCoding
         /// <value>
         /// Determines whether the game is being played in Virtual Reality. In the Editor, it always returns false.
         /// </value>
-        public static bool IsVR => !IsEditor && IsCurrentControlTypeVR;
+        public static bool IsVR => IsCurrentControlTypeVR;
 
         /// <value>
         /// The Unique Id for the module of this type.
@@ -230,7 +230,7 @@ namespace KeepCoding
             if (IsSolved)
                 return;
 
-            if (!IsEditor && _hasException)
+            if (_hasException)
                 Game.AddStrikes(gameObject, -_strikes);
 
             LogMultiple(logs);

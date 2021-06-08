@@ -3,7 +3,6 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using static KeepCoding.Game.PlayerSettings;
-using static UnityEngine.Application;
 
 namespace KeepCoding
 {
@@ -25,7 +24,7 @@ namespace KeepCoding
         /// <value>
         /// The current volume of the game. Ranges 0 to 100. In the Editor this value will always return 100.
         /// </value>
-        public int Game => isEditor ? 100 : _isSFX ? SFXVolume : MusicVolume;
+        public int Game => _isSFX ? SFXVolume : MusicVolume;
 
         /// <value>
         /// The volume the <see cref="AudioSource"/> is playing at, determined by <see cref="Volume"/> and <see cref="Game"/>.
