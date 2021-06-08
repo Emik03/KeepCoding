@@ -88,7 +88,7 @@ namespace KeepCoding
         private ITP _tp;
 
         /// <value>
-        /// The current bomb.
+        /// The bomb that this module is in.
         /// </value>
         public KMBomb Bomb { get; private set; }
 
@@ -101,6 +101,11 @@ namespace KeepCoding
         /// Contains an instance for every <see cref="Sound"/> played by this module using <see cref="PlaySound(Transform, bool, Sound[])"/> or any of its overloads.
         /// </value>
         public Sound[] Sounds { get; private set; } = new Sound[0];
+        
+        /// <summary>
+        /// Contains every module in <see cref="Bomb"/>, separated by type.
+        /// </summary>
+        public Tuple<KMBombModule[], KMNeedyModule[]> Modules { get; private set; }
 
         private bool _hasException;
 
@@ -456,14 +461,16 @@ namespace KeepCoding
 
         private void HookBomb()
         {
-            var solvables = Bomb.GetComponentsInChildren<KMBombModule>();
-            var needies = Bomb.GetComponentsInChildren<KMNeedyModule>();
-
             static bool Run(ModuleContainer module, Action<string> action)
             {
                 action(module.Id);
                 return false;
             }
+
+            var solvables = Bomb.GetComponentsInChildren<KMBombModule>();
+            var needies = Bomb.GetComponentsInChildren<KMNeedyModule>();
+
+            Modules = solvables.ToTuple(needies);
 
             Logger.Self($"Subscribing current bomb's {solvables.Length + needies.Length} modules to {nameof(OnSolvableSolved)}, {nameof(OnNeedySolved)}, and {nameof(OnModuleStrike)}.");
 
