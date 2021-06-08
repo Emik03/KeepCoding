@@ -533,18 +533,14 @@ namespace KeepCoding
 
         private IEnumerator WaitForBomb()
         {
-            KMBomb bomb;
-
             do
             {
-                bomb = GetComponentInParent<KMBomb>();
+                Bomb = GetComponentInParent<KMBomb>();
                 yield return null;
             }
-            while (!bomb);
+            while (!Bomb);
 
             Logger.Self($"{nameof(KMBomb)} located.");
-
-            Bomb = bomb;
 
             HookBomb();
         }
