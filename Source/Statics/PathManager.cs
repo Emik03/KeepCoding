@@ -24,7 +24,7 @@ namespace KeepCoding
     extern alias core;
 
     /// <summary>
-    /// Allows loading external information stored on the module. Do not use this code on the Editor. Written by Emik.
+    /// Allows loading external information stored on the module. Written by Emik.
     /// </summary>
     public static class PathManager
     {
@@ -113,7 +113,7 @@ namespace KeepCoding
             if (isEditor)
             {
                 Logger.Self("This method is being run on the Editor, therefore null will be returned.");
-                return null;
+                return new ModInfo();
             }
 
             if (_modInfos.TryGetValue(bundleFileName, out var info))
@@ -177,8 +177,8 @@ namespace KeepCoding
 
             if (isEditor)
             {
-                Logger.Self("This method is being run on the Editor, therefore null will be returned.");
-                return null;
+                Logger.Self("This method is being run on the Editor, therefore an empty string will be returned.");
+                return "";
             }
 
             if (_paths.TryGetValue(search, out string path))
