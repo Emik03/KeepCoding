@@ -23,8 +23,8 @@ namespace KeepCoding
         {
             Name = name.NullCheck("The name cannot be null!");
 
-            if (Name == SelfName)
-                throw new FormatException($"The name {SelfName} is reserved for the library.");
+            if (Name == _selfName)
+                throw new FormatException($"The name {_selfName} is reserved for the library.");
 
             Id = ids.SetOrReplace(Name, i => ++i);
 
@@ -52,9 +52,9 @@ namespace KeepCoding
 
         private readonly bool _showId;
 
-        private static readonly string SelfName = PathManager.AssemblyName.Name;
-
         private const string Format = "[{0}] {1}";
+
+        private static readonly string _selfName = PathManager.AssemblyName.Name;
 
         /// <summary>
         /// Dumps all information that it can find of the type using reflection. This should only be used to debug.
@@ -116,8 +116,8 @@ namespace KeepCoding
         /// <param name="obj">The comparison.</param>
         /// <returns>Whether both objects are equal.</returns>
         public override bool Equals(object obj) => obj is Logger loggable &&
-                   Id == loggable.Id &&
-                   Name == loggable.Name;
+            Id == loggable.Id &&
+            Name == loggable.Name;
 
         /// <summary>
         /// Gets the hash code of the object.
@@ -126,11 +126,11 @@ namespace KeepCoding
         public override int GetHashCode()
         {
             int hashCode = -1919740922;
-            hashCode = (hashCode * -1521134295) + Id.GetHashCode();
-            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(Name);
+            hashCode = hashCode * -1521134295 + Id.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
             return hashCode;
         }
 
-        internal static void Self(string message, LogType logType = LogType.Log) => logType.Method()(Format.Form(SelfName, message));
+        internal static void Self(string message, LogType logType = LogType.Log) => logType.Method()(Format.Form(_selfName, message));
     }
 }
