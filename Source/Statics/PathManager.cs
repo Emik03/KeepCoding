@@ -280,7 +280,7 @@ namespace KeepCoding
         public static TAsset[] GetAssets<TAsset>(string bundleFileName, string bundleAssetFileName) where TAsset : Object => (TAsset[])LoadAssets<TAsset>(bundleFileName, bundleAssetFileName).AsEnumerable().OfType<object>().Last();
 
         /// <summary>
-        /// Gets the video clips, the last yield return contains all of the videos.
+        /// Retrieves assets of a specific type from a different bundle file.
         /// </summary>
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
@@ -291,7 +291,7 @@ namespace KeepCoding
         public static TAsset[] GetAssets<TAsset>(Type type, string bundleVideoFileName) where TAsset : Object => GetAssets<TAsset>(NameOfAssembly(type), bundleVideoFileName);
 
         /// <summary>
-        /// Gets the video clips, the last yield return contains all of the videos.
+        /// Retrieves assets of a specific type from a different bundle file.
         /// </summary>
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
