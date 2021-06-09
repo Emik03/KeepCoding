@@ -267,7 +267,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="bigInteger">The number.</param>
         /// <returns>The number.</returns>
-        public static BigInteger operator +(BigInteger bigInteger) => bigInteger;
+        public static BigInteger operator +(BigInteger bigInteger) => Clone(bigInteger);
 
         /// <summary>
         /// Negative operator; inverts <see cref="IsNegative"/>.
