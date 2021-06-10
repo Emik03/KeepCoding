@@ -456,7 +456,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="i">The number to convert to an ordinal.</param>
         /// <returns><paramref name="i"/> as an ordinal. (<see cref="string"/>)</returns>
-        public static string ToOrdinal(this int i) => $"{(i < 0 ? "-" : "")}{i}" + (Math.Abs(i) / 10 % 10 == 1 ? 0 : Math.Abs(i) % 10) switch
+        public static string ToOrdinal(this int i) => $"{(i < 0 ? "-" : "")}{i}" + (Abs(i) / 10 % 10 == 1 ? 0 : Abs(i) % 10) switch
         {
             1 => "st",
             2 => "nd",
