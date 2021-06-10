@@ -743,7 +743,7 @@ namespace KeepCoding
         /// <param name="item">The item to log</param>
         /// <param name="logType">The type of logging.</param>
         /// <returns>The item <paramref name="item"/>.</returns>
-        public static T Call<T>(this T item, LogType logType = LogType.Log) => item.Call(t => logType.Method()(t));
+        public static T Call<T>(this T item, LogType logType = LogType.Log) => item.Call(t => logType.Method()(t.UnwrapToString()));
 
         /// <summary>
         /// Returns the element of an array, pretending that the array wraps around or is circular.
