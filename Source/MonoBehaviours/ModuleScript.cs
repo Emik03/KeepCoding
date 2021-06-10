@@ -430,6 +430,7 @@ namespace KeepCoding
             if (type != LogType.Exception || !IsLogFromThis(stackTrace))
                 return;
 
+            logMessageReceived -= OnException;
             _hasException = true;
 
             Log("The module threw an unhandled exception... {0}", condition);
