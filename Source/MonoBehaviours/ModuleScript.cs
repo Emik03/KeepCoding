@@ -425,6 +425,40 @@ namespace KeepCoding
                 ? t
                 : throw new WrongDatatypeException($"The data type {typeof(T).Name} was expected, but received {d[key].GetType()} from module {module} with key {key}!"));
 
+        private void HookBomb()
+        {
+            static bool Run(ModuleContainer module, Action<string> action)
+            {
+                action(module.Id);
+                return false;
+            }
+
+            var solvables = Bomb.GetComponentsInChildren<KMBombModule>();
+            var needies = Bomb.GetComponentsInChildren<KMNeedyModule>();
+
+            Modules = solvables.ToTuple(needies);
+
+            Logger.Self($"Subscribing current bomb's {solvables.Length + needies.Length} modules to {nameof(OnSolvableSolved)}, {nameof(OnNeedySolved)}, and {nameof(OnModuleStrike)}.");
+
+            solvables.ForEach(m =>
+            {
+                m.OnPass += () => Run(m, OnSolvableSolved);
+                m.OnStrike += () => Run(m, OnModuleStrike);
+            });
+
+            needies.ForEach(m =>
+            {
+                m.OnPass += () => Run(m, OnNeedySolved);
+                m.OnStrike += () => Run(m, OnModuleStrike);
+            });
+
+            if (IsEditor)
+                StartCoroutine(EditorTimerTick());
+
+            else
+                TimerTick();
+        }
+
         private void OnException(string condition, string stackTrace, LogType type)
         {
             if (type != LogType.Exception || !IsLogFromThis(stackTrace))
@@ -459,40 +493,6 @@ namespace KeepCoding
             sound.Custom is { } ? Get<KMAudio>().HandlePlaySoundAtTransformWithRef?.Invoke(sound.Custom, t, b) :
             sound.Game is { } ? Get<KMAudio>().HandlePlayGameSoundAtTransformWithRef?.Invoke(sound.Game.Value, t) :
             throw new UnrecognizedValueException($"{sound}'s properties {nameof(Sound.Custom)} and {nameof(Sound.Game)} are both null!");
-
-        private void HookBomb()
-        {
-            static bool Run(ModuleContainer module, Action<string> action)
-            {
-                action(module.Id);
-                return false;
-            }
-
-            var solvables = Bomb.GetComponentsInChildren<KMBombModule>();
-            var needies = Bomb.GetComponentsInChildren<KMNeedyModule>();
-
-            Modules = solvables.ToTuple(needies);
-
-            Logger.Self($"Subscribing current bomb's {solvables.Length + needies.Length} modules to {nameof(OnSolvableSolved)}, {nameof(OnNeedySolved)}, and {nameof(OnModuleStrike)}.");
-
-            solvables.ForEach(m => 
-            {
-                m.OnPass += () => Run(m, OnSolvableSolved);
-                m.OnStrike += () => Run(m, OnModuleStrike);
-            });
-
-            needies.ForEach(m =>
-            {
-                m.OnPass += () => Run(m, OnNeedySolved);
-                m.OnStrike += () => Run(m, OnModuleStrike);
-            });
-
-            if (IsEditor)
-                StartCoroutine(EditorTimerTick());
-
-            else
-                TimerTick();
-        }
 
         private static IEnumerator EditorCheckLatest()
         {
