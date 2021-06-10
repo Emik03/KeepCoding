@@ -328,7 +328,7 @@ namespace KeepCoding
             if (loop && sounds.Any(s => s.Game.HasValue))
                 throw new ArgumentException("The game doesn't support looping in-game sounds.");
 
-            sounds.ForEach(s => s.Reference = s.Method(Get<KMAudio>())(transform, loop));
+            sounds = sounds.Where(s => (s.Reference = s.Method(Get<KMAudio>())(transform, loop)) is { }).ToArray();
 
             Sounds = Sounds.Concat(sounds).ToArray();
 
