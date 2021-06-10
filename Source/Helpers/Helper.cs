@@ -444,6 +444,14 @@ namespace KeepCoding
         public static string NullOrEmptyCheck(this string source, string message = null) => string.Concat(source.AsEnumerable().NullOrEmptyCheck(message));
 
         /// <summary>
+        /// Splits the <see cref="string"/> based on the separator.
+        /// </summary>
+        /// <param name="source">The <see cref="string"/> of characters to split by.</param>
+        /// <param name="separator">The separator to split <paramref name="source"/> by.</param>
+        /// <returns>An <see cref="Array"/> where each index is where <paramref name="separator"/> was found in <paramref name="source"/>.</returns>
+        public static string[] Split(this string source, string separator) => source.Split(new string[] { separator }, StringSplitOptions.None);
+
+        /// <summary>
         /// Converts a number to the ordinal as <see cref="string"/>.
         /// </summary>
         /// <param name="i">The number to convert to an ordinal.</param>
