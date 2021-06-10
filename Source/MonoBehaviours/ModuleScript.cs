@@ -455,8 +455,8 @@ namespace KeepCoding
         private static uint VersionToNumber(string s) => uint.Parse(s.Replace(".", "").PadRight(9, '0'));
 
         private Func<Transform, bool, KMAudioRef> GetSoundMethod(Sound sound) => (t, b) =>
-            sound.Custom is { } ? Get<KMAudio>().HandlePlaySoundAtTransformWithRef(sound.Custom, t, b) :
-            sound.Game is { } ? Get<KMAudio>().HandlePlayGameSoundAtTransformWithRef(sound.Game.Value, t) :
+            sound.Custom is { } ? Get<KMAudio>().HandlePlaySoundAtTransformWithRef?.Invoke(sound.Custom, t, b) :
+            sound.Game is { } ? Get<KMAudio>().HandlePlayGameSoundAtTransformWithRef?.Invoke(sound.Game.Value, t) :
             throw new UnrecognizedValueException($"{sound}'s properties {nameof(Sound.Custom)} and {nameof(Sound.Game)} are both null!");
 
         private void HookBomb()
