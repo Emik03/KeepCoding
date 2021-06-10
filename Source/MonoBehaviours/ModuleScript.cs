@@ -325,9 +325,6 @@ namespace KeepCoding
         {
             sounds.NullOrEmptyCheck($"{nameof(sounds)} is null or empty.");
 
-            if (loop && sounds.Any(s => s.Game.HasValue))
-                throw new ArgumentException("The game doesn't support looping in-game sounds.");
-
             sounds = sounds.Where(s => (s.Reference = s.Method(Get<KMAudio>())(transform, loop)) is { }).ToArray();
 
             Sounds = Sounds.Concat(sounds).ToArray();
