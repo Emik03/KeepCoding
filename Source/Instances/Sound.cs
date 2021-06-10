@@ -123,5 +123,15 @@ namespace KeepCoding
         /// </summary>
         /// <returns><see cref="Game"/>, or if null, <see cref="Custom"/>.</returns>
         public override string ToString() => Game.ToString() ?? Custom;
+
+        /// <summary>
+        /// Gets the corresponding sound method matching the arguments of this instance of <see cref="Sound"/>.
+        /// </summary>
+        /// <param name="audio">The instance of <see cref="KMAudio"/> to play from.</param>
+        /// <returns>A method that when called, will play the sound and return the <see cref="KMAudioRef"/> instance.</returns>
+        public Func<Transform, bool, KMAudioRef> SoundMethod(KMAudio audio) =>
+            Custom is { } ? ((t, b) => audio.HandlePlaySoundAtTransformWithRef?.Invoke(Custom, t, b)) :
+            Game is { } ? (Func<Transform, bool, KMAudioRef>)((t, b) => audio.HandlePlayGameSoundAtTransformWithRef?.Invoke(Game.Value, t)) :
+            throw new UnrecognizedValueException($"{this}'s properties {nameof(Custom)} and {nameof(Game)} are both null!");
     }
 }

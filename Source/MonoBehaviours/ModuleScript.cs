@@ -328,7 +328,7 @@ namespace KeepCoding
             if (loop && sounds.Any(s => s.Game.HasValue))
                 throw new ArgumentException("The game doesn't support looping in-game sounds.");
 
-            sounds.ForEach(s => s.Reference = GetSoundMethod(s)(transform, loop));
+            sounds.ForEach(s => s.Reference = s.SoundMethod(Get<KMAudio>())(transform, loop));
 
             Sounds = Sounds.Concat(sounds).ToArray();
 
@@ -488,11 +488,6 @@ namespace KeepCoding
         private bool IsLogFromThis(string stackTrace) => stackTrace.Split('\n').Any(s => Regex.IsMatch(s, @$"^{GetType().Name}"));
 
         private static uint VersionToNumber(string s) => uint.Parse(s.Replace(".", "").PadRight(9, '0'));
-
-        private Func<Transform, bool, KMAudioRef> GetSoundMethod(Sound sound) => (t, b) =>
-            sound.Custom is { } ? Get<KMAudio>().HandlePlaySoundAtTransformWithRef?.Invoke(sound.Custom, t, b) :
-            sound.Game is { } ? Get<KMAudio>().HandlePlayGameSoundAtTransformWithRef?.Invoke(sound.Game.Value, t) :
-            throw new UnrecognizedValueException($"{sound}'s properties {nameof(Sound.Custom)} and {nameof(Sound.Game)} are both null!");
 
         private static IEnumerator EditorCheckLatest()
         {
