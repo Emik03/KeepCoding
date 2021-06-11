@@ -489,6 +489,20 @@ namespace KeepCoding
         }).ToArray();
 
         /// <summary>
+        /// Suppresses exceptions specified from the method.
+        /// </summary>
+        /// <param name="action">The method to try.</param>
+        /// <param name="exceptionTypes">The exceptions to catch and suppress.</param>
+        public static void Suppress(this Action action, params Type[] exceptionTypes)
+        {
+            try
+            {
+                action();
+            } 
+            catch (Exception e) when (exceptionTypes.Contains(e.GetType())) { }
+        }
+
+        /// <summary>
         /// Gets the appropriate log method depending on the type of <see cref="LogType"/>.
         /// </summary>
         /// <param name="logType">The type of method to get.</param>
@@ -529,6 +543,25 @@ namespace KeepCoding
         /// <param name="item">The item to check the type for.</param>
         /// <returns><see cref="NullIteratorException"/> if <paramref name="item"/> is an iterator, evaluated with <see cref="IsIterator{T}(T)"/>, otherwise <see cref="NullReferenceException"/></returns>
         public static Func<string, Exception> GetNullException<T>(this T item) => s => item.IsIterator() ? (Exception)new NullIteratorException(s) : new NullReferenceException(s);
+
+        /// <summary>
+        /// Suppresses exceptions specified from the method.
+        /// </summary>
+        /// <typeparam name="T">The return type of the method.</typeparam>
+        /// <param name="func">The method to try.</param>
+        /// <param name="exceptionTypes">The exceptions to catch and suppress.</param>
+        /// <returns>The return of the method, or <see langword="default"/> if an exception is caught from the list of exceptions.</returns>
+        public static T Suppress<T>(this Func<T> func, params Type[] exceptionTypes)
+        {
+            try
+            {
+                return func();
+            }
+            catch (Exception e) when (exceptionTypes.Contains(e.GetType()))
+            {
+                return default;
+            }
+        }
 
         /// <summary>
         /// Converts an <see cref="IEnumerator"/> to an <see cref="IEnumerable"/>.
