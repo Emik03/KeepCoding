@@ -105,7 +105,7 @@ namespace KeepCoding
         /// <summary>
         /// Contains every module in <see cref="Bomb"/>, separated by type.
         /// </summary>
-        public Tuple<KMBombModule[], KMNeedyModule[]> Modules { get; private set; }
+        public ModuleContainer[] Modules { get; private set; }
 
         private bool _hasException;
 
@@ -433,7 +433,7 @@ namespace KeepCoding
             var solvables = Bomb.GetComponentsInChildren<KMBombModule>();
             var needies = Bomb.GetComponentsInChildren<KMNeedyModule>();
 
-            Modules = solvables.ToTuple(needies);
+            Modules = solvables.Cast<ModuleContainer>().Concat(needies.Cast<ModuleContainer>()).ToArray();
 
             Logger.Self($"Subscribing current bomb's {solvables.Length + needies.Length} modules to {nameof(OnSolvableSolved)}, {nameof(OnNeedySolved)}, and {nameof(OnModuleStrike)}.");
 
