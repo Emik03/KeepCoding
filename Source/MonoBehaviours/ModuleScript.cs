@@ -466,20 +466,12 @@ namespace KeepCoding
 
             var vanillas = Bomb.GetComponentsInChildren(typeof(BombComponent));
             var needies = Bomb.GetComponentsInChildren(typeof(NeedyComponent));
-            var solvables = vanillas.Except(needies).ToArray();
 
-            foreach (var solvable in solvables)
+            foreach (var vanilla in vanillas)
             {
-                var module = (BombComponent)(object)solvable;
-                module.OnPass += m => Run(m.GetModuleDisplayName(), OnSolvableSolved);
+                var module = (BombComponent)(object)vanilla;
                 module.OnStrike += m => Run(m.GetModuleDisplayName(), OnModuleStrike);
-            }
-
-            foreach (var needy in needies)
-            {
-                var module = (BombComponent)(object)needy;
-                module.OnPass += m => Run(m.GetModuleDisplayName(), OnNeedySolved);
-                module.OnStrike += m => Run(m.GetModuleDisplayName(), OnModuleStrike);
+                module.OnPass += m => Run(m.GetModuleDisplayName(), needies.Contains(vanilla) ? (Action<string>)OnNeedySolved : OnSolvableSolved);
             }
         }
 
