@@ -264,20 +264,20 @@ namespace KeepCoding
         /// <summary>
         /// Called when any module on the current bomb has issued a strike.
         /// </summary>
-        /// <param name="moduleId">The sender's module id, which caused a strike.</param>
-        public virtual void OnModuleStrike(string moduleId) { }
+        /// <param name="moduleName">The sender's module name, which caused a strike.</param>
+        public virtual void OnModuleStrike(string moduleName) { }
 
         /// <summary>
         /// Called when any <see cref="KMNeedyModule"/> on the current bomb has been solved.
         /// </summary>
-        /// <param name="moduleId">The sender's module id, which was solved.</param>
-        public virtual void OnNeedySolved(string moduleId) { }
+        /// <param name="moduleName">The sender's module name, which was solved.</param>
+        public virtual void OnNeedySolved(string moduleName) { }
 
         /// <summary>
         /// Called when any <see cref="KMBombModule"/> on the current bomb has been solved.
         /// </summary>
-        /// <param name="moduleId">The sender's module id, which was solved.</param>
-        public virtual void OnSolvableSolved(string moduleId) { }
+        /// <param name="moduleName">The sender's module name, which was solved.</param>
+        public virtual void OnSolvableSolved(string moduleName) { }
 
         /// <summary>
         /// Called when the timer's seconds-digit changes.
@@ -426,7 +426,7 @@ namespace KeepCoding
         {
             static bool Run(ModuleContainer module, Action<string> action)
             {
-                action(module.Id);
+                action(module.Name);
                 return false;
             }
 
