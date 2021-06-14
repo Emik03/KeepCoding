@@ -753,6 +753,31 @@ namespace KeepCoding
         public static MethodInfo GetMethodInfo<T>(this Expression<Action<T>> expression) => expression.Body is MethodCallExpression member ? member.Method : throw new ArgumentException($"The expression {nameof(expression)} is not a method");
 
         /// <summary>
+        /// Splits an <see cref="IEnumerable"/> in two based on a method provided.
+        /// </summary>
+        /// <typeparam name="T">The type of the collection.</typeparam>
+        /// <param name="source">The collection to split.</param>
+        /// <param name="func">The method that decides where the item ends up.</param>
+        /// <returns>A <see cref="Tuple{T1, T2}"/> consisting of items from <paramref name="source"/> where <see cref="Tuple{T}.Item1"/> contains items that returned true in <paramref name="func"/>, and <see cref="Tuple{T1, T2}.Item2"/> otherwise.</returns>
+        public static Tuple<IEnumerable<T>, IEnumerable<T>> SplitBy<T>(this IEnumerable<T> source, Func<T, bool> func)
+        {
+            source.NullCheck("The enumerator cannot be null");
+
+            var t = Empty<T>();
+            var f = Empty<T>();
+
+            foreach (var item in source)
+            {
+                if (func(item))
+                    t = t.Append(item);
+                else
+                    f = f.Append(item);
+            }
+
+            return t.ToTuple(f);
+        }
+
+        /// <summary>
         /// Throws a <see cref="MissingComponentException"/> if the <see cref="Object"/> given is <see langword="null"/>, then returning the <see cref="Object"/> <paramref name="obj"/>.
         /// </summary>
         /// <typeparam name="T">The type of <see cref="Object"/>.</typeparam>
