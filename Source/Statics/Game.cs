@@ -4,7 +4,6 @@ using UnityEngine;
 using static UnityEngine.Application;
 using static KeepCoding.ComponentPool;
 using static Localization;
-using Connection = IRCConnection;
 using KTInput = KTInputManager;
 using KTMod = ModManager;
 using KTPlayer = Assets.Scripts.Settings.PlayerSettingsManager;
@@ -78,45 +77,6 @@ namespace KeepCoding
             /// The mod is stored within the workshop folder.
             /// </value>
             SteamWorkshop
-        }
-
-        /// <summary>
-        /// Allows access into Twitch Plays messaging system.
-        /// </summary>
-        public static class IRCConnection
-        {
-            /// <value>
-            /// Sends a message to the chat. Arguments: <c>message</c>.
-            /// </value>
-            /// <remarks>
-            /// Default: Internal Logger method call.
-            /// </remarks>
-            public static Action<string> SendMessage => isEditor
-                ? (message => Logger.Self($"Sending message to chat: {message}"))
-                : SendMessageInternal;
-            private static Action<string> SendMessageInternal => Connection.SendMessage;
-
-            /// <value>
-            /// Sends a message to the chat. Arguments: <c>message</c> and <c>args</c>.
-            /// </value>
-            /// <remarks>
-            /// Default: Internal Logger method call.
-            /// </remarks>
-            public static Action<string, object[]> SendMessageFormat => isEditor
-                ? (message, args) => Debug.Log($"Sending message to chat: {message.Form(args)}")
-                : SendMessageFormatInternal;
-            private static Action<string, object[]> SendMessageFormatInternal => Connection.SendMessageFormat;
-
-            /// <value>
-            /// Whispers a message to a person. Arguments: <c>userNickName</c>, <c>message</c>, and <c>args</c>.
-            /// </value>
-            /// <remarks>
-            /// Default: Internal Logger method call.
-            /// </remarks>
-            public static Action<string, string, object[]> SendWhisper => isEditor
-                ? (userNickName, message, args) => Debug.Log($"Whispering message to user {userNickName}: {message.Form(args)}")
-                : SendWhisperInternal;
-            private static Action<string, string, object[]> SendWhisperInternal => Connection.SendWhisper;
         }
 
         /// <summary>
