@@ -422,7 +422,7 @@ namespace KeepCoding
                 ? t
                 : throw new WrongDatatypeException($"The data type {typeof(T).Name} was expected, but received {d[key].GetType()} from module {module} with key {key}!"));
 
-        private void HookBomb()
+        private void HookModules()
         {
             static bool Run(ModuleContainer module, Action<string> action)
             {
@@ -454,6 +454,33 @@ namespace KeepCoding
 
             else
                 TimerTick();
+        }
+
+        private void HookVanillas()
+        {
+            static bool Run(string module, Action<string> action)
+            {
+                action(module);
+                return false;
+            }
+
+            var vanillas = Bomb.GetComponentsInChildren(typeof(BombComponent));
+            var needies = Bomb.GetComponentsInChildren(typeof(NeedyComponent));
+            var solvables = vanillas.Except(needies).ToArray();
+
+            foreach (var solvable in solvables)
+            {
+                var module = (BombComponent)(object)solvable;
+                module.OnPass += m => Run(m.GetModuleDisplayName(), OnSolvableSolved);
+                module.OnStrike += m => Run(m.GetModuleDisplayName(), OnModuleStrike);
+            }
+
+            foreach (var needy in needies)
+            {
+                var module = (BombComponent)(object)needy;
+                module.OnPass += m => Run(m.GetModuleDisplayName(), OnNeedySolved);
+                module.OnStrike += m => Run(m.GetModuleDisplayName(), OnModuleStrike);
+            }
         }
 
         private void OnException(string condition, string stackTrace, LogType type)
@@ -543,7 +570,10 @@ namespace KeepCoding
 
             Logger.Self($"{nameof(KMBomb)} located.");
 
-            HookBomb();
+            HookModules();
+
+            if (!IsEditor)
+                HookVanillas();
         }
 
         private IEnumerator WaitForSolve()
