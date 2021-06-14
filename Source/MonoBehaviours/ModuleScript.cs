@@ -103,7 +103,7 @@ namespace KeepCoding
         public Sound[] Sounds { get; private set; } = new Sound[0];
         
         /// <summary>
-        /// Contains every module in <see cref="Bomb"/>, separated by type.
+        /// Contains every modded module in <see cref="Bomb"/>, separated by type.
         /// </summary>
         public ModuleContainer[] Modules { get; private set; }
 
