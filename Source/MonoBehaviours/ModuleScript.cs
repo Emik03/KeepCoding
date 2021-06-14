@@ -448,12 +448,6 @@ namespace KeepCoding
                 m.OnPass += () => Run(m, OnNeedySolved);
                 m.OnStrike += () => Run(m, OnModuleStrike);
             });
-
-            if (IsEditor)
-                StartCoroutine(EditorTimerTick());
-
-            else
-                TimerTick();
         }
 
         private void HookVanillas()
@@ -564,8 +558,14 @@ namespace KeepCoding
 
             HookModules();
 
-            if (!IsEditor)
-                HookVanillas();
+            if (IsEditor)
+            {
+                StartCoroutine(EditorTimerTick());
+                yield break;
+            }
+
+            HookVanillas();
+            TimerTick();
         }
 
         private IEnumerator WaitForSolve()
