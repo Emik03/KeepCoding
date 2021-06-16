@@ -445,7 +445,7 @@ namespace KeepCoding
 
             Modules = solvables.ConvertAll(m => new ModuleContainer(m, null)).Concat(needies.ConvertAll(m => new ModuleContainer(null, m))).ToArray();
 
-            Logger.Self($"Subscribing current bomb's {Modules.Length} modules to {nameof(OnSolvableSolved)}, {nameof(OnNeedySolved)}, and {nameof(OnModuleStrike)}.");
+            Logger.Self($"Subscribing current bomb's {Modules.Length} module(s) to {nameof(OnSolvableSolved)}, {nameof(OnNeedySolved)}, and {nameof(OnModuleStrike)}.");
 
             solvables.ForEach(m =>
             {
