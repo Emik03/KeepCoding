@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using static System.Globalization.NumberStyles;
 
@@ -512,6 +513,13 @@ namespace KeepCoding
                 y ?? vector.y,
                 z ?? vector.z,
                 w ?? vector.w);
+        
+        /// <summary>
+        /// Converts argument to a new <see cref="Version"/>. Major-only versions are compatible.
+        /// </summary>
+        /// <param name="s">The string to convert to a version.</param>
+        /// <returns>A new <see cref="Version"/> representing the input <paramref name="s"/>.</returns>
+        public static Version ToVersion(this string s) => new Version(s + (s.Split('.').Length == 1 ? ".0" : ""));
 
         /// <summary>
         /// Converts argument to a new <see cref="Work"/>
