@@ -24,7 +24,7 @@ namespace KeepCoding
                 StartVerification((MonoBehaviour)target);
 
             if (Button("Force Solve All"))
-                FindObjectsOfType<MonoBehaviour>().Where(m => m is ITP).Distinct().ToArray().ForEach(m => StartVerification(m));
+                FindObjectsOfType<MonoBehaviour>().Where(m => m is ITP).Distinct().ToArray().ForEach(StartVerification);
         }
 
         private static void StartVerification(MonoBehaviour obj) => obj.StartCoroutine(VerifySolve(obj));
