@@ -416,5 +416,23 @@ namespace KeepCoding
         /// </remarks>
         public static Func<GameObject, object> Timer => isEditor ? gameObject => null : TimerInternal;
         private static Func<GameObject, object> TimerInternal => gameObject => ((Bomb)Bomb(gameObject)).GetTimer();
+
+        /// <value>
+        /// Gets all of the needy modules from the bomb supplied. To prevent a reference to the game, the type is boxed in an <see cref="object"/> <see cref="Array"/>. You can cast it to NeedyComponent and BombComponent type to restore its functionality.
+        /// </value>
+        /// <remarks>
+        /// Default: An empty object array.
+        /// </remarks>
+        public static Func<KMBomb, object[]> Needies => isEditor ? gameObject => new object[0] : NeediesInternal;
+        private static Func<KMBomb, object[]> NeediesInternal => bomb => bomb.GetComponentsInChildren(typeof(NeedyComponent)).ConvertAll(c => (object)c);
+
+        /// <value>
+        /// Gets all of the vanilla modules from the bomb supplied, including needies. To prevent a reference to the game, the type is boxed in an <see cref="object"/> <see cref="Array"/>. You can cast it to BombComponent type to restore its functionality.
+        /// </value>
+        /// <remarks>
+        /// Default: An empty object array.
+        /// </remarks>
+        public static Func<KMBomb, object[]> Vanillas => isEditor ? gameObject => new object[0] : VanillasInternal;
+        private static Func<KMBomb, object[]> VanillasInternal => bomb => bomb.GetComponentsInChildren(typeof(BombComponent)).ConvertAll(c => (object)c);
     }
 }
