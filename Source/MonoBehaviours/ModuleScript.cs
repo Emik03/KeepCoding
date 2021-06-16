@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -264,18 +265,27 @@ namespace KeepCoding
         /// <summary>
         /// Called when any module on the current bomb has issued a strike.
         /// </summary>
+        /// <remarks>
+        /// Vanilla modules are an exception, they will not invoke this method.
+        /// </remarks>
         /// <param name="moduleName">The sender's module name, which caused a strike.</param>
         public virtual void OnModuleStrike(string moduleName) { }
 
         /// <summary>
         /// Called when any <see cref="KMNeedyModule"/> on the current bomb has been solved.
         /// </summary>
+        /// <remarks>
+        /// Vanilla modules are an exception, they will not invoke this method.
+        /// </remarks>
         /// <param name="moduleName">The sender's module name, which was solved.</param>
         public virtual void OnNeedySolved(string moduleName) { }
 
         /// <summary>
         /// Called when any <see cref="KMBombModule"/> on the current bomb has been solved.
         /// </summary>
+        /// <remarks>
+        /// Vanilla modules are an exception, they will not invoke this method.
+        /// </remarks>
         /// <param name="moduleName">The sender's module name, which was solved.</param>
         public virtual void OnSolvableSolved(string moduleName) { }
 
@@ -450,25 +460,6 @@ namespace KeepCoding
             });
         }
 
-        private void HookVanillas()
-        {
-            static bool Run(string module, Action<string> action)
-            {
-                action(module);
-                return false;
-            }
-
-            var vanillas = Bomb.GetComponentsInChildren(typeof(BombComponent));
-            var needies = Bomb.GetComponentsInChildren(typeof(NeedyComponent));
-
-            foreach (var vanilla in vanillas)
-            {
-                var module = (BombComponent)(object)vanilla;
-                module.OnStrike += m => Run(m.GetModuleDisplayName(), OnModuleStrike);
-                module.OnPass += m => Run(m.GetModuleDisplayName(), needies.Contains(vanilla) ? (Action<string>)OnNeedySolved : OnSolvableSolved);
-            }
-        }
-
         private void OnException(string condition, string stackTrace, LogType type)
         {
             if (type != LogType.Exception || !IsLogFromThis(stackTrace))
@@ -512,15 +503,21 @@ namespace KeepCoding
             if (!IsEditor)
                 yield break;
 
-            using var req = UnityWebRequest.Get("https://raw.githubusercontent.com/Emik03/KeepCoding/main/latest");
+            using var request = UnityWebRequest.Get("https://api.github.com/repos/Emik03/KeepCoding/releases/latest");
 
-            yield return req.SendWebRequest();
+            yield return request.SendWebRequest();
 
-            if (req.isNetworkError || req.isHttpError)
-                Logger.Self($"The KeepCoding version could not be pulled: {req.error}.", LogType.Warning);
+            if (request.isNetworkError || request.isHttpError)
+            {
+                Logger.Self($"The KeepCoding version could not be pulled: {request.error}.", LogType.Warning);
+                yield break;
+            }
 
-            else if (VersionToNumber(PathManager.Version.ToString()) < VersionToNumber(req.downloadHandler.text.Trim()))
-                Logger.Self($"The library is out of date! Latest Version: {req.downloadHandler.text.Trim()}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
+            var json = JObject.Parse(request.downloadHandler.text);
+            string tagName = json.GetValue("tag_name").ToObject<string>();
+
+            if (PathManager.Version < tagName.ToVersion())
+                Logger.Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
         }
 
         private IEnumerator EditorTimerTick()
@@ -564,7 +561,6 @@ namespace KeepCoding
                 yield break;
             }
 
-            HookVanillas();
             TimerTick();
         }
 
