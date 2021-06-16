@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
+using System.Security.Policy;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -144,7 +146,7 @@ namespace KeepCoding
             _database = new Dictionary<string, Dictionary<string, object>[]>();
 
             Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
-
+            
             StartCoroutine(EditorCheckLatest());
             StartCoroutine(WaitForBomb());
         }
@@ -432,6 +434,26 @@ namespace KeepCoding
                 ? t
                 : throw new WrongDatatypeException($"The data type {typeof(T).Name} was expected, but received {d[key].GetType()} from module {module} with key {key}!"));
 
+        private static IEnumerator EditorCheckLatest()
+        {
+            if (!IsEditor)
+                yield break;
+
+            WWW www = new WWW("https://api.github.com/repos/Emik03/KeepCoding/releases/latest");
+            yield return www;
+
+            if (www.error is { })
+            {
+                Logger.Self($"The library was unable to get the version number: {www.error}");
+                yield break;
+            }
+
+            string tagName = JObject.Parse(www.text).GetValue("tag_name").ToObject<string>();
+
+            if (PathManager.Version < tagName.ToVersion())
+                Logger.Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
+        }
+
         private void HookModules()
         {
             static bool Run(ModuleContainer module, Action<string> action)
@@ -497,28 +519,6 @@ namespace KeepCoding
         private bool IsLogFromThis(string stackTrace) => stackTrace.Split('\n').Any(s => Regex.IsMatch(s, @$"^{GetType().Name}"));
 
         private static uint VersionToNumber(string s) => uint.Parse(s.Replace(".", "").PadRight(9, '0'));
-
-        private static IEnumerator EditorCheckLatest()
-        {
-            if (!IsEditor)
-                yield break;
-
-            using var request = UnityWebRequest.Get("https://api.github.com/repos/Emik03/KeepCoding/releases/latest");
-
-            yield return request.SendWebRequest();
-
-            if (request.isNetworkError || request.isHttpError)
-            {
-                Logger.Self($"The KeepCoding version could not be pulled: {request.error}.", LogType.Warning);
-                yield break;
-            }
-
-            var json = JObject.Parse(request.downloadHandler.text);
-            string tagName = json.GetValue("tag_name").ToObject<string>();
-
-            if (PathManager.Version < tagName.ToVersion())
-                Logger.Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
-        }
 
         private IEnumerator EditorTimerTick()
         {
