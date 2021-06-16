@@ -443,7 +443,7 @@ namespace KeepCoding
             var solvables = Bomb.GetComponentsInChildren<KMBombModule>();
             var needies = Bomb.GetComponentsInChildren<KMNeedyModule>();
 
-            Modules = solvables.OfType<ModuleContainer>().Concat(needies.OfType<ModuleContainer>()).ToArray();
+            Modules = solvables.ConvertAll(m => new ModuleContainer(m, null)).Concat(needies.ConvertAll(m => new ModuleContainer(null, m))).ToArray();
 
             Logger.Self($"Subscribing current bomb's {Modules.Length} modules to {nameof(OnSolvableSolved)}, {nameof(OnNeedySolved)}, and {nameof(OnModuleStrike)}.");
 
