@@ -189,8 +189,8 @@ namespace KeepCoding
 
             search.NullOrEmptyCheck("You cannot retrieve a path if the file name is null or empty.");
 
-            path = (GetAllModPathsFromSource(Local).Call(f => Logger.Self("Searching for enabled local mods...")).Find(search) ??
-                GetAllModPathsFromSource(SteamWorkshop).Call(f => Logger.Self("Searching for enabled steam workshop mods...")).Find(search))
+            path = (GetAllModPathsFromSource(Local).Call(f => Logger.Self($"Searching for {f.Count} enabled local mod(s)...")).Find(search) ??
+                GetAllModPathsFromSource(SteamWorkshop).Call(f => Logger.Self($"Searching for {f.Count} enabled steam workshop mod(s)...")).Find(search))
                 .Replace($"/{search}", "").Replace(@$"\{search}", "");
 
             _paths.Add(search, path);
@@ -338,7 +338,7 @@ namespace KeepCoding
                     string[] files = Directory.GetFiles(path, search);
 
                     if (files.LengthOrDefault() > 0 && !files[0].Trim().IsNullOrEmpty())
-                        return files[0].Call(s => Logger.Self($"Found \"{search}\" in {files[0]}!"));
+                        return files[0].Call(s => Logger.Self($"Found \"{search}\" in {s}!"));
                 }
                 catch (Exception ex) when (ex is ArgumentException || ex is ArgumentNullException || ex is DirectoryNotFoundException || ex is UnauthorizedAccessException) 
                 {
