@@ -450,7 +450,7 @@ namespace KeepCoding
 
             string tagName = JObject.Parse(www.text).GetValue("tag_name").ToObject<string>();
 
-            if (PathManager.Version < tagName.ToVersion())
+            if (tagName.ToVersion() > PathManager.Version)
                 Logger.Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
         }
 
