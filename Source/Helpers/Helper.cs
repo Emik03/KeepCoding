@@ -820,7 +820,7 @@ namespace KeepCoding
         /// <param name="source">The array itself.</param>
         /// <param name="index">The index, which will wrap around if it's larger than the array.</param>
         /// <returns>The element in <paramref name="source"/> using <paramref name="index"/> with rem-euclid modulo.</returns>
-        public static T ElementAtWrap<T>(this IEnumerable<T> source, int index) => source.NullOrEmptyCheck($"The variable {nameof(source)} cannot be null.").NullOrEmptyCheck($"The variable {nameof(source)} cannot be empty.").ElementAt(index.Modulo(source.Count()));
+        public static T ElementAtWrap<T>(this IEnumerable<T> source, int index) => source.NullOrEmptyCheck($"The variable {nameof(source)} cannot be null or empty.").ElementAt(index.Modulo(source.Count()));
 
         /// <summary>
         /// Returns the first element which doesn't return null, or null if all of them return null.
