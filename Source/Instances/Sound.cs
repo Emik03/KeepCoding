@@ -130,7 +130,7 @@ namespace KeepCoding
         /// <param name="audio">The instance of <see cref="KMAudio"/> to play from.</param>
         /// <returns>A method that when called, will play the sound and return the <see cref="KMAudioRef"/> instance.</returns>
         public Func<Transform, bool, KMAudioRef> Method(KMAudio audio) =>
-            Custom is { } ? ((t, b) => Helper.Suppress(() => audio.HandlePlaySoundAtTransformWithRef(Custom, t, b), typeof(NullReferenceException))) :
+            Custom is { } ? ((t, b) => Helper.Suppress(() => audio.HandlePlaySoundAtTransformWithRef?.Invoke(Custom, t, b), typeof(NullReferenceException))) :
             Game is { } ? (Func<Transform, bool, KMAudioRef>)((t, b) => b ? throw new ArgumentException("The game doesn't support looping in-game sounds.") : Helper.Suppress(() => audio.HandlePlayGameSoundAtTransformWithRef?.Invoke(Game.Value, t), typeof(NullReferenceException))) :
             throw new UnrecognizedValueException($"{this}'s properties {nameof(Custom)} and {nameof(Game)} are both null!");
     }
