@@ -66,7 +66,7 @@ namespace KeepCoding
         /// The total count of modules that will be added according to the component pools.
         /// </summary>
         /// <returns>The amount of components.</returns>
-        public int GetComponentCount() => ComponentPools.ConvertAll(c => c.Count).Sum();
+        public int GetComponentCount() => ComponentPools.Sum(c => c.Count);
 
         /// <summary>
         /// Converts itself to a string.
