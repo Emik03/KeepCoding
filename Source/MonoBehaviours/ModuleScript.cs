@@ -5,15 +5,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Net;
-using System.Security.Policy;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using UnityEngine.Networking;
 using static KeepCoding.Game.KTInputManager;
 using static KMAudio;
 using static KMSoundOverride;
 using static UnityEngine.Application;
+using static KeepCoding.Game.MasterAudio;
 
 namespace KeepCoding
 {
@@ -337,7 +335,16 @@ namespace KeepCoding
         {
             sounds.NullOrEmptyCheck($"{nameof(sounds)} is null or empty.");
 
-            sounds = sounds.Where(s => (s.Reference = s.Method(Get<KMAudio>())(transform, loop)) is { }).ToArray();
+            sounds = sounds.Where(s =>
+            {
+                if (s.Custom is null || IsGroupInfo($"{PathManager.GetModInfo(GetType()).Id}_{s.Custom}"))
+                    s.Reference = s.Method(Get<KMAudio>())(transform, loop);
+
+                else
+                    Log($"The sound \"{s.Custom}\" was attempted to be played but there is no corresponding AudioClip found in the bundle! Check for misspellings and make sure the audio clip has a mod.bundle tag.", LogType.Error);
+
+                return s.Reference is { };
+            }).ToArray();
 
             Sounds = Sounds.Concat(sounds).ToArray();
 
