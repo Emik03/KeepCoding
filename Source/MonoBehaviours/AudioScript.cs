@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using static KeepCoding.Game.PlayerSettings;
+using static UnityEngine.Mathf;
 
 namespace KeepCoding
 {
@@ -37,7 +38,12 @@ namespace KeepCoding
         public float Volume { get; set; }
 
         /// <value>
-        /// The audio source property. If the field it is referencing is <see langword="null"/> then it adds a component.
+        /// The audio clips used by the <see cref="UnityEngine.AudioSource"/>s.
+        /// </value>
+        public AudioClip[] AudioClips { get => _audioClips; set => _audioClips = value; }
+
+        /// <value>
+        /// The main <see cref="UnityEngine.AudioSource"/> property. If the field it is referencing is <see langword="null"/> then it adds a component.
         /// </value>
         public AudioSource AudioSource => _audioSource ? _audioSource : _audioSource = gameObject.AddComponent<AudioSource>();
 
@@ -53,9 +59,7 @@ namespace KeepCoding
         /// The <see cref="Array"/> of clips it can play from.
         /// </summary>
         [SerializeField]
-#pragma warning disable IDE0044 // Add readonly modifier
         private AudioClip[] _audioClips;
-#pragma warning restore IDE0044 // Add readonly modifier
 
         /// <summary>
         /// The audio source field.
