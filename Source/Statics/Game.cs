@@ -4,6 +4,7 @@ using UnityEngine;
 using static UnityEngine.Application;
 using static KeepCoding.ComponentPool;
 using static Localization;
+using KTMasterAudio = DarkTonic.MasterAudio.MasterAudio;
 using KTInput = KTInputManager;
 using KTMod = ModManager;
 using KTPlayer = Assets.Scripts.Settings.PlayerSettingsManager;
@@ -90,8 +91,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool IsCurrentControlTypeVR => !isEditor && IsCurrentControlTypeVRInternal;
-            private static bool IsCurrentControlTypeVRInternal => CurrentControlType is ControlType.Gaze || CurrentControlType is ControlType.Motion || CurrentControlType is ControlType.ThreeDOF;
+            public static bool IsCurrentControlTypeVR => CurrentControlType is ControlType.Gaze || CurrentControlType is ControlType.Motion || CurrentControlType is ControlType.ThreeDOF;
 
             /// <value>
             /// The current way the game is being controlled.
@@ -101,6 +101,29 @@ namespace KeepCoding
             /// </remarks>
             public static ControlType CurrentControlType => isEditor ? ControlType.Mouse : CurrentControlTypeInternal;
             private static ControlType CurrentControlTypeInternal => (ControlType)KTInput.Instance.CurrentControlType;
+        }
+
+        /// <summary>
+        /// Allows access relating to the game's main master channel for audio.
+        /// </summary>
+        public static class MasterAudio
+        {
+            /// <value>
+            /// Determines whether a given string has a group info.
+            /// </value>
+            /// <remarks>
+            /// Default: <see langword="true"/>.
+            /// </remarks>
+            public static Func<string, bool> IsGroupInfo => s => isEditor || GroupInfoInternal(s) is { };
+
+            /// <value>
+            /// Gets the group info of a given string. To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to AudioGroupInfo type to restore its functionality.
+            /// </value>
+            /// <remarks>
+            /// Default: <see langword="null"/>.
+            /// </remarks>
+            public static Func<string, object> GroupInfo => isEditor ? s => null : GroupInfoInternal;
+            private static Func<string, object> GroupInfoInternal => KTMasterAudio.GetGroupInfo;
         }
 
         /// <summary>
