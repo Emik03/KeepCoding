@@ -21,11 +21,9 @@ namespace KeepCoding
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
         public bool IsTimeSkippable { get => TwitchPlaysSkipTimeAllowed; set => TwitchPlaysSkipTimeAllowed = value; }
-#pragma warning disable IDE0032 // Use auto property
 #pragma warning disable IDE1006 // Naming Styles
-        private bool TwitchPlaysSkipTimeAllowed;
+        private bool TwitchPlaysSkipTimeAllowed { get; set; }
 #pragma warning restore IDE1006 // Naming Styles
-#pragma warning restore IDE0032 // Use auto property
 
         /// <value>
         /// Determines if it should cancel command processing. If this returns true, then stop processing the command, clean up, then do a <c>yield return Cancelled;</c> to acknowledge the cancel.
@@ -34,13 +32,9 @@ namespace KeepCoding
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
         public bool IsCancelCommand => TwitchShouldCancelCommand;
-#pragma warning disable IDE0032 // Use auto property
-#pragma warning disable IDE0044 // Add readonly modifier
 #pragma warning disable IDE1006 // Naming Styles
-        private bool TwitchShouldCancelCommand;
+        private bool TwitchShouldCancelCommand { get; set; }
 #pragma warning restore IDE1006 // Naming Styles
-#pragma warning restore IDE0044 // Add readonly modifier
-#pragma warning restore IDE0032 // Use auto property
 
         /// <value>
         /// Determines if it is in Time Mode, where solves change the timer. This is useful for modules that use the timer's value.
