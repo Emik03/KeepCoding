@@ -3,7 +3,6 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using static KeepCoding.Game.PlayerSettings;
-using static UnityEngine.Mathf;
 
 namespace KeepCoding
 {
