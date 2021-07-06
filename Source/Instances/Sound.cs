@@ -45,6 +45,28 @@ namespace KeepCoding
         public SoundEffect? Game { get; }
 
         /// <summary>
+        /// Returns <see cref="Custom"/> for the current variable.
+        /// </summary>
+        /// <param name="sound">The variable to grab the property from.</param>
+        /// <returns><paramref name="sound"/>'s <see cref="Custom"/>.</returns>
+        public static explicit operator string(Sound sound) => sound.Custom;
+
+        /// <summary>
+        /// Returns <see cref="Game"/> for the current variable.
+        /// </summary>
+        /// <param name="sound">The variable to grab the property from.</param>
+        /// <returns><paramref name="sound"/>'s <see cref="Game"/>.</returns>
+        public static explicit operator SoundEffect?(Sound sound) => sound.Game;
+
+        /// <summary>
+        /// Returns <see cref="Game"/> for the current variable.
+        /// </summary>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <param name="sound">The variable to grab the property from.</param>
+        /// <returns><paramref name="sound"/>'s <see cref="Game"/>.</returns>
+        public static explicit operator SoundEffect(Sound sound) => sound.Game.Value;
+
+        /// <summary>
         /// An instance of Sound where <see cref="Custom"/> is defined.
         /// </summary>
         /// <param name="sound">The sound to insert.</param>
@@ -64,27 +86,6 @@ namespace KeepCoding
         /// <param name="sound">The sound to insert.</param>
         /// <returns><see cref="Sound"/> with argument <paramref name="sound"/>.</returns>
         public static implicit operator Sound(SoundEffect sound) => new Sound(sound);
-
-        /// <summary>
-        /// Returns <see cref="Custom"/> for the current variable.
-        /// </summary>
-        /// <param name="sound">The variable to grab the property from.</param>
-        /// <returns><paramref name="sound"/>'s <see cref="Custom"/>.</returns>
-        public static explicit operator string(Sound sound) => sound.Custom;
-
-        /// <summary>
-        /// Returns <see cref="Game"/> for the current variable.
-        /// </summary>
-        /// <param name="sound">The variable to grab the property from.</param>
-        /// <returns><paramref name="sound"/>'s <see cref="Game"/>.</returns>
-        public static explicit operator SoundEffect?(Sound sound) => sound.Game;
-
-        /// <summary>
-        /// Returns <see cref="Game"/> for the current variable.
-        /// </summary>
-        /// <param name="sound">The variable to grab the property from.</param>
-        /// <returns><paramref name="sound"/>'s <see cref="Game"/>.</returns>
-        public static explicit operator SoundEffect(Sound sound) => sound.Game.Value;
 
         /// <summary>
         /// Stops the <see cref="Reference"/>'s sound.
