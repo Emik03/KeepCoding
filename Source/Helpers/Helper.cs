@@ -675,6 +675,15 @@ namespace KeepCoding
         public static IEnumerable<T> Slice<T>(this IEnumerable<T> source, int start, int count) => source.NullCheck("The source cannot be null.").Skip(start).Take(count);
 
         /// <summary>
+        /// Chops the <see cref="IEnumerable{T}"/> into multiple <see cref="IEnumerable{T}"/>s, based on the length provided.
+        /// </summary>
+        /// <typeparam name="T">The type of <paramref name="source"/>.</typeparam>
+        /// <param name="source">The <see cref="IEnumerable{T}"/> to split.</param>
+        /// <param name="length">The length of each <see cref="IEnumerable{T}"/> within the containing <see cref="IEnumerable{T}"/>.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="IEnumerable{T}"/>s, where each <see cref="IEnumerable{T}"/> is as long as <paramref name="length"/>.</returns>
+        public static IEnumerable<IEnumerable<T>> SplitEvery<T>(this IEnumerable<T> source, int length) => length > 0 ? source.NullCheck("The source cannot be null.").Select((item, inx) => new { item, inx }).GroupBy(x => x.inx / length).Select(g => g.Select(x => x.item)) : throw new ArgumentException($"The variable {nameof(length)} must be a positive number.");
+
+        /// <summary>
         /// Throws an exception if the <see cref="IEnumerator{T}"/> is null or empty.
         /// </summary>
         /// <exception cref="NullIteratorException"></exception>
