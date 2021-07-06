@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using static System.Convert;
 using static System.Globalization.NumberFormatInfo;
 using static System.Math;
 
@@ -634,67 +635,67 @@ namespace KeepCoding
         /// Implicitly converts the value to a <see cref="sbyte"/>.
         /// </summary>
         /// <param name="number">The number to cast.</param>
-        public static implicit operator sbyte(Number number) => (sbyte)number._value;
+        public static implicit operator sbyte(Number number) => ToSByte(number._value);
 
         /// <summary>
         /// Implicitly converts the value to a <see cref="byte"/>.
         /// </summary>
         /// <param name="number">The number to cast.</param>
-        public static implicit operator byte(Number number) => (byte)number._value;
+        public static implicit operator byte(Number number) => ToByte(number._value);
 
         /// <summary>
         /// Implicitly converts the value to a <see cref="short"/>.
         /// </summary>
         /// <param name="number">The number to cast.</param>
-        public static implicit operator short(Number number) => (short)number._value;
+        public static implicit operator short(Number number) => ToInt16(number._value);
 
         /// <summary>
         /// Implicitly converts the value to a <see cref="ushort"/>.
         /// </summary>
         /// <param name="number">The number to cast.</param>
-        public static implicit operator ushort(Number number) => (ushort)number._value;
+        public static implicit operator ushort(Number number) => ToUInt16(number._value);
 
         /// <summary>
         /// Implicitly converts the value to a <see cref="int"/>.
         /// </summary>
         /// <param name="number">The number to cast.</param>
-        public static implicit operator int(Number number) => (int)number._value;
+        public static implicit operator int(Number number) => ToInt32(number._value);
 
         /// <summary>
         /// Implicitly converts the value to a <see cref="uint"/>.
         /// </summary>
         /// <param name="number">The number to cast.</param>
-        public static implicit operator uint(Number number) => (uint)number._value;
+        public static implicit operator uint(Number number) => ToUInt32(number._value);
 
         /// <summary>
         /// Implicitly converts the value to a <see cref="long"/>.
         /// </summary>
         /// <param name="number">The number to cast.</param>
-        public static implicit operator long(Number number) => (long)number._value;
+        public static implicit operator long(Number number) => ToInt64(number._value);
 
         /// <summary>
         /// Implicitly converts the value to a <see cref="ulong"/>.
         /// </summary>
         /// <param name="number">The number to cast.</param>
-        public static implicit operator ulong(Number number) => (ulong)number._value;
+        public static implicit operator ulong(Number number) => ToUInt64(number._value);
 
         /// <summary>
         /// Implicitly converts the value to a <see cref="float"/>.
         /// </summary>
         /// <param name="number">The number to cast.</param>
-        public static implicit operator float(Number number) => (float)number._value;
+        public static implicit operator float(Number number) => ToSingle(number._value);
 
         /// <summary>
         /// Implicitly converts the value to a <see cref="double"/>.
         /// </summary>
         /// <param name="number">The number to cast.</param>
-        public static implicit operator double(Number number) => (double)number._value;
+        public static implicit operator double(Number number) => ToDouble(number._value);
 
         /// <summary>
         /// Implicitly converts the value to a <see cref="decimal"/>.
         /// </summary>
         /// <param name="number">The number to cast.</param>
-        public static implicit operator decimal(Number number) => (decimal)number._value;
+        public static implicit operator decimal(Number number) => ToDecimal(number._value);
 
         /// <summary>
         /// Implicitly converts the value to a <see cref="ValueType"/>.
