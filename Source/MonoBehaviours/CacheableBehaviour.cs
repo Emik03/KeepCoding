@@ -8,7 +8,7 @@ namespace KeepCoding
     /// <summary>
     /// A <see cref="MonoBehaviour"/> with additional caching capabilities. Written by Emik.
     /// </summary>
-    public class CachableBehaviour : MonoBehaviour
+    public class CacheableBehaviour : MonoBehaviour
     {
         private readonly Dictionary<Type, Component[]> _components = new Dictionary<Type, Component[]>();
 
