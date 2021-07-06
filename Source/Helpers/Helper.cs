@@ -685,6 +685,8 @@ namespace KeepCoding
         /// <summary>
         /// Chops the <see cref="IEnumerable{T}"/> into multiple <see cref="IEnumerable{T}"/>s, based on the length provided.
         /// </summary>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T">The type of <paramref name="source"/>.</typeparam>
         /// <param name="source">The <see cref="IEnumerable{T}"/> to split.</param>
         /// <param name="length">The length of each <see cref="IEnumerable{T}"/> within the containing <see cref="IEnumerable{T}"/>.</param>
