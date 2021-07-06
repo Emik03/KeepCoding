@@ -48,7 +48,7 @@ namespace KeepCoding
         /// <typeparam name="T">The type of component to search for.</typeparam>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
         /// <returns>The component specified by <typeparamref name="T"/>.</returns>
-        public T[] FindAll<T>(bool allowNull = false) where T : Component => Cache(() => FindObjectsOfType<T>(), allowNull);
+        public T[] FindAll<T>(bool allowNull = false) where T : Component => Cache(FindObjectsOfType<T>, allowNull);
 
         /// <summary>
         /// Similar to <see cref="Component.GetComponent{T}"/>, however it caches the result in a dictionary, and will return the cached result if called again.
@@ -72,6 +72,6 @@ namespace KeepCoding
         /// <typeparam name="T">The type of component to search for.</typeparam>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
         /// <returns>The component specified by <typeparamref name="T"/>.</returns>
-        public T[] GetAll<T>(bool allowNull = false) where T : Component => Cache(() => GetComponents<T>(), allowNull);
+        public T[] GetAll<T>(bool allowNull = false) where T : Component => Cache(GetComponents<T>, allowNull);
     }
 }
