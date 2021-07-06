@@ -451,64 +451,19 @@ namespace KeepCoding
         public static BigInteger operator %(object value, BigInteger bigInteger) => new BigInteger(value) % bigInteger;
 
         /// <summary>
-        /// Converts the <see cref="BigInteger"/> to a <see cref="int"/>.
+        /// Converts the <see cref="BigInteger"/> to a <see cref="Number"/>.
         /// </summary>
         /// <exception cref="InvalidCastException"></exception>
         /// <param name="bigInteger">The instance of <see cref="BigInteger"/> to convert.</param>
-        /// <returns>Itself as <see cref="int"/>.</returns>
-        public static explicit operator int(BigInteger bigInteger) => bigInteger.ToInt();
+        /// <returns>Itself as <see cref="Number"/>.</returns>
+        public static explicit operator Number(BigInteger bigInteger) => bigInteger.ToNumber();
 
         /// <summary>
-        /// Converts the <see cref="BigInteger"/> to a <see cref="long"/>.
-        /// </summary>
-        /// <exception cref="InvalidCastException"></exception>
-        /// <param name="bigInteger">The instance of <see cref="BigInteger"/> to convert.</param>
-        /// <returns>Itself as <see cref="long"/>.</returns>
-        public static explicit operator long(BigInteger bigInteger) => bigInteger.ToLong();
-
-        /// <summary>
-        /// Converts the <see cref="BigInteger"/> to a <see cref="uint"/>.
-        /// </summary>
-        /// <exception cref="InvalidCastException"></exception>
-        /// <param name="bigInteger">The instance of <see cref="BigInteger"/> to convert.</param>
-        /// <returns>Itself as <see cref="uint"/>.</returns>
-        public static explicit operator uint(BigInteger bigInteger) => bigInteger.ToUInt();
-
-        /// <summary>
-        /// Converts the <see cref="BigInteger"/> to a <see cref="ulong"/>.
-        /// </summary>
-        /// <exception cref="InvalidCastException"></exception>
-        /// <param name="bigInteger">The instance of <see cref="BigInteger"/> to convert.</param>
-        /// <returns>Itself as <see cref="ulong"/>.</returns>
-        public static explicit operator ulong(BigInteger bigInteger) => bigInteger.ToULong();
-
-        /// <summary>
-        /// Converts the <see cref="int"/> to a <see cref="BigInteger"/>.
+        /// Converts the <see cref="Number"/> to a <see cref="BigInteger"/>.
         /// </summary>
         /// <param name="value">The value to convert into <see cref="BigInteger"/>.</param>
         /// <returns><see cref="BigInteger"/> with value <paramref name="value"/>.</returns>
-        public static implicit operator BigInteger(int value) => new BigInteger(value);
-
-        /// <summary>
-        /// Converts the <see cref="long"/> to a <see cref="BigInteger"/>.
-        /// </summary>
-        /// <param name="value">The value to convert into <see cref="BigInteger"/>.</param>
-        /// <returns><see cref="BigInteger"/> with value <paramref name="value"/>.</returns>
-        public static implicit operator BigInteger(long value) => new BigInteger(value);
-
-        /// <summary>
-        /// Converts the <see cref="uint"/> to a <see cref="BigInteger"/>.
-        /// </summary>
-        /// <param name="value">The value to convert into <see cref="BigInteger"/>.</param>
-        /// <returns><see cref="BigInteger"/> with value <paramref name="value"/>.</returns>
-        public static implicit operator BigInteger(uint value) => new BigInteger(value);
-
-        /// <summary>
-        /// Converts the <see cref="ulong"/> to a <see cref="BigInteger"/>.
-        /// </summary>
-        /// <param name="value">The value to convert into <see cref="BigInteger"/>.</param>
-        /// <returns><see cref="BigInteger"/> with value <paramref name="value"/>.</returns>
-        public static implicit operator BigInteger(ulong value) => new BigInteger(value);
+        public static implicit operator BigInteger(Number value) => new BigInteger(value);
 
         /// <summary>
         /// Determins if both values are equal.
@@ -568,32 +523,11 @@ namespace KeepCoding
         public bool IsBetween<T>(T min, T max) => !(this < min || this > max);
 
         /// <summary>
-        /// Converts the BigInteger to a <see cref="int"/>.
+        /// Converts the BigInteger to a <see cref="Number"/>.
         /// </summary>
         /// <exception cref="InvalidCastException"></exception>
-        /// <returns>Itself as <see cref="int"/>.</returns>
-        public int ToInt() => IsBetween(int.MinValue, int.MaxValue) ? int.Parse(ToString()) : throw InvalidCast<int>();
-
-        /// <summary>
-        /// Converts the BigInteger to a <see cref="long"/>.
-        /// </summary>
-        /// <exception cref="InvalidCastException"></exception>
-        /// <returns>Itself as <see cref="long"/>.</returns>
-        public long ToLong() => IsBetween(long.MinValue, long.MaxValue) ? long.Parse(ToString()) : throw InvalidCast<long>();
-
-        /// <summary>
-        /// Converts the BigInteger to a <see cref="uint"/>.
-        /// </summary>
-        /// <exception cref="InvalidCastException"></exception>
-        /// <returns>Itself as <see cref="uint"/>.</returns>
-        public uint ToUInt() => IsBetween(uint.MinValue, uint.MaxValue) ? uint.Parse(ToString()) : throw InvalidCast<uint>();
-
-        /// <summary>
-        /// Converts the BigInteger to a <see cref="ulong"/>.
-        /// </summary>
-        /// <exception cref="InvalidCastException"></exception>
-        /// <returns>Itself as <see cref="ulong"/>.</returns>
-        public ulong ToULong() => IsBetween(ulong.MinValue, ulong.MaxValue) ? ulong.Parse(ToString()) : throw InvalidCast<long>();
+        /// <returns>Itself as <see cref="Number"/>.</returns>
+        public Number ToNumber() => Number.Parse(ToString());
 
         /// <summary>
         /// Makes a new instance/deep clone of <see cref="BigInteger"/> with the same value.
