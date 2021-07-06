@@ -9,7 +9,7 @@ namespace KeepCoding
     /// <summary>
     /// Advanced audio handler. Written by Emik.
     /// </summary>
-    public sealed class AudioScript : MonoBehaviour
+    public sealed class AudioScript : CacheableBehaviour
     {
         /// <value>
         /// Determines if the <see cref="AudioSource"/> is muted.

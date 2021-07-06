@@ -11,7 +11,7 @@ namespace KeepCoding
     /// </summary>
     [RequireComponent(typeof(ModuleScript))]
 #pragma warning disable IDE1006 // Naming Styles
-    public abstract class TPScript<TModule> : MonoBehaviour, ITP where TModule : ModuleScript
+    public abstract class TPScript<TModule> : CacheableBehaviour, ITP where TModule : ModuleScript
 #pragma warning restore IDE1006 // Naming Styles
     {
         /// <value>
