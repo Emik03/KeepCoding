@@ -444,6 +444,14 @@ namespace KeepCoding
         public static string NullOrEmptyCheck(this string source, string message = null) => string.Concat(source.AsEnumerable().NullOrEmptyCheck(message));
 
         /// <summary>
+        /// Reverses a string.
+        /// </summary>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <param name="source">The string to reverse.</param>
+        /// <returns><paramref name="source"/> where contents are oredered backwards.</returns>
+        public static string Reverse(this string source) => source is { } ? new string(source.ToCharArray().Reverse()) : throw new NullReferenceException($"The source cannot be null.");
+
+        /// <summary>
         /// Splits the <see cref="string"/> based on the separator.
         /// </summary>
         /// <param name="source">The <see cref="string"/> of characters to split by.</param>
