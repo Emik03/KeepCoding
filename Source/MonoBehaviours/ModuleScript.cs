@@ -143,7 +143,7 @@ namespace KeepCoding
 
             Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
             
-            StartCoroutine(EditorCheckLatest());
+            StartCoroutine(CheckUpdates());
             StartCoroutine(WaitForBomb());
         }
 
@@ -395,26 +395,6 @@ namespace KeepCoding
                 ? t
                 : throw new WrongDatatypeException($"The data type {typeof(T).Name} was expected, but received {d[key].GetType()} from module {module} with key {key}!"));
 
-        private static IEnumerator EditorCheckLatest()
-        {
-            if (!IsEditor)
-                yield break;
-
-            WWW www = new WWW("https://api.github.com/repos/Emik03/KeepCoding/releases/latest");
-            yield return www;
-
-            if (www.error is { })
-            {
-                Logger.Self($"The library was unable to get the version number: {www.error}");
-                yield break;
-            }
-
-            string tagName = JObject.Parse(www.text).GetValue("tag_name").ToObject<string>();
-
-            if (tagName.ToVersion() > PathManager.Version)
-                Logger.Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
-        }
-
         private void HookModules()
         {
             static bool Run(ModuleContainer module, Action<string> action)
@@ -501,6 +481,26 @@ namespace KeepCoding
 
                 yield return null;
             }
+        }
+
+        private static IEnumerator CheckUpdates()
+        {
+            if (!IsEditor)
+                yield break;
+
+            WWW www = new WWW("https://api.github.com/repos/Emik03/KeepCoding/releases/latest");
+            yield return www;
+
+            if (www.error is { })
+            {
+                Logger.Self($"The library was unable to get the version number: {www.error}", LogType.Warning);
+                yield break;
+            }
+
+            string tagName = JObject.Parse(www.text).GetValue("tag_name").ToObject<string>();
+
+            if (tagName.ToVersion() > PathManager.Version)
+                Logger.Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
         }
 
         private IEnumerator WaitForBomb()
