@@ -143,7 +143,7 @@ namespace KeepCoding
 
             Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
             
-            StartCoroutine(CheckUpdates());
+            StartCoroutine(CheckForUpdates());
             StartCoroutine(WaitForBomb());
         }
 
@@ -483,7 +483,7 @@ namespace KeepCoding
             }
         }
 
-        private static IEnumerator CheckUpdates()
+        private static IEnumerator CheckForUpdates()
         {
             if (!IsEditor)
                 yield break;
