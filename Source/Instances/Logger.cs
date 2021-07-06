@@ -19,7 +19,8 @@ namespace KeepCoding
         /// <exception cref="FormatException"></exception>
         /// <param name="name">The name of the value.</param>
         /// <param name="showId">Determines whether to show the unique identifier when logging.</param>
-        public Logger(string name, bool showId = false)
+        /// <param name="showInLfa">Determines whether to format such that the Logfile Analyzer would use.</param>
+        public Logger(string name, bool showId = false, bool showInLfa = true)
         {
             Name = name.NullCheck("The name cannot be null!");
 
@@ -29,6 +30,9 @@ namespace KeepCoding
             Id = ids.SetOrReplace(Name, i => ++i);
 
             _showId = showId;
+            _showInLfa = showInLfa;
+
+            _format = _showInLfa ? "[{0}] {1}" : "<{0}> {1}";
         }
 
         /// <summary>
@@ -50,9 +54,9 @@ namespace KeepCoding
 
         internal static readonly Dictionary<string, int> ids = new Dictionary<string, int>();
 
-        private readonly bool _showId;
+        private readonly bool _showId, _showInLfa;
 
-        private const string Format = "[{0}] {1}";
+        private readonly string _format;
 
         private static readonly string _selfName = PathManager.AssemblyName.Name;
 
@@ -94,7 +98,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="message">The message to log.</param>
         /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
-        public void Log<T>(T message, LogType logType = LogType.Log) => logType.Method()(Format.Form($"{Name}{(_showId ? $" #{Id}" : "")}", message.UnwrapToString()));
+        public void Log<T>(T message, LogType logType = LogType.Log) => logType.Method()(_format.Form($"{Name}{(_showId ? $" #{Id}" : "")}", message.UnwrapToString()));
 
         /// <summary>
         /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
@@ -131,6 +135,6 @@ namespace KeepCoding
             return hashCode;
         }
 
-        internal static void Self(string message, LogType logType = LogType.Log) => logType.Method()(Format.Form(_selfName, message));
+        internal static void Self(string message, LogType logType = LogType.Log) => logType.Method()("[{0}] {1}".Form(_selfName, message));
     }
 }
