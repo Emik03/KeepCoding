@@ -461,6 +461,26 @@ namespace KeepCoding
 
         private static uint VersionToNumber(string s) => uint.Parse(s.Replace(".", "").PadRight(9, '0'));
 
+        private static IEnumerator CheckForUpdates()
+        {
+            if (!IsEditor)
+                yield break;
+
+            WWW www = new WWW("https://api.github.com/repos/Emik03/KeepCoding/releases/latest");
+            yield return www;
+
+            if (www.error is { })
+            {
+                Logger.Self($"The library was unable to get the version number: {www.error}", LogType.Warning);
+                yield break;
+            }
+
+            string tagName = JObject.Parse(www.text).GetValue("tag_name").ToObject<string>();
+
+            if (tagName.ToVersion() > PathManager.Version)
+                Logger.Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
+        }
+
         private IEnumerator EditorTimerTick()
         {
             if (!GetComponent<KMBombInfo>())
@@ -481,26 +501,6 @@ namespace KeepCoding
 
                 yield return null;
             }
-        }
-
-        private static IEnumerator CheckForUpdates()
-        {
-            if (!IsEditor)
-                yield break;
-
-            WWW www = new WWW("https://api.github.com/repos/Emik03/KeepCoding/releases/latest");
-            yield return www;
-
-            if (www.error is { })
-            {
-                Logger.Self($"The library was unable to get the version number: {www.error}", LogType.Warning);
-                yield break;
-            }
-
-            string tagName = JObject.Parse(www.text).GetValue("tag_name").ToObject<string>();
-
-            if (tagName.ToVersion() > PathManager.Version)
-                Logger.Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
         }
 
         private IEnumerator WaitForBomb()
