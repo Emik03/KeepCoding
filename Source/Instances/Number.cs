@@ -251,7 +251,7 @@ namespace KeepCoding
             null);
 
         /// <summary>
-        /// Add 1 operator.
+        /// Increment operator.
         /// </summary>
         /// <param name="number">The number to apply the operator to.</param>
         /// <returns>The number with the operator applied to it.</returns>
@@ -269,7 +269,7 @@ namespace KeepCoding
             n => n++);
 
         /// <summary>
-        /// Subtract 1 operator.
+        /// Decrement operator.
         /// </summary>
         /// <param name="number">The number to apply the operator to.</param>
         /// <returns>The number with the operator applied to it.</returns>
