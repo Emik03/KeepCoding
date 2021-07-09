@@ -339,7 +339,7 @@ namespace KeepCoding
                     s.Reference = s.Method(Get<KMAudio>())(transform, loop);
 
                 else
-                    Log($"The sound \"{s.Custom}\" was attempted to be played but there is no corresponding AudioClip found in the bundle! Check for misspellings and make sure the audio clip has a mod.bundle tag.", LogType.Error);
+                    Log($"The sound \"{s.Custom}\" was attempted to be played but there is no corresponding AudioClip found in the bundle! Check for misspellings, ensure that there is a singular KMAudio component, and make sure the audio clip being played has a mod.bundle tag.", LogType.Error);
 
                 return s.Reference is { };
             }).ToArray();
