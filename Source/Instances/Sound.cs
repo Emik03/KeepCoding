@@ -17,32 +17,212 @@ namespace KeepCoding
         /// <param name="sound">The sound to insert.</param>
         public Sound(string sound) => Custom = sound.NullCheck("The string provided is null!");
 
+        /// <value>
+        /// An instance of sound where <see cref="Game"/> is defined.
+        /// </value>
+        /// <param name="sound">The sound to insert.</param>
+        public Sound(SoundEffect sound) => Game = sound;
+
         /// <summary>
         /// An instance of Sound where <see cref="Custom"/> is defined.
         /// </summary>
         /// <param name="sound">The sound to insert.</param>
         public Sound(AudioClip sound) => Custom = sound.NullCheck("The AudioClip provided is null!").name;
 
-        /// <summary>
-        /// An instance of sound where <see cref="Game"/> is defined.
-        /// </summary>
-        /// <param name="sound">The sound to insert.</param>
-        public Sound(SoundEffect sound) => Game = sound; 
-
-        /// <summary>
+        /// <value>
         /// The custom sound, written out by name.
-        /// </summary>
+        /// </value>
         public string Custom { get; }
 
-        /// <summary>
+        /// <value>
+        /// The in-game sound.
+        /// </value>
+        public SoundEffect? Game { get; }
+
+        /// <value>
         /// The audio reference that is playing the sound.
-        /// </summary>
+        /// </value>
         public KMAudioRef Reference { get; internal set; }
 
-        /// <summary>
-        /// The in-game sound.
-        /// </summary>
-        public SoundEffect? Game { get; }
+        /// <value>
+        /// Plays when the alarm clock goes off. This sound loops.
+        /// </value>
+        public static Sound AlarmClockBeep => new Sound(SoundEffect.AlarmClockBeep);
+
+        /// <value>
+        /// Plays when you hit snooze button on the alarm clock.
+        /// </value>
+        public static Sound AlarmClockSnooze => new Sound(SoundEffect.AlarmClockSnooze);
+
+        /// <value>
+        /// Plays when pressing down the button on the Big Button vanilla module.
+        /// </value>
+        public static Sound BigButtonPress => new Sound(SoundEffect.BigButtonPress);
+
+        /// <value>
+        /// Plays when releasing the button on the Big Button vanilla module.
+        /// </value>
+        public static Sound BigButtonRelease => new Sound(SoundEffect.BigButtonRelease);
+
+        /// <value>
+        /// Plays as the mission binder hits the desk.
+        /// </value>
+        public static Sound BinderDrop => new Sound(SoundEffect.BinderDrop);
+
+        /// <value>
+        /// Plays immediately after a bomb is defused. Plays before GameOverFanfare.
+        /// </value>
+        public static Sound BombDefused => new Sound(SoundEffect.BombDefused);
+
+        /// <value>
+        /// Plays when the bomb is set down on the desk.
+        /// </value>
+        public static Sound BombDrop => new Sound(SoundEffect.BombDrop);
+
+        /// <value>
+        /// Plays when the bomb explodes.
+        /// </value>
+        public static Sound BombExplode => new Sound(SoundEffect.BombExplode);
+
+        /// <value>
+        /// Plays when the freeplay briefcase is closed.
+        /// </value>
+        public static Sound BriefcaseClose => new Sound(SoundEffect.BriefcaseClose);
+
+        /// <value>
+        /// Plays when the freeplay briefcase is opened.
+        /// </value>
+        public static Sound BriefcaseOpen => new Sound(SoundEffect.BriefcaseOpen);
+
+        /// <value>
+        /// Plays when pressing down a button.
+        /// </value>
+        public static Sound ButtonPress => new Sound(SoundEffect.ButtonPress);
+
+        /// <value>
+        /// Plays when releasing a button.
+        /// </value>
+        public static Sound ButtonRelease => new Sound(SoundEffect.ButtonRelease);
+
+        /// <value>
+        /// Plays when Capacitor Discharge fills up completely.
+        /// </value>
+        public static Sound CapacitorPop => new Sound(SoundEffect.CapacitorPop);
+
+        /// <value>
+        /// Plays in the tutorial for completing a step correctly.
+        /// </value>
+        public static Sound CorrectChime => new Sound(SoundEffect.CorrectChime);
+
+        /// <value>
+        /// Plays when you change a setting in the menu folder.
+        /// </value>
+        public static Sound DossierOptionPressed => new Sound(SoundEffect.DossierOptionPressed);
+
+        /// <value>
+        /// Plays when there is less than a minute left on the bomb, this sound loops.
+        /// </value>
+        public static Sound EmergencyAlarm => new Sound(SoundEffect.EmergencyAlarm);
+
+        /// <value>
+        /// Plays when the bomb has at least 2 or more strikes.
+        /// </value>
+        public static Sound FastestTimerBeep => new Sound(SoundEffect.FastestTimerBeep);
+
+        /// <value>
+        /// Plays when the bomb has 1 strike.
+        /// </value>
+        public static Sound FastTimerBeep => new Sound(SoundEffect.FastTimerBeep);
+
+        /// <value>
+        /// Plays as the freeplay briefcase hits the desk.
+        /// </value>
+        public static Sound FreeplayDeviceDrop => new Sound(SoundEffect.FreeplayDeviceDrop);
+
+        /// <value>
+        /// Plays when all bombs are defused. Finishes before the post game screen.
+        /// </value>
+        public static Sound GameOverFanfare => new Sound(SoundEffect.GameOverFanfare);
+
+        /// <value>
+        /// Plays when the lights go out.
+        /// </value>
+        public static Sound LightBuzz => new Sound(SoundEffect.LightBuzz);
+
+        /// <value>
+        /// Plays when the lights start to come back on.
+        /// </value>
+        public static Sound LightBuzzShort => new Sound(SoundEffect.LightBuzzShort);
+
+        /// <value>
+        /// Plays when you start a mission from the mission binder.
+        /// </value>
+        public static Sound MenuButtonPressed => new Sound(SoundEffect.MenuButtonPressed);
+
+        /// <value>
+        /// Plays as the mission folder hits the desk.
+        /// </value>
+        public static Sound MenuDrop => new Sound(SoundEffect.MenuDrop);
+
+        /// <value>
+        /// Plays when a needy gets activated.
+        /// </value>
+        public static Sound NeedyActivated => new Sound(SoundEffect.NeedyActivated);
+
+        /// <value>
+        /// Plays when a needy is running out of time. This sound loops.
+        /// </value>
+        public static Sound NeedyWarning => new Sound(SoundEffect.NeedyWarning);
+
+        /// <value>
+        /// Plays when the bomb has no strikes.
+        /// </value>
+        public static Sound NormalTimerBeep => new Sound(SoundEffect.NormalTimerBeep);
+
+        /// <value>
+        /// Plays when a page is turned in the Missions binder.
+        /// </value>
+        public static Sound PageTurn => new Sound(SoundEffect.PageTurn);
+
+        /// <value>
+        /// Plays as you hover over something interactable.
+        /// </value>
+        public static Sound SelectionTick => new Sound(SoundEffect.SelectionTick);
+
+        /// <value>
+        /// Plays during the post game screen, when either the defused or exploded text is stamped onto the binder.
+        /// </value>
+        public static Sound Stamp => new Sound(SoundEffect.Stamp);
+
+        /// <value>
+        /// Plays when you get a strike.
+        /// </value>
+        public static Sound Strike => new Sound(SoundEffect.Strike);
+
+        /// <value>
+        /// Plays when a switch is toggled.
+        /// </value>
+        public static Sound Switch => new Sound(SoundEffect.Switch);
+
+        /// <value>
+        /// Plays when pressing a button in one of the tutorials.
+        /// </value>
+        public static Sound TitleMenuPressed => new Sound(SoundEffect.TitleMenuPressed);
+
+        /// <value>
+        /// Plays during the post game screen as the mission information gets typed out.
+        /// </value>
+        public static Sound TypewriterKey => new Sound(SoundEffect.TypewriterKey);
+
+        /// <value>
+        /// Plays when switching between sets of wires in Wire Sequence.
+        /// </value>
+        public static Sound WireSequenceMechanism => new Sound(SoundEffect.WireSequenceMechanism);
+
+        /// <value>
+        /// Played when a wire is cut on a module like Complicated Wires.
+        /// </value>
+        public static Sound WireSnip => new Sound(SoundEffect.WireSnip);
 
         /// <summary>
         /// Returns <see cref="Custom"/> for the current variable.
