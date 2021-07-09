@@ -323,6 +323,8 @@ namespace KeepCoding
         /// Plays a sound. Requires <see cref="KMAudio"/> to be assigned.
         /// </summary>
         /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="MissingComponentException"></exception>
         /// <exception cref="NullIteratorException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="transform">The location or sound source of the sound.</param>
@@ -333,13 +335,16 @@ namespace KeepCoding
         {
             sounds.NullOrEmptyCheck($"{nameof(sounds)} is null or empty.");
 
+            if (GetAll<KMAudio>().Length != 1)
+                throw GetAll<KMAudio>().IsNullOrEmpty() ? (Exception)new MissingComponentException( $"A sound cannot be played when there is no {nameof(KMAudio)} component!") : new InvalidOperationException($"There is more than one {nameof(KMAudio)} component! This is considered a mistake because the game will only add the sounds to one of the {nameof(KMAudio)} components, which gives no certainty on the {nameof(KMAudio)} having sounds assigned!");
+
             sounds = sounds.Where(s =>
             {
                 if (s.Custom is null || IsGroupInfo($"{PathManager.GetModInfo(GetType()).Id}_{s.Custom}"))
                     s.Reference = s.Method(Get<KMAudio>())(transform, loop);
 
                 else
-                    Log($"The sound \"{s.Custom}\" was attempted to be played but there is no corresponding AudioClip found in the bundle! Check for misspellings, ensure that there is a singular KMAudio component, and make sure the audio clip being played has a mod.bundle tag.", LogType.Error);
+                    Log($"The sound \"{s.Custom}\" was attempted to be played but there is no corresponding {nameof(AudioClip)} found in the bundle! Check for misspellings, ensure that there is a singular {nameof(KMAudio)} component, and make sure the audio clip being played has a mod.bundle tag.", LogType.Error);
 
                 return s.Reference is { };
             }).ToArray();
