@@ -70,7 +70,7 @@ namespace KeepCoding
         public static Sound BinderDrop => new Sound(SoundEffect.BinderDrop);
 
         /// <value>
-        /// Plays immediately after a bomb is defused. Plays before GameOverFanfare.
+        /// Plays immediately after a bomb is defused. Plays before <see cref="SoundEffect.GameOverFanfare"/>.
         /// </value>
         public static Sound BombDefused => new Sound(SoundEffect.BombDefused);
 
