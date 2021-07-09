@@ -76,7 +76,7 @@ namespace KeepCoding
             obj.GetType().GetFields(Helper.Flags).ForEach(f => values.Add(Format(f.Name, f.GetValue(obj))));
             obj.GetType().GetProperties(Helper.Flags).ForEach(p => values.Add(Format(p.Name, p.GetValue(obj, null))));
 
-            Debug.LogWarning(Helper.DumpTemplate.Form(string.Join("", values.Select(o => string.Join("", o.Unwrap(getVariables).Select(o => o.ToString()).ToArray())).ToArray())));
+            Debug.LogWarning(Helper.DumpTemplate.Form(string.Join("", values.Select(v => string.Join("", v.Unwrap(getVariables).Select(o => o.ToString()).ToArray())).ToArray())));
         }
 
         /// <summary>
