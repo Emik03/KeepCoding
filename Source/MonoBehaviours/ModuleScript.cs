@@ -335,8 +335,8 @@ namespace KeepCoding
         {
             sounds.NullOrEmptyCheck($"{nameof(sounds)} is null or empty.");
 
-            if (GetAll<KMAudio>().Length != 1)
-                throw GetAll<KMAudio>().IsNullOrEmpty() ? (Exception)new MissingComponentException($"A sound cannot be played when there is no {nameof(KMAudio)} component!") : new InvalidOperationException($"There is more than one {nameof(KMAudio)} component! This is considered a mistake because the game will only add the sounds to one of the {nameof(KMAudio)} components, which gives no certainty on the {nameof(KMAudio)} having sounds assigned!");
+            if (Gets<KMAudio>().Length != 1)
+                throw Gets<KMAudio>().IsNullOrEmpty() ? (Exception)new MissingComponentException($"A sound cannot be played when there is no {nameof(KMAudio)} component!") : new InvalidOperationException($"There is more than one {nameof(KMAudio)} component! This is considered a mistake because the game will only add the sounds to one of the {nameof(KMAudio)} components, which gives no certainty on the {nameof(KMAudio)} having sounds assigned!");
 
             sounds = sounds.Where(s =>
             {
