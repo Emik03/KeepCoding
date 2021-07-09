@@ -776,9 +776,9 @@ namespace KeepCoding
         /// </summary>
         /// <typeparam name="T">The type of the collection.</typeparam>
         /// <param name="source">The collection to split.</param>
-        /// <param name="func">The method that decides where the item ends up.</param>
-        /// <returns>A <see cref="Tuple{T1, T2}"/> consisting of items from <paramref name="source"/> where <see cref="Tuple{T}.Item1"/> contains items that returned true in <paramref name="func"/>, and <see cref="Tuple{T1, T2}.Item2"/> otherwise.</returns>
-        public static Tuple<IEnumerable<T>, IEnumerable<T>> SplitBy<T>(this IEnumerable<T> source, Func<T, bool> func)
+        /// <param name="predicate">The method that decides where the item ends up.</param>
+        /// <returns>A <see cref="Tuple{T1, T2}"/> consisting of items from <paramref name="source"/> where <see cref="Tuple{T}.Item1"/> contains items that returned true in <paramref name="predicate"/>, and <see cref="Tuple{T1, T2}.Item2"/> otherwise.</returns>
+        public static Tuple<IEnumerable<T>, IEnumerable<T>> SplitBy<T>(this IEnumerable<T> source, Predicate<T> predicate)
         {
             source.NullCheck("The enumerator cannot be null");
 
@@ -787,7 +787,7 @@ namespace KeepCoding
 
             foreach (var item in source)
             {
-                if (func(item))
+                if (predicate(item))
                     t = t.Append(item);
                 else
                     f = f.Append(item);

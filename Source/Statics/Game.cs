@@ -114,7 +114,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="true"/>.
             /// </remarks>
-            public static Func<string, bool> IsGroupInfo => s => isEditor || GroupInfoInternal(s) is { };
+            public static Predicate<string> IsGroupInfo => s => isEditor || GroupInfoInternal(s) is { };
 
             /// <value>
             /// Gets the group info of a given string. To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to AudioGroupInfo type to restore its functionality.
