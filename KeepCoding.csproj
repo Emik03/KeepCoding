@@ -17,7 +17,7 @@
 	<RunPostBuildEvent>Always</RunPostBuildEvent>
 	<AssemblyVersion>6.0.0.0</AssemblyVersion>
 	<FileVersion>6.0.0.0</FileVersion>
-	<Version>5.1</Version>
+	<Version>6</Version>
 	<PackageId>KeepCoding</PackageId>
 	<SignAssembly>true</SignAssembly>
 	<DelaySign>false</DelaySign>
