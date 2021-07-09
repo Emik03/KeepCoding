@@ -344,7 +344,7 @@ namespace KeepCoding
         /// <param name="item4">The fourth argument to pass into the tuple.</param>
         /// <returns>A new <seealso cref="Tuple{T1, T2, T3, T4}"/> containing <paramref name="item1"/>, <paramref name="item2"/>, <paramref name="item3"/>, and <paramref name="item4"/></returns>
         public static Tuple<T1, T2, T3, T4> ToTuple<T1, T2, T3, T4>(this T1 item1, T2 item2, T3 item3, T4 item4) => new Tuple<T1, T2, T3, T4>(item1, item2, item3, item4);
-        
+
         /// <summary>
         /// Duplicates the vector, and sets the x and y components only if they are specified.
         /// </summary>
@@ -512,7 +512,7 @@ namespace KeepCoding
                 y ?? vector.y,
                 z ?? vector.z,
                 w ?? vector.w);
-        
+
         /// <summary>
         /// Converts argument to a new <see cref="Version"/>. Major-only versions are compatible.
         /// </summary>

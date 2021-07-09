@@ -8,10 +8,10 @@ using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using static KeepCoding.Game.KTInputManager;
+using static KeepCoding.Game.MasterAudio;
 using static KMAudio;
 using static KMSoundOverride;
 using static UnityEngine.Application;
-using static KeepCoding.Game.MasterAudio;
 
 namespace KeepCoding
 {
@@ -102,7 +102,7 @@ namespace KeepCoding
         /// Contains an instance for every <see cref="Sound"/> played by this module using <see cref="PlaySound(Transform, bool, Sound[])"/> or any of its overloads.
         /// </value>
         public Sound[] Sounds { get; private set; } = new Sound[0];
-        
+
         /// <summary>
         /// Contains every modded module in <see cref="Bomb"/>, separated by type.
         /// </summary>
@@ -125,7 +125,7 @@ namespace KeepCoding
         /// <exception cref="NullIteratorException"></exception>
         protected void Awake()
         {
-            (Module = new ModuleContainer(this)).OnActivate(_setActive = () => 
+            (Module = new ModuleContainer(this)).OnActivate(_setActive = () =>
             {
                 IsActive = true;
                 OnActivate();
@@ -142,7 +142,7 @@ namespace KeepCoding
             _database = new Dictionary<string, Dictionary<string, object>[]>();
 
             Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
-            
+
             StartCoroutine(CheckForUpdates());
             StartCoroutine(WaitForBomb());
         }
@@ -336,7 +336,7 @@ namespace KeepCoding
             sounds.NullOrEmptyCheck($"{nameof(sounds)} is null or empty.");
 
             if (GetAll<KMAudio>().Length != 1)
-                throw GetAll<KMAudio>().IsNullOrEmpty() ? (Exception)new MissingComponentException( $"A sound cannot be played when there is no {nameof(KMAudio)} component!") : new InvalidOperationException($"There is more than one {nameof(KMAudio)} component! This is considered a mistake because the game will only add the sounds to one of the {nameof(KMAudio)} components, which gives no certainty on the {nameof(KMAudio)} having sounds assigned!");
+                throw GetAll<KMAudio>().IsNullOrEmpty() ? (Exception)new MissingComponentException($"A sound cannot be played when there is no {nameof(KMAudio)} component!") : new InvalidOperationException($"There is more than one {nameof(KMAudio)} component! This is considered a mistake because the game will only add the sounds to one of the {nameof(KMAudio)} components, which gives no certainty on the {nameof(KMAudio)} having sounds assigned!");
 
             sounds = sounds.Where(s =>
             {
@@ -438,10 +438,10 @@ namespace KeepCoding
 
             Log("The module threw an unhandled exception... {0}", condition);
 
-            if (!(bool)(TP?.IsTP)) 
+            if (!(bool)(TP?.IsTP))
             {
                 if (Get<KMSelectable>(allowNull: true))
-                    Get<KMSelectable>().Assign(onInteract: () => 
+                    Get<KMSelectable>().Assign(onInteract: () =>
                     {
                         StartCoroutine(WaitForSolve());
                         Get<KMSelectable>().OnInteract = null;

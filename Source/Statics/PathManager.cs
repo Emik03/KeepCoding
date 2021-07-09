@@ -330,7 +330,7 @@ namespace KeepCoding
 
         private static char GetSlashType(in string path) => path.Count(c => c == '/') >= path.Count(c => c == '\\') ? '/' : '\\';
 
-        private static string Find(List<string> directories, string search) 
+        private static string Find(List<string> directories, string search)
             => directories.FirstValue(path =>
             {
                 try
@@ -340,7 +340,7 @@ namespace KeepCoding
                     if (files.LengthOrDefault() > 0 && !files[0].Trim().IsNullOrEmpty())
                         return files[0].Call(s => Logger.Self($"Found \"{search}\" in {s}!"));
                 }
-                catch (Exception ex) when (ex is ArgumentException || ex is ArgumentNullException || ex is DirectoryNotFoundException || ex is UnauthorizedAccessException) 
+                catch (Exception ex) when (ex is ArgumentException || ex is ArgumentNullException || ex is DirectoryNotFoundException || ex is UnauthorizedAccessException)
                 {
                     Logger.Self($"Caught {ex.GetType()}!");
                 }

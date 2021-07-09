@@ -117,8 +117,8 @@ namespace KeepCoding
         /// </value>
         public Number MinValue => Do<Number>(
             _ => sbyte.MinValue,
-            _ => byte.MinValue, 
-            _ => short.MinValue, 
+            _ => byte.MinValue,
+            _ => short.MinValue,
             _ => ushort.MinValue,
             _ => int.MinValue,
             _ => uint.MinValue,
@@ -143,8 +143,8 @@ namespace KeepCoding
             null,
             null,
             null,
-            _ => float.NaN, 
-            _ => double.NaN, 
+            _ => float.NaN,
+            _ => double.NaN,
             null);
 
         /// <value>

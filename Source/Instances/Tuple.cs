@@ -194,8 +194,8 @@ namespace KeepCoding
         /// </summary>
         /// <param name="item1">The variable to assign the first element of the tuple.</param>
         /// <param name="item2">The variable to assign the second element of the tuple.</param>
-        public void Destruct(out T1 item1, out T2 item2) 
-        { 
+        public void Destruct(out T1 item1, out T2 item2)
+        {
             item1 = Item1;
             item2 = Item2;
         }

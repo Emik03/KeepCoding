@@ -238,7 +238,7 @@ namespace KeepCoding
         /// <param name="self">The action to modify.</param>
         /// <param name="others">The actions to combine with <paramref name="self"/>.</param>
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
-        public static Action Combine(this Action self, params Action[] others) 
+        public static Action Combine(this Action self, params Action[] others)
         {
             if (self is null)
                 return self;

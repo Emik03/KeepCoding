@@ -10,7 +10,7 @@ namespace KeepCoding
     /// Custom inspector for <see cref="TPScript{TModule}"/>. Written by Emik.
     /// </summary>
     [CanEditMultipleObjects]
-    [CustomEditor(typeof(TPScript<>),  true)]
+    [CustomEditor(typeof(TPScript<>), true)]
     public class TPScriptEditor : Editor
     {
         /// <summary>

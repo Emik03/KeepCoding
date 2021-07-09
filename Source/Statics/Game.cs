@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Application;
 using static KeepCoding.ComponentPool;
 using static Localization;
-using KTMasterAudio = DarkTonic.MasterAudio.MasterAudio;
+using static UnityEngine.Application;
 using KTInput = KTInputManager;
+using KTMasterAudio = DarkTonic.MasterAudio.MasterAudio;
 using KTMod = ModManager;
+using KTModSourceEnum = Assets.Scripts.Mods.ModInfo.ModSourceEnum;
 using KTPlayer = Assets.Scripts.Settings.PlayerSettingsManager;
 using KTScene = SceneManager;
-using KTModSourceEnum = Assets.Scripts.Mods.ModInfo.ModSourceEnum;
 
 namespace KeepCoding
 {
@@ -146,8 +146,8 @@ namespace KeepCoding
             /// <remarks>
             /// Default: "Everybody has to start somewhere. Let's just hope it doesn't end here too.\n\nMake sure your experts have the manual and are ready to help.".
             /// </remarks>
-            public static string Description => isEditor 
-                ? "Everybody has to start somewhere. Let's just hope it doesn't end here too.\n\nMake sure your experts have the manual and are ready to help." 
+            public static string Description => isEditor
+                ? "Everybody has to start somewhere. Let's just hope it doesn't end here too.\n\nMake sure your experts have the manual and are ready to help."
                 : DescriptionInternal;
             private static string DescriptionInternal => GetLocalizedString(KTScene.Instance.GameplayState.Mission.DescriptionTerm);
 
@@ -396,7 +396,7 @@ namespace KeepCoding
         /// <remarks>
         /// Default: Internal Logger method call.
         /// </remarks>
-        public static Action<GameObject, int> AddStrikes => isEditor 
+        public static Action<GameObject, int> AddStrikes => isEditor
             ? (gameObject, amount) => Logger.Self($"Adding the bomb's strike count with {amount}.")
             : AddStrikesInternal;
         private static Action<GameObject, int> AddStrikesInternal => (gameObject, amount) =>

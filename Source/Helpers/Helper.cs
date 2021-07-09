@@ -506,7 +506,7 @@ namespace KeepCoding
             try
             {
                 action();
-            } 
+            }
             catch (Exception e) when (exceptionTypes.Contains(e.GetType())) { }
         }
 

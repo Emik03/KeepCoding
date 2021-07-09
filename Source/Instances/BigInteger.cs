@@ -635,7 +635,7 @@ namespace KeepCoding
                 if (output[i] < 0)
                 {
                     output[i] += 10;
-                    
+
                     for (int j = i + 1; j < output.Count; j++)
                     {
                         output[j]--;
