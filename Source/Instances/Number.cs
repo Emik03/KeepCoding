@@ -804,7 +804,9 @@ namespace KeepCoding
         /// <summary>
         /// Determines if the value is not a number.
         /// </summary>
+        /// <remarks>
         /// Calling this will assume that the value is either <see cref="float"/> or <see cref="double"/>. An exception is thrown otherwise.
+        /// </remarks>
         /// <returns>True if the value is not a number.</returns>
         public bool IsNaN() => Do(
             null,
@@ -981,6 +983,38 @@ namespace KeepCoding
             _ => TypeCode.Decimal);
 
         /// <summary>
+        /// Calculates the rem-euclid modulo, which allows negative numbers to be properly calculated.
+        /// </summary>
+        /// <param name="other">The right-hand side operator.</param>
+        /// <returns>Itself mod <paramref name="other"/>.</returns>
+        public Number Modulo(Number other) => (this % other + other) % other;
+
+        /// <summary>
+        /// Creates a new <see cref="Number"/> with the inner type being the type specified.
+        /// </summary>
+        /// <remarks>
+        /// Calling this will assume that the value is <see cref="sbyte"/>, <see cref="byte"/>, <see cref="short"/>, and <see cref="ushort"/>, <see cref="int"/>, <see cref="uint"/>, <see cref="long"/>, <see cref="ulong"/>, <see cref="float"/>, <see cref="double"/>, or <see cref="decimal"/>. An exception is thrown outherwise.
+        /// </remarks>
+        /// <exception cref="UnrecognizedTypeException"></exception>
+        /// <typeparam name="T">The inner type of the <see cref="Number"/>.</typeparam>
+        /// <returns>A <see cref="Number"/> with inner <typeparamref name="T"/>.</returns>
+        public static Number New<T>(T _ = default) => Type.GetTypeCode(typeof(T)) switch
+        {
+            TypeCode.SByte => new Number(new sbyte()),
+            TypeCode.Byte => new Number(new byte()),
+            TypeCode.Int16 => new Number(new short()),
+            TypeCode.UInt16 => new Number(new ushort()),
+            TypeCode.Int32 => new Number(new int()),
+            TypeCode.UInt32 => new Number(new uint()),
+            TypeCode.Int64 => new Number(new long()),
+            TypeCode.UInt64 => new Number(new ulong()),
+            TypeCode.Single => new Number(new float()),
+            TypeCode.Double => new Number(new double()),
+            TypeCode.Decimal => new Number(new decimal()),
+            _ => throw WrongType<T>()
+        };
+
+        /// <summary>
         /// Parses a <see cref="string"/> as <see cref="Number"/>. An exception is thrown if it fails.
         /// </summary>
         /// <remarks>
@@ -1024,6 +1058,25 @@ namespace KeepCoding
         /// <returns>The <see cref="string"/> as <see cref="Number"/>.</returns>
         public static Number Parse(string s, NumberStyles style, NumberFormatInfo info) => EarliestParse(s, style, info) ?? throw WrongFormat(s);
 
+        /// <summary>
+        /// Casts the <see cref="Number"/> into the numeric type. Unlike implicit casting, the value will trim the bytes that cannot occupy the new datatype, such as a number being too large or decimals.
+        /// </summary>
+        /// <returns>Itself as <typeparamref name="T"/>.</returns>
+        public T Cast<T>() => (T)New<T>().Do<object>(
+            _ => Trunc() % New<T>().MaxValue,
+            _ => TruncAbs() % New<T>().MaxValue,
+            _ => Trunc() % New<T>().MaxValue,
+            _ => TruncAbs() % New<T>().MaxValue,
+            _ => Trunc() % New<T>().MaxValue,
+            _ => TruncAbs() % New<T>().MaxValue,
+            _ => Trunc() % New<T>().MaxValue,
+            _ => TruncAbs() % New<T>().MaxValue,
+            _ => this % New<T>().MaxValue,
+            _ => this,
+            _ => this % New<T>().MaxValue);
+
+        private static FormatException WrongFormat(string value) => throw new FormatException($"The value {value} is not formatted correctly.");
+
         private static Number EarliestParse(string s, NumberStyles style, NumberFormatInfo info) => sbyte.TryParse(s, out sbyte sb)
                 ? (Number)sb
                 : byte.TryParse(s, style, info, out byte b)
@@ -1047,6 +1100,14 @@ namespace KeepCoding
                 : decimal.TryParse(s, style, info, out decimal de)
                 ? (Number)de
                 : null;
+
+        private Number Trunc() => Truncate((double)this);
+
+        private Number TruncAbs() => Abs(Truncate((double)this));
+
+        private static UnrecognizedTypeException WrongType<T>() => throw new UnrecognizedTypeException($"The type {typeof(T)} in this case is not valid.");
+
+        private static UnrecognizedTypeException WrongType<T>(T value) => throw new UnrecognizedTypeException($"The value {value} has the type {typeof(T)} which in this case is not valid.");
 
         private T Do<T>(Func<sbyte, T> doSb, Func<byte, T> doB, Func<short, T> doS, Func<ushort, T> doUs, Func<int, T> doI, Func<uint, T> doUi, Func<long, T> doL, Func<ulong, T> doUl, Func<float, T> doF, Func<double, T> doD, Func<decimal, T> doDe) => _value switch
         {
@@ -1081,9 +1142,5 @@ namespace KeepCoding
         };
 
         private static TResult Run<T, TResult>(T value, Func<T, TResult> func) => func is { } ? func(value) : throw WrongType(value);
-
-        private static FormatException WrongFormat(string value) => throw new FormatException($"The value {value} is not formatted correctly.");
-
-        private static UnrecognizedTypeException WrongType<T>(T value) => throw new UnrecognizedTypeException($"The value {value} has the type {typeof(T)} which in this case is not valid.");
     }
 }
