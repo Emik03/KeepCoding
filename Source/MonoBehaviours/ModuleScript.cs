@@ -441,7 +441,7 @@ namespace KeepCoding
             if (TP?.IsTP ?? false)
                 return;
 
-            if (Get<KMSelectable>(allowNull: true).Call())
+            if (Get<KMSelectable>(allowNull: true))
                 Get<KMSelectable>().Assign(onInteract: () =>
                 {
                     StartCoroutine(WaitForSolve());
