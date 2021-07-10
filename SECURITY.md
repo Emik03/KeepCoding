@@ -4,6 +4,8 @@
 
 To ensure that your modules remain stable, ensure that your version of `KeepCoding` is up-to-date with the latest version.
 
+Currently semantic versioning is used, with format `MAJOR.MINOR.PATCH`. Prior to version `2`, the format `1.MAJOR.MINOR` was used instead. 
+
 - A :white_check_mark: symbol indicates that there are no major or minor security issues. 
 - A :grey_question: symbol indicates that there are no major security issues. 
 - A :x: indicates that the version contains major vulnerabilities and is not recommended to be used.
