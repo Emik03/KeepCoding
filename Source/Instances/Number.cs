@@ -634,48 +634,72 @@ namespace KeepCoding
         /// <summary>
         /// Implicitly converts the value to a <see cref="sbyte"/>.
         /// </summary>
+        /// <remarks>
+        /// Calling this will assume that the value is in inclusively between <see cref="sbyte.MinValue"/> and <see cref="sbyte.MaxValue"/>.
+        /// </remarks>
         /// <param name="number">The number to cast.</param>
         public static implicit operator sbyte(Number number) => ToSByte(number._value);
 
         /// <summary>
         /// Implicitly converts the value to a <see cref="byte"/>.
         /// </summary>
+        /// <remarks>
+        /// Calling this will assume that the value is in inclusively between <see cref="byte.MinValue"/> and <see cref="byte.MaxValue"/>.
+        /// </remarks>
         /// <param name="number">The number to cast.</param>
         public static implicit operator byte(Number number) => ToByte(number._value);
 
         /// <summary>
         /// Implicitly converts the value to a <see cref="short"/>.
         /// </summary>
+        /// <remarks>
+        /// Calling this will assume that the value is in inclusively between <see cref="short.MinValue"/> and <see cref="short.MaxValue"/>.
+        /// </remarks>
         /// <param name="number">The number to cast.</param>
         public static implicit operator short(Number number) => ToInt16(number._value);
 
         /// <summary>
         /// Implicitly converts the value to a <see cref="ushort"/>.
         /// </summary>
+        /// <remarks>
+        /// Calling this will assume that the value is in inclusively between <see cref="ushort.MinValue"/> and <see cref="ushort.MaxValue"/>.
+        /// </remarks>
         /// <param name="number">The number to cast.</param>
         public static implicit operator ushort(Number number) => ToUInt16(number._value);
 
         /// <summary>
         /// Implicitly converts the value to a <see cref="int"/>.
         /// </summary>
+        /// <remarks>
+        /// Calling this will assume that the value is in inclusively between <see cref="int.MinValue"/> and <see cref="int.MaxValue"/>.
+        /// </remarks>
         /// <param name="number">The number to cast.</param>
         public static implicit operator int(Number number) => ToInt32(number._value);
 
         /// <summary>
         /// Implicitly converts the value to a <see cref="uint"/>.
         /// </summary>
+        /// <remarks>
+        /// Calling this will assume that the value is in inclusively between <see cref="uint.MinValue"/> and <see cref="uint.MaxValue"/>.
+        /// </remarks>
         /// <param name="number">The number to cast.</param>
         public static implicit operator uint(Number number) => ToUInt32(number._value);
 
         /// <summary>
         /// Implicitly converts the value to a <see cref="long"/>.
         /// </summary>
+        /// <remarks>
+        /// Calling this will assume that the value is in inclusively between <see cref="long.MinValue"/> and <see cref="long.MaxValue"/>.
+        /// </remarks>
         /// <param name="number">The number to cast.</param>
         public static implicit operator long(Number number) => ToInt64(number._value);
 
         /// <summary>
         /// Implicitly converts the value to a <see cref="ulong"/>.
         /// </summary>
+        /// <remarks>
+        /// Calling this will assume that the value is in inclusively between <see cref="ulong.MinValue"/> and <see cref="ulong.MaxValue"/>.
+        /// </remarks>
         /// <param name="number">The number to cast.</param>
         public static implicit operator ulong(Number number) => ToUInt64(number._value);
 
@@ -1063,17 +1087,17 @@ namespace KeepCoding
         /// </summary>
         /// <returns>Itself as <typeparamref name="T"/>.</returns>
         public T Cast<T>() => (T)New<T>().Do<object>(
-            _ => Trunc() % New<T>().MaxValue,
-            _ => TruncAbs() % New<T>().MaxValue,
-            _ => Trunc() % New<T>().MaxValue,
-            _ => TruncAbs() % New<T>().MaxValue,
-            _ => Trunc() % New<T>().MaxValue,
-            _ => TruncAbs() % New<T>().MaxValue,
-            _ => Trunc() % New<T>().MaxValue,
-            _ => TruncAbs() % New<T>().MaxValue,
-            _ => this % New<T>().MaxValue,
-            _ => this,
-            _ => this % New<T>().MaxValue);
+            _ => (sbyte)(Trunc() % sbyte.MaxValue),
+            _ => (byte)(TruncAbs() % byte.MaxValue),
+            _ => (short)(Trunc() % short.MaxValue),
+            _ => (ushort)(TruncAbs() % ushort.MaxValue),
+            _ => (int)(Trunc() % int.MaxValue),
+            _ => (uint)(TruncAbs() % uint.MaxValue),
+            _ => (long)(Trunc() % long.MaxValue),
+            _ => (ulong)(TruncAbs() % ulong.MaxValue),
+            _ => (float)this,
+            _ => (double)this,
+            _ => (decimal)this);
 
         private static FormatException WrongFormat(string value) => throw new FormatException($"The value {value} is not formatted correctly.");
 
