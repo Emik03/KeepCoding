@@ -438,17 +438,17 @@ namespace KeepCoding
 
             Log("The module threw an unhandled exception... {0}", condition);
 
-            if (!(bool)(TP?.IsTP))
-            {
-                if (Get<KMSelectable>(allowNull: true))
-                    Get<KMSelectable>().Assign(onInteract: () =>
-                    {
-                        StartCoroutine(WaitForSolve());
-                        Get<KMSelectable>().OnInteract = null;
-                    });
-                else
+            if (TP?.IsTP ?? false)
+                return;
+
+            if (Get<KMSelectable>(allowNull: true).Call())
+                Get<KMSelectable>().Assign(onInteract: () =>
+                {
                     StartCoroutine(WaitForSolve());
-            }
+                    Get<KMSelectable>().OnInteract = null;
+                });
+            else
+                StartCoroutine(WaitForSolve());
         }
 
         private void TimerTick()
