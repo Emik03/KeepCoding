@@ -84,7 +84,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
         /// <param name="logs">All of the variables to throughly log.</param>
-        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => Debug.LogWarning(Helper.DumpTemplate.Form(Name, Id, string.Join("", logs.Select((l, n) => Helper.VariableTemplate.Form(n, Helper.NameOfVariable(l), l.Compile()()?.GetType().ToString() ?? Helper.Null, string.Join(", ", l.Compile()().Unwrap(getVariables).Select(o => o.ToString()).ToArray()))).ToArray())));
+        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => Debug.LogWarning(Helper.DumpTemplate.Form(Name, Id, string.Join("", logs.Select((l, n) => Helper.VariableTemplate.Form(n, l.NameOf(), l.Compile()()?.GetType().ToString() ?? Helper.Null, string.Join(", ", l.Compile()().Unwrap(getVariables).Select(o => o.ToString()).ToArray()))).ToArray())));
 
         /// <summary>
         /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
