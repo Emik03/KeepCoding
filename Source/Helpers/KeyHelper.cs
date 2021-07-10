@@ -10,7 +10,7 @@ namespace KeepCoding
     /// <summary>
     /// Inline methods for when typically key words are used. Written by Emik.
     /// </summary>
-    public static class KeywordHelper
+    public static class KeyHelper
     {
         /// <summary>
         /// The <see langword="as"/> operator explicitly converts the result of an expression to a given reference or nullable value type. If the conversion is not possible, the <see langword="as"/> operator returns <see langword="null"/>. Unlike a cast expression, the <see langword="as"/> operator never throws an exception.
