@@ -99,8 +99,8 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see cref="ControlType.Mouse"/>.
             /// </remarks>
-            public static ControlType CurrentControlType => isEditor ? ControlType.Mouse : CurrentControlTypeInternal;
-            private static ControlType CurrentControlTypeInternal => (ControlType)KTInput.Instance.CurrentControlType;
+            public static ControlType CurrentControlType => isEditor ? ControlType.Mouse : CurrentControlTypeInner;
+            private static ControlType CurrentControlTypeInner => (ControlType)KTInput.Instance.CurrentControlType;
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="true"/>.
             /// </remarks>
-            public static Predicate<string> IsGroupInfo => s => isEditor || GroupInfoInternal(s) is { };
+            public static Predicate<string> IsGroupInfo => s => isEditor || GroupInfoInner(s) is { };
 
             /// <value>
             /// Gets the group info of a given string. To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to AudioGroupInfo type to restore its functionality.
@@ -122,8 +122,8 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="null"/>.
             /// </remarks>
-            public static Func<string, object> GroupInfo => isEditor ? s => null : GroupInfoInternal;
-            private static Func<string, object> GroupInfoInternal => KTMasterAudio.GetGroupInfo;
+            public static Func<string, object> GroupInfo => isEditor ? s => null : GroupInfoInner;
+            private static Func<string, object> GroupInfoInner => KTMasterAudio.GetGroupInfo;
         }
 
         /// <summary>
@@ -137,8 +137,8 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool IsPacingEvents => !isEditor && IsPacingEventsInternal;
-            private static bool IsPacingEventsInternal => KTScene.Instance.GameplayState.Mission.PacingEventsEnabled;
+            public static bool IsPacingEvents => !isEditor && IsPacingEventsInner;
+            private static bool IsPacingEventsInner => KTScene.Instance.GameplayState.Mission.PacingEventsEnabled;
 
             /// <value>
             /// The description as it appears in the bomb binder.
@@ -148,8 +148,8 @@ namespace KeepCoding
             /// </remarks>
             public static string Description => isEditor
                 ? "Everybody has to start somewhere. Let's just hope it doesn't end here too.\n\nMake sure your experts have the manual and are ready to help."
-                : DescriptionInternal;
-            private static string DescriptionInternal => GetLocalizedString(KTScene.Instance.GameplayState.Mission.DescriptionTerm);
+                : DescriptionInner;
+            private static string DescriptionInner => GetLocalizedString(KTScene.Instance.GameplayState.Mission.DescriptionTerm);
 
             /// <value>
             /// The mission name as it appears in the bomb binder.
@@ -157,8 +157,8 @@ namespace KeepCoding
             /// <remarks>
             /// Default: "The First Bomb"
             /// </remarks>
-            public static string DisplayName => isEditor ? "The First Bomb" : DisplayNameInternal;
-            private static string DisplayNameInternal => GetLocalizedString(KTScene.Instance.GameplayState.Mission.DisplayNameTerm);
+            public static string DisplayName => isEditor ? "The First Bomb" : DisplayNameInner;
+            private static string DisplayNameInner => GetLocalizedString(KTScene.Instance.GameplayState.Mission.DisplayNameTerm);
 
             /// <value>
             /// The ID of the mission.
@@ -166,8 +166,8 @@ namespace KeepCoding
             /// <remarks>
             /// Default: "firsttime"
             /// </remarks>
-            public static string ID => isEditor ? "firsttime" : IDInternal;
-            private static string IDInternal => KTScene.Instance.GameplayState.Mission.ID;
+            public static string ID => isEditor ? "firsttime" : IDInner;
+            private static string IDInner => KTScene.Instance.GameplayState.Mission.ID;
 
             /// <value>
             /// Gets the generator setting of the mission.
@@ -175,8 +175,8 @@ namespace KeepCoding
             /// <remarks>
             /// New instance of <see cref="GeneratorSetting"/>, default constructor.
             /// </remarks>
-            public static GeneratorSetting GeneratorSetting => isEditor ? new GeneratorSetting() : GeneratorSettingInternal;
-            private static GeneratorSetting GeneratorSettingInternal
+            public static GeneratorSetting GeneratorSetting => isEditor ? new GeneratorSetting() : GeneratorSettingInner;
+            private static GeneratorSetting GeneratorSettingInner
             {
                 get
                 {
@@ -221,8 +221,8 @@ namespace KeepCoding
             /// <remarks>
             /// New instance of <see cref="List{T}"/>, with no elements.
             /// </remarks>
-            public static Func<List<string>> GetDisabledModPaths => isEditor ? () => new List<string>() : GetDisabledModPathsInternal;
-            private static Func<List<string>> GetDisabledModPathsInternal => KTMod.Instance.GetDisabledModPaths;
+            public static Func<List<string>> GetDisabledModPaths => isEditor ? () => new List<string>() : GetDisabledModPathsInner;
+            private static Func<List<string>> GetDisabledModPathsInner => KTMod.Instance.GetDisabledModPaths;
 
             /// <value>
             /// Gets all of the mod paths within the <see cref="ModSourceEnum"/> constraint.
@@ -230,8 +230,8 @@ namespace KeepCoding
             /// <remarks>
             /// New instance of <see cref="List{T}"/>, with no elements.
             /// </remarks>
-            public static Func<ModSourceEnum, List<string>> GetAllModPathsFromSource => isEditor ? source => new List<string>() : GetAllModPathsFromSourceInternal;
-            private static Func<ModSourceEnum, List<string>> GetAllModPathsFromSourceInternal => source => KTMod.Instance.GetAllModPathsFromSource((KTModSourceEnum)source);
+            public static Func<ModSourceEnum, List<string>> GetAllModPathsFromSource => isEditor ? source => new List<string>() : GetAllModPathsFromSourceInner;
+            private static Func<ModSourceEnum, List<string>> GetAllModPathsFromSourceInner => source => KTMod.Instance.GetAllModPathsFromSource((KTModSourceEnum)source);
 
             /// <value>
             /// Gets all of the enabled mod paths within the <see cref="ModSourceEnum"/> constraint.
@@ -239,8 +239,8 @@ namespace KeepCoding
             /// <remarks>
             /// New instance of <see cref="List{T}"/>, with no elements.
             /// </remarks>
-            public static Func<ModSourceEnum, List<string>> GetEnabledModPaths => isEditor ? source => new List<string>() : GetEnabledModPathsInternal;
-            private static Func<ModSourceEnum, List<string>> GetEnabledModPathsInternal => source => KTMod.Instance.GetEnabledModPaths((KTModSourceEnum)source);
+            public static Func<ModSourceEnum, List<string>> GetEnabledModPaths => isEditor ? source => new List<string>() : GetEnabledModPathsInner;
+            private static Func<ModSourceEnum, List<string>> GetEnabledModPathsInner => source => KTMod.Instance.GetEnabledModPaths((KTModSourceEnum)source);
         }
 
         /// <summary>
@@ -254,8 +254,8 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool InvertTiltControls => !isEditor && InvertTiltControlsInternal;
-            private static bool InvertTiltControlsInternal => KTPlayer.Instance.PlayerSettings.InvertTiltControls;
+            public static bool InvertTiltControls => !isEditor && InvertTiltControlsInner;
+            private static bool InvertTiltControlsInner => KTPlayer.Instance.PlayerSettings.InvertTiltControls;
 
             /// <value>
             /// Determines if the option to lock the mouse to the window is enabled.
@@ -263,8 +263,8 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool LockMouseToWindow => !isEditor && LockMouseToWindowInternal;
-            private static bool LockMouseToWindowInternal => KTPlayer.Instance.PlayerSettings.LockMouseToWindow;
+            public static bool LockMouseToWindow => !isEditor && LockMouseToWindowInner;
+            private static bool LockMouseToWindowInner => KTPlayer.Instance.PlayerSettings.LockMouseToWindow;
 
             /// <value>
             /// Determines if the option to show the leaderboards from the pamphlet.
@@ -272,8 +272,8 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="true"/>.
             /// </remarks>
-            public static bool ShowLeaderBoards => isEditor || ShowLeaderBoardsInternal;
-            private static bool ShowLeaderBoardsInternal => KTPlayer.Instance.PlayerSettings.ShowLeaderBoards;
+            public static bool ShowLeaderBoards => isEditor || ShowLeaderBoardsInner;
+            private static bool ShowLeaderBoardsInner => KTPlayer.Instance.PlayerSettings.ShowLeaderBoards;
 
             /// <value>
             /// Determines if the option to show the rotation of the User Interface is enabled.
@@ -281,8 +281,8 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="true"/>.
             /// </remarks>
-            public static bool ShowRotationUI => isEditor || ShowRotationUIInternal;
-            private static bool ShowRotationUIInternal => KTPlayer.Instance.PlayerSettings.ShowRotationUI;
+            public static bool ShowRotationUI => isEditor || ShowRotationUIInner;
+            private static bool ShowRotationUIInner => KTPlayer.Instance.PlayerSettings.ShowRotationUI;
 
             /// <value>
             /// Determines if the option to show scanlines is enabled.
@@ -290,8 +290,8 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="true"/>.
             /// </remarks>
-            public static bool ShowScanline => isEditor || ShowScanlineInternal;
-            private static bool ShowScanlineInternal => KTPlayer.Instance.PlayerSettings.ShowScanline;
+            public static bool ShowScanline => isEditor || ShowScanlineInner;
+            private static bool ShowScanlineInner => KTPlayer.Instance.PlayerSettings.ShowScanline;
 
             /// <value>
             /// Determines if the option to skip the title screen is enabled.
@@ -299,8 +299,8 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool SkipTitleScreen => !isEditor && SkipTitleScreenInternal;
-            private static bool SkipTitleScreenInternal => KTPlayer.Instance.PlayerSettings.SkipTitleScreen;
+            public static bool SkipTitleScreen => !isEditor && SkipTitleScreenInner;
+            private static bool SkipTitleScreenInner => KTPlayer.Instance.PlayerSettings.SkipTitleScreen;
 
             /// <value>
             /// Determines if the VR or regular controllers vibrate.
@@ -308,8 +308,8 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="true"/>.
             /// </remarks>
-            public static bool RumbleEnabled => isEditor || RumbleEnabledInternal;
-            private static bool RumbleEnabledInternal => KTPlayer.Instance.PlayerSettings.RumbleEnabled;
+            public static bool RumbleEnabled => isEditor || RumbleEnabledInner;
+            private static bool RumbleEnabledInner => KTPlayer.Instance.PlayerSettings.RumbleEnabled;
 
             /// <value>
             /// Determines if the touchpad controls are inverted.
@@ -317,8 +317,8 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool TouchpadInvert => !isEditor && TouchpadInvertInternal;
-            private static bool TouchpadInvertInternal => KTPlayer.Instance.PlayerSettings.TouchpadInvert;
+            public static bool TouchpadInvert => !isEditor && TouchpadInvertInner;
+            private static bool TouchpadInvertInner => KTPlayer.Instance.PlayerSettings.TouchpadInvert;
 
             /// <value>
             /// Determines if the option to always use mods is enabled.
@@ -326,8 +326,8 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool UseModsAlways => !isEditor && UseModsAlwaysInternal;
-            private static bool UseModsAlwaysInternal => KTPlayer.Instance.PlayerSettings.UseModsAlways;
+            public static bool UseModsAlways => !isEditor && UseModsAlwaysInner;
+            private static bool UseModsAlwaysInner => KTPlayer.Instance.PlayerSettings.UseModsAlways;
 
             /// <value>
             /// Determines if the option to use parallel/simultaneous mod loading is enabled.
@@ -335,14 +335,14 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool UseParallelModLoading => !isEditor && UseParallelModLoadingInternal;
-            private static bool UseParallelModLoadingInternal => KTPlayer.Instance.PlayerSettings.UseParallelModLoading;
+            public static bool UseParallelModLoading => !isEditor && UseParallelModLoadingInner;
+            private static bool UseParallelModLoadingInner => KTPlayer.Instance.PlayerSettings.UseParallelModLoading;
 
             /// <value>
             /// Determines if VR mode is requested.
             /// </value>
-            public static bool VRModeRequested => isEditor || VRModeRequestedInternal;
-            private static bool VRModeRequestedInternal => KTPlayer.Instance.PlayerSettings.VRModeRequested;
+            public static bool VRModeRequested => isEditor || VRModeRequestedInner;
+            private static bool VRModeRequestedInner => KTPlayer.Instance.PlayerSettings.VRModeRequested;
 
             /// <value>
             /// The intensity of anti-aliasing currently on the game. Ranges 0 to 8.
@@ -350,8 +350,8 @@ namespace KeepCoding
             /// <remarks>
             /// Default: 8.
             /// </remarks>
-            public static int AntiAliasing => isEditor ? 8 : AntiAliasingInternal;
-            private static int AntiAliasingInternal => KTPlayer.Instance.PlayerSettings.AntiAliasing;
+            public static int AntiAliasing => isEditor ? 8 : AntiAliasingInner;
+            private static int AntiAliasingInner => KTPlayer.Instance.PlayerSettings.AntiAliasing;
 
             /// <value>
             /// The current music volume from the dossier menu. Ranges 0 to 100.
@@ -359,8 +359,8 @@ namespace KeepCoding
             /// <remarks>
             /// Default: 100.
             /// </remarks>
-            public static int MusicVolume => isEditor ? 100 : MusicVolumeInternal;
-            private static int MusicVolumeInternal => KTPlayer.Instance.PlayerSettings.MusicVolume;
+            public static int MusicVolume => isEditor ? 100 : MusicVolumeInner;
+            private static int MusicVolumeInner => KTPlayer.Instance.PlayerSettings.MusicVolume;
 
             /// <value>
             /// The current sound effects volume from the dosssier menu. Ranges 0 to 100.
@@ -368,8 +368,8 @@ namespace KeepCoding
             /// <remarks>
             /// Default: 100.
             /// </remarks>
-            public static int SFXVolume => isEditor ? 100 : SFXVolumeInternal;
-            private static int SFXVolumeInternal => KTPlayer.Instance.PlayerSettings.SFXVolume;
+            public static int SFXVolume => isEditor ? 100 : SFXVolumeInner;
+            private static int SFXVolumeInner => KTPlayer.Instance.PlayerSettings.SFXVolume;
 
             /// <value>
             /// Determines if VSync is on or off.
@@ -377,8 +377,8 @@ namespace KeepCoding
             /// <remarks>
             /// Default: 1.
             /// </remarks>
-            public static int VSync => isEditor ? 1 : VSyncInternal;
-            private static int VSyncInternal => KTPlayer.Instance.PlayerSettings.VSync;
+            public static int VSync => isEditor ? 1 : VSyncInner;
+            private static int VSyncInner => KTPlayer.Instance.PlayerSettings.VSync;
 
             /// <value>
             /// The current language code.
@@ -386,8 +386,8 @@ namespace KeepCoding
             /// <remarks>
             /// Default: "en".
             /// </remarks>
-            public static string LanguageCode => isEditor ? "en" : LanguageCodeInternal;
-            private static string LanguageCodeInternal => KTPlayer.Instance.PlayerSettings.LanguageCode;
+            public static string LanguageCode => isEditor ? "en" : LanguageCodeInner;
+            private static string LanguageCodeInner => KTPlayer.Instance.PlayerSettings.LanguageCode;
         }
 
         /// <value>
@@ -398,8 +398,8 @@ namespace KeepCoding
         /// </remarks>
         public static Action<GameObject, int> AddStrikes => isEditor
             ? (gameObject, amount) => Logger.Self($"Adding the bomb's strike count with {amount}.")
-            : AddStrikesInternal;
-        private static Action<GameObject, int> AddStrikesInternal => (gameObject, amount) =>
+            : AddStrikesInner;
+        private static Action<GameObject, int> AddStrikesInner => (gameObject, amount) =>
         {
             Logger.Self($"Adding the bomb's strike count with {amount}.");
             var bomb = (Bomb)Bomb(gameObject);
@@ -414,8 +414,8 @@ namespace KeepCoding
         /// </remarks>
         public static Action<GameObject, int> SetStrikes => isEditor
             ? (gameObject, amount) => Logger.Self($"Setting the bomb's strike count to {amount}.")
-            : SetStrikesInternal;
-        private static Action<GameObject, int> SetStrikesInternal => (gameObject, amount) =>
+            : SetStrikesInner;
+        private static Action<GameObject, int> SetStrikesInner => (gameObject, amount) =>
         {
             Logger.Self($"Setting the bomb's strike count to {amount}.");
             var bomb = (Bomb)Bomb(gameObject);
@@ -428,8 +428,8 @@ namespace KeepCoding
         /// <remarks>
         /// Default: <see langword="null"/>.
         /// </remarks>
-        public static Func<GameObject, object> Bomb => isEditor ? gameObject => null : BombInternal;
-        private static Func<GameObject, object> BombInternal => gameObject => gameObject.GetComponentInParent(typeof(Bomb));
+        public static Func<GameObject, object> Bomb => isEditor ? gameObject => null : BombInner;
+        private static Func<GameObject, object> BombInner => gameObject => gameObject.GetComponentInParent(typeof(Bomb));
 
         /// <value>
         /// Gets the game's internal timer component. To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to TimerComponent or <see cref="MonoBehaviour"/> type to restore its functionality.
@@ -437,8 +437,8 @@ namespace KeepCoding
         /// <remarks>
         /// Default: <see langword="null"/>.
         /// </remarks>
-        public static Func<GameObject, object> Timer => isEditor ? gameObject => null : TimerInternal;
-        private static Func<GameObject, object> TimerInternal => gameObject => ((Bomb)Bomb(gameObject)).GetTimer();
+        public static Func<GameObject, object> Timer => isEditor ? gameObject => null : TimerInner;
+        private static Func<GameObject, object> TimerInner => gameObject => ((Bomb)Bomb(gameObject)).GetTimer();
 
         /// <value>
         /// Gets all of the vanilla modules from the bomb supplied, including needies. To prevent a reference to the game, the type is boxed in an <see cref="object"/> <see cref="Array"/>. You can cast it to BombComponent type to restore its functionality.
@@ -446,7 +446,7 @@ namespace KeepCoding
         /// <remarks>
         /// Default: An empty <see cref="object"/> <see cref="Array"/>.
         /// </remarks>
-        public static Func<KMBomb, object[]> Vanillas => isEditor ? gameObject => new object[0] : VanillasInternal;
-        private static Func<KMBomb, object[]> VanillasInternal => bomb => bomb.GetComponentsInChildren(typeof(BombComponent)).ConvertAll(c => (object)c);
+        public static Func<KMBomb, object[]> Vanillas => isEditor ? gameObject => new object[0] : VanillasInner;
+        private static Func<KMBomb, object[]> VanillasInner => bomb => bomb.GetComponentsInChildren(typeof(BombComponent)).ConvertAll(c => (object)c);
     }
 }
