@@ -29,6 +29,7 @@ namespace KeepCoding
         /// <remarks>
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/try-catch"/>
         /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <param name="action">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <param name="final">The action to run on either clause.</param>
@@ -55,6 +56,7 @@ namespace KeepCoding
         /// <remarks>
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/try-catch"/>
         /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T">The type to catch.</typeparam>
         /// <param name="action">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
@@ -67,6 +69,7 @@ namespace KeepCoding
         /// <remarks>
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/try-catch"/>
         /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T1">The first type to catch.</typeparam>
         /// <typeparam name="T2">The second type to catch.</typeparam>
         /// <param name="action">The action to try.</param>
@@ -80,6 +83,7 @@ namespace KeepCoding
         /// <remarks>
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/try-catch"/>
         /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T1">The first type to catch.</typeparam>
         /// <typeparam name="T2">The second type to catch.</typeparam>
         /// <typeparam name="T3">The third type to catch.</typeparam>
@@ -94,6 +98,7 @@ namespace KeepCoding
         /// <remarks>
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/try-catch"/>
         /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T1">The first type to catch.</typeparam>
         /// <typeparam name="T2">The second type to catch.</typeparam>
         /// <typeparam name="T3">The third type to catch.</typeparam>
@@ -109,6 +114,7 @@ namespace KeepCoding
         /// <remarks>
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/try-catch"/>
         /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T">The return type.</typeparam>
         /// <param name="action">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
@@ -131,6 +137,7 @@ namespace KeepCoding
         /// <remarks>
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/try-catch"/>
         /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T">The type to catch.</typeparam>
         /// <typeparam name="TResult">The return type.</typeparam>
         /// <param name="action">The action to try.</param>
@@ -143,6 +150,7 @@ namespace KeepCoding
         /// <remarks>
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/try-catch"/>
         /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T1">The first type to catch.</typeparam>
         /// <typeparam name="T2">The second type to catch.</typeparam>
         /// <typeparam name="TResult">The return type.</typeparam>
@@ -156,6 +164,7 @@ namespace KeepCoding
         /// <remarks>
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/try-catch"/>
         /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T1">The first type to catch.</typeparam>
         /// <typeparam name="T2">The second type to catch.</typeparam>
         /// <typeparam name="T3">The third type to catch.</typeparam>
@@ -170,6 +179,7 @@ namespace KeepCoding
         /// <remarks>
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/try-catch"/>
         /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T1">The first type to catch.</typeparam>
         /// <typeparam name="T2">The second type to catch.</typeparam>
         /// <typeparam name="T3">The third type to catch.</typeparam>
@@ -185,6 +195,7 @@ namespace KeepCoding
         /// <remarks>
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/checked"/>
         /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <param name="action">The action to run inside a <see langword="checked"/> block.</param>
         public static void Checked(this Action action)
         {
@@ -200,6 +211,7 @@ namespace KeepCoding
         /// <remarks>
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-do-statement"/>
         /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <param name="action">The action to run in the loop.</param>
         /// <param name="condition">The condition to determine whether the loop should keep going.</param>
         public static void DoWhile(this Action action, Func<bool> condition)
@@ -214,6 +226,7 @@ namespace KeepCoding
         /// <remarks>
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-for-statement"/>
         /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T">The type of the declaring variable.</typeparam>
         /// <param name="item">The item to read and write on.</param>
         /// <param name="action">The action for each loop.</param>
@@ -238,9 +251,10 @@ namespace KeepCoding
         /// <remarks>
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement"/>
         /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <param name="iterator">The collection of items to go through one-by-one.</param>
         /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
-        public static void ForEach(this IEnumerable iterator, Action<object> action) => ForEach(iterator.Cast<object>(), action);
+        public static void ForEach(this IEnumerable iterator, Action<object> action) => ForEach(iterator.NullCheck("The iterator cannot be null.").Cast<object>(), action);
 
         /// <summary>
         /// The <see langword="foreach"/> statement executes a statement or a block of statements for each element in an instance of the type that implements the <see cref="IEnumerable"/> or <see cref="IEnumerable{T}"/> interface.
@@ -248,6 +262,7 @@ namespace KeepCoding
         /// <remarks>
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement"/>
         /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T">The type of iterator.</typeparam>
         /// <param name="iterator">The collection of items to go through one-by-one.</param>
         /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
@@ -265,6 +280,7 @@ namespace KeepCoding
         /// <remarks>
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement"/>
         /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <param name="iterator">The collection of items to go through one-by-one.</param>
         /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
         public static void ForEach(this IEnumerator iterator, Action<object> action) => ForEach(iterator.AsEnumerable(), action);
@@ -275,6 +291,7 @@ namespace KeepCoding
         /// <remarks>
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement"/>
         /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T">The type of iterator.</typeparam>
         /// <param name="iterator">The collection of items to go through one-by-one.</param>
         /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
@@ -283,14 +300,19 @@ namespace KeepCoding
         /// <summary>
         /// An <see langword="if"/> statement identifies which statement to run based on the value of a Boolean expression.
         /// </summary>
+        /// <remarks>
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/if-else"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <param name="condition">The condition to check.</param>
         /// <param name="action">The action to run when <paramref name="condition"/> is <see langword="true"/>.</param>
         /// <param name="otherwise">The action to run when <paramref name="condition"/> is <see langword="false"/>.</param>
         public static void If(this bool condition, Action action, Action otherwise = null)
         {
+            action.NullCheck("The action cannot be null.");
+
             if (condition)
-                action?.Invoke();
+                action();
             else
                 otherwise?.Invoke();
         }
@@ -315,7 +337,7 @@ namespace KeepCoding
         /// <typeparam name="T">The type to cast into.</typeparam>
         /// <param name="obj">The object to cast.</param>
         /// <param name="item">The object casted into the type.</param>
-        /// <returns><paramref name="obj"/> <see langword="is"/> <typeparamref name="T"/></returns>
+        /// <returns><paramref name="obj"/> <see langword="is"/> <typeparamref name="T"/> <paramref name="item"/></returns>
         public static bool Is<T>(this object obj, out T item) where T : class => (item = obj as T) is T;
 
         /// <summary>
@@ -324,6 +346,7 @@ namespace KeepCoding
         /// <remarks>
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/lock-statement"/>
         /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T">The type of item to lock.</typeparam>
         /// <param name="item">The item to lock.</param>
         /// <param name="action">The action to run while the item is locked.</param>
@@ -362,6 +385,7 @@ namespace KeepCoding
         /// <remarks>
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/unchecked"/>
         /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <param name="action">The action to ignore overflow-checking.</param>
         public static void Unchecked(this Action action)
         {
@@ -377,6 +401,7 @@ namespace KeepCoding
         /// <remarks>
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-statement"/>
         /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T">The type of <see cref="IDisposable"/>.</typeparam>
         /// <param name="item">The item to use.</param>
         /// <param name="action">The action to use <paramref name="item"/> on.</param>
@@ -392,6 +417,7 @@ namespace KeepCoding
         /// <remarks>
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-while-statement"/>
         /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <param name="action">The action to run in the loop.</param>
         /// <param name="condition">The condition to determine whether the loop should keep going.</param>
         public static void While(this Action action, Func<bool> condition)
