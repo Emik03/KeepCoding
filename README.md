@@ -32,7 +32,7 @@ git clone https://github.com/Emik03/KeepCoding.git
 
 2. Open the solution file with your desired IDE, located at the root folder with a ".sln" extension.
 
-3. Added the missing references. `KMFramework` and `Newtonsoft.Json` should come from the modkit. `TweaksAssembly`, `TwitchPlaysAssembly`, `Assembly-CSharp` should come from the game, and `UnityEditor`, `UnityEngine`, and `UnityEngine.CoreModule` should come from the root folder of the `Managed` folder located within your Unity installation.
+3. Added the missing references. `KMFramework` and `Newtonsoft.Json` should come from the modkit. `Assembly-CSharp` should come from the game. `UnityEditor`, `UnityEngine`, and `UnityEngine.CoreModule` should come from the root folder of the `Managed` folder located within your Unity installation.
 
 4. Inside the IDE, locate the solution explorer and right click the solution then go into "Properties".
 
