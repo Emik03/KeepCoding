@@ -276,22 +276,24 @@ namespace KeepCoding
         protected static object Evaluate<T>(bool condition, T then, object otherwise = null) => condition ? then : otherwise;
 
         /// <summary>
-        /// You can yield return this to indicate that other modules can be interacted, typically during the period where modules have long waiting periods.
+        /// You can yield return this to repeatedly yield return an item until a condition is no longer met.
         /// </summary>
+        /// <param name="item">The item to yield repeatedly.</param>
         /// <param name="condition">The condition to repeatedly check until it returns <see langword="false"/>.</param>
-        /// <returns><see langword="true"/> continously until <paramref name="condition"/> is <see langword="false"/></returns>
-        protected static IEnumerator IdleWhile(Func<bool> condition)
+        /// <returns><paramref name="item"/> continously until <paramref name="condition"/> is <see langword="false"/></returns>
+        protected static IEnumerator YieldWhile<T>(T item, Func<bool> condition)
         {
             while (condition())
-                yield return true;
+                yield return item;
         }
 
         /// <summary>
-        /// You can yield return this to indicate that other modules can be interacted, typically during the period where modules have long waiting periods.
+        /// You can yield return this to repeatedly yield return an item until a condition is met.
         /// </summary>
-        /// <param name="condition">The condition to repeatedly check until it returns <see langword="true"/>.</param>
-        /// <returns><see langword="false"/> continously until <paramref name="condition"/> is <see langword="true"/></returns>
-        protected static IEnumerator IdleUntil(Func<bool> condition) => IdleWhile(() => !condition());
+        /// <param name="item">The item to yield repeatedly.</param>
+        /// <param name="condition">The condition to repeatedly check until it returns <see langword="false"/>.</param>
+        /// <returns><paramref name="item"/> continously until <paramref name="condition"/> is <see langword="true"/></returns>
+        protected static IEnumerator YieldUntil<T>(T item, Func<bool> condition) => YieldWhile(item, () => !condition());
 
         /// <summary>
         /// Presses a sequence of buttons according to <paramref name="indices"/> within <paramref name="selectables"/>, waiting <paramref name="wait"/> seconds in-between each, and interrupting as soon as <see cref="ModuleScript.HasStruck"/> is true.
