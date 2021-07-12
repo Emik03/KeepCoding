@@ -112,6 +112,8 @@ namespace KeepCoding
 
         private int _strikes;
 
+        private static int _order;
+
         private static Dictionary<string, Dictionary<string, object>[]> _database;
 
         private Action _setActive;
@@ -143,7 +145,7 @@ namespace KeepCoding
 
             Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
 
-            StartCoroutine(CheckForUpdates());
+            StartCoroutine(CheckForUpdates(_order++));
             StartCoroutine(WaitForBomb());
         }
 
@@ -441,17 +443,19 @@ namespace KeepCoding
             if (TP?.IsTP ?? false)
                 return;
 
-            if (Get<KMSelectable>(allowNull: true))
-                Get<KMSelectable>().Assign(onInteract: () =>
-                {
-                    StartCoroutine(WaitForSolve());
-                    Get<KMSelectable>().OnInteract = null;
-                });
-            else
+            void ForceSolve()
+            {
                 StartCoroutine(WaitForSolve());
+                Get<KMSelectable>().OnInteract = null;
+            }
+
+            if (Get<KMSelectable>(allowNull: true))
+                Get<KMSelectable>().Assign(onInteract: ForceSolve);
+            else
+                ForceSolve();
         }
 
-        private void TimerTick()
+        private void TimerTickInner()
         {
             var timer = (TimerComponent)Game.Timer(gameObject);
 
@@ -466,9 +470,9 @@ namespace KeepCoding
 
         private static uint VersionToNumber(string s) => uint.Parse(s.Replace(".", "").PadRight(9, '0'));
 
-        private static IEnumerator CheckForUpdates()
+        private static IEnumerator CheckForUpdates(int i)
         {
-            if (!IsEditor)
+            if (!IsEditor || i > 0)
                 yield break;
 
             WWW www = new WWW("https://api.github.com/repos/Emik03/KeepCoding/releases/latest");
@@ -527,7 +531,7 @@ namespace KeepCoding
                 yield break;
             }
 
-            TimerTick();
+            TimerTickInner();
         }
 
         private IEnumerator WaitForSolve()
@@ -536,7 +540,7 @@ namespace KeepCoding
 
             Solve();
 
-            yield return TP?.TwitchHandleForcedSolve();
+            yield return TP?.ForceSolve();
         }
     }
 }
