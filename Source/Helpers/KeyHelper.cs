@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using static KeepCoding.Helper;
+using static System.Linq.Enumerable;
 
 namespace KeepCoding
 {
@@ -199,11 +200,22 @@ namespace KeepCoding
         /// <param name="action">The action to run inside a <see langword="checked"/> block.</param>
         public static void Checked(this Action action)
         {
-            checked
+            checked 
             {
-                action.NullCheck("The action cannot be null.");
+                action.NullCheck("The action cannot be null.")();
             }
         }
+
+        /// <summary>
+        /// The <see langword="checked"/> keyword is used to explicitly enable overflow checking for integral-type arithmetic operations and conversions.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/checked"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <param name="func">The function to run inside a <see langword="checked"/> block.</param>
+        /// <returns>The output of <paramref name="func"/>.</returns>
+        public static T Checked<T>(this Func<T> func) => checked(func.NullCheck("The action cannot be null.")());
 
         /// <summary>
         /// The <see langword="do"/> statement executes a statement or a block of statements while a specified Boolean expression evaluates to <see langword="true"/>. Because that expression is evaluated after each execution of the loop, a <see langword="do"/> loop executes one or more times. This differs from a <see langword="while"/> loop, which executes zero or more times.
@@ -219,6 +231,18 @@ namespace KeepCoding
             action.NullCheck("The action cannot be null.")();
             While(action, condition);
         }
+
+        /// <summary>
+        /// The <see langword="do"/> statement executes a statement or a block of statements while a specified Boolean expression evaluates to <see langword="true"/>. Because that expression is evaluated after each execution of the loop, a <see langword="do"/> loop executes one or more times. This differs from a <see langword="while"/> loop, which executes zero or more times.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-do-statement"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <param name="func">The function to run in the loop.</param>
+        /// <param name="condition">The condition to determine whether the loop should keep going.</param>
+        /// <returns>All instances that <paramref name="func"/> used in an <see cref="IEnumerable{T}"/>.</returns>
+        public static IEnumerable<T> DoWhile<T>(this Func<T> func, Func<bool> condition) => Empty<T>().Append(func.NullCheck("The action cannot be null.")()).Concat(While(func, condition));
 
         /// <summary>
         /// The <see langword="for"/> statement executes a statement or a block of statements while a specified Boolean expression evaluates to <see langword="true"/>.
@@ -246,32 +270,33 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// The <see langword="foreach"/> statement executes a statement or a block of statements for each element in an instance of the type that implements the <see cref="IEnumerable"/> or <see cref="IEnumerable{T}"/> interface.
+        /// The <see langword="for"/> statement executes a statement or a block of statements while a specified Boolean expression evaluates to <see langword="true"/>.
         /// </summary>
         /// <remarks>
-        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement"/>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-for-statement"/>
         /// </remarks>
         /// <exception cref="NullReferenceException"></exception>
-        /// <param name="iterator">The collection of items to go through one-by-one.</param>
-        /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
-        public static void ForEach(this IEnumerable iterator, Action<object> action) => ForEach(iterator.NullCheck("The iterator cannot be null.").Cast<object>(), action);
-
-        /// <summary>
-        /// The <see langword="foreach"/> statement executes a statement or a block of statements for each element in an instance of the type that implements the <see cref="IEnumerable"/> or <see cref="IEnumerable{T}"/> interface.
-        /// </summary>
-        /// <remarks>
-        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement"/>
-        /// </remarks>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <typeparam name="T">The type of iterator.</typeparam>
-        /// <param name="iterator">The collection of items to go through one-by-one.</param>
-        /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
-        public static void ForEach<T>(this IEnumerable<T> iterator, Action<T> action)
+        /// <typeparam name="T">The type of the declaring variable.</typeparam>
+        /// <param name="item">The item to read and write on.</param>
+        /// <param name="func">The function for each loop.</param>
+        /// <param name="condition">The condition for whether the loop should continue.</param>
+        /// <param name="loop">The action to run after <paramref name="func"/>.</param>
+        /// <returns>All instances that <paramref name="func"/> used in an <see cref="IEnumerable{T}"/>.</returns>
+        public static IEnumerable<T> For<T>(this T item, Func<T, T> func, Predicate<T> condition = null, Func<T, T> loop = null)
         {
-            action.NullCheck("The action cannot be null.");
+            var output = Empty<T>();
 
-            foreach (var item in iterator)
-                action(item);
+            func.NullCheck("The action cannot be null.");
+
+            for (; condition?.Invoke(item) ?? true;)
+            {
+                output.Append(func(item));
+
+                if (loop is { })
+                    item = loop(item);
+            }
+
+            return output;
         }
 
         /// <summary>
@@ -283,7 +308,8 @@ namespace KeepCoding
         /// <exception cref="NullReferenceException"></exception>
         /// <param name="iterator">The collection of items to go through one-by-one.</param>
         /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
-        public static void ForEach(this IEnumerator iterator, Action<object> action) => ForEach(iterator.AsEnumerable(), action);
+        /// <returns><paramref name="iterator"/></returns>
+        public static IEnumerable ForEach(this IEnumerable iterator, Action<object> action) => ForEach(iterator.NullCheck("The iterator cannot be null.").Cast<object>(), action);
 
         /// <summary>
         /// The <see langword="foreach"/> statement executes a statement or a block of statements for each element in an instance of the type that implements the <see cref="IEnumerable"/> or <see cref="IEnumerable{T}"/> interface.
@@ -295,7 +321,41 @@ namespace KeepCoding
         /// <typeparam name="T">The type of iterator.</typeparam>
         /// <param name="iterator">The collection of items to go through one-by-one.</param>
         /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
-        public static void ForEach<T>(this IEnumerator<T> iterator, Action<T> action) => ForEach(iterator.AsEnumerable(), action);
+        /// <returns><paramref name="iterator"/></returns>
+        public static IEnumerable<T> ForEach<T>(this IEnumerable<T> iterator, Action<T> action)
+        {
+            action.NullCheck("The action cannot be null.");
+
+            foreach (var item in iterator)
+                action(item);
+
+            return iterator;
+        }
+
+        /// <summary>
+        /// The <see langword="foreach"/> statement executes a statement or a block of statements for each element in an instance of the type that implements the <see cref="IEnumerable"/> or <see cref="IEnumerable{T}"/> interface.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <param name="iterator">The collection of items to go through one-by-one.</param>
+        /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
+        /// <returns><paramref name="iterator"/></returns>
+        public static IEnumerable ForEach(this IEnumerator iterator, Action<object> action) => ForEach(iterator.AsEnumerable(), action);
+
+        /// <summary>
+        /// The <see langword="foreach"/> statement executes a statement or a block of statements for each element in an instance of the type that implements the <see cref="IEnumerable"/> or <see cref="IEnumerable{T}"/> interface.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <typeparam name="T">The type of iterator.</typeparam>
+        /// <param name="iterator">The collection of items to go through one-by-one.</param>
+        /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
+        /// <returns><paramref name="iterator"/></returns>
+        public static IEnumerable<T> ForEach<T>(this IEnumerator<T> iterator, Action<T> action) => ForEach(iterator.AsEnumerable(), action);
 
         /// <summary>
         /// An <see langword="if"/> statement identifies which statement to run based on the value of a Boolean expression.
@@ -307,7 +367,8 @@ namespace KeepCoding
         /// <param name="condition">The condition to check.</param>
         /// <param name="action">The action to run when <paramref name="condition"/> is <see langword="true"/>.</param>
         /// <param name="otherwise">The action to run when <paramref name="condition"/> is <see langword="false"/>.</param>
-        public static void If(this bool condition, Action action, Action otherwise = null)
+        /// <returns><paramref name="condition"/></returns>
+        public static bool If(this bool condition, Action action, Action otherwise = null)
         {
             action.NullCheck("The action cannot be null.");
 
@@ -315,7 +376,21 @@ namespace KeepCoding
                 action();
             else
                 otherwise?.Invoke();
+
+            return condition;
         }
+
+        /// <summary>
+        /// An <see langword="if"/> statement identifies which statement to run based on the value of a Boolean expression.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/if-else"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <param name="condition">The condition to check.</param>
+        /// <param name="action">The action to run when <paramref name="condition"/> is <see langword="true"/>.</param>
+        /// <param name="otherwise">The action to run when <paramref name="condition"/> is <see langword="false"/>.</param>
+        public static T If<T>(this bool condition, Func<T> action, Func<T> otherwise) => condition ? action.NullCheck("The action cannot be null.")() : otherwise.NullCheck("The otherwise cannot be null.")();
 
         /// <summary>
         /// The <see langword="is"/> operator checks if the result of an expression is compatible with a given type.
@@ -350,12 +425,28 @@ namespace KeepCoding
         /// <typeparam name="T">The type of item to lock.</typeparam>
         /// <param name="item">The item to lock.</param>
         /// <param name="action">The action to run while the item is locked.</param>
-        public static void Lock<T>(this T item, Action<T> action)
+        public static T Lock<T>(this T item, Action<T> action)
         {
             lock (item)
-            {
                 action.NullCheck("The action cannot be null.")(item);
-            }
+            return item;
+        }
+
+        /// <summary>
+        /// The <see langword="lock"/> statement acquires the mutual-exclusion lock for a given object, executes a statement block, and then releases the lock. While a lock is held, the thread that holds the lock can again acquire and release the lock. Any other thread is blocked from acquiring the lock and waits until the lock is released.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/lock-statement"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <typeparam name="T">The type of item to lock.</typeparam>
+        /// <param name="item">The item to lock.</param>
+        /// <param name="func">The function to run while the item is locked.</param>
+        /// <returns>The output of <paramref name="func"/>.</returns>
+        public static T Lock<T>(this T item, Func<T, T> func)
+        {
+            lock (item)
+                return func.NullCheck("The action cannot be null.")(item);
         }
 
         /// <summary>
@@ -396,6 +487,17 @@ namespace KeepCoding
         }
 
         /// <summary>
+        /// The <see langword="unchecked"/> keyword is used to suppress overflow-checking for integral-type arithmetic operations and conversions.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/unchecked"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <param name="func">The function to ignore overflow-checking.</param>
+        /// <returns>The output of <paramref name="func"/>.</returns>
+        public static T Unchecked<T>(this Func<T> func) => unchecked(func.NullCheck("The action cannot be null.")());
+
+        /// <summary>
         /// Provides a convenient syntax that ensures the correct use of <see cref="IDisposable"/> objects.
         /// </summary>
         /// <remarks>
@@ -405,10 +507,29 @@ namespace KeepCoding
         /// <typeparam name="T">The type of <see cref="IDisposable"/>.</typeparam>
         /// <param name="item">The item to use.</param>
         /// <param name="action">The action to use <paramref name="item"/> on.</param>
-        public static void Using<T>(this T item, Action<T> action) where T : IDisposable
+        /// <returns><paramref name="item"/></returns>
+        public static T Using<T>(this T item, Action<T> action) where T : IDisposable
         {
             using (item)
                 action.NullCheck("The action cannot be null.")(item);
+            return item;
+        }
+
+        /// <summary>
+        /// Provides a convenient syntax that ensures the correct use of <see cref="IDisposable"/> objects.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-statement"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <typeparam name="T">The type of <see cref="IDisposable"/>.</typeparam>
+        /// <param name="item">The item to use.</param>
+        /// <param name="func">The function to use <paramref name="item"/> on.</param>
+        /// <returns>The output of <paramref name="func"/>.</returns>
+        public static T Using<T>(this T item, Func<T, T> func) where T : IDisposable
+        {
+            using (item)
+                return func.NullCheck("The action cannot be null.")(item);
         }
 
         /// <summary>
@@ -427,6 +548,29 @@ namespace KeepCoding
 
             while (condition())
                 action();
+        }
+
+        /// <summary>
+        /// The <see langword="while"/> statement executes a statement or a block of statements while a specified Boolean expression evaluates to <see langword="true"/>. Because that expression is evaluated before each execution of the loop, a <see langword="while"/> loop executes zero or more times. This differs from a <see langword="do"/> loop, which executes one or more times.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-while-statement"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <param name="func">The function to run in the loop.</param>
+        /// <param name="condition">The condition to determine whether the loop should keep going.</param>
+        /// <returns>All instances that <paramref name="func"/> used in an <see cref="IEnumerable{T}"/>.</returns>
+        public static IEnumerable<T> While<T>(this Func<T> func, Func<bool> condition)
+        {
+            var output = Empty<T>();
+
+            func.NullCheck("The action cannot be null.");
+            condition.NullCheck("The condition cannot be null.");
+
+            while (condition())
+                output = output.Append(func());
+
+            return output;
         }
     }
 }
