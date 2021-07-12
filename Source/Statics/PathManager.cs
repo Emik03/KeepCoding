@@ -41,19 +41,6 @@ namespace KeepCoding
         /// </remarks>
         public static Version Version => AssemblyName.Version;
 
-        private const string
-            FileExtensionBundle = "bundle",
-            FileExtensionLinux = "so",
-            FileExtensionMacOS = "dylib",
-            FileExtensionWindows = "dll",
-            FileFormat = "{0}.{1}";
-
-        private static readonly Dictionary<string, string> _paths = new Dictionary<string, string>();
-
-        private static readonly Dictionary<string, ModInfo> _modInfos = new Dictionary<string, ModInfo>();
-
-        private static readonly PlatformNotSupportedException _intPtrException = new PlatformNotSupportedException("IntPtr size is not 4 or 8, what kind of system is this?");
-
         /// <summary>
         /// Prints a hierarchy of all game objects.
         /// </summary>
@@ -302,6 +289,19 @@ namespace KeepCoding
         /// <param name="bundleVideoFileName">The name of the bundle that contains videos.</param>
         /// <returns>The <see cref="AssetBundleCreateRequest"/> needed to load the files, followed by the <see cref="VideoClip"/> <see cref="Array"/>.</returns>
         public static TAsset[] GetAssets<T, TAsset>(T _, string bundleVideoFileName) where TAsset : Object => GetAssets<TAsset>(NameOfAssembly<T>(), bundleVideoFileName);
+
+        private const string
+            FileExtensionBundle = "bundle",
+            FileExtensionLinux = "so",
+            FileExtensionMacOS = "dylib",
+            FileExtensionWindows = "dll",
+            FileFormat = "{0}.{1}";
+
+        private static readonly Dictionary<string, string> _paths = new Dictionary<string, string>();
+
+        private static readonly Dictionary<string, ModInfo> _modInfos = new Dictionary<string, ModInfo>();
+
+        private static readonly PlatformNotSupportedException _intPtrException = new PlatformNotSupportedException("IntPtr size is not 4 or 8, what kind of system is this?");
 
         private static void CopyLibrary(in string libraryFileName, in string path)
         {
