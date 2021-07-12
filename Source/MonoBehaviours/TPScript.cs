@@ -316,11 +316,11 @@ namespace KeepCoding
         }
 
 #pragma warning disable IDE0051 // Remove unused private members
-        private IEnumerator ProcessTwitchCommand(string command) => Process(command).Flatten(true);
+        private IEnumerator ProcessTwitchCommand(string command) => Process(command).Flatten(o => !(o is KMSelectable[]));
 #pragma warning restore IDE0051 // Remove unused private members
 
 #pragma warning disable IDE0051 // Remove unused private members
-        private IEnumerator TwitchHandleForcedSolve() => ForceSolve().Flatten(true);
+        private IEnumerator TwitchHandleForcedSolve() => ForceSolve().Flatten(o => !(o is KMSelectable[]));
 #pragma warning restore IDE0051 // Remove unused private members
 
         private static string Combine(string main, params object[] toAppend) => main + toAppend.ConvertAll(o => $" {o}");
