@@ -857,11 +857,7 @@ namespace KeepCoding
         /// <param name="source">The item to use as reference and modify.</param>
         /// <param name="action">The action to apply <paramref name="source"/> to.</param>
         /// <returns>The item <paramref name="source"/>.</returns>
-        public static T[] Call<T>(this T[] source, Action<T, int> action) => source.Select((i, n) =>
-        {
-            action(i, n);
-            return i;
-        }).ToArray();
+        public static T[] Call<T>(this T[] source, Action<T, int> action) => source.Call(s => Enumerable.Range(0, s.Length).ForEach(i => action(s[i], i)));
 
         /// <summary>
         /// Gets all the values of an <see cref="Enum"/> as an <see cref="Array"/>.
