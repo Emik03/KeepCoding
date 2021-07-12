@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 namespace KeepCoding
 {
     /// <summary>
-    /// Extension methods surrounding <see cref="Array"/> static methods to make code a bit shorter. Written by Emik.
+    /// Extension methods surrounding <see cref="Array"/> static methods to make code a bit shorter.
     /// </summary>
     public static class ArrayHelper
     {

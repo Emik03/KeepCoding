@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## ILog Interface
-An interface to implement log methods. Make each method return the same method in your [Logger](KeepCoding_Logger.md 'KeepCoding.Logger') instance.  Written by Emik.  
+An interface to implement log methods. Make each method return the same method in your [Logger](KeepCoding_Logger.md 'KeepCoding.Logger') instance.    
 ```csharp
 public interface ILog
 ```

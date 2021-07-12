@@ -6,7 +6,7 @@ using UnityEngine;
 namespace KeepCoding
 {
     /// <summary>
-    /// A <see cref="MonoBehaviour"/> with additional caching capabilities. Written by Emik.
+    /// A <see cref="MonoBehaviour"/> with additional caching capabilities. 
     /// </summary>
     public class CacheableBehaviour : MonoBehaviour
     {

@@ -4,7 +4,7 @@ using System.Collections;
 namespace KeepCoding
 {
     /// <summary>
-    /// Interface for tuple type. Written by Emik.
+    /// Interface for tuple type. 
     /// </summary>
     public interface ITuple : IEnumerable
     {

@@ -7,7 +7,7 @@ using static UnityEngine.GUILayout;
 namespace KeepCoding
 {
     /// <summary>
-    /// Custom inspector for <see cref="TPScript{TModule}"/>. Written by Emik.
+    /// Custom inspector for <see cref="TPScript{TModule}"/>. 
     /// </summary>
     [CanEditMultipleObjects]
     [CustomEditor(typeof(TPScript<>), true)]

@@ -16,7 +16,7 @@ using static UnityEngine.Application;
 namespace KeepCoding
 {
     /// <summary>
-    /// Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
+    /// Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes. 
     /// </summary>
 #pragma warning disable IDE1006 // Naming Styles
     public abstract class ModuleScript : CacheableBehaviour, IDump, ILog

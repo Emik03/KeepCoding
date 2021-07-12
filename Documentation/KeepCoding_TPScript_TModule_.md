@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## TPScript&lt;TModule&gt; Class
-Base class for TwitchPlays support for solvable and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.  
+Base class for TwitchPlays support for solvable and needy modded modules in Keep Talking and Nobody Explodes.   
 ```csharp
 public abstract class TPScript<TModule> : KeepCoding.CacheableBehaviour,
 KeepCoding.ITP

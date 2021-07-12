@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## WorkBase Class
-Abstract class for the [Work](KeepCoding_Work.md 'KeepCoding.Work') datatype, since the different overloads are similar to each other. Written by Emik.  
+Abstract class for the [Work](KeepCoding_Work.md 'KeepCoding.Work') datatype, since the different overloads are similar to each other.  
 ```csharp
 public abstract class WorkBase
 ```

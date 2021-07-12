@@ -4,7 +4,7 @@ using System.Collections;
 namespace KeepCoding
 {
     /// <summary>
-    /// An abstract type meant for the tuple data type for C# 4. Written by Emik.
+    /// An abstract type meant for the tuple data type for C# 4.
     /// </summary>
     public abstract class TupleBase : ITuple
     {

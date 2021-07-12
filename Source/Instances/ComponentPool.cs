@@ -6,7 +6,7 @@ using static KeepCoding.ComponentPool.SpecialComponentTypeEnum;
 namespace KeepCoding
 {
     /// <summary>
-    /// A ComponentPool is a collection of Module Types. The generator will pick Count times from this list and instantiate a component of the chosen type. Written by Emik.
+    /// A ComponentPool is a collection of Module Types. The generator will pick Count times from this list and instantiate a component of the chosen type.
     /// </summary>
     public sealed class ComponentPool
     {

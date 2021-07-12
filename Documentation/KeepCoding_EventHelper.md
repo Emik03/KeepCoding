@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## EventHelper Class
-KMFramework extension methods that makes it easier to assign multiple events to a variable in one statement. Written by Emik.  
+KMFramework extension methods that makes it easier to assign multiple events to a variable in one statement.  
 ```csharp
 public static class EventHelper
 ```

@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## ConstructorArgumentException Class
-An exception thrown when the constructor throws an exception due to a bad argument. Written by Emik.  
+An exception thrown when the constructor throws an exception due to a bad argument.  
 ```csharp
 public sealed class ConstructorArgumentException : System.Exception
 ```

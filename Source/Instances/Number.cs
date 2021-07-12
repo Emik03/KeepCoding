@@ -7,7 +7,7 @@ using static System.Math;
 namespace KeepCoding
 {
     /// <summary>
-    /// Class meant to encapsulate a primitive numeric value. Written by Emik.
+    /// Class meant to encapsulate a primitive numeric value.
     /// </summary>
     public sealed class Number : IComparable, IFormattable, IComparable<Number>, IEquatable<Number>, IComparable<ValueType>, IEquatable<ValueType>
     {

@@ -3,7 +3,7 @@
 namespace KeepCoding
 {
     /// <summary>
-    /// An exception thrown for when the wrong datatype is used. Written by Emik.
+    /// An exception thrown for when the wrong datatype is used.
     /// </summary>
     [Serializable]
     public sealed class WrongDatatypeException : Exception

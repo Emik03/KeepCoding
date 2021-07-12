@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## EmptyIteratorException Class
-An exception thrown when the iterator is empty. Written by Emik.  
+An exception thrown when the iterator is empty.  
 ```csharp
 public sealed class EmptyIteratorException : System.Exception
 ```

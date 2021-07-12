@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## NegativeNumberException Class
-An exception thrown when the number is unexpectedly negative. Written by Emik.  
+An exception thrown when the number is unexpectedly negative.  
 ```csharp
 public sealed class NegativeNumberException : System.Exception
 ```

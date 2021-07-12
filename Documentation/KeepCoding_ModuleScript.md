@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## ModuleScript Class
-Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.  
+Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes.   
 ```csharp
 public abstract class ModuleScript : KeepCoding.CacheableBehaviour,
 KeepCoding.IDump,

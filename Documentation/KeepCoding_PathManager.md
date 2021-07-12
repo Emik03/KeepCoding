@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## PathManager Class
-Allows loading external information stored on the module. Written by Emik.  
+Allows loading external information stored on the module.   
 ```csharp
 public static class PathManager
 ```

@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Game](KeepCoding_Game.md 'KeepCoding.Game')
 ## Game.PlayerSettings Class
-Allows access into the player settings from the game. Do not use this class in the unity editor. Written by Emik.  
+Allows access into the player settings from the game. Do not use this class in the unity editor.   
 ```csharp
 public static class Game.PlayerSettings
 ```

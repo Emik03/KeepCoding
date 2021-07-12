@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## UnrecognizedTypeException Class
-An exception thrown for when the type isn't handled. Written by Emik.  
+An exception thrown for when the type isn't handled.  
 ```csharp
 public sealed class UnrecognizedTypeException : System.Exception
 ```

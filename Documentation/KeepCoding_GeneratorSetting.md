@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## GeneratorSetting Class
-Everything needed to generate a single bomb. Written by Emik.  
+Everything needed to generate a single bomb.  
 ```csharp
 public sealed class GeneratorSetting
 ```

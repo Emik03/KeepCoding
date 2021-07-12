@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## Logger Class
-A class to allow logging with a specific format. Written by Emik.  
+A class to allow logging with a specific format.  
 ```csharp
 public sealed class Logger :
 KeepCoding.IDump,

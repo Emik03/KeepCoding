@@ -16,7 +16,7 @@ namespace KeepCoding
     extern alias core;
 
     /// <summary>
-    /// Allows access into the game's internal code. Written by Emik.
+    /// Allows access into the game's internal code. 
     /// </summary>
     /// <remarks>
     /// On the Editor, these properties will return default values. Check the XML documentation to see the value it returns.
@@ -244,7 +244,7 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// Allows access into the player settings from the game. Do not use this class in the unity editor. Written by Emik.
+        /// Allows access into the player settings from the game. Do not use this class in the unity editor. 
         /// </summary>
         public static class PlayerSettings
         {

@@ -7,7 +7,7 @@ using static System.Globalization.NumberStyles;
 namespace KeepCoding
 {
     /// <summary>
-    /// Extension methods to help you create data types easier. Written by Emik.
+    /// Extension methods to help you create data types easier.
     /// </summary>
     public static class TypeHelper
     {

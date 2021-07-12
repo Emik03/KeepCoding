@@ -6,7 +6,7 @@ using UnityEngine;
 namespace KeepCoding
 {
     /// <summary>
-    /// Abstract class for the <see cref="Routine"/> datatype, since the different overloads are similar to each other. Written by Emik.
+    /// Abstract class for the <see cref="Routine"/> datatype, since the different overloads are similar to each other.
     /// </summary>
     public abstract class RoutineBase : IEnumerable
     {

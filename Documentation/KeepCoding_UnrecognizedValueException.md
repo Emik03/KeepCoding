@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## UnrecognizedValueException Class
-An exception thrown for when the value isn't handled. Written by Emik.  
+An exception thrown for when the value isn't handled.  
 ```csharp
 public sealed class UnrecognizedValueException : System.Exception
 ```

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace KeepCoding
 {
     /// <summary>
-    /// Advanced coroutine handler. Written by Emik.
+    /// Advanced coroutine handler.
     /// </summary>
     public sealed class Routine : RoutineBase
     {
@@ -83,7 +83,7 @@ namespace KeepCoding
     }
 
     /// <summary>
-    /// Advanced coroutine handler. Written by Emik.
+    /// Advanced coroutine handler. 
     /// </summary>
     public sealed class Routine<T> : RoutineBase
     {
@@ -165,7 +165,7 @@ namespace KeepCoding
     }
 
     /// <summary>
-    /// Advanced coroutine handler. Written by Emik.
+    /// Advanced coroutine handler. 
     /// </summary>
     public sealed class Routine<T1, T2> : RoutineBase
     {
@@ -251,7 +251,7 @@ namespace KeepCoding
     }
 
     /// <summary>
-    /// Advanced coroutine handler. Written by Emik.
+    /// Advanced coroutine handler. 
     /// </summary>
     public sealed class Routine<T1, T2, T3> : RoutineBase
     {
@@ -341,7 +341,7 @@ namespace KeepCoding
     }
 
     /// <summary>
-    /// Advanced coroutine handler. Written by Emik.
+    /// Advanced coroutine handler. 
     /// </summary>
     public sealed class Routine<T1, T2, T3, T4> : RoutineBase
     {

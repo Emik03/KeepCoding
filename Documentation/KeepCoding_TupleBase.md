@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## TupleBase Class
-An abstract type meant for the tuple data type for C# 4. Written by Emik.  
+An abstract type meant for the tuple data type for C# 4.  
 ```csharp
 public abstract class TupleBase :
 KeepCoding.ITuple,

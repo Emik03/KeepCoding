@@ -3,7 +3,7 @@
 namespace KeepCoding
 {
     /// <summary>
-    /// An exception thrown when the iterator is null. Written by Emik.
+    /// An exception thrown when the iterator is null.
     /// </summary>
     [Serializable]
     public sealed class NullIteratorException : Exception

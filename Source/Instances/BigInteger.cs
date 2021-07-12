@@ -6,7 +6,7 @@ using System.Linq;
 namespace KeepCoding
 {
     /// <summary>
-    /// Stores an arbitrarily large number. Written by Emik.
+    /// Stores an arbitrarily large number.
     /// </summary>
     public sealed class BigInteger : ICloneable, IEnumerable, IEquatable<BigInteger>
     {

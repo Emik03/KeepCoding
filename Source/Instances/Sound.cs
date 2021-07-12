@@ -7,7 +7,7 @@ using static KMSoundOverride;
 namespace KeepCoding
 {
     /// <summary>
-    /// Class meant to encapsulate all types of sound effects <see cref="KMAudio"/> uses. Currently used in <see cref="ModuleScript"/>. Written by Emik.
+    /// Class meant to encapsulate all types of sound effects <see cref="KMAudio"/> uses. Currently used in <see cref="ModuleScript"/>.
     /// </summary>
     public sealed class Sound : IEquatable<Sound>
     {

@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 namespace KeepCoding
 {
     /// <summary>
-    /// An interface to implement dump methods. Make each method return the same method in your <see cref="Logger"/> instance. Written by Emik.
+    /// An interface to implement dump methods. Make each method return the same method in your <see cref="Logger"/> instance. 
     /// </summary>
     public interface IDump
     {

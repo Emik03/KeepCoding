@@ -6,7 +6,7 @@ using UnityEngine;
 namespace KeepCoding
 {
     /// <summary>
-    /// Advanced multi-threading handler. Written by Emik.
+    /// Advanced multi-threading handler.
     /// </summary>
     public sealed class Work : WorkBase
     {
@@ -48,7 +48,7 @@ namespace KeepCoding
     }
 
     /// <summary>
-    /// Advanced multi-threading handler. Written by Emik.
+    /// Advanced multi-threading handler.
     /// </summary>
     public sealed class Work<T> : WorkBase
     {
@@ -95,7 +95,7 @@ namespace KeepCoding
     }
 
     /// <summary>
-    /// Advanced multi-threading handler. Written by Emik.
+    /// Advanced multi-threading handler.
     /// </summary>
     public sealed class Work<T, TResult> : WorkBase
     {
@@ -145,7 +145,7 @@ namespace KeepCoding
     }
 
     /// <summary>
-    /// Advanced multi-threading handler. Written by Emik.
+    /// Advanced multi-threading handler.
     /// </summary>
     public sealed class Work<T1, T2, TResult> : WorkBase
     {
@@ -195,7 +195,7 @@ namespace KeepCoding
     }
 
     /// <summary>
-    /// Advanced multi-threading handler. Written by Emik.
+    /// Advanced multi-threading handler.
     /// </summary>
     public sealed class Work<T1, T2, T3, TResult> : WorkBase
     {
@@ -245,7 +245,7 @@ namespace KeepCoding
     }
 
     /// <summary>
-    /// Advanced multi-threading handler. Written by Emik.
+    /// Advanced multi-threading handler.
     /// </summary>
     public sealed class Work<T1, T2, T3, T4, TResult> : WorkBase
     {

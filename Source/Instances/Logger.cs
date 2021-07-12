@@ -8,7 +8,7 @@ using UnityEngine;
 namespace KeepCoding
 {
     /// <summary>
-    /// A class to allow logging with a specific format. Written by Emik.
+    /// A class to allow logging with a specific format.
     /// </summary>
     public sealed class Logger : IDump, ILog
     {

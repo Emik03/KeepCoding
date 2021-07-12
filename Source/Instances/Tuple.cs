@@ -5,7 +5,7 @@ using System.Linq;
 namespace KeepCoding
 {
     /// <summary>
-    /// A basic tuple data type for C# 4. Written by Emik.
+    /// A basic tuple data type for C# 4.
     /// </summary>
     public class Tuple<T> : TupleBase, IEquatable<Tuple<T>>
     {
@@ -99,7 +99,7 @@ namespace KeepCoding
     }
 
     /// <summary>
-    /// A basic tuple data type for C# 4. Written by Emik.
+    /// A basic tuple data type for C# 4. 
     /// </summary>
     public class Tuple<T1, T2> : Tuple<T1>, IEquatable<Tuple<T1, T2>>
     {
@@ -209,7 +209,7 @@ namespace KeepCoding
     }
 
     /// <summary>
-    /// A basic tuple data type for C# 4. Written by Emik.
+    /// A basic tuple data type for C# 4. 
     /// </summary>
     public class Tuple<T1, T2, T3> : Tuple<T1, T2>, IEquatable<Tuple<T1, T2, T3>>
     {
@@ -324,7 +324,7 @@ namespace KeepCoding
     }
 
     /// <summary>
-    /// A basic tuple data type for C# 4. Written by Emik.
+    /// A basic tuple data type for C# 4. 
     /// </summary>
     public class Tuple<T1, T2, T3, T4> : Tuple<T1, T2, T3>, IEquatable<Tuple<T1, T2, T3, T4>>
     {

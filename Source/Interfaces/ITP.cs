@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace KeepCoding
 {
     /// <summary>
-    /// Interface for Twitch Plays support. Written by Emik.
+    /// Interface for Twitch Plays support. 
     /// </summary>
     public interface ITP
     {

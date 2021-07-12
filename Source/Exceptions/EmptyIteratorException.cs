@@ -3,7 +3,7 @@
 namespace KeepCoding
 {
     /// <summary>
-    /// An exception thrown when the iterator is empty. Written by Emik.
+    /// An exception thrown when the iterator is empty.
     /// </summary>
     [Serializable]
     public sealed class EmptyIteratorException : Exception

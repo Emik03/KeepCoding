@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## Tuple&lt;T1,T2&gt; Class
-A basic tuple data type for C# 4. Written by Emik.  
+A basic tuple data type for C# 4.   
 ```csharp
 public class Tuple<T1,T2> : KeepCoding.Tuple<T1>,
 System.IEquatable<KeepCoding.Tuple<T1, T2>>

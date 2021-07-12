@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## Helper Class
-General extension class covering both KMFramework and native datatypes. Written by Emik.  
+General extension class covering both KMFramework and native datatypes.  
 ```csharp
 public static class Helper
 ```

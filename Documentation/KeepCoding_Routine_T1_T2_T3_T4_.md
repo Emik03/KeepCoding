@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## Routine&lt;T1,T2,T3,T4&gt; Class
-Advanced coroutine handler. Written by Emik.  
+Advanced coroutine handler.   
 ```csharp
 public sealed class Routine<T1,T2,T3,T4> : KeepCoding.RoutineBase
 ```

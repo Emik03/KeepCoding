@@ -17,7 +17,7 @@ using Random = UnityEngine.Random;
 namespace KeepCoding
 {
     /// <summary>
-    /// General extension class covering both KMFramework and native datatypes. Written by Emik.
+    /// General extension class covering both KMFramework and native datatypes.
     /// </summary>
     public static class Helper
     {

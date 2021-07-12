@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## Number Class
-Class meant to encapsulate a primitive numeric value. Written by Emik.  
+Class meant to encapsulate a primitive numeric value.  
 ```csharp
 public sealed class Number :
 System.IComparable,

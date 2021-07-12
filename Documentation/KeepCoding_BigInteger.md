@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## BigInteger Class
-Stores an arbitrarily large number. Written by Emik.  
+Stores an arbitrarily large number.  
 ```csharp
 public sealed class BigInteger :
 System.ICloneable,

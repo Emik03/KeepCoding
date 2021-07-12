@@ -9,7 +9,7 @@ using static System.Linq.Enumerable;
 namespace KeepCoding
 {
     /// <summary>
-    /// Inline methods for when typically key words are used. Written by Emik.
+    /// Inline methods for when typically key words are used.
     /// </summary>
     public static class KeyHelper
     {

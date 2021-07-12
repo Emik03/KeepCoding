@@ -3,7 +3,7 @@
 namespace KeepCoding
 {
     /// <summary>
-    /// An exception thrown when the constructor throws an exception due to a bad argument. Written by Emik.
+    /// An exception thrown when the constructor throws an exception due to a bad argument.
     /// </summary>
     [Serializable]
     public sealed class ConstructorArgumentException : Exception

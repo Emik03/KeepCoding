@@ -3,7 +3,7 @@
 namespace KeepCoding
 {
     /// <summary>
-    /// An exception thrown when the number is unexpectedly negative. Written by Emik.
+    /// An exception thrown when the number is unexpectedly negative.
     /// </summary>
     [Serializable]
     public sealed class NegativeNumberException : Exception

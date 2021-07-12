@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## ModuleContainer Class
-Container for both solvable and needy modules. Written by Emik.  
+Container for both solvable and needy modules.  
 ```csharp
 public sealed class ModuleContainer :
 System.IEquatable<KeepCoding.ModuleContainer>

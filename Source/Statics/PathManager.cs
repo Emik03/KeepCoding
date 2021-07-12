@@ -24,7 +24,7 @@ namespace KeepCoding
     extern alias core;
 
     /// <summary>
-    /// Allows loading external information stored on the module. Written by Emik.
+    /// Allows loading external information stored on the module. 
     /// </summary>
     public static class PathManager
     {

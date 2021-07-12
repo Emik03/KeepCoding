@@ -9,7 +9,7 @@ using Object = UnityEngine.Object;
 namespace KeepCoding
 {
     /// <summary>
-    /// KMFramework extension methods that makes it easier to assign multiple events to a variable in one statement. Written by Emik.
+    /// KMFramework extension methods that makes it easier to assign multiple events to a variable in one statement.
     /// </summary>
     public static class EventHelper
     {

@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## WrongDatatypeException Class
-An exception thrown for when the wrong datatype is used. Written by Emik.  
+An exception thrown for when the wrong datatype is used.  
 ```csharp
 public sealed class WrongDatatypeException : System.Exception
 ```

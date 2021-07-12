@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## ITuple Interface
-Interface for tuple type. Written by Emik.  
+Interface for tuple type.   
 ```csharp
 public interface ITuple :
 System.Collections.IEnumerable

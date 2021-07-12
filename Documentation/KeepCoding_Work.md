@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## Work Class
-Advanced multi-threading handler. Written by Emik.  
+Advanced multi-threading handler.  
 ```csharp
 public sealed class Work : KeepCoding.WorkBase
 ```

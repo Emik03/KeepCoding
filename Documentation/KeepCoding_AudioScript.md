@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## AudioScript Class
-Advanced audio handler. Written by Emik.  
+Advanced audio handler.   
 ```csharp
 public sealed class AudioScript : KeepCoding.CacheableBehaviour
 ```

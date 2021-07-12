@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## Game Class
-Allows access into the game's internal code. Written by Emik.  
+Allows access into the game's internal code.   
 ```csharp
 public static class Game
 ```

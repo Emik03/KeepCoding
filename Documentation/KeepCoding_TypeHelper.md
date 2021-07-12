@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## TypeHelper Class
-Extension methods to help you create data types easier. Written by Emik.  
+Extension methods to help you create data types easier.  
 ```csharp
 public static class TypeHelper
 ```

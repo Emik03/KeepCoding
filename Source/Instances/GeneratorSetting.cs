@@ -4,7 +4,7 @@ using System.Linq;
 namespace KeepCoding
 {
     /// <summary>
-    /// Everything needed to generate a single bomb. Written by Emik.
+    /// Everything needed to generate a single bomb.
     /// </summary>
     public sealed class GeneratorSetting
     {

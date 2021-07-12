@@ -7,7 +7,7 @@ using static KeepCoding.Game.PlayerSettings;
 namespace KeepCoding
 {
     /// <summary>
-    /// Advanced audio handler. Written by Emik.
+    /// Advanced audio handler. 
     /// </summary>
     public sealed class AudioScript : CacheableBehaviour
     {

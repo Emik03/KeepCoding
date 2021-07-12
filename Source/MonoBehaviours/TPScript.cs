@@ -8,7 +8,7 @@ using static System.Text.RegularExpressions.RegexOptions;
 namespace KeepCoding
 {
     /// <summary>
-    /// Base class for TwitchPlays support for solvable and needy modded modules in Keep Talking and Nobody Explodes. Written by Emik.
+    /// Base class for TwitchPlays support for solvable and needy modded modules in Keep Talking and Nobody Explodes. 
     /// </summary>
     [RequireComponent(typeof(ModuleScript))]
 #pragma warning disable IDE1006 // Naming Styles

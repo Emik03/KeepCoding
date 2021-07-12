@@ -5,7 +5,7 @@ using UnityEngine;
 namespace KeepCoding
 {
     /// <summary>
-    /// Container for both solvable and needy modules. Written by Emik.
+    /// Container for both solvable and needy modules.
     /// </summary>
     public sealed class ModuleContainer : IEquatable<ModuleContainer>
     {

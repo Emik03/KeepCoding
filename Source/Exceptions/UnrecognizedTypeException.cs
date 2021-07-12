@@ -3,7 +3,7 @@
 namespace KeepCoding
 {
     /// <summary>
-    /// An exception thrown for when the type isn't handled. Written by Emik.
+    /// An exception thrown for when the type isn't handled.
     /// </summary>
     [Serializable]
     public sealed class UnrecognizedTypeException : Exception

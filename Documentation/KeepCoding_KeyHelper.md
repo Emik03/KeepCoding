@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## KeyHelper Class
-Inline methods for when typically key words are used. Written by Emik.  
+Inline methods for when typically key words are used.  
 ```csharp
 public static class KeyHelper
 ```

@@ -1,6 +1,6 @@
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## NullIteratorException Class
-An exception thrown when the iterator is null. Written by Emik.  
+An exception thrown when the iterator is null.  
 ```csharp
 public sealed class NullIteratorException : System.Exception
 ```
