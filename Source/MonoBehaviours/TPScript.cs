@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -159,6 +160,15 @@ namespace KeepCoding
         protected const string HideCamera = "hide camera";
 
         /// <summary>
+        /// When the module runs into an exception or the module is forced to be solved, it calls this method.
+        /// </summary>
+        /// <remarks>
+        /// Make sure that the module is solved before this method closes, otherwise it causes a forced-solve.
+        /// </remarks>
+        /// <returns>A series of instructions for the Twitch Plays mod to handle in order to guarantee a solve.</returns>
+        public abstract IEnumerator ForceSolve();
+
+        /// <summary>
         /// When a command is typed into Twitch Plays with the Id of this module, it calls this method and passes in the exact command typed.
         /// </summary>
         /// <remarks>
@@ -166,16 +176,7 @@ namespace KeepCoding
         /// </remarks>
         /// <param name="command">The user's command.</param>
         /// <returns>A series of instructions for the Twitch Plays mod to handle as requested by the user.</returns>
-        public abstract IEnumerator ProcessTwitchCommand(string command);
-
-        /// <summary>
-        /// When the module runs into an exception or the module is forced to be solved, it calls this method.
-        /// </summary>
-        /// <remarks>
-        /// Make sure that the module is solved before this method closes, otherwise it causes a forced-solve.
-        /// </remarks>
-        /// <returns>A series of instructions for the Twitch Plays mod to handle in order to guarantee a solve.</returns>
-        public abstract IEnumerator TwitchHandleForcedSolve();
+        public abstract IEnumerator Process(string command);
 
         /// <summary>
         /// Determines whether the input string matches the regex of the pattern.
@@ -265,7 +266,7 @@ namespace KeepCoding
         /// Works as a ternary operator. Returns <paramref name="then"/> if <paramref name="condition"/> is true, otherwise <paramref name="otherwise"/>.
         /// </summary>
         /// <remarks>
-        /// You can yield return this to send error messages or interactions by first checking for the condition.
+        /// You can <see langword="yield"/> <see langword="return"/> different types with this method, such as ambiguity between a <see cref="KMSelectable"/> <see cref="Array"/> and a <see cref="string"/>.
         /// </remarks>
         /// <typeparam name="T">The type of then condition.</typeparam>
         /// <param name="condition">The boolean to check.</param>
@@ -273,6 +274,24 @@ namespace KeepCoding
         /// <param name="otherwise">The output to return if <paramref name="condition"/> is false.</param>
         /// <returns><paramref name="then"/> or <paramref name="otherwise"/>, depending on <paramref name="condition"/>.</returns>
         protected static object Evaluate<T>(bool condition, T then, object otherwise = null) => condition ? then : otherwise;
+
+        /// <summary>
+        /// You can yield return this to indicate that other modules can be interacted, typically during the period where modules have long waiting periods.
+        /// </summary>
+        /// <param name="condition">The condition to repeatedly check until it returns <see langword="false"/>.</param>
+        /// <returns><see langword="true"/> continously until <paramref name="condition"/> is <see langword="false"/></returns>
+        protected static IEnumerator IdleWhile(Func<bool> condition)
+        {
+            while (condition())
+                yield return true;
+        }
+
+        /// <summary>
+        /// You can yield return this to indicate that other modules can be interacted, typically during the period where modules have long waiting periods.
+        /// </summary>
+        /// <param name="condition">The condition to repeatedly check until it returns <see langword="true"/>.</param>
+        /// <returns><see langword="false"/> continously until <paramref name="condition"/> is <see langword="true"/></returns>
+        protected static IEnumerator IdleUntil(Func<bool> condition) => IdleWhile(() => !condition());
 
         /// <summary>
         /// Presses a sequence of buttons according to <paramref name="indices"/> within <paramref name="selectables"/>, waiting <paramref name="wait"/> seconds in-between each, and interrupting as soon as <see cref="ModuleScript.HasStruck"/> is true.
@@ -296,12 +315,14 @@ namespace KeepCoding
             Module.HasStruck = false;
         }
 
-        private static string Combine(string main, params object[] toAppend)
-        {
-            if (!toAppend.IsNullOrEmpty())
-                toAppend.ForEach(s => main += $" {s}");
+#pragma warning disable IDE0051 // Remove unused private members
+        private IEnumerator ProcessTwitchCommand(string command) => Process(command).Flatten(true);
+#pragma warning restore IDE0051 // Remove unused private members
 
-            return main;
-        }
+#pragma warning disable IDE0051 // Remove unused private members
+        private IEnumerator TwitchHandleForcedSolve() => ForceSolve().Flatten(true);
+#pragma warning restore IDE0051 // Remove unused private members
+
+        private static string Combine(string main, params object[] toAppend) => main + toAppend.ConvertAll(o => $" {o}");
     }
 }

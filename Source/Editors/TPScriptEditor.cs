@@ -34,7 +34,7 @@ namespace KeepCoding
             var tp = (ITP)obj;
             var module = obj.GetComponent<ModuleScript>();
 
-            yield return tp.TwitchHandleForcedSolve();
+            yield return tp.ForceSolve();
 
             if (!module.IsSolved)
                 module.Log($"The module's solve coroutine finished before the module solved! This is a mistake because Twitch Plays will force-solve a module as soon as the {nameof(IEnumerator)} finishes running. You can fix it by adding a while loop for {nameof(ModuleScript.IsSolved)} that yield returns true.", LogType.Error);

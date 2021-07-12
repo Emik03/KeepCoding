@@ -67,6 +67,15 @@ namespace KeepCoding
         public List<KMBombModule> Abandons { get; set; }
 
         /// <summary>
+        /// When the module runs into an exception or the module is forced to be solved, it calls this method.
+        /// </summary>
+        /// <remarks>
+        /// Make sure that the module is solved before this method closes, otherwise it causes a forced-solve.
+        /// </remarks>
+        /// <returns>A series of instructions for the Twitch Plays mod to handle in order to guarantee a solve.</returns>
+        public IEnumerator ForceSolve();
+
+        /// <summary>
         /// When a command is typed into Twitch Plays with the Id of this module, it calls this method and passes in the exact command typed.
         /// </summary>
         /// <remarks>
@@ -74,15 +83,6 @@ namespace KeepCoding
         /// </remarks>
         /// <param name="command">The user's command.</param>
         /// <returns>A series of instructions for the Twitch Plays mod to handle as requested by the user.</returns>
-        public IEnumerator ProcessTwitchCommand(string command);
-
-        /// <summary>
-        /// When the module runs into an exception or the module is forced to be solved, it calls this method.
-        /// </summary>
-        /// <remarks>
-        /// Make sure that the module is solved before this method closes, otherwise it causes a forced-solve.
-        /// </remarks>
-        /// <returns>A series of instructions for the Twitch Plays mod to handle in order to guarantee a solve.</returns>
-        public IEnumerator TwitchHandleForcedSolve();
+        public IEnumerator Process(string command);
     }
 }
