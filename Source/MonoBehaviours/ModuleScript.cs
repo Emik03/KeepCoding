@@ -110,9 +110,9 @@ namespace KeepCoding
 
         private bool _hasException;
 
-        private int _strikes;
+        private static bool _hasCheckedVersion;
 
-        private static int _order;
+        private int _strikes;
 
         private static Dictionary<string, Dictionary<string, object>[]> _database;
 
@@ -145,7 +145,7 @@ namespace KeepCoding
 
             Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
 
-            StartCoroutine(CheckForUpdates(_order++));
+            StartCoroutine(CheckForUpdates());
             StartCoroutine(WaitForBomb());
         }
 
@@ -470,10 +470,12 @@ namespace KeepCoding
 
         private static uint VersionToNumber(string s) => uint.Parse(s.Replace(".", "").PadRight(9, '0'));
 
-        private static IEnumerator CheckForUpdates(int i)
+        private static IEnumerator CheckForUpdates()
         {
-            if (!IsEditor || i > 0)
+            if (!IsEditor || _hasCheckedVersion)
                 yield break;
+
+            _hasCheckedVersion = true;
 
             WWW www = new WWW("https://api.github.com/repos/Emik03/KeepCoding/releases/latest");
             yield return www;
