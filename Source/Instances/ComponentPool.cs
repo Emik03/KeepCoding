@@ -10,15 +10,9 @@ namespace KeepCoding
     /// </summary>
     public sealed class ComponentPool
     {
-        /// <summary>
-        /// Creates a Component pool.
-        /// </summary>
-        /// <param name="count">How many components from this pool should be selected.</param>
-        /// <param name="allowedSources">Controls where components can come from (either the base game, mods, or both).</param>
-        /// <param name="specialComponentType">Special types which are calculated at runtime, such as <see cref="SpecialComponentTypeEnum.ALL_SOLVABLE"/>.</param>
-        /// <param name="modTypes">A list of mod types to be included in the pool, if they exist.</param>
-        /// <param name="componentTypes">The list of component types, not including any calculated at runtime special types, like ALL_SOLVABLE. Use GetComponentTypes to get the calculated list.</param>
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public ComponentPool(int count, ComponentSource allowedSources, SpecialComponentTypeEnum specialComponentType, List<string> modTypes, List<ComponentTypeEnum> componentTypes)
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             Count = count;
             AllowedSources = allowedSources;
