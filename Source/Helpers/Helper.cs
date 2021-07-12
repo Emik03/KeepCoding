@@ -688,7 +688,7 @@ namespace KeepCoding
             {
                 if (source.Current is IEnumerator enumerator)
                 {
-                    var result = Flatten(enumerator, isUnwrap);
+                    var result = enumerator.Flatten(isUnwrap);
 
                     while (result.MoveNext())
                         yield return result.Current;
@@ -696,7 +696,7 @@ namespace KeepCoding
                     continue;
                 }
 
-                yield return isUnwrap ? Unwrap(source.Current) : source.Current;
+                yield return isUnwrap ? source.Current.Unwrap() : source.Current;
             }
         }
 
