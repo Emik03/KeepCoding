@@ -25,10 +25,28 @@ namespace KeepCoding
         }
 
         /// <summary>
+        /// Encapsulates either a solvable or needy module. Uses <see cref="CacheableBehaviour.Get{T}(bool)"/>.
+        /// </summary>
+        /// <param name="behaviour">The component to get the modules from.</param>
+        public ModuleContainer(CacheableBehaviour behaviour) : this(behaviour.Get<KMBombModule>(allowNull: true), behaviour.Get<KMNeedyModule>(allowNull: true)) { }
+
+        /// <summary>
         /// Encapsulates either a solvable or needy module. Uses <see cref="Component.GetComponent{T}"/>.
         /// </summary>
         /// <param name="component">The component to get the modules from.</param>
         public ModuleContainer(Component component) : this(component.GetComponent<KMBombModule>(), component.GetComponent<KMNeedyModule>()) { }
+
+        /// <summary>
+        /// Encapsulates either a solvable module.
+        /// </summary>
+        /// <param name="solvable">The instance of a normal module.</param>
+        public ModuleContainer(KMBombModule solvable) : this(solvable, null) { }
+
+        /// <summary>
+        /// Encapsulates either a solvable module.
+        /// </summary>
+        /// <param name="needy">The instance of a needy module.</param>
+        public ModuleContainer(KMNeedyModule needy) : this(null, needy) { }
 
         /// <value>
         /// Set to true to only allow this module to be placed on the same face as the timer. Useful when the rules involve the timer in some way (like the Big Button), but should be used sparingly as it limits generation possibilities.
