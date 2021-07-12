@@ -256,7 +256,8 @@ namespace KeepCoding
         /// <param name="action">The action for each loop.</param>
         /// <param name="condition">The condition for whether the loop should continue.</param>
         /// <param name="loop">The action to run after <paramref name="action"/>.</param>
-        public static void For<T>(this T item, Action<T> action, Predicate<T> condition = null, Func<T, T> loop = null)
+        /// <returns><paramref name="item"/></returns>
+        public static T For<T>(this T item, Action<T> action, Predicate<T> condition = null, Func<T, T> loop = null)
         {
             action.NullCheck("The action cannot be null.");
 
@@ -267,6 +268,8 @@ namespace KeepCoding
                 if (loop is { })
                     item = loop(item);
             }
+
+            return item;
         }
 
         /// <summary>
