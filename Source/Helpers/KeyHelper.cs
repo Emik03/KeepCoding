@@ -251,6 +251,26 @@ namespace KeepCoding
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-for-statement"/>
         /// </remarks>
         /// <exception cref="NullReferenceException"></exception>
+        /// <param name="length">The length to reach to in the for loop.</param>
+        /// <param name="action">The action for each loop.</param>
+        /// <returns><paramref name="length"/></returns>
+        public static int For(this int length, Action<int> action)
+        {
+            action.NullCheck("The action cannot be null.");
+
+            for (int i = 0; i < length; i++)
+                action(i);
+
+            return length;
+        }
+
+        /// <summary>
+        /// The <see langword="for"/> statement executes a statement or a block of statements while a specified Boolean expression evaluates to <see langword="true"/>.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-for-statement"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T">The type of the declaring variable.</typeparam>
         /// <param name="item">The item to read and write on.</param>
         /// <param name="action">The action for each loop.</param>
@@ -270,6 +290,28 @@ namespace KeepCoding
             }
 
             return item;
+        }
+
+        /// <summary>
+        /// The <see langword="for"/> statement executes a statement or a block of statements while a specified Boolean expression evaluates to <see langword="true"/>.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-for-statement"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <param name="length">The length to reach to in the for loop.</param>
+        /// <param name="func">The function for each loop.</param>
+        /// <returns>All instances that <paramref name="func"/> used in an <see cref="IEnumerable{T}"/>.</returns>
+        public static IEnumerable<T> For<T>(this int length, Func<int, T> func)
+        {
+            var output = Empty<T>();
+
+            func.NullCheck("The action cannot be null.");
+
+            for (int i = 0; i < length; i++)
+                output.Append(func(i));
+
+            return output;
         }
 
         /// <summary>
