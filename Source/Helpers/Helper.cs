@@ -70,6 +70,14 @@ namespace KeepCoding
         public static bool IsBetween(this int comparison, int min, int max) => comparison >= min && comparison <= max;
 
         /// <summary>
+        /// Determines whether the number is equal or in-between a tuple's <see cref="Tuple{T}.Item1"/> (minimum) and <see cref="Tuple{T1, T2}.Item2"/> (maximum).
+        /// </summary>
+        /// <param name="comparison">The number to use as comparison.</param>
+        /// <param name="range">The minimum and maximum value required to return true.</param>
+        /// <returns>True if <paramref name="comparison"/> is more than or equal <see cref="Tuple{T}.Item1"/> and less than or equal <see cref="Tuple{T1, T2}.Item2"/>.</returns>
+        public static bool IsBetween(this int comparison, Tuple<int, int> range) => comparison >= range.Item1 && comparison <= range.Item2;
+
+        /// <summary>
         /// Determines whether the number is equal or in-between 2 values.
         /// </summary>
         /// <param name="comparison">The number to use as comparison.</param>
@@ -77,6 +85,14 @@ namespace KeepCoding
         /// <param name="max">The maximum value required to return true.</param>
         /// <returns>True if <paramref name="comparison"/> is more than or equal <paramref name="min"/> and less than or equal <paramref name="max"/>.</returns>
         public static bool IsBetween(this float comparison, float min, float max) => comparison >= min && comparison <= max;
+
+        /// <summary>
+        /// Determines whether the number is equal or in-between a tuple's <see cref="Tuple{T}.Item1"/> (minimum) and <see cref="Tuple{T1, T2}.Item2"/> (maximum).
+        /// </summary>
+        /// <param name="comparison">The number to use as comparison.</param>
+        /// <param name="range">The minimum and maximum value required to return true.</param>
+        /// <returns>True if <paramref name="comparison"/> is more than or equal <see cref="Tuple{T}.Item1"/> and less than or equal <see cref="Tuple{T1, T2}.Item2"/>.</returns>
+        public static bool IsBetween(this float comparison, Tuple<float, float> range) => comparison >= range.Item1 && comparison <= range.Item2;
 
         /// <summary>
         /// Determines if the index is pointing to null in any way.
@@ -233,6 +249,17 @@ namespace KeepCoding
         public static int[] Ranges(this int length, int min, int max) => Range(0, length).Select(i => URandom.Range(min, max)).ToArray();
 
         /// <summary>
+        /// Generates a random set of integers.
+        /// </summary>
+        /// <remarks>
+        /// As this uses <see cref="URandom"/>, you may not use this in a constructor. Use it in <c>Awake()</c> or <c>Start()</c> in that case.
+        /// </remarks>
+        /// <param name="length">The length of the array.</param>
+        /// <param name="range">The minimum (inclusive) and maximum (exclusive) values.</param>
+        /// <returns>Random integer array of length <paramref name="length"/> between <paramref name="range"/>'s values.</returns>
+        public static int[] Ranges(this int length, Tuple<int, int> range) => Range(0, length).Select(i => URandom.Range(range.Item1, range.Item2)).ToArray();
+
+        /// <summary>
         /// Parses each element of an array into a number. If it succeeds it returns the integer array, if it fails then it returns null.
         /// </summary>
         /// <param name="ts">The array to convert to an integer.</param>
@@ -306,6 +333,17 @@ namespace KeepCoding
         /// <param name="max">The maximum value for each index. (inclusive)</param>
         /// <returns>Random float array of length <paramref name="length"/> between <paramref name="min"/> and <paramref name="max"/>.</returns>
         public static float[] Ranges(this int length, float min, float max) => Range(0, length).Select(i => URandom.Range(min, max)).ToArray();
+
+        /// <summary>
+        /// Generates a random set of integers.
+        /// </summary>
+        /// <remarks>
+        /// As this uses <see cref="URandom"/>, you may not use this in a constructor. Use it in <c>Awake()</c> or <c>Start()</c> in that case.
+        /// </remarks>
+        /// <param name="length">The length of the array.</param>
+        /// <param name="range">The minimum (inclusive) and maximum (exclusive) values.</param>
+        /// <returns>Random integer array of length <paramref name="length"/> between <paramref name="range"/>'s values.</returns>
+        public static float[] Ranges(this int length, Tuple<float, float> range) => Range(0, length).Select(i => URandom.Range(range.Item1, range.Item2)).ToArray();
 
         /// <summary>
         /// Converts any base number to any base.
@@ -656,8 +694,8 @@ namespace KeepCoding
             {
                 int j = randomiser(i, buffer.Count);
 
-                yield return buffer[j];
-
+                yield return j.IsBetween(0, buffer.GetUpperBound()) ? buffer[j] : throw new IndexOutOfRangeException($"The method provided returned a number that was out of range! Range: 0-{buffer.GetUpperBound()}, returned value: {j}.");
+                
                 buffer[j] = buffer[i];
             }
         }
