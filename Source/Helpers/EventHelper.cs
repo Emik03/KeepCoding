@@ -61,7 +61,7 @@ namespace KeepCoding
         /// <param name="onStateChange">Called when the state of the game changes.</param>
         /// <param name="onAlarmClockChange">Called when the alarm clock changes state, and passes in whether it's on or off.</param>
         /// <param name="onLightsChange">Called when the lights change state, and passes in whether it's on or off.</param>
-        public static void Assign(this KMGameInfo gameInfo, Action<State> onStateChange, Action<bool> onAlarmClockChange = null, Action<bool> onLightsChange = null)
+        public static void Assign(this KMGameInfo gameInfo, Action<State> onStateChange = null, Action<bool> onAlarmClockChange = null, Action<bool> onLightsChange = null)
         {
             gameInfo.AssertDefault();
 
