@@ -12,7 +12,8 @@ using static System.Linq.Enumerable;
 using static System.Math;
 using static System.Reflection.BindingFlags;
 using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
+using SRandom = System.Random;
+using URandom = UnityEngine.Random;
 
 namespace KeepCoding
 {
@@ -124,17 +125,17 @@ namespace KeepCoding
         /// Generates a random boolean.
         /// </summary>
         /// <remarks>
-        /// As this uses <see cref="Random"/>, you may not use this in a constructor. Use it in <c>Awake()</c> or <c>Start()</c> in that case.
+        /// As this uses <see cref="URandom"/>, you may not use this in a constructor. Use it in <c>Awake()</c> or <c>Start()</c> in that case.
         /// </remarks>
         /// <param name="weighting">The odds of the boolean being true.</param>
         /// <returns>A random boolean, with probability based off of <paramref name="weighting"/>.</returns>
-        public static bool RandomBoolean(float weighting = 0.5f) => Random.Range(0, 1f) < weighting;
+        public static bool RandomBoolean(float weighting = 0.5f) => URandom.Range(0, 1f) < weighting;
 
         /// <summary>
         /// Creates an <see cref="Array"/> of random boolean values.
         /// </summary>
         /// <remarks>
-        /// As this uses <see cref="Random"/>, you may not use this in a constructor. Use it in <c>Awake()</c> or <c>Start()</c> in that case.
+        /// As this uses <see cref="URandom"/>, you may not use this in a constructor. Use it in <c>Awake()</c> or <c>Start()</c> in that case.
         /// </remarks>
         /// <param name="length">The length of the array.</param>
         /// <param name="weighting">The odds of the boolean being true.</param>
@@ -223,13 +224,13 @@ namespace KeepCoding
         /// Generates a random set of integers.
         /// </summary>
         /// <remarks>
-        /// As this uses <see cref="Random"/>, you may not use this in a constructor. Use it in <c>Awake()</c> or <c>Start()</c> in that case.
+        /// As this uses <see cref="URandom"/>, you may not use this in a constructor. Use it in <c>Awake()</c> or <c>Start()</c> in that case.
         /// </remarks>
         /// <param name="length">The length of the array.</param>
         /// <param name="min">The minimum value for each index. (inclusive)</param>
         /// <param name="max">The maximum value for each index. (exclusive)</param>
         /// <returns>Random integer array of length <paramref name="length"/> between <paramref name="min"/> and <paramref name="max"/>.</returns>
-        public static int[] Ranges(this int length, int min, int max) => Range(0, length).Select(i => Random.Range(min, max)).ToArray();
+        public static int[] Ranges(this int length, int min, int max) => Range(0, length).Select(i => URandom.Range(min, max)).ToArray();
 
         /// <summary>
         /// Parses each element of an array into a number. If it succeeds it returns the integer array, if it fails then it returns null.
@@ -298,13 +299,13 @@ namespace KeepCoding
         /// Generates a random set of floats.
         /// </summary>
         /// <remarks>
-        /// As this uses <see cref="Random"/>, you may not use this in a constructor. Use it in <c>Awake()</c> or <c>Start()</c> in that case.
+        /// As this uses <see cref="URandom"/>, you may not use this in a constructor. Use it in <c>Awake()</c> or <c>Start()</c> in that case.
         /// </remarks>
         /// <param name="length">The length of the array.</param>
         /// <param name="min">The minimum value for each index. (inclusive)</param>
         /// <param name="max">The maximum value for each index. (inclusive)</param>
         /// <returns>Random float array of length <paramref name="length"/> between <paramref name="min"/> and <paramref name="max"/>.</returns>
-        public static float[] Ranges(this int length, float min, float max) => Range(0, length).Select(i => Random.Range(min, max)).ToArray();
+        public static float[] Ranges(this int length, float min, float max) => Range(0, length).Select(i => URandom.Range(min, max)).ToArray();
 
         /// <summary>
         /// Converts any base number to any base.
@@ -620,6 +621,46 @@ namespace KeepCoding
         /// <param name="value">The value to replace at <paramref name="source"/>'s <paramref name="index"/> element.</param>
         /// <returns><paramref name="source"/> but the <paramref name="index"/> element is <paramref name="value"/> instead.</returns>
         public static IEnumerable<T> Replace<T>(this IEnumerable<T> source, int index, T value) => source.NullCheck("The source cannot be null.").Select((t, i) => i == index ? value : t);
+
+        /// <summary>
+        /// Shuffles a collection of items using <see cref="URandom"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of <see cref="IEnumerable{T}"/> to shuffle.</typeparam>
+        /// <param name="source">The <see cref="IEnumerable{T}"/> to shuffle.</param>
+        /// <returns><paramref name="source"/> in a random order.</returns>
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source) => source.Shuffle(URandom.Range);
+
+        /// <summary>
+        /// Shuffles a collection of items using a specified <see cref="SRandom"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of <see cref="IEnumerable{T}"/> to shuffle.</typeparam>
+        /// <param name="source">The <see cref="IEnumerable{T}"/> to shuffle.</param>
+        /// <param name="rng">The <see cref="SRandom"/> to generate numbers by.</param>
+        /// <returns><paramref name="source"/> in a random order.</returns>
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, SRandom rng) => source.Shuffle(rng.Next);
+
+        /// <summary>
+        /// Shuffles a collection of items using a user-specified algorithm.
+        /// </summary>
+        /// <typeparam name="T">The type of <see cref="IEnumerable{T}"/> to shuffle.</typeparam>
+        /// <param name="source">The <see cref="IEnumerable{T}"/> to shuffle.</param>
+        /// <param name="randomiser">The method to take the current and maximum indices, and return a new number to swap the current with.</param>
+        /// <returns><paramref name="source"/> in a random order.</returns>
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, Func<int, int, int> randomiser)
+        {
+            randomiser.NullCheck("The randomiser cannot be null.");
+
+            var buffer = source.NullCheck("The source cannot be null.").ToList();
+
+            for (int i = 0; i < buffer.Count; i++)
+            {
+                int j = randomiser(i, buffer.Count);
+
+                yield return buffer[j];
+
+                buffer[j] = buffer[i];
+            }
+        }
 
         /// <summary>
         /// Returns a slice of an <see cref="IEnumerable{T}"/>.
