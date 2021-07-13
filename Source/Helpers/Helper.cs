@@ -650,23 +650,12 @@ namespace KeepCoding
         public static IEnumerable<T> Prepend<T>(this IEnumerable<T> source, T item) => new T[] { item }.Concat(source);
 
         /// <summary>
-        /// Replaces an index in the <see cref="IEnumerable{T}"/> and returns the new one.
-        /// </summary>
-        /// <exception cref="NullIteratorException"></exception>
-        /// <typeparam name="T">The type of the <see cref="IEnumerable"/>.</typeparam>
-        /// <param name="source">The initial source.</param>
-        /// <param name="index">The index to change.</param>
-        /// <param name="value">The value to replace at <paramref name="source"/>'s <paramref name="index"/> element.</param>
-        /// <returns><paramref name="source"/> but the <paramref name="index"/> element is <paramref name="value"/> instead.</returns>
-        public static IEnumerable<T> Replace<T>(this IEnumerable<T> source, int index, T value) => source.NullCheck("The source cannot be null.").Select((t, i) => i == index ? value : t);
-
-        /// <summary>
         /// Shuffles a collection of items using <see cref="URandom"/>.
         /// </summary>
         /// <typeparam name="T">The type of <see cref="IEnumerable{T}"/> to shuffle.</typeparam>
         /// <param name="source">The <see cref="IEnumerable{T}"/> to shuffle.</param>
         /// <returns><paramref name="source"/> in a random order.</returns>
-        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source) => source.Shuffle(URandom.Range);
+        public static IEnumerable<T> Randomize<T>(this IEnumerable<T> source) => source.Randomize(URandom.Range);
 
         /// <summary>
         /// Shuffles a collection of items using a specified <see cref="SRandom"/>.
@@ -675,7 +664,7 @@ namespace KeepCoding
         /// <param name="source">The <see cref="IEnumerable{T}"/> to shuffle.</param>
         /// <param name="rng">The <see cref="SRandom"/> to generate numbers by.</param>
         /// <returns><paramref name="source"/> in a random order.</returns>
-        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, SRandom rng) => source.Shuffle(rng.Next);
+        public static IEnumerable<T> Randomize<T>(this IEnumerable<T> source, SRandom rng) => source.Randomize(rng.Next);
 
         /// <summary>
         /// Shuffles a collection of items using a user-specified algorithm.
@@ -684,7 +673,7 @@ namespace KeepCoding
         /// <param name="source">The <see cref="IEnumerable{T}"/> to shuffle.</param>
         /// <param name="randomiser">The method to take the current and maximum indices, and return a new number to swap the current with.</param>
         /// <returns><paramref name="source"/> in a random order.</returns>
-        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, Func<int, int, int> randomiser)
+        public static IEnumerable<T> Randomize<T>(this IEnumerable<T> source, Func<int, int, int> randomiser)
         {
             randomiser.NullCheck("The randomiser cannot be null.");
 
@@ -695,10 +684,20 @@ namespace KeepCoding
                 int j = randomiser(i, buffer.Count);
 
                 yield return j.IsBetween(0, buffer.GetUpperBound()) ? buffer[j] : throw new IndexOutOfRangeException($"The method provided returned a number that was out of range! Range: 0-{buffer.GetUpperBound()}, returned value: {j}.");
-                
+
                 buffer[j] = buffer[i];
             }
         }
+        /// <summary>
+        /// Replaces an index in the <see cref="IEnumerable{T}"/> and returns the new one.
+        /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <typeparam name="T">The type of the <see cref="IEnumerable"/>.</typeparam>
+        /// <param name="source">The initial source.</param>
+        /// <param name="index">The index to change.</param>
+        /// <param name="value">The value to replace at <paramref name="source"/>'s <paramref name="index"/> element.</param>
+        /// <returns><paramref name="source"/> but the <paramref name="index"/> element is <paramref name="value"/> instead.</returns>
+        public static IEnumerable<T> Replace<T>(this IEnumerable<T> source, int index, T value) => source.NullCheck("The source cannot be null.").Select((t, i) => i == index ? value : t);
 
         /// <summary>
         /// Returns a slice of an <see cref="IEnumerable{T}"/>.
