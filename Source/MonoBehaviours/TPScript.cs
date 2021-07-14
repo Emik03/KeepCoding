@@ -16,17 +16,6 @@ namespace KeepCoding
 #pragma warning restore IDE1006 // Naming Styles
     {
         /// <value>
-        /// Determines if it should allow for the timer to be skipped when the module it is in, as well as any other modules that would like to skip time, are the only unsolved modules left on the bomb. 
-        /// </value>
-        /// <remarks>
-        /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
-        /// </remarks>
-        public bool IsTimeSkippable { get => TwitchPlaysSkipTimeAllowed; set => TwitchPlaysSkipTimeAllowed = value; }
-#pragma warning disable IDE1006 // Naming Styles
-        private bool TwitchPlaysSkipTimeAllowed { get; set; }
-#pragma warning restore IDE1006 // Naming Styles
-
-        /// <value>
         /// Determines if it should cancel command processing. If this returns true, then stop processing the command, clean up, then do a <c>yield return Cancelled;</c> to acknowledge the cancel.
         /// </value>
         /// <remarks>
@@ -45,6 +34,17 @@ namespace KeepCoding
         /// </remarks>
         public bool IsTime => TimeModeActive;
         private bool TimeModeActive { get; set; }
+
+        /// <value>
+        /// Determines if it should allow for the timer to be skipped when the module it is in, as well as any other modules that would like to skip time, are the only unsolved modules left on the bomb. 
+        /// </value>
+        /// <remarks>
+        /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
+        /// </remarks>
+        public bool IsTimeSkippable { get => TwitchPlaysSkipTimeAllowed; set => TwitchPlaysSkipTimeAllowed = value; }
+#pragma warning disable IDE1006 // Naming Styles
+        private bool TwitchPlaysSkipTimeAllowed { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
 
         /// <value>
         /// Determines if Twitch Plays is currently active. This is for modules that need to display different items, or use different rules if Twitch Plays is active.
@@ -95,41 +95,6 @@ namespace KeepCoding
         private TModule _module;
 
         /// <value>
-        /// Yield return this to indicate that this command will cause a strike at some later point; all this does is tell Twitch Plays to attribute the strike to the author of this command.
-        /// </value>
-        protected const string Strike = "strike";
-
-        /// <value>
-        /// Yield return this to indicate that this command will solve the module at some later point; all this does is tell Twitch Plays to attribute the solve to the author of this command.
-        /// </value>
-        protected const string Solve = "solve";
-
-        /// <value>
-        /// Yield return this to indicate that the command couldn't submit an answer and should only be used to prevent users from guessing the answer. This should not be used if an answer could never be submittable for a module.
-        /// </value>
-        protected const string UnsubmittablePenalty = "unsubmittablepenalty";
-
-        /// <value>
-        /// Yield return this to indicate that the <c>KMSelectable[]</c> sequence that follows this command should be cancelled if a "!cancel" or "!stop" is issued mid-way through that sequence.
-        /// </value>
-        protected const string TryCancelSequence = "trycancelsequence";
-
-        /// <value>
-        /// Yield return this to indicate that you have stopped processing the command in response to the <see cref="TwitchShouldCancelCommand"/> bool being set to true.
-        /// </value>
-        protected const string Cancelled = "cancelled";
-
-        /// <value>
-        /// Yield return this to indicate that the issued command is going to cause more than one strike, so should disable the internal strike tracker in order to avoid flooding the chat with "VoteNay Module {id} got a strike! +1 strike to {Nickname}" for as many strikes as will be awarded. This also disables the internal solve tracker as well. This allows for sending additional messages or continue processing commands regardless of the solve/strike state.
-        /// </value>
-        protected const string MultipleStrikes = "multiple strikes";
-
-        /// <value>
-        /// Yield return this to indicate that the strike tracker should be enabled. If any strikes were issued during the time it was disabled, they will be awarded and the routine stopped at that point, otherwise, it will just cancel the "VoteNay Module {id} got 0 strikes! +0 strike to {Nickname}" message that would otherwise be posted. Likewise, if the module was solved at the time this command is issued, the processing will be stopped as of that point as well.
-        /// </value>
-        protected const string EndMultipleStrikes = "end multiple strikes";
-
-        /// <value>
         /// Yield return this to indicate automatically solving the module, as if it threw an exception while solving.
         /// </value>
         protected const string AutoSolve = "autosolve";
@@ -140,9 +105,14 @@ namespace KeepCoding
         protected const string CancelDetonate = "cancel detonate";
 
         /// <value>
-        /// Yield return this to indicate playing the waiting music if a command will take long to finish.
+        /// Yield return this to indicate that you have stopped processing the command in response to the <see cref="TwitchShouldCancelCommand"/> bool being set to true.
         /// </value>
-        protected const string WaitingMusic = "waiting music";
+        protected const string Cancelled = "cancelled";
+
+        /// <value>
+        /// Yield return this to indicate that the strike tracker should be enabled. If any strikes were issued during the time it was disabled, they will be awarded and the routine stopped at that point, otherwise, it will just cancel the "VoteNay Module {id} got 0 strikes! +0 strike to {Nickname}" message that would otherwise be posted. Likewise, if the module was solved at the time this command is issued, the processing will be stopped as of that point as well.
+        /// </value>
+        protected const string EndMultipleStrikes = "end multiple strikes";
 
         /// <value>
         /// Yield return this to indicate stopping the waiting music mid-command.
@@ -150,14 +120,44 @@ namespace KeepCoding
         protected const string EndWaitingMusic = "end waiting music";
 
         /// <value>
+        /// Yield return this to hide the heads-up display and cameras while doing quaternion rotations, if it is expected that the camera/hud will get in the way.
+        /// </value>
+        protected const string HideCamera = "hide camera";
+
+        /// <value>
+        /// Yield return this to indicate that the issued command is going to cause more than one strike, so should disable the internal strike tracker in order to avoid flooding the chat with "VoteNay Module {id} got a strike! +1 strike to {Nickname}" for as many strikes as will be awarded. This also disables the internal solve tracker as well. This allows for sending additional messages or continue processing commands regardless of the solve/strike state.
+        /// </value>
+        protected const string MultipleStrikes = "multiple strikes";
+
+        /// <value>
+        /// Yield return this to indicate that this command will solve the module at some later point; all this does is tell Twitch Plays to attribute the solve to the author of this command.
+        /// </value>
+        protected const string Solve = "solve";
+
+        /// <value>
+        /// Yield return this to indicate that this command will cause a strike at some later point; all this does is tell Twitch Plays to attribute the strike to the author of this command.
+        /// </value>
+        protected const string Strike = "strike";
+
+        /// <value>
         /// Yield return this to toggle the waiting music on and off mid-command.
         /// </value>
         protected const string ToggleWaitingMusic = "toggle waiting music";
 
         /// <value>
-        /// Yield return this to hide the heads-up display and cameras while doing quaternion rotations, if it is expected that the camera/hud will get in the way.
+        /// Yield return this to indicate that the <c>KMSelectable[]</c> sequence that follows this command should be cancelled if a "!cancel" or "!stop" is issued mid-way through that sequence.
         /// </value>
-        protected const string HideCamera = "hide camera";
+        protected const string TryCancelSequence = "trycancelsequence";
+
+        /// <value>
+        /// Yield return this to indicate that the command couldn't submit an answer and should only be used to prevent users from guessing the answer. This should not be used if an answer could never be submittable for a module.
+        /// </value>
+        protected const string UnsubmittablePenalty = "unsubmittablepenalty";
+
+        /// <value>
+        /// Yield return this to indicate playing the waiting music if a command will take long to finish.
+        /// </value>
+        protected const string WaitingMusic = "waiting music";
 
         /// <summary>
         /// When the module runs into an exception or the module is forced to be solved, it calls this method.
@@ -317,20 +317,15 @@ namespace KeepCoding
             Module.HasStruck = false;
         }
 
+#pragma warning disable IDE0051 // Remove unused private members
+        private IEnumerator ProcessTwitchCommand(string command) => Module.isColorblindSupported && command.ToLowerInvariant().Trim() == "colorblind" ? ToggleColorblind() : Process(command).Flatten(o => !(o is KMSelectable[]));
+#pragma warning restore IDE0051 // Remove unused private members
+
         private IEnumerator ToggleColorblind()
         {
+            Module.IsColorblind = !Module.IsColorblind;
             yield return null;
-            Module.Colorblind = !Module.Colorblind;
         }
-
-#pragma warning disable IDE0051 // Remove unused private members
-        private IEnumerator ProcessTwitchCommand(string command)
-        {
-            return command.ToLowerInvariant().Trim() == "colorblind" && Module.colorblindSupported
-                ? ToggleColorblind()
-                : Process(command).Flatten(o => !(o is KMSelectable[]));
-        }
-#pragma warning restore IDE0051 // Remove unused private members
 
 #pragma warning disable IDE0051 // Remove unused private members
         private IEnumerator TwitchHandleForcedSolve() => ForceSolve().Flatten(o => !(o is KMSelectable[]));

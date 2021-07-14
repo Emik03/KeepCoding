@@ -20,7 +20,7 @@ namespace KeepCoding
     /// Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes. 
     /// </summary>
 #pragma warning disable IDE1006 // Naming Styles
-    public abstract class ModuleScript : CacheableBehaviour, IDump, ILog
+    public abstract partial class ModuleScript : CacheableBehaviour, IDump, ILog
 #pragma warning restore IDE1006 // Naming Styles
     {
         /// <value>
@@ -32,6 +32,20 @@ namespace KeepCoding
         /// Determines whether the bomb is currently active, and the timer is ticking.
         /// </value>
         public bool IsActive { get; private set; }
+
+        /// <value>
+        /// Determines whether the module's colorblind mode is enabled.
+        /// </value>
+        public bool IsColorblind
+        {
+            get => _isColorblind;
+            set 
+            {
+                if (_isColorblind != value)
+                    OnColorblindChanged(_isColorblind = value);
+            }
+        }
+        private bool _isColorblind;
 
         /// <value>
         /// Determines whether the application is running from inside unity.
@@ -109,6 +123,8 @@ namespace KeepCoding
         /// </summary>
         public ModuleContainer[] Modules { get; private set; }
 
+        internal bool isColorblindSupported = true;
+
         private bool _hasException;
 
         private static bool _hasCheckedVersion;
@@ -146,37 +162,10 @@ namespace KeepCoding
 
             Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
 
+            PathManager.SetupColorblind(this);
+
             StartCoroutine(CheckForUpdates());
             StartCoroutine(WaitForBomb());
-
-            // Check if colorblind support should be enabled
-            string key = Module.Id;
-            try
-            {
-                var settingsPath = Path.Combine(Path.Combine(persistentDataPath, "Modsettings"), "ColorblindMode.json");
-
-                ColorblindModeSettings settings = new ColorblindModeSettings();
-                if (File.Exists(settingsPath))
-                    settings = JsonConvert.DeserializeObject<ColorblindModeSettings>(File.ReadAllText(settingsPath));
-
-                bool? isEnabled = null;
-                if (!string.IsNullOrEmpty(key) && !settings.EnabledModules.TryGetValue(key, out isEnabled))
-                    settings.EnabledModules[key] = null;
-
-                File.WriteAllText(settingsPath, JsonConvert.SerializeObject(settings, Formatting.Indented));
-                Colorblind = isEnabled ?? settings.Enabled;
-            }
-            catch (Exception e)
-            {
-                Debug.LogFormat(@"[Colorblind Mode] Error in ""{0}"": {1} ({2})\n{3}", key ?? "<null>", e.Message, e.GetType().FullName, e.StackTrace);
-                Colorblind = false;
-            }
-        }
-
-        private class ColorblindModeSettings
-        {
-            public bool Enabled = false;
-            public Dictionary<string, bool?> EnabledModules = new Dictionary<string, bool?>();
         }
 
         /// <summary>
@@ -293,6 +282,12 @@ namespace KeepCoding
         public virtual void OnActivate() { }
 
         /// <summary>
+        /// Called when colorblind support needs to be updated for the module. Do not call <c>base.OnColorblindChanged()</c>.
+        /// </summary>
+        /// <param name="isEnabled">Whether colorblind support should be enabled.</param>
+        public virtual void OnColorblindChanged(bool isEnabled) => isColorblindSupported = false;
+
+        /// <summary>
         /// Called when any module on the current bomb has issued a strike.
         /// </summary>
         /// <remarks>
@@ -323,34 +318,6 @@ namespace KeepCoding
         /// Called when the timer's seconds-digit changes.
         /// </summary>
         public virtual void OnTimerTick() { }
-
-        internal bool colorblindSupported = true;
-
-        /// <summary>
-        /// Called when colorblind support needs to be updated for the module. Do not call <c>base.OnColorblindChanged()</c>.
-        /// </summary>
-        /// <param name="enabled">Whether colorblind support should be enabled.</param>
-        public virtual void OnColorblindChanged(bool enabled)
-        {
-            colorblindSupported = false;
-        }
-
-        private bool _colorBlind;
-        internal bool Colorblind
-        {
-            set
-            {
-                if (_colorBlind == value)
-                    return;
-
-                _colorBlind = value;
-                OnColorblindChanged(_colorBlind);
-            }
-            get
-            {
-                return _colorBlind;
-            }
-        }
 
         /// <summary>
         /// Sends information to a static variable such that other modules can access it.

@@ -1,17 +1,18 @@
 #### [KeepCoding](index.md 'index')
-### [KeepCoding](KeepCoding.md 'KeepCoding').[ModInfo](KeepCoding_ModInfo.md 'KeepCoding.ModInfo')
-## ModInfo.Deserialize(string) Method
+### [KeepCoding](KeepCoding.md 'KeepCoding').[ColorblindInfo](KeepCoding_ColorblindInfo.md 'KeepCoding.ColorblindInfo')
+## ColorblindInfo.Deserialize(string) Method
 Deserializes a modInfo.json file.  
 ```csharp
-public static KeepCoding.ModInfo Deserialize(string path);
+public static KeepCoding.ColorblindInfo Deserialize(string path);
 ```
 #### Parameters
-<a name='KeepCoding_ModInfo_Deserialize(string)_path'></a>
+<a name='KeepCoding_ColorblindInfo_Deserialize(string)_path'></a>
 `path` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
+The path of the file to deserialize.
   
 #### Returns
-[ModInfo](KeepCoding_ModInfo.md 'KeepCoding.ModInfo')  
-[path](KeepCoding_ModInfo_Deserialize(string).md#KeepCoding_ModInfo_Deserialize(string)_path 'KeepCoding.ModInfo.Deserialize(string).path') deserialized as [ModInfo](KeepCoding_ModInfo.md 'KeepCoding.ModInfo').
+[ColorblindInfo](KeepCoding_ColorblindInfo.md 'KeepCoding.ColorblindInfo')  
+[path](KeepCoding_ColorblindInfo_Deserialize(string).md#KeepCoding_ColorblindInfo_Deserialize(string)_path 'KeepCoding.ColorblindInfo.Deserialize(string).path') deserialized as [ColorblindInfo](KeepCoding_ColorblindInfo.md 'KeepCoding.ColorblindInfo').
 #### Exceptions
 [System.ArgumentException](https://docs.microsoft.com/en-us/dotnet/api/System.ArgumentException 'System.ArgumentException')  
 [System.ArgumentNullException](https://docs.microsoft.com/en-us/dotnet/api/System.ArgumentNullException 'System.ArgumentNullException')  

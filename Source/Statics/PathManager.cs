@@ -1,14 +1,17 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security;
 using UnityEngine;
 using UnityEngine.Video;
 using static KeepCoding.Game.ModManager;
 using static KeepCoding.Game.ModSourceEnum;
 using static KeepCoding.ModInfo;
+using static Newtonsoft.Json.Formatting;
 using static System.IntPtr;
 using static System.Linq.Enumerable;
 using static System.Reflection.Assembly;
@@ -28,6 +31,18 @@ namespace KeepCoding
     /// </summary>
     public static class PathManager
     {
+        private const string
+            FileExtensionBundle = "bundle",
+            FileExtensionLinux = "so",
+            FileExtensionMacOS = "dylib",
+            FileExtensionWindows = "dll";
+
+        private static readonly Dictionary<string, string> _paths = new Dictionary<string, string>();
+
+        private static readonly Dictionary<string, ModInfo> _modInfos = new Dictionary<string, ModInfo>();
+
+        private static readonly PlatformNotSupportedException _intPtrException = new PlatformNotSupportedException("IntPtr size is not 4 or 8, what kind of system is this?");
+
         /// <value>
         /// Gets this library's <see cref="AssemblyName"/>.
         /// </value>
@@ -290,18 +305,32 @@ namespace KeepCoding
         /// <returns>The <see cref="AssetBundleCreateRequest"/> needed to load the files, followed by the <see cref="VideoClip"/> <see cref="Array"/>.</returns>
         public static TAsset[] GetAssets<T, TAsset>(T _, string bundleVideoFileName) where TAsset : Object => GetAssets<TAsset>(NameOfAssembly<T>(), bundleVideoFileName);
 
-        private const string
-            FileExtensionBundle = "bundle",
-            FileExtensionLinux = "so",
-            FileExtensionMacOS = "dylib",
-            FileExtensionWindows = "dll";
+        internal static void SetupColorblind(ModuleScript module)
+        {
+            try
+            {
+                string settingsPath = CombineMultiple(persistentDataPath, "Modsettings", "ColorblindMode.json");
 
-        private static readonly Dictionary<string, string> _paths = new Dictionary<string, string>();
+                if (!File.Exists(settingsPath))
+                    return;
 
-        private static readonly Dictionary<string, ModInfo> _modInfos = new Dictionary<string, ModInfo>();
+                var settings = JsonConvert.DeserializeObject<ColorblindInfo>(File.ReadAllText(settingsPath));
 
-        private static readonly PlatformNotSupportedException _intPtrException = new PlatformNotSupportedException("IntPtr size is not 4 or 8, what kind of system is this?");
+                if (!settings.Modules.TryGetValue(module.Module.Id, out bool? isEnabled))
+                    settings.Modules[module.Module.Id] = null;
 
+                File.WriteAllText(settingsPath, JsonConvert.SerializeObject(settings, Indented));
+
+                module.IsColorblind = isEnabled ?? settings.IsEnabled;
+            }
+            catch (Exception e) when (e is ArgumentException || e is ArgumentNullException || e is DirectoryNotFoundException || e is FileNotFoundException || e is IOException || e is NotSupportedException || e is NullIteratorException || e is NullReferenceException || e is PathTooLongException || e is SecurityException || e is UnauthorizedAccessException)
+            {
+                new Logger("Colorblind Mode", false).Log(@$"Error in ""{module.Module.Id ?? Helper.Null}"": {e.Message} ({e.GetType().FullName}){e.StackTrace}");
+
+                module.IsColorblind = false;
+            }
+        }
+        
         private static void CopyLibrary(in string libraryFileName, in string path)
         {
             switch (platform)

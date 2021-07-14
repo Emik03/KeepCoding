@@ -18,6 +18,7 @@ Implements [IDump](KeepCoding_IDump.md 'KeepCoding.IDump'), [ILog](KeepCoding_IL
 | [HasStruck](KeepCoding_ModuleScript_HasStruck.md 'KeepCoding.ModuleScript.HasStruck') |  |
 | [Id](KeepCoding_ModuleScript_Id.md 'KeepCoding.ModuleScript.Id') |  |
 | [IsActive](KeepCoding_ModuleScript_IsActive.md 'KeepCoding.ModuleScript.IsActive') |  |
+| [IsColorblind](KeepCoding_ModuleScript_IsColorblind.md 'KeepCoding.ModuleScript.IsColorblind') |  |
 | [IsEditor](KeepCoding_ModuleScript_IsEditor.md 'KeepCoding.ModuleScript.IsEditor') |  |
 | [IsLastInstantiated](KeepCoding_ModuleScript_IsLastInstantiated.md 'KeepCoding.ModuleScript.IsLastInstantiated') |  |
 | [IsNeedyActive](KeepCoding_ModuleScript_IsNeedyActive.md 'KeepCoding.ModuleScript.IsNeedyActive') |  |
