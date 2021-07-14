@@ -86,16 +86,15 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="PathTooLongException"></exception>
         /// <exception cref="DirectoryNotFoundException"></exception>
-        /// <exception cref="IOException"></exception>
-        /// <exception cref="UnauthorizedAccessException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="IOException"></exception>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="NullIteratorException"></exception>
         /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="PathTooLongException"></exception>
         /// <exception cref="SecurityException"></exception>
-        /// <param name="path">The path of the file to deserialize.</param>
+        /// <exception cref="UnauthorizedAccessException"></exception>
         /// <returns><paramref name="path"/> deserialized as <see cref="ModInfo"/>.</returns>
         public static ModInfo Deserialize(string path) => DeserializeObject<ModInfo>(ReadAllText(path.NullCheck("A \"null\" path cannot be searched.")));
     }
