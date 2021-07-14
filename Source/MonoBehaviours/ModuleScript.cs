@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -147,6 +148,35 @@ namespace KeepCoding
 
             StartCoroutine(CheckForUpdates());
             StartCoroutine(WaitForBomb());
+
+            // Check if colorblind support should be enabled
+            string key = Module.Id;
+            try
+            {
+                var settingsPath = Path.Combine(Path.Combine(persistentDataPath, "Modsettings"), "ColorblindMode.json");
+
+                ColorblindModeSettings settings = new ColorblindModeSettings();
+                if (File.Exists(settingsPath))
+                    settings = JsonConvert.DeserializeObject<ColorblindModeSettings>(File.ReadAllText(settingsPath));
+
+                bool? isEnabled = null;
+                if (!string.IsNullOrEmpty(key) && !settings.EnabledModules.TryGetValue(key, out isEnabled))
+                    settings.EnabledModules[key] = null;
+
+                File.WriteAllText(settingsPath, JsonConvert.SerializeObject(settings, Formatting.Indented));
+                Colorblind = isEnabled ?? settings.Enabled;
+            }
+            catch (Exception e)
+            {
+                Debug.LogFormat(@"[Colorblind Mode] Error in ""{0}"": {1} ({2})\n{3}", key ?? "<null>", e.Message, e.GetType().FullName, e.StackTrace);
+                Colorblind = false;
+            }
+        }
+
+        private class ColorblindModeSettings
+        {
+            public bool Enabled = false;
+            public Dictionary<string, bool?> EnabledModules = new Dictionary<string, bool?>();
         }
 
         /// <summary>
@@ -293,6 +323,34 @@ namespace KeepCoding
         /// Called when the timer's seconds-digit changes.
         /// </summary>
         public virtual void OnTimerTick() { }
+
+        internal bool colorblindSupported = true;
+
+        /// <summary>
+        /// Called when colorblind support needs to be updated for the module. Do not call <c>base.OnColorblindChanged()</c>.
+        /// </summary>
+        /// <param name="enabled">Whether colorblind support should be enabled.</param>
+        public virtual void OnColorblindChanged(bool enabled)
+        {
+            colorblindSupported = false;
+        }
+
+        private bool _colorBlind;
+        internal bool Colorblind
+        {
+            set
+            {
+                if (_colorBlind == value)
+                    return;
+
+                _colorBlind = value;
+                OnColorblindChanged(_colorBlind);
+            }
+            get
+            {
+                return _colorBlind;
+            }
+        }
 
         /// <summary>
         /// Sends information to a static variable such that other modules can access it.

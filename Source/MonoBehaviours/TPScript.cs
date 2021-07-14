@@ -317,8 +317,19 @@ namespace KeepCoding
             Module.HasStruck = false;
         }
 
+        private IEnumerator ToggleColorblind()
+        {
+            yield return null;
+            Module.Colorblind = !Module.Colorblind;
+        }
+
 #pragma warning disable IDE0051 // Remove unused private members
-        private IEnumerator ProcessTwitchCommand(string command) => Process(command).Flatten(o => !(o is KMSelectable[]));
+        private IEnumerator ProcessTwitchCommand(string command)
+        {
+            return command.ToLowerInvariant().Trim() == "colorblind" && Module.colorblindSupported
+                ? ToggleColorblind()
+                : Process(command).Flatten(o => !(o is KMSelectable[]));
+        }
 #pragma warning restore IDE0051 // Remove unused private members
 
 #pragma warning disable IDE0051 // Remove unused private members
