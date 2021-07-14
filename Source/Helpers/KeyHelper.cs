@@ -468,10 +468,9 @@ namespace KeepCoding
         /// </remarks>
         /// <typeparam name="T">The type to cast into.</typeparam>
         /// <param name="obj">The object to cast.</param>
-        /// <param name="item">The object casted into the type.</param>
-        /// <param name="action">The action to run when <paramref name="obj"/> is <paramref name="item"/>.</param>
-        /// <param name="otherwise">The action to run when <paramref name="obj"/> is not <paramref name="item"/>..</param>
-        /// <returns><paramref name="obj"/> <see langword="is"/> <typeparamref name="T"/> <paramref name="item"/></returns>
+        /// <param name="action">The action to run when <paramref name="obj"/> is <typeparamref name="T"/>.</param>
+        /// <param name="otherwise">The action to run when <paramref name="obj"/> is not <typeparamref name="T"/>.</param>
+        /// <returns><paramref name="obj"/> <see langword="is"/> <typeparamref name="T"/> item</returns>
         public static bool Is<T>(this object obj, Action<T> action, Action otherwise = null) where T : class
         {
             action.NullCheck("The action cannot be null!");
