@@ -671,17 +671,17 @@ namespace KeepCoding
         /// </summary>
         /// <typeparam name="T">The type of <see cref="IEnumerable{T}"/> to shuffle.</typeparam>
         /// <param name="source">The <see cref="IEnumerable{T}"/> to shuffle.</param>
-        /// <param name="randomiser">The method to take the current and maximum indices, and return a new number to swap the current with.</param>
+        /// <param name="randomizer">The method to take the current and maximum indices, and return a new number to swap the current with.</param>
         /// <returns><paramref name="source"/> in a random order.</returns>
-        public static IEnumerable<T> Randomize<T>(this IEnumerable<T> source, Func<int, int, int> randomiser)
+        public static IEnumerable<T> Randomize<T>(this IEnumerable<T> source, Func<int, int, int> randomizer)
         {
-            randomiser.NullCheck("The randomiser cannot be null.");
+            randomizer.NullCheck("The randomiser cannot be null.");
 
             var buffer = source.NullCheck("The source cannot be null.").ToList();
 
             for (int i = 0; i < buffer.Count; i++)
             {
-                int j = randomiser(i, buffer.Count);
+                int j = randomizer(i, buffer.Count);
 
                 yield return j.IsBetween(0, buffer.GetUpperBound()) ? buffer[j] : throw new IndexOutOfRangeException($"The method provided returned a number that was out of range! Range: 0-{buffer.GetUpperBound()}, returned value: {j}.");
 
