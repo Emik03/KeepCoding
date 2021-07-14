@@ -3,7 +3,7 @@
 ## CacheableBehaviour Class
 A [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') with additional caching capabilities.   
 ```csharp
-public class CacheableBehaviour
+public abstract class CacheableBehaviour
 ```
 
 Inheritance [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') &#129106; CacheableBehaviour  

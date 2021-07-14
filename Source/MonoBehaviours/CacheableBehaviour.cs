@@ -8,7 +8,9 @@ namespace KeepCoding
     /// <summary>
     /// A <see cref="MonoBehaviour"/> with additional caching capabilities. 
     /// </summary>
-    public class CacheableBehaviour : MonoBehaviour
+#pragma warning disable IDE1006 // Naming Styles
+    public abstract class CacheableBehaviour : MonoBehaviour
+#pragma warning restore IDE1006 // Naming Styles
     {
         private readonly Dictionary<Type, Component[]> _components = new Dictionary<Type, Component[]>();
 
