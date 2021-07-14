@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[CacheableBehaviour](KeepCoding_CacheableBehaviour.md 'KeepCoding.CacheableBehaviour')
 ## CacheableBehaviour.GetParents&lt;T&gt;(bool, bool) Method
-Similar to [UnityEngine.GameObject.GetComponentsInParent&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.GameObject.GetComponentsInParent--1 'UnityEngine.GameObject.GetComponentsInParent``1'), however it caches the result in a dictionary, and will return the cached result if called again.  
+Similar to [UnityEngine.GameObject.GetComponentsInParent&lt;&gt;.Boolean)](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.GameObject.GetComponentsInParent--1#UnityEngine_GameObject_GetComponentsInParent__1_System_Boolean_ 'UnityEngine.GameObject.GetComponentsInParent``1(System.Boolean)'), however it caches the result in a dictionary, and will return the cached result if called again.  
 ```csharp
 public T[] GetParents<T>(bool includeInactive=false, bool allowNull=false)
     where T : Component;
