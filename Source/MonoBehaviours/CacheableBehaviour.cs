@@ -18,7 +18,7 @@ namespace KeepCoding
         private readonly Dictionary<Type, Component[]> _components = new Dictionary<Type, Component[]>();
 
         /// <summary>
-        /// Clears the <see cref="Component"/> caches.
+        /// Clears the <see cref="Component"/> and <see cref="Object"/> caches.
         /// </summary>
         public void Clear() => _components.Clear();
 
