@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[PathManager](KeepCoding_PathManager.md 'KeepCoding.PathManager')
 ## PathManager.GetPath(string) Method
 Finds the path of a given file within each mod.  

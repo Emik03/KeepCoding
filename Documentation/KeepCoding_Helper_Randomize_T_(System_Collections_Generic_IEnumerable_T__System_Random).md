@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Helper](KeepCoding_Helper.md 'KeepCoding.Helper')
 ## Helper.Randomize&lt;T&gt;(IEnumerable&lt;T&gt;, Random) Method
 Shuffles a collection of items using a specified [System.Random](https://docs.microsoft.com/en-us/dotnet/api/System.Random 'System.Random').  

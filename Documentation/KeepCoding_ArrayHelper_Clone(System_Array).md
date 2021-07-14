@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ArrayHelper](KeepCoding_ArrayHelper.md 'KeepCoding.ArrayHelper')
 ## ArrayHelper.Clone(Array) Method
 Creates a shallow copy of the [System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')

@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ArrayHelper](KeepCoding_ArrayHelper.md 'KeepCoding.ArrayHelper')
 ## ArrayHelper.Reverse&lt;T&gt;(T[]) Method
 Reverses the sequence of the elements in the one-dimensional generic array.  

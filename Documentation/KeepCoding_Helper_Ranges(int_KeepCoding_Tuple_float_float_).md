@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Helper](KeepCoding_Helper.md 'KeepCoding.Helper')
 ## Helper.Ranges(int, Tuple&lt;float,float&gt;) Method
 Generates a random set of integers.  

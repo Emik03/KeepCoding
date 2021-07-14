@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[EmptyIteratorException](KeepCoding_EmptyIteratorException.md 'KeepCoding.EmptyIteratorException')
 ## EmptyIteratorException.EmptyIteratorException(string, Exception) Constructor
 An exception thrown when the iterator is empty.  

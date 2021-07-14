@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Logger](KeepCoding_Logger.md 'KeepCoding.Logger')
 ## Logger.Dump(object, bool) Method
 Dumps all information that it can find of the type using reflection. This should only be used to debug.  

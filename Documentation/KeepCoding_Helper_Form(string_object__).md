@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Helper](KeepCoding_Helper.md 'KeepCoding.Helper')
 ## Helper.Form(string, object[]) Method
 Formats the string. Shorthand for [System.String.Format(System.String,System.Object[])](https://docs.microsoft.com/en-us/dotnet/api/System.String.Format#System_String_Format_System_String,System_Object[]_ 'System.String.Format(System.String,System.Object[])').  

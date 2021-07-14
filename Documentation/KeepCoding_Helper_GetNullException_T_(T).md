@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Helper](KeepCoding_Helper.md 'KeepCoding.Helper')
 ## Helper.GetNullException&lt;T&gt;(T) Method
 Gets the appropriate [System.Exception](https://docs.microsoft.com/en-us/dotnet/api/System.Exception 'System.Exception') based on the data type.  

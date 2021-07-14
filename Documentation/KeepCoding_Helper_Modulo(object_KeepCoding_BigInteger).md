@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Helper](KeepCoding_Helper.md 'KeepCoding.Helper')
 ## Helper.Modulo(object, BigInteger) Method
 Calculates the rem-euclid modulo, which allows negative numbers to be properly calculated.  

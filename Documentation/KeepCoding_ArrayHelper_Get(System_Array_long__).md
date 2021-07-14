@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ArrayHelper](KeepCoding_ArrayHelper.md 'KeepCoding.ArrayHelper')
 ## ArrayHelper.Get(Array, long[]) Method
 Gets the value at the specified position in the multidimensional [System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array'). The indexes are specified as an array of 64-bit integers.  

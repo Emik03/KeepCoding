@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[EventHelper](KeepCoding_EventHelper.md 'KeepCoding.EventHelper')
 ## EventHelper.CreateDelegate&lt;T&gt;(Delegate) Method
 Creates a delegate of the specified type.  

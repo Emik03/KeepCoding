@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[WorkBase](KeepCoding_WorkBase.md 'KeepCoding.WorkBase')
 ## WorkBase.WaitForOwnThread() Method
 Waits until its own thread is no longer running..  

@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[TPScript&lt;TModule&gt;](KeepCoding_TPScript_TModule_.md 'KeepCoding.TPScript&lt;TModule&gt;')
 ## TPScript&lt;TModule&gt;.SendDelayedMessage(float, string) Method
 Yield return this to send a message to chat after [time](KeepCoding_TPScript_TModule__SendDelayedMessage(float_string).md#KeepCoding_TPScript_TModule__SendDelayedMessage(float_string)_time 'KeepCoding.TPScript&lt;TModule&gt;.SendDelayedMessage(float, string).time') seconds.  

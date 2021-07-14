@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Helper](KeepCoding_Helper.md 'KeepCoding.Helper')
 ## Helper.Split(string, string) Method
 Splits the [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String') based on the separator.  

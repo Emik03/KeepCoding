@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Tuple&lt;T&gt;](KeepCoding_Tuple_T_.md 'KeepCoding.Tuple&lt;T&gt;')
 ## Tuple&lt;T&gt;.operator !=(Tuple&lt;T&gt;, Tuple&lt;T&gt;) Operator
 Evaluates whether the item in the tuple is not the same.  

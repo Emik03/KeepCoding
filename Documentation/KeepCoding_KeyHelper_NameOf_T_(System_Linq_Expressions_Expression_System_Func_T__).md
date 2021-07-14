@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[KeyHelper](KeepCoding_KeyHelper.md 'KeepCoding.KeyHelper')
 ## KeyHelper.NameOf&lt;T&gt;(Expression&lt;Func&lt;T&gt;&gt;) Method
 A [nameof](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/nameof 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/nameof') expression produces the name of a variable, type, or member as the string constant.  

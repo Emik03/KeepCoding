@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Game](KeepCoding_Game.md 'KeepCoding.Game')
 ## Game.PlayerSettings Class
 Allows access into the player settings from the game. Do not use this class in the unity editor.   

@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ArrayHelper](KeepCoding_ArrayHelper.md 'KeepCoding.ArrayHelper')
 ## ArrayHelper.ForEach&lt;T&gt;(T[], Action&lt;T&gt;) Method
 Performs the specified action on each element of the specified array.  

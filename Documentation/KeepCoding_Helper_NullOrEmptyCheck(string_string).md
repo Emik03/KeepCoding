@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Helper](KeepCoding_Helper.md 'KeepCoding.Helper')
 ## Helper.NullOrEmptyCheck(string, string) Method
 Throws an exception if the [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String') is null or empty.  

@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[TPScript&lt;TModule&gt;](KeepCoding_TPScript_TModule_.md 'KeepCoding.TPScript&lt;TModule&gt;')
 ## TPScript&lt;TModule&gt;.TryWaitCancel(float, string) Method
 Yield return this to cause Twitch Plays to wait for the given time, and any time during the entire duration, the command may cancel. Like "trycancel", you won't be able to clean up if you cancel this way. Also like "trycancel", [message](KeepCoding_TPScript_TModule__TryWaitCancel(float_string).md#KeepCoding_TPScript_TModule__TryWaitCancel(float_string)_message 'KeepCoding.TPScript&lt;TModule&gt;.TryWaitCancel(float, string).message') is optional.  

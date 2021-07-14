@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Helper](KeepCoding_Helper.md 'KeepCoding.Helper')
 ## Helper.Call&lt;T&gt;(T[], Action&lt;T,int&gt;) Method
 Invokes a method of [T](KeepCoding_Helper_Call_T_(T___System_Action_T_int_).md#KeepCoding_Helper_Call_T_(T___System_Action_T_int_)_T 'KeepCoding.Helper.Call&lt;T&gt;(T[], System.Action&lt;T,int&gt;).T') and then returns the argument provided.  

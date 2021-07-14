@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Helper](KeepCoding_Helper.md 'KeepCoding.Helper')
 ## Helper.SetOrReplace&lt;T&gt;(IDictionary&lt;T,int&gt;, T, Func&lt;int,int&gt;) Method
 Sets or replaces the value of a dictionary with a given function.  

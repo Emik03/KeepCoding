@@ -1,9 +1,9 @@
+#### [KeepCoding](index.md 'index')
 ## KeepCoding Namespace
 
 | Classes | |
 | :--- | :--- |
 | [ArrayHelper](KeepCoding_ArrayHelper.md 'KeepCoding.ArrayHelper') | Extension methods surrounding [System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array') static methods to make code a bit shorter.<br/> |
-| [AudioScript](KeepCoding_AudioScript.md 'KeepCoding.AudioScript') | Advanced audio handler. <br/> |
 | [BigInteger](KeepCoding_BigInteger.md 'KeepCoding.BigInteger') | Stores an arbitrarily large number.<br/> |
 | [CacheableBehaviour](KeepCoding_CacheableBehaviour.md 'KeepCoding.CacheableBehaviour') | A [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') with additional caching capabilities. <br/> |
 | [ComponentPool](KeepCoding_ComponentPool.md 'KeepCoding.ComponentPool') | A ComponentPool is a collection of Module Types. The generator will pick Count times from this list and instantiate a component of the chosen type.<br/> |

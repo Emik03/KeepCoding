@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[BigInteger](KeepCoding_BigInteger.md 'KeepCoding.BigInteger')
 ## BigInteger.operator !=(BigInteger, object) Operator
 Not equals operator; determines if both integers do not contain the same value. The [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') is casted as a [BigInteger](KeepCoding_BigInteger.md 'KeepCoding.BigInteger').  

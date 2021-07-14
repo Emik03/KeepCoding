@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ModuleScript](KeepCoding_ModuleScript.md 'KeepCoding.ModuleScript')
 ## ModuleScript.Log&lt;T&gt;(T, object[]) Method
 Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.  

@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[EventHelper](KeepCoding_EventHelper.md 'KeepCoding.EventHelper')
 ## EventHelper.Assign(KMBombModule, Action, Action, Action) Method
 Assigns events specified into [bombModule](KeepCoding_EventHelper_Assign(KMBombModule_System_Action_System_Action_System_Action).md#KeepCoding_EventHelper_Assign(KMBombModule_System_Action_System_Action_System_Action)_bombModule 'KeepCoding.EventHelper.Assign(KMBombModule, System.Action, System.Action, System.Action).bombModule'). Reassigning them will replace their values.  

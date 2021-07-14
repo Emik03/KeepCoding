@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[BigInteger](KeepCoding_BigInteger.md 'KeepCoding.BigInteger')
 ## BigInteger.implicit operator BigInteger(Number) Operator
 Converts the [Number](KeepCoding_Number.md 'KeepCoding.Number') to a [BigInteger](KeepCoding_BigInteger.md 'KeepCoding.BigInteger').  

@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[TypeHelper](KeepCoding_TypeHelper.md 'KeepCoding.TypeHelper')
 ## TypeHelper.Add(Color32, byte, byte, byte, byte) Method
 Duplicates the color, and adds the RGBA components only if they are specified.  

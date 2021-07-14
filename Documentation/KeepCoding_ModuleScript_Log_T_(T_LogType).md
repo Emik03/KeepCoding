@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ModuleScript](KeepCoding_ModuleScript.md 'KeepCoding.ModuleScript')
 ## ModuleScript.Log&lt;T&gt;(T, LogType) Method
 Logs message, but formats it to be compliant with the Logfile Analyzer.  

@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ArrayHelper](KeepCoding_ArrayHelper.md 'KeepCoding.ArrayHelper')
 ## ArrayHelper.CreateInstance(Type, long[]) Method
 Creates a multidimensional [System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array') of the specified [System.Type](https://docs.microsoft.com/en-us/dotnet/api/System.Type 'System.Type') and dimension lengths, with zero-based indexing. The dimension lengths are specified in an array of 64-bit integers.  

@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Routine&lt;T1,T2&gt;](KeepCoding_Routine_T1_T2_.md 'KeepCoding.Routine&lt;T1,T2&gt;')
 ## Routine&lt;T1,T2&gt;.RestartAll(T1, T2, bool) Method
 Restarts all coroutines currently running.  

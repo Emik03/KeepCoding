@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## WrongDatatypeException Class
 An exception thrown for when the wrong datatype is used.  

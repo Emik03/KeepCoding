@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ArrayHelper](KeepCoding_ArrayHelper.md 'KeepCoding.ArrayHelper')
 ## ArrayHelper.LastIndexOf&lt;T&gt;(T[], T, int) Method
 Searches for the specified object in a range of elements of a one dimensional array, and returns the index of its last occurrence. The range extends from a specified index to the end of the array.  

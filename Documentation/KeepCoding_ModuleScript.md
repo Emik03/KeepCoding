@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## ModuleScript Class
 Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes.   

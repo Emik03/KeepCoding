@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ArrayHelper](KeepCoding_ArrayHelper.md 'KeepCoding.ArrayHelper')
 ## ArrayHelper.Initialize(Array) Method
 Initializes every element of the value-type [System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array') by calling the parameterless constructor of the value type.  

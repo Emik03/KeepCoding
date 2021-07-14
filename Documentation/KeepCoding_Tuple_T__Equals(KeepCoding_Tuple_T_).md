@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Tuple&lt;T&gt;](KeepCoding_Tuple_T_.md 'KeepCoding.Tuple&lt;T&gt;')
 ## Tuple&lt;T&gt;.Equals(Tuple&lt;T&gt;) Method
 Determines whether the tuple is equal.  

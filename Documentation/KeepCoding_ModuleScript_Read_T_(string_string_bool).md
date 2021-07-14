@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ModuleScript](KeepCoding_ModuleScript.md 'KeepCoding.ModuleScript')
 ## ModuleScript.Read&lt;T&gt;(string, string, bool) Method
 Allows you to read a module's data that uses [Write&lt;T&gt;(string, T)](KeepCoding_ModuleScript_Write_T_(string_T).md 'KeepCoding.ModuleScript.Write&lt;T&gt;(string, T)'), even from a different assembly.  

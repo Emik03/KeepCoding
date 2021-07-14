@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ArrayHelper](KeepCoding_ArrayHelper.md 'KeepCoding.ArrayHelper')
 ## ArrayHelper.FindLastIndex&lt;T&gt;(T[], int, int, Predicate&lt;T&gt;) Method
 Searches for an element that matches the conditions defined by the specified predicate, and returns the zero-based index of the last occurrence within the range of elements in the [System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array') that starts at the specified index and contains the specified number of elements.  

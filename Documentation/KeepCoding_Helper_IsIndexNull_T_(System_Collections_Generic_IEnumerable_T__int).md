@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Helper](KeepCoding_Helper.md 'KeepCoding.Helper')
 ## Helper.IsIndexNull&lt;T&gt;(IEnumerable&lt;T&gt;, int) Method
 Determines if the index is pointing to null in any way.  

@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## WorkBase Class
 Abstract class for the [Work](KeepCoding_Work.md 'KeepCoding.Work') datatype, since the different overloads are similar to each other.  

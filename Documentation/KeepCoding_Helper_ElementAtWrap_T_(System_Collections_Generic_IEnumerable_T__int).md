@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Helper](KeepCoding_Helper.md 'KeepCoding.Helper')
 ## Helper.ElementAtWrap&lt;T&gt;(IEnumerable&lt;T&gt;, int) Method
 Returns the element of an array, pretending that the array wraps around or is circular.  

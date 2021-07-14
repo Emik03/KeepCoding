@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Work&lt;T1,T2,T3,T4,TResult&gt;](KeepCoding_Work_T1_T2_T3_T4_TResult_.md 'KeepCoding.Work&lt;T1,T2,T3,T4,TResult&gt;')
 ## Work&lt;T1,T2,T3,T4,TResult&gt;.Work(Func&lt;T1,T2,T3,T4,TResult&gt;, bool, uint) Constructor
 Stores the method so that it can later be called when a new thread starts.  

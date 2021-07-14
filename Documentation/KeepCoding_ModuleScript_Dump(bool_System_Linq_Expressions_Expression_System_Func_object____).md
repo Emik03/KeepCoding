@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ModuleScript](KeepCoding_ModuleScript.md 'KeepCoding.ModuleScript')
 ## ModuleScript.Dump(bool, Expression&lt;Func&lt;object&gt;&gt;[]) Method
 Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.  

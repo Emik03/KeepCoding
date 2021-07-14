@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ArrayHelper](KeepCoding_ArrayHelper.md 'KeepCoding.ArrayHelper')
 ## ArrayHelper.FindAll&lt;T&gt;(T[], Predicate&lt;T&gt;) Method
 Retrieves all the elements that match the conditions defined by the specified predicate.  

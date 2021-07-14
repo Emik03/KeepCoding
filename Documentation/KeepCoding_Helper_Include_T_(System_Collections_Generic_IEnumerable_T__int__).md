@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Helper](KeepCoding_Helper.md 'KeepCoding.Helper')
 ## Helper.Include&lt;T&gt;(IEnumerable&lt;T&gt;, int[]) Method
 Removes the elements whose index does not match any of the indices.  

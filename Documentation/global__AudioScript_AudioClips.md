@@ -1,4 +1,5 @@
-### [KeepCoding](KeepCoding.md 'KeepCoding').[AudioScript](KeepCoding_AudioScript.md 'KeepCoding.AudioScript')
+#### [KeepCoding](index.md 'index')
+### [](.md '').[AudioScript](AudioScript.md 'AudioScript')
 ## AudioScript.AudioClips Property
 ```csharp
 public AudioClip[] AudioClips { get; set; }

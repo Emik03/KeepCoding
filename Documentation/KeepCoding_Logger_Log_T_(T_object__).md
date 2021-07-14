@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Logger](KeepCoding_Logger.md 'KeepCoding.Logger')
 ## Logger.Log&lt;T&gt;(T, object[]) Method
 Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.  

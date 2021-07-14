@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[PathManager](KeepCoding_PathManager.md 'KeepCoding.PathManager')
 ## PathManager.GetAssets&lt;TAsset&gt;(Type, string) Method
 Retrieves assets of a specific type from a different bundle file.  

@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[WrongDatatypeException](KeepCoding_WrongDatatypeException.md 'KeepCoding.WrongDatatypeException')
 ## WrongDatatypeException.WrongDatatypeException(string, Exception) Constructor
 An exception thrown for when the wrong datatype is used.  

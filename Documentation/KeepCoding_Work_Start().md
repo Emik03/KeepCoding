@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Work](KeepCoding_Work.md 'KeepCoding.Work')
 ## Work.Start() Method
 Starts a new thread, and waits until it is finished before halting.  

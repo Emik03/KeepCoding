@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## ModInfo Class
 Contains information about the mod's info, this class can be used to deserialize every mod's "modInfo.json".  

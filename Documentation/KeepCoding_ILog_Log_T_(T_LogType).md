@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ILog](KeepCoding_ILog.md 'KeepCoding.ILog')
 ## ILog.Log&lt;T&gt;(T, LogType) Method
 Logs message, but formats it to be compliant with the Logfile Analyzer.  

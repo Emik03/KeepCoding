@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Game](KeepCoding_Game.md 'KeepCoding.Game').[KTInputManager](KeepCoding_Game_KTInputManager.md 'KeepCoding.Game.KTInputManager')
 ## Game.KTInputManager.IsCurrentControlTypeVR Property
 ```csharp

@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ILog](KeepCoding_ILog.md 'KeepCoding.ILog')
 ## ILog.LogMultiple(string[]) Method
 Logs multiple entries to the console.  

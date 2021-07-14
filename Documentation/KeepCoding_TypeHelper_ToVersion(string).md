@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[TypeHelper](KeepCoding_TypeHelper.md 'KeepCoding.TypeHelper')
 ## TypeHelper.ToVersion(string) Method
 Converts argument to a new [System.Version](https://docs.microsoft.com/en-us/dotnet/api/System.Version 'System.Version'). Major-only versions are compatible.  

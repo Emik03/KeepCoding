@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[GeneratorSetting](KeepCoding_GeneratorSetting.md 'KeepCoding.GeneratorSetting')
 ## GeneratorSetting.GeneratorSetting(bool, int, int, int, float, List&lt;ComponentPool&gt;) Constructor
 Creates a generator setting based on the provided parameters.  

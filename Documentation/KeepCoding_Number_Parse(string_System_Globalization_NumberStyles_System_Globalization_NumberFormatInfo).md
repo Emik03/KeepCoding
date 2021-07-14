@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Number](KeepCoding_Number.md 'KeepCoding.Number')
 ## Number.Parse(string, NumberStyles, NumberFormatInfo) Method
 Parses a [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String') as [Number](KeepCoding_Number.md 'KeepCoding.Number'). An exception is thrown if it fails.  

@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## CacheableBehaviour Class
 A [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') with additional caching capabilities.   
@@ -8,7 +9,7 @@ public class CacheableBehaviour
 Inheritance [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') &#129106; CacheableBehaviour  
 
 Derived  
-&#8627; [AudioScript](KeepCoding_AudioScript.md 'KeepCoding.AudioScript')  
+&#8627; [AudioScript](AudioScript.md 'AudioScript')  
 &#8627; [ModuleScript](KeepCoding_ModuleScript.md 'KeepCoding.ModuleScript')  
 &#8627; [TPScript&lt;TModule&gt;](KeepCoding_TPScript_TModule_.md 'KeepCoding.TPScript&lt;TModule&gt;')  
 

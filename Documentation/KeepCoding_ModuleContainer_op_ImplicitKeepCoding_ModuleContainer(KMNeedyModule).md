@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ModuleContainer](KeepCoding_ModuleContainer.md 'KeepCoding.ModuleContainer')
 ## ModuleContainer.implicit operator ModuleContainer(KMNeedyModule) Operator
 Creates a new instance of [ModuleContainer](KeepCoding_ModuleContainer.md 'KeepCoding.ModuleContainer') where [Needy](KeepCoding_ModuleContainer_Needy.md 'KeepCoding.ModuleContainer.Needy') is defined.  

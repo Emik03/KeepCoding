@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Work](KeepCoding_Work.md 'KeepCoding.Work')
 ## Work.Work(Action, bool, uint) Constructor
 Stores the method so that it can later be called when a new thread starts.  

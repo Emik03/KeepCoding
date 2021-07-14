@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ArrayHelper](KeepCoding_ArrayHelper.md 'KeepCoding.ArrayHelper')
 ## ArrayHelper.TrueForAll&lt;T&gt;(T[], Predicate&lt;T&gt;) Method
 Determines whether every element in the array matches the conditions defined by the specified predicate.  

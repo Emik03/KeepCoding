@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ArrayHelper](KeepCoding_ArrayHelper.md 'KeepCoding.ArrayHelper')
 ## ArrayHelper.GetLongLength(Array, int) Method
 Gets a 64-bit integer that represents the number of elements in the specified dimension of the [System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array').  

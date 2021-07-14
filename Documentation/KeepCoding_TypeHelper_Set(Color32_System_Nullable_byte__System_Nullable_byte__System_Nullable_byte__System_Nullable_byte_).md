@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[TypeHelper](KeepCoding_TypeHelper.md 'KeepCoding.TypeHelper')
 ## TypeHelper.Set(Color32, Nullable&lt;byte&gt;, Nullable&lt;byte&gt;, Nullable&lt;byte&gt;, Nullable&lt;byte&gt;) Method
 Duplicates the color, and sets the RGBA components only if they are specified.  

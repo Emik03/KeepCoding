@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ModuleContainer](KeepCoding_ModuleContainer.md 'KeepCoding.ModuleContainer')
 ## ModuleContainer.Equals(ModuleContainer) Method
 Determines if both [ModuleContainer](KeepCoding_ModuleContainer.md 'KeepCoding.ModuleContainer') variables are equal.  

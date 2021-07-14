@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[CacheableBehaviour](KeepCoding_CacheableBehaviour.md 'KeepCoding.CacheableBehaviour')
 ## CacheableBehaviour.Gets&lt;T&gt;(bool) Method
 Similar to [UnityEngine.GameObject.GetComponents&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.GameObject.GetComponents--1 'UnityEngine.GameObject.GetComponents``1'), however it caches the result in a dictionary, and will return the cached result if called again.  

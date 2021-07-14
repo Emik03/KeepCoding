@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[KeyHelper](KeepCoding_KeyHelper.md 'KeepCoding.KeyHelper')
 ## KeyHelper.If&lt;T&gt;(bool, Func&lt;T&gt;, Func&lt;T&gt;) Method
 An [if](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/if 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/if') statement identifies which statement to run based on the value of a Boolean expression.  

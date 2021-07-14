@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[TypeHelper](KeepCoding_TypeHelper.md 'KeepCoding.TypeHelper')
 ## TypeHelper.ToLogger&lt;T&gt;(T, string, bool) Method
 Converts arguments to a new [Logger](KeepCoding_Logger.md 'KeepCoding.Logger').  

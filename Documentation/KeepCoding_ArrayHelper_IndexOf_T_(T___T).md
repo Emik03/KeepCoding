@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ArrayHelper](KeepCoding_ArrayHelper.md 'KeepCoding.ArrayHelper')
 ## ArrayHelper.IndexOf&lt;T&gt;(T[], T) Method
 Searches for the specified object and returns the index of its first occurrence in a one-dimensional array.  

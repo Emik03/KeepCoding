@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ModuleScript](KeepCoding_ModuleScript.md 'KeepCoding.ModuleScript')
 ## ModuleScript.Assign(Action, Action, Action, Action, Action, Action) Method
 Assigns events specified into [Module](KeepCoding_ModuleScript_Module.md 'KeepCoding.ModuleScript.Module'). Reassigning them will replace their values.  

@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[TypeHelper](KeepCoding_TypeHelper.md 'KeepCoding.TypeHelper')
 ## TypeHelper.Set(Vector3, Nullable&lt;float&gt;, Nullable&lt;float&gt;, Nullable&lt;float&gt;) Method
 Duplicates the vector, and sets the x, y, and z components only if they are specified.  

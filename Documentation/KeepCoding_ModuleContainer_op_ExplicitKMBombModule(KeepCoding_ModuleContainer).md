@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ModuleContainer](KeepCoding_ModuleContainer.md 'KeepCoding.ModuleContainer')
 ## ModuleContainer.explicit operator KMBombModule(ModuleContainer) Operator
 Returns the instance of [KMBombModule](https://docs.microsoft.com/en-us/dotnet/api/KMBombModule 'KMBombModule') from [Solvable](KeepCoding_ModuleContainer_Solvable.md 'KeepCoding.ModuleContainer.Solvable').  

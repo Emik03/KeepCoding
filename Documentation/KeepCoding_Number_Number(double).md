@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Number](KeepCoding_Number.md 'KeepCoding.Number')
 ## Number.Number(double) Constructor
 Creates a [Number](KeepCoding_Number.md 'KeepCoding.Number') with the inner type [System.Double](https://docs.microsoft.com/en-us/dotnet/api/System.Double 'System.Double').  

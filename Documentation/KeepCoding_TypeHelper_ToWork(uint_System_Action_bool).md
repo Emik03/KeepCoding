@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[TypeHelper](KeepCoding_TypeHelper.md 'KeepCoding.TypeHelper')
 ## TypeHelper.ToWork(uint, Action, bool) Method
 Converts argument to a new [Work](KeepCoding_Work.md 'KeepCoding.Work')

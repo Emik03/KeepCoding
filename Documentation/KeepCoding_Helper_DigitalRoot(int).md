@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Helper](KeepCoding_Helper.md 'KeepCoding.Helper')
 ## Helper.DigitalRoot(int) Method
 Gets the digital root of the number, which is obtained by repeatedly getting the sum of all digits until 1 digit remains.  

@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[EventHelper](KeepCoding_EventHelper.md 'KeepCoding.EventHelper')
 ## EventHelper.StopSound(Sound[]) Method
 Stops all sounds for the entire [Sound](KeepCoding_Sound.md 'KeepCoding.Sound')[System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array').  

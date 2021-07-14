@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[KeyHelper](KeepCoding_KeyHelper.md 'KeepCoding.KeyHelper')
 ## KeyHelper.Checked(Action) Method
 The [checked](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/checked 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/checked') keyword is used to explicitly enable overflow checking for integral-type arithmetic operations and conversions.  

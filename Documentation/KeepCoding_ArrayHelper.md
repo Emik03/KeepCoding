@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## ArrayHelper Class
 Extension methods surrounding [System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array') static methods to make code a bit shorter.  

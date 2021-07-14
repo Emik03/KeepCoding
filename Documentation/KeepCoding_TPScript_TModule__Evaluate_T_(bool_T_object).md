@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[TPScript&lt;TModule&gt;](KeepCoding_TPScript_TModule_.md 'KeepCoding.TPScript&lt;TModule&gt;')
 ## TPScript&lt;TModule&gt;.Evaluate&lt;T&gt;(bool, T, object) Method
 Works as a ternary operator. Returns [then](KeepCoding_TPScript_TModule__Evaluate_T_(bool_T_object).md#KeepCoding_TPScript_TModule__Evaluate_T_(bool_T_object)_then 'KeepCoding.TPScript&lt;TModule&gt;.Evaluate&lt;T&gt;(bool, T, object).then') if [condition](KeepCoding_TPScript_TModule__Evaluate_T_(bool_T_object).md#KeepCoding_TPScript_TModule__Evaluate_T_(bool_T_object)_condition 'KeepCoding.TPScript&lt;TModule&gt;.Evaluate&lt;T&gt;(bool, T, object).condition') is true, otherwise [otherwise](KeepCoding_TPScript_TModule__Evaluate_T_(bool_T_object).md#KeepCoding_TPScript_TModule__Evaluate_T_(bool_T_object)_otherwise 'KeepCoding.TPScript&lt;TModule&gt;.Evaluate&lt;T&gt;(bool, T, object).otherwise').  

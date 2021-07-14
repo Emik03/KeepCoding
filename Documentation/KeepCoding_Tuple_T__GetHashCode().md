@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Tuple&lt;T&gt;](KeepCoding_Tuple_T_.md 'KeepCoding.Tuple&lt;T&gt;')
 ## Tuple&lt;T&gt;.GetHashCode() Method
 Gets the hash code of [Item1](KeepCoding_Tuple_T__Item1.md 'KeepCoding.Tuple&lt;T&gt;.Item1').  

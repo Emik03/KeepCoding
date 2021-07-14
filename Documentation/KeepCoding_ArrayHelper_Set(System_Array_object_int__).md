@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ArrayHelper](KeepCoding_ArrayHelper.md 'KeepCoding.ArrayHelper')
 ## ArrayHelper.Set(Array, object, int[]) Method
 Sets a value to the element at the specified position in the multi-dimensional Array. The index is specified as a 32-bit integer.  

@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ArrayHelper](KeepCoding_ArrayHelper.md 'KeepCoding.ArrayHelper')
 ## ArrayHelper.CreateInstance(Type, int, int) Method
 Creates a two-dimensional Array of the specified Type and dimension lengths, with zero-based indexing.  

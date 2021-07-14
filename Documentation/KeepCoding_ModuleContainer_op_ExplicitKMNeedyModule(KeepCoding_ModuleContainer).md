@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ModuleContainer](KeepCoding_ModuleContainer.md 'KeepCoding.ModuleContainer')
 ## ModuleContainer.explicit operator KMNeedyModule(ModuleContainer) Operator
 Returns the instance of [KMNeedyModule](https://docs.microsoft.com/en-us/dotnet/api/KMNeedyModule 'KMNeedyModule') from [Needy](KeepCoding_ModuleContainer_Needy.md 'KeepCoding.ModuleContainer.Needy').  

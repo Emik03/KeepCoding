@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[PathManager](KeepCoding_PathManager.md 'KeepCoding.PathManager')
 ## PathManager.GetModInfo&lt;T&gt;(T) Method
 Gets the path and deserializes the modInfo.json located at every mod's root folder.  

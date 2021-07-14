@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## EmptyIteratorException Class
 An exception thrown when the iterator is empty.  

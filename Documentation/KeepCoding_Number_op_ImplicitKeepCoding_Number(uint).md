@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Number](KeepCoding_Number.md 'KeepCoding.Number')
 ## Number.implicit operator Number(uint) Operator
 Implicitly converts the value to a [Number](KeepCoding_Number.md 'KeepCoding.Number').  

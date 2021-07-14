@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Helper](KeepCoding_Helper.md 'KeepCoding.Helper')
 ## Helper.HasComponent&lt;T&gt;(GameObject, T) Method
 Determines if the current game object has a component of a specific type.  

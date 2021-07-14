@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[IDump](KeepCoding_IDump.md 'KeepCoding.IDump')
 ## IDump.Dump(bool, Expression&lt;Func&lt;object&gt;&gt;[]) Method
 Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.  

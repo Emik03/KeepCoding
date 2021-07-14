@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[TypeHelper](KeepCoding_TypeHelper.md 'KeepCoding.TypeHelper')
 ## TypeHelper.IsAnyEqual(Color[], Color) Method
 Checks if any elements in the array [colors](KeepCoding_TypeHelper_IsAnyEqual(Color___Color).md#KeepCoding_TypeHelper_IsAnyEqual(Color___Color)_colors 'KeepCoding.TypeHelper.IsAnyEqual(Color[], Color).colors') are equal to [color](KeepCoding_TypeHelper_IsAnyEqual(Color___Color).md#KeepCoding_TypeHelper_IsAnyEqual(Color___Color)_color 'KeepCoding.TypeHelper.IsAnyEqual(Color[], Color).color').  

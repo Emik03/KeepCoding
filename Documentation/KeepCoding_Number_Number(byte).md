@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Number](KeepCoding_Number.md 'KeepCoding.Number')
 ## Number.Number(byte) Constructor
 Creates a [Number](KeepCoding_Number.md 'KeepCoding.Number') with the inner type [System.Byte](https://docs.microsoft.com/en-us/dotnet/api/System.Byte 'System.Byte').  

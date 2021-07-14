@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Number](KeepCoding_Number.md 'KeepCoding.Number')
 ## Number.New&lt;T&gt;(T) Method
 Creates a new [Number](KeepCoding_Number.md 'KeepCoding.Number') with the inner type being the type specified.  

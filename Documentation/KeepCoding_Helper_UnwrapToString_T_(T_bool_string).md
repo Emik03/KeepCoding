@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Helper](KeepCoding_Helper.md 'KeepCoding.Helper')
 ## Helper.UnwrapToString&lt;T&gt;(T, bool, string) Method
 Unwraps any object, whether it be a class, list, tuple, or any other data and concatenates it into a string.  

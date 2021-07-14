@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[PathManager](KeepCoding_PathManager.md 'KeepCoding.PathManager')
 ## PathManager.NameOfAssembly(Type) Method
 Gets the assembly's directory where the type [type](KeepCoding_PathManager_NameOfAssembly(System_Type).md#KeepCoding_PathManager_NameOfAssembly(System_Type)_type 'KeepCoding.PathManager.NameOfAssembly(System.Type).type') exists.  

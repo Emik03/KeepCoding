@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Sound](KeepCoding_Sound.md 'KeepCoding.Sound')
 ## Sound.GetHashCode() Method
 Gets the current hash code.  

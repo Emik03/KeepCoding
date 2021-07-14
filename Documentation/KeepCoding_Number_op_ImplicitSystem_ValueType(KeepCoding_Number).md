@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Number](KeepCoding_Number.md 'KeepCoding.Number')
 ## Number.implicit operator ValueType(Number) Operator
 Implicitly converts the value to a [System.ValueType](https://docs.microsoft.com/en-us/dotnet/api/System.ValueType 'System.ValueType').  

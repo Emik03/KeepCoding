@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Helper](KeepCoding_Helper.md 'KeepCoding.Helper')
 ## Helper.ToNumbers&lt;T&gt;(T[], Nullable&lt;int&gt;, Nullable&lt;int&gt;, Nullable&lt;int&gt;, Nullable&lt;int&gt;) Method
 Parses each element of an array into a number. If it succeeds it returns the integer array, if it fails then it returns null.  

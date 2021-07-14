@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Helper](KeepCoding_Helper.md 'KeepCoding.Helper')
 ## Helper.Unwrap(IEnumerable, bool) Method
 Unwraps any [System.Collections.IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerable 'System.Collections.IEnumerable') of type [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object'), which ends up flattening it as a [System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array') of type [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object').  

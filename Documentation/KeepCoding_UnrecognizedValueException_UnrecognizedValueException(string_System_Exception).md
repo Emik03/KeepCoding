@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[UnrecognizedValueException](KeepCoding_UnrecognizedValueException.md 'KeepCoding.UnrecognizedValueException')
 ## UnrecognizedValueException.UnrecognizedValueException(string, Exception) Constructor
 An exception thrown for when the value isn't handled.  

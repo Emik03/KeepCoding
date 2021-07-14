@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Helper](KeepCoding_Helper.md 'KeepCoding.Helper')
 ## Helper.Apply&lt;TInput,TOutput&gt;(TInput, Func&lt;TInput,TOutput&gt;) Method
 Invokes a method of [TInput](KeepCoding_Helper_Apply_TInput_TOutput_(TInput_System_Func_TInput_TOutput_).md#KeepCoding_Helper_Apply_TInput_TOutput_(TInput_System_Func_TInput_TOutput_)_TInput 'KeepCoding.Helper.Apply&lt;TInput,TOutput&gt;(TInput, System.Func&lt;TInput,TOutput&gt;).TInput') to [TOutput](KeepCoding_Helper_Apply_TInput_TOutput_(TInput_System_Func_TInput_TOutput_).md#KeepCoding_Helper_Apply_TInput_TOutput_(TInput_System_Func_TInput_TOutput_)_TOutput 'KeepCoding.Helper.Apply&lt;TInput,TOutput&gt;(TInput, System.Func&lt;TInput,TOutput&gt;).TOutput') and then returns the argument provided.  

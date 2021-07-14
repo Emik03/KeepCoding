@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[TypeHelper](KeepCoding_TypeHelper.md 'KeepCoding.TypeHelper')
 ## TypeHelper.IntertwineColor(Renderer, Color, Color, float) Method
 Sets the [UnityEngine.Renderer.material](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Renderer.material 'UnityEngine.Renderer.material')'s color to be a mix of 2 colors.  

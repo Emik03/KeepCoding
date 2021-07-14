@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[BigInteger](KeepCoding_BigInteger.md 'KeepCoding.BigInteger')
 ## BigInteger.operator -(BigInteger) Operator
 Negative operator; inverts [IsNegative](KeepCoding_BigInteger_IsNegative.md 'KeepCoding.BigInteger.IsNegative').  

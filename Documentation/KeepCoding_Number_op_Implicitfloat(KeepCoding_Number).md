@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Number](KeepCoding_Number.md 'KeepCoding.Number')
 ## Number.implicit operator float(Number) Operator
 Implicitly converts the value to a [System.Single](https://docs.microsoft.com/en-us/dotnet/api/System.Single 'System.Single').  

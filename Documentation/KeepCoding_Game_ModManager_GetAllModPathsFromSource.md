@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Game](KeepCoding_Game.md 'KeepCoding.Game').[ModManager](KeepCoding_Game_ModManager.md 'KeepCoding.Game.ModManager')
 ## Game.ModManager.GetAllModPathsFromSource Property
 ```csharp

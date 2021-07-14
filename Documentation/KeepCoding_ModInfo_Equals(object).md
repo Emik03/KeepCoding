@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ModInfo](KeepCoding_ModInfo.md 'KeepCoding.ModInfo')
 ## ModInfo.Equals(object) Method
 Determines if both objects are equal.  

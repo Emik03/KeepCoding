@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Helper](KeepCoding_Helper.md 'KeepCoding.Helper')
 ## Helper.GetValues&lt;T&gt;() Method
 Gets all the values of an [System.Enum](https://docs.microsoft.com/en-us/dotnet/api/System.Enum 'System.Enum') as an [System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array').  

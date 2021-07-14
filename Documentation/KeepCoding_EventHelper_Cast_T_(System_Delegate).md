@@ -1,3 +1,4 @@
+#### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[EventHelper](KeepCoding_EventHelper.md 'KeepCoding.EventHelper')
 ## EventHelper.Cast&lt;T&gt;(Delegate) Method
 Casts a [System.Delegate](https://docs.microsoft.com/en-us/dotnet/api/System.Delegate 'System.Delegate') onto the type [T](KeepCoding_EventHelper_Cast_T_(System_Delegate).md#KeepCoding_EventHelper_Cast_T_(System_Delegate)_T 'KeepCoding.EventHelper.Cast&lt;T&gt;(System.Delegate).T').  
