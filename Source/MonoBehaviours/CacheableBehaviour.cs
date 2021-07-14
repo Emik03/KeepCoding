@@ -109,14 +109,14 @@ namespace KeepCoding
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
         /// <returns>The component specified by <paramref name="type"/>.</returns>
         public Component GetParent(Type type, bool allowNull = false) => Cache(type, GetComponentInParent, allowNull);
-        
+
         /// <summary>
         /// Similar to <see cref="Object.FindObjectsOfType"/>, however it caches the result in a dictionary, and will return the cached result if called again.
         /// </summary>
         /// <exception cref="MissingComponentException"></exception>
         /// <param name="type">The type of component to search for.</param>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
-        /// <returns>The component specified by <typeparamref name="T"/>.</returns>
+        /// <returns>The component specified by <paramref name="type"/>.</returns>
         public Object[] Finds(Type type, bool allowNull = false) => Cache(type, FindObjectsOfType, allowNull);
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace KeepCoding
         /// <exception cref="MissingComponentException"></exception>
         /// <param name="type">The type of component to search for.</param>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
-        /// <returns>The component specified by <typeparamref name="T"/>.</returns>
+        /// <returns>The component specified by <paramref name="type"/>.</returns>
         public Component[] Gets(Type type, bool allowNull = false) => Cache(type, GetComponents, allowNull);
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace KeepCoding
         /// <exception cref="MissingComponentException"></exception>
         /// <param name="type">The type of component to search for.</param>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
-        /// <returns>The component specified by <typeparamref name="T"/>.</returns>
+        /// <returns>The component specified by <paramref name="type"/>.</returns>
         public Component[] GetChildren(Type type, bool allowNull = false) => Cache(type, GetComponentsInChildren, allowNull);
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace KeepCoding
         /// <exception cref="MissingComponentException"></exception>
         /// <param name="type">The type of component to search for.</param>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
-        /// <returns>The component specified by <typeparamref name="T"/>.</returns>
+        /// <returns>The component specified by <paramref name="type"/>.</returns>
         public Component[] GetParents(Type type, bool allowNull = false) => Cache(type, GetComponentsInParent, allowNull);
 
         /// <summary>
