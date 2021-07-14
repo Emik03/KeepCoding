@@ -1101,29 +1101,17 @@ namespace KeepCoding
 
         private static FormatException WrongFormat(string value) => throw new FormatException($"The value {value} is not formatted correctly.");
 
-        private static Number EarliestParse(string s, NumberStyles style, NumberFormatInfo info) => sbyte.TryParse(s, out sbyte sb)
-                ? (Number)sb
-                : byte.TryParse(s, style, info, out byte b)
-                ? (Number)b
-                : short.TryParse(s, style, info, out short sh)
-                ? (Number)sh
-                : ushort.TryParse(s, style, info, out ushort us)
-                ? (Number)us
-                : int.TryParse(s, style, info, out int i)
-                ? (Number)i
-                : uint.TryParse(s, style, info, out uint ui)
-                ? (Number)ui
-                : long.TryParse(s, style, info, out long l)
-                ? (Number)l
-                : ulong.TryParse(s, style, info, out ulong ul)
-                ? (Number)ul
-                : float.TryParse(s, style, info, out float f)
-                ? (Number)f
-                : double.TryParse(s, style, info, out double d)
-                ? (Number)d
-                : decimal.TryParse(s, style, info, out decimal de)
-                ? (Number)de
-                : null;
+        private static Number EarliestParse(string s, NumberStyles style, NumberFormatInfo info) => sbyte.TryParse(s, out sbyte sb) ? (Number)sb : 
+                byte.TryParse(s, style, info, out byte b) ? (Number)b :
+                short.TryParse(s, style, info, out short sh) ? (Number)sh :
+                ushort.TryParse(s, style, info, out ushort us) ? (Number)us :
+                int.TryParse(s, style, info, out int i) ? (Number)i :
+                uint.TryParse(s, style, info, out uint ui) ? (Number)ui :
+                long.TryParse(s, style, info, out long l) ? (Number)l :
+                ulong.TryParse(s, style, info, out ulong ul) ? (Number)ul :
+                float.TryParse(s, style, info, out float f) ? (Number)f :
+                double.TryParse(s, style, info, out double d) ? (Number)d :
+                decimal.TryParse(s, style, info, out decimal de) ? (Number)de : null;
 
         private Number Trunc() => Truncate((double)this);
 
