@@ -95,17 +95,17 @@ namespace KeepCoding
         /// <returns>A <see cref="ModInfo"/> of the mod info json file located in the mod.</returns>
         public static ModInfo GetModInfo(string bundleFileName)
         {
+            if (_modInfos.TryGetValue(bundleFileName, out var info))
+                return info;
+
             Logger.Self($"Retrieving the {nameof(ModInfo)} data from \"{bundleFileName}\"...");
 
             if (isEditor)
             {
-                Logger.Self($"This method is being run on the Editor, therefore a new instance of {nameof(ModInfo)} will be returned.");
-                return new ModInfo();
-            }
+                _modInfos.Add(bundleFileName, info = new ModInfo());
 
-            if (_modInfos.TryGetValue(bundleFileName, out var info))
-            {
-                Logger.Self($"{bundleFileName}'s {nameof(ModInfo)} has already been cached. Returning cached result.");
+                Logger.Self($"This method is being run on the Editor, therefore a new instance of {nameof(ModInfo)} will be returned.");
+
                 return info;
             }
 
@@ -160,17 +160,17 @@ namespace KeepCoding
         /// <returns>The path to <paramref name="search"/>.</returns>
         public static string GetPath(string search)
         {
+            if (_paths.TryGetValue(search, out string path))
+                return path;
+
             Logger.Self($"Searching for file \"{search}\" anywhere in the mods folder...");
 
             if (isEditor)
             {
-                Logger.Self("This method is being run on the Editor, therefore an empty string will be returned.");
-                return "";
-            }
+                _paths.Add(search, path = "");
 
-            if (_paths.TryGetValue(search, out string path))
-            {
-                Logger.Self($"{path}'s path has already been cached. Returning cached result.");
+                Logger.Self("This method is being run on the Editor, therefore an empty string will be returned.");
+
                 return path;
             }
 
