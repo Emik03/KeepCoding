@@ -309,7 +309,7 @@ namespace KeepCoding
             func.NullCheck("The action cannot be null.");
 
             for (int i = 0; i < length; i++)
-                output.Append(func(i));
+                output = output.Append(func(i));
 
             return output;
         }
@@ -335,7 +335,7 @@ namespace KeepCoding
 
             for (; condition?.Invoke(item) ?? true;)
             {
-                output.Append(func(item));
+                output = output.Append(func(item));
 
                 if (loop is { })
                     item = loop(item);
