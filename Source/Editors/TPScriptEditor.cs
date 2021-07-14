@@ -20,19 +20,23 @@ namespace KeepCoding
         {
             DrawDefaultInspector();
 
-            if (Button("Force Solve"))
-                StartVerification((MonoBehaviour)target);
+            var tp = (ITP)target;
 
-            if (Button("Force Solve All"))
-                FindObjectsOfType<MonoBehaviour>().Where(m => m is ITP).Distinct().ToArray().ForEach(StartVerification);
+            tp.IsTimeSkippable = Toggle(tp.IsTimeSkippable, "Allow Time-Skipping");
+
+            if (Button("Run autosolver"))
+                StartVerification((CacheableBehaviour)target);
+
+            if (Button("Run every autosolver"))
+                FindObjectsOfType<CacheableBehaviour>().Where(m => m is ITP).Distinct().ToArray().ForEach(StartVerification);
         }
 
-        private static void StartVerification(MonoBehaviour obj) => obj.StartCoroutine(VerifySolve(obj));
+        private static void StartVerification(CacheableBehaviour obj) => obj.StartCoroutine(VerifySolve(obj));
 
-        private static IEnumerator VerifySolve(MonoBehaviour obj)
+        private static IEnumerator VerifySolve(CacheableBehaviour obj)
         {
             var tp = (ITP)obj;
-            var module = obj.GetComponent<ModuleScript>();
+            var module = obj.Get<ModuleScript>();
 
             yield return tp.ForceSolve();
 
