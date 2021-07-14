@@ -461,6 +461,32 @@ namespace KeepCoding
         public static bool Is<T>(this object obj, out T item) where T : class => (item = obj as T) is T;
 
         /// <summary>
+        /// The <see langword="is"/> operator checks if the result of an expression is compatible with a given type.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/is"/>
+        /// </remarks>
+        /// <typeparam name="T">The type to cast into.</typeparam>
+        /// <param name="obj">The object to cast.</param>
+        /// <param name="item">The object casted into the type.</param>
+        /// <param name="action">The action to run when <paramref name="obj"/> is <paramref name="item"/>.</param>
+        /// <param name="otherwise">The action to run when <paramref name="obj"/> is not <paramref name="item"/>..</param>
+        /// <returns><paramref name="obj"/> <see langword="is"/> <typeparamref name="T"/> <paramref name="item"/></returns>
+        public static bool Is<T>(this object obj, Action<T> action, Action otherwise = null) where T : class
+        {
+            action.NullCheck("The action cannot be null!");
+
+            if (obj is T t)
+            {
+                action(t);
+                return true;
+            }
+
+            otherwise?.Invoke();
+            return false;
+        }
+
+        /// <summary>
         /// The <see langword="lock"/> statement acquires the mutual-exclusion lock for a given object, executes a statement block, and then releases the lock. While a lock is held, the thread that holds the lock can again acquire and release the lock. Any other thread is blocked from acquiring the lock and waits until the lock is released.
         /// </summary>
         /// <remarks>
