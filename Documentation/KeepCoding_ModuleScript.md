@@ -42,6 +42,7 @@ Implements [IDump](KeepCoding_IDump.md 'KeepCoding.IDump'), [ILog](KeepCoding_IL
 | [Log&lt;T&gt;(T, object[])](KeepCoding_ModuleScript_Log_T_(T_object__).md 'KeepCoding.ModuleScript.Log&lt;T&gt;(T, object[])') | Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.<br/> |
 | [LogMultiple(string[])](KeepCoding_ModuleScript_LogMultiple(string__).md 'KeepCoding.ModuleScript.LogMultiple(string[])') | Logs multiple entries to the console.<br/> |
 | [OnActivate()](KeepCoding_ModuleScript_OnActivate().md 'KeepCoding.ModuleScript.OnActivate()') | Called when the lights turn on.<br/> |
+| [OnColorblindChanged(bool)](KeepCoding_ModuleScript_OnColorblindChanged(bool).md 'KeepCoding.ModuleScript.OnColorblindChanged(bool)') | Called when colorblind support needs to be updated for the module. Do not call `base.OnColorblindChanged()`.<br/> |
 | [OnDestroy()](KeepCoding_ModuleScript_OnDestroy().md 'KeepCoding.ModuleScript.OnDestroy()') | This removed the exception catcher. If you have an OnDestroy method, be sure to call `base.OnDestroy()` as the first statement.<br/> |
 | [OnModuleStrike(string)](KeepCoding_ModuleScript_OnModuleStrike(string).md 'KeepCoding.ModuleScript.OnModuleStrike(string)') | Called when any module on the current bomb has issued a strike.<br/> |
 | [OnNeedySolved(string)](KeepCoding_ModuleScript_OnNeedySolved(string).md 'KeepCoding.ModuleScript.OnNeedySolved(string)') | Called when any [KMNeedyModule](https://docs.microsoft.com/en-us/dotnet/api/KMNeedyModule 'KMNeedyModule') on the current bomb has been solved.<br/> |
