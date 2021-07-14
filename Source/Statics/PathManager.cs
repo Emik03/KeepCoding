@@ -111,7 +111,7 @@ namespace KeepCoding
 
             bundleFileName.NullOrEmptyCheck("You cannot retrieve a mod's modInfo.json if the bundle file name is null or empty.");
 
-            string search = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows)),
+            string search = GetPath(FileFormat(bundleFileName, FileExtensionWindows)),
                 file = $"{search}{GetSlashType(in search)}modInfo.json";
 
             if (!File.Exists(file))
@@ -190,7 +190,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="type">Any data from the assembly, which is used to get the name.</param>
         /// <returns>The path to the mod.</returns>
-        public static string GetPath(Type type) => GetPath(FileFormat.Form(NameOfAssembly(type), FileExtensionWindows));
+        public static string GetPath(Type type) => GetPath(FileFormat(NameOfAssembly(type), FileExtensionWindows));
 
         /// <summary>
         /// Finds the path of the mod.
@@ -198,7 +198,7 @@ namespace KeepCoding
         /// <typeparam name="T">The type to get the assembly from, which is used to get the name.</typeparam>
         /// <param name="_">Any data from the assembly, which is used to get the name.</param>
         /// <returns>The path to the mod.</returns>
-        public static string GetPath<T>(T _ = default) => GetPath(FileFormat.Form(NameOfAssembly<T>(), FileExtensionWindows));
+        public static string GetPath<T>(T _ = default) => GetPath(FileFormat(NameOfAssembly<T>(), FileExtensionWindows));
 
         /// <summary>
         /// Loads a library by searching for the bundle. Do not run this on the Editor.
@@ -223,7 +223,7 @@ namespace KeepCoding
 
             libraryFileName.NullOrEmptyCheck("You cannot load a library which has a null or empty name.");
 
-            string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
+            string path = GetPath(FileFormat(bundleFileName, FileExtensionWindows));
 
             CopyLibrary(in libraryFileName, in path);
 
@@ -294,8 +294,7 @@ namespace KeepCoding
             FileExtensionBundle = "bundle",
             FileExtensionLinux = "so",
             FileExtensionMacOS = "dylib",
-            FileExtensionWindows = "dll",
-            FileFormat = "{0}.{1}";
+            FileExtensionWindows = "dll";
 
         private static readonly Dictionary<string, string> _paths = new Dictionary<string, string>();
 
@@ -308,7 +307,7 @@ namespace KeepCoding
             switch (platform)
             {
                 case WindowsPlayer:
-                    File.Copy(path + (Size == 4 ? @"\dlls\x86\" : Size == 8 ? @"\dlls\x86_64\" : throw _intPtrException) + FileFormat.Form(libraryFileName, FileExtensionWindows), dataPath + @"\Mono\" + FileFormat.Form(libraryFileName, FileExtensionWindows), true);
+                    File.Copy(path + (Size == 4 ? @"\dlls\x86\" : Size == 8 ? @"\dlls\x86_64\" : throw _intPtrException) + FileFormat(libraryFileName, FileExtensionWindows), dataPath + @"\Mono\" + FileFormat(libraryFileName, FileExtensionWindows), true);
                     break;
 
                 case OSXPlayer:
@@ -317,11 +316,11 @@ namespace KeepCoding
                     if (!Directory.Exists(dest))
                         Directory.CreateDirectory(dest);
 
-                    File.Copy(CombineMultiple(path, "dlls", FileFormat.Form(libraryFileName, FileExtensionMacOS)), Path.Combine(dest, FileFormat.Form(libraryFileName, FileExtensionMacOS)), true);
+                    File.Copy(CombineMultiple(path, "dlls", FileFormat(libraryFileName, FileExtensionMacOS)), Path.Combine(dest, FileFormat(libraryFileName, FileExtensionMacOS)), true);
                     break;
 
                 case LinuxPlayer:
-                    File.Copy(CombineMultiple(path, "dlls", FileFormat.Form(libraryFileName, FileExtensionLinux)), CombineMultiple(dataPath, "Mono", Size == 4 ? "x86" : Size == 8 ? "x86_64" : throw _intPtrException, FileFormat.Form(libraryFileName, FileExtensionLinux)), true);
+                    File.Copy(CombineMultiple(path, "dlls", FileFormat(libraryFileName, FileExtensionLinux)), CombineMultiple(dataPath, "Mono", Size == 4 ? "x86" : Size == 8 ? "x86_64" : throw _intPtrException, FileFormat(libraryFileName, FileExtensionLinux)), true);
                     break;
 
                 default: throw new PlatformNotSupportedException("The OS is not windows, linux, or mac, what kind of system is this?");
@@ -349,15 +348,17 @@ namespace KeepCoding
                 return null;
             });
 
+        private static string FileFormat(string fileName, string fileExtension) => "{0}.{1}".Form(fileName, fileExtension);
+
         private static IEnumerator LoadAssets<TAsset>(string bundleFileName, string bundleAssetFileName) where TAsset : Object
         {
             Logger.Self($"Loading type {typeof(TAsset).Name} from \"{bundleAssetFileName}\" which exists in \"{bundleFileName}\".");
 
             bundleAssetFileName.NullOrEmptyCheck("You cannot load a video from a nonexistent file.");
 
-            string path = GetPath(FileFormat.Form(bundleFileName, FileExtensionWindows));
+            string path = GetPath(FileFormat(bundleFileName, FileExtensionWindows));
 
-            var request = LoadFromFileAsync($"{path}{GetSlashType(in path)}{FileFormat.Form(bundleAssetFileName, FileExtensionBundle)}");
+            var request = LoadFromFileAsync($"{path}{GetSlashType(in path)}{FileFormat(bundleAssetFileName, FileExtensionBundle)}");
 
             yield return request;
 
