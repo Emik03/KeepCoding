@@ -294,7 +294,7 @@ namespace KeepCoding
         /// </remarks>
         /// <param name="number">The number to apply the operator to.</param>
         /// <returns>The number with the operator applied to it.</returns>
-        public static bool operator true(Number number) => number;
+        public static bool operator true(Number number) => (bool)number;
 
         /// <summary>
         /// False operator.
@@ -304,7 +304,7 @@ namespace KeepCoding
         /// </remarks>
         /// <param name="number">The number to apply the operator to.</param>
         /// <returns>The number with the operator applied to it.</returns>
-        public static bool operator false(Number number) => !number;
+        public static bool operator false(Number number) => !(bool)number;
 
         /// <summary>
         /// Add operator.
@@ -623,13 +623,13 @@ namespace KeepCoding
         public static bool operator >=(Number number, ValueType other) => number.CompareTo(other) >= 0;
 
         /// <summary>
-        /// Bool operator.
+        /// Explicitly converts the value to a <see cref="bool"/>.
         /// </summary>
         /// <remarks>
         /// True if the number is strictly larger than zero, otherwise false.
         /// </remarks>
-        /// <param name="number"></param>
-        public static implicit operator bool(Number number) => number > 0;
+        /// <param name="number">The number to cast.</param>
+        public static explicit operator bool(Number number) => number > 0;
 
         /// <summary>
         /// Implicitly converts the value to a <see cref="sbyte"/>.
