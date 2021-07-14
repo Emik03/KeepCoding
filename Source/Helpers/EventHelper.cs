@@ -23,12 +23,14 @@ namespace KeepCoding
         /// <param name="bombInfo">The bomb info instance to assign events to.</param>
         /// <param name="onBombExploded">Called when the bomb explodes.</param>
         /// <param name="onBombSolved">Called when the bomb is defused.</param>
-        public static void Assign(this KMBombInfo bombInfo, Action onBombExploded = null, Action onBombSolved = null)
+        public static KMBombInfo Assign(this KMBombInfo bombInfo, Action onBombExploded = null, Action onBombSolved = null)
         {
             bombInfo.AssertDefault();
 
             onBombExploded.Set(ref bombInfo.OnBombExploded);
             onBombSolved.Set(ref bombInfo.OnBombSolved);
+
+            return bombInfo;
         }
 
         /// <summary>
@@ -41,13 +43,15 @@ namespace KeepCoding
         /// <param name="onActivate">Called when the lights turn on.</param>
         /// <param name="onPass">Called when the module is solved.</param>
         /// <param name="onStrike">Called when the module strikes.</param>
-        public static void Assign(this KMBombModule bombModule, Action onActivate = null, Action onPass = null, Action onStrike = null)
+        public static KMBombModule Assign(this KMBombModule bombModule, Action onActivate = null, Action onPass = null, Action onStrike = null)
         {
             bombModule.AssertDefault();
 
             onActivate.Set(ref bombModule.OnActivate);
             onPass.ToFunc(false).Set(ref bombModule.OnPass);
             onStrike.ToFunc(false).Set(ref bombModule.OnStrike);
+
+            return bombModule;
         }
 
         /// <summary>
@@ -61,13 +65,15 @@ namespace KeepCoding
         /// <param name="onStateChange">Called when the state of the game changes.</param>
         /// <param name="onAlarmClockChange">Called when the alarm clock changes state, and passes in whether it's on or off.</param>
         /// <param name="onLightsChange">Called when the lights change state, and passes in whether it's on or off.</param>
-        public static void Assign(this KMGameInfo gameInfo, Action<State> onStateChange = null, Action<bool> onAlarmClockChange = null, Action<bool> onLightsChange = null)
+        public static KMGameInfo Assign(this KMGameInfo gameInfo, Action<State> onStateChange = null, Action<bool> onAlarmClockChange = null, Action<bool> onLightsChange = null)
         {
             gameInfo.AssertDefault();
 
             onStateChange.Set(ref gameInfo.OnStateChange);
             onAlarmClockChange.Set(ref gameInfo.OnAlarmClockChange);
             onLightsChange.Set(ref gameInfo.OnLightsChange);
+
+            return gameInfo;
         }
 
         /// <summary>
@@ -83,7 +89,7 @@ namespace KeepCoding
         /// <param name="onPass">Called when the needy is solved.</param>
         /// <param name="onStrike">Called when the needy strikes.</param>
         /// <param name="onTimerExpired">Called when the timer runs out of time.</param>
-        public static void Assign(this KMNeedyModule needyModule, Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null)
+        public static KMNeedyModule Assign(this KMNeedyModule needyModule, Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null)
         {
             needyModule.AssertDefault();
 
@@ -93,10 +99,12 @@ namespace KeepCoding
             onPass.ToFunc(false).Set(ref needyModule.OnPass);
             onStrike.ToFunc(false).Set(ref needyModule.OnStrike);
             onTimerExpired.Set(ref needyModule.OnTimerExpired);
+
+            return needyModule;
         }
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public static void Assign(this KMSelectable selectable, bool? overrideReturn = null, Action onCancel = null, Action onDefocus = null, Action onDeselect = null, Action onFocus = null, Action onHighlight = null, Action onHighlightEnded = null, Action onInteract = null, Action onInteractEnded = null, Action<float> onInteractionPunch = null, Action onLeft = null, Action onRight = null, Action onSelect = null, Action<KMSelectable> onUpdateChildren = null)
+        public static KMSelectable Assign(this KMSelectable selectable, bool? overrideReturn = null, Action onCancel = null, Action onDefocus = null, Action onDeselect = null, Action onFocus = null, Action onHighlight = null, Action onHighlightEnded = null, Action onInteract = null, Action onInteractEnded = null, Action<float> onInteractionPunch = null, Action onLeft = null, Action onRight = null, Action onSelect = null, Action<KMSelectable> onUpdateChildren = null)
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             selectable.AssertDefault();
@@ -116,10 +124,12 @@ namespace KeepCoding
             onRight.Set(ref selectable.OnRight);
             onSelect.Set(ref selectable.OnSelect);
             onUpdateChildren.Set(ref selectable.OnUpdateChildren);
+
+            return selectable;
         }
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public static void Assign(this KMSelectable[] selectable, bool? overrideReturn = null, Action<int> onCancel = null, Action<int> onDefocus = null, Action<int> onDeselect = null, Action<int> onFocus = null, Action<int> onHighlight = null, Action<int> onHighlightEnded = null, Action<int> onInteract = null, Action<int> onInteractEnded = null, Action<int, float> onInteractionPunch = null, Action<int> onLeft = null, Action<int> onRight = null, Action<int> onSelect = null, Action<int, KMSelectable> onUpdateChildren = null) =>
+        public static KMSelectable[] Assign(this KMSelectable[] selectable, bool? overrideReturn = null, Action<int> onCancel = null, Action<int> onDefocus = null, Action<int> onDeselect = null, Action<int> onFocus = null, Action<int> onHighlight = null, Action<int> onHighlightEnded = null, Action<int> onInteract = null, Action<int> onInteractEnded = null, Action<int, float> onInteractionPunch = null, Action<int> onLeft = null, Action<int> onRight = null, Action<int> onSelect = null, Action<int, KMSelectable> onUpdateChildren = null) =>
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
             selectable.NullOrEmptyCheck("The array is not populated. Please check your public fields in Unity.").ToArray().Call((s, i) => s.Assign(
                 overrideReturn,
@@ -138,7 +148,7 @@ namespace KeepCoding
                 onUpdateChildren.ToAction(i)));
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public static void Assign(this KMSelectable[] selectable, bool? overrideReturn = null, Action<KMSelectable> onCancel = null, Action<KMSelectable> onDefocus = null, Action<KMSelectable> onDeselect = null, Action<KMSelectable> onFocus = null, Action<KMSelectable> onHighlight = null, Action<KMSelectable> onHighlightEnded = null, Action<KMSelectable> onInteract = null, Action<KMSelectable> onInteractEnded = null, Action<KMSelectable, float> onInteractionPunch = null, Action<KMSelectable> onLeft = null, Action<KMSelectable> onRight = null, Action<KMSelectable> onSelect = null, Action<KMSelectable, KMSelectable> onUpdateChildren = null) =>
+        public static KMSelectable[] Assign(this KMSelectable[] selectable, bool? overrideReturn = null, Action<KMSelectable> onCancel = null, Action<KMSelectable> onDefocus = null, Action<KMSelectable> onDeselect = null, Action<KMSelectable> onFocus = null, Action<KMSelectable> onHighlight = null, Action<KMSelectable> onHighlightEnded = null, Action<KMSelectable> onInteract = null, Action<KMSelectable> onInteractEnded = null, Action<KMSelectable, float> onInteractionPunch = null, Action<KMSelectable> onLeft = null, Action<KMSelectable> onRight = null, Action<KMSelectable> onSelect = null, Action<KMSelectable, KMSelectable> onUpdateChildren = null) =>
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
             selectable.NullOrEmptyCheck("The array is not populated. Please check your public fields in Unity.").ToArray().ForEach(s => s.Assign(
                 overrideReturn,
@@ -160,13 +170,13 @@ namespace KeepCoding
         /// Stops all sounds for the entire <see cref="KMAudioRef"/> <see cref="Array"/>.
         /// </summary>
         /// <param name="audioRefs">The <see cref="KMAudioRef"/> <see cref="Array"/> to mute all sounds from, using <see cref="KMAudioRef.StopSound"/>.</param>
-        public static void StopSound(this KMAudioRef[] audioRefs) => audioRefs.ForEach(a => a.StopSound());
+        public static KMAudioRef[] StopSound(this KMAudioRef[] audioRefs) => audioRefs.ForEach(a => a.StopSound());
 
         /// <summary>
         /// Stops all sounds for the entire <see cref="Sound"/> <see cref="Array"/>.
         /// </summary>
         /// <param name="sounds">The <see cref="Sound"/> <see cref="Array"/> to mute all sounds from, using <see cref="KMAudioRef.StopSound"/>.</param>
-        public static void StopSound(this Sound[] sounds) => sounds.ForEach(s => s.StopSound());
+        public static Sound[] StopSound(this Sound[] sounds) => sounds.ForEach(s => s.StopSound());
 
         /// <summary>
         /// Combines actions together, only if these actions are not <see langword="null"/>.

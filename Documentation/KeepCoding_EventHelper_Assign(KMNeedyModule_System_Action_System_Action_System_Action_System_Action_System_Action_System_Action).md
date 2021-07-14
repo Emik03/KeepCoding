@@ -3,7 +3,7 @@
 ## EventHelper.Assign(KMNeedyModule, Action, Action, Action, Action, Action, Action) Method
 Assigns events specified into [needyModule](KeepCoding_EventHelper_Assign(KMNeedyModule_System_Action_System_Action_System_Action_System_Action_System_Action_System_Action).md#KeepCoding_EventHelper_Assign(KMNeedyModule_System_Action_System_Action_System_Action_System_Action_System_Action_System_Action)_needyModule 'KeepCoding.EventHelper.Assign(KMNeedyModule, System.Action, System.Action, System.Action, System.Action, System.Action, System.Action).needyModule'). Reassigning them will replace their values.  
 ```csharp
-public static void Assign(this KMNeedyModule needyModule, System.Action onActivate=null, System.Action onNeedyActivation=null, System.Action onNeedyDeactivation=null, System.Action onPass=null, System.Action onStrike=null, System.Action onTimerExpired=null);
+public static KMNeedyModule Assign(this KMNeedyModule needyModule, System.Action onActivate=null, System.Action onNeedyActivation=null, System.Action onNeedyDeactivation=null, System.Action onPass=null, System.Action onStrike=null, System.Action onTimerExpired=null);
 ```
 #### Parameters
 <a name='KeepCoding_EventHelper_Assign(KMNeedyModule_System_Action_System_Action_System_Action_System_Action_System_Action_System_Action)_needyModule'></a>
@@ -34,5 +34,7 @@ Called when the needy strikes.
 `onTimerExpired` [System.Action](https://docs.microsoft.com/en-us/dotnet/api/System.Action 'System.Action')  
 Called when the timer runs out of time.
   
+#### Returns
+[KMNeedyModule](https://docs.microsoft.com/en-us/dotnet/api/KMNeedyModule 'KMNeedyModule')  
 ### Remarks
 An event that is null will be skipped. This extension method simplifies all of the KMFramework events into Actions or Functions.  

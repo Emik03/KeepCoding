@@ -3,7 +3,7 @@
 ## EventHelper.Assign(KMBombModule, Action, Action, Action) Method
 Assigns events specified into [bombModule](KeepCoding_EventHelper_Assign(KMBombModule_System_Action_System_Action_System_Action).md#KeepCoding_EventHelper_Assign(KMBombModule_System_Action_System_Action_System_Action)_bombModule 'KeepCoding.EventHelper.Assign(KMBombModule, System.Action, System.Action, System.Action).bombModule'). Reassigning them will replace their values.  
 ```csharp
-public static void Assign(this KMBombModule bombModule, System.Action onActivate=null, System.Action onPass=null, System.Action onStrike=null);
+public static KMBombModule Assign(this KMBombModule bombModule, System.Action onActivate=null, System.Action onPass=null, System.Action onStrike=null);
 ```
 #### Parameters
 <a name='KeepCoding_EventHelper_Assign(KMBombModule_System_Action_System_Action_System_Action)_bombModule'></a>
@@ -22,5 +22,7 @@ Called when the module is solved.
 `onStrike` [System.Action](https://docs.microsoft.com/en-us/dotnet/api/System.Action 'System.Action')  
 Called when the module strikes.
   
+#### Returns
+[KMBombModule](https://docs.microsoft.com/en-us/dotnet/api/KMBombModule 'KMBombModule')  
 ### Remarks
 An event that is null will be skipped. This extension method simplifies all of the KMFramework events into Actions or Functions.  
