@@ -53,7 +53,6 @@
 | [Work&lt;T1,T2,T3,TResult&gt;](KeepCoding_Work_T1_T2_T3_TResult_.md 'KeepCoding.Work&lt;T1,T2,T3,TResult&gt;') | Advanced multi-threading handler.<br/> |
 | [Work&lt;T1,T2,TResult&gt;](KeepCoding_Work_T1_T2_TResult_.md 'KeepCoding.Work&lt;T1,T2,TResult&gt;') | Advanced multi-threading handler.<br/> |
 | [WorkBase](KeepCoding_WorkBase.md 'KeepCoding.WorkBase') | Abstract class for the [Work](KeepCoding_Work.md 'KeepCoding.Work') datatype, since the different overloads are similar to each other.<br/> |
-| [WrongDatatypeException](KeepCoding_WrongDatatypeException.md 'KeepCoding.WrongDatatypeException') | An exception thrown for when the wrong datatype is used.<br/> |
 
 | Interfaces | |
 | :--- | :--- |

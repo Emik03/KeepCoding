@@ -12,7 +12,7 @@ namespace KeepCoding
         /// Indexable tuple. Be careful when using this as the compiler will not notice if you are using the wrong type.
         /// </summary>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        /// <exception cref="WrongDatatypeException"></exception>
+        /// <exception cref="UnrecognizedTypeException"></exception>
         /// <param name="index">The index to use.</param>
         /// <returns>The item indexed into.</returns>
         public object this[byte index] { get => throw IndexOutOfRange(index); set => throw IndexOutOfRange(index); }
@@ -44,10 +44,10 @@ namespace KeepCoding
         /// <returns>All of the items in tuple.</returns>
         public IEnumerator GetEnumerator() => ToArray.GetEnumerator();
 
-        private protected static TOutput Cast<TInput, TOutput>(in TInput value, int index) => value is TOutput t ? t : throw WrongDatatype(value, typeof(TOutput), index);
+        private protected static TOutput Cast<TInput, TOutput>(in TInput value, int index) => value is TOutput t ? t : throw UnrecognizedType(value, typeof(TOutput), index);
 
         private IndexOutOfRangeException IndexOutOfRange(int i) => new IndexOutOfRangeException($"The index {i} was out of range from the tuple of length {ToArray.Length}.");
 
-        private static WrongDatatypeException WrongDatatype<T>(in T received, in Type expected, int index) => new WrongDatatypeException($"The {(index + 1).ToOrdinal()} element in the tuple cannot be assigned because the value {received.UnwrapToString()} is type {received.GetType().Name} which doesn't match the expected type {expected.Name}.");
+        private static UnrecognizedTypeException UnrecognizedType<T>(in T received, in Type expected, int index) => new UnrecognizedTypeException($"The {(index + 1).ToOrdinal()} element in the tuple cannot be assigned because the value {received.UnwrapToString()} is type {received.GetType().Name} which doesn't match the expected type {expected.Name}.");
     }
 }

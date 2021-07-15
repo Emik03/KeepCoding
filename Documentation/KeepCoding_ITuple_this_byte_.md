@@ -14,4 +14,4 @@ The index to use.
 [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')
 #### Exceptions
 [System.IndexOutOfRangeException](https://docs.microsoft.com/en-us/dotnet/api/System.IndexOutOfRangeException 'System.IndexOutOfRangeException')  
-[WrongDatatypeException](KeepCoding_WrongDatatypeException.md 'KeepCoding.WrongDatatypeException')  
+[UnrecognizedTypeException](KeepCoding_UnrecognizedTypeException.md 'KeepCoding.UnrecognizedTypeException')  

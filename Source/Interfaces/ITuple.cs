@@ -12,7 +12,7 @@ namespace KeepCoding
         /// Indexable tuple. Be careful when using this as the compiler will not notice if you are using the wrong type.
         /// </summary>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        /// <exception cref="WrongDatatypeException"></exception>
+        /// <exception cref="UnrecognizedTypeException"></exception>
         /// <param name="index">The index to use.</param>
         /// <returns>The item indexed into.</returns>
         public object this[byte index] { get; set; }
