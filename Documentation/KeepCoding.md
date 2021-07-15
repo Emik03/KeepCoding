@@ -6,6 +6,7 @@
 | [ArrayHelper](KeepCoding_ArrayHelper.md 'KeepCoding.ArrayHelper') | Extension methods surrounding [System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array') static methods to make code a bit shorter.<br/> |
 | [BigInteger](KeepCoding_BigInteger.md 'KeepCoding.BigInteger') | Stores an arbitrarily large number.<br/> |
 | [CacheableBehaviour](KeepCoding_CacheableBehaviour.md 'KeepCoding.CacheableBehaviour') | A [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') with additional caching capabilities. <br/> |
+| [ColorblindInfo](KeepCoding_ColorblindInfo.md 'KeepCoding.ColorblindInfo') | Contains information about the colorblind mod's info, this class can be used to deserialize every mod's "modInfo.json".<br/> |
 | [ComponentPool](KeepCoding_ComponentPool.md 'KeepCoding.ComponentPool') | A ComponentPool is a collection of Module Types. The generator will pick Count times from this list and instantiate a component of the chosen type.<br/> |
 | [ConstructorArgumentException](KeepCoding_ConstructorArgumentException.md 'KeepCoding.ConstructorArgumentException') | An exception thrown when the constructor throws an exception due to a bad argument.<br/> |
 | [EmptyIteratorException](KeepCoding_EmptyIteratorException.md 'KeepCoding.EmptyIteratorException') | An exception thrown when the iterator is empty.<br/> |
@@ -27,6 +28,7 @@
 | [NullIteratorException](KeepCoding_NullIteratorException.md 'KeepCoding.NullIteratorException') | An exception thrown when the iterator is null.<br/> |
 | [Number](KeepCoding_Number.md 'KeepCoding.Number') | Class meant to encapsulate a primitive numeric value.<br/> |
 | [PathManager](KeepCoding_PathManager.md 'KeepCoding.PathManager') | Allows loading external information stored on the module. <br/> |
+| [ReflectionScript](KeepCoding_ReflectionScript.md 'KeepCoding.ReflectionScript') | Editor-only behaviour that gets values from [UnityEngine.Component](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Component 'UnityEngine.Component')s in real-time.<br/> |
 | [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') | Advanced coroutine handler.<br/> |
 | [Routine&lt;T&gt;](KeepCoding_Routine_T_.md 'KeepCoding.Routine&lt;T&gt;') | Advanced coroutine handler. <br/> |
 | [Routine&lt;T1,T2&gt;](KeepCoding_Routine_T1_T2_.md 'KeepCoding.Routine&lt;T1,T2&gt;') | Advanced coroutine handler. <br/> |
