@@ -15,9 +15,9 @@
 	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	<Copyright>Emik</Copyright>
 	<RunPostBuildEvent>Always</RunPostBuildEvent>
-	<AssemblyVersion>7.0.0.0</AssemblyVersion>
-	<FileVersion>7.0.0.0</FileVersion>
-	<Version>7</Version>
+	<AssemblyVersion>7.0.0.1</AssemblyVersion>
+	<FileVersion>7.0.0.1</FileVersion>
+	<Version>7.0.0.1</Version>
 	<PackageId>KeepCoding</PackageId>
 	<SignAssembly>true</SignAssembly>
 	<DelaySign>false</DelaySign>
