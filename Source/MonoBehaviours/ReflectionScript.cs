@@ -24,7 +24,7 @@ namespace KeepCoding
             Find
         }
 
-        private enum None { None }
+        private struct None { }
 
         private const BindingFlags Flags = IgnoreCase | Instance | Static | Public | NonPublic | FlattenHierarchy;
 
@@ -66,7 +66,7 @@ namespace KeepCoding
 
             _members = Components
                 .Select(c => c.ToTuple(GetDeepValue(c, _name.Split('.'))))
-                .Where(t => !(t.Item2 is None.None));
+                .Where(t => !(t.Item2 is None));
         }
 
         private void Start()
@@ -93,7 +93,7 @@ namespace KeepCoding
                     GetProperty(type, instance, name),
                 };
 
-                instance = vs.All(o => o is None.None) ? None.None : vs.First(o => !(o is None.None));
+                instance = vs.All(o => o is None) ? new None() : vs.First(o => !(o is None));
             }
 
             return instance;
@@ -103,7 +103,7 @@ namespace KeepCoding
         {
             FieldInfo field = type?.GetField(name);
 
-            return field is null ? None.None
+            return field is null ? new None()
                 : field.IsStatic ? field.GetValue(null)
                 : field.GetValue(instance);
         }
@@ -112,7 +112,7 @@ namespace KeepCoding
         {
             PropertyInfo property = type?.GetProperty(name);
 
-            return property is null ? None.None
+            return property is null ? new None()
                 : property.GetAccessors(false).Any(x => x.IsStatic) ? property.GetValue(null, null)
                 : property.GetValue(instance, null);
         }
