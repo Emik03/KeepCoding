@@ -20,7 +20,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Methods | |
 | :--- | :--- |
-| [Deserialize(string)](KeepCoding_ModInfo_Deserialize(string).md 'KeepCoding.ModInfo.Deserialize(string)') | Deserializes a modInfo.json file.<br/> |
+| [Deserialize(string, JsonSerializerSettings)](KeepCoding_ModInfo_Deserialize(string_JsonSerializerSettings).md 'KeepCoding.ModInfo.Deserialize(string, JsonSerializerSettings)') | Deserializes a modInfo.json file.<br/> |
 | [Equals(object)](KeepCoding_ModInfo_Equals(object).md 'KeepCoding.ModInfo.Equals(object)') | Determines if both objects are equal.<br/> |
 | [GetHashCode()](KeepCoding_ModInfo_GetHashCode().md 'KeepCoding.ModInfo.GetHashCode()') | Gets the hash code.<br/> |
 | [ToString()](KeepCoding_ModInfo_ToString().md 'KeepCoding.ModInfo.ToString()') | Converts the object to a string.<br/> |
