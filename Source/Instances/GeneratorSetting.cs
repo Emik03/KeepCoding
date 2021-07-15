@@ -9,6 +9,11 @@ namespace KeepCoding
     public sealed class GeneratorSetting
     {
         /// <summary>
+        /// Creates a generator setting with the default parameters.
+        /// </summary>
+        public GeneratorSetting() : this(false, 5, 3, 90, 300, new List<ComponentPool>()) { }
+
+        /// <summary>
         /// Creates a generator setting based on the provided parameters.
         /// </summary>
         /// <param name="frontFaceOnly">Force modules to be placed only on the front face. By default this will limit the module count to 5 (+1 for the timer). Useful in rare circumstances where you wish to generate a bomb with a few modules and guarantee that they will all be visibile simultaneously.</param>
@@ -26,11 +31,6 @@ namespace KeepCoding
             TimeLimit = timeLimit;
             ComponentPools = componentPools;
         }
-
-        /// <summary>
-        /// Creates a generator setting with the default parameters.
-        /// </summary>
-        public GeneratorSetting() : this(false, 5, 3, 90, 300, new List<ComponentPool>()) { }
 
         /// <value>
         /// Force modules to be placed only on the front face. By default this will limit the module count to 5 (+1 for the timer). Useful in rare circumstances where you wish to generate a bomb with a few modules and guarantee that they will all be visibile simultaneously.

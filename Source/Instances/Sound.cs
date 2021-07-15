@@ -17,17 +17,17 @@ namespace KeepCoding
         /// <param name="sound">The sound to insert.</param>
         public Sound(string sound) => Custom = sound.NullCheck("The string provided is null!");
 
-        /// <value>
-        /// An instance of sound where <see cref="Game"/> is defined.
-        /// </value>
-        /// <param name="sound">The sound to insert.</param>
-        public Sound(SoundEffect sound) => Game = sound;
-
         /// <summary>
         /// An instance of Sound where <see cref="Custom"/> is defined.
         /// </summary>
         /// <param name="sound">The sound to insert.</param>
         public Sound(AudioClip sound) => Custom = sound.NullCheck("The AudioClip provided is null!").name;
+
+        /// <value>
+        /// An instance of sound where <see cref="Game"/> is defined.
+        /// </value>
+        /// <param name="sound">The sound to insert.</param>
+        public Sound(SoundEffect sound) => Game = sound;
 
         /// <value>
         /// The custom sound, written out by name.

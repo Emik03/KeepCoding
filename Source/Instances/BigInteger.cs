@@ -11,6 +11,11 @@ namespace KeepCoding
     public sealed class BigInteger : ICloneable, IEnumerable, IEquatable<BigInteger>
     {
         /// <summary>
+        /// Creates a big integer with the default value. (0)
+        /// </summary>
+        public BigInteger() : this(0) { }
+
+        /// <summary>
         /// Creates a big integer containing the number specified.
         /// </summary>
         /// <exception cref="NullIteratorException"></exception>
@@ -19,11 +24,6 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="value">The value to store. <see cref="Array"/>, <see cref="string"/>, and any number-type are compatible.</param>
         public BigInteger(object value) => _value = ObjectToBytes(in value);
-
-        /// <summary>
-        /// Creates a big integer with the default value. (0)
-        /// </summary>
-        public BigInteger() : this(0) { }
 
         /// <summary>
         /// Indexable number. Allows you to treat the value as an array.

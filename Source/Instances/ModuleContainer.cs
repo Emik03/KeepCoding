@@ -10,21 +10,6 @@ namespace KeepCoding
     public sealed class ModuleContainer : IEquatable<ModuleContainer>
     {
         /// <summary>
-        /// Encapsulates either a solvable or needy module.
-        /// </summary>
-        /// <exception cref="ConstructorArgumentException"></exception>
-        /// <param name="solvable">The instance of a normal module.</param>
-        /// <param name="needy">The instance of a needy module.</param>
-        public ModuleContainer(KMBombModule solvable = null, KMNeedyModule needy = null)
-        {
-            if ((bool)solvable == needy)
-                throw new ConstructorArgumentException(solvable ? "Both KMBombModule and KMNeedyModule are assigned, which will mean that it is unable to return both when calling a function that returns a single MonoBehaviour." : "Both KMBombModule and KMNeedyModule is null, and since this data type is immutable after the constructor, it is unable to return anything.");
-
-            _bombModule = solvable;
-            _needyModule = needy;
-        }
-
-        /// <summary>
         /// Encapsulates either a solvable or needy module. Uses <see cref="CacheableBehaviour.Get{T}(bool)"/>.
         /// </summary>
         /// <param name="behaviour">The component to get the modules from.</param>
@@ -47,6 +32,21 @@ namespace KeepCoding
         /// </summary>
         /// <param name="needy">The instance of a needy module.</param>
         public ModuleContainer(KMNeedyModule needy) : this(null, needy) { }
+
+        /// <summary>
+        /// Encapsulates either a solvable or needy module.
+        /// </summary>
+        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <param name="solvable">The instance of a normal module.</param>
+        /// <param name="needy">The instance of a needy module.</param>
+        public ModuleContainer(KMBombModule solvable = null, KMNeedyModule needy = null)
+        {
+            if ((bool)solvable == needy)
+                throw new ConstructorArgumentException(solvable ? "Both KMBombModule and KMNeedyModule are assigned, which will mean that it is unable to return both when calling a function that returns a single MonoBehaviour." : "Both KMBombModule and KMNeedyModule is null, and since this data type is immutable after the constructor, it is unable to return anything.");
+
+            _bombModule = solvable;
+            _needyModule = needy;
+        }
 
         /// <value>
         /// Set to true to only allow this module to be placed on the same face as the timer. Useful when the rules involve the timer in some way (like the Big Button), but should be used sparingly as it limits generation possibilities.
