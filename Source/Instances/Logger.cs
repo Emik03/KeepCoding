@@ -40,7 +40,8 @@ namespace KeepCoding
         /// </summary>
         /// <param name="type">The name of the value, using <see cref="MemberInfo.Name"/>.</param>
         /// <param name="showId">Determines whether to show the unique identifier when logging.</param>
-        public Logger(Type type, bool showId = false) : this(type?.Name, showId) { }
+        /// <param name="showInLfa">Determines whether to format such that the Logfile Analyzer would use.</param>
+        public Logger(Type type, bool showId = false, bool showInLfa = true) : this(type?.Name, showId, showInLfa) { }
 
         /// <value>
         /// The unique identifier of the current name.

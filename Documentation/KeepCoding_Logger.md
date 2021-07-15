@@ -15,7 +15,7 @@ Implements [IDump](KeepCoding_IDump.md 'KeepCoding.IDump'), [ILog](KeepCoding_IL
 | Constructors | |
 | :--- | :--- |
 | [Logger(string, bool, bool)](KeepCoding_Logger_Logger(string_bool_bool).md 'KeepCoding.Logger.Logger(string, bool, bool)') | The string constructor. The string determines the name.<br/> |
-| [Logger(Type, bool)](KeepCoding_Logger_Logger(System_Type_bool).md 'KeepCoding.Logger.Logger(System.Type, bool)') | The type constructor. The type's name determines the name.<br/> |
+| [Logger(Type, bool, bool)](KeepCoding_Logger_Logger(System_Type_bool_bool).md 'KeepCoding.Logger.Logger(System.Type, bool, bool)') | The type constructor. The type's name determines the name.<br/> |
 
 | Properties | |
 | :--- | :--- |
