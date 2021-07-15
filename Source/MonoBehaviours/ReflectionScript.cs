@@ -142,7 +142,7 @@ namespace KeepCoding
 
                 _current = objects;
 
-                new Logger($"{nameof(ReflectionScript)} ({_name})").Log(_values.Select(o => '\n' + o.UnwrapToString()));
+                new Logger($"{nameof(ReflectionScript)}, {gameObject.name}, {_name}").Log(_values.Select(o => '\n' + o.UnwrapToString()));
             }
         }
     }
