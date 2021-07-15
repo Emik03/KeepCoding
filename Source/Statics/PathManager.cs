@@ -312,7 +312,10 @@ namespace KeepCoding
                 string settingsPath = CombineMultiple(persistentDataPath, "Modsettings", "ColorblindMode.json");
 
                 if (!File.Exists(settingsPath))
+                {
+                    File.WriteAllText(settingsPath, JsonConvert.SerializeObject(new ColorblindInfo(), Indented));
                     return;
+                }
 
                 var settings = JsonConvert.DeserializeObject<ColorblindInfo>(File.ReadAllText(settingsPath));
 
