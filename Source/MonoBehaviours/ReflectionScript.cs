@@ -39,6 +39,11 @@ namespace KeepCoding
 
         [SerializeField]
 #pragma warning disable IDE0044 // Add readonly modifier
+        private bool _slowMode;
+#pragma warning restore IDE0044 // Add readonly modifier
+
+        [SerializeField]
+#pragma warning disable IDE0044 // Add readonly modifier
         private string _name;
 #pragma warning restore IDE0044 // Add readonly modifier
 
@@ -123,7 +128,7 @@ namespace KeepCoding
             {
                 yield return new WaitUntil(() => enabled);
 
-                yield return new WaitForSecondsRealtime(0.1f);
+                yield return new WaitForSecondsRealtime(_slowMode ? 1 : 0.1f);
 
                 IEnumerable<object> objects = _members.Select(o => o.Item2);
 
