@@ -18,4 +18,5 @@ Whether it should throw an exception if it sees [null](https://docs.microsoft.co
 [UnityEngine.Component](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Component 'UnityEngine.Component')  
 The component specified by [type](KeepCoding_CacheableBehaviour_GetParent(System_Type_bool).md#KeepCoding_CacheableBehaviour_GetParent(System_Type_bool)_type 'KeepCoding.CacheableBehaviour.GetParent(System.Type, bool).type').
 #### Exceptions
+[System.ArgumentException](https://docs.microsoft.com/en-us/dotnet/api/System.ArgumentException 'System.ArgumentException')  
 [UnityEngine.MissingComponentException](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MissingComponentException 'UnityEngine.MissingComponentException')  

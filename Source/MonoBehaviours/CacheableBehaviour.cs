@@ -25,6 +25,7 @@ namespace KeepCoding
         /// <summary>
         /// Caches the result of a function call that returns a component array in a dictionary, and will return the cached result if called again. Use this to alleviate expensive function calls.
         /// </summary>
+        /// <exception cref="ArgumentException"></exception>
         /// <exception cref="MissingComponentException"></exception>
         /// <param name="type">The type of component to search for.</param>
         /// <param name="func">The expensive function to call, only if it hasn't ever been called by this method on the current instance before.</param>
@@ -35,6 +36,7 @@ namespace KeepCoding
         /// <summary>
         /// Caches the result of a function call that returns a component array in a dictionary, and will return the cached result if called again. Use this to alleviate expensive function calls.
         /// </summary>
+        /// <exception cref="ArgumentException"></exception>
         /// <exception cref="MissingComponentException"></exception>
         /// <param name="type">The type of component to search for.</param>
         /// <param name="func">The expensive function to call, only if it hasn't ever been called by this method on the current instance before.</param>
@@ -51,6 +53,7 @@ namespace KeepCoding
         /// <summary>
         /// Caches the result of a function call that returns a component array in a dictionary, and will return the cached result if called again. Use this to alleviate expensive function calls.
         /// </summary>
+        /// <exception cref="ArgumentException"></exception>
         /// <exception cref="MissingComponentException"></exception>
         /// <param name="type">The type of component to search for.</param>
         /// <param name="func">The expensive function to call, only if it hasn't ever been called by this method on the current instance before.</param>
@@ -61,6 +64,7 @@ namespace KeepCoding
         /// <summary>
         /// Caches the result of a function call that returns a component array in a dictionary, and will return the cached result if called again. Use this to alleviate expensive function calls.
         /// </summary>
+        /// <exception cref="ArgumentException"></exception>
         /// <exception cref="MissingComponentException"></exception>
         /// <param name="type">The type of component to search for.</param>
         /// <param name="func">The expensive function to call, only if it hasn't ever been called by this method on the current instance before.</param>
@@ -77,6 +81,7 @@ namespace KeepCoding
         /// <summary>
         /// Similar to <see cref="Object.FindObjectsOfType"/>, however it caches the result in a dictionary, and will return the cached result if called again.
         /// </summary>
+        /// <exception cref="ArgumentException"></exception>
         /// <exception cref="MissingComponentException"></exception>
         /// <param name="type">The type of component to search for.</param>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
@@ -95,6 +100,7 @@ namespace KeepCoding
         /// <summary>
         /// Similar to <see cref="Component.GetComponentInChildren(Type)"/>, however it caches the result in a dictionary, and will return the cached result if called again.
         /// </summary>
+        /// <exception cref="ArgumentException"></exception>
         /// <exception cref="MissingComponentException"></exception>
         /// <param name="type">The type of component to search for.</param>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
@@ -104,6 +110,7 @@ namespace KeepCoding
         /// <summary>
         /// Similar to <see cref="Component.GetComponentInParent(Type)"/>, however it caches the result in a dictionary, and will return the cached result if called again.
         /// </summary>
+        /// <exception cref="ArgumentException"></exception>
         /// <exception cref="MissingComponentException"></exception>
         /// <param name="type">The type of component to search for.</param>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
@@ -113,6 +120,7 @@ namespace KeepCoding
         /// <summary>
         /// Similar to <see cref="Object.FindObjectsOfType"/>, however it caches the result in a dictionary, and will return the cached result if called again.
         /// </summary>
+        /// <exception cref="ArgumentException"></exception>
         /// <exception cref="MissingComponentException"></exception>
         /// <param name="type">The type of component to search for.</param>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
@@ -122,6 +130,7 @@ namespace KeepCoding
         /// <summary>
         /// Similar to <see cref="GameObject.GetComponents(Type)"/>, however it caches the result in a dictionary, and will return the cached result if called again.
         /// </summary>
+        /// <exception cref="ArgumentException"></exception>
         /// <exception cref="MissingComponentException"></exception>
         /// <param name="type">The type of component to search for.</param>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
@@ -131,6 +140,7 @@ namespace KeepCoding
         /// <summary>
         /// Similar to <see cref="GameObject.GetComponentsInChildren(Type)"/>, however it caches the result in a dictionary, and will return the cached result if called again.
         /// </summary>
+        /// <exception cref="ArgumentException"></exception>
         /// <exception cref="MissingComponentException"></exception>
         /// <param name="type">The type of component to search for.</param>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
@@ -140,6 +150,7 @@ namespace KeepCoding
         /// <summary>
         /// Similar to <see cref="GameObject.GetComponentsInParent(Type)"/>, however it caches the result in a dictionary, and will return the cached result if called again.
         /// </summary>
+        /// <exception cref="ArgumentException"></exception>
         /// <exception cref="MissingComponentException"></exception>
         /// <param name="type">The type of component to search for.</param>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
