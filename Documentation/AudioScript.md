@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [](.md '')
 ## AudioScript Class
-Advanced audio handler.   
+Encapsulates an [AudioSource](global__AudioScript_AudioSource.md 'global::AudioScript.AudioSource') and scales it with the game's volume using [SFXVolume](KeepCoding_Game_PlayerSettings_SFXVolume.md 'KeepCoding.Game.PlayerSettings.SFXVolume') and [MusicVolume](KeepCoding_Game_PlayerSettings_MusicVolume.md 'KeepCoding.Game.PlayerSettings.MusicVolume').  
 ```csharp
 public sealed class AudioScript : KeepCoding.CacheableBehaviour
 ```

@@ -6,7 +6,7 @@ using UnityEngine;
 using static KeepCoding.Game.PlayerSettings;
 
 /// <summary>
-/// Advanced audio handler. 
+/// Encapsulates an <see cref="AudioSource"/> and scales it with the game's volume using <see cref="SFXVolume"/> and <see cref="MusicVolume"/>.
 /// </summary>
 public sealed class AudioScript : CacheableBehaviour
 {
