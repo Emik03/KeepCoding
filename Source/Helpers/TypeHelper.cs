@@ -524,10 +524,24 @@ namespace KeepCoding
         /// Converts argument to a new <see cref="Work"/>
         /// </summary>
         /// <param name="action">The action to run when the thread is active.</param>
+        /// <returns>A new <see cref="Work"/> consisting of the arguments provided.</returns>
+        public static Work ToWork(this Action action) => new Work(action);
+
+        /// <summary>
+        /// Converts argument to a new <see cref="Work"/>
+        /// </summary>
+        /// <param name="action">The action to run when the thread is active.</param>
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         /// <returns>A new <see cref="Work"/> consisting of the arguments provided.</returns>
         public static Work ToWork(this uint maximumThreadsActive, Action action, bool allowSimultaneousActive = false) => new Work(action, allowSimultaneousActive, maximumThreadsActive);
+
+        /// <summary>
+        /// Converts argument to a new <see cref="Work"/>
+        /// </summary>
+        /// <param name="func">The action to run when the thread is active.</param>
+        /// <returns>A new <see cref="Work"/> consisting of the arguments provided.</returns>
+        public static Work<T> ToWork<T>(this Func<T> func) => new Work<T>(func);
 
         /// <summary>
         /// Converts argument to a new <see cref="Work{T}"/>
@@ -539,6 +553,13 @@ namespace KeepCoding
         public static Work<T> ToWork<T>(this uint maximumThreadsActive, Func<T> func, bool allowSimultaneousActive = false) => new Work<T>(func, allowSimultaneousActive, maximumThreadsActive);
 
         /// <summary>
+        /// Converts argument to a new <see cref="Work"/>
+        /// </summary>
+        /// <param name="func">The action to run when the thread is active.</param>
+        /// <returns>A new <see cref="Work"/> consisting of the arguments provided.</returns>
+        public static Work<T, TResult> ToWork<T, TResult>(this Func<T, TResult> func) => new Work<T, TResult>(func);
+
+        /// <summary>
         /// Converts argument to a new <see cref="Work{T, TResult}"/>
         /// </summary>
         /// <param name="func">The action to run when the thread is active.</param>
@@ -546,6 +567,13 @@ namespace KeepCoding
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         /// <returns>A new <see cref="Work{T, TResult}"/> consisting of the arguments provided.</returns>
         public static Work<T, TResult> ToWork<T, TResult>(this uint maximumThreadsActive, Func<T, TResult> func, bool allowSimultaneousActive = false) => new Work<T, TResult>(func, allowSimultaneousActive, maximumThreadsActive);
+
+        /// <summary>
+        /// Converts argument to a new <see cref="Work"/>
+        /// </summary>
+        /// <param name="func">The action to run when the thread is active.</param>
+        /// <returns>A new <see cref="Work"/> consisting of the arguments provided.</returns>
+        public static Work<T1, T2, TResult> ToWork<T1, T2, TResult>(this Func<T1, T2, TResult> func) => new Work<T1, T2, TResult>(func);
 
         /// <summary>
         /// Converts argument to a new <see cref="Work{T1, T2, TResult}"/>
@@ -557,6 +585,13 @@ namespace KeepCoding
         public static Work<T1, T2, TResult> ToWork<T1, T2, TResult>(this uint maximumThreadsActive, Func<T1, T2, TResult> func, bool allowSimultaneousActive = false) => new Work<T1, T2, TResult>(func, allowSimultaneousActive, maximumThreadsActive);
 
         /// <summary>
+        /// Converts argument to a new <see cref="Work"/>
+        /// </summary>
+        /// <param name="func">The action to run when the thread is active.</param>
+        /// <returns>A new <see cref="Work"/> consisting of the arguments provided.</returns>
+        public static Work<T1, T2, T3, TResult> ToWork<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> func) => new Work<T1, T2, T3, TResult>(func);
+
+        /// <summary>
         /// Converts argument to a new <see cref="Work{T1, T2, T3, TResult}"/>
         /// </summary>
         /// <param name="func">The action to run when the thread is active.</param>
@@ -564,6 +599,13 @@ namespace KeepCoding
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         /// <returns>A new <see cref="Work{T1, T2, T3, TResult}"/> consisting of the arguments provided.</returns>
         public static Work<T1, T2, T3, TResult> ToWork<T1, T2, T3, TResult>(this uint maximumThreadsActive, Func<T1, T2, T3, TResult> func, bool allowSimultaneousActive = false) => new Work<T1, T2, T3, TResult>(func, allowSimultaneousActive, maximumThreadsActive);
+
+        /// <summary>
+        /// Converts argument to a new <see cref="Work"/>
+        /// </summary>
+        /// <param name="func">The action to run when the thread is active.</param>
+        /// <returns>A new <see cref="Work"/> consisting of the arguments provided.</returns>
+        public static Work<T1, T2, T3, T4, TResult> ToWork<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, TResult> func) => new Work<T1, T2, T3, T4, TResult>(func);
 
         /// <summary>
         /// Converts argument to a new <see cref="Work{T1, T2, T3, T4, TResult}"/>

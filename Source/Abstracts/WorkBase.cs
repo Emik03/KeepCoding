@@ -9,6 +9,8 @@ namespace KeepCoding
     /// </summary>
     public abstract class WorkBase
     {
+        internal WorkBase() : this(true, 1) { }
+
         internal WorkBase(bool allowSimultaneousActive, uint maximumThreadsActive)
         {
             AllowSimultaneousActive = allowSimultaneousActive;

@@ -11,6 +11,12 @@ namespace KeepCoding
     public sealed class Work : WorkBase
     {
         /// <summary>
+        /// Stores the method so that it can later be called when a new thread starts. Multiple simultaneous threads are allowed, but are queued and limited to one at-a-time.
+        /// </summary>
+        /// <param name="work">The method to call when thread starts.</param>
+        public Work(Action work) : this(work, true, 1) { }
+
+        /// <summary>
         /// Stores the method so that it can later be called when a new thread starts.
         /// </summary>
         /// <param name="work">The method to call when thread starts.</param>
@@ -52,6 +58,12 @@ namespace KeepCoding
     /// </summary>
     public sealed class Work<T> : WorkBase
     {
+        /// <summary>
+        /// Stores the method so that it can later be called when a new thread starts. Multiple simultaneous threads are allowed, but are queued and limited to one at-a-time.
+        /// </summary>
+        /// <param name="work">The method to call when thread starts.</param>
+        public Work(Func<T> work) : this(work, true, 1) { }
+
         /// <summary>
         /// Stores the method so that it can later be called when a new thread starts.
         /// </summary>
@@ -99,6 +111,12 @@ namespace KeepCoding
     /// </summary>
     public sealed class Work<T, TResult> : WorkBase
     {
+        /// <summary>
+        /// Stores the method so that it can later be called when a new thread starts. Multiple simultaneous threads are allowed, but are queued and limited to one at-a-time.
+        /// </summary>
+        /// <param name="work">The method to call when thread starts.</param>
+        public Work(Func<T, TResult> work) : this(work, true, 1) { }
+
         /// <summary>
         /// Stores the method so that it can later be called when a new thread starts.
         /// </summary>
@@ -150,6 +168,12 @@ namespace KeepCoding
     public sealed class Work<T1, T2, TResult> : WorkBase
     {
         /// <summary>
+        /// Stores the method so that it can later be called when a new thread starts. Multiple simultaneous threads are allowed, but are queued and limited to one at-a-time.
+        /// </summary>
+        /// <param name="work">The method to call when thread starts.</param>
+        public Work(Func<T1, T2, TResult> work) : this(work, true, 1) { }
+
+        /// <summary>
         /// Stores the method so that it can later be called when a new thread starts.
         /// </summary>
         /// <param name="work">The method to call when thread starts.</param>
@@ -200,6 +224,12 @@ namespace KeepCoding
     public sealed class Work<T1, T2, T3, TResult> : WorkBase
     {
         /// <summary>
+        /// Stores the method so that it can later be called when a new thread starts. Multiple simultaneous threads are allowed, but are queued and limited to one at-a-time.
+        /// </summary>
+        /// <param name="work">The method to call when thread starts.</param>
+        public Work(Func<T1, T2, T3, TResult> work) : this(work, true, 1) { }
+
+        /// <summary>
         /// Stores the method so that it can later be called when a new thread starts.
         /// </summary>
         /// <param name="work">The method to call when thread starts.</param>
@@ -249,6 +279,12 @@ namespace KeepCoding
     /// </summary>
     public sealed class Work<T1, T2, T3, T4, TResult> : WorkBase
     {
+        /// <summary>
+        /// Stores the method so that it can later be called when a new thread starts. Multiple simultaneous threads are allowed, but are queued and limited to one at-a-time.
+        /// </summary>
+        /// <param name="work">The method to call when thread starts.</param>
+        public Work(Func<T1, T2, T3, T4, TResult> work) : this(work, true, 1) { }
+
         /// <summary>
         /// Stores the method so that it can later be called when a new thread starts.
         /// </summary>

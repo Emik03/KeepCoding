@@ -14,6 +14,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Constructors | |
 | :--- | :--- |
+| [Work(Func&lt;T&gt;)](KeepCoding_Work_T__Work(System_Func_T_).md 'KeepCoding.Work&lt;T&gt;.Work(System.Func&lt;T&gt;)') | Stores the method so that it can later be called when a new thread starts. Multiple simultaneous threads are allowed, but are queued and limited to one at-a-time.<br/> |
 | [Work(Func&lt;T&gt;, bool, uint)](KeepCoding_Work_T__Work(System_Func_T__bool_uint).md 'KeepCoding.Work&lt;T&gt;.Work(System.Func&lt;T&gt;, bool, uint)') | Stores the method so that it can later be called when a new thread starts.<br/> |
 
 | Properties | |
