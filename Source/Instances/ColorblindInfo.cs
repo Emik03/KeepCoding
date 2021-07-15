@@ -23,7 +23,7 @@ namespace KeepCoding
         /// Contains module ids and their colorblind states.
         /// </value>
         [JsonProperty("EnabledModules")]
-        public Dictionary<string, bool?> Modules { get; private set; }
+        public Dictionary<string, bool?> Modules { get; private set; } = new Dictionary<string, bool?>();
 
         /// <summary>
         /// Determines if both objects are equal.
