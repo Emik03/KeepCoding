@@ -304,35 +304,6 @@ namespace KeepCoding
         /// <param name="bundleVideoFileName">The name of the bundle that contains videos.</param>
         /// <returns>The <see cref="AssetBundleCreateRequest"/> needed to load the files, followed by the <see cref="VideoClip"/> <see cref="Array"/>.</returns>
         public static TAsset[] GetAssets<T, TAsset>(T _, string bundleVideoFileName) where TAsset : Object => GetAssets<TAsset>(NameOfAssembly<T>(), bundleVideoFileName);
-
-        internal static void SetupColorblind(ModuleScript module)
-        {
-            try
-            {
-                string settingsPath = CombineMultiple(persistentDataPath, "Modsettings", "ColorblindMode.json");
-
-                if (!File.Exists(settingsPath))
-                {
-                    File.WriteAllText(settingsPath, JsonConvert.SerializeObject(new ColorblindInfo(), Indented));
-                    return;
-                }
-
-                var settings = JsonConvert.DeserializeObject<ColorblindInfo>(File.ReadAllText(settingsPath));
-
-                if (!settings.Modules.TryGetValue(module.Module.Id, out bool? isEnabled))
-                    settings.Modules[module.Module.Id] = null;
-
-                File.WriteAllText(settingsPath, JsonConvert.SerializeObject(settings, Indented));
-
-                module.IsColorblind = isEnabled ?? settings.IsEnabled;
-            }
-            catch (Exception e) when (e is ArgumentException || e is ArgumentNullException || e is DirectoryNotFoundException || e is FileNotFoundException || e is IOException || e is NotSupportedException || e is NullIteratorException || e is NullReferenceException || e is PathTooLongException || e is SecurityException || e is UnauthorizedAccessException)
-            {
-                new Logger("Colorblind Mode", false).Log(@$"Error in ""{module.Module.Id ?? Helper.Null}"": {e.Message} ({e.GetType().FullName}){e.StackTrace}");
-
-                module.IsColorblind = false;
-            }
-        }
         
         private static void CopyLibrary(in string libraryFileName, in string path)
         {

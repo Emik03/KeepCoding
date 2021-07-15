@@ -38,14 +38,13 @@ namespace KeepCoding
         /// </value>
         public bool IsColorblind
         {
-            get => _isColorblind;
+            get => _colorblind.IsEnabled;
             set 
             {
-                if (_isColorblind != value)
-                    OnColorblindChanged(_isColorblind = value);
+                if (_colorblind.IsEnabled != value)
+                    OnColorblindChanged(_colorblind.IsEnabled = value);
             }
         }
-        private bool _isColorblind;
 
         /// <value>
         /// Determines whether the application is running from inside unity.
@@ -133,7 +132,9 @@ namespace KeepCoding
 
         private static Dictionary<string, Dictionary<string, object>[]> _database;
 
-        private Action _setActive;
+        private Action _activate;
+
+        private ColorblindInfo _colorblind;
 
         private Logger _logger;
 
@@ -144,7 +145,7 @@ namespace KeepCoding
         /// <exception cref="NullIteratorException"></exception>
         protected void Awake()
         {
-            (Module = new ModuleContainer(this)).OnActivate(_setActive = () =>
+            (Module = new ModuleContainer(this)).OnActivate(_activate = () =>
             {
                 IsActive = true;
                 OnActivate();
@@ -158,11 +159,11 @@ namespace KeepCoding
 
             logMessageReceived += OnException;
 
+            _colorblind = new ColorblindInfo(this);
+
             _database = new Dictionary<string, Dictionary<string, object>[]>();
 
             Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
-
-            PathManager.SetupColorblind(this);
 
             StartCoroutine(CheckForUpdates());
             StartCoroutine(WaitForBomb());
@@ -189,7 +190,7 @@ namespace KeepCoding
         /// <param name="onPass">Called when the needy is solved.</param>
         /// <param name="onStrike">Called when the needy strikes.</param>
         /// <param name="onTimerExpired">Called when the timer runs out of time.</param>
-        public void Assign(Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null) => Module.Assign(_setActive.Combine(onActivate), onNeedyActivation.Combine(() => IsNeedyActive = true), onNeedyDeactivation.Combine(() => IsNeedyActive = false), onPass, onStrike, onTimerExpired);
+        public void Assign(Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null) => Module.Assign(_activate.Combine(onActivate), onNeedyActivation.Combine(() => IsNeedyActive = true), onNeedyDeactivation.Combine(() => IsNeedyActive = false), onPass, onStrike, onTimerExpired);
 
         /// <summary>
         /// Handles typical button <see cref="KMSelectable.OnInteract"/> behaviour.
@@ -414,7 +415,7 @@ namespace KeepCoding
         /// To ensure that this method works correctly, make sure that both modules have the same version of KeepCoding.
         /// </remarks>
         /// <exception cref="KeyNotFoundException"></exception>
-        /// <exception cref="WrongDatatypeException"></exception>
+        /// <exception cref="UnrecognizedTypeException"></exception>
         /// <typeparam name="T">The type of the expected output.</typeparam>
         /// <param name="module">The module to look into.</param>
         /// <param name="key">The key of the variable, a lot like a variable name.</param>
@@ -425,7 +426,7 @@ namespace KeepCoding
                 ? allowDefault || IsEditor ? default(T) : throw new KeyNotFoundException($"The key {key} could not be found in the module {module}!")
                 : d[key] is T t
                 ? t
-                : throw new WrongDatatypeException($"The data type {typeof(T).Name} was expected, but received {d[key].GetType()} from module {module} with key {key}!"));
+                : throw new UnrecognizedTypeException($"The data type {typeof(T).Name} was expected, but received {d[key].GetType()} from module {module} with key {key}!"));
 
         private void HookModules()
         {

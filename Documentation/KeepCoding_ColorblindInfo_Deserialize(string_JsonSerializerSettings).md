@@ -1,18 +1,22 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ColorblindInfo](KeepCoding_ColorblindInfo.md 'KeepCoding.ColorblindInfo')
-## ColorblindInfo.Deserialize(string) Method
-Deserializes a modInfo.json file.  
+## ColorblindInfo.Deserialize(string, JsonSerializerSettings) Method
+Deserializes a ColorblindMode.json file.  
 ```csharp
-public static KeepCoding.ColorblindInfo Deserialize(string path);
+public static KeepCoding.ColorblindInfo Deserialize(string path, JsonSerializerSettings settings=null);
 ```
 #### Parameters
-<a name='KeepCoding_ColorblindInfo_Deserialize(string)_path'></a>
+<a name='KeepCoding_ColorblindInfo_Deserialize(string_JsonSerializerSettings)_path'></a>
 `path` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
 The path of the file to deserialize.
   
+<a name='KeepCoding_ColorblindInfo_Deserialize(string_JsonSerializerSettings)_settings'></a>
+`settings` [Newtonsoft.Json.JsonSerializerSettings](https://docs.microsoft.com/en-us/dotnet/api/Newtonsoft.Json.JsonSerializerSettings 'Newtonsoft.Json.JsonSerializerSettings')  
+The settings for the serialization.
+  
 #### Returns
 [ColorblindInfo](KeepCoding_ColorblindInfo.md 'KeepCoding.ColorblindInfo')  
-[path](KeepCoding_ColorblindInfo_Deserialize(string).md#KeepCoding_ColorblindInfo_Deserialize(string)_path 'KeepCoding.ColorblindInfo.Deserialize(string).path') deserialized as [ColorblindInfo](KeepCoding_ColorblindInfo.md 'KeepCoding.ColorblindInfo').
+[path](KeepCoding_ColorblindInfo_Deserialize(string_JsonSerializerSettings).md#KeepCoding_ColorblindInfo_Deserialize(string_JsonSerializerSettings)_path 'KeepCoding.ColorblindInfo.Deserialize(string, JsonSerializerSettings).path') deserialized as [ColorblindInfo](KeepCoding_ColorblindInfo.md 'KeepCoding.ColorblindInfo').
 #### Exceptions
 [System.ArgumentException](https://docs.microsoft.com/en-us/dotnet/api/System.ArgumentException 'System.ArgumentException')  
 [System.ArgumentNullException](https://docs.microsoft.com/en-us/dotnet/api/System.ArgumentNullException 'System.ArgumentNullException')  

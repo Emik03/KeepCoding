@@ -2,9 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security;
+using static KeepCoding.PathManager;
+using static Newtonsoft.Json.Formatting;
 using static Newtonsoft.Json.JsonConvert;
 using static System.IO.File;
+using static UnityEngine.Application;
 
 namespace KeepCoding
 {
@@ -13,11 +17,55 @@ namespace KeepCoding
     /// </summary>
     public sealed class ColorblindInfo
     {
+        /// <summary>
+        /// Default constructor. Deserializes with the default directory.
+        /// </summary>
+        /// <param name="moduleId">The module id, which is only used for logging in case of failure.</param>
+        public ColorblindInfo(string moduleId = null)
+        {
+            if (isEditor)
+                return;
+
+            if (!Exists(Directory))
+            {
+                Write(moduleId);
+                return;
+            }
+
+            try
+            {
+                Deserialize(Directory);
+            }
+            catch (Exception e) when (e is ArgumentException || e is ArgumentNullException || e is DirectoryNotFoundException || e is FileNotFoundException || e is IOException || e is NotSupportedException || e is NullIteratorException || e is NullReferenceException || e is PathTooLongException || e is SecurityException || e is UnauthorizedAccessException)
+            {
+                Error(moduleId, e);
+            }
+        }
+
+        /// <summary>
+        /// Creates a <see cref="ColorblindInfo"/> while modifying <see cref="ModuleScript.IsColorblind"/>.
+        /// </summary>
+        /// <param name="module">The module to modify <see cref="ModuleScript.IsColorblind"/> with.</param>
+        public ColorblindInfo(ModuleScript module) : this()
+        {
+            if (!Modules.TryGetValue(module.Module.Id, out bool? isEnabled))
+                Modules[module.Module.Id] = null;
+
+            Write(module.Module.Id);
+
+            IsEnabled = isEnabled ?? IsEnabled;
+        }
+
         /// <value>
         /// Determines whether colorblind mode is on.
         /// </value>
         [JsonProperty("Enabled")]
-        public bool IsEnabled { get; private set; }
+        public bool IsEnabled { get; set; }
+
+        /// <value>
+        /// The directory of the mod settings file.
+        /// </value>
+        public static string Directory { get; } = CombineMultiple(persistentDataPath, "Modsettings", "ColorblindMode.json");
 
         /// <value>
         /// Contains module ids and their colorblind states.
@@ -30,7 +78,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="obj">The comparison.</param>
         /// <returns>True if both of them are <see cref="ColorblindInfo"/> and contain the same <see cref="IsEnabled"/> and <see cref="Modules"/>.</returns>
-        public override bool Equals(object obj) => obj is ColorblindInfo c && IsEnabled == c.IsEnabled && Modules == c.Modules;
+        public override bool Equals(object obj) => obj is ColorblindInfo c && IsEnabled == c.IsEnabled && Modules.SequenceEqual(c.Modules);
 
         /// <summary>
         /// Gets the hash code.
@@ -51,7 +99,7 @@ namespace KeepCoding
         public override string ToString() => Modules.UnwrapToString();
 
         /// <summary>
-        /// Deserializes a modInfo.json file.
+        /// Deserializes a ColorblindMode.json file.
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
@@ -65,7 +113,22 @@ namespace KeepCoding
         /// <exception cref="SecurityException"></exception>
         /// <exception cref="UnauthorizedAccessException"></exception>
         /// <param name="path">The path of the file to deserialize.</param>
+        /// <param name="settings">The settings for the serialization.</param>
         /// <returns><paramref name="path"/> deserialized as <see cref="ColorblindInfo"/>.</returns>
-        public static ColorblindInfo Deserialize(string path) => DeserializeObject<ColorblindInfo>(ReadAllText(path.NullCheck("A \"null\" path cannot be searched.")));
+        public static ColorblindInfo Deserialize(string path, JsonSerializerSettings settings = null) => DeserializeObject<ColorblindInfo>(ReadAllText(path.NullCheck("A \"null\" path cannot be searched.")), settings);
+
+        private static void Error(string moduleId, Exception e) => new Logger("Colorblind Mode", false).Log(@$"Error in ""{moduleId ?? Helper.Null}"": {e.Message} ({e.GetType().FullName}){e.StackTrace}");
+
+        private void Write(string moduleId)
+        {
+            try
+            {
+                WriteAllText(Directory, SerializeObject(this, Indented));
+            }
+            catch (Exception e) when (e is ArgumentException || e is ArgumentNullException || e is DirectoryNotFoundException || e is IOException || e is NotSupportedException || e is PathTooLongException || e is SecurityException || e is UnauthorizedAccessException)
+            {
+                Error(moduleId, e);
+            }
+        }
     }
 }
