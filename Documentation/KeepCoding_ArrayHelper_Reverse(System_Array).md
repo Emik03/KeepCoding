@@ -3,7 +3,7 @@
 ## ArrayHelper.Reverse(Array) Method
 Reverses the sequence of the elements in the entire one-dimensional [System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array').  
 ```csharp
-internal static System.Array Reverse(this System.Array array);
+public static System.Array Reverse(this System.Array array);
 ```
 #### Parameters
 <a name='KeepCoding_ArrayHelper_Reverse(System_Array)_array'></a>

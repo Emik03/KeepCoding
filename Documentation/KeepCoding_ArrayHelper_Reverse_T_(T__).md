@@ -3,7 +3,7 @@
 ## ArrayHelper.Reverse&lt;T&gt;(T[]) Method
 Reverses the sequence of the elements in the one-dimensional generic array.  
 ```csharp
-internal static T[] Reverse<T>(this T[] array);
+public static T[] Reverse<T>(this T[] array);
 ```
 #### Type parameters
 <a name='KeepCoding_ArrayHelper_Reverse_T_(T__)_T'></a>
