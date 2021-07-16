@@ -1,11 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Xml.Linq;
 using UnityEngine;
+using static KeepCoding.Logger;
 using static System.Linq.Enumerable;
 using static System.Reflection.BindingFlags;
 using static UnityEngine.Application;
@@ -16,7 +15,7 @@ namespace KeepCoding
     /// <summary>
     /// Editor-only behaviour that gets values from <see cref="Component"/>s in real-time.
     /// </summary>
-    public sealed class ReflectionScript : MonoBehaviour
+    public sealed class ReflectionScript : MonoBehaviour, ILog
     {
         private class NullableObject
         {
@@ -76,7 +75,7 @@ namespace KeepCoding
 
         private IList<Tuple<Component, NullableObject>> _members = Empty;
 
-        private readonly Logger _log = new Logger(nameof(ReflectionScript), true, false);
+        private readonly Logger _logger = new Logger(nameof(ReflectionScript), true, false);
 
         private void OnValidate()
         {
@@ -107,7 +106,7 @@ namespace KeepCoding
                 return;
             }
 
-            Logger.Self($"A {nameof(ReflectionScript)} showed up in-game! Automatically deleting component...");
+            Self($"A {nameof(ReflectionScript)} showed up in-game! Automatically deleting component...");
             Destroy(this);
         }
 
@@ -123,7 +122,7 @@ namespace KeepCoding
                 var type = current.value?.GetType();
 
                 var vs = new[]
-{ 
+{
                     GetField(type, name, current.value),
                     GetProperty(type, name, current.value),
                 };
@@ -133,6 +132,28 @@ namespace KeepCoding
 
             return current;
         }
+
+        /// <summary>
+        /// Logs message, but formats it to be compliant with the Logfile Analyzer.
+        /// </summary>
+        /// <exception cref="UnrecognizedValueException"></exception>
+        /// <param name="message">The message to log.</param>
+        /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
+        public void Log<T>(T message, LogType logType = LogType.Log) => _logger.Log(message, logType);
+
+        /// <summary>
+        /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
+        /// </summary>
+        /// <exception cref="UnrecognizedValueException"></exception>
+        /// <param name="message">The message to log.</param>
+        /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
+        public void Log<T>(T message, params object[] args) => _logger.Log(message, args);
+
+        /// <summary>
+        /// Logs multiple entries to the console.
+        /// </summary>
+        /// <param name="logs">The array of logs to individual output into the console.</param>
+        public void LogMultiple(params string[] logs) => _logger.LogMultiple(logs);
 
         private static NullableObject GetField(in Type type, in string name, in object instance)
         {
@@ -178,7 +199,7 @@ namespace KeepCoding
                 _current = objects;
 
                 if (!_current.IsNullOrEmpty())
-                    _log.Log($"{gameObject.name}, {_variable}\n{_values.Select(o => '\n' + o.UnwrapToString())}");
+                    _logger.Log($"{gameObject.name}, {_variable}\n{_values.Select(o => '\n' + o.UnwrapToString())}");
             }
         }
     }
