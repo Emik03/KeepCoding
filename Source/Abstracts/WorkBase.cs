@@ -11,7 +11,7 @@ namespace KeepCoding
     {
         internal WorkBase() : this(true, 1) { }
 
-        internal WorkBase(bool allowSimultaneousActive, uint maximumThreadsActive)
+        internal WorkBase(in bool allowSimultaneousActive, in uint maximumThreadsActive)
         {
             AllowSimultaneousActive = allowSimultaneousActive;
             _maximumThreadsActive = maximumThreadsActive;

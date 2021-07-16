@@ -492,9 +492,9 @@ namespace KeepCoding
             };
         }
 
-        private bool IsLogFromThis(string stackTrace) => stackTrace.Split('\n').Any(s => Regex.IsMatch(s, $@"^{GetType().Name}"));
+        private bool IsLogFromThis(in string stackTrace) => stackTrace.Split('\n').Any(s => Regex.IsMatch(s, $@"^{GetType().Name}"));
 
-        private static uint VersionToNumber(string s) => uint.Parse(s.Replace(".", "").PadRight(9, '0'));
+        private static uint VersionToNumber(in string s) => uint.Parse(s.Replace(".", "").PadRight(9, '0'));
 
         private static IEnumerator CheckForUpdates()
         {

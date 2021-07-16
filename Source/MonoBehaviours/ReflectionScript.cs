@@ -124,8 +124,8 @@ namespace KeepCoding
 
                 var vs = new[]
 { 
-                    GetField(in type, in name, in current.value),
-                    GetProperty(in type, in name, in current.value),
+                    GetField(type, name, current.value),
+                    GetProperty(type, name, current.value),
                 };
 
                 current = vs.All(o => o is null) ? null : new NullableObject(vs.First(o => o is { }).value);

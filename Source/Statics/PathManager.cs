@@ -127,7 +127,7 @@ namespace KeepCoding
             bundleFileName.NullOrEmptyCheck("You cannot retrieve a mod's modInfo.json if the bundle file name is null or empty.");
 
             string search = GetPath(FileFormat(bundleFileName, FileExtensionWindows)),
-                file = $"{search}{GetSlashType(in search)}modInfo.json";
+                file = $"{search}{GetSlashType(search)}modInfo.json";
 
             if (!File.Exists(file))
                 throw new FileNotFoundException($"The mod bundle was found in {search}, but no mod info was found! (Expected to find \"{file}\")");
@@ -240,7 +240,7 @@ namespace KeepCoding
 
             string path = GetPath(FileFormat(bundleFileName, FileExtensionWindows));
 
-            CopyLibrary(in libraryFileName, in path);
+            CopyLibrary(libraryFileName, path);
 
             Logger.Self($"The library has been copied over. They are now ready to be referenced.");
         }
@@ -332,7 +332,7 @@ namespace KeepCoding
 
         private static char GetSlashType(in string path) => path.Count(c => c == '/') >= path.Count(c => c == '\\') ? '/' : '\\';
 
-        private static string Find(List<string> directories, string search)
+        private static string Find(in List<string> directories, string search)
             => directories.FirstValue(path =>
             {
                 try
@@ -351,7 +351,7 @@ namespace KeepCoding
                 return null;
             });
 
-        private static string FileFormat(string fileName, string fileExtension) => "{0}.{1}".Form(fileName, fileExtension);
+        private static string FileFormat(in string fileName, in string fileExtension) => "{0}.{1}".Form(fileName, fileExtension);
 
         private static IEnumerator LoadAssets<TAsset>(string bundleFileName, string bundleAssetFileName) where TAsset : Object
         {
@@ -361,7 +361,7 @@ namespace KeepCoding
 
             string path = GetPath(FileFormat(bundleFileName, FileExtensionWindows));
 
-            var request = LoadFromFileAsync($"{path}{GetSlashType(in path)}{FileFormat(bundleAssetFileName, FileExtensionBundle)}");
+            var request = LoadFromFileAsync($"{path}{GetSlashType(path)}{FileFormat(bundleAssetFileName, FileExtensionBundle)}");
 
             yield return request;
 

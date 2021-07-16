@@ -656,7 +656,7 @@ namespace KeepCoding
         /// <param name="index">The starting index of the section to reverse.</param>
         /// <param name="length">The number of elements in the section to reverse.</param>
         /// <returns><paramref name="array"/></returns>
-        internal static Array Reverse(this Array array, int index, int length)
+        public static Array Reverse(this Array array, int index, int length)
         {
             Array.Reverse(array, index, length);
             return array;
@@ -670,7 +670,7 @@ namespace KeepCoding
         /// <exception cref="RankException"></exception>
         /// <param name="array">The one-dimensional <see cref="Array"/> to reverse.</param>
         /// <returns><paramref name="array"/></returns>
-        internal static Array Reverse(this Array array)
+        public static Array Reverse(this Array array)
         {
             Array.Reverse(array);
             return array;
@@ -685,7 +685,7 @@ namespace KeepCoding
         /// <typeparam name="T">The type of the elements in <paramref name="array"/>.</typeparam>
         /// <param name="array">The one-dimensional array of elements to reverse.</param>
         /// <returns><paramref name="array"/></returns>
-        internal static T[] Reverse<T>(this T[] array)
+        public static T[] Reverse<T>(this T[] array)
         {
             Array.Reverse(array);
             return array;
@@ -704,7 +704,7 @@ namespace KeepCoding
         /// <param name="index">The starting index of the section to reverse.</param>
         /// <param name="length">The number of elements in the section to reverse.</param>
         /// <returns><paramref name="array"/></returns>
-        internal static T[] Reverse<T>(this T[] array, int index, int length)
+        public static T[] Reverse<T>(this T[] array, int index, int length)
         {
             Array.Reverse(array, index, length);
             return array;

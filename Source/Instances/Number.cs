@@ -1099,9 +1099,9 @@ namespace KeepCoding
             _ => (double)this,
             _ => (decimal)this);
 
-        private static FormatException WrongFormat(string value) => throw new FormatException($"The value {value} is not formatted correctly.");
+        private static FormatException WrongFormat(in string value) => throw new FormatException($"The value {value} is not formatted correctly.");
 
-        private static Number EarliestParse(string s, NumberStyles style, NumberFormatInfo info) => sbyte.TryParse(s, out sbyte sb) ? (Number)sb : 
+        private static Number EarliestParse(in string s, in NumberStyles style, in NumberFormatInfo info) => sbyte.TryParse(s, out sbyte sb) ? (Number)sb : 
                 byte.TryParse(s, style, info, out byte b) ? (Number)b :
                 short.TryParse(s, style, info, out short sh) ? (Number)sh :
                 ushort.TryParse(s, style, info, out ushort us) ? (Number)us :
@@ -1121,7 +1121,7 @@ namespace KeepCoding
 
         private static UnrecognizedTypeException WrongType<T>(T value) => throw new UnrecognizedTypeException($"The value {value} has the type {typeof(T)} which in this case is not valid.");
 
-        private T Do<T>(Func<sbyte, T> doSb, Func<byte, T> doB, Func<short, T> doS, Func<ushort, T> doUs, Func<int, T> doI, Func<uint, T> doUi, Func<long, T> doL, Func<ulong, T> doUl, Func<float, T> doF, Func<double, T> doD, Func<decimal, T> doDe) => _value switch
+        private T Do<T>(in Func<sbyte, T> doSb, in Func<byte, T> doB, in Func<short, T> doS, in Func<ushort, T> doUs, in Func<int, T> doI, in Func<uint, T> doUi, in Func<long, T> doL, in Func<ulong, T> doUl, in Func<float, T> doF, in Func<double, T> doD, in Func<decimal, T> doDe) => _value switch
         {
             sbyte sb => Run(sb, doSb),
             byte b => Run(b, doB),
@@ -1137,7 +1137,7 @@ namespace KeepCoding
             _ => throw WrongType(_value)
         };
 
-        private T Do<T>(Number other, Func<sbyte, sbyte, T> doSb, Func<byte, byte, T> doB, Func<short, short, T> doS, Func<ushort, ushort, T> doUs, Func<int, int, T> doI, Func<uint, uint, T> doUi, Func<long, long, T> doL, Func<ulong, ulong, T> doUl, Func<float, float, T> doF, Func<double, double, T> doD, Func<decimal, decimal, T> doDe) => (TypeCode)Max((int)GetTypeCode(), (int)other.GetTypeCode()) switch
+        private T Do<T>(in Number other, in Func<sbyte, sbyte, T> doSb, in Func<byte, byte, T> doB, in Func<short, short, T> doS, in Func<ushort, ushort, T> doUs, in Func<int, int, T> doI, in Func<uint, uint, T> doUi, in Func<long, long, T> doL, in Func<ulong, ulong, T> doUl, in Func<float, float, T> doF, in Func<double, double, T> doD, in Func<decimal, decimal, T> doDe) => (TypeCode)Max((int)GetTypeCode(), (int)other.GetTypeCode()) switch
         {
             TypeCode.SByte => doSb(this, other),
             TypeCode.Byte => doB(this, other),
@@ -1153,6 +1153,6 @@ namespace KeepCoding
             _ => throw WrongType(GetTypeCode() < other.GetTypeCode() ? this : other)
         };
 
-        private static TResult Run<T, TResult>(T value, Func<T, TResult> func) => func is { } ? func(value) : throw WrongType(value);
+        private static TResult Run<T, TResult>(in T value, in Func<T, TResult> func) => func is { } ? func(value) : throw WrongType(value);
     }
 }

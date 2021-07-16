@@ -115,7 +115,7 @@ public sealed class AudioScript : CacheableBehaviour
     /// <param name="pitch">The pitch of the sound.</param>
     public void Play(AudioClip clip, bool loop = false, byte priority = 128, float delay = 0, float pitch = 1, float time = 0, float volume = 1)
     {
-        Set(clip, loop, priority, delay, pitch, time, volume);
+        Set(clip, loop, priority, pitch, time, volume);
         AudioSource.PlayDelayed(delay);
     }
 
@@ -147,12 +147,11 @@ public sealed class AudioScript : CacheableBehaviour
     /// <param name="volume">The volume of the sound clip relative to the game sound.</param>
     /// <param name="loop">If the sound should be looped.</param>
     /// <param name="priority">The priority of the sound.</param>
-    /// <param name="delay">The amount of delay before the sound starts.</param>
     /// <param name="time">The time in the audio it should start playing at.</param>
     /// <param name="pitch">The pitch of the sound.</param>
-    public void PlayStackable(AudioClip clip, bool loop = false, byte priority = 128, float delay = 0, float pitch = 1, float time = 0, float volume = 1)
+    public void PlayStackable(AudioClip clip, bool loop = false, byte priority = 128, float pitch = 1, float time = 0, float volume = 1)
     {
-        Set(clip, loop, priority, delay, pitch, time, volume);
+        Set(clip, loop, priority, pitch, time, volume);
         AudioSource.PlayOneShot(clip, Relative);
     }
 
@@ -168,10 +167,9 @@ public sealed class AudioScript : CacheableBehaviour
     /// <param name="volume">The volume of the sound clip relative to the game sound.</param>
     /// <param name="loop">If the sound should be looped.</param>
     /// <param name="priority">The priority of the sound.</param>
-    /// <param name="delay">The amount of delay before the sound starts.</param>
     /// <param name="time">The time in the audio it should start playing at.</param>
     /// <param name="pitch">The pitch of the sound.</param>
-    public void PlayStackable(string name, bool loop = false, byte priority = 128, float delay = 0, float pitch = 1, float time = 0, float volume = 1) => PlayStackable(_audioClips.FirstOrDefault(c => c.name == name) ?? throw new MissingComponentException($"There is no sound effect named \"{name}\". List of audio clips from the prefab: {_audioClips.UnwrapToString()}"), loop, priority, delay, pitch, time, volume);
+    public void PlayStackable(string name, bool loop = false, byte priority = 128, float pitch = 1, float time = 0, float volume = 1) => PlayStackable(_audioClips.FirstOrDefault(c => c.name == name) ?? throw new MissingComponentException($"There is no sound effect named \"{name}\". List of audio clips from the prefab: {_audioClips.UnwrapToString()}"), loop, priority, pitch, time, volume);
 
     /// <summary>
     /// Stops playing the clip.
@@ -183,7 +181,7 @@ public sealed class AudioScript : CacheableBehaviour
     /// </summary>
     public void Unpause() => AudioSource.UnPause();
 
-    private void Set(AudioClip clip, bool loop, byte priority, float delay, float pitch, float time, float volume)
+    private void Set(in AudioClip clip, in bool loop, in byte priority, in float pitch, in float time, in float volume)
     {
         clip.NullCheck("You cannot play an audio clip which is null.");
 

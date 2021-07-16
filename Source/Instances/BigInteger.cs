@@ -590,8 +590,8 @@ namespace KeepCoding
             sbyte[] a = bigIntegerA._value,
                 b = bigIntegerB._value;
 
-            if (IsArrayNegative(in a) != IsArrayNegative(in b))
-                return IsArrayNegative(in b);
+            if (IsArrayNegative(a) != IsArrayNegative(b))
+                return IsArrayNegative(b);
 
             if (a.Length != b.Length)
                 return a.Length > b.Length;
@@ -609,7 +609,7 @@ namespace KeepCoding
 
         private static sbyte[] Addition(sbyte[] left, sbyte[] right)
         {
-            bool isNegative = IsArrayNegative(in left) && IsArrayNegative(in right) || IsArrayNegative(in left) && new BigInteger(InvertConditional(in left, IsArrayNegative(in left))) > new BigInteger(right) || IsArrayNegative(in right) && new BigInteger(InvertConditional(in right, IsArrayNegative(in right))) > new BigInteger(left);
+            bool isNegative = IsArrayNegative(left) && IsArrayNegative(right) || IsArrayNegative(left) && new BigInteger(InvertConditional(left, IsArrayNegative(left))) > new BigInteger(right) || IsArrayNegative(right) && new BigInteger(InvertConditional(right, IsArrayNegative(right))) > new BigInteger(left);
 
             left = InvertConditional(left.Reverse(), isNegative);
             right = InvertConditional(right.Reverse(), isNegative);
@@ -665,10 +665,10 @@ namespace KeepCoding
             if (left.SequenceEqual(right))
                 return _one;
 
-            bool isNegative = IsArrayNegative(in left) ^ IsArrayNegative(in right);
+            bool isNegative = IsArrayNegative(left) ^ IsArrayNegative(right);
 
-            left = InvertConditional(in left, IsArrayNegative(in left));
-            right = InvertConditional(in right, IsArrayNegative(in right));
+            left = InvertConditional(left, IsArrayNegative(left));
+            right = InvertConditional(right, IsArrayNegative(right));
 
             var output = Enumerable.Repeat((sbyte)0, left.Length).ToList();
             var mutator = new BigInteger(left);
@@ -692,15 +692,15 @@ namespace KeepCoding
             if (right.SequenceEqual(_zero))
                 throw new DivideByZeroException("BigInteger was sent a right-hand operator that evaluated into zero on a modulo operation.");
 
-            if (IsArrayNegative(in right))
+            if (IsArrayNegative(right))
                 throw new NegativeNumberException("BigInteger was sent a right-hand operator that evaluated into the negatives on a modulo operation.");
 
             if (left.SequenceEqual(_zero) || right.SequenceEqual(_zero) || left.SequenceEqual(right))
                 return _zero;
 
-            bool isNegative = IsArrayNegative(in left);
+            bool isNegative = IsArrayNegative(left);
 
-            left = InvertConditional(in left, isNegative);
+            left = InvertConditional(left, isNegative);
 
             var output = Enumerable.Repeat((sbyte)0, left.Length).ToList();
             var mutated = new BigInteger(left);
@@ -716,7 +716,7 @@ namespace KeepCoding
                 }
             }
 
-            return InvertConditional(in mutated._value, isNegative);
+            return InvertConditional(mutated._value, isNegative);
         }
 
         private static sbyte[] Multiplication(sbyte[] left, sbyte[] right)
@@ -730,10 +730,10 @@ namespace KeepCoding
             if (right.SequenceEqual(_one))
                 return left;
 
-            bool isNegative = IsArrayNegative(in left) ^ IsArrayNegative(in right);
+            bool isNegative = IsArrayNegative(left) ^ IsArrayNegative(right);
 
-            left = InvertConditional(left.Reverse(), IsArrayNegative(in left));
-            right = InvertConditional(right.Reverse(), IsArrayNegative(in right));
+            left = InvertConditional(left.Reverse(), IsArrayNegative(left));
+            right = InvertConditional(right.Reverse(), IsArrayNegative(right));
 
             var output = new List<sbyte>[left.Length];
 
@@ -762,7 +762,7 @@ namespace KeepCoding
             return InvertConditional(output.Last().ToArray(), isNegative);
         }
 
-        private static sbyte[] InvertConditional(in sbyte[] vs, bool b) => b ? vs.Select(s => (sbyte)(-1 * s)).ToArray() : vs;
+        private static sbyte[] InvertConditional(in sbyte[] vs, in bool b) => b ? vs.Select(s => (sbyte)(-1 * s)).ToArray() : vs;
 
         private static sbyte[] ObjectToBytes<T>(in T obj)
         {
@@ -789,11 +789,9 @@ namespace KeepCoding
             }
         }
 
-        private static BigInteger Operate(in BigInteger bigIntegerA, in BigInteger bigIntegerB, Operator op)
+        private static BigInteger Operate(in BigInteger bigIntegerA, in BigInteger bigIntegerB, in Operator op)
             => _operations.ContainsKey(op)
                 ? new BigInteger(_operations[op](bigIntegerA._value.ToArray(), InvertConditional(bigIntegerB._value.ToArray(), op == Operator.Subtract)))
                 : throw new UnrecognizedValueException($"Unhandled operator: {op}.");
-
-        private InvalidCastException InvalidCast<T>() => new InvalidCastException($"This BigInteger has the value {ToString()} which is outside the range of {typeof(T).Name} and therefore cannot be casted!");
     }
 }

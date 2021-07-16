@@ -117,9 +117,9 @@ namespace KeepCoding
         /// <returns><paramref name="path"/> deserialized as <see cref="ColorblindInfo"/>.</returns>
         public static ColorblindInfo Deserialize(string path, JsonSerializerSettings settings = null) => DeserializeObject<ColorblindInfo>(ReadAllText(path.NullCheck("A \"null\" path cannot be searched.")), settings);
 
-        private static void Error(string moduleId, Exception e) => new Logger("Colorblind Mode", false).Log(@$"Error in ""{moduleId ?? Helper.Null}"": {e.Message} ({e.GetType().FullName}){e.StackTrace}");
+        private static void Error(in string moduleId, in Exception e) => new Logger("Colorblind Mode", false).Log(@$"Error in ""{moduleId ?? Helper.Null}"": {e.Message} ({e.GetType().FullName}){e.StackTrace}");
 
-        private void Write(string moduleId)
+        private void Write(in string moduleId)
         {
             try
             {

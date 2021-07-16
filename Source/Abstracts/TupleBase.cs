@@ -44,10 +44,10 @@ namespace KeepCoding
         /// <returns>All of the items in tuple.</returns>
         public IEnumerator GetEnumerator() => ToArray.GetEnumerator();
 
-        private protected static TOutput Cast<TInput, TOutput>(in TInput value, int index) => value is TOutput t ? t : throw UnrecognizedType(value, typeof(TOutput), index);
+        private protected static TOutput Cast<TInput, TOutput>(in TInput value, in int index) => value is TOutput t ? t : throw UnrecognizedType(value, typeof(TOutput), index);
 
-        private IndexOutOfRangeException IndexOutOfRange(int i) => new IndexOutOfRangeException($"The index {i} was out of range from the tuple of length {ToArray.Length}.");
+        private IndexOutOfRangeException IndexOutOfRange(in int i) => new IndexOutOfRangeException($"The index {i} was out of range from the tuple of length {ToArray.Length}.");
 
-        private static UnrecognizedTypeException UnrecognizedType<T>(in T received, in Type expected, int index) => new UnrecognizedTypeException($"The {(index + 1).ToOrdinal()} element in the tuple cannot be assigned because the value {received.UnwrapToString()} is type {received.GetType().Name} which doesn't match the expected type {expected.Name}.");
+        private static UnrecognizedTypeException UnrecognizedType<T>(in T received, in Type expected, in int index) => new UnrecognizedTypeException($"The {(index + 1).ToOrdinal()} element in the tuple cannot be assigned because the value {received.UnwrapToString()} is type {received.GetType().Name} which doesn't match the expected type {expected.Name}.");
     }
 }

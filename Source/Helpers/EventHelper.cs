@@ -25,7 +25,7 @@ namespace KeepCoding
         /// <param name="onBombSolved">Called when the bomb is defused.</param>
         public static KMBombInfo Assign(this KMBombInfo bombInfo, Action onBombExploded = null, Action onBombSolved = null)
         {
-            bombInfo.AssertDefault();
+            AssertDefault(bombInfo);
 
             onBombExploded.Set(ref bombInfo.OnBombExploded);
             onBombSolved.Set(ref bombInfo.OnBombSolved);
@@ -45,11 +45,11 @@ namespace KeepCoding
         /// <param name="onStrike">Called when the module strikes.</param>
         public static KMBombModule Assign(this KMBombModule bombModule, Action onActivate = null, Action onPass = null, Action onStrike = null)
         {
-            bombModule.AssertDefault();
+            AssertDefault(bombModule);
 
             onActivate.Set(ref bombModule.OnActivate);
-            onPass.ToFunc(false).Set(ref bombModule.OnPass);
-            onStrike.ToFunc(false).Set(ref bombModule.OnStrike);
+            ToFunc(onPass, false).Set(ref bombModule.OnPass);
+            ToFunc(onStrike, false).Set(ref bombModule.OnStrike);
 
             return bombModule;
         }
@@ -67,7 +67,7 @@ namespace KeepCoding
         /// <param name="onLightsChange">Called when the lights change state, and passes in whether it's on or off.</param>
         public static KMGameInfo Assign(this KMGameInfo gameInfo, Action<State> onStateChange = null, Action<bool> onAlarmClockChange = null, Action<bool> onLightsChange = null)
         {
-            gameInfo.AssertDefault();
+            AssertDefault(gameInfo);
 
             onStateChange.Set(ref gameInfo.OnStateChange);
             onAlarmClockChange.Set(ref gameInfo.OnAlarmClockChange);
@@ -91,13 +91,13 @@ namespace KeepCoding
         /// <param name="onTimerExpired">Called when the timer runs out of time.</param>
         public static KMNeedyModule Assign(this KMNeedyModule needyModule, Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null)
         {
-            needyModule.AssertDefault();
+            AssertDefault(needyModule);
 
             onActivate.Set(ref needyModule.OnActivate);
             onNeedyActivation.Set(ref needyModule.OnNeedyActivation);
             onNeedyDeactivation.Set(ref needyModule.OnNeedyDeactivation);
-            onPass.ToFunc(false).Set(ref needyModule.OnPass);
-            onStrike.ToFunc(false).Set(ref needyModule.OnStrike);
+            ToFunc(onPass, false).Set(ref needyModule.OnPass);
+            ToFunc(onStrike, false).Set(ref needyModule.OnStrike);
             onTimerExpired.Set(ref needyModule.OnTimerExpired);
 
             return needyModule;
@@ -107,17 +107,17 @@ namespace KeepCoding
         public static KMSelectable Assign(this KMSelectable selectable, bool? overrideReturn = null, Action onCancel = null, Action onDefocus = null, Action onDeselect = null, Action onFocus = null, Action onHighlight = null, Action onHighlightEnded = null, Action onInteract = null, Action onInteractEnded = null, Action<float> onInteractionPunch = null, Action onLeft = null, Action onRight = null, Action onSelect = null, Action<KMSelectable> onUpdateChildren = null)
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
-            selectable.AssertDefault();
+            AssertDefault(selectable);
 
             overrideReturn ??= selectable.IsParent();
 
-            onCancel.ToFunc(overrideReturn.Value).Set(ref selectable.OnCancel);
+            ToFunc(onCancel, overrideReturn.Value).Set(ref selectable.OnCancel);
             onDefocus.Set(ref selectable.OnDefocus);
             onDeselect.Set(ref selectable.OnDeselect);
             onFocus.Set(ref selectable.OnFocus);
             onHighlight.Set(ref selectable.OnHighlight);
             onHighlightEnded.Set(ref selectable.OnHighlightEnded);
-            onInteract.ToFunc(overrideReturn.Value).Set(ref selectable.OnInteract);
+            ToFunc(onInteract, overrideReturn.Value).Set(ref selectable.OnInteract);
             onInteractEnded.Set(ref selectable.OnInteractEnded);
             onInteractionPunch.Set(ref selectable.OnInteractionPunch);
             onLeft.Set(ref selectable.OnLeft);
@@ -133,38 +133,38 @@ namespace KeepCoding
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
             selectable.NullOrEmptyCheck("The array is not populated. Please check your public fields in Unity.").ToArray().Call((s, i) => s.Assign(
                 overrideReturn,
-                onCancel.ToAction(i),
-                onDefocus.ToAction(i),
-                onDeselect.ToAction(i),
-                onFocus.ToAction(i),
-                onHighlight.ToAction(i),
-                onHighlightEnded.ToAction(i),
-                onInteract.ToAction(i),
-                onInteractEnded.ToAction(i),
-                onInteractionPunch.ToAction(i),
-                onLeft.ToAction(i),
-                onRight.ToAction(i),
-                onSelect.ToAction(i),
-                onUpdateChildren.ToAction(i)));
+                ToAction(onCancel, i),
+                ToAction(onDefocus, i),
+                ToAction(onDeselect, i),
+                ToAction(onFocus, i),
+                ToAction(onHighlight, i),
+                ToAction(onHighlightEnded, i),
+                ToAction(onInteract, i),
+                ToAction(onInteractEnded, i),
+                ToAction(onInteractionPunch, i),
+                ToAction(onLeft, i),
+                ToAction(onRight, i),
+                ToAction(onSelect, i),
+                ToAction(onUpdateChildren, i)));
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public static KMSelectable[] Assign(this KMSelectable[] selectable, bool? overrideReturn = null, Action<KMSelectable> onCancel = null, Action<KMSelectable> onDefocus = null, Action<KMSelectable> onDeselect = null, Action<KMSelectable> onFocus = null, Action<KMSelectable> onHighlight = null, Action<KMSelectable> onHighlightEnded = null, Action<KMSelectable> onInteract = null, Action<KMSelectable> onInteractEnded = null, Action<KMSelectable, float> onInteractionPunch = null, Action<KMSelectable> onLeft = null, Action<KMSelectable> onRight = null, Action<KMSelectable> onSelect = null, Action<KMSelectable, KMSelectable> onUpdateChildren = null) =>
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
             selectable.NullOrEmptyCheck("The array is not populated. Please check your public fields in Unity.").ToArray().ForEach(s => s.Assign(
                 overrideReturn,
-                onCancel.ToAction(s),
-                onDefocus.ToAction(s),
-                onDeselect.ToAction(s),
-                onFocus.ToAction(s),
-                onHighlight.ToAction(s),
-                onHighlightEnded.ToAction(s),
-                onInteract.ToAction(s),
-                onInteractEnded.ToAction(s),
-                onInteractionPunch.ToAction(s),
-                onLeft.ToAction(s),
-                onRight.ToAction(s),
-                onSelect.ToAction(s),
-                onUpdateChildren.ToAction(s)));
+                ToAction(onCancel, s),
+                ToAction(onDefocus, s),
+                ToAction(onDeselect, s),
+                ToAction(onFocus, s),
+                ToAction(onHighlight, s),
+                ToAction(onHighlightEnded, s),
+                ToAction(onInteract, s),
+                ToAction(onInteractEnded, s),
+                ToAction(onInteractionPunch, s),
+                ToAction(onLeft, s),
+                ToAction(onRight, s),
+                ToAction(onSelect, s),
+                ToAction(onUpdateChildren, s)));
 
         /// <summary>
         /// Stops all sounds for the entire <see cref="KMAudioRef"/> <see cref="Array"/>.
@@ -295,7 +295,7 @@ namespace KeepCoding
         /// <typeparam name="T">The type to cast the delegate into.</typeparam>
         /// <param name="dele">The delegate to cast.</param>
         /// <returns><paramref name="dele"/> as <typeparamref name="T"/>.</returns>
-        public static T Cast<T>(this Delegate dele) where T : Delegate => dele is null ? null : (dele as MulticastDelegate)?.GetInvocationList() is Delegate[] multicast ? dele.Multicast<T>(multicast) : dele.CreateDelegate<T>();
+        public static T Cast<T>(this Delegate dele) where T : Delegate => dele is null ? null : (dele as MulticastDelegate)?.GetInvocationList() is Delegate[] multicast ? Multicast<T>(dele, multicast) : dele.CreateDelegate<T>();
 
         /// <summary>
         /// Creates a delegate of the specified type.
@@ -395,27 +395,27 @@ namespace KeepCoding
             return self;
         }
 
-        private static void AssertDefault<T>(this T t) where T : Object => t.Assert($"The {typeof(T).Name} is null. You cannot assign events to a {typeof(T).Name} without a reference to a {typeof(T).Name}.");
+        private static void AssertDefault<T>(in T t) where T : Object => t.Assert($"The {typeof(T).Name} is null. You cannot assign events to a {typeof(T).Name} without a reference to a {typeof(T).Name}.");
 
-        private static Action ToAction(this Action<int> action, int i) => action is null ? (Action)null : () => action(i);
+        private static Action ToAction(Action<int> action, int i) => action is null ? (Action)null : () => action(i);
 
-        private static Action ToAction(this Action<KMSelectable> action, KMSelectable s) => action is null ? (Action)null : () => action(s);
+        private static Action ToAction(Action<KMSelectable> action, KMSelectable s) => action is null ? (Action)null : () => action(s);
 
-        private static Action<float> ToAction(this Action<int, float> action, int i) => action is null ? (Action<float>)null : f => action(i, f);
+        private static Action<float> ToAction(Action<int, float> action, int i) => action is null ? (Action<float>)null : f => action(i, f);
 
-        private static Action<float> ToAction(this Action<KMSelectable, float> action, KMSelectable s) => action is null ? (Action<float>)null : f => action(s, f);
+        private static Action<float> ToAction(Action<KMSelectable, float> action, KMSelectable s) => action is null ? (Action<float>)null : f => action(s, f);
 
-        private static Action<KMSelectable> ToAction(this Action<int, KMSelectable> action, int i) => action is null ? (Action<KMSelectable>)null : s => action(i, s);
+        private static Action<KMSelectable> ToAction(Action<int, KMSelectable> action, int i) => action is null ? (Action<KMSelectable>)null : s => action(i, s);
 
-        private static Action<KMSelectable> ToAction(this Action<KMSelectable, KMSelectable> action, KMSelectable s) => action is null ? (Action<KMSelectable>)null : t => action(s, t);
+        private static Action<KMSelectable> ToAction(Action<KMSelectable, KMSelectable> action, KMSelectable s) => action is null ? (Action<KMSelectable>)null : t => action(s, t);
 
-        private static Func<bool> ToFunc(this Action action, bool b) => action is null ? (Func<bool>)null : () =>
+        private static Func<bool> ToFunc(Action action, bool b) => action is null ? (Func<bool>)null : () =>
         {
             action();
             return b;
         };
 
-        private static T Multicast<T>(this Delegate dele, Delegate[] multicast) where T : Delegate => multicast.Length switch
+        private static T Multicast<T>(in Delegate dele, Delegate[] multicast) where T : Delegate => multicast.Length switch
         {
             0 => null,
             1 => multicast[0] == dele ? dele.CreateDelegate<T>() : multicast[0].Cast<T>(),

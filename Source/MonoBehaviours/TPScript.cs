@@ -22,9 +22,7 @@ namespace KeepCoding
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
         public bool IsCancelCommand => TwitchShouldCancelCommand;
-#pragma warning disable IDE1006 // Naming Styles
         private bool TwitchShouldCancelCommand { get; set; }
-#pragma warning restore IDE1006 // Naming Styles
 
         /// <value>
         /// Determines if it is in Time Mode, where solves change the timer. This is useful for modules that use the timer's value.
@@ -42,9 +40,7 @@ namespace KeepCoding
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
         public bool IsTimeSkippable { get => TwitchPlaysSkipTimeAllowed; set => TwitchPlaysSkipTimeAllowed = value; }
-#pragma warning disable IDE1006 // Naming Styles
         private bool TwitchPlaysSkipTimeAllowed { get; set; }
-#pragma warning restore IDE1006 // Naming Styles
 
         /// <value>
         /// Determines if Twitch Plays is currently active. This is for modules that need to display different items, or use different rules if Twitch Plays is active.
@@ -317,6 +313,8 @@ namespace KeepCoding
             Module.HasStruck = false;
         }
 
+        private static string Combine(in string main, params object[] toAppend) => main + toAppend.ConvertAll(o => $" {o}");
+
 #pragma warning disable IDE0051 // Remove unused private members
         private IEnumerator ProcessTwitchCommand(string command) => Module.isColorblindSupported && command.ToLowerInvariant().Trim() == "colorblind" ? ToggleColorblind() : Process(command).Flatten(o => !(o is KMSelectable[]));
 #pragma warning restore IDE0051 // Remove unused private members
@@ -330,7 +328,5 @@ namespace KeepCoding
 #pragma warning disable IDE0051 // Remove unused private members
         private IEnumerator TwitchHandleForcedSolve() => ForceSolve().Flatten(o => !(o is KMSelectable[]));
 #pragma warning restore IDE0051 // Remove unused private members
-
-        private static string Combine(string main, params object[] toAppend) => main + toAppend.ConvertAll(o => $" {o}");
     }
 }

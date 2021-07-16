@@ -137,6 +137,6 @@ namespace KeepCoding
             return hashCode;
         }
 
-        internal static void Self(string message, LogType logType = LogType.Log) => logType.Method()("[{0}] {1}".Form(_selfName, message));
+        internal static void Self(in string message, in LogType logType = LogType.Log) => logType.Method()("[{0}] {1}".Form(_selfName, message));
     }
 }

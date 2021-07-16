@@ -72,9 +72,9 @@ namespace KeepCoding
         /// <returns>The list of <see cref="Coroutines"/> in this <see cref="Routine"/>.</returns>
         public IEnumerator GetEnumerator() => Coroutines.GetEnumerator();
 
-        private protected void Remove(Coroutine coroutine) => _monoBehaviour.StopCoroutine(coroutine);
+        private protected void Remove(in Coroutine coroutine) => _monoBehaviour.StopCoroutine(coroutine);
 
-        private protected Coroutine Add(IEnumerator enumerator) => _monoBehaviour.StartCoroutine(enumerator);
+        private protected Coroutine Add(in IEnumerator enumerator) => _monoBehaviour.StartCoroutine(enumerator);
 
         private protected IEnumerator Wait(bool oneByOne)
         {
