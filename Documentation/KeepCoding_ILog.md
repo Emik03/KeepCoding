@@ -9,6 +9,7 @@ public interface ILog
 Derived  
 &#8627; [Logger](KeepCoding_Logger.md 'KeepCoding.Logger')  
 &#8627; [ModuleScript](KeepCoding_ModuleScript.md 'KeepCoding.ModuleScript')  
+&#8627; [ReflectionScript](KeepCoding_ReflectionScript.md 'KeepCoding.ReflectionScript')  
 
 | Methods | |
 | :--- | :--- |
