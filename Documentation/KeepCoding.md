@@ -24,6 +24,7 @@
 | [ModInfo](KeepCoding_ModInfo.md 'KeepCoding.ModInfo') | Contains information about the mod's info, this class can be used to deserialize every mod's "modInfo.json".<br/> |
 | [ModuleContainer](KeepCoding_ModuleContainer.md 'KeepCoding.ModuleContainer') | Container for both solvable and needy modules.<br/> |
 | [ModuleScript](KeepCoding_ModuleScript.md 'KeepCoding.ModuleScript') | Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes. <br/> |
+| [ModuleScriptEditor](KeepCoding_ModuleScriptEditor.md 'KeepCoding.ModuleScriptEditor') | Custom inspector for [ModuleScript](KeepCoding_ModuleScript.md 'KeepCoding.ModuleScript'). <br/> |
 | [NegativeNumberException](KeepCoding_NegativeNumberException.md 'KeepCoding.NegativeNumberException') | An exception thrown when the number is unexpectedly negative.<br/> |
 | [NullIteratorException](KeepCoding_NullIteratorException.md 'KeepCoding.NullIteratorException') | An exception thrown when the iterator is null.<br/> |
 | [Number](KeepCoding_Number.md 'KeepCoding.Number') | Class meant to encapsulate a primitive numeric value.<br/> |
