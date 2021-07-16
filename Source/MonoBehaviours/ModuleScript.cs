@@ -505,7 +505,7 @@ namespace KeepCoding
 
             _hasCheckedVersion = true;
 
-            WWW www = new WWW("https://api.github.com/repos/Emik03/KeepCoding/releases/latest");
+            var www = new WWW("https://api.github.com/repos/Emik03/KeepCoding/releases/latest");
             yield return www;
 
             if (www.error is { })

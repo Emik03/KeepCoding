@@ -115,7 +115,7 @@ namespace KeepCoding
         {
             var current = new NullableObject(instance);
 
-            foreach (var name in names)
+            foreach (string name in names)
             {
                 if (current is null)
                     return null;
@@ -158,7 +158,7 @@ namespace KeepCoding
 
         private static NullableObject GetField(in Type type, in string name, in object instance)
         {
-            FieldInfo field = type?.GetField(name);
+            var field = type?.GetField(name);
 
             return field is null ? null
                 : new NullableObject(field.IsStatic ? field.GetValue(null)
@@ -167,7 +167,7 @@ namespace KeepCoding
 
         private static NullableObject GetProperty(in Type type, in string name, in object instance)
         {
-            PropertyInfo property = type?.GetProperty(name);
+            var property = type?.GetProperty(name);
 
             return property is null ? null
                 : new NullableObject(property.GetAccessors(false).Any(x => x.IsStatic) ? property.GetValue(null, null)

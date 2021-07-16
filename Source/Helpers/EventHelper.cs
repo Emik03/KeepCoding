@@ -190,8 +190,10 @@ namespace KeepCoding
                 return self;
 
             foreach (var other in others)
+            {
                 if (other is { })
                     self += other;
+            }
 
             return self;
         }
@@ -208,8 +210,10 @@ namespace KeepCoding
                 return self;
 
             foreach (var other in others)
+            {
                 if (other is { })
                     self += other;
+            }
 
             return self;
         }
@@ -226,8 +230,10 @@ namespace KeepCoding
                 return self;
 
             foreach (var other in others)
+            {
                 if (other is { })
                     self += other;
+            }
 
             return self;
         }
@@ -244,8 +250,10 @@ namespace KeepCoding
                 return self;
 
             foreach (var other in others)
+            {
                 if (other is { })
                     self += other;
+            }
 
             return self;
         }
@@ -262,8 +270,10 @@ namespace KeepCoding
                 return self;
 
             foreach (var other in others)
+            {
                 if (other is { })
                     self += other;
+            }
 
             return self;
         }
@@ -317,8 +327,10 @@ namespace KeepCoding
                 return self;
 
             foreach (var other in others)
+            {
                 if (other is { })
                     self += other;
+            }
 
             return self;
         }
@@ -335,8 +347,10 @@ namespace KeepCoding
                 return self;
 
             foreach (var other in others)
+            {
                 if (other is { })
                     self += other;
+            }
 
             return self;
         }
@@ -353,8 +367,10 @@ namespace KeepCoding
                 return self;
 
             foreach (var other in others)
+            {
                 if (other is { })
                     self += other;
+            }
 
             return self;
         }
@@ -371,8 +387,10 @@ namespace KeepCoding
                 return self;
 
             foreach (var other in others)
+            {
                 if (other is { })
                     self += other;
+            }
 
             return self;
         }
@@ -389,8 +407,10 @@ namespace KeepCoding
                 return self;
 
             foreach (var other in others)
+            {
                 if (other is { })
                     self += other;
+            }
 
             return self;
         }
