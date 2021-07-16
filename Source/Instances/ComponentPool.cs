@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static KeepCoding.ComponentPool.ComponentSource;
 using static KeepCoding.ComponentPool.SpecialComponentTypeEnum;
 
 namespace KeepCoding
@@ -177,7 +178,7 @@ namespace KeepCoding
         /// <value>
         /// Controls where components can come from (either the base game, mods, or both).
         /// </value>
-        public ComponentSource AllowedSources { get; } = ComponentSource.Base;
+        public ComponentSource AllowedSources { get; } = Base;
 
         /// <value>
         /// Special types which are calculated at runtime, such as <see cref="ALL_SOLVABLE"/>.

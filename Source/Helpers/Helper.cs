@@ -8,9 +8,12 @@ using System.Reflection;
 using System.Security;
 using System.Text;
 using UnityEngine;
+using static System.Int32;
 using static System.Linq.Enumerable;
 using static System.Math;
 using static System.Reflection.BindingFlags;
+using static System.String;
+using static UnityEngine.Debug;
 using Object = UnityEngine.Object;
 using SRandom = System.Random;
 using URandom = UnityEngine.Random;
@@ -43,7 +46,6 @@ namespace KeepCoding
         public const string Binary = "01";
 
         internal const string
-            DumpTemplate = "[KeepCoding] <DUMP>{0}\n",
             Null = "<null>",
             Unknown = "<unknown>",
             VariableTemplate = "\n\n[{0}] {1}\n({2})\n{3}";
@@ -268,7 +270,7 @@ namespace KeepCoding
         /// <param name="minLength">The minimum acceptable length of the array. (inclusive)</param>
         /// <param name="maxLength">The maximum acceptable length of the array. (inclusive)</param>
         /// <returns>The array as integers, or null if it fails.</returns>
-        public static int[] ToNumbers<T>(this T[] ts, int? min = null, int? max = null, int? minLength = null, int? maxLength = null) => (minLength is null || minLength.Value <= ts.Length) && (maxLength is null || maxLength.Value >= ts.Length) && ts.All(t => int.TryParse(t.ToString(), out int i) && (min is null || min.Value <= i) && (max is null || max.Value >= i)) ? ts.Select(t => int.Parse(t.ToString())).ToArray() : null;
+        public static int[] ToNumbers<T>(this T[] ts, int? min = null, int? max = null, int? minLength = null, int? maxLength = null) => (minLength is null || minLength.Value <= ts.Length) && (maxLength is null || maxLength.Value >= ts.Length) && ts.All(t => TryParse(t.ToString(), out int i) && (min is null || min.Value <= i) && (max is null || max.Value >= i)) ? ts.Select(t => int.Parse(t.ToString())).ToArray() : null;
 
         /// <summary>
         /// Converts any base number to any base-10.
@@ -501,7 +503,7 @@ namespace KeepCoding
         /// <param name="getVariables">Whether it should search recursively inside the variable and yield return the elements inside <paramref name="item"/>.</param>
         /// <param name="delimiter">The characters in-between each element.</param>
         /// <returns>A string consisting of all values from <paramref name="item"/>.</returns>
-        public static string UnwrapToString<T>(this T item, bool getVariables = false, string delimiter = ", ") => string.Join(delimiter, Unwrap(item, getVariables).Select(o => o.ToString()).ToArray());
+        public static string UnwrapToString<T>(this T item, bool getVariables = false, string delimiter = ", ") => Join(delimiter, Unwrap(item, getVariables).Select(o => o.ToString()).ToArray());
 
         /// <summary>
         /// Unwraps any object, whether it be a class, list, tuple, or any other data.
@@ -525,11 +527,11 @@ namespace KeepCoding
         /// <returns>The log method representing the enum <paramref name="logType"/>.</returns>
         public static Action<object> Method(this LogType logType) => logType switch
         {
-            LogType.Error => Debug.LogError,
-            LogType.Assert => o => Debug.LogAssertion(o),
-            LogType.Warning => Debug.LogWarning,
-            LogType.Log => Debug.Log,
-            LogType.Exception => o => Debug.LogException((Exception)o),
+            LogType.Error => LogError,
+            LogType.Assert => o => LogAssertion(o),
+            LogType.Warning => LogWarning,
+            LogType.Log => Log,
+            LogType.Exception => o => LogException((Exception)o),
             _ => throw new UnrecognizedValueException($"{logType} is not a valid log type."),
         };
 
@@ -688,6 +690,7 @@ namespace KeepCoding
                 buffer[j] = buffer[i];
             }
         }
+
         /// <summary>
         /// Replaces an index in the <see cref="IEnumerable{T}"/> and returns the new one.
         /// </summary>

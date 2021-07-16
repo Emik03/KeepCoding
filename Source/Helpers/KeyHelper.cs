@@ -200,7 +200,7 @@ namespace KeepCoding
         /// <param name="action">The action to run inside a <see langword="checked"/> block.</param>
         public static void Checked(this Action action)
         {
-            checked 
+            checked
             {
                 action.NullCheck("The action cannot be null.")();
             }

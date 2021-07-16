@@ -73,9 +73,11 @@ namespace KeepCoding
         private IEnumerator Coroutine(bool oneByOne)
         {
             yield return Wait(oneByOne);
+
             IsRunning = true;
 
             yield return _enumerator();
+
             IsRunning = false;
         }
 
@@ -155,9 +157,11 @@ namespace KeepCoding
         private IEnumerator Coroutine(T t, bool oneByOne)
         {
             yield return Wait(oneByOne);
+
             IsRunning = true;
 
             yield return _enumerator(t);
+
             IsRunning = false;
         }
 
@@ -241,9 +245,11 @@ namespace KeepCoding
         private IEnumerator Coroutine(T1 t1, T2 t2, bool oneByOne)
         {
             yield return Wait(oneByOne);
+
             IsRunning = true;
 
             yield return _enumerator(t1, t2);
+
             IsRunning = false;
         }
 
@@ -331,9 +337,11 @@ namespace KeepCoding
         private IEnumerator Coroutine(T1 t1, T2 t2, T3 t3, bool oneByOne)
         {
             yield return Wait(oneByOne);
+
             IsRunning = true;
 
             yield return _enumerator(t1, t2, t3);
+
             IsRunning = false;
         }
 
@@ -425,9 +433,11 @@ namespace KeepCoding
         private IEnumerator Coroutine(T1 t1, T2 t2, T3 t3, T4 t4, bool oneByOne)
         {
             yield return Wait(oneByOne);
+
             IsRunning = true;
 
             yield return _enumerator(t1, t2, t3, t4);
+
             IsRunning = false;
         }
 

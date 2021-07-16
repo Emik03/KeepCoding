@@ -1,10 +1,11 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using UnityEngine;
+using static KeepCoding.Helper;
+using static System.String;
 
 namespace KeepCoding
 {
@@ -67,18 +68,18 @@ namespace KeepCoding
         /// </summary>
         /// <param name="obj">The object to reflect on.</param>
         /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
-        public static void Dump(object obj, bool getVariables = false)
+        public void Dump(object obj, bool getVariables = false)
         {
             int index = 0;
 
-            string Format<T>(string name, T value) => Helper.VariableTemplate.Form(index++, name, value?.GetType().ToString() ?? Helper.Null, string.Join(", ", value.Unwrap(getVariables).Select(o => o.ToString()).ToArray()));
+            string Format<T>(string name, T value) => VariableTemplate.Form(index++, name, value?.GetType().ToString() ?? Null, Join(", ", value.Unwrap(getVariables).Select(o => o.ToString()).ToArray()));
 
             var values = new List<object>();
 
-            obj.GetType().GetFields(Helper.Flags).ForEach(f => values.Add(Format(f.Name, f.GetValue(obj))));
-            obj.GetType().GetProperties(Helper.Flags).ForEach(p => values.Add(Format(p.Name, p.GetValue(obj, null))));
+            obj.GetType().GetFields(Flags).ForEach(f => values.Add(Format(f.Name, f.GetValue(obj))));
+            obj.GetType().GetProperties(Flags).ForEach(p => values.Add(Format(p.Name, p.GetValue(obj, null))));
 
-            Debug.LogWarning(Helper.DumpTemplate.Form(string.Join("", values.Select(v => string.Join("", v.Unwrap(getVariables).Select(o => o.ToString()).ToArray())).ToArray())));
+            Log(Join("", values.Select(v => Join("", v.Unwrap(getVariables).Select(o => o.ToString()).ToArray())).ToArray()), LogType.Warning);
         }
 
         /// <summary>
@@ -86,7 +87,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
         /// <param name="logs">All of the variables to throughly log.</param>
-        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => Debug.LogWarning(Helper.DumpTemplate.Form(Name, Id, string.Join("", logs.Select((l, n) => Helper.VariableTemplate.Form(n, l.NameOf(), l.Compile()()?.GetType().ToString() ?? Helper.Null, string.Join(", ", l.Compile()().Unwrap(getVariables).Select(o => o.ToString()).ToArray()))).ToArray())));
+        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => Log(Join("", logs.Select((l, n) => VariableTemplate.Form(n, l.NameOf(), l.Compile()()?.GetType().ToString() ?? Null, Join(", ", l.Compile()().Unwrap(getVariables).Select(o => o.ToString()).ToArray()))).ToArray()), LogType.Warning);
 
         /// <summary>
         /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.

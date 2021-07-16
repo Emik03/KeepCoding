@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Math;
+using static System.SByte;
+using static System.String;
 
 namespace KeepCoding
 {
@@ -493,7 +496,7 @@ namespace KeepCoding
         /// Converts the current array it stores as a string.
         /// </summary>
         /// <returns>The value of itself.</returns>
-        public override string ToString() => string.Join("", _value.Select((c, i) => c.ToString().Replace(i == 0 ? "--" : "-", "")).ToArray());
+        public override string ToString() => Join("", _value.Select((c, i) => c.ToString().Replace(i == 0 ? "--" : "-", "")).ToArray());
 
         /// <summary>
         /// Determins if both values are equal.
@@ -568,7 +571,7 @@ namespace KeepCoding
         /// <returns>The current number of this <see cref="BigInteger"/>.</returns>
         public IEnumerator GetEnumerator() => Value.GetEnumerator();
 
-        private enum Operator { Add, Subtract, Multiply, Divide, Modulo }
+        internal enum Operator { Add, Subtract, Multiply, Divide, Modulo }
 
         private static readonly Dictionary<Operator, Func<sbyte[], sbyte[], sbyte[]>> _operations = new Dictionary<Operator, Func<sbyte[], sbyte[], sbyte[]>>()
         {
@@ -617,7 +620,7 @@ namespace KeepCoding
             var output = new List<sbyte>();
 
             int carry = 0,
-                length = Math.Max(left.Length, right.Length);
+                length = Max(left.Length, right.Length);
 
             for (int i = 0; i < length; i++)
             {
@@ -675,7 +678,7 @@ namespace KeepCoding
 
             for (int i = 1; i <= left.Length; i++)
             {
-                var comparison = new BigInteger(right) * Math.Pow(10, left.Length - i);
+                var comparison = new BigInteger(right) * Pow(10, left.Length - i);
 
                 if (mutator >= comparison)
                 {
@@ -707,7 +710,7 @@ namespace KeepCoding
 
             for (int i = 1; i <= left.Length; i++)
             {
-                var comparison = new BigInteger(right) * Math.Pow(10, left.Length - i);
+                var comparison = new BigInteger(right) * Pow(10, left.Length - i);
 
                 if (mutated >= comparison)
                 {
@@ -781,7 +784,7 @@ namespace KeepCoding
 
             try
             {
-                return values.Select(o => sbyte.Parse(o)).SkipWhile((o, i) => o == 0 && i != values.Count() - 1).ToArray();
+                return values.Select(o => Parse(o)).SkipWhile((o, i) => o == 0 && i != values.Count() - 1).ToArray();
             }
             catch (InvalidCastException e)
             {

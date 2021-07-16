@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using static System.Byte;
 using static System.Globalization.NumberStyles;
 
 namespace KeepCoding
@@ -191,7 +192,7 @@ namespace KeepCoding
                 ? throw new FormatException($"The hexadecimal code provided has the wrong length: {hex}")
                 : hex.Any(c => !"0123456789ABCDEFabcdef".Contains(c.ToString()))
                 ? throw new FormatException($"The hexadecimal code provided has invalid characters: {hex}")
-                : new Color32(byte.Parse(hex.Substring(0, 2), HexNumber), byte.Parse(hex.Substring(2, 2), HexNumber), byte.Parse(hex.Substring(4, 2), HexNumber), (byte)(hex.Length < 8 ? 255 : byte.Parse(hex.Substring(6, 2), HexNumber)));
+                : new Color32(Parse(hex.Substring(0, 2), HexNumber), Parse(hex.Substring(2, 2), HexNumber), Parse(hex.Substring(4, 2), HexNumber), (byte)(hex.Length < 8 ? 255 : Parse(hex.Substring(6, 2), HexNumber)));
         }
 
         /// <summary>
@@ -230,10 +231,10 @@ namespace KeepCoding
         /// <returns>A new instance of the <paramref name="color"/>, with the arguments replacing the values.</returns>
         public static Color32 Set(this Color32 color, float? r = null, float? g = null, float? b = null, float? a = null)
             => new Color32(
-                r.HasValue ? (byte)(r.Value * byte.MaxValue) : color.r,
-                g.HasValue ? (byte)(g.Value * byte.MaxValue) : color.g,
-                b.HasValue ? (byte)(b.Value * byte.MaxValue) : color.b,
-                a.HasValue ? (byte)(a.Value * byte.MaxValue) : color.a);
+                r.HasValue ? (byte)(r.Value * MaxValue) : color.r,
+                g.HasValue ? (byte)(g.Value * MaxValue) : color.g,
+                b.HasValue ? (byte)(b.Value * MaxValue) : color.b,
+                a.HasValue ? (byte)(a.Value * MaxValue) : color.a);
 
         /// <summary>
         /// Duplicates the color, and sets the RGBA components only if they are specified.

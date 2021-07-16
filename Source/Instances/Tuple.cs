@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.String;
 
 namespace KeepCoding
 {
@@ -171,7 +172,7 @@ namespace KeepCoding
         /// Gets all items as an array, and returns it as a string.
         /// </summary>
         /// <returns>All tuples as <see cref="string"/>.</returns>
-        public override string ToString() => string.Join(" ", ToArray.ConvertAll(o => o.ToString()));
+        public override string ToString() => Join(" ", ToArray.ConvertAll(o => o.ToString()));
 
         /// <summary>
         /// Evaluates whether the item in the tuple is the same.
@@ -284,7 +285,7 @@ namespace KeepCoding
         /// Gets all items as an array, and returns it as a string.
         /// </summary>
         /// <returns>All tuples as <see cref="string"/>.</returns>
-        public override string ToString() => string.Join(" ", ToArray.ConvertAll(o => o.ToString()));
+        public override string ToString() => Join(" ", ToArray.ConvertAll(o => o.ToString()));
 
         /// <summary>
         /// Evaluates whether the item in the tuple is the same.
@@ -402,7 +403,7 @@ namespace KeepCoding
         /// Gets all items as an array, and returns it as a string.
         /// </summary>
         /// <returns>All tuples as <see cref="string"/>.</returns>
-        public override string ToString() => string.Join(" ", ToArray.ConvertAll(o => o.ToString()));
+        public override string ToString() => Join(" ", ToArray.ConvertAll(o => o.ToString()));
 
         /// <summary>
         /// Evaluates whether the item in the tuple is the same.

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using static System.String;
 
 namespace KeepCoding
 {
@@ -72,6 +73,6 @@ namespace KeepCoding
         /// Converts itself to a string.
         /// </summary>
         /// <returns>Time, number of strikes, and the pools converted to a string.</returns>
-        public override string ToString() => $"Time: {TimeLimit}, NumStrikes: {NumStrikes}\n{ComponentPools.Count} Pools:\n{string.Join("", ComponentPools.ConvertAll(c => $"{c}\n").ToArray())}";
+        public override string ToString() => $"Time: {TimeLimit}, NumStrikes: {NumStrikes}\n{ComponentPools.Count} Pools:\n{Join("", ComponentPools.ConvertAll(c => $"{c}\n").ToArray())}";
     }
 }

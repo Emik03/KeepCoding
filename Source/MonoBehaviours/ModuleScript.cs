@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
@@ -10,8 +9,10 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using static KeepCoding.Game.KTInputManager;
 using static KeepCoding.Game.MasterAudio;
+using static KeepCoding.Logger;
 using static KMAudio;
 using static KMSoundOverride;
+using static System.Linq.Enumerable;
 using static UnityEngine.Application;
 
 namespace KeepCoding
@@ -39,7 +40,7 @@ namespace KeepCoding
         public bool IsColorblind
         {
             get => _colorblind.IsEnabled;
-            set 
+            set
             {
                 if (_colorblind.IsEnabled != value)
                     OnColorblindChanged(_colorblind.IsEnabled = value);
@@ -151,11 +152,9 @@ namespace KeepCoding
                 OnActivate();
             });
 
-            Logger.Self($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
+            Self($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
 
             _logger = new Logger(Module.Name, true);
-
-            Logger.Self($"Subscribing {Module.Name}'s {nameof(OnException)} to {nameof(logMessageReceived)}.");
 
             logMessageReceived += OnException;
 
@@ -172,11 +171,7 @@ namespace KeepCoding
         /// <summary>
         /// This removed the exception catcher. If you have an OnDestroy method, be sure to call <c>base.OnDestroy()</c> as the first statement.
         /// </summary>
-        protected void OnDestroy()
-        {
-            Logger.Self($"Unsubscribing {Module.Name}'s {nameof(OnException)} to {nameof(logMessageReceived)}.");
-            logMessageReceived -= OnException;
-        }
+        protected void OnDestroy() => logMessageReceived -= OnException;
 
         /// <summary>
         /// Assigns events specified into <see cref="Module"/>. Reassigning them will replace their values.
@@ -206,6 +201,13 @@ namespace KeepCoding
 
             PlaySound(selectable.transform, sounds);
         }
+
+        /// <summary>
+        /// Dumps all information that it can find of the type using reflection. This should only be used to debug.
+        /// </summary>
+        /// <param name="obj">The object to reflect on.</param>
+        /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
+        public void Dump(object obj, bool getVariables = false) => _logger.Dump(obj, getVariables);
 
         /// <summary>
         /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
@@ -336,7 +338,7 @@ namespace KeepCoding
 
             int index = LastId - Id;
 
-            Enumerable.Range(0, index - _database[Module.Id].Length + 1).ToArray().ForEach(i => _database[Module.Id].Append(new Dictionary<string, object>()));
+            Range(0, index - _database[Module.Id].Length + 1).ToArray().ForEach(_ => _database[Module.Id].Append(new Dictionary<string, object>()));
 
             if (!_database[Module.Id][index].ContainsKey(key))
                 _database[Module.Id][index].Add(key, null);
@@ -344,7 +346,7 @@ namespace KeepCoding
             _database[Module.Id][index][key] = value;
 
             if (IsEditor)
-                Logger.Self($"Added \"{value}\" to {nameof(_database)}: [{nameof(Module.Id)}, {Module.Id}: [{nameof(index)}, {index}: {value}]]");
+                Self($"Added \"{value}\" to {nameof(_database)}: [{nameof(Module.Id)}, {Module.Id}: [{nameof(index)}, {index}: {value}]]");
         }
 
         /// <summary>
@@ -441,7 +443,7 @@ namespace KeepCoding
 
             Modules = solvables.ConvertAll(m => new ModuleContainer(m, null)).Concat(needies.ConvertAll(m => new ModuleContainer(null, m))).ToArray();
 
-            Logger.Self($"Subscribing current bomb's {Modules.Length} module(s) to {nameof(OnSolvableSolved)}, {nameof(OnNeedySolved)}, and {nameof(OnModuleStrike)}.");
+            Self($"Subscribing current bomb's {Modules.Length} module(s) to {nameof(OnSolvableSolved)}, {nameof(OnNeedySolved)}, and {nameof(OnModuleStrike)}.");
 
             solvables.ForEach(m =>
             {
@@ -458,6 +460,12 @@ namespace KeepCoding
 
         private void OnException(string condition, string stackTrace, LogType type)
         {
+            void ForceSolve()
+            {
+                StartCoroutine(WaitForSolve());
+                Get<KMSelectable>().OnInteract = null;
+            }
+
             if (type != LogType.Exception || !IsLogFromThis(stackTrace))
                 return;
 
@@ -468,12 +476,6 @@ namespace KeepCoding
 
             if (TP?.IsTP ?? false)
                 return;
-
-            void ForceSolve()
-            {
-                StartCoroutine(WaitForSolve());
-                Get<KMSelectable>().OnInteract = null;
-            }
 
             if (Get<KMSelectable>(allowNull: true))
                 Get<KMSelectable>().Assign(onInteract: ForceSolve);
@@ -508,21 +510,21 @@ namespace KeepCoding
 
             if (www.error is { })
             {
-                Logger.Self($"The library was unable to get the version number: {www.error}", LogType.Warning);
+                Self($"The library was unable to get the version number: {www.error}", LogType.Warning);
                 yield break;
             }
 
             string tagName = JObject.Parse(www.text).GetValue("tag_name").ToObject<string>();
 
             if (tagName.ToVersion() > PathManager.Version)
-                Logger.Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
+                Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
         }
 
         private IEnumerator EditorTimerTick()
         {
             if (!GetComponent<KMBombInfo>())
             {
-                Logger.Self($"Adding a {nameof(KMBombInfo)} component automatically only to capture timer ticks in the Editor.");
+                Self($"Adding a {nameof(KMBombInfo)} component automatically only to capture timer ticks in the Editor.");
                 gameObject.AddComponent<KMBombInfo>();
             }
 
@@ -549,7 +551,7 @@ namespace KeepCoding
             }
             while (!Bomb);
 
-            Logger.Self($"{nameof(KMBomb)} located.");
+            Self($"{nameof(KMBomb)} located.");
 
             HookModules();
 

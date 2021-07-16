@@ -1,17 +1,15 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Security;
 using UnityEngine;
 using UnityEngine.Video;
 using static KeepCoding.Game.ModManager;
 using static KeepCoding.Game.ModSourceEnum;
+using static KeepCoding.Logger;
 using static KeepCoding.ModInfo;
-using static Newtonsoft.Json.Formatting;
 using static System.IntPtr;
 using static System.Linq.Enumerable;
 using static System.Reflection.Assembly;
@@ -113,13 +111,13 @@ namespace KeepCoding
             if (_modInfos.TryGetValue(bundleFileName, out var info))
                 return info;
 
-            Logger.Self($"Retrieving the {nameof(ModInfo)} data from \"{bundleFileName}\"...");
+            Self($"Retrieving the {nameof(ModInfo)} data from \"{bundleFileName}\"...");
 
             if (isEditor)
             {
                 _modInfos.Add(bundleFileName, info = new ModInfo());
 
-                Logger.Self($"This method is being run on the Editor, therefore a new instance of {nameof(ModInfo)} will be returned.");
+                Self($"This method is being run on the Editor, therefore a new instance of {nameof(ModInfo)} will be returned.");
 
                 return info;
             }
@@ -132,7 +130,7 @@ namespace KeepCoding
             if (!File.Exists(file))
                 throw new FileNotFoundException($"The mod bundle was found in {search}, but no mod info was found! (Expected to find \"{file}\")");
 
-            Logger.Self($"File found! Returning {file}.");
+            Self($"File found! Returning {file}.");
 
             info = Deserialize(file);
 
@@ -178,21 +176,21 @@ namespace KeepCoding
             if (_paths.TryGetValue(search, out string path))
                 return path;
 
-            Logger.Self($"Searching for file \"{search}\" anywhere in the mods folder...");
+            Self($"Searching for file \"{search}\" anywhere in the mods folder...");
 
             if (isEditor)
             {
                 _paths.Add(search, path = "");
 
-                Logger.Self("This method is being run on the Editor, therefore an empty string will be returned.");
+                Self("This method is being run on the Editor, therefore an empty string will be returned.");
 
                 return path;
             }
 
             search.NullOrEmptyCheck("You cannot retrieve a path if the file name is null or empty.");
 
-            path = (GetAllModPathsFromSource(Local).Call(f => Logger.Self($"Searching for {f.Count} enabled local mod(s)...")).Find(search) ??
-                GetAllModPathsFromSource(SteamWorkshop).Call(f => Logger.Self($"Searching for {f.Count} enabled steam workshop mod(s)...")).Find(search))
+            path = (GetAllModPathsFromSource(Local).Call(f => Self($"Searching for {f.Count} enabled local mod(s)...")).Find(search) ??
+                GetAllModPathsFromSource(SteamWorkshop).Call(action: f => Self($"Searching for {f.Count} enabled steam workshop mod(s)...")).Find(search))
                 .Replace($"/{search}", "").Replace(@$"\{search}", "");
 
             _paths.Add(search, path);
@@ -228,11 +226,11 @@ namespace KeepCoding
         /// <param name="libraryFileName">The library's name, excluding the extension.</param>
         public static void LoadLibrary(string bundleFileName, string libraryFileName)
         {
-            Logger.Self($"Preparing to copy library \"{libraryFileName}\" which exists in \"{bundleFileName}\".");
+            Self($"Preparing to copy library \"{libraryFileName}\" which exists in \"{bundleFileName}\".");
 
             if (isEditor)
             {
-                Logger.Self($"This method is being run on the Editor, therefore nothing will be done.");
+                Self($"This method is being run on the Editor, therefore nothing will be done.");
                 return;
             }
 
@@ -242,7 +240,7 @@ namespace KeepCoding
 
             CopyLibrary(libraryFileName, path);
 
-            Logger.Self($"The library has been copied over. They are now ready to be referenced.");
+            Self($"The library has been copied over. They are now ready to be referenced.");
         }
 
         /// <summary>
@@ -304,7 +302,7 @@ namespace KeepCoding
         /// <param name="bundleVideoFileName">The name of the bundle that contains videos.</param>
         /// <returns>The <see cref="AssetBundleCreateRequest"/> needed to load the files, followed by the <see cref="VideoClip"/> <see cref="Array"/>.</returns>
         public static TAsset[] GetAssets<T, TAsset>(T _, string bundleVideoFileName) where TAsset : Object => GetAssets<TAsset>(NameOfAssembly<T>(), bundleVideoFileName);
-        
+
         private static void CopyLibrary(in string libraryFileName, in string path)
         {
             switch (platform)
@@ -332,30 +330,29 @@ namespace KeepCoding
 
         private static char GetSlashType(in string path) => path.Count(c => c == '/') >= path.Count(c => c == '\\') ? '/' : '\\';
 
-        private static string Find(in List<string> directories, string search)
-            => directories.FirstValue(path =>
-            {
-                try
-                {
-                    string[] files = Directory.GetFiles(path, search);
-
-                    if (files.LengthOrDefault() > 0 && !files[0].Trim().IsNullOrEmpty())
-                        return files[0].Call(s => Logger.Self($"Found \"{search}\" in {s}!"));
-                }
-                catch (Exception ex) when (ex is ArgumentException || ex is ArgumentNullException || ex is DirectoryNotFoundException || ex is UnauthorizedAccessException)
-                {
-                    Logger.Self($"Caught {ex.GetType()}!");
-                }
-
-                Logger.Self($"The file \"{search}\" could not be found.");
-                return null;
-            });
-
         private static string FileFormat(in string fileName, in string fileExtension) => "{0}.{1}".Form(fileName, fileExtension);
+
+        private static string Find(in List<string> directories, string search) => directories.FirstValue(path =>
+        {
+            try
+            {
+                string[] files = Directory.GetFiles(path, search);
+
+                if (files.LengthOrDefault() > 0 && !files[0].Trim().IsNullOrEmpty())
+                    return files[0].Call(s => Self($"Found \"{search}\" in {s}!"));
+            }
+            catch (Exception ex) when (ex is ArgumentException || ex is ArgumentNullException || ex is DirectoryNotFoundException || ex is UnauthorizedAccessException)
+            {
+                Self($"Caught {ex.GetType()}!");
+            }
+
+            Self($"The file \"{search}\" could not be found.");
+            return null;
+        });
 
         private static IEnumerator LoadAssets<TAsset>(string bundleFileName, string bundleAssetFileName) where TAsset : Object
         {
-            Logger.Self($"Loading type {typeof(TAsset).Name} from \"{bundleAssetFileName}\" which exists in \"{bundleFileName}\".");
+            Self($"Loading type {typeof(TAsset).Name} from \"{bundleAssetFileName}\" which exists in \"{bundleFileName}\".");
 
             bundleAssetFileName.NullOrEmptyCheck("You cannot load a video from a nonexistent file.");
 
@@ -369,7 +366,7 @@ namespace KeepCoding
 
             var assets = mainBundle.LoadAllAssets<TAsset>().OrderBy(o => o.name).ToArray().NullOrEmptyCheck($"There are no assets of type {typeof(TAsset).Name}.");
 
-            Logger.Self($"{assets.Count()} assets of type {typeof(TAsset).Name} have been loaded into memory!");
+            Self($"{assets.Count()} assets of type {typeof(TAsset).Name} have been loaded into memory!");
 
             yield return assets;
         }

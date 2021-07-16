@@ -1101,7 +1101,7 @@ namespace KeepCoding
 
         private static FormatException WrongFormat(in string value) => throw new FormatException($"The value {value} is not formatted correctly.");
 
-        private static Number EarliestParse(in string s, in NumberStyles style, in NumberFormatInfo info) => sbyte.TryParse(s, out sbyte sb) ? (Number)sb : 
+        private static Number EarliestParse(in string s, in NumberStyles style, in NumberFormatInfo info) => sbyte.TryParse(s, out sbyte sb) ? (Number)sb :
                 byte.TryParse(s, style, info, out byte b) ? (Number)b :
                 short.TryParse(s, style, info, out short sh) ? (Number)sh :
                 ushort.TryParse(s, style, info, out ushort us) ? (Number)us :

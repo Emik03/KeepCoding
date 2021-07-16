@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static KeepCoding.ComponentPool;
+using static KeepCoding.Logger;
 using static Localization;
 using static UnityEngine.Application;
 using KTInput = KTInputManager;
@@ -397,11 +398,11 @@ namespace KeepCoding
         /// Default: Internal Logger method call.
         /// </remarks>
         public static Action<GameObject, int> AddStrikes => isEditor
-            ? (gameObject, amount) => Logger.Self($"Adding the bomb's strike count with {amount}.")
+            ? (gameObject, amount) => Self($"Adding the bomb's strike count with {amount}.")
             : AddStrikesInner;
         private static Action<GameObject, int> AddStrikesInner => (gameObject, amount) =>
         {
-            Logger.Self($"Adding the bomb's strike count with {amount}.");
+            Self($"Adding the bomb's strike count with {amount}.");
             var bomb = (Bomb)Bomb(gameObject);
             bomb.StrikeIndicator.StrikeCount = bomb.NumStrikes += amount;
         };
@@ -413,7 +414,7 @@ namespace KeepCoding
         /// Default: Internal Logger method call.
         /// </remarks>
         public static Action<GameObject, int> SetStrikes => isEditor
-            ? (gameObject, amount) => Logger.Self($"Setting the bomb's strike count to {amount}.")
+            ? (gameObject, amount) => Self($"Setting the bomb's strike count to {amount}.")
             : SetStrikesInner;
         private static Action<GameObject, int> SetStrikesInner => (gameObject, amount) =>
         {
