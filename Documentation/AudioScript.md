@@ -30,8 +30,8 @@ Inheritance [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/
 | [Pause()](global__AudioScript_Pause().md 'global::AudioScript.Pause()') | Pauses playing the clip.<br/> |
 | [Play(AudioClip, bool, byte, float, float, float, float)](global__AudioScript_Play(AudioClip_bool_byte_float_float_float_float).md 'global::AudioScript.Play(AudioClip, bool, byte, float, float, float, float)') | Plays a sound, with optional parameters.<br/> |
 | [Play(string, bool, byte, float, float, float, float)](global__AudioScript_Play(string_bool_byte_float_float_float_float).md 'global::AudioScript.Play(string, bool, byte, float, float, float, float)') | Plays a sound, with optional parameters.<br/> |
-| [PlayStackable(AudioClip, bool, byte, float, float, float, float)](global__AudioScript_PlayStackable(AudioClip_bool_byte_float_float_float_float).md 'global::AudioScript.PlayStackable(AudioClip, bool, byte, float, float, float, float)') | Plays a sound, with optional parameters.<br/> |
-| [PlayStackable(string, bool, byte, float, float, float, float)](global__AudioScript_PlayStackable(string_bool_byte_float_float_float_float).md 'global::AudioScript.PlayStackable(string, bool, byte, float, float, float, float)') | Plays a sound, with optional parameters.<br/> |
+| [PlayStackable(AudioClip, bool, byte, float, float, float)](global__AudioScript_PlayStackable(AudioClip_bool_byte_float_float_float).md 'global::AudioScript.PlayStackable(AudioClip, bool, byte, float, float, float)') | Plays a sound, with optional parameters.<br/> |
+| [PlayStackable(string, bool, byte, float, float, float)](global__AudioScript_PlayStackable(string_bool_byte_float_float_float).md 'global::AudioScript.PlayStackable(string, bool, byte, float, float, float)') | Plays a sound, with optional parameters.<br/> |
 | [Stop()](global__AudioScript_Stop().md 'global::AudioScript.Stop()') | Stops playing the clip.<br/> |
 | [Unpause()](global__AudioScript_Unpause().md 'global::AudioScript.Unpause()') | Unpauses the paused playback of this [AudioSource](global__AudioScript_AudioSource.md 'global::AudioScript.AudioSource').<br/> |
 
