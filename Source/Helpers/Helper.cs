@@ -25,7 +25,7 @@ namespace KeepCoding
         /// <summary>
         /// Contains the most commonly used flags, use this as a "catch-all" expression.
         /// </summary>
-        public const BindingFlags Flags = IgnoreCase | DeclaredOnly | Instance | Static | Public | NonPublic;
+        public const BindingFlags Flags = DeclaredOnly | Instance | Static | Public | NonPublic;
 
         /// <summary>
         /// The entire alphanumeric series, also known as base-62. From 0-9, A-Z, a-z.
