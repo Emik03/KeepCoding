@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Xml.Linq;
 using UnityEngine;
 using static System.Linq.Enumerable;
 using static System.Reflection.BindingFlags;
@@ -16,6 +18,13 @@ namespace KeepCoding
     /// </summary>
     public sealed class ReflectionScript : MonoBehaviour
     {
+        private class NullableObject
+        {
+            internal NullableObject(object o) => value = o;
+
+            internal readonly object value;
+        }
+
         private enum Methods
         {
             Get,
@@ -24,9 +33,7 @@ namespace KeepCoding
             Find
         }
 
-        private struct None { }
-
-        private const BindingFlags Flags = IgnoreCase | Instance | Static | Public | NonPublic | FlattenHierarchy;
+        private const BindingFlags Flags = Instance | Static | Public | NonPublic | FlattenHierarchy;
 
         private Component[] Components => _method switch
         {
@@ -37,6 +44,8 @@ namespace KeepCoding
             _ => throw new NotImplementedException(),
         };
 
+        private static IList<Tuple<Component, NullableObject>> Empty => Empty<Tuple<Component, NullableObject>>().ToList();
+
         [SerializeField]
 #pragma warning disable IDE0044 // Add readonly modifier
         private bool _slowMode;
@@ -44,12 +53,17 @@ namespace KeepCoding
 
         [SerializeField]
 #pragma warning disable IDE0044 // Add readonly modifier
-        private string _name;
+        private int _limitResults;
 #pragma warning restore IDE0044 // Add readonly modifier
 
         [SerializeField]
 #pragma warning disable IDE0044 // Add readonly modifier
         private Methods _method;
+#pragma warning restore IDE0044 // Add readonly modifier
+
+        [SerializeField]
+#pragma warning disable IDE0044 // Add readonly modifier
+        private string _variable;
 #pragma warning restore IDE0044 // Add readonly modifier
 
         [SerializeField]
@@ -60,18 +74,29 @@ namespace KeepCoding
 
         private IEnumerable<object> _current = Empty<object>();
 
-        private IEnumerable<Tuple<Component, object>> _members = Empty<Tuple<Component, object>>();
+        private IList<Tuple<Component, NullableObject>> _members = Empty;
 
-        private readonly Logger _log = new Logger(nameof(ReflectionScript));
+        private readonly Logger _log = new Logger(nameof(ReflectionScript), true, false);
 
         private void OnValidate()
         {
-            if (_name is null)
+            if (_variable is null)
                 return;
 
-            _members = Components
-                .Select(c => c.ToTuple(GetDeepValue(c, _name.Split('.'))))
-                .Where(t => !(t.Item2 is None));
+            _members = Empty<Tuple<Component, NullableObject>>().ToList();
+
+            foreach (var component in Components)
+            {
+                var tuple = component.ToTuple(GetDeepValue(component, _variable.Split('.')));
+
+                if (tuple.Item2 is null)
+                    continue;
+
+                _members.Add(tuple);
+
+                if (_limitResults.IsBetween(1, _members.Count))
+                    break;
+            }
         }
 
         private void Start()
@@ -86,40 +111,45 @@ namespace KeepCoding
             Destroy(this);
         }
 
-        private static object GetDeepValue(object instance, string[] names)
+        private static NullableObject GetDeepValue(in object instance, in string[] names)
         {
+            var current = new NullableObject(instance);
+
             foreach (var name in names)
             {
-                var type = instance?.GetType();
+                if (current is null)
+                    return null;
 
-                object[] vs = new[] 
-                { 
-                    GetField(type, instance, name),
-                    GetProperty(type, instance, name),
+                var type = current.value?.GetType();
+
+                var vs = new[]
+{ 
+                    GetField(in type, in name, in current.value),
+                    GetProperty(in type, in name, in current.value),
                 };
 
-                instance = vs.All(o => o is None) ? new None() : vs.First(o => !(o is None));
+                current = vs.All(o => o is null) ? null : new NullableObject(vs.First(o => o is { }).value);
             }
 
-            return instance;
+            return current;
         }
 
-        private static object GetField(Type type, object instance, string name)
+        private static NullableObject GetField(in Type type, in string name, in object instance)
         {
             FieldInfo field = type?.GetField(name);
 
-            return field is null ? new None()
-                : field.IsStatic ? field.GetValue(null)
-                : field.GetValue(instance);
+            return field is null ? null
+                : new NullableObject(field.IsStatic ? field.GetValue(null)
+                : field.GetValue(instance));
         }
 
-        private static object GetProperty(Type type, object instance, string name)
+        private static NullableObject GetProperty(in Type type, in string name, in object instance)
         {
             PropertyInfo property = type?.GetProperty(name);
 
-            return property is null ? new None()
-                : property.GetAccessors(false).Any(x => x.IsStatic) ? property.GetValue(null, null)
-                : property.GetValue(instance, null);
+            return property is null ? null
+                : new NullableObject(property.GetAccessors(false).Any(x => x.IsStatic) ? property.GetValue(null, null)
+                : property.GetValue(instance, null));
         }
 
         private IEnumerator Loop()
@@ -130,24 +160,25 @@ namespace KeepCoding
 
                 yield return new WaitForSecondsRealtime(_slowMode ? 1 : 0.1f);
 
-                IEnumerable<object> objects = _members.Select(o => o.Item2);
+                var objects = _members.Select(o => o.Item2.value);
 
-                _values = objects
-                    .Where(o => !(o is Object))
-                    .ToArray()
-                    .ConvertAll(o => o.UnwrapToString());
+                var split = objects.SplitBy(o => o is Object);
 
-                _components = objects
-                    .Where(o => o is Object)
+                _components = split.Item1
                     .ToArray()
                     .ConvertAll(o => (Object)o);
+
+                _values = split.Item2
+                    .ToArray()
+                    .ConvertAll(o => o.UnwrapToString());
 
                 if (_current.SequenceEqual(objects))
                     continue;
 
                 _current = objects;
 
-                new Logger($"{nameof(ReflectionScript)}, {gameObject.name}, {_name}").Log(_values.Select(o => '\n' + o.UnwrapToString()));
+                if (!_current.IsNullOrEmpty())
+                    _log.Log($"{gameObject.name}, {_variable}\n{_values.Select(o => '\n' + o.UnwrapToString())}");
             }
         }
     }
