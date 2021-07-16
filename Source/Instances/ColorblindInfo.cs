@@ -48,12 +48,24 @@ namespace KeepCoding
         /// <param name="module">The module to modify <see cref="ModuleScript.IsColorblind"/> with.</param>
         public ColorblindInfo(ModuleScript module) : this()
         {
+            if (isEditor)
+                return;
+
             if (!Modules.TryGetValue(module.Module.Id, out bool? isEnabled))
                 Modules[module.Module.Id] = null;
 
             Write(module.Module.Id);
 
             IsEnabled = isEnabled ?? IsEnabled;
+        }
+
+        [JsonConstructor]
+#pragma warning disable IDE0051 // Remove unused private members
+        private ColorblindInfo(bool isEnabled, Dictionary<string, bool?> modules)
+#pragma warning restore IDE0051 // Remove unused private members
+        {
+            IsEnabled = isEnabled;
+            Modules = modules;
         }
 
         /// <value>
@@ -117,7 +129,11 @@ namespace KeepCoding
         /// <returns><paramref name="path"/> deserialized as <see cref="ColorblindInfo"/>.</returns>
         public static ColorblindInfo Deserialize(string path, JsonSerializerSettings settings = null) => DeserializeObject<ColorblindInfo>(ReadAllText(path.NullCheck("A \"null\" path cannot be searched.")), settings);
 
-        private static void Error(in string moduleId, in Exception e) => new Logger("Colorblind Mode", false).Log(@$"Error in ""{moduleId ?? Helper.Null}"": {e.Message} ({e.GetType().FullName}){e.StackTrace}");
+        private static void Error(in string moduleId, in Exception e)
+        {
+            if (!isEditor)
+                new Logger("Colorblind Mode", false).Log(@$"Error in ""{moduleId ?? Helper.Null}"": {e.Message} ({e.GetType().FullName}){e.StackTrace}");
+        }
 
         private void Write(in string moduleId)
         {
