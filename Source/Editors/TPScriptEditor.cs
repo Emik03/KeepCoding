@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Linq;
 using UnityEditor;
-using UnityEngine;
 using static UnityEngine.GUILayout;
+using static UnityEngine.LogType;
 
 namespace KeepCoding
 {
@@ -11,7 +11,7 @@ namespace KeepCoding
     /// </summary>
     [CanEditMultipleObjects]
     [CustomEditor(typeof(TPScript<>), true)]
-    public class TPScriptEditor : Editor
+    public sealed class TPScriptEditor : Editor
     {
         /// <summary>
         /// Creates the force solve buttons.
@@ -41,7 +41,7 @@ namespace KeepCoding
             yield return tp.ForceSolve();
 
             if (!module.IsSolved)
-                module.Log($"The module's solve coroutine finished before the module solved! This is a mistake because Twitch Plays will force-solve a module as soon as the {nameof(IEnumerator)} finishes running. You can fix it by adding a while loop for {nameof(ModuleScript.IsSolved)} that yield returns true.", LogType.Error);
+                module.Log($"The module's solve coroutine finished before the module solved! This is a mistake because Twitch Plays will force-solve a module as soon as the {nameof(IEnumerator)} finishes running. You can fix it by adding a while loop for {nameof(ModuleScript.IsSolved)} that yield returns true.", Error);
         }
     }
 }
