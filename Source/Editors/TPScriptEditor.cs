@@ -22,7 +22,7 @@ namespace KeepCoding
 
             var tp = (ITP)target;
 
-            tp.IsTimeSkippable = Toggle(tp.IsTimeSkippable, "Allow Time-Skipping");
+            tp.IsTimeSkippable = Toggle(tp.IsTimeSkippable, "Allow time-skipping");
 
             if (Button("Run autosolver"))
                 StartVerification((CacheableBehaviour)target);
