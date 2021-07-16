@@ -7,6 +7,7 @@ using UnityEngine;
 using static KeepCoding.Logger;
 using static System.Linq.Enumerable;
 using static System.Reflection.BindingFlags;
+using static System.String;
 using static UnityEngine.Application;
 using Object = UnityEngine.Object;
 
@@ -199,7 +200,7 @@ namespace KeepCoding
                 _current = objects;
 
                 if (!_current.IsNullOrEmpty())
-                    _logger.Log($"{gameObject.name}, {_variable}\n{_values.Select(o => '\n' + o.UnwrapToString())}");
+                    _logger.Log($"{gameObject.name}, {_variable}\n{Join(", ", _values)}");
             }
         }
     }
