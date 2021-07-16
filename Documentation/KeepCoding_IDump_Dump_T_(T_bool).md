@@ -1,16 +1,20 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[IDump](KeepCoding_IDump.md 'KeepCoding.IDump')
-## IDump.Dump(object, bool) Method
+## IDump.Dump&lt;T&gt;(T, bool) Method
 Dumps all information that it can find of the type using reflection. This should only be used to debug.  
 ```csharp
-void Dump(object obj, bool getVariables=false);
+void Dump<T>(T obj, bool getVariables=false);
 ```
+#### Type parameters
+<a name='KeepCoding_IDump_Dump_T_(T_bool)_T'></a>
+`T`  
+  
 #### Parameters
-<a name='KeepCoding_IDump_Dump(object_bool)_obj'></a>
-`obj` [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')  
+<a name='KeepCoding_IDump_Dump_T_(T_bool)_obj'></a>
+`obj` [T](KeepCoding_IDump_Dump_T_(T_bool).md#KeepCoding_IDump_Dump_T_(T_bool)_T 'KeepCoding.IDump.Dump&lt;T&gt;(T, bool).T')  
 The object to reflect on.
   
-<a name='KeepCoding_IDump_Dump(object_bool)_getVariables'></a>
+<a name='KeepCoding_IDump_Dump_T_(T_bool)_getVariables'></a>
 `getVariables` [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
 Whether it should search recursively for the elements within the elements.
   

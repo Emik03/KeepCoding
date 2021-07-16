@@ -24,8 +24,8 @@ Implements [IDump](KeepCoding_IDump.md 'KeepCoding.IDump'), [ILog](KeepCoding_IL
 
 | Methods | |
 | :--- | :--- |
+| [Dump&lt;T&gt;(T, bool)](KeepCoding_Logger_Dump_T_(T_bool).md 'KeepCoding.Logger.Dump&lt;T&gt;(T, bool)') | Dumps all information that it can find of the type using reflection. This should only be used to debug.<br/> |
 | [Dump(bool, Expression&lt;Func&lt;object&gt;&gt;[])](KeepCoding_Logger_Dump(bool_System_Linq_Expressions_Expression_System_Func_object____).md 'KeepCoding.Logger.Dump(bool, System.Linq.Expressions.Expression&lt;System.Func&lt;object&gt;&gt;[])') | Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.<br/> |
-| [Dump(object, bool)](KeepCoding_Logger_Dump(object_bool).md 'KeepCoding.Logger.Dump(object, bool)') | Dumps all information that it can find of the type using reflection. This should only be used to debug.<br/> |
 | [Dump(Expression&lt;Func&lt;object&gt;&gt;[])](KeepCoding_Logger_Dump(System_Linq_Expressions_Expression_System_Func_object____).md 'KeepCoding.Logger.Dump(System.Linq.Expressions.Expression&lt;System.Func&lt;object&gt;&gt;[])') | Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.<br/> |
 | [Equals(object)](KeepCoding_Logger_Equals(object).md 'KeepCoding.Logger.Equals(object)') | Determines if both objects are equal.<br/> |
 | [GetHashCode()](KeepCoding_Logger_GetHashCode().md 'KeepCoding.Logger.GetHashCode()') | Gets the hash code of the object.<br/> |

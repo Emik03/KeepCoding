@@ -66,20 +66,20 @@ namespace KeepCoding
         /// <summary>
         /// Dumps all information that it can find of the type using reflection. This should only be used to debug.
         /// </summary>
+        /// <typeparam name="T">The type of component to reflect on.</typeparam>
         /// <param name="obj">The object to reflect on.</param>
         /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
-        public void Dump(object obj, bool getVariables = false)
+        public void Dump<T>(T obj, bool getVariables = false)
         {
+            string Format<TValue>(in string name, ref int index, in TValue value) => VariableTemplate.Form(index++, name, typeof(TValue).ToString() ?? Null, value.UnwrapToString(getVariables));
+
             int index = 0;
+            var values = new List<string>();
 
-            string Format<T>(string name, T value) => VariableTemplate.Form(index++, name, value?.GetType().ToString() ?? Null, Join(", ", value.Unwrap(getVariables).Select(o => o.ToString()).ToArray()));
+            typeof(T).GetFields(Flags).ForEach(f => values.Add(Format(f.Name, ref index, f.GetValue(obj))));
+            typeof(T).GetProperties(Flags).ForEach(p => values.Add(Format(p.Name, ref index, p.GetValue(obj, null))));
 
-            var values = new List<object>();
-
-            obj.GetType().GetFields(Flags).ForEach(f => values.Add(Format(f.Name, f.GetValue(obj))));
-            obj.GetType().GetProperties(Flags).ForEach(p => values.Add(Format(p.Name, p.GetValue(obj, null))));
-
-            Log(Join("", values.Select(v => Join("", v.Unwrap(getVariables).Select(o => o.ToString()).ToArray())).ToArray()), LogType.Warning);
+            Log(Join("", values.ToArray()), LogType.Warning);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
         /// <param name="logs">All of the variables to throughly log.</param>
-        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => Log(Join("", logs.Select((l, n) => VariableTemplate.Form(n, l.NameOf(), l.Compile()()?.GetType().ToString() ?? Null, Join(", ", l.Compile()().Unwrap(getVariables).Select(o => o.ToString()).ToArray()))).ToArray()), LogType.Warning);
+        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => Log(Join("", logs.Select((l, n) => VariableTemplate.Form(n, l.NameOf(), l.Compile()()?.GetType().ToString() ?? Null, l.Compile()().UnwrapToString())).ToArray()), LogType.Warning);
 
         /// <summary>
         /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
