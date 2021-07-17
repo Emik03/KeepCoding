@@ -9,13 +9,7 @@ namespace KeepCoding
     /// Provides the base class for the multiple <see cref="Routine"/> types.
     /// </summary>
     /// <remarks>
-    /// <para>
-    /// <see cref="RoutineBase"/> provides the general functionality that different types of <see cref="Routine"/> share in common with.
-    /// As each different type of <see cref="Routine"/> gives different amounts of generics, this base class is therefore non-generic and provides every method that doesn't require it.
-    /// This can therefore be used as a way of passing in an ambiguous type of <see cref="Routine"/>.
-    /// </para>
-    /// </remarks>
-    /// <example>
+    /// <see cref="RoutineBase"/> provides the general functionality that different types of <see cref="Routine"/> share in common with. As each different type of <see cref="Routine"/> gives different amounts of generics, this base class is therefore non-generic and provides every method that doesn't require it. This can therefore be used as a way of passing in an ambiguous type of <see cref="Routine"/>.
     /// The following example illustrates a method for returning a <see cref="Tuple{T1, T2}"/> of the first and last coroutines, using <see cref="TypeHelper.ToTuple{T1, T2}(T1, T2)"/> as shorthand for constructing the tuple.
     /// <code>
     /// public static class CoroutineHelper
@@ -75,7 +69,7 @@ namespace KeepCoding
     ///     }
     /// }
     /// </code>
-    /// </example>
+    /// </remarks>
     /// <seealso cref="Routine"/>
     public abstract class RoutineBase : IEnumerable
     {
