@@ -83,7 +83,7 @@ namespace KeepCoding
         /// Creates a list of coroutines so that you can start, restart, or stop any coroutine running inside this class.
         /// </summary>
         /// <param name="monoBehaviour">The MonoBehaviour to reference when calling the method.</param>
-        public RoutineBase(MonoBehaviour monoBehaviour) => _monoBehaviour = monoBehaviour;
+        protected RoutineBase(MonoBehaviour monoBehaviour) => _monoBehaviour = monoBehaviour;
 
         /// <summary>
         /// Indexes into <see cref="Coroutines"/>.
