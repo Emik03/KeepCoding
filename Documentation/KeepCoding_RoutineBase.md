@@ -21,7 +21,6 @@ Implements [System.Collections.IEnumerable](https://docs.microsoft.com/en-us/dot
 ### Example
 The following example illustrates a method for returning a [Tuple&lt;T1,T2&gt;](KeepCoding_Tuple_T1_T2_.md 'KeepCoding.Tuple&lt;T1,T2&gt;') of the first and last coroutines, using [ToTuple&lt;T1,T2&gt;(T1, T2)](KeepCoding_TypeHelper_ToTuple_T1_T2_(T1_T2).md 'KeepCoding.TypeHelper.ToTuple&lt;T1,T2&gt;(T1, T2)') as shorthand for constructing the tuple. This method needs a [RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') with at least 1 coroutine, so an exception is raised if [Count](KeepCoding_RoutineBase_Count.md 'KeepCoding.RoutineBase.Count') is 0.  
 ```csharp
-  
 using KeepCoding;  
 using UnityEngine;  
   
@@ -34,12 +33,10 @@ public static class CoroutineHelper
               
         return routine[0].ToTuple(routine[routine.Count - 1]);  
     }  
-}  
-```
+}```
   
 This can be called with anything that inherits from this type to get the coroutines. This example will use the types [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') and [Routine&lt;T&gt;](KeepCoding_Routine_T_.md 'KeepCoding.Routine&lt;T&gt;').  
 ```csharp
-  
 using KeepCoding;  
 using System.Collections;  
 using UnityEngine;  
@@ -87,8 +84,7 @@ public sealed class FooModule : ModuleScript
         Log(i);  
         yield return null;  
     }  
-}  
-```
+}```
 ### Remarks
 [RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') provides the general functionality that different types of [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') share in common with. As each different type of [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') gives different amounts of generics, this base [class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class') is therefore non-generic and provides every method that doesn't require it. This can therefore be used as a way of passing in an ambiguous type of [Routine](KeepCoding_Routine.md 'KeepCoding.Routine').  
             

@@ -13,8 +13,7 @@ namespace KeepCoding
     /// </remarks>
     /// <example>
     /// The following example illustrates a method for returning a <see cref="Tuple{T1, T2}"/> of the first and last coroutines, using <see cref="TypeHelper.ToTuple{T1, T2}(T1, T2)"/> as shorthand for constructing the tuple. This method needs a <see cref="RoutineBase"/> with at least 1 coroutine, so an exception is raised if <see cref="Count"/> is 0.
-    /// <code>
-    /// using KeepCoding;
+    /// <code>using KeepCoding;
     /// using UnityEngine;
     /// 
     /// public static class CoroutineHelper
@@ -26,11 +25,9 @@ namespace KeepCoding
     ///             
     ///         return routine[0].ToTuple(routine[routine.Count - 1]);
     ///     }
-    /// }
-    /// </code>
+    /// }</code>
     /// This can be called with anything that inherits from this type to get the coroutines. This example will use the types <see cref="Routine"/> and <see cref="Routine{T}"/>.
-    /// <code>
-    /// using KeepCoding;
+    /// <code>using KeepCoding;
     /// using System.Collections;
     /// using UnityEngine;
     /// 
@@ -77,8 +74,7 @@ namespace KeepCoding
     ///         Log(i);
     ///         yield return null;
     ///     }
-    /// }
-    /// </code>
+    /// }</code>
     /// </example>
     /// <seealso cref="Count"/>
     /// <seealso cref="Routine"/>
