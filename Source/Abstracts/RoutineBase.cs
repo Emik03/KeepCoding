@@ -304,7 +304,7 @@ namespace KeepCoding
         /// Stops the first coroutine that was called, and removes it from <see cref="Coroutines"/>.
         /// </summary>
         /// <remarks>Every time a coroutine gets added, it does so at the end of the <see cref="List{T}"/>. When <see cref="Stop"/> is called, the first and therefore oldest coroutine gets removed from this list in a similar vein to <see cref="Queue"/>. Note that when the coroutines are finished, they do not get removed from the list. If <see cref="Stop"/> is called on a coroutine which has already stopped, the first coroutine will still be attempted to be stopped, which will in that case do nothing, and be removed from the list.</remarks>
-        /// <examples>
+        /// <example>
         /// The following example illustrates running <see cref="Stop"/> three times despite only having two coroutines using the class <see cref="Routine"/> which inherits from <see cref="RoutineBase"/>. As <see cref="Stop"/> expects at least 1 coroutine, the code will cause an <see cref="EmptyIteratorException"/>.
         /// <code>
         /// using KeepCoding;
@@ -339,7 +339,7 @@ namespace KeepCoding
         ///     }
         /// }
         /// </code>
-        /// </examples>
+        /// </example>
         /// <exception cref="EmptyIteratorException"><see cref="Coroutines"/> is empty.</exception>
         /// <seealso cref="Coroutines"/>
         public void Stop()
