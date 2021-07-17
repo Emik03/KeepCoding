@@ -24,19 +24,19 @@ namespace KeepCoding
     public abstract partial class ModuleScript : CacheableBehaviour, IDump, ILog
 #pragma warning restore IDE1006 // Naming Styles
     {
-        /// <value>
+        /// <summary>
         /// Determines whether the module has been struck. Twitch Plays script will set this to false when a command is interrupted.
-        /// </value>
+        /// </summary>
         public bool HasStruck { get; set; }
 
-        /// <value>
+        /// <summary>
         /// Determines whether the bomb is currently active, and the timer is ticking.
-        /// </value>
+        /// </summary>
         public bool IsActive { get; private set; }
 
-        /// <value>
+        /// <summary>
         /// Determines whether the module's colorblind mode is enabled.
-        /// </value>
+        /// </summary>
         public bool IsColorblind
         {
             get => _colorblind.IsEnabled;
@@ -47,34 +47,34 @@ namespace KeepCoding
             }
         }
 
-        /// <value>
+        /// <summary>
         /// Determines whether the application is running from inside unity.
-        /// </value>
+        /// </summary>
         public static bool IsEditor => isEditor;
 
-        /// <value>
+        /// <summary>
         /// Determines whether this module is the last instantiated instance.
-        /// </value>
+        /// </summary>
         public bool IsLastInstantiated => Id == LastId;
 
-        /// <value>
+        /// <summary>
         /// Determines whether the needy is active.
-        /// </value>
+        /// </summary>
         public bool IsNeedyActive { get; private set; }
 
-        /// <value>
+        /// <summary>
         /// Determines whether the module has been solved.
-        /// </value>
+        /// </summary>
         public bool IsSolved { get; private set; }
 
-        /// <value>
+        /// <summary>
         /// Determines whether the game is being played in Virtual Reality. In the Editor, it always returns false.
-        /// </value>
+        /// </summary>
         public static bool IsVR => IsCurrentControlTypeVR;
 
-        /// <value>
+        /// <summary>
         /// The Unique Id for the module of this type.
-        /// </value>
+        /// </summary>
         public int Id => _logger.Id;
 
         /// <summary>
@@ -82,40 +82,40 @@ namespace KeepCoding
         /// </summary>
         public int LastId => Logger.ids[Module.Name];
 
-        /// <value>
+        /// <summary>
         /// The amount of time left on the bomb, in seconds, rounded down.
-        /// </value>
+        /// </summary>
         public int TimeLeft { get; private set; }
 
-        /// <value>
+        /// <summary>
         /// The version number of the entire mod.
-        /// </value>
+        /// </summary>
         /// <exception cref="OperationCanceledException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
         public string Version => IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(GetType()).Version;
 
-        /// <value>
+        /// <summary>
         /// Gets the Twitch Plays <see cref="Component"/> attached to this <see cref="GameObject"/>.
-        /// </value>
+        /// </summary>
         /// <remarks>
         /// Due to type ambiguity, a non-generic interface is returned.
         /// </remarks>
         public ITP TP => _tp ??= GetComponents<Component>().FirstOrDefault(c => c is ITP) as ITP;
         private ITP _tp;
 
-        /// <value>
+        /// <summary>
         /// The bomb that this module is in.
-        /// </value>
+        /// </summary>
         public KMBomb Bomb { get; private set; }
 
-        /// <value>
+        /// <summary>
         /// Contains either <see cref="KMBombModule"/> or <see cref="KMNeedyModule"/>, and allows for running commands through context.
-        /// </value>
+        /// </summary>
         public ModuleContainer Module { get; private set; }
 
-        /// <value>
+        /// <summary>
         /// Contains an instance for every <see cref="Sound"/> played by this module using <see cref="PlaySound(Transform, bool, Sound[])"/> or any of its overloads.
-        /// </value>
+        /// </summary>
         public Sound[] Sounds { get; private set; } = new Sound[0];
 
         /// <summary>

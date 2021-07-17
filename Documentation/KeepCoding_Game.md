@@ -12,8 +12,8 @@ On the Editor, these properties will return default values. Check the XML docume
 
 | Properties | |
 | :--- | :--- |
-| [AddStrikes](KeepCoding_Game_AddStrikes.md 'KeepCoding.Game.AddStrikes') |  |
-| [Bomb](KeepCoding_Game_Bomb.md 'KeepCoding.Game.Bomb') |  |
-| [SetStrikes](KeepCoding_Game_SetStrikes.md 'KeepCoding.Game.SetStrikes') |  |
-| [Timer](KeepCoding_Game_Timer.md 'KeepCoding.Game.Timer') |  |
-| [Vanillas](KeepCoding_Game_Vanillas.md 'KeepCoding.Game.Vanillas') |  |
+| [AddStrikes](KeepCoding_Game_AddStrikes.md 'KeepCoding.Game.AddStrikes') | Adds an amount of strikes on the bomb.<br/> |
+| [Bomb](KeepCoding_Game_Bomb.md 'KeepCoding.Game.Bomb') | Gets the game's internal bomb component, not to be mistaken with [KMBomb](https://docs.microsoft.com/en-us/dotnet/api/KMBomb 'KMBomb'). To prevent a reference to the game, the type is boxed in [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object'). You can cast it to Bomb or [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') type to restore its functionality.<br/> |
+| [SetStrikes](KeepCoding_Game_SetStrikes.md 'KeepCoding.Game.SetStrikes') | Sets an amount of strikes on the bomb.<br/> |
+| [Timer](KeepCoding_Game_Timer.md 'KeepCoding.Game.Timer') | Gets the game's internal timer component. To prevent a reference to the game, the type is boxed in [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object'). You can cast it to TimerComponent or [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') type to restore its functionality.<br/> |
+| [Vanillas](KeepCoding_Game_Vanillas.md 'KeepCoding.Game.Vanillas') | Gets all of the vanilla modules from the bomb supplied, including needies. To prevent a reference to the game, the type is boxed in an [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')[System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array'). You can cast it to BombComponent type to restore its functionality.<br/> |

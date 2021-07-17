@@ -68,20 +68,20 @@ namespace KeepCoding
             Modules = modules;
         }
 
-        /// <value>
+        /// <summary>
         /// Determines whether colorblind mode is on.
-        /// </value>
+        /// </summary>
         [JsonProperty("Enabled")]
         public bool IsEnabled { get; set; }
 
-        /// <value>
+        /// <summary>
         /// The directory of the mod settings file.
-        /// </value>
+        /// </summary>
         public static string Directory { get; } = CombineMultiple(persistentDataPath, "Modsettings", "ColorblindMode.json");
 
-        /// <value>
+        /// <summary>
         /// Contains module ids and their colorblind states.
-        /// </value>
+        /// </summary>
         [JsonProperty("EnabledModules")]
         public Dictionary<string, bool?> Modules { get; private set; } = new Dictionary<string, bool?>();
 

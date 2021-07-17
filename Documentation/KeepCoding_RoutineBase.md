@@ -24,9 +24,9 @@ Implements [System.Collections.IEnumerable](https://docs.microsoft.com/en-us/dot
 
 | Properties | |
 | :--- | :--- |
-| [Coroutines](KeepCoding_RoutineBase_Coroutines.md 'KeepCoding.RoutineBase.Coroutines') |  |
-| [Count](KeepCoding_RoutineBase_Count.md 'KeepCoding.RoutineBase.Count') |  |
-| [IsRunning](KeepCoding_RoutineBase_IsRunning.md 'KeepCoding.RoutineBase.IsRunning') |  |
+| [Coroutines](KeepCoding_RoutineBase_Coroutines.md 'KeepCoding.RoutineBase.Coroutines') | The list of all coroutines currently running.<br/> |
+| [Count](KeepCoding_RoutineBase_Count.md 'KeepCoding.RoutineBase.Count') | The amount of coroutines stored.<br/> |
+| [IsRunning](KeepCoding_RoutineBase_IsRunning.md 'KeepCoding.RoutineBase.IsRunning') | Determines whether it is currently running any coroutines.<br/> |
 | [this[int]](KeepCoding_RoutineBase_this_int_.md 'KeepCoding.RoutineBase.this[int]') | Indexes into [Coroutines](KeepCoding_RoutineBase_Coroutines.md 'KeepCoding.RoutineBase.Coroutines').<br/> |
 
 | Methods | |

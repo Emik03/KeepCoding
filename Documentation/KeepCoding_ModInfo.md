@@ -10,13 +10,13 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Properties | |
 | :--- | :--- |
-| [Author](KeepCoding_ModInfo_Author.md 'KeepCoding.ModInfo.Author') |  |
-| [Description](KeepCoding_ModInfo_Description.md 'KeepCoding.ModInfo.Description') |  |
-| [Id](KeepCoding_ModInfo_Id.md 'KeepCoding.ModInfo.Id') |  |
-| [Title](KeepCoding_ModInfo_Title.md 'KeepCoding.ModInfo.Title') |  |
+| [Author](KeepCoding_ModInfo_Author.md 'KeepCoding.ModInfo.Author') | Contains the author of the mod.<br/> |
+| [Description](KeepCoding_ModInfo_Description.md 'KeepCoding.ModInfo.Description') | Contains the description of the mod.<br/> |
+| [Id](KeepCoding_ModInfo_Id.md 'KeepCoding.ModInfo.Id') | Contains the ID of the mod, not to be mistaken with [Id](KeepCoding_ModuleScript_Id.md 'KeepCoding.ModuleScript.Id').<br/> |
+| [Title](KeepCoding_ModInfo_Title.md 'KeepCoding.ModInfo.Title') | Contains the title of the mod.<br/> |
 | [UnityVersion](KeepCoding_ModInfo_UnityVersion.md 'KeepCoding.ModInfo.UnityVersion') | Contains the current unity version of the mod.<br/> |
-| [Values](KeepCoding_ModInfo_Values.md 'KeepCoding.ModInfo.Values') |  |
-| [Version](KeepCoding_ModInfo_Version.md 'KeepCoding.ModInfo.Version') |  |
+| [Values](KeepCoding_ModInfo_Values.md 'KeepCoding.ModInfo.Values') | Returns the current values of this [ModInfo](KeepCoding_ModInfo.md 'KeepCoding.ModInfo') as a dictionary, where the key is the variable name and the value is the variable value.<br/> |
+| [Version](KeepCoding_ModInfo_Version.md 'KeepCoding.ModInfo.Version') | Contains the current version of the mod.<br/> |
 
 | Methods | |
 | :--- | :--- |

@@ -17,25 +17,25 @@ namespace KeepCoding
         /// <returns>The item indexed into.</returns>
         public object this[byte index] { get; set; }
 
-        /// <value>
+        /// <summary>
         /// Determines if the tuple data type is empty.
-        /// </value>
+        /// </summary>
         public bool IsEmpty { get; }
 
-        /// <value>
+        /// <summary>
         /// Gets the length of the tuple, describing the amount of elements there are.
-        /// </value>
+        /// </summary>
         public byte Length { get; }
 
-        /// <value>
+        /// <summary>
         /// Gets the upper bound of the tuple, which is the last index.
-        /// </value>
+        /// </summary>
         /// <exception cref="InvalidOperationException"></exception>
         public byte UpperBound { get; }
 
-        /// <value>
+        /// <summary>
         /// All of the tuple's items as an array, ordered by item number.
-        /// </value>
+        /// </summary>
         public object[] ToArray { get; }
     }
 }

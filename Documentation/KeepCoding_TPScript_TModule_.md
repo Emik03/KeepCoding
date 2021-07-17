@@ -18,31 +18,31 @@ Implements [ITP](KeepCoding_ITP.md 'KeepCoding.ITP')
 
 | Fields | |
 | :--- | :--- |
-| [AutoSolve](KeepCoding_TPScript_TModule__AutoSolve.md 'KeepCoding.TPScript&lt;TModule&gt;.AutoSolve') |  |
-| [CancelDetonate](KeepCoding_TPScript_TModule__CancelDetonate.md 'KeepCoding.TPScript&lt;TModule&gt;.CancelDetonate') |  |
-| [Cancelled](KeepCoding_TPScript_TModule__Cancelled.md 'KeepCoding.TPScript&lt;TModule&gt;.Cancelled') |  |
-| [EndMultipleStrikes](KeepCoding_TPScript_TModule__EndMultipleStrikes.md 'KeepCoding.TPScript&lt;TModule&gt;.EndMultipleStrikes') |  |
-| [EndWaitingMusic](KeepCoding_TPScript_TModule__EndWaitingMusic.md 'KeepCoding.TPScript&lt;TModule&gt;.EndWaitingMusic') |  |
-| [HideCamera](KeepCoding_TPScript_TModule__HideCamera.md 'KeepCoding.TPScript&lt;TModule&gt;.HideCamera') |  |
-| [MultipleStrikes](KeepCoding_TPScript_TModule__MultipleStrikes.md 'KeepCoding.TPScript&lt;TModule&gt;.MultipleStrikes') |  |
-| [Solve](KeepCoding_TPScript_TModule__Solve.md 'KeepCoding.TPScript&lt;TModule&gt;.Solve') |  |
-| [Strike](KeepCoding_TPScript_TModule__Strike.md 'KeepCoding.TPScript&lt;TModule&gt;.Strike') |  |
-| [ToggleWaitingMusic](KeepCoding_TPScript_TModule__ToggleWaitingMusic.md 'KeepCoding.TPScript&lt;TModule&gt;.ToggleWaitingMusic') |  |
-| [TryCancelSequence](KeepCoding_TPScript_TModule__TryCancelSequence.md 'KeepCoding.TPScript&lt;TModule&gt;.TryCancelSequence') |  |
-| [UnsubmittablePenalty](KeepCoding_TPScript_TModule__UnsubmittablePenalty.md 'KeepCoding.TPScript&lt;TModule&gt;.UnsubmittablePenalty') |  |
-| [WaitingMusic](KeepCoding_TPScript_TModule__WaitingMusic.md 'KeepCoding.TPScript&lt;TModule&gt;.WaitingMusic') |  |
+| [AutoSolve](KeepCoding_TPScript_TModule__AutoSolve.md 'KeepCoding.TPScript&lt;TModule&gt;.AutoSolve') | Yield return this to indicate automatically solving the module, as if it threw an exception while solving.<br/> |
+| [CancelDetonate](KeepCoding_TPScript_TModule__CancelDetonate.md 'KeepCoding.TPScript&lt;TModule&gt;.CancelDetonate') | Yield return this to indicate cancelling a previously issued delayed detonation command on the same module.<br/> |
+| [Cancelled](KeepCoding_TPScript_TModule__Cancelled.md 'KeepCoding.TPScript&lt;TModule&gt;.Cancelled') | Yield return this to indicate that you have stopped processing the command in response to the [KeepCoding.TPScript&lt;&gt;.TwitchShouldCancelCommand](https://docs.microsoft.com/en-us/dotnet/api/KeepCoding.TPScript-1.TwitchShouldCancelCommand 'KeepCoding.TPScript`1.TwitchShouldCancelCommand') bool being set to true.<br/> |
+| [EndMultipleStrikes](KeepCoding_TPScript_TModule__EndMultipleStrikes.md 'KeepCoding.TPScript&lt;TModule&gt;.EndMultipleStrikes') | Yield return this to indicate that the strike tracker should be enabled. If any strikes were issued during the time it was disabled, they will be awarded and the routine stopped at that point, otherwise, it will just cancel the "VoteNay Module {id} got 0 strikes! +0 strike to {Nickname}" message that would otherwise be posted. Likewise, if the module was solved at the time this command is issued, the processing will be stopped as of that point as well.<br/> |
+| [EndWaitingMusic](KeepCoding_TPScript_TModule__EndWaitingMusic.md 'KeepCoding.TPScript&lt;TModule&gt;.EndWaitingMusic') | Yield return this to indicate stopping the waiting music mid-command.<br/> |
+| [HideCamera](KeepCoding_TPScript_TModule__HideCamera.md 'KeepCoding.TPScript&lt;TModule&gt;.HideCamera') | Yield return this to hide the heads-up display and cameras while doing quaternion rotations, if it is expected that the camera/hud will get in the way.<br/> |
+| [MultipleStrikes](KeepCoding_TPScript_TModule__MultipleStrikes.md 'KeepCoding.TPScript&lt;TModule&gt;.MultipleStrikes') | Yield return this to indicate that the issued command is going to cause more than one strike, so should disable the internal strike tracker in order to avoid flooding the chat with "VoteNay Module {id} got a strike! +1 strike to {Nickname}" for as many strikes as will be awarded. This also disables the internal solve tracker as well. This allows for sending additional messages or continue processing commands regardless of the solve/strike state.<br/> |
+| [Solve](KeepCoding_TPScript_TModule__Solve.md 'KeepCoding.TPScript&lt;TModule&gt;.Solve') | Yield return this to indicate that this command will solve the module at some later point; all this does is tell Twitch Plays to attribute the solve to the author of this command.<br/> |
+| [Strike](KeepCoding_TPScript_TModule__Strike.md 'KeepCoding.TPScript&lt;TModule&gt;.Strike') | Yield return this to indicate that this command will cause a strike at some later point; all this does is tell Twitch Plays to attribute the strike to the author of this command.<br/> |
+| [ToggleWaitingMusic](KeepCoding_TPScript_TModule__ToggleWaitingMusic.md 'KeepCoding.TPScript&lt;TModule&gt;.ToggleWaitingMusic') | Yield return this to toggle the waiting music on and off mid-command.<br/> |
+| [TryCancelSequence](KeepCoding_TPScript_TModule__TryCancelSequence.md 'KeepCoding.TPScript&lt;TModule&gt;.TryCancelSequence') | Yield return this to indicate that the `KMSelectable[]` sequence that follows this command should be cancelled if a "!cancel" or "!stop" is issued mid-way through that sequence.<br/> |
+| [UnsubmittablePenalty](KeepCoding_TPScript_TModule__UnsubmittablePenalty.md 'KeepCoding.TPScript&lt;TModule&gt;.UnsubmittablePenalty') | Yield return this to indicate that the command couldn't submit an answer and should only be used to prevent users from guessing the answer. This should not be used if an answer could never be submittable for a module.<br/> |
+| [WaitingMusic](KeepCoding_TPScript_TModule__WaitingMusic.md 'KeepCoding.TPScript&lt;TModule&gt;.WaitingMusic') | Yield return this to indicate playing the waiting music if a command will take long to finish.<br/> |
 
 | Properties | |
 | :--- | :--- |
-| [Abandons](KeepCoding_TPScript_TModule__Abandons.md 'KeepCoding.TPScript&lt;TModule&gt;.Abandons') |  |
-| [Help](KeepCoding_TPScript_TModule__Help.md 'KeepCoding.TPScript&lt;TModule&gt;.Help') |  |
-| [IsCancelCommand](KeepCoding_TPScript_TModule__IsCancelCommand.md 'KeepCoding.TPScript&lt;TModule&gt;.IsCancelCommand') |  |
-| [IsTime](KeepCoding_TPScript_TModule__IsTime.md 'KeepCoding.TPScript&lt;TModule&gt;.IsTime') |  |
-| [IsTimeSkippable](KeepCoding_TPScript_TModule__IsTimeSkippable.md 'KeepCoding.TPScript&lt;TModule&gt;.IsTimeSkippable') |  |
-| [IsTP](KeepCoding_TPScript_TModule__IsTP.md 'KeepCoding.TPScript&lt;TModule&gt;.IsTP') |  |
-| [IsZen](KeepCoding_TPScript_TModule__IsZen.md 'KeepCoding.TPScript&lt;TModule&gt;.IsZen') |  |
-| [Manual](KeepCoding_TPScript_TModule__Manual.md 'KeepCoding.TPScript&lt;TModule&gt;.Manual') |  |
-| [Module](KeepCoding_TPScript_TModule__Module.md 'KeepCoding.TPScript&lt;TModule&gt;.Module') |  |
+| [Abandons](KeepCoding_TPScript_TModule__Abandons.md 'KeepCoding.TPScript&lt;TModule&gt;.Abandons') | This list contains modules that it should stop processing. Currently, the only module that uses this capability is Souvenir.<br/> |
+| [Help](KeepCoding_TPScript_TModule__Help.md 'KeepCoding.TPScript&lt;TModule&gt;.Help') | The help message that gets sent when typing `!{id} help`.<br/> |
+| [IsCancelCommand](KeepCoding_TPScript_TModule__IsCancelCommand.md 'KeepCoding.TPScript&lt;TModule&gt;.IsCancelCommand') | Determines if it should cancel command processing. If this returns true, then stop processing the command, clean up, then do a `yield return Cancelled;` to acknowledge the cancel.<br/> |
+| [IsTime](KeepCoding_TPScript_TModule__IsTime.md 'KeepCoding.TPScript&lt;TModule&gt;.IsTime') | Determines if it is in Time Mode, where solves change the timer. This is useful for modules that use the timer's value.<br/> |
+| [IsTimeSkippable](KeepCoding_TPScript_TModule__IsTimeSkippable.md 'KeepCoding.TPScript&lt;TModule&gt;.IsTimeSkippable') | Determines if it should allow for the timer to be skipped when the module it is in, as well as any other modules that would like to skip time, are the only unsolved modules left on the bomb. <br/> |
+| [IsTP](KeepCoding_TPScript_TModule__IsTP.md 'KeepCoding.TPScript&lt;TModule&gt;.IsTP') | Determines if Twitch Plays is currently active. This is for modules that need to display different items, or use different rules if Twitch Plays is active.<br/> |
+| [IsZen](KeepCoding_TPScript_TModule__IsZen.md 'KeepCoding.TPScript&lt;TModule&gt;.IsZen') | Determines if the timer is counting up instead of down, for special cases, such as controlling how to sort button release times, or whether there is a low timer event or not.<br/> |
+| [Manual](KeepCoding_TPScript_TModule__Manual.md 'KeepCoding.TPScript&lt;TModule&gt;.Manual') | Specifies the manual that is looked up on The Manual Repository when `!{id} manual` is entered into chat.<br/> |
+| [Module](KeepCoding_TPScript_TModule__Module.md 'KeepCoding.TPScript&lt;TModule&gt;.Module') | The instance of the module.<br/> |
 
 | Methods | |
 | :--- | :--- |

@@ -19,7 +19,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Properties | |
 | :--- | :--- |
-| [Result](KeepCoding_Work_T__Result.md 'KeepCoding.Work&lt;T&gt;.Result') |  |
+| [Result](KeepCoding_Work_T__Result.md 'KeepCoding.Work&lt;T&gt;.Result') | The returned value of the thread.<br/> |
 
 | Methods | |
 | :--- | :--- |

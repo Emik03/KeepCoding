@@ -10,8 +10,8 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Properties | |
 | :--- | :--- |
-| [AssemblyName](KeepCoding_PathManager_AssemblyName.md 'KeepCoding.PathManager.AssemblyName') |  |
-| [Version](KeepCoding_PathManager_Version.md 'KeepCoding.PathManager.Version') |  |
+| [AssemblyName](KeepCoding_PathManager_AssemblyName.md 'KeepCoding.PathManager.AssemblyName') | Gets this library's [AssemblyName](KeepCoding_PathManager_AssemblyName.md 'KeepCoding.PathManager.AssemblyName').<br/> |
+| [Version](KeepCoding_PathManager_Version.md 'KeepCoding.PathManager.Version') | Gets this library's version number. Currently used by [ModuleScript](KeepCoding_ModuleScript.md 'KeepCoding.ModuleScript') to log the version number of this library.<br/> |
 
 | Methods | |
 | :--- | :--- |

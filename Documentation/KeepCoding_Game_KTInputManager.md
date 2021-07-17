@@ -10,5 +10,5 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Properties | |
 | :--- | :--- |
-| [CurrentControlType](KeepCoding_Game_KTInputManager_CurrentControlType.md 'KeepCoding.Game.KTInputManager.CurrentControlType') |  |
-| [IsCurrentControlTypeVR](KeepCoding_Game_KTInputManager_IsCurrentControlTypeVR.md 'KeepCoding.Game.KTInputManager.IsCurrentControlTypeVR') |  |
+| [CurrentControlType](KeepCoding_Game_KTInputManager_CurrentControlType.md 'KeepCoding.Game.KTInputManager.CurrentControlType') | The current way the game is being controlled.<br/> |
+| [IsCurrentControlTypeVR](KeepCoding_Game_KTInputManager_IsCurrentControlTypeVR.md 'KeepCoding.Game.KTInputManager.IsCurrentControlTypeVR') | Determines if the current way the game is being controlled is VR-related.<br/> |

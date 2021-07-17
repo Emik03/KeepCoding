@@ -41,14 +41,14 @@ namespace KeepCoding
 
         private static readonly PlatformNotSupportedException _intPtrException = new PlatformNotSupportedException("IntPtr size is not 4 or 8, what kind of system is this?");
 
-        /// <value>
+        /// <summary>
         /// Gets this library's <see cref="AssemblyName"/>.
-        /// </value>
+        /// </summary>
         public static AssemblyName AssemblyName => GetExecutingAssembly().GetName();
 
-        /// <value>
+        /// <summary>
         /// Gets this library's version number. Currently used by <see cref="ModuleScript"/> to log the version number of this library.
-        /// </value>
+        /// </summary>
         /// <remarks>
         /// If you want the version number of your modules, refer to <see cref="ModuleScript.Version"/> instead, or <see cref="GetModInfo{T}(T)"/>.
         /// </remarks>

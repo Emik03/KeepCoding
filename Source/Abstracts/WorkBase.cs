@@ -17,24 +17,24 @@ namespace KeepCoding
             _maximumThreadsActive = maximumThreadsActive;
         }
 
-        /// <value>
+        /// <summary>
         /// Determines whether any thread in this class is running.
-        /// </value>
+        /// </summary>
         public bool IsRunning { get; private protected set; }
 
-        /// <value>
+        /// <summary>
         /// Determines whether it should skip on starting a thread if it doesn't allow multiple.
-        /// </value>
+        /// </summary>
         public bool AllowSimultaneousActive { get; }
 
-        /// <value>
+        /// <summary>
         /// Counts the number of threads currently active within this class, and all of its overloads.
-        /// </value>
+        /// </summary>
         public static uint ThreadsActive { get; private protected set; }
 
-        /// <value>
+        /// <summary>
         /// The thread of the class.
-        /// </value>
+        /// </summary>
         public Thread Thread { get; private protected set; }
 
         private readonly uint _maximumThreadsActive;

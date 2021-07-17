@@ -18,10 +18,10 @@ Derived
 
 | Properties | |
 | :--- | :--- |
-| [AllowSimultaneousActive](KeepCoding_WorkBase_AllowSimultaneousActive.md 'KeepCoding.WorkBase.AllowSimultaneousActive') |  |
-| [IsRunning](KeepCoding_WorkBase_IsRunning.md 'KeepCoding.WorkBase.IsRunning') |  |
-| [Thread](KeepCoding_WorkBase_Thread.md 'KeepCoding.WorkBase.Thread') |  |
-| [ThreadsActive](KeepCoding_WorkBase_ThreadsActive.md 'KeepCoding.WorkBase.ThreadsActive') |  |
+| [AllowSimultaneousActive](KeepCoding_WorkBase_AllowSimultaneousActive.md 'KeepCoding.WorkBase.AllowSimultaneousActive') | Determines whether it should skip on starting a thread if it doesn't allow multiple.<br/> |
+| [IsRunning](KeepCoding_WorkBase_IsRunning.md 'KeepCoding.WorkBase.IsRunning') | Determines whether any thread in this class is running.<br/> |
+| [Thread](KeepCoding_WorkBase_Thread.md 'KeepCoding.WorkBase.Thread') | The thread of the class.<br/> |
+| [ThreadsActive](KeepCoding_WorkBase_ThreadsActive.md 'KeepCoding.WorkBase.ThreadsActive') | Counts the number of threads currently active within this class, and all of its overloads.<br/> |
 
 | Methods | |
 | :--- | :--- |

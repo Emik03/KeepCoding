@@ -32,12 +32,12 @@ Implements [System.IComparable](https://docs.microsoft.com/en-us/dotnet/api/Syst
 
 | Properties | |
 | :--- | :--- |
-| [Epsilon](KeepCoding_Number_Epsilon.md 'KeepCoding.Number.Epsilon') |  |
-| [MaxValue](KeepCoding_Number_MaxValue.md 'KeepCoding.Number.MaxValue') |  |
-| [MinValue](KeepCoding_Number_MinValue.md 'KeepCoding.Number.MinValue') |  |
-| [NaN](KeepCoding_Number_NaN.md 'KeepCoding.Number.NaN') |  |
-| [NegativeInfinity](KeepCoding_Number_NegativeInfinity.md 'KeepCoding.Number.NegativeInfinity') |  |
-| [PositiveInfinity](KeepCoding_Number_PositiveInfinity.md 'KeepCoding.Number.PositiveInfinity') |  |
+| [Epsilon](KeepCoding_Number_Epsilon.md 'KeepCoding.Number.Epsilon') | Returns the epsilon constant with precision based on the current type of the value.<br/> |
+| [MaxValue](KeepCoding_Number_MaxValue.md 'KeepCoding.Number.MaxValue') | Returns the biggest value of the current type of the value.<br/> |
+| [MinValue](KeepCoding_Number_MinValue.md 'KeepCoding.Number.MinValue') | Returns the smallest value of the current type of the value.<br/> |
+| [NaN](KeepCoding_Number_NaN.md 'KeepCoding.Number.NaN') | Returns the "not-a-number" constant.<br/> |
+| [NegativeInfinity](KeepCoding_Number_NegativeInfinity.md 'KeepCoding.Number.NegativeInfinity') | Returns the negative infinity constant.<br/> |
+| [PositiveInfinity](KeepCoding_Number_PositiveInfinity.md 'KeepCoding.Number.PositiveInfinity') | Returns the positive infinity constant.<br/> |
 
 | Methods | |
 | :--- | :--- |

@@ -15,12 +15,12 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Properties | |
 | :--- | :--- |
-| [ComponentPools](KeepCoding_GeneratorSetting_ComponentPools.md 'KeepCoding.GeneratorSetting.ComponentPools') |  |
-| [FrontFaceOnly](KeepCoding_GeneratorSetting_FrontFaceOnly.md 'KeepCoding.GeneratorSetting.FrontFaceOnly') |  |
-| [NumStrikes](KeepCoding_GeneratorSetting_NumStrikes.md 'KeepCoding.GeneratorSetting.NumStrikes') |  |
-| [OptionalWidgetCount](KeepCoding_GeneratorSetting_OptionalWidgetCount.md 'KeepCoding.GeneratorSetting.OptionalWidgetCount') |  |
-| [TimeBeforeNeedyActivation](KeepCoding_GeneratorSetting_TimeBeforeNeedyActivation.md 'KeepCoding.GeneratorSetting.TimeBeforeNeedyActivation') |  |
-| [TimeLimit](KeepCoding_GeneratorSetting_TimeLimit.md 'KeepCoding.GeneratorSetting.TimeLimit') |  |
+| [ComponentPools](KeepCoding_GeneratorSetting_ComponentPools.md 'KeepCoding.GeneratorSetting.ComponentPools') | The pools of modules that will be used when generating a bomb.<br/> |
+| [FrontFaceOnly](KeepCoding_GeneratorSetting_FrontFaceOnly.md 'KeepCoding.GeneratorSetting.FrontFaceOnly') | Force modules to be placed only on the front face. By default this will limit the module count to 5 (+1 for the timer). Useful in rare circumstances where you wish to generate a bomb with a few modules and guarantee that they will all be visibile simultaneously.<br/> |
+| [NumStrikes](KeepCoding_GeneratorSetting_NumStrikes.md 'KeepCoding.GeneratorSetting.NumStrikes') | The number of strikes at which the bomb explodes. Hardcore is 1. More forgiving is 3.<br/> |
+| [OptionalWidgetCount](KeepCoding_GeneratorSetting_OptionalWidgetCount.md 'KeepCoding.GeneratorSetting.OptionalWidgetCount') | Set how many optional widgets (widgets other than serial number) that should be placed on the bomb.<br/> |
+| [TimeBeforeNeedyActivation](KeepCoding_GeneratorSetting_TimeBeforeNeedyActivation.md 'KeepCoding.GeneratorSetting.TimeBeforeNeedyActivation') | Time, in seconds, which must elapse before any unactivated Needy modules are automatically activated.<br/> |
+| [TimeLimit](KeepCoding_GeneratorSetting_TimeLimit.md 'KeepCoding.GeneratorSetting.TimeLimit') | Initial value for the timer when the bomb is activated, in seconds.<br/> |
 
 | Methods | |
 | :--- | :--- |

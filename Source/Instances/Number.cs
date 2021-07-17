@@ -77,9 +77,9 @@ namespace KeepCoding
         /// <param name="value">The inner value stored.</param>
         public Number(decimal value) => _value = value;
 
-        /// <value>
+        /// <summary>
         /// Returns the epsilon constant with precision based on the current type of the value.
-        /// </value>
+        /// </summary>
         /// <remarks>
         /// Calling this will assume that the value is either <see cref="float"/>, <see cref="double"/>, or <see cref="decimal"/>. An exception is thrown otherwise.
         /// </remarks>
@@ -96,9 +96,9 @@ namespace KeepCoding
             _ => double.Epsilon,
             _ => (decimal)double.Epsilon);
 
-        /// <value>
+        /// <summary>
         /// Returns the biggest value of the current type of the value.
-        /// </value>
+        /// </summary>
         public Number MaxValue => Do<Number>(
             _ => sbyte.MaxValue,
             _ => byte.MaxValue,
@@ -112,9 +112,9 @@ namespace KeepCoding
             _ => double.MaxValue,
             _ => decimal.MaxValue);
 
-        /// <value>
+        /// <summary>
         /// Returns the smallest value of the current type of the value.
-        /// </value>
+        /// </summary>
         public Number MinValue => Do<Number>(
             _ => sbyte.MinValue,
             _ => byte.MinValue,
@@ -128,9 +128,9 @@ namespace KeepCoding
             _ => double.MinValue,
             _ => decimal.MinValue);
 
-        /// <value>
+        /// <summary>
         /// Returns the "not-a-number" constant.
-        /// </value>
+        /// </summary>
         /// <remarks>
         /// Calling this will assume that the value is either <see cref="float"/> or <see cref="double"/>. An exception is thrown otherwise.
         /// </remarks>
@@ -147,9 +147,9 @@ namespace KeepCoding
             _ => double.NaN,
             null);
 
-        /// <value>
+        /// <summary>
         /// Returns the negative infinity constant.
-        /// </value>
+        /// </summary>
         /// <remarks>
         /// Calling this will assume that the value is either <see cref="float"/> or <see cref="double"/>. An exception is thrown otherwise.
         /// </remarks>
@@ -166,9 +166,9 @@ namespace KeepCoding
             _ => double.NegativeInfinity,
             null);
 
-        /// <value>
+        /// <summary>
         /// Returns the positive infinity constant.
-        /// </value>
+        /// </summary>
         /// <remarks>
         /// Calling this will assume that the value is either <see cref="float"/> or <see cref="double"/>. An exception is thrown otherwise.
         /// </remarks>

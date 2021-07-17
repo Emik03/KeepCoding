@@ -1,12 +1,12 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[TPScript&lt;TModule&gt;](KeepCoding_TPScript_TModule_.md 'KeepCoding.TPScript&lt;TModule&gt;')
 ## TPScript&lt;TModule&gt;.IsTP Property
+Determines if Twitch Plays is currently active. This is for modules that need to display different items, or use different rules if Twitch Plays is active.  
 ```csharp
 public bool IsTP { get; }
 ```
 #### Property Value
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
-Determines if Twitch Plays is currently active. This is for modules that need to display different items, or use different rules if Twitch Plays is active.  
 
 Implements [IsTP](KeepCoding_ITP_IsTP.md 'KeepCoding.ITP.IsTP')  
 ### Remarks

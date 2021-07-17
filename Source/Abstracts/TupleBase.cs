@@ -17,25 +17,25 @@ namespace KeepCoding
         /// <returns>The item indexed into.</returns>
         public object this[byte index] { get => throw IndexOutOfRange(index); set => throw IndexOutOfRange(index); }
 
-        /// <value>
+        /// <summary>
         /// Determines if the tuple data type is empty.
-        /// </value>
+        /// </summary>
         public bool IsEmpty => Length == 0;
 
-        /// <value>
+        /// <summary>
         /// Gets the length of the tuple, describing the amount of elements there are.
-        /// </value>
+        /// </summary>
         public byte Length => (byte)GetType().GetGenericArguments().Length;
 
-        /// <value>
+        /// <summary>
         /// Gets the upper bound of the tuple, which is the last index.
-        /// </value>
+        /// </summary>
         /// <exception cref="InvalidOperationException"></exception>
         public byte UpperBound => IsEmpty ? throw new InvalidOperationException("The tuple is empty, meaning that the upper bound doesn't exist.") : (byte)(Length - 1);
 
-        /// <value>
+        /// <summary>
         /// All of the tuple's items as an array, ordered by item number.
-        /// </value>
+        /// </summary>
         public abstract object[] ToArray { get; }
 
         /// <summary>

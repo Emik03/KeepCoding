@@ -13,27 +13,27 @@ namespace KeepCoding
     /// </summary>
     public sealed class ModInfo
     {
-        /// <value>
+        /// <summary>
         /// Contains the author of the mod.
-        /// </value>
+        /// </summary>
         [JsonProperty("author")]
         public string Author { get; private set; }
 
-        /// <value>
+        /// <summary>
         /// Contains the description of the mod.
-        /// </value>
+        /// </summary>
         [JsonProperty("description")]
         public string Description { get; private set; }
 
-        /// <value>
+        /// <summary>
         /// Contains the ID of the mod, not to be mistaken with <see cref="ModuleScript.Id"/>.
-        /// </value>
+        /// </summary>
         [JsonProperty("id")]
         public string Id { get; private set; }
 
-        /// <value>
+        /// <summary>
         /// Contains the title of the mod.
-        /// </value>
+        /// </summary>
         [JsonProperty("title")]
         public string Title { get; private set; }
 
@@ -43,15 +43,15 @@ namespace KeepCoding
         [JsonProperty("unityVersion")]
         public string UnityVersion { get; private set; }
 
-        /// <value>
+        /// <summary>
         /// Contains the current version of the mod.
-        /// </value>
+        /// </summary>
         [JsonProperty("version")]
         public string Version { get; private set; }
 
-        /// <value>
+        /// <summary>
         /// Returns the current values of this <see cref="ModInfo"/> as a dictionary, where the key is the variable name and the value is the variable value.
-        /// </value>
+        /// </summary>
         public Dictionary<string, string> Values => new Dictionary<string, string>()
         {
             { nameof(Author), Author },

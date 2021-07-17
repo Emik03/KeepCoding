@@ -28,14 +28,14 @@ namespace KeepCoding
         [Flags]
         public enum ComponentSource
         {
-            /// <value>
+            /// <summary>
             /// Indicates that the module is from the base game.
-            /// </value>
+            /// </summary>
             Base = 0x1,
 
-            /// <value>
+            /// <summary>
             /// Indicates that the module is from mods.
-            /// </value>
+            /// </summary>
             Mods = 0x2
         }
 
@@ -44,19 +44,19 @@ namespace KeepCoding
         /// </summary>
         public enum SpecialComponentTypeEnum
         {
-            /// <value>
+            /// <summary>
             /// Indicates that the mission will choose a set of modules that are self-defined.
-            /// </value>
+            /// </summary>
             None,
 
-            /// <value>
+            /// <summary>
             /// Indicates that the mission will randomly pull any of the game's loaded solvable modules.
-            /// </value>
+            /// </summary>
             ALL_SOLVABLE,
 
-            /// <value>
+            /// <summary>
             /// Indicates that the mission will randomly pull any of the game's loaded needy modules.
-            /// </value>
+            /// </summary>
             ALL_NEEDY
         }
 
@@ -65,134 +65,134 @@ namespace KeepCoding
         /// </summary>
         public enum ComponentTypeEnum
         {
-            /// <value>
+            /// <summary>
             /// No module. Uses the bomb backing.
-            /// </value>
+            /// </summary>
             Empty,
 
-            /// <value>
+            /// <summary>
             /// The timer component.
-            /// </value>
+            /// </summary>
             Timer,
 
-            /// <value>
+            /// <summary>
             /// On the Subject of Wires.
-            /// </value>
+            /// </summary>
             /// <remarks><seealso href="https://ktane.timwi.de/HTML/Wires.html"/></remarks>
             Wires,
 
-            /// <value>
+            /// <summary>
             /// On the Subject of The Button.
-            /// </value>
+            /// </summary>
             /// <remarks><seealso href="https://ktane.timwi.de/HTML/The%20Button.html"/></remarks>
             BigButton,
 
-            /// <value>
+            /// <summary>
             /// On the Subject of Keypads.
-            /// </value>
+            /// </summary>
             /// <remarks><seealso href="https://ktane.timwi.de/HTML/Keypad.html"/></remarks>
             Keypad,
 
-            /// <value>
+            /// <summary>
             /// On the Subject of Simon Says. 
-            /// </value>
+            /// </summary>
             /// <remarks><seealso href="https://ktane.timwi.de/HTML/Simon%20Says.html"/></remarks>
             Simon,
 
-            /// <value>
+            /// <summary>
             /// On the Subject of Who's on First.
-            /// </value>
+            /// </summary>
             /// <remarks><seealso href="https://ktane.timwi.de/HTML/Who's%20On%20First.html"/></remarks>
             WhosOnFirst,
 
-            /// <value>
+            /// <summary>
             /// On the Subject of Memory.
-            /// </value>
+            /// </summary>
             /// <remarks><seealso href="https://ktane.timwi.de/HTML/Memory.html"/></remarks>
             Memory,
 
-            /// <value>
+            /// <summary>
             /// On the Subject of Morse Code.
-            /// </value>
+            /// </summary>
             /// <remarks><seealso href="https://ktane.timwi.de/HTML/Morse%20Code.html"/></remarks>
             Morse,
 
-            /// <value>
+            /// <summary>
             /// On the Subject of Complicated Wires.
-            /// </value>
+            /// </summary>
             /// <remarks><seealso href="https://ktane.timwi.de/HTML/Complicated%20Wires.html"/></remarks>
             Venn,
 
-            /// <value>
+            /// <summary>
             /// On the Subject of Wire Sequences.
-            /// </value>
+            /// </summary>
             /// <remarks><seealso href="https://ktane.timwi.de/HTML/Wire%20Sequence.html"/></remarks>
             WireSequence,
 
-            /// <value>
+            /// <summary>
             /// On the Subject of Mazes.
-            /// </value>
+            /// </summary>
             /// <remarks><seealso href="https://ktane.timwi.de/HTML/Maze.html"/></remarks>
             Maze,
 
-            /// <value>
+            /// <summary>
             /// On the Subject of Passwords.
-            /// </value>
+            /// </summary>
             /// <remarks><seealso href="https://ktane.timwi.de/HTML/Password.html"/></remarks>
             Password,
 
-            /// <value>
+            /// <summary>
             /// On the Subject of Venting Gas.
-            /// </value>
+            /// </summary>
             /// <remarks><seealso href="https://ktane.timwi.de/HTML/Venting%20Gas.html"/></remarks>
             NeedyVentGas,
 
-            /// <value>
+            /// <summary>
             /// On the Subject of Capacitor Discharge.
-            /// </value>
+            /// </summary>
             /// <remarks><seealso href="https://ktane.timwi.de/HTML/Capacitor%20Discharge.html"/></remarks>
             NeedyCapacitor,
 
-            /// <value>
+            /// <summary>
             /// On the Subject of Knobs.
-            /// </value>
+            /// </summary>
             /// <remarks><seealso href="https://ktane.timwi.de/HTML/Knob.html"/></remarks>
             NeedyKnob,
 
-            /// <value>
+            /// <summary>
             /// Any solvable modded module.
-            /// </value>
+            /// </summary>
             Mod,
 
-            /// <value>
+            /// <summary>
             /// Any needy modded module.
-            /// </value>
+            /// </summary>
             NeedyMod
         }
 
-        /// <value>
+        /// <summary>
         /// How many components from this pool should be selected.
-        /// </value>
+        /// </summary>
         public int Count { get; }
 
-        /// <value>
+        /// <summary>
         /// Controls where components can come from (either the base game, mods, or both).
-        /// </value>
+        /// </summary>
         public ComponentSource AllowedSources { get; } = Base;
 
-        /// <value>
+        /// <summary>
         /// Special types which are calculated at runtime, such as <see cref="ALL_SOLVABLE"/>.
-        /// </value>
+        /// </summary>
         public SpecialComponentTypeEnum SpecialComponentType { get; }
 
-        /// <value>
+        /// <summary>
         /// A list of mod types to be included in the pool, if they exist.
-        /// </value>
+        /// </summary>
         public List<string> ModTypes { get; }
 
-        /// <value>
+        /// <summary>
         /// The list of component types, not including any calculated at runtime special types, like ALL_SOLVABLE. Use GetComponentTypes to get the calculated list.
-        /// </value>
+        /// </summary>
         public List<ComponentTypeEnum> ComponentTypes { get; }
 
         /// <summary>

@@ -22,7 +22,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Properties | |
 | :--- | :--- |
-| [Result](KeepCoding_Work_T_TResult__Result.md 'KeepCoding.Work&lt;T,TResult&gt;.Result') |  |
+| [Result](KeepCoding_Work_T_TResult__Result.md 'KeepCoding.Work&lt;T,TResult&gt;.Result') | The returned value of the thread.<br/> |
 
 | Methods | |
 | :--- | :--- |

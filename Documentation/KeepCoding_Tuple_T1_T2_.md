@@ -28,9 +28,9 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 
 | Properties | |
 | :--- | :--- |
-| [Item2](KeepCoding_Tuple_T1_T2__Item2.md 'KeepCoding.Tuple&lt;T1,T2&gt;.Item2') |  |
+| [Item2](KeepCoding_Tuple_T1_T2__Item2.md 'KeepCoding.Tuple&lt;T1,T2&gt;.Item2') | The second item of the tuple.<br/> |
 | [this[byte]](KeepCoding_Tuple_T1_T2__this_byte_.md 'KeepCoding.Tuple&lt;T1,T2&gt;.this[byte]') | Indexable tuple. Be careful when using this as the compiler will not notice if you are using the wrong type.<br/> |
-| [ToArray](KeepCoding_Tuple_T1_T2__ToArray.md 'KeepCoding.Tuple&lt;T1,T2&gt;.ToArray') |  |
+| [ToArray](KeepCoding_Tuple_T1_T2__ToArray.md 'KeepCoding.Tuple&lt;T1,T2&gt;.ToArray') | All of the tuple's items as an array, ordered by item number.<br/> |
 
 | Methods | |
 | :--- | :--- |

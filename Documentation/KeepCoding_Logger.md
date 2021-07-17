@@ -19,8 +19,8 @@ Implements [IDump](KeepCoding_IDump.md 'KeepCoding.IDump'), [ILog](KeepCoding_IL
 
 | Properties | |
 | :--- | :--- |
-| [Id](KeepCoding_Logger_Id.md 'KeepCoding.Logger.Id') |  |
-| [Name](KeepCoding_Logger_Name.md 'KeepCoding.Logger.Name') |  |
+| [Id](KeepCoding_Logger_Id.md 'KeepCoding.Logger.Id') | The unique identifier of the current name.<br/> |
+| [Name](KeepCoding_Logger_Name.md 'KeepCoding.Logger.Name') | The name of the logger.<br/> |
 
 | Methods | |
 | :--- | :--- |

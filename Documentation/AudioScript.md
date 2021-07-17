@@ -16,13 +16,13 @@ Inheritance [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/
 
 | Properties | |
 | :--- | :--- |
-| [AudioClips](global__AudioScript_AudioClips.md 'global::AudioScript.AudioClips') |  |
-| [AudioSource](global__AudioScript_AudioSource.md 'global::AudioScript.AudioSource') |  |
-| [Game](global__AudioScript_Game.md 'global::AudioScript.Game') |  |
-| [IsMuted](global__AudioScript_IsMuted.md 'global::AudioScript.IsMuted') |  |
-| [IsPlaying](global__AudioScript_IsPlaying.md 'global::AudioScript.IsPlaying') |  |
-| [Relative](global__AudioScript_Relative.md 'global::AudioScript.Relative') |  |
-| [Volume](global__AudioScript_Volume.md 'global::AudioScript.Volume') |  |
+| [AudioClips](global__AudioScript_AudioClips.md 'global::AudioScript.AudioClips') | The audio clips used by the [UnityEngine.AudioSource](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.AudioSource 'UnityEngine.AudioSource')s.<br/> |
+| [AudioSource](global__AudioScript_AudioSource.md 'global::AudioScript.AudioSource') | The main [UnityEngine.AudioSource](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.AudioSource 'UnityEngine.AudioSource') property. If the field it is referencing is [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null') then it adds a component.<br/> |
+| [Game](global__AudioScript_Game.md 'global::AudioScript.Game') | The current volume of the game. Ranges 0 to 100. In the Editor this value will always return 100.<br/> |
+| [IsMuted](global__AudioScript_IsMuted.md 'global::AudioScript.IsMuted') | Determines if the [AudioSource](global__AudioScript_AudioSource.md 'global::AudioScript.AudioSource') is muted.<br/> |
+| [IsPlaying](global__AudioScript_IsPlaying.md 'global::AudioScript.IsPlaying') | Determines if the audio source is currently playing.<br/> |
+| [Relative](global__AudioScript_Relative.md 'global::AudioScript.Relative') | The volume the [AudioSource](global__AudioScript_AudioSource.md 'global::AudioScript.AudioSource') is playing at, determined by [Volume](global__AudioScript_Volume.md 'global::AudioScript.Volume') and [Game](global__AudioScript_Game.md 'global::AudioScript.Game').<br/> |
+| [Volume](global__AudioScript_Volume.md 'global::AudioScript.Volume') | The volume of the sound relative to the game.<br/> |
 
 | Methods | |
 | :--- | :--- |

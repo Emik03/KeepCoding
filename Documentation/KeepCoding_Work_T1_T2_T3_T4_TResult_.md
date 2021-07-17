@@ -31,7 +31,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Properties | |
 | :--- | :--- |
-| [Result](KeepCoding_Work_T1_T2_T3_T4_TResult__Result.md 'KeepCoding.Work&lt;T1,T2,T3,T4,TResult&gt;.Result') |  |
+| [Result](KeepCoding_Work_T1_T2_T3_T4_TResult__Result.md 'KeepCoding.Work&lt;T1,T2,T3,T4,TResult&gt;.Result') | The returned value of the thread.<br/> |
 
 | Methods | |
 | :--- | :--- |

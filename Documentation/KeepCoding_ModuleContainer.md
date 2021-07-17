@@ -21,15 +21,15 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 
 | Properties | |
 | :--- | :--- |
-| [Id](KeepCoding_ModuleContainer_Id.md 'KeepCoding.ModuleContainer.Id') |  |
-| [Module](KeepCoding_ModuleContainer_Module.md 'KeepCoding.ModuleContainer.Module') |  |
-| [Name](KeepCoding_ModuleContainer_Name.md 'KeepCoding.ModuleContainer.Name') |  |
-| [Needy](KeepCoding_ModuleContainer_Needy.md 'KeepCoding.ModuleContainer.Needy') |  |
-| [RequiresTimerVisibility](KeepCoding_ModuleContainer_RequiresTimerVisibility.md 'KeepCoding.ModuleContainer.RequiresTimerVisibility') |  |
-| [RuleGeneration](KeepCoding_ModuleContainer_RuleGeneration.md 'KeepCoding.ModuleContainer.RuleGeneration') |  |
-| [Solvable](KeepCoding_ModuleContainer_Solvable.md 'KeepCoding.ModuleContainer.Solvable') |  |
-| [Solve](KeepCoding_ModuleContainer_Solve.md 'KeepCoding.ModuleContainer.Solve') |  |
-| [Strike](KeepCoding_ModuleContainer_Strike.md 'KeepCoding.ModuleContainer.Strike') |  |
+| [Id](KeepCoding_ModuleContainer_Id.md 'KeepCoding.ModuleContainer.Id') | The identifier for the module as referenced in missions. e.g. "BigButton" Also known as a "Module ID".<br/> |
+| [Module](KeepCoding_ModuleContainer_Module.md 'KeepCoding.ModuleContainer.Module') | Returns [KMBombModule](https://docs.microsoft.com/en-us/dotnet/api/KMBombModule 'KMBombModule'), or if null, [KMNeedyModule](https://docs.microsoft.com/en-us/dotnet/api/KMNeedyModule 'KMNeedyModule').<br/> |
+| [Name](KeepCoding_ModuleContainer_Name.md 'KeepCoding.ModuleContainer.Name') | The nice display name shown to players. e.g. "The Button"<br/> |
+| [Needy](KeepCoding_ModuleContainer_Needy.md 'KeepCoding.ModuleContainer.Needy') | Returns [KMNeedyModule](https://docs.microsoft.com/en-us/dotnet/api/KMNeedyModule 'KMNeedyModule'), or if null, throws a [System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException').<br/> |
+| [RequiresTimerVisibility](KeepCoding_ModuleContainer_RequiresTimerVisibility.md 'KeepCoding.ModuleContainer.RequiresTimerVisibility') | Set to true to only allow this module to be placed on the same face as the timer. Useful when the rules involve the timer in some way (like the Big Button), but should be used sparingly as it limits generation possibilities.<br/> |
+| [RuleGeneration](KeepCoding_ModuleContainer_RuleGeneration.md 'KeepCoding.ModuleContainer.RuleGeneration') | Returns the random seed used to generate the rules for this game. Not currently used.<br/> |
+| [Solvable](KeepCoding_ModuleContainer_Solvable.md 'KeepCoding.ModuleContainer.Solvable') | Returns [KMBombModule](https://docs.microsoft.com/en-us/dotnet/api/KMBombModule 'KMBombModule'), or if null, throws a [System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException').<br/> |
+| [Solve](KeepCoding_ModuleContainer_Solve.md 'KeepCoding.ModuleContainer.Solve') | Call this when the entire module has been solved.<br/> |
+| [Strike](KeepCoding_ModuleContainer_Strike.md 'KeepCoding.ModuleContainer.Strike') | Call this on any mistake that you want to cause a bomb strike.<br/> |
 
 | Methods | |
 | :--- | :--- |

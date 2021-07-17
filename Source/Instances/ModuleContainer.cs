@@ -48,9 +48,9 @@ namespace KeepCoding
             _needyModule = needy;
         }
 
-        /// <value>
+        /// <summary>
         /// Set to true to only allow this module to be placed on the same face as the timer. Useful when the rules involve the timer in some way (like the Big Button), but should be used sparingly as it limits generation possibilities.
-        /// </value>
+        /// </summary>
         /// <exception cref="UnrecognizedTypeException"></exception>
         public bool RequiresTimerVisibility => Module switch
         {
@@ -59,9 +59,9 @@ namespace KeepCoding
             _ => throw _unreachableException,
         };
 
-        /// <value>
+        /// <summary>
         /// The nice display name shown to players. e.g. "The Button"
-        /// </value>
+        /// </summary>
         /// <exception cref="UnrecognizedTypeException"></exception>
         public string Name => Module switch
         {
@@ -70,9 +70,9 @@ namespace KeepCoding
             _ => throw _unreachableException,
         };
 
-        /// <value>
+        /// <summary>
         /// The identifier for the module as referenced in missions. e.g. "BigButton" Also known as a "Module ID".
-        /// </value>
+        /// </summary>
         /// <exception cref="UnrecognizedTypeException"></exception>
         public string Id => Module switch
         {
@@ -81,9 +81,9 @@ namespace KeepCoding
             _ => throw _unreachableException,
         };
 
-        /// <value>
+        /// <summary>
         /// Call this when the entire module has been solved.
-        /// </value>
+        /// </summary>
         /// <exception cref="UnrecognizedTypeException"></exception>
         public Action Solve => Module switch
         {
@@ -92,9 +92,9 @@ namespace KeepCoding
             _ => throw _unreachableException,
         };
 
-        /// <value>
+        /// <summary>
         /// Call this on any mistake that you want to cause a bomb strike.
-        /// </value>
+        /// </summary>
         /// <exception cref="UnrecognizedTypeException"></exception>
         public Action Strike => Module switch
         {
@@ -103,9 +103,9 @@ namespace KeepCoding
             _ => throw _unreachableException,
         };
 
-        /// <value>
+        /// <summary>
         /// Returns the random seed used to generate the rules for this game. Not currently used.
-        /// </value>
+        /// </summary>
         /// <exception cref="UnrecognizedTypeException"></exception>
         public Func<int> RuleGeneration => Module switch
         {
@@ -114,21 +114,21 @@ namespace KeepCoding
             _ => throw _unreachableException,
         };
 
-        /// <value>
+        /// <summary>
         /// Returns <see cref="KMBombModule"/>, or if null, throws a <see cref="NullReferenceException"/>.
-        /// </value>
+        /// </summary>
         /// <exception cref="NullReferenceException"></exception>
         public KMBombModule Solvable => _bombModule.NullCheck("KMBombModule is null, yet you are trying to access it.");
 
-        /// <value>
+        /// <summary>
         /// Returns <see cref="KMNeedyModule"/>, or if null, throws a <see cref="NullReferenceException"/>.
-        /// </value>
+        /// </summary>
         /// <exception cref="NullReferenceException"></exception>
         public KMNeedyModule Needy => _needyModule.NullCheck("KMNeedyModule is null, yet you are trying to access it.");
 
-        /// <value>
+        /// <summary>
         /// Returns <see cref="KMBombModule"/>, or if null, <see cref="KMNeedyModule"/>.
-        /// </value>
+        /// </summary>
         public MonoBehaviour Module => _bombModule ?? (MonoBehaviour)_needyModule;
 
         /// <summary>

@@ -40,14 +40,14 @@ namespace KeepCoding
             }
         }
 
-        /// <value>
+        /// <summary>
         /// All of the tuple's items as an array, ordered by item number.
-        /// </value>
+        /// </summary>
         public override object[] ToArray => new object[] { Item1 };
 
-        /// <value>
+        /// <summary>
         /// The first item of the tuple.
-        /// </value>
+        /// </summary>
         public T Item1 { get; set; }
 
         /// <summary>
@@ -139,14 +139,14 @@ namespace KeepCoding
             }
         }
 
-        /// <value>
+        /// <summary>
         /// All of the tuple's items as an array, ordered by item number.
-        /// </value>
+        /// </summary>
         public override object[] ToArray => new object[] { Item1, Item2 };
 
-        /// <value>
+        /// <summary>
         /// The second item of the tuple.
-        /// </value>
+        /// </summary>
         public T2 Item2 { get; set; }
 
         /// <summary>
@@ -251,14 +251,14 @@ namespace KeepCoding
             }
         }
 
-        /// <value>
+        /// <summary>
         /// All of the tuple's items as an array, ordered by item number.
-        /// </value>
+        /// </summary>
         public override object[] ToArray => new object[] { Item1, Item2, Item3 };
 
-        /// <value>
+        /// <summary>
         /// The third item of the tuple.
-        /// </value>
+        /// </summary>
         public T3 Item3 { get; set; }
 
         /// <summary>
@@ -368,14 +368,14 @@ namespace KeepCoding
             }
         }
 
-        /// <value>
+        /// <summary>
         /// All of the tuple's items as an array, ordered by item number.
-        /// </value>
+        /// </summary>
         public override object[] ToArray => new object[] { Item1, Item2, Item3, Item4 };
 
-        /// <value>
+        /// <summary>
         /// The fourth item of the tuple.
-        /// </value>
+        /// </summary>
         public T4 Item4 { get; set; }
 
         /// <summary>

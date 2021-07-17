@@ -15,9 +15,9 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Properties | |
 | :--- | :--- |
-| [Directory](KeepCoding_ColorblindInfo_Directory.md 'KeepCoding.ColorblindInfo.Directory') |  |
-| [IsEnabled](KeepCoding_ColorblindInfo_IsEnabled.md 'KeepCoding.ColorblindInfo.IsEnabled') |  |
-| [Modules](KeepCoding_ColorblindInfo_Modules.md 'KeepCoding.ColorblindInfo.Modules') |  |
+| [Directory](KeepCoding_ColorblindInfo_Directory.md 'KeepCoding.ColorblindInfo.Directory') | The directory of the mod settings file.<br/> |
+| [IsEnabled](KeepCoding_ColorblindInfo_IsEnabled.md 'KeepCoding.ColorblindInfo.IsEnabled') | Determines whether colorblind mode is on.<br/> |
+| [Modules](KeepCoding_ColorblindInfo_Modules.md 'KeepCoding.ColorblindInfo.Modules') | Contains module ids and their colorblind states.<br/> |
 
 | Methods | |
 | :--- | :--- |

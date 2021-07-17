@@ -78,9 +78,9 @@ namespace KeepCoding
                 IsRunning = false;
             });
 
-        /// <value>
+        /// <summary>
         /// The returned value of the thread.
-        /// </value>
+        /// </summary>
         public T Result { get; private set; }
 
         /// <summary>
@@ -126,9 +126,9 @@ namespace KeepCoding
         public Work(Func<T, TResult> work, bool allowSimultaneousActive, uint maximumThreadsActive)
             : base(allowSimultaneousActive, maximumThreadsActive) => _work = work;
 
-        /// <value>
+        /// <summary>
         /// The returned value of the thread.
-        /// </value>
+        /// </summary>
         public TResult Result { get; private set; }
 
         /// <summary>
@@ -182,9 +182,9 @@ namespace KeepCoding
         public Work(Func<T1, T2, TResult> work, bool allowSimultaneousActive, uint maximumThreadsActive)
             : base(allowSimultaneousActive, maximumThreadsActive) => _work = work;
 
-        /// <value>
+        /// <summary>
         /// The returned value of the thread.
-        /// </value>
+        /// </summary>
         public TResult Result { get; private set; }
 
         /// <summary>
@@ -238,9 +238,9 @@ namespace KeepCoding
         public Work(Func<T1, T2, T3, TResult> work, bool allowSimultaneousActive, uint maximumThreadsActive)
             : base(allowSimultaneousActive, maximumThreadsActive) => _work = work;
 
-        /// <value>
+        /// <summary>
         /// The returned value of the thread.
-        /// </value>
+        /// </summary>
         public TResult Result { get; private set; }
 
         /// <summary>
@@ -294,9 +294,9 @@ namespace KeepCoding
         public Work(Func<T1, T2, T3, T4, TResult> work, bool allowSimultaneousActive, uint maximumThreadsActive)
             : base(allowSimultaneousActive, maximumThreadsActive) => _work = work;
 
-        /// <value>
+        /// <summary>
         /// The returned value of the thread.
-        /// </value>
+        /// </summary>
         public TResult Result { get; private set; }
 
         /// <summary>

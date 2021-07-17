@@ -20,14 +20,14 @@ Implements [System.ICloneable](https://docs.microsoft.com/en-us/dotnet/api/Syste
 
 | Properties | |
 | :--- | :--- |
-| [GetLowerBound](KeepCoding_BigInteger_GetLowerBound.md 'KeepCoding.BigInteger.GetLowerBound') |  |
-| [GetUpperBound](KeepCoding_BigInteger_GetUpperBound.md 'KeepCoding.BigInteger.GetUpperBound') |  |
-| [IsNegative](KeepCoding_BigInteger_IsNegative.md 'KeepCoding.BigInteger.IsNegative') |  |
-| [Length](KeepCoding_BigInteger_Length.md 'KeepCoding.BigInteger.Length') |  |
-| [One](KeepCoding_BigInteger_One.md 'KeepCoding.BigInteger.One') |  |
+| [GetLowerBound](KeepCoding_BigInteger_GetLowerBound.md 'KeepCoding.BigInteger.GetLowerBound') | The first digit's index.<br/> |
+| [GetUpperBound](KeepCoding_BigInteger_GetUpperBound.md 'KeepCoding.BigInteger.GetUpperBound') | The last digit's index.<br/> |
+| [IsNegative](KeepCoding_BigInteger_IsNegative.md 'KeepCoding.BigInteger.IsNegative') | Whether or not the number is negative.<br/> |
+| [Length](KeepCoding_BigInteger_Length.md 'KeepCoding.BigInteger.Length') | The amount of digits of the value.<br/> |
+| [One](KeepCoding_BigInteger_One.md 'KeepCoding.BigInteger.One') | BigInteger with value one.<br/> |
 | [this[int, bool]](KeepCoding_BigInteger_this_int_bool_.md 'KeepCoding.BigInteger.this[int, bool]') | Indexable number. Allows you to treat the value as an array.<br/> |
 | [Value](KeepCoding_BigInteger_Value.md 'KeepCoding.BigInteger.Value') | The number itself. The instance is duplicated so that the original BigInteger's value may not be modified directly.<br/> |
-| [Zero](KeepCoding_BigInteger_Zero.md 'KeepCoding.BigInteger.Zero') |  |
+| [Zero](KeepCoding_BigInteger_Zero.md 'KeepCoding.BigInteger.Zero') | BigInteger with value zero. (Default value)<br/> |
 
 | Methods | |
 | :--- | :--- |

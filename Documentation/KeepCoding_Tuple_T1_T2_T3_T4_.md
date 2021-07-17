@@ -31,9 +31,9 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 
 | Properties | |
 | :--- | :--- |
-| [Item4](KeepCoding_Tuple_T1_T2_T3_T4__Item4.md 'KeepCoding.Tuple&lt;T1,T2,T3,T4&gt;.Item4') |  |
+| [Item4](KeepCoding_Tuple_T1_T2_T3_T4__Item4.md 'KeepCoding.Tuple&lt;T1,T2,T3,T4&gt;.Item4') | The fourth item of the tuple.<br/> |
 | [this[byte]](KeepCoding_Tuple_T1_T2_T3_T4__this_byte_.md 'KeepCoding.Tuple&lt;T1,T2,T3,T4&gt;.this[byte]') | Indexable tuple. Be careful when using this as the compiler will not notice if you are using the wrong type.<br/> |
-| [ToArray](KeepCoding_Tuple_T1_T2_T3_T4__ToArray.md 'KeepCoding.Tuple&lt;T1,T2,T3,T4&gt;.ToArray') |  |
+| [ToArray](KeepCoding_Tuple_T1_T2_T3_T4__ToArray.md 'KeepCoding.Tuple&lt;T1,T2,T3,T4&gt;.ToArray') | All of the tuple's items as an array, ordered by item number.<br/> |
 
 | Methods | |
 | :--- | :--- |

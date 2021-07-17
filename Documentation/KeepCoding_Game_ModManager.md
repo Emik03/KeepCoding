@@ -10,6 +10,6 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Properties | |
 | :--- | :--- |
-| [GetAllModPathsFromSource](KeepCoding_Game_ModManager_GetAllModPathsFromSource.md 'KeepCoding.Game.ModManager.GetAllModPathsFromSource') |  |
-| [GetDisabledModPaths](KeepCoding_Game_ModManager_GetDisabledModPaths.md 'KeepCoding.Game.ModManager.GetDisabledModPaths') |  |
-| [GetEnabledModPaths](KeepCoding_Game_ModManager_GetEnabledModPaths.md 'KeepCoding.Game.ModManager.GetEnabledModPaths') |  |
+| [GetAllModPathsFromSource](KeepCoding_Game_ModManager_GetAllModPathsFromSource.md 'KeepCoding.Game.ModManager.GetAllModPathsFromSource') | Gets all of the mod paths within the [ModSourceEnum](KeepCoding_Game_ModSourceEnum.md 'KeepCoding.Game.ModSourceEnum') constraint.<br/> |
+| [GetDisabledModPaths](KeepCoding_Game_ModManager_GetDisabledModPaths.md 'KeepCoding.Game.ModManager.GetDisabledModPaths') | Gets all of the disabled mod paths.<br/> |
+| [GetEnabledModPaths](KeepCoding_Game_ModManager_GetEnabledModPaths.md 'KeepCoding.Game.ModManager.GetEnabledModPaths') | Gets all of the enabled mod paths within the [ModSourceEnum](KeepCoding_Game_ModSourceEnum.md 'KeepCoding.Game.ModSourceEnum') constraint.<br/> |

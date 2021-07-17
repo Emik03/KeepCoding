@@ -18,45 +18,45 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 
 | Properties | |
 | :--- | :--- |
-| [AlarmClockBeep](KeepCoding_Sound_AlarmClockBeep.md 'KeepCoding.Sound.AlarmClockBeep') |  |
-| [AlarmClockSnooze](KeepCoding_Sound_AlarmClockSnooze.md 'KeepCoding.Sound.AlarmClockSnooze') |  |
-| [BigButtonPress](KeepCoding_Sound_BigButtonPress.md 'KeepCoding.Sound.BigButtonPress') |  |
-| [BigButtonRelease](KeepCoding_Sound_BigButtonRelease.md 'KeepCoding.Sound.BigButtonRelease') |  |
-| [BinderDrop](KeepCoding_Sound_BinderDrop.md 'KeepCoding.Sound.BinderDrop') |  |
-| [BombDefused](KeepCoding_Sound_BombDefused.md 'KeepCoding.Sound.BombDefused') |  |
-| [BombDrop](KeepCoding_Sound_BombDrop.md 'KeepCoding.Sound.BombDrop') |  |
-| [BombExplode](KeepCoding_Sound_BombExplode.md 'KeepCoding.Sound.BombExplode') |  |
-| [BriefcaseClose](KeepCoding_Sound_BriefcaseClose.md 'KeepCoding.Sound.BriefcaseClose') |  |
-| [BriefcaseOpen](KeepCoding_Sound_BriefcaseOpen.md 'KeepCoding.Sound.BriefcaseOpen') |  |
-| [ButtonPress](KeepCoding_Sound_ButtonPress.md 'KeepCoding.Sound.ButtonPress') |  |
-| [ButtonRelease](KeepCoding_Sound_ButtonRelease.md 'KeepCoding.Sound.ButtonRelease') |  |
-| [CapacitorPop](KeepCoding_Sound_CapacitorPop.md 'KeepCoding.Sound.CapacitorPop') |  |
-| [CorrectChime](KeepCoding_Sound_CorrectChime.md 'KeepCoding.Sound.CorrectChime') |  |
-| [Custom](KeepCoding_Sound_Custom.md 'KeepCoding.Sound.Custom') |  |
-| [DossierOptionPressed](KeepCoding_Sound_DossierOptionPressed.md 'KeepCoding.Sound.DossierOptionPressed') |  |
-| [EmergencyAlarm](KeepCoding_Sound_EmergencyAlarm.md 'KeepCoding.Sound.EmergencyAlarm') |  |
-| [FastestTimerBeep](KeepCoding_Sound_FastestTimerBeep.md 'KeepCoding.Sound.FastestTimerBeep') |  |
-| [FastTimerBeep](KeepCoding_Sound_FastTimerBeep.md 'KeepCoding.Sound.FastTimerBeep') |  |
-| [FreeplayDeviceDrop](KeepCoding_Sound_FreeplayDeviceDrop.md 'KeepCoding.Sound.FreeplayDeviceDrop') |  |
-| [Game](KeepCoding_Sound_Game.md 'KeepCoding.Sound.Game') |  |
-| [GameOverFanfare](KeepCoding_Sound_GameOverFanfare.md 'KeepCoding.Sound.GameOverFanfare') |  |
-| [LightBuzz](KeepCoding_Sound_LightBuzz.md 'KeepCoding.Sound.LightBuzz') |  |
-| [LightBuzzShort](KeepCoding_Sound_LightBuzzShort.md 'KeepCoding.Sound.LightBuzzShort') |  |
-| [MenuButtonPressed](KeepCoding_Sound_MenuButtonPressed.md 'KeepCoding.Sound.MenuButtonPressed') |  |
-| [MenuDrop](KeepCoding_Sound_MenuDrop.md 'KeepCoding.Sound.MenuDrop') |  |
-| [NeedyActivated](KeepCoding_Sound_NeedyActivated.md 'KeepCoding.Sound.NeedyActivated') |  |
-| [NeedyWarning](KeepCoding_Sound_NeedyWarning.md 'KeepCoding.Sound.NeedyWarning') |  |
-| [NormalTimerBeep](KeepCoding_Sound_NormalTimerBeep.md 'KeepCoding.Sound.NormalTimerBeep') |  |
-| [PageTurn](KeepCoding_Sound_PageTurn.md 'KeepCoding.Sound.PageTurn') |  |
-| [Reference](KeepCoding_Sound_Reference.md 'KeepCoding.Sound.Reference') |  |
-| [SelectionTick](KeepCoding_Sound_SelectionTick.md 'KeepCoding.Sound.SelectionTick') |  |
-| [Stamp](KeepCoding_Sound_Stamp.md 'KeepCoding.Sound.Stamp') |  |
-| [Strike](KeepCoding_Sound_Strike.md 'KeepCoding.Sound.Strike') |  |
-| [Switch](KeepCoding_Sound_Switch.md 'KeepCoding.Sound.Switch') |  |
-| [TitleMenuPressed](KeepCoding_Sound_TitleMenuPressed.md 'KeepCoding.Sound.TitleMenuPressed') |  |
-| [TypewriterKey](KeepCoding_Sound_TypewriterKey.md 'KeepCoding.Sound.TypewriterKey') |  |
-| [WireSequenceMechanism](KeepCoding_Sound_WireSequenceMechanism.md 'KeepCoding.Sound.WireSequenceMechanism') |  |
-| [WireSnip](KeepCoding_Sound_WireSnip.md 'KeepCoding.Sound.WireSnip') |  |
+| [AlarmClockBeep](KeepCoding_Sound_AlarmClockBeep.md 'KeepCoding.Sound.AlarmClockBeep') | Plays when the alarm clock goes off. This sound loops.<br/> |
+| [AlarmClockSnooze](KeepCoding_Sound_AlarmClockSnooze.md 'KeepCoding.Sound.AlarmClockSnooze') | Plays when you hit snooze button on the alarm clock.<br/> |
+| [BigButtonPress](KeepCoding_Sound_BigButtonPress.md 'KeepCoding.Sound.BigButtonPress') | Plays when pressing down the button on the Big Button vanilla module.<br/> |
+| [BigButtonRelease](KeepCoding_Sound_BigButtonRelease.md 'KeepCoding.Sound.BigButtonRelease') | Plays when releasing the button on the Big Button vanilla module.<br/> |
+| [BinderDrop](KeepCoding_Sound_BinderDrop.md 'KeepCoding.Sound.BinderDrop') | Plays as the mission binder hits the desk.<br/> |
+| [BombDefused](KeepCoding_Sound_BombDefused.md 'KeepCoding.Sound.BombDefused') | Plays immediately after a bomb is defused. Plays before [KMSoundOverride.SoundEffect.GameOverFanfare](https://docs.microsoft.com/en-us/dotnet/api/KMSoundOverride.SoundEffect.GameOverFanfare 'KMSoundOverride.SoundEffect.GameOverFanfare').<br/> |
+| [BombDrop](KeepCoding_Sound_BombDrop.md 'KeepCoding.Sound.BombDrop') | Plays when the bomb is set down on the desk.<br/> |
+| [BombExplode](KeepCoding_Sound_BombExplode.md 'KeepCoding.Sound.BombExplode') | Plays when the bomb explodes.<br/> |
+| [BriefcaseClose](KeepCoding_Sound_BriefcaseClose.md 'KeepCoding.Sound.BriefcaseClose') | Plays when the freeplay briefcase is closed.<br/> |
+| [BriefcaseOpen](KeepCoding_Sound_BriefcaseOpen.md 'KeepCoding.Sound.BriefcaseOpen') | Plays when the freeplay briefcase is opened.<br/> |
+| [ButtonPress](KeepCoding_Sound_ButtonPress.md 'KeepCoding.Sound.ButtonPress') | Plays when pressing down a button.<br/> |
+| [ButtonRelease](KeepCoding_Sound_ButtonRelease.md 'KeepCoding.Sound.ButtonRelease') | Plays when releasing a button.<br/> |
+| [CapacitorPop](KeepCoding_Sound_CapacitorPop.md 'KeepCoding.Sound.CapacitorPop') | Plays when Capacitor Discharge fills up completely.<br/> |
+| [CorrectChime](KeepCoding_Sound_CorrectChime.md 'KeepCoding.Sound.CorrectChime') | Plays in the tutorial for completing a step correctly.<br/> |
+| [Custom](KeepCoding_Sound_Custom.md 'KeepCoding.Sound.Custom') | The custom sound, written out by name.<br/> |
+| [DossierOptionPressed](KeepCoding_Sound_DossierOptionPressed.md 'KeepCoding.Sound.DossierOptionPressed') | Plays when you change a setting in the menu folder.<br/> |
+| [EmergencyAlarm](KeepCoding_Sound_EmergencyAlarm.md 'KeepCoding.Sound.EmergencyAlarm') | Plays when there is less than a minute left on the bomb, this sound loops.<br/> |
+| [FastestTimerBeep](KeepCoding_Sound_FastestTimerBeep.md 'KeepCoding.Sound.FastestTimerBeep') | Plays when the bomb has at least 2 or more strikes.<br/> |
+| [FastTimerBeep](KeepCoding_Sound_FastTimerBeep.md 'KeepCoding.Sound.FastTimerBeep') | Plays when the bomb has 1 strike.<br/> |
+| [FreeplayDeviceDrop](KeepCoding_Sound_FreeplayDeviceDrop.md 'KeepCoding.Sound.FreeplayDeviceDrop') | Plays as the freeplay briefcase hits the desk.<br/> |
+| [Game](KeepCoding_Sound_Game.md 'KeepCoding.Sound.Game') | The in-game sound.<br/> |
+| [GameOverFanfare](KeepCoding_Sound_GameOverFanfare.md 'KeepCoding.Sound.GameOverFanfare') | Plays when all bombs are defused. Finishes before the post game screen.<br/> |
+| [LightBuzz](KeepCoding_Sound_LightBuzz.md 'KeepCoding.Sound.LightBuzz') | Plays when the lights go out.<br/> |
+| [LightBuzzShort](KeepCoding_Sound_LightBuzzShort.md 'KeepCoding.Sound.LightBuzzShort') | Plays when the lights start to come back on.<br/> |
+| [MenuButtonPressed](KeepCoding_Sound_MenuButtonPressed.md 'KeepCoding.Sound.MenuButtonPressed') | Plays when you start a mission from the mission binder.<br/> |
+| [MenuDrop](KeepCoding_Sound_MenuDrop.md 'KeepCoding.Sound.MenuDrop') | Plays as the mission folder hits the desk.<br/> |
+| [NeedyActivated](KeepCoding_Sound_NeedyActivated.md 'KeepCoding.Sound.NeedyActivated') | Plays when a needy gets activated.<br/> |
+| [NeedyWarning](KeepCoding_Sound_NeedyWarning.md 'KeepCoding.Sound.NeedyWarning') | Plays when a needy is running out of time. This sound loops.<br/> |
+| [NormalTimerBeep](KeepCoding_Sound_NormalTimerBeep.md 'KeepCoding.Sound.NormalTimerBeep') | Plays when the bomb has no strikes.<br/> |
+| [PageTurn](KeepCoding_Sound_PageTurn.md 'KeepCoding.Sound.PageTurn') | Plays when a page is turned in the Missions binder.<br/> |
+| [Reference](KeepCoding_Sound_Reference.md 'KeepCoding.Sound.Reference') | The audio reference that is playing the sound.<br/> |
+| [SelectionTick](KeepCoding_Sound_SelectionTick.md 'KeepCoding.Sound.SelectionTick') | Plays as you hover over something interactable.<br/> |
+| [Stamp](KeepCoding_Sound_Stamp.md 'KeepCoding.Sound.Stamp') | Plays during the post game screen, when either the defused or exploded text is stamped onto the binder.<br/> |
+| [Strike](KeepCoding_Sound_Strike.md 'KeepCoding.Sound.Strike') | Plays when you get a strike.<br/> |
+| [Switch](KeepCoding_Sound_Switch.md 'KeepCoding.Sound.Switch') | Plays when a switch is toggled.<br/> |
+| [TitleMenuPressed](KeepCoding_Sound_TitleMenuPressed.md 'KeepCoding.Sound.TitleMenuPressed') | Plays when pressing a button in one of the tutorials.<br/> |
+| [TypewriterKey](KeepCoding_Sound_TypewriterKey.md 'KeepCoding.Sound.TypewriterKey') | Plays during the post game screen as the mission information gets typed out.<br/> |
+| [WireSequenceMechanism](KeepCoding_Sound_WireSequenceMechanism.md 'KeepCoding.Sound.WireSequenceMechanism') | Plays when switching between sets of wires in Wire Sequence.<br/> |
+| [WireSnip](KeepCoding_Sound_WireSnip.md 'KeepCoding.Sound.WireSnip') | Played when a wire is cut on a module like Complicated Wires.<br/> |
 
 | Methods | |
 | :--- | :--- |

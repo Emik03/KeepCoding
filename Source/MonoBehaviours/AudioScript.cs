@@ -10,39 +10,39 @@ using static KeepCoding.Game.PlayerSettings;
 /// </summary>
 public sealed class AudioScript : CacheableBehaviour
 {
-    /// <value>
+    /// <summary>
     /// Determines if the <see cref="AudioSource"/> is muted.
-    /// </value>
+    /// </summary>
     public bool IsMuted { get => AudioSource.mute; set => AudioSource.mute = value; }
 
-    /// <value>
+    /// <summary>
     /// Determines if the audio source is currently playing.
-    /// </value>
+    /// </summary>
     public bool IsPlaying => _audioSource.isPlaying;
 
-    /// <value>
+    /// <summary>
     /// The current volume of the game. Ranges 0 to 100. In the Editor this value will always return 100.
-    /// </value>
+    /// </summary>
     public int Game => _isSFX ? SFXVolume : MusicVolume;
 
-    /// <value>
+    /// <summary>
     /// The volume the <see cref="AudioSource"/> is playing at, determined by <see cref="Volume"/> and <see cref="Game"/>.
-    /// </value>
+    /// </summary>
     public float Relative => Volume * (Game / 100f);
 
-    /// <value>
+    /// <summary>
     /// The volume of the sound relative to the game.
-    /// </value>
+    /// </summary>
     public float Volume { get; set; }
 
-    /// <value>
+    /// <summary>
     /// The audio clips used by the <see cref="UnityEngine.AudioSource"/>s.
-    /// </value>
+    /// </summary>
     public AudioClip[] AudioClips { get => _audioClips; set => _audioClips = value; }
 
-    /// <value>
+    /// <summary>
     /// The main <see cref="UnityEngine.AudioSource"/> property. If the field it is referencing is <see langword="null"/> then it adds a component.
-    /// </value>
+    /// </summary>
     public AudioSource AudioSource => _audioSource ? _audioSource : _audioSource = gameObject.AddComponent<AudioSource>();
 
     /// <summary>

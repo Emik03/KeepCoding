@@ -38,24 +38,24 @@ namespace KeepCoding
         /// <returns>The current value's <paramref name="index"/>th digit.</returns>
         public int this[int index, bool isLeftToRight = true] { get => _value[isLeftToRight ? index : GetUpperBound - index]; set => _value[isLeftToRight ? index : GetUpperBound - index] = Math.Abs(value) <= 9 ? CastToCurrentNegative(value) : throw new ArgumentOutOfRangeException($"You are assigning a 1-digit number, yet your value {value} is {value.ToString().Replace("-", "").Length} digits long."); }
 
-        /// <value>
+        /// <summary>
         /// Whether or not the number is negative.
-        /// </value>
+        /// </summary>
         public bool IsNegative => _value[0] < 0;
 
-        /// <value>
+        /// <summary>
         /// The amount of digits of the value.
-        /// </value>
+        /// </summary>
         public int Length => _value.Length;
 
-        /// <value>
+        /// <summary>
         /// The first digit's index.
-        /// </value>
+        /// </summary>
         public int GetLowerBound => _value.GetLowerBound(0);
 
-        /// <value>
+        /// <summary>
         /// The last digit's index.
-        /// </value>
+        /// </summary>
         public int GetUpperBound => _value.GetUpperBound(0);
 
         /// <summary>
@@ -63,14 +63,14 @@ namespace KeepCoding
         /// </summary>
         public sbyte[] Value => _value.ToArray();
 
-        /// <value>
+        /// <summary>
         /// BigInteger with value zero. (Default value)
-        /// </value>
+        /// </summary>
         public static BigInteger Zero => new BigInteger(0);
 
-        /// <value>
+        /// <summary>
         /// BigInteger with value one.
-        /// </value>
+        /// </summary>
         public static BigInteger One => new BigInteger(1);
 
         /// <summary>

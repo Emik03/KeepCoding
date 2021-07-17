@@ -10,19 +10,19 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Properties | |
 | :--- | :--- |
-| [AntiAliasing](KeepCoding_Game_PlayerSettings_AntiAliasing.md 'KeepCoding.Game.PlayerSettings.AntiAliasing') |  |
-| [InvertTiltControls](KeepCoding_Game_PlayerSettings_InvertTiltControls.md 'KeepCoding.Game.PlayerSettings.InvertTiltControls') |  |
-| [LanguageCode](KeepCoding_Game_PlayerSettings_LanguageCode.md 'KeepCoding.Game.PlayerSettings.LanguageCode') |  |
-| [LockMouseToWindow](KeepCoding_Game_PlayerSettings_LockMouseToWindow.md 'KeepCoding.Game.PlayerSettings.LockMouseToWindow') |  |
-| [MusicVolume](KeepCoding_Game_PlayerSettings_MusicVolume.md 'KeepCoding.Game.PlayerSettings.MusicVolume') |  |
-| [RumbleEnabled](KeepCoding_Game_PlayerSettings_RumbleEnabled.md 'KeepCoding.Game.PlayerSettings.RumbleEnabled') |  |
-| [SFXVolume](KeepCoding_Game_PlayerSettings_SFXVolume.md 'KeepCoding.Game.PlayerSettings.SFXVolume') |  |
-| [ShowLeaderBoards](KeepCoding_Game_PlayerSettings_ShowLeaderBoards.md 'KeepCoding.Game.PlayerSettings.ShowLeaderBoards') |  |
-| [ShowRotationUI](KeepCoding_Game_PlayerSettings_ShowRotationUI.md 'KeepCoding.Game.PlayerSettings.ShowRotationUI') |  |
-| [ShowScanline](KeepCoding_Game_PlayerSettings_ShowScanline.md 'KeepCoding.Game.PlayerSettings.ShowScanline') |  |
-| [SkipTitleScreen](KeepCoding_Game_PlayerSettings_SkipTitleScreen.md 'KeepCoding.Game.PlayerSettings.SkipTitleScreen') |  |
-| [TouchpadInvert](KeepCoding_Game_PlayerSettings_TouchpadInvert.md 'KeepCoding.Game.PlayerSettings.TouchpadInvert') |  |
-| [UseModsAlways](KeepCoding_Game_PlayerSettings_UseModsAlways.md 'KeepCoding.Game.PlayerSettings.UseModsAlways') |  |
-| [UseParallelModLoading](KeepCoding_Game_PlayerSettings_UseParallelModLoading.md 'KeepCoding.Game.PlayerSettings.UseParallelModLoading') |  |
-| [VRModeRequested](KeepCoding_Game_PlayerSettings_VRModeRequested.md 'KeepCoding.Game.PlayerSettings.VRModeRequested') |  |
-| [VSync](KeepCoding_Game_PlayerSettings_VSync.md 'KeepCoding.Game.PlayerSettings.VSync') |  |
+| [AntiAliasing](KeepCoding_Game_PlayerSettings_AntiAliasing.md 'KeepCoding.Game.PlayerSettings.AntiAliasing') | The intensity of anti-aliasing currently on the game. Ranges 0 to 8.<br/> |
+| [InvertTiltControls](KeepCoding_Game_PlayerSettings_InvertTiltControls.md 'KeepCoding.Game.PlayerSettings.InvertTiltControls') | Determines if vertical tilting is flipped or not.<br/> |
+| [LanguageCode](KeepCoding_Game_PlayerSettings_LanguageCode.md 'KeepCoding.Game.PlayerSettings.LanguageCode') | The current language code.<br/> |
+| [LockMouseToWindow](KeepCoding_Game_PlayerSettings_LockMouseToWindow.md 'KeepCoding.Game.PlayerSettings.LockMouseToWindow') | Determines if the option to lock the mouse to the window is enabled.<br/> |
+| [MusicVolume](KeepCoding_Game_PlayerSettings_MusicVolume.md 'KeepCoding.Game.PlayerSettings.MusicVolume') | The current music volume from the dossier menu. Ranges 0 to 100.<br/> |
+| [RumbleEnabled](KeepCoding_Game_PlayerSettings_RumbleEnabled.md 'KeepCoding.Game.PlayerSettings.RumbleEnabled') | Determines if the VR or regular controllers vibrate.<br/> |
+| [SFXVolume](KeepCoding_Game_PlayerSettings_SFXVolume.md 'KeepCoding.Game.PlayerSettings.SFXVolume') | The current sound effects volume from the dosssier menu. Ranges 0 to 100.<br/> |
+| [ShowLeaderBoards](KeepCoding_Game_PlayerSettings_ShowLeaderBoards.md 'KeepCoding.Game.PlayerSettings.ShowLeaderBoards') | Determines if the option to show the leaderboards from the pamphlet.<br/> |
+| [ShowRotationUI](KeepCoding_Game_PlayerSettings_ShowRotationUI.md 'KeepCoding.Game.PlayerSettings.ShowRotationUI') | Determines if the option to show the rotation of the User Interface is enabled.<br/> |
+| [ShowScanline](KeepCoding_Game_PlayerSettings_ShowScanline.md 'KeepCoding.Game.PlayerSettings.ShowScanline') | Determines if the option to show scanlines is enabled.<br/> |
+| [SkipTitleScreen](KeepCoding_Game_PlayerSettings_SkipTitleScreen.md 'KeepCoding.Game.PlayerSettings.SkipTitleScreen') | Determines if the option to skip the title screen is enabled.<br/> |
+| [TouchpadInvert](KeepCoding_Game_PlayerSettings_TouchpadInvert.md 'KeepCoding.Game.PlayerSettings.TouchpadInvert') | Determines if the touchpad controls are inverted.<br/> |
+| [UseModsAlways](KeepCoding_Game_PlayerSettings_UseModsAlways.md 'KeepCoding.Game.PlayerSettings.UseModsAlways') | Determines if the option to always use mods is enabled.<br/> |
+| [UseParallelModLoading](KeepCoding_Game_PlayerSettings_UseParallelModLoading.md 'KeepCoding.Game.PlayerSettings.UseParallelModLoading') | Determines if the option to use parallel/simultaneous mod loading is enabled.<br/> |
+| [VRModeRequested](KeepCoding_Game_PlayerSettings_VRModeRequested.md 'KeepCoding.Game.PlayerSettings.VRModeRequested') | Determines if VR mode is requested.<br/> |
+| [VSync](KeepCoding_Game_PlayerSettings_VSync.md 'KeepCoding.Game.PlayerSettings.VSync') | Determines if VSync is on or off.<br/> |

@@ -45,14 +45,14 @@ namespace KeepCoding
         /// <param name="showInLfa">Determines whether to format such that the Logfile Analyzer would use.</param>
         public Logger(Type type, bool showId = false, bool showInLfa = true) : this(type?.Name, showId, showInLfa) { }
 
-        /// <value>
+        /// <summary>
         /// The unique identifier of the current name.
-        /// </value>
+        /// </summary>
         public int Id { get; }
 
-        /// <value>
+        /// <summary>
         /// The name of the logger.
-        /// </value>
+        /// </summary>
         public string Name { get; }
 
         internal static readonly Dictionary<string, int> ids = new Dictionary<string, int>();

@@ -14,23 +14,23 @@ Implements [IDump](KeepCoding_IDump.md 'KeepCoding.IDump'), [ILog](KeepCoding_IL
 
 | Properties | |
 | :--- | :--- |
-| [Bomb](KeepCoding_ModuleScript_Bomb.md 'KeepCoding.ModuleScript.Bomb') |  |
-| [HasStruck](KeepCoding_ModuleScript_HasStruck.md 'KeepCoding.ModuleScript.HasStruck') |  |
-| [Id](KeepCoding_ModuleScript_Id.md 'KeepCoding.ModuleScript.Id') |  |
-| [IsActive](KeepCoding_ModuleScript_IsActive.md 'KeepCoding.ModuleScript.IsActive') |  |
-| [IsColorblind](KeepCoding_ModuleScript_IsColorblind.md 'KeepCoding.ModuleScript.IsColorblind') |  |
-| [IsEditor](KeepCoding_ModuleScript_IsEditor.md 'KeepCoding.ModuleScript.IsEditor') |  |
-| [IsLastInstantiated](KeepCoding_ModuleScript_IsLastInstantiated.md 'KeepCoding.ModuleScript.IsLastInstantiated') |  |
-| [IsNeedyActive](KeepCoding_ModuleScript_IsNeedyActive.md 'KeepCoding.ModuleScript.IsNeedyActive') |  |
-| [IsSolved](KeepCoding_ModuleScript_IsSolved.md 'KeepCoding.ModuleScript.IsSolved') |  |
-| [IsVR](KeepCoding_ModuleScript_IsVR.md 'KeepCoding.ModuleScript.IsVR') |  |
+| [Bomb](KeepCoding_ModuleScript_Bomb.md 'KeepCoding.ModuleScript.Bomb') | The bomb that this module is in.<br/> |
+| [HasStruck](KeepCoding_ModuleScript_HasStruck.md 'KeepCoding.ModuleScript.HasStruck') | Determines whether the module has been struck. Twitch Plays script will set this to false when a command is interrupted.<br/> |
+| [Id](KeepCoding_ModuleScript_Id.md 'KeepCoding.ModuleScript.Id') | The Unique Id for the module of this type.<br/> |
+| [IsActive](KeepCoding_ModuleScript_IsActive.md 'KeepCoding.ModuleScript.IsActive') | Determines whether the bomb is currently active, and the timer is ticking.<br/> |
+| [IsColorblind](KeepCoding_ModuleScript_IsColorblind.md 'KeepCoding.ModuleScript.IsColorblind') | Determines whether the module's colorblind mode is enabled.<br/> |
+| [IsEditor](KeepCoding_ModuleScript_IsEditor.md 'KeepCoding.ModuleScript.IsEditor') | Determines whether the application is running from inside unity.<br/> |
+| [IsLastInstantiated](KeepCoding_ModuleScript_IsLastInstantiated.md 'KeepCoding.ModuleScript.IsLastInstantiated') | Determines whether this module is the last instantiated instance.<br/> |
+| [IsNeedyActive](KeepCoding_ModuleScript_IsNeedyActive.md 'KeepCoding.ModuleScript.IsNeedyActive') | Determines whether the needy is active.<br/> |
+| [IsSolved](KeepCoding_ModuleScript_IsSolved.md 'KeepCoding.ModuleScript.IsSolved') | Determines whether the module has been solved.<br/> |
+| [IsVR](KeepCoding_ModuleScript_IsVR.md 'KeepCoding.ModuleScript.IsVR') | Determines whether the game is being played in Virtual Reality. In the Editor, it always returns false.<br/> |
 | [LastId](KeepCoding_ModuleScript_LastId.md 'KeepCoding.ModuleScript.LastId') | The last Id instantiation for the module of this type.<br/> |
-| [Module](KeepCoding_ModuleScript_Module.md 'KeepCoding.ModuleScript.Module') |  |
+| [Module](KeepCoding_ModuleScript_Module.md 'KeepCoding.ModuleScript.Module') | Contains either [KMBombModule](https://docs.microsoft.com/en-us/dotnet/api/KMBombModule 'KMBombModule') or [KMNeedyModule](https://docs.microsoft.com/en-us/dotnet/api/KMNeedyModule 'KMNeedyModule'), and allows for running commands through context.<br/> |
 | [Modules](KeepCoding_ModuleScript_Modules.md 'KeepCoding.ModuleScript.Modules') | Contains every modded module in [Bomb](KeepCoding_ModuleScript_Bomb.md 'KeepCoding.ModuleScript.Bomb'), separated by type.<br/> |
-| [Sounds](KeepCoding_ModuleScript_Sounds.md 'KeepCoding.ModuleScript.Sounds') |  |
-| [TimeLeft](KeepCoding_ModuleScript_TimeLeft.md 'KeepCoding.ModuleScript.TimeLeft') |  |
-| [TP](KeepCoding_ModuleScript_TP.md 'KeepCoding.ModuleScript.TP') |  |
-| [Version](KeepCoding_ModuleScript_Version.md 'KeepCoding.ModuleScript.Version') |  |
+| [Sounds](KeepCoding_ModuleScript_Sounds.md 'KeepCoding.ModuleScript.Sounds') | Contains an instance for every [Sound](KeepCoding_Sound.md 'KeepCoding.Sound') played by this module using [PlaySound(Transform, bool, Sound[])](KeepCoding_ModuleScript_PlaySound(Transform_bool_KeepCoding_Sound__).md 'KeepCoding.ModuleScript.PlaySound(Transform, bool, KeepCoding.Sound[])') or any of its overloads.<br/> |
+| [TimeLeft](KeepCoding_ModuleScript_TimeLeft.md 'KeepCoding.ModuleScript.TimeLeft') | The amount of time left on the bomb, in seconds, rounded down.<br/> |
+| [TP](KeepCoding_ModuleScript_TP.md 'KeepCoding.ModuleScript.TP') | Gets the Twitch Plays [UnityEngine.Component](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Component 'UnityEngine.Component') attached to this [UnityEngine.GameObject](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.GameObject 'UnityEngine.GameObject').<br/> |
+| [Version](KeepCoding_ModuleScript_Version.md 'KeepCoding.ModuleScript.Version') | The version number of the entire mod.<br/> |
 
 | Methods | |
 | :--- | :--- |

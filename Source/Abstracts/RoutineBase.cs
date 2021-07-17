@@ -23,19 +23,19 @@ namespace KeepCoding
         /// <returns>The <see cref="Coroutine"/> from <see cref="Coroutines"/>.</returns>
         public Coroutine this[int index] => Coroutines[index];
 
-        /// <value>
+        /// <summary>
         /// Determines whether it is currently running any coroutines.
-        /// </value>
+        /// </summary>
         public bool IsRunning { get; private protected set; }
 
-        /// <value>
+        /// <summary>
         /// The amount of coroutines stored.
-        /// </value>
+        /// </summary>
         public int Count => Coroutines.Count;
 
-        /// <value>
+        /// <summary>
         /// The list of all coroutines currently running.
-        /// </value>
+        /// </summary>
         public List<Coroutine> Coroutines { get; private protected set; } = new List<Coroutine>();
 
         private readonly MonoBehaviour _monoBehaviour;
