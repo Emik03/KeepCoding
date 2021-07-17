@@ -16,11 +16,11 @@ namespace KeepCoding
     /// </para>
     /// </remarks>
     /// <example>
-    /// The following example illustrates a method for returning a <see cref="Tuple{T1, T2}"/> of the first and last <see href="https://docs.unity3d.com/2017.4/Documentation/Manual/Coroutines.html"/>Coroutine</see>, using <see cref="TypeHelper.ToTuple{T1, T2}(T1, T2)"/> as shorthand for constructing the tuple.
+    /// The following example illustrates a method for returning a <see cref="Tuple{T1, T2}"/> of the first and last coroutines, using <see cref="TypeHelper.ToTuple{T1, T2}(T1, T2)"/> as shorthand for constructing the tuple.
     /// <code>
     /// public static class CoroutineHelper
     /// {
-    ///     public static Tuple<Coroutine, Coroutine> FirstAndLast(RoutineBase routine)
+    ///     public static Tuple&lt;Coroutine, Coroutine&gt; FirstAndLast(RoutineBase routine)
     ///     {
     ///         if (routine.Coroutines.Count == 0)
     ///             throw new EmptyIteratorException("The routine has no coroutines running!");
@@ -28,7 +28,7 @@ namespace KeepCoding
     ///     }
     /// }
     /// </code>
-    /// This can be called with anything that inherits from this type to get the <see href="https://docs.unity3d.com/2017.4/Documentation/Manual/Coroutines.html"/>Coroutine</see>s. This example will the type <see cref="Routine"/> and <see cref="Routine{T}"/>.
+    /// This can be called with anything that inherits from this type to get the coroutines. This example will the type <see cref="Routine"/> and <see cref="Routine{T}"/>.
     /// <code>
     /// public sealed class FooModule : ModuleScript
     /// {
@@ -38,7 +38,7 @@ namespace KeepCoding
     ///         Routine otherRoutine = new Routine(i => NoParameters(i), this);
     ///         
     ///         // We need to create coroutines before passing them into the method.
-    ///         for (int i = 0; i < 5; i++)
+    ///         for (int i = 0; i &lt; 5; i++)
     ///         {
     ///             routine.Start();
     ///             
@@ -46,7 +46,7 @@ namespace KeepCoding
     ///             otherRoutine.Start(i);
     ///         }
     ///         
-    ///         Tuple<Coroutine, Coroutine> coroutineTuple = CoroutineHelper.FirstAndLast(routine)
+    ///         Tuple&lt;Coroutine, Coroutine&gt; coroutineTuple = CoroutineHelper.FirstAndLast(routine)
     ///         
     ///         // Stops the first coroutine.
     ///         StopCoroutine(coroutineTuple.Item1);
