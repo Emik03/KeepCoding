@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[TupleBase](KeepCoding_TupleBase.md 'KeepCoding.TupleBase')
 ## TupleBase.ToArray Property
-All of the tuple's items as an array, ordered by item number.  
+undefined  
 ```csharp
 public abstract object[] ToArray { get; }
 ```

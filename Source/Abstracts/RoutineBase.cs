@@ -6,10 +6,10 @@ using UnityEngine;
 namespace KeepCoding
 {
     /// <summary>
-    /// Provides the base <see langword="class"/> for the multiple <see cref="Routine"/> types.
+    /// Provides the base <see langword="class"/> for the multiple routine types.
     /// </summary>
     /// <remarks>
-    /// <see cref="RoutineBase"/> provides the general functionality that different types of <see cref="Routine"/> share in common with. As each different type of <see cref="Routine"/> gives different amounts of generics, this base <see langword="class"/> is therefore non-generic and provides every method that doesn't require it. This can therefore be used as a way of passing in an ambiguous type of <see cref="Routine"/>.
+    /// <see cref="RoutineBase"/> provides the general functionality that different types of routines share in common with. As each different type of routine gives different amounts of generics, this base <see langword="class"/> is therefore non-generic and provides every method that doesn't require it. This can therefore be used as a way of passing in an ambiguous type of routine.
     /// </remarks>
     /// <example>
     /// The following example illustrates a method for returning a <see cref="Tuple{T1, T2}"/> of the first and last coroutines, using <see cref="TypeHelper.ToTuple{T1, T2}(T1, T2)"/> as shorthand for constructing the tuple. This method needs a <see cref="RoutineBase"/> with at least 1 coroutine, so an exception is raised if <see cref="Count"/> is 0.
@@ -119,7 +119,7 @@ namespace KeepCoding
         /// }
         /// </code>
         /// This is the output from the console.
-        /// <code>True
+        /// <code>[Foo #1] True
         /// </code>
         /// It is important to note that this is a getter-only property. This means that the following statement cannot be done. Use <see cref="Stop"/>, <see cref="StopAll"/>, or other methods by implemented classes to mutate <see cref="Coroutines"/>.
         /// <code>// Invalid. There is no setter for this indexer.
@@ -264,7 +264,7 @@ namespace KeepCoding
         ///     }
         /// }
         /// </code>
-        /// Now a class which implements <see cref="RoutineBase"/> such as <see cref="Routine"/> can demonstrate this effect.
+        /// Now a <see langword="class"/> which implements <see cref="RoutineBase"/> such as <see cref="Routine"/> can demonstrate this effect.
         /// <code>using KeepCoding;
         /// using System.Collections;
         /// using UnityEngine;
@@ -287,7 +287,7 @@ namespace KeepCoding
         /// }
         /// </code>
         /// This is the output from the console.
-        /// <code>True
+        /// <code>[Foo #1] True
         /// </code>
         /// </example>
         /// <seealso cref="Routine"/>
@@ -300,7 +300,7 @@ namespace KeepCoding
         /// </summary>
         /// <remarks>Every time a coroutine gets added, it does so at the end of the <see cref="List{T}"/>. When <see cref="Stop"/> is called, the first and therefore oldest coroutine gets removed from this list in a similar vein to <see cref="Queue"/>. Note that when the coroutines are finished, they do not get removed from the list. If <see cref="Stop"/> is called on a coroutine which has already stopped, the first coroutine will still be attempted to be stopped, which will in that case do nothing, and be removed from the list.</remarks>
         /// <example>
-        /// The following example illustrates running <see cref="Stop"/> three times despite only having two coroutines using the class <see cref="Routine"/> which inherits from <see cref="RoutineBase"/>. As <see cref="Stop"/> expects at least 1 coroutine, the code will cause an <see cref="EmptyIteratorException"/>.
+        /// The following example illustrates running <see cref="Stop"/> three times despite only having two coroutines using the <see langword="class"/> <see cref="Routine"/> which inherits from <see cref="RoutineBase"/>. As <see cref="Stop"/> expects at least 1 coroutine, the code will cause an <see cref="EmptyIteratorException"/>.
         /// <code>using KeepCoding;
         /// using System.Collections;
         /// using UnityEngine;
@@ -351,7 +351,7 @@ namespace KeepCoding
         /// </summary>
         /// <remarks><see cref="StopAll"/> stops and removes all coroutines from <see cref="Coroutines"/>, as such, it cannot be called twice in a row without throwing an exception or adding a coroutine in-between. Note that when the coroutines are finished, they do not get removed from the list. If <see cref="StopAll"/> is called on coroutines which have already stopped, those coroutines will still be attempted to be stopped, which will in that case do nothing, and be removed from the list.</remarks>
         /// <example>
-        /// The following example illustrates running <see cref="StopAll"/> twice to demonstrate the error using the class <see cref="Routine"/> which inherits from <see cref="RoutineBase"/>. As <see cref="StopAll"/> expects at least 1 coroutine, the code will cause an <see cref="EmptyIteratorException"/>.
+        /// The following example illustrates running <see cref="StopAll"/> twice to demonstrate the error using the <see langword="class"/> <see cref="Routine"/> which inherits from <see cref="RoutineBase"/>. As <see cref="StopAll"/> expects at least 1 coroutine, the code will cause an <see cref="EmptyIteratorException"/>.
         /// <code>using KeepCoding;
         /// using System.Collections;
         /// using UnityEngine;

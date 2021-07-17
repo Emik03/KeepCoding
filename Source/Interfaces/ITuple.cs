@@ -6,7 +6,7 @@ namespace KeepCoding
     /// <summary>
     /// Interface for tuple type. 
     /// </summary>
-    public interface ITuple : IEnumerable
+    public interface ITuple : IEnumerable, IEquatable<ITuple>
     {
         /// <summary>
         /// Indexable tuple. Be careful when using this as the compiler will not notice if you are using the wrong type.

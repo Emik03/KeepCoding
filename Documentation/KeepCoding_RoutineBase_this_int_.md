@@ -45,7 +45,7 @@ public sealed class FooModule : ModuleScript
   
 This is the output from the console.  
 ```csharp
-True  
+[Foo #1] True  
 ```
   
 It is important to note that this is a getter-only property. This means that the following statement cannot be done. Use [Stop()](KeepCoding_RoutineBase_Stop().md 'KeepCoding.RoutineBase.Stop()'), [StopAll()](KeepCoding_RoutineBase_StopAll().md 'KeepCoding.RoutineBase.StopAll()'), or other methods by implemented classes to mutate [Coroutines](KeepCoding_RoutineBase_Coroutines.md 'KeepCoding.RoutineBase.Coroutines').  

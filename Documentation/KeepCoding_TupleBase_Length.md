@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[TupleBase](KeepCoding_TupleBase.md 'KeepCoding.TupleBase')
 ## TupleBase.Length Property
-Gets the length of the tuple, describing the amount of elements there are.  
+undefined  
 ```csharp
 public byte Length { get; }
 ```

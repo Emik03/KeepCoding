@@ -9,7 +9,7 @@ public void Stop();
 [EmptyIteratorException](KeepCoding_EmptyIteratorException.md 'KeepCoding.EmptyIteratorException')  
 [Coroutines](KeepCoding_RoutineBase_Coroutines.md 'KeepCoding.RoutineBase.Coroutines') is empty.
 ### Example
-The following example illustrates running [Stop()](KeepCoding_RoutineBase_Stop().md 'KeepCoding.RoutineBase.Stop()') three times despite only having two coroutines using the class [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') which inherits from [RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase'). As [Stop()](KeepCoding_RoutineBase_Stop().md 'KeepCoding.RoutineBase.Stop()') expects at least 1 coroutine, the code will cause an [EmptyIteratorException](KeepCoding_EmptyIteratorException.md 'KeepCoding.EmptyIteratorException').  
+The following example illustrates running [Stop()](KeepCoding_RoutineBase_Stop().md 'KeepCoding.RoutineBase.Stop()') three times despite only having two coroutines using the [class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class')[Routine](KeepCoding_Routine.md 'KeepCoding.Routine') which inherits from [RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase'). As [Stop()](KeepCoding_RoutineBase_Stop().md 'KeepCoding.RoutineBase.Stop()') expects at least 1 coroutine, the code will cause an [EmptyIteratorException](KeepCoding_EmptyIteratorException.md 'KeepCoding.EmptyIteratorException').  
 ```csharp
 using KeepCoding;  
 using System.Collections;  

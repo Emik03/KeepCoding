@@ -4,13 +4,14 @@
 Interface for tuple type.   
 ```csharp
 public interface ITuple :
-System.Collections.IEnumerable
+System.Collections.IEnumerable,
+System.IEquatable<KeepCoding.ITuple>
 ```
 
 Derived  
 &#8627; [TupleBase](KeepCoding_TupleBase.md 'KeepCoding.TupleBase')  
 
-Implements [System.Collections.IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerable 'System.Collections.IEnumerable')  
+Implements [System.Collections.IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerable 'System.Collections.IEnumerable'), [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[ITuple](KeepCoding_ITuple.md 'KeepCoding.ITuple')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')  
 
 | Properties | |
 | :--- | :--- |

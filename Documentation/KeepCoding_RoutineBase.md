@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## RoutineBase Class
-Provides the base [class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class') for the multiple [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') types.  
+Provides the base [class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class') for the multiple routine types.  
 ```csharp
 public abstract class RoutineBase :
 System.Collections.IEnumerable,
@@ -88,7 +88,7 @@ public sealed class FooModule : ModuleScript
 }  
 ```
 ### Remarks
-[RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') provides the general functionality that different types of [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') share in common with. As each different type of [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') gives different amounts of generics, this base [class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class') is therefore non-generic and provides every method that doesn't require it. This can therefore be used as a way of passing in an ambiguous type of [Routine](KeepCoding_Routine.md 'KeepCoding.Routine').  
+[RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') provides the general functionality that different types of routines share in common with. As each different type of routine gives different amounts of generics, this base [class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class') is therefore non-generic and provides every method that doesn't require it. This can therefore be used as a way of passing in an ambiguous type of routine.  
             
 
 | Properties | |

@@ -35,7 +35,7 @@
 | [Routine&lt;T1,T2&gt;](KeepCoding_Routine_T1_T2_.md 'KeepCoding.Routine&lt;T1,T2&gt;') | Advanced coroutine handler. <br/> |
 | [Routine&lt;T1,T2,T3&gt;](KeepCoding_Routine_T1_T2_T3_.md 'KeepCoding.Routine&lt;T1,T2,T3&gt;') | Advanced coroutine handler. <br/> |
 | [Routine&lt;T1,T2,T3,T4&gt;](KeepCoding_Routine_T1_T2_T3_T4_.md 'KeepCoding.Routine&lt;T1,T2,T3,T4&gt;') | Advanced coroutine handler. <br/> |
-| [RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') | Provides the base [class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class') for the multiple [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') types.<br/> |
+| [RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') | Provides the base [class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class') for the multiple routine types.<br/> |
 | [Sound](KeepCoding_Sound.md 'KeepCoding.Sound') | Class meant to encapsulate all types of sound effects [KMAudio](https://docs.microsoft.com/en-us/dotnet/api/KMAudio 'KMAudio') uses. Currently used in [ModuleScript](KeepCoding_ModuleScript.md 'KeepCoding.ModuleScript').<br/> |
 | [TPScript&lt;TModule&gt;](KeepCoding_TPScript_TModule_.md 'KeepCoding.TPScript&lt;TModule&gt;') | Base class for TwitchPlays support for solvable and needy modded modules in Keep Talking and Nobody Explodes. <br/> |
 | [TPScriptEditor](KeepCoding_TPScriptEditor.md 'KeepCoding.TPScriptEditor') | Custom inspector for [TPScript&lt;TModule&gt;](KeepCoding_TPScript_TModule_.md 'KeepCoding.TPScript&lt;TModule&gt;'). <br/> |
@@ -43,7 +43,7 @@
 | [Tuple&lt;T1,T2&gt;](KeepCoding_Tuple_T1_T2_.md 'KeepCoding.Tuple&lt;T1,T2&gt;') | A basic tuple data type for C# 4. <br/> |
 | [Tuple&lt;T1,T2,T3&gt;](KeepCoding_Tuple_T1_T2_T3_.md 'KeepCoding.Tuple&lt;T1,T2,T3&gt;') | A basic tuple data type for C# 4. <br/> |
 | [Tuple&lt;T1,T2,T3,T4&gt;](KeepCoding_Tuple_T1_T2_T3_T4_.md 'KeepCoding.Tuple&lt;T1,T2,T3,T4&gt;') | A basic tuple data type for C# 4. <br/> |
-| [TupleBase](KeepCoding_TupleBase.md 'KeepCoding.TupleBase') | An abstract type meant for the tuple data type for C# 4.<br/> |
+| [TupleBase](KeepCoding_TupleBase.md 'KeepCoding.TupleBase') | Provides the base [class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class') for the multiple tuple types.<br/> |
 | [TypeHelper](KeepCoding_TypeHelper.md 'KeepCoding.TypeHelper') | Extension methods to help you create data types easier.<br/> |
 | [UnrecognizedTypeException](KeepCoding_UnrecognizedTypeException.md 'KeepCoding.UnrecognizedTypeException') | An exception thrown for when the type isn't handled.<br/> |
 | [UnrecognizedValueException](KeepCoding_UnrecognizedValueException.md 'KeepCoding.UnrecognizedValueException') | An exception thrown for when the value isn't handled.<br/> |

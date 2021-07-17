@@ -25,7 +25,7 @@ public static class Helper
 }  
 ```
   
-Now a class which implements [RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') such as [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') can demonstrate this effect.  
+Now a [class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class') which implements [RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') such as [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') can demonstrate this effect.  
 ```csharp
 using KeepCoding;  
 using System.Collections;  
@@ -51,7 +51,7 @@ public sealed class FooModule : ModuleScript
   
 This is the output from the console.  
 ```csharp
-True  
+[Foo #1] True  
 ```
 ### Remarks
 [RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') can store multiple coroutines in order to be able to handle multiple coroutines. This [System.Collections.Generic.List&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1') starts out empty and will never be [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null').

@@ -1,19 +1,27 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[TupleBase](KeepCoding_TupleBase.md 'KeepCoding.TupleBase')
 ## TupleBase.this[byte] Property
-Indexable tuple. Be careful when using this as the compiler will not notice if you are using the wrong type.  
+Passes an index into the tuple, where items are considered ordered and part of an array.  
 ```csharp
 public object this[byte index] { get; set; }
 ```
 #### Parameters
 <a name='KeepCoding_TupleBase_this_byte__index'></a>
 `index` [System.Byte](https://docs.microsoft.com/en-us/dotnet/api/System.Byte 'System.Byte')  
-The index to use.
+The index to pass into [ToArray](KeepCoding_TupleBase_ToArray.md 'KeepCoding.TupleBase.ToArray').
   
 #### Property Value
 [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')
+[ToArray](KeepCoding_TupleBase_ToArray.md 'KeepCoding.TupleBase.ToArray') with the index specified.  
+            
 #### Exceptions
 [System.IndexOutOfRangeException](https://docs.microsoft.com/en-us/dotnet/api/System.IndexOutOfRangeException 'System.IndexOutOfRangeException')  
-[UnrecognizedTypeException](KeepCoding_UnrecognizedTypeException.md 'KeepCoding.UnrecognizedTypeException')  
+The index parameter is out of range because there are no items in this tuple type.
 
 Implements [this[byte]](KeepCoding_ITuple_this_byte_.md 'KeepCoding.ITuple.this[byte]')  
+### Example
+The following example illustrates how an [System.IndexOutOfRangeException](https://docs.microsoft.com/en-us/dotnet/api/System.IndexOutOfRangeException 'System.IndexOutOfRangeException') will always be thrown no matter what index is passed in.  
+### Remarks
+A [TupleBase](KeepCoding_TupleBase.md 'KeepCoding.TupleBase') will always throw an [System.IndexOutOfRangeException](https://docs.microsoft.com/en-us/dotnet/api/System.IndexOutOfRangeException 'System.IndexOutOfRangeException') regardless if the getter or setter is called as it contains no items to index into. The purpose of this indexer is to provide all derived classes the same [System.IndexOutOfRangeException](https://docs.microsoft.com/en-us/dotnet/api/System.IndexOutOfRangeException 'System.IndexOutOfRangeException') message. As there is type ambiguity between multiple generics, the [return](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/return 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/return') type has to be [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') as any value is passed into each item.  
+#### See Also
+- [ToArray](KeepCoding_TupleBase_ToArray.md 'KeepCoding.TupleBase.ToArray')

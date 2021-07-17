@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[TupleBase](KeepCoding_TupleBase.md 'KeepCoding.TupleBase')
 ## TupleBase.IsEmpty Property
-Determines if the tuple data type is empty.  
+undefined  
 ```csharp
 public bool IsEmpty { get; }
 ```
