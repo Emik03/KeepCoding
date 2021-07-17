@@ -6,8 +6,77 @@ using UnityEngine;
 namespace KeepCoding
 {
     /// <summary>
-    /// Abstract class for the <see cref="Routine"/> datatype, since the different overloads are similar to each other.
+    /// Provides the base class for the multiple <see cref="Routine"/> types.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// <see cref="RoutineBase"/> provides the general functionality that different types of <see cref="Routine"/> share in common with.
+    /// As each different type of <see cref="Routine"/> gives different amounts of generics, this base class is therefore non-generic and provides every method that doesn't require it.
+    /// This can therefore be used as a way of passing in an ambiguous type of <see cref="Routine"/>.
+    /// </para>
+    /// </remarks>
+    /// <example>
+    /// The following example illustrates a method for returning a <see cref="Tuple{T1, T2}"/> of the first and last <see href="https://docs.unity3d.com/2017.4/Documentation/Manual/Coroutines.html"/>Coroutine</see>, using <see cref="TypeHelper.ToTuple{T1, T2}(T1, T2)"/> as shorthand for constructing the tuple.
+    /// <code>
+    /// public static class CoroutineHelper
+    /// {
+    ///     public static Tuple<Coroutine, Coroutine> FirstAndLast(RoutineBase routine)
+    ///     {
+    ///         if (routine.Coroutines.Count == 0)
+    ///             throw new EmptyIteratorException("The routine has no coroutines running!");
+    ///         return routine[0].ToTuple(routine[routine.Count - 1]);
+    ///     }
+    /// }
+    /// </code>
+    /// This can be called with anything that inherits from this type to get the <see href="https://docs.unity3d.com/2017.4/Documentation/Manual/Coroutines.html"/>Coroutine</see>s. This example will the type <see cref="Routine"/> and <see cref="Routine{T}"/>.
+    /// <code>
+    /// public sealed class FooModule : ModuleScript
+    /// {
+    ///     private void Start()
+    ///     {
+    ///         Routine routine = new Routine(() => NoParameters(), this);
+    ///         Routine otherRoutine = new Routine(i => NoParameters(i), this);
+    ///         
+    ///         // We need to create coroutines before passing them into the method.
+    ///         for (int i = 0; i < 5; i++)
+    ///         {
+    ///             routine.Start();
+    ///             
+    ///             // This line ends up logging the numbers [ 1, 2, 3, 4, 5 ] due to OneParameter() calling Log()
+    ///             otherRoutine.Start(i);
+    ///         }
+    ///         
+    ///         Tuple<Coroutine, Coroutine> coroutineTuple = CoroutineHelper.FirstAndLast(routine)
+    ///         
+    ///         // Stops the first coroutine.
+    ///         StopCoroutine(coroutineTuple.Item1);
+    ///         
+    ///         coroutineTuple = CoroutineHelper.FirstAndLast(otherRoutine);
+    ///         
+    ///         // Stops the last coroutine.
+    ///         StopCoroutine(coroutineTuple.Item2);
+    ///         
+    ///         // This empties the list of coroutines it has internally.
+    ///         routine.StopAll();
+    ///         
+    ///         // Uncomment this line below to see an EmptyIteratorException being thrown due to the above line clearing the list.
+    ///         // coroutineTuple = CoroutineHelper.FirstAndLast(routine);
+    ///     }
+    ///     
+    ///     private IEnumerator NoParameters()
+    ///     {
+    ///         yield return null;
+    ///     }
+    ///     
+    ///     private IEnumerator OneParameter(int i)
+    ///     {
+    ///         Log(i);
+    ///         yield return null;
+    ///     }
+    /// }
+    /// </code>
+    /// </example>
+    /// <seealso cref="Routine"/>
     public abstract class RoutineBase : IEnumerable
     {
         /// <summary>

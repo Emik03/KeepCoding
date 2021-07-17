@@ -3,7 +3,7 @@
 ## RoutineBase.RoutineBase(MonoBehaviour) Constructor
 Creates a list of coroutines so that you can start, restart, or stop any coroutine running inside this class.  
 ```csharp
-public RoutineBase(MonoBehaviour monoBehaviour);
+protected RoutineBase(MonoBehaviour monoBehaviour);
 ```
 #### Parameters
 <a name='KeepCoding_RoutineBase_RoutineBase(MonoBehaviour)_monoBehaviour'></a>
