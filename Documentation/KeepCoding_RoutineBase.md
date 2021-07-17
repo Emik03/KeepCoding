@@ -33,7 +33,8 @@ public static class CoroutineHelper
               
         return routine[0].ToTuple(routine[routine.Count - 1]);  
     }  
-}```
+}  
+```
   
 This can be called with anything that inherits from this type to get the coroutines. This example will use the types [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') and [Routine&lt;T&gt;](KeepCoding_Routine_T_.md 'KeepCoding.Routine&lt;T&gt;').  
 ```csharp
@@ -84,7 +85,8 @@ public sealed class FooModule : ModuleScript
         Log(i);  
         yield return null;  
     }  
-}```
+}  
+```
 ### Remarks
 [RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') provides the general functionality that different types of [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') share in common with. As each different type of [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') gives different amounts of generics, this base [class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class') is therefore non-generic and provides every method that doesn't require it. This can therefore be used as a way of passing in an ambiguous type of [Routine](KeepCoding_Routine.md 'KeepCoding.Routine').  
             

@@ -40,7 +40,8 @@ public sealed class FooModule : ModuleScript
         yield return new WaitWhile(() => routine.IsRunning);  
         Log("Second");  
     }  
-}```
+}  
+```
   
 This is the output from the console.  
 ```csharp

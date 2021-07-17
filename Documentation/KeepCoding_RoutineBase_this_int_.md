@@ -40,16 +40,19 @@ public sealed class FooModule : ModuleScript
     {  
         yield return null;  
     }  
-}```
+}  
+```
   
 This is the output from the console.  
 ```csharp
-True```
+True  
+```
   
 It is important to note that this is a getter-only property. This means that the following statement cannot be done. Use [Stop()](KeepCoding_RoutineBase_Stop().md 'KeepCoding.RoutineBase.Stop()'), [StopAll()](KeepCoding_RoutineBase_StopAll().md 'KeepCoding.RoutineBase.StopAll()'), or other methods by implemented classes to mutate [Coroutines](KeepCoding_RoutineBase_Coroutines.md 'KeepCoding.RoutineBase.Coroutines').  
 ```csharp
 // Invalid. There is no setter for this indexer.  
-routine[1] = routine[0];```
+routine[1] = routine[0];  
+```
 ### Remarks
 Given that [RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') acts as a wrapper for handling mulitple coroutines, all of which stored in a [System.Collections.Generic.List&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1'), this acts as shorthand for accessing a specific index from [Coroutines](KeepCoding_RoutineBase_Coroutines.md 'KeepCoding.RoutineBase.Coroutines').
 #### See Also

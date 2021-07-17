@@ -25,7 +25,8 @@ namespace KeepCoding
     ///             
     ///         return routine[0].ToTuple(routine[routine.Count - 1]);
     ///     }
-    /// }</code>
+    /// }
+    /// </code>
     /// This can be called with anything that inherits from this type to get the coroutines. This example will use the types <see cref="Routine"/> and <see cref="Routine{T}"/>.
     /// <code>using KeepCoding;
     /// using System.Collections;
@@ -74,7 +75,8 @@ namespace KeepCoding
     ///         Log(i);
     ///         yield return null;
     ///     }
-    /// }</code>
+    /// }
+    /// </code>
     /// </example>
     /// <seealso cref="Count"/>
     /// <seealso cref="Routine"/>
@@ -114,12 +116,15 @@ namespace KeepCoding
         ///     {
         ///         yield return null;
         ///     }
-        /// }</code>
+        /// }
+        /// </code>
         /// This is the output from the console.
-        /// <code>True</code>
+        /// <code>True
+        /// </code>
         /// It is important to note that this is a getter-only property. This means that the following statement cannot be done. Use <see cref="Stop"/>, <see cref="StopAll"/>, or other methods by implemented classes to mutate <see cref="Coroutines"/>.
         /// <code>// Invalid. There is no setter for this indexer.
-        /// routine[1] = routine[0];</code>
+        /// routine[1] = routine[0];
+        /// </code>
         /// </example>
         /// <seealso cref="Coroutines"/>
         /// <seealso cref="Routine"/>
@@ -168,7 +173,8 @@ namespace KeepCoding
         ///         yield return new WaitWhile(() => routine.IsRunning);
         ///         Log("Second");
         ///     }
-        /// }</code>
+        /// }
+        /// </code>
         /// This is the output from the console.
         /// <code>[Foo #1] First1
         /// [Foo #1] First2
@@ -197,7 +203,8 @@ namespace KeepCoding
         ///         
         ///         return routine.Count;
         ///     }
-        /// }</code>
+        /// }
+        /// </code>
         /// This will now be called using <see cref="Routine"/>.
         /// <code>using KeepCoding;
         /// using System.Collections;
@@ -222,10 +229,12 @@ namespace KeepCoding
         ///     {
         ///         yield return null;
         ///     }
-        /// }</code>
+        /// }
+        /// </code>
         /// This is the output from the console.
         /// <code>[Foo #1] 1
-        /// [Foo #1] 0</code>
+        /// [Foo #1] 0
+        /// </code>
         /// </example>
         /// <seealso cref="Coroutines"/>
         /// <seealso cref="Routine"/>
@@ -253,7 +262,8 @@ namespace KeepCoding
         ///             
         ///         return list.Count;
         ///     }
-        /// }</code>
+        /// }
+        /// </code>
         /// Now a class which implements <see cref="RoutineBase"/> such as <see cref="Routine"/> can demonstrate this effect.
         /// <code>using KeepCoding;
         /// using System.Collections;
@@ -274,9 +284,11 @@ namespace KeepCoding
         ///     {
         ///         yield return null;
         ///     }
-        /// }</code>
+        /// }
+        /// </code>
         /// This is the output from the console.
-        /// <code>True</code>
+        /// <code>True
+        /// </code>
         /// </example>
         /// <seealso cref="Routine"/>
         public List<Coroutine> Coroutines { get; private protected set; } = new List<Coroutine>();
@@ -319,7 +331,8 @@ namespace KeepCoding
         ///     {
         ///         yield return null;
         ///     }
-        /// }</code>
+        /// }
+        /// </code>
         /// </example>
         /// <exception cref="EmptyIteratorException"><see cref="Coroutines"/> is empty.</exception>
         /// <seealso cref="Coroutines"/>
@@ -366,7 +379,8 @@ namespace KeepCoding
         ///     {
         ///         yield return null;
         ///     }
-        /// }</code>
+        /// }
+        /// </code>
         /// </example>
         /// <exception cref="EmptyIteratorException"><see cref="Coroutines"/> is empty.</exception>
         /// <seealso cref="Coroutines"/>
@@ -406,9 +420,11 @@ namespace KeepCoding
         ///     {
         ///         yield return null;
         ///     }
-        /// }</code>
+        /// }
+        /// </code>
         /// This is the output from the console.
-        /// <code>[Foo #1] Done!</code>
+        /// <code>[Foo #1] Done!
+        /// </code>
         /// </example>
         /// <seealso cref="Coroutines"/>
         /// <seealso cref="Routine"/>
