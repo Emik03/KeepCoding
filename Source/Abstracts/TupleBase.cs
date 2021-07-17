@@ -57,7 +57,6 @@ namespace KeepCoding
         /// </remarks>
         /// <example>
         /// The following example illustrates how an <see cref="IndexOutOfRangeException"/> will always be thrown no matter what index is passed in.
-        /// </example>
         /// <code>using KeepCoding;
         /// 
         /// public sealed class FooModule : ModuleScript
@@ -67,19 +66,19 @@ namespace KeepCoding
         ///         TupleBase tuple = new TupleBase();
         ///         
         ///         // This uses the getter.
-        ///         Try(() => Log(tuple[i]);
+        ///         Try(b => Log(tuple[b]);
         ///         
         ///         // This uses the setter.
-        ///         Try(() => tuple[i] = 0);
+        ///         Try(b => tuple[b] = 0);
         ///     }
         ///     
-        ///     private void Try(Action act)
+        ///     private void Try(Action&lt;byte&gt; act)
         ///     {
-        ///         for (int i = int.MinValue; i &lt; int.MaxValue; i++)
+        ///         for (byte b = byte.MinValue; i &lt; byte.MaxValue; i++)
         ///         {
         ///             try
         ///             {
-        ///                 object o = tuple[i];
+        ///                 act(b);
         ///                 
         ///                 throw new ArgumentException("This exception will never be thrown because the above operation will always fail!");
         ///             }
@@ -91,6 +90,7 @@ namespace KeepCoding
         ///     }
         /// }
         /// </code>
+        /// </example>
         /// <seealso cref="ToArray"/>
         /// <param name="index">The index to pass into <see cref="ToArray"/>.</param>
         /// <exception cref="IndexOutOfRangeException">The index parameter is out of range because there are no items in this tuple type.</exception>
