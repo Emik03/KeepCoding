@@ -103,7 +103,7 @@ public sealed class FooModule : ModuleScript
 | :--- | :--- |
 | [GetEnumerator()](KeepCoding_RoutineBase_GetEnumerator().md 'KeepCoding.RoutineBase.GetEnumerator()') | Gets the enumerator of the [Routine](KeepCoding_Routine.md 'KeepCoding.Routine'), using [Coroutines](KeepCoding_RoutineBase_Coroutines.md 'KeepCoding.RoutineBase.Coroutines').<br/> |
 | [Stop()](KeepCoding_RoutineBase_Stop().md 'KeepCoding.RoutineBase.Stop()') | Stops the first coroutine that was called, and removes it from [Coroutines](KeepCoding_RoutineBase_Coroutines.md 'KeepCoding.RoutineBase.Coroutines').<br/> |
-| [StopAll()](KeepCoding_RoutineBase_StopAll().md 'KeepCoding.RoutineBase.StopAll()') | Stops all instances of the coroutine, and clears the list of coroutines.<br/> |
+| [StopAll()](KeepCoding_RoutineBase_StopAll().md 'KeepCoding.RoutineBase.StopAll()') | Stops all coroutines that were called, and makes [Coroutines](KeepCoding_RoutineBase_Coroutines.md 'KeepCoding.RoutineBase.Coroutines') empty.<br/> |
 #### See Also
 - [Count](KeepCoding_RoutineBase_Count.md 'KeepCoding.RoutineBase.Count')
 - [Routine](KeepCoding_Routine.md 'KeepCoding.Routine')

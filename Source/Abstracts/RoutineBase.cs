@@ -342,6 +342,7 @@ namespace KeepCoding
         /// </example>
         /// <exception cref="EmptyIteratorException"><see cref="Coroutines"/> is empty.</exception>
         /// <seealso cref="Coroutines"/>
+        /// <seealso cref="Routine"/>
         public void Stop()
         {
             Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
@@ -352,9 +353,45 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// Stops all instances of the coroutine, and clears the list of coroutines.
+        /// Stops all coroutines that were called, and makes <see cref="Coroutines"/> empty.
         /// </summary>
-        /// <exception cref="EmptyIteratorException"></exception>
+        /// <remarks><see cref="StopAll"/> stops and removes all coroutines from <see cref="Coroutines"/>, as such, it cannot be called twice in a row without throwing an exception or adding a coroutine in-between. Note that when the coroutines are finished, they do not get removed from the list. If <see cref="StopAll"/> is called on coroutines which have already stopped, those coroutines will still be attempted to be stopped, which will in that case do nothing, and be removed from the list.</remarks>
+        /// <example>
+        /// The following example illustrates running <see cref="StopAll"/> twice to demonstrate the error using the class <see cref="Routine"/> which inherits from <see cref="RoutineBase"/>. As <see cref="StopAll"/> expects at least 1 coroutine, the code will cause an <see cref="EmptyIteratorException"/>.
+        /// <code>
+        /// using KeepCoding;
+        /// using System.Collections;
+        /// using UnityEngine;
+        /// 
+        /// public sealed class FooModule : ModuleScript
+        /// {
+        ///     private void Start()
+        ///     {
+        ///         Routine routine = new Routine(Example(), this);
+        ///         
+        ///         // This creates the first coroutine.
+        ///         routine.Start();
+        ///         
+        ///         // This creates the second coroutine.
+        ///         routine.Start();
+        ///         
+        ///         // This stops the first and second coroutine.
+        ///         routine.StopAll();
+        ///         
+        ///         // This will cause an error because there are no coroutines to remove.
+        ///         routine.StopAll();
+        ///     }
+        ///     
+        ///     private IEnumerator Example()
+        ///     {
+        ///         yield return null;
+        ///     }
+        /// }
+        /// </code>
+        /// </example>
+        /// <exception cref="EmptyIteratorException"><see cref="Coroutines"/> is empty.</exception>
+        /// <seealso cref="Coroutines"/>
+        /// <seealso cref="Routine"/>
         public void StopAll()
         {
             Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
