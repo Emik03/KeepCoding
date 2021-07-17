@@ -84,18 +84,20 @@ namespace KeepCoding
     /// <seealso cref="Routine"/>
     /// <seealso cref="Tuple{T1, T2}"/>
     /// <seealso cref="TypeHelper.ToTuple{T1, T2}(T1, T2)"/>
-    public abstract class RoutineBase : IEnumerable
+    public abstract class RoutineBase : IEnumerable, IEnumerable<Coroutine>
     {
         private protected RoutineBase(MonoBehaviour monoBehaviour) => _monoBehaviour = monoBehaviour;
 
         /// <summary>
         /// Indexes into <see cref="Coroutines"/>.
         /// </summary>
+        /// <value>
+        /// A coroutine from <see cref="Coroutines"/> based on the index that was passed in.
+        /// </value>
         /// <remarks>Given that <see cref="RoutineBase"/> acts as a wrapper for handling mulitple coroutines, all of which stored in a <see cref="List{T}"/>, this acts as shorthand for accessing a specific index from <see cref="Coroutines"/>.</remarks>
         /// <example>
         /// The following example illustrates using one of the implementations of <see cref="RoutineBase"/>, in this case <see cref="Routine"/> to index into <see cref="Coroutines"/>, to show that using the indexer is the same as using <see cref="Coroutines"/>. This is because <see cref="RoutineBase"/> by itself does not allow you to append any coroutines.
-        /// <code>
-        /// using KeepCoding;
+        /// <code>using KeepCoding;
         /// using System.Collections;
         /// using UnityEngine;
         /// 
@@ -116,17 +118,12 @@ namespace KeepCoding
         ///     {
         ///         yield return null;
         ///     }
-        /// }
-        /// </code>
+        /// }</code>
         /// This is the output from the console.
-        /// <code>
-        /// True
-        /// </code>
+        /// <code>True</code>
         /// It is important to note that this is a getter-only property. This means that the following statement cannot be done. Use <see cref="Stop"/>, <see cref="StopAll"/>, or other methods by implemented classes to mutate <see cref="Coroutines"/>.
-        /// <code>
-        /// // Invalid. There is no setter for this indexer.
-        /// routine[1] = routine[0];
-        /// </code>
+        /// <code>// Invalid. There is no setter for this indexer.
+        /// routine[1] = routine[0];</code>
         /// </example>
         /// <seealso cref="Coroutines"/>
         /// <seealso cref="Routine"/>
@@ -146,8 +143,7 @@ namespace KeepCoding
         /// <remarks>Typically when coroutines are running they act as a black box with no way to access whether they have finished or not. This property allows you to determine if the containing variable is handling any coroutines. Multiple coroutines running at the same time will still return <see langword="true"/>, and there is no way to determine the amount of coroutines running at once.</remarks>
         /// <example>
         /// The following example illustrates using an <see cref="Routine"/> and an <see cref="IEnumerator"/> to run separately despite being called at the same time.
-        /// <code>
-        /// using KeepCoding;
+        /// <code>using KeepCoding;
         /// using System.Collections;
         /// using UnityEngine;
         /// 
@@ -176,15 +172,12 @@ namespace KeepCoding
         ///         yield return new WaitWhile(() => routine.IsRunning);
         ///         Log("Second");
         ///     }
-        /// }
-        /// </code>
+        /// }</code>
         /// This is the output from the console.
-        /// <code>
-        /// [Foo #1] First1
+        /// <code>[Foo #1] First1
         /// [Foo #1] First2
         /// [Foo #1] First3
-        /// [Foo #1] Second
-        /// </code>
+        /// [Foo #1] Second</code>
         /// </example>
         /// <seealso cref="Routine"/>
         public bool IsRunning { get; private protected set; }
@@ -192,11 +185,13 @@ namespace KeepCoding
         /// <summary>
         /// The amount of coroutines stored.
         /// </summary>
+        /// <value>
+        /// The <see cref="int"/> representing the length of <see cref="Coroutines"/>.
+        /// </value>
         /// <remarks>Given that <see cref="RoutineBase"/> acts as a wrapper for handling mulitple coroutines, all of which stored in a <see cref="List{T}"/>, this acts as shorthand for accessing the <see cref="List{T}.Count"/> from <see cref="Coroutines"/>. <see cref="Coroutines"/> will never be <see langword="null"/> which means <see cref="Count"/> never throws an exception. Note that this does not store the amount of coroutines running, as finished coroutines will still be kept inside the <see cref="List{T}"/> <see cref="Coroutines"/>. When <see cref="Stop"/> or <see cref="StopAll"/> is called however, the coroutines to get removed from the <see cref="Coroutines"/> which will change the count and therefore this getter.</remarks>
         /// <example>
         /// The following example illustrates a method that uses <see cref="Stop"/> to remove one entry from <see cref="Coroutines"/> and returns the size of the collection using <see cref="Count"/>.
-        /// <code>
-        /// using KeepCoding;
+        /// <code>using KeepCoding;
         /// 
         /// public static class CoroutineHelper
         /// {
@@ -206,11 +201,9 @@ namespace KeepCoding
         ///         
         ///         return routine.Count;
         ///     }
-        /// }
-        /// </code>
+        /// }</code>
         /// This will now be called using <see cref="Routine"/>.
-        /// <code>
-        /// using KeepCoding;
+        /// <code>using KeepCoding;
         /// using System.Collections;
         /// using UnityEngine;
         /// 
@@ -233,13 +226,10 @@ namespace KeepCoding
         ///     {
         ///         yield return null;
         ///     }
-        /// }
-        /// </code>
+        /// }</code>
         /// This is the output from the console.
-        /// <code>
-        /// [Foo #1] 1
-        /// [Foo #1] 0
-        /// </code>
+        /// <code>[Foo #1] 1
+        /// [Foo #1] 0</code>
         /// </example>
         /// <seealso cref="Coroutines"/>
         /// <seealso cref="Routine"/>
@@ -248,13 +238,15 @@ namespace KeepCoding
         public int Count => Coroutines.Count;
 
         /// <summary>
-        /// The <see cref="List{T}"/> of all coroutines.
+        /// The collection of all coroutines.
         /// </summary>
+        /// <value>
+        /// The <see cref="List{T}"/> which contains all of the stored coroutines.
+        /// </value>
         /// <remarks><see cref="RoutineBase"/> can store multiple coroutines in order to be able to handle multiple coroutines. This <see cref="List{T}"/> starts out empty and will never be <see langword="null"/>.</remarks>
         /// <example>
         /// The following example illustrates how <see cref="Coroutines"/> starts out as empty. A helper method will be first created to check for an empty list.
-        /// <code>
-        /// using System.Collections;
+        /// <code>using System.Collections;
         /// 
         /// public static class Helper
         /// {
@@ -265,11 +257,9 @@ namespace KeepCoding
         ///             
         ///         return list.Count;
         ///     }
-        /// }
-        /// </code>
+        /// }</code>
         /// Now a class which implements <see cref="RoutineBase"/> such as <see cref="Routine"/> can demonstrate this effect.
-        /// <code>
-        /// using KeepCoding;
+        /// <code>using KeepCoding;
         /// using System.Collections;
         /// using UnityEngine;
         /// 
@@ -288,12 +278,9 @@ namespace KeepCoding
         ///     {
         ///         yield return null;
         ///     }
-        /// }
-        /// </code>
+        /// }</code>
         /// This is the output from the console.
-        /// <code>
-        /// True
-        /// </code>
+        /// <code>True</code>
         /// </example>
         /// <seealso cref="Routine"/>
         public List<Coroutine> Coroutines { get; private protected set; } = new List<Coroutine>();
@@ -306,8 +293,7 @@ namespace KeepCoding
         /// <remarks>Every time a coroutine gets added, it does so at the end of the <see cref="List{T}"/>. When <see cref="Stop"/> is called, the first and therefore oldest coroutine gets removed from this list in a similar vein to <see cref="Queue"/>. Note that when the coroutines are finished, they do not get removed from the list. If <see cref="Stop"/> is called on a coroutine which has already stopped, the first coroutine will still be attempted to be stopped, which will in that case do nothing, and be removed from the list.</remarks>
         /// <example>
         /// The following example illustrates running <see cref="Stop"/> three times despite only having two coroutines using the class <see cref="Routine"/> which inherits from <see cref="RoutineBase"/>. As <see cref="Stop"/> expects at least 1 coroutine, the code will cause an <see cref="EmptyIteratorException"/>.
-        /// <code>
-        /// using KeepCoding;
+        /// <code>using KeepCoding;
         /// using System.Collections;
         /// using UnityEngine;
         /// 
@@ -337,8 +323,7 @@ namespace KeepCoding
         ///     {
         ///         yield return null;
         ///     }
-        /// }
-        /// </code>
+        /// }</code>
         /// </example>
         /// <exception cref="EmptyIteratorException"><see cref="Coroutines"/> is empty.</exception>
         /// <seealso cref="Coroutines"/>
@@ -358,8 +343,7 @@ namespace KeepCoding
         /// <remarks><see cref="StopAll"/> stops and removes all coroutines from <see cref="Coroutines"/>, as such, it cannot be called twice in a row without throwing an exception or adding a coroutine in-between. Note that when the coroutines are finished, they do not get removed from the list. If <see cref="StopAll"/> is called on coroutines which have already stopped, those coroutines will still be attempted to be stopped, which will in that case do nothing, and be removed from the list.</remarks>
         /// <example>
         /// The following example illustrates running <see cref="StopAll"/> twice to demonstrate the error using the class <see cref="Routine"/> which inherits from <see cref="RoutineBase"/>. As <see cref="StopAll"/> expects at least 1 coroutine, the code will cause an <see cref="EmptyIteratorException"/>.
-        /// <code>
-        /// using KeepCoding;
+        /// <code>using KeepCoding;
         /// using System.Collections;
         /// using UnityEngine;
         /// 
@@ -386,8 +370,7 @@ namespace KeepCoding
         ///     {
         ///         yield return null;
         ///     }
-        /// }
-        /// </code>
+        /// }</code>
         /// </example>
         /// <exception cref="EmptyIteratorException"><see cref="Coroutines"/> is empty.</exception>
         /// <seealso cref="Coroutines"/>
@@ -402,9 +385,38 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// Gets the enumerator of the <see cref="Routine"/>, using <see cref="Coroutines"/>.
+        /// Gets the <see cref="IEnumerator"/> of the <see cref="Routine"/> from <see cref="Coroutines"/>.
         /// </summary>
-        /// <returns>The list of <see cref="Coroutines"/> in this <see cref="Routine"/>.</returns>
+        /// <remarks>This retrieves the <see cref="Coroutines"/> as an <see cref="IEnumerator"/>. Note that <see cref="Coroutines"/> is never <see langword="null"/> but is empty by default.</remarks>
+        /// <example>
+        /// The following example illustrates how <see cref="Coroutines"/> is empty by default by using <see cref="GetEnumerator"/> with <see cref="Routine"/> which derives from <see cref="RoutineBase"/>.
+        /// <code>using KeepCoding;
+        /// using System.Collections;
+        /// using UnityEngine;
+        /// 
+        /// public sealed class FooModule : ModuleScript
+        /// {
+        ///     private void Start()
+        ///     {
+        ///         IEnumerator ienumerator = new Routine(Example(), this).GetEnumerator();
+        ///         
+        ///         while (ienumerator.MoveNext())
+        ///             throw new Exception("This will not happen.");
+        ///             
+        ///         Log("Done!");
+        ///     }
+        ///     
+        ///     private IEnumerator Example()
+        ///     {
+        ///         yield return null;
+        ///     }
+        /// }</code>
+        /// This is the output from the console.
+        /// <code>[Foo #1] Done!</code>
+        /// </example>
+        /// <seealso cref="Coroutines"/>
+        /// <seealso cref="Routine"/>
+        /// <returns><see cref="Coroutines"/> as <see cref="IEnumerable"/> using <see cref="List{T}.GetEnumerator"/>.</returns>
         public IEnumerator GetEnumerator() => Coroutines.GetEnumerator();
 
         private protected void Remove(in Coroutine coroutine) => _monoBehaviour.StopCoroutine(coroutine);
@@ -416,5 +428,7 @@ namespace KeepCoding
             if (oneByOne)
                 yield return new WaitWhile(() => IsRunning);
         }
+
+        IEnumerator<Coroutine> IEnumerable<Coroutine>.GetEnumerator() => Coroutines.GetEnumerator();
     }
 }

@@ -1,16 +1,16 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase')
 ## RoutineBase.Coroutines Property
-The [System.Collections.Generic.List&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1') of all coroutines.  
+The collection of all coroutines.  
 ```csharp
 public System.Collections.Generic.List<Coroutine> Coroutines { get; set; }
 ```
 #### Property Value
 [System.Collections.Generic.List&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1')[UnityEngine.Coroutine](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Coroutine 'UnityEngine.Coroutine')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1')
+The [System.Collections.Generic.List&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1') which contains all of the stored coroutines.  
 ### Example
 The following example illustrates how [Coroutines](KeepCoding_RoutineBase_Coroutines.md 'KeepCoding.RoutineBase.Coroutines') starts out as empty. A helper method will be first created to check for an empty list.  
 ```csharp
-  
 using System.Collections;  
   
 public static class Helper  
@@ -22,12 +22,10 @@ public static class Helper
               
         return list.Count;  
     }  
-}  
-```
+}```
   
 Now a class which implements [RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') such as [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') can demonstrate this effect.  
 ```csharp
-  
 using KeepCoding;  
 using System.Collections;  
 using UnityEngine;  
@@ -47,14 +45,11 @@ public sealed class FooModule : ModuleScript
     {  
         yield return null;  
     }  
-}  
-```
+}```
   
 This is the output from the console.  
 ```csharp
-  
-True  
-```
+True```
 ### Remarks
 [RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') can store multiple coroutines in order to be able to handle multiple coroutines. This [System.Collections.Generic.List&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1') starts out empty and will never be [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null').
 #### See Also
