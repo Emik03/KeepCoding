@@ -35,7 +35,7 @@
 | [Routine&lt;T1,T2&gt;](KeepCoding_Routine_T1_T2_.md 'KeepCoding.Routine&lt;T1,T2&gt;') | Advanced coroutine handler. <br/> |
 | [Routine&lt;T1,T2,T3&gt;](KeepCoding_Routine_T1_T2_T3_.md 'KeepCoding.Routine&lt;T1,T2,T3&gt;') | Advanced coroutine handler. <br/> |
 | [Routine&lt;T1,T2,T3,T4&gt;](KeepCoding_Routine_T1_T2_T3_T4_.md 'KeepCoding.Routine&lt;T1,T2,T3,T4&gt;') | Advanced coroutine handler. <br/> |
-| [RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') | Provides the base class for the multiple [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') types.<br/> |
+| [RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') | Provides the base [class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class') for the multiple [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') types.<br/> |
 | [Sound](KeepCoding_Sound.md 'KeepCoding.Sound') | Class meant to encapsulate all types of sound effects [KMAudio](https://docs.microsoft.com/en-us/dotnet/api/KMAudio 'KMAudio') uses. Currently used in [ModuleScript](KeepCoding_ModuleScript.md 'KeepCoding.ModuleScript').<br/> |
 | [TPScript&lt;TModule&gt;](KeepCoding_TPScript_TModule_.md 'KeepCoding.TPScript&lt;TModule&gt;') | Base class for TwitchPlays support for solvable and needy modded modules in Keep Talking and Nobody Explodes. <br/> |
 | [TPScriptEditor](KeepCoding_TPScriptEditor.md 'KeepCoding.TPScriptEditor') | Custom inspector for [TPScript&lt;TModule&gt;](KeepCoding_TPScript_TModule_.md 'KeepCoding.TPScript&lt;TModule&gt;'). <br/> |

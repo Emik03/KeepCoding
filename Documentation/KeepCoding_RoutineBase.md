@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## RoutineBase Class
-Provides the base class for the multiple [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') types.  
+Provides the base [class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class') for the multiple [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') types.  
 ```csharp
 public abstract class RoutineBase :
 System.Collections.IEnumerable
@@ -18,29 +18,37 @@ Derived
 
 Implements [System.Collections.IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerable 'System.Collections.IEnumerable')  
 ### Example
-The following example illustrates a method for returning a [Tuple&lt;T1,T2&gt;](KeepCoding_Tuple_T1_T2_.md 'KeepCoding.Tuple&lt;T1,T2&gt;') of the first and last coroutines, using [ToTuple&lt;T1,T2&gt;(T1, T2)](KeepCoding_TypeHelper_ToTuple_T1_T2_(T1_T2).md 'KeepCoding.TypeHelper.ToTuple&lt;T1,T2&gt;(T1, T2)') as shorthand for constructing the tuple.  
+The following example illustrates a method for returning a [Tuple&lt;T1,T2&gt;](KeepCoding_Tuple_T1_T2_.md 'KeepCoding.Tuple&lt;T1,T2&gt;') of the first and last coroutines, using [ToTuple&lt;T1,T2&gt;(T1, T2)](KeepCoding_TypeHelper_ToTuple_T1_T2_(T1_T2).md 'KeepCoding.TypeHelper.ToTuple&lt;T1,T2&gt;(T1, T2)') as shorthand for constructing the tuple. This method needs a [RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') with at least 1 coroutine, so an exception is raised if [Count](KeepCoding_RoutineBase_Count.md 'KeepCoding.RoutineBase.Count') is 0.  
 ```csharp
+  
+using KeepCoding;  
+using UnityEngine;  
   
 public static class CoroutineHelper  
 {  
     public static Tuple<Coroutine, Coroutine> FirstAndLast(RoutineBase routine)  
     {  
-        if (routine.Coroutines.Count == 0)  
-            throw new EmptyIteratorException("The routine has no coroutines running!");  
+        if (routine.Count == 0)  
+            throw new EmptyIteratorException("routine");  
+              
         return routine[0].ToTuple(routine[routine.Count - 1]);  
     }  
 }  
 ```
   
-This can be called with anything that inherits from this type to get the coroutines. This example will the type [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') and [Routine&lt;T&gt;](KeepCoding_Routine_T_.md 'KeepCoding.Routine&lt;T&gt;').  
+This can be called with anything that inherits from this type to get the coroutines. This example will use the types [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') and [Routine&lt;T&gt;](KeepCoding_Routine_T_.md 'KeepCoding.Routine&lt;T&gt;').  
 ```csharp
+  
+using KeepCoding;  
+using System.Collections;  
+using UnityEngine;  
   
 public sealed class FooModule : ModuleScript  
 {  
     private void Start()  
     {  
         Routine routine = new Routine(() => NoParameters(), this);  
-        Routine otherRoutine = new Routine(i => NoParameters(i), this);  
+        Routine otherRoutine = new Routine(i => OneParameter(i), this);  
           
         // We need to create coroutines before passing them into the method.  
         for (int i = 0; i < 5; i++)  
@@ -81,16 +89,12 @@ public sealed class FooModule : ModuleScript
 }  
 ```
 ### Remarks
-[RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') provides the general functionality that different types of [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') share in common with. As each different type of [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') gives different amounts of generics, this base class is therefore non-generic and provides every method that doesn't require it. This can therefore be used as a way of passing in an ambiguous type of [Routine](KeepCoding_Routine.md 'KeepCoding.Routine').  
+[RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') provides the general functionality that different types of [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') share in common with. As each different type of [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') gives different amounts of generics, this base [class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class') is therefore non-generic and provides every method that doesn't require it. This can therefore be used as a way of passing in an ambiguous type of [Routine](KeepCoding_Routine.md 'KeepCoding.Routine').  
             
-
-| Constructors | |
-| :--- | :--- |
-| [RoutineBase(MonoBehaviour)](KeepCoding_RoutineBase_RoutineBase(MonoBehaviour).md 'KeepCoding.RoutineBase.RoutineBase(MonoBehaviour)') | Creates a list of coroutines so that you can start, restart, or stop any coroutine running inside this class.<br/> |
 
 | Properties | |
 | :--- | :--- |
-| [Coroutines](KeepCoding_RoutineBase_Coroutines.md 'KeepCoding.RoutineBase.Coroutines') | The list of all coroutines currently running.<br/> |
+| [Coroutines](KeepCoding_RoutineBase_Coroutines.md 'KeepCoding.RoutineBase.Coroutines') | The [System.Collections.Generic.List&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1') of all coroutines.<br/> |
 | [Count](KeepCoding_RoutineBase_Count.md 'KeepCoding.RoutineBase.Count') | The amount of coroutines stored.<br/> |
 | [IsRunning](KeepCoding_RoutineBase_IsRunning.md 'KeepCoding.RoutineBase.IsRunning') | Determines whether it is currently running any coroutines.<br/> |
 | [this[int]](KeepCoding_RoutineBase_this_int_.md 'KeepCoding.RoutineBase.this[int]') | Indexes into [Coroutines](KeepCoding_RoutineBase_Coroutines.md 'KeepCoding.RoutineBase.Coroutines').<br/> |
@@ -98,7 +102,10 @@ public sealed class FooModule : ModuleScript
 | Methods | |
 | :--- | :--- |
 | [GetEnumerator()](KeepCoding_RoutineBase_GetEnumerator().md 'KeepCoding.RoutineBase.GetEnumerator()') | Gets the enumerator of the [Routine](KeepCoding_Routine.md 'KeepCoding.Routine'), using [Coroutines](KeepCoding_RoutineBase_Coroutines.md 'KeepCoding.RoutineBase.Coroutines').<br/> |
-| [Stop()](KeepCoding_RoutineBase_Stop().md 'KeepCoding.RoutineBase.Stop()') | Stops the first coroutine that was called, and removes it from the list of coroutines.<br/> |
+| [Stop()](KeepCoding_RoutineBase_Stop().md 'KeepCoding.RoutineBase.Stop()') | Stops the first coroutine that was called, and removes it from [Coroutines](KeepCoding_RoutineBase_Coroutines.md 'KeepCoding.RoutineBase.Coroutines').<br/> |
 | [StopAll()](KeepCoding_RoutineBase_StopAll().md 'KeepCoding.RoutineBase.StopAll()') | Stops all instances of the coroutine, and clears the list of coroutines.<br/> |
 #### See Also
+- [Count](KeepCoding_RoutineBase_Count.md 'KeepCoding.RoutineBase.Count')
 - [Routine](KeepCoding_Routine.md 'KeepCoding.Routine')
+- [Tuple&lt;T1,T2&gt;](KeepCoding_Tuple_T1_T2_.md 'KeepCoding.Tuple&lt;T1,T2&gt;')
+- [ToTuple&lt;T1,T2&gt;(T1, T2)](KeepCoding_TypeHelper_ToTuple_T1_T2_(T1_T2).md 'KeepCoding.TypeHelper.ToTuple&lt;T1,T2&gt;(T1, T2)')
