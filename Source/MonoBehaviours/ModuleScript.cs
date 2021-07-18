@@ -140,40 +140,6 @@ namespace KeepCoding
         private Logger _logger;
 
         /// <summary>
-        /// This initalizes the module. If you have an Awake method, be sure to call <c>base.Awake()</c> as the first statement.
-        /// </summary>
-        /// <exception cref="FormatException"></exception>
-        /// <exception cref="NullIteratorException"></exception>
-        protected void Awake()
-        {
-            (Module = new ModuleContainer(this)).OnActivate(_activate = () =>
-            {
-                IsActive = true;
-                OnActivate();
-            });
-
-            Self($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
-
-            _logger = new Logger(Module.Name, true);
-
-            logMessageReceived += OnException;
-
-            _colorblind = new ColorblindInfo(this);
-
-            _database = new Dictionary<string, Dictionary<string, object>[]>();
-
-            Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
-
-            StartCoroutine(CheckForUpdates());
-            StartCoroutine(WaitForBomb());
-        }
-
-        /// <summary>
-        /// This removed the exception catcher. If you have an OnDestroy method, be sure to call <c>base.OnDestroy()</c> as the first statement.
-        /// </summary>
-        protected void OnDestroy() => logMessageReceived -= OnException;
-
-        /// <summary>
         /// Assigns events specified into <see cref="Module"/>. Reassigning them will replace their values.
         /// </summary>
         /// <remarks>
@@ -430,6 +396,30 @@ namespace KeepCoding
                 ? t
                 : throw new UnrecognizedTypeException($"The data type {typeof(T).Name} was expected, but received {d[key].GetType()} from module {module} with key {key}!"));
 
+        private void Awake()
+        {
+            (Module = new ModuleContainer(this)).OnActivate(_activate = () =>
+            {
+                IsActive = true;
+                OnActivate();
+            });
+
+            Self($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
+
+            _logger = new Logger(Module.Name, true);
+
+            logMessageReceived += OnException;
+
+            _colorblind = new ColorblindInfo(this);
+
+            _database = new Dictionary<string, Dictionary<string, object>[]>();
+
+            Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
+
+            StartCoroutine(CheckForUpdates());
+            StartCoroutine(WaitForBomb());
+        }
+
         private void HookModules()
         {
             static bool Run(ModuleContainer module, Action<string> action)
@@ -457,6 +447,8 @@ namespace KeepCoding
                 m.OnStrike += () => Run(m, OnModuleStrike);
             });
         }
+
+        private void OnDestroy() => logMessageReceived -= OnException;
 
         private void OnException(string condition, string stackTrace, LogType type)
         {
