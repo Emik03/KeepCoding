@@ -13,8 +13,6 @@ namespace KeepCoding
     public abstract class CacheableBehaviour : MonoBehaviour
 #pragma warning restore IDE1006 // Naming Styles
     {
-        private readonly Dictionary<Type, Object[]> _objects = new Dictionary<Type, Object[]>();
-
         private readonly Dictionary<Type, Component[]> _components = new Dictionary<Type, Component[]>();
 
         /// <summary>
@@ -51,34 +49,6 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// Caches the result of a function call that returns a component array in a dictionary, and will return the cached result if called again. Use this to alleviate expensive function calls.
-        /// </summary>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="MissingComponentException"></exception>
-        /// <param name="type">The type of component to search for.</param>
-        /// <param name="func">The expensive function to call, only if it hasn't ever been called by this method on the current instance before.</param>
-        /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
-        /// <returns>The components specified by <paramref name="type"/>.</returns>
-        public Object Cache(Type type, Func<Type, Object> func, bool allowNull = false) => Cache(type, t => new[] { func(t) }, allowNull).FirstOrDefault();
-
-        /// <summary>
-        /// Caches the result of a function call that returns a component array in a dictionary, and will return the cached result if called again. Use this to alleviate expensive function calls.
-        /// </summary>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="MissingComponentException"></exception>
-        /// <param name="type">The type of component to search for.</param>
-        /// <param name="func">The expensive function to call, only if it hasn't ever been called by this method on the current instance before.</param>
-        /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
-        /// <returns>The components specified by <paramref name="type"/>.</returns>
-        public Object[] Cache(Type type, Func<Type, Object[]> func, bool allowNull = false)
-        {
-            if (!_components.ContainsKey(type))
-                _objects.Add(type, func(type).NullCheck("The method cannot be null."));
-
-            return allowNull || !_objects[type].IsNullOrEmpty() ? _objects[type] : throw new MissingComponentException($"Tried to get component {type.Name} from {this}, but was unable to find one.");
-        }
-
-        /// <summary>
         /// Similar to <see cref="Object.FindObjectsOfType"/>, however it caches the result in a dictionary, and will return the cached result if called again.
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
@@ -86,7 +56,7 @@ namespace KeepCoding
         /// <param name="type">The type of component to search for.</param>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
         /// <returns>The component specified by <paramref name="type"/>.</returns>
-        public Object Find(Type type, bool allowNull = false) => Cache(type, FindObjectOfType, allowNull);
+        public Component Find(Type type, bool allowNull = false) => Cache(type, t => (Component)FindObjectOfType(t), allowNull);
 
         /// <summary>
         /// Similar to <see cref="Component.GetComponent(Type)"/>, however it caches the result in a dictionary, and will return the cached result if called again.
@@ -125,7 +95,7 @@ namespace KeepCoding
         /// <param name="type">The type of component to search for.</param>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
         /// <returns>The component specified by <paramref name="type"/>.</returns>
-        public Object[] Finds(Type type, bool allowNull = false) => Cache(type, FindObjectsOfType, allowNull);
+        public Component[] Finds(Type type, bool allowNull = false) => Cache(type, t => (Component[])FindObjectsOfType(t), allowNull);
 
         /// <summary>
         /// Similar to <see cref="GameObject.GetComponents(Type)"/>, however it caches the result in a dictionary, and will return the cached result if called again.
