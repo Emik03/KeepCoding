@@ -80,7 +80,7 @@ namespace KeepCoding
         /// <summary>
         /// The last Id instantiation for the module of this type.
         /// </summary>
-        public int LastId => Logger.ids[Module.Name];
+        public int LastId => ids[Module.Name];
 
         /// <summary>
         /// The amount of time left on the bomb, in seconds, rounded down.
@@ -396,7 +396,7 @@ namespace KeepCoding
                 ? t
                 : throw new UnrecognizedTypeException($"The data type {typeof(T).Name} was expected, but received {d[key].GetType()} from module {module} with key {key}!"));
 
-        private void Awake()
+        protected void Awake()
         {
             (Module = new ModuleContainer(this)).OnActivate(_activate = () =>
             {
@@ -419,6 +419,8 @@ namespace KeepCoding
             StartCoroutine(CheckForUpdates());
             StartCoroutine(WaitForBomb());
         }
+
+        protected void OnDestroy() => logMessageReceived -= OnException;
 
         private void HookModules()
         {
@@ -447,8 +449,6 @@ namespace KeepCoding
                 m.OnStrike += () => Run(m, OnModuleStrike);
             });
         }
-
-        private void OnDestroy() => logMessageReceived -= OnException;
 
         private void OnException(string condition, string stackTrace, LogType type)
         {
