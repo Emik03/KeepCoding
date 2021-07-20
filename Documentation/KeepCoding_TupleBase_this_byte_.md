@@ -16,7 +16,7 @@ The index to pass into [ToArray](KeepCoding_TupleBase_ToArray.md 'KeepCoding.Tup
             
 #### Exceptions
 [System.IndexOutOfRangeException](https://docs.microsoft.com/en-us/dotnet/api/System.IndexOutOfRangeException 'System.IndexOutOfRangeException')  
-The index parameter is out of range because there are no items in this tuple type.
+The parameter [index](KeepCoding_TupleBase_this_byte_.md#KeepCoding_TupleBase_this_byte__index 'KeepCoding.TupleBase.this[byte].index') is out of range because there are no items in this tuple type.
 
 Implements [this[byte]](KeepCoding_ITuple_this_byte_.md 'KeepCoding.ITuple.this[byte]')  
 ### Example

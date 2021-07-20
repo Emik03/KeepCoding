@@ -54,7 +54,7 @@ It is important to note that this is a getter-only property. This means that the
 routine[1] = routine[0];  
 ```
 ### Remarks
-Given that [RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') acts as a wrapper for handling mulitple coroutines, all of which stored in a [System.Collections.Generic.List&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1'), this acts as shorthand for accessing a specific index from [Coroutines](KeepCoding_RoutineBase_Coroutines.md 'KeepCoding.RoutineBase.Coroutines').
+Given that [RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') acts as a wrapper for handling mulitple coroutines, all of which stored in a [System.Collections.Generic.List&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1'), this acts as shorthand for accessing a specific index from [Coroutines](KeepCoding_RoutineBase_Coroutines.md 'KeepCoding.RoutineBase.Coroutines').  
 #### See Also
 - [Coroutines](KeepCoding_RoutineBase_Coroutines.md 'KeepCoding.RoutineBase.Coroutines')
 - [Routine](KeepCoding_Routine.md 'KeepCoding.Routine')

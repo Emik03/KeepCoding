@@ -15,7 +15,6 @@ Implements [System.Collections.IEnumerable](https://docs.microsoft.com/en-us/dot
 
 | Properties | |
 | :--- | :--- |
-| [IsEmpty](KeepCoding_ITuple_IsEmpty.md 'KeepCoding.ITuple.IsEmpty') | Determines if the tuple data type is empty.<br/> |
 | [Length](KeepCoding_ITuple_Length.md 'KeepCoding.ITuple.Length') | Gets the length of the tuple, describing the amount of elements there are.<br/> |
 | [this[byte]](KeepCoding_ITuple_this_byte_.md 'KeepCoding.ITuple.this[byte]') | Indexable tuple. Be careful when using this as the compiler will not notice if you are using the wrong type.<br/> |
 | [ToArray](KeepCoding_ITuple_ToArray.md 'KeepCoding.ITuple.ToArray') | All of the tuple's items as an array, ordered by item number.<br/> |

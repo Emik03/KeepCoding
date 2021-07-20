@@ -50,6 +50,6 @@ This is the output from the console.
 [Foo #1] First3  
 [Foo #1] Second```
 ### Remarks
-Typically when coroutines are running they act as a black box with no way to access whether they have finished or not. This property allows you to determine if the containing variable is handling any coroutines. Multiple coroutines running at the same time will still return [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool'), and there is no way to determine the amount of coroutines running at once.
+Typically when coroutines are running they act as a black box with no way to access whether they have finished or not. This property allows you to determine if the containing variable is handling any coroutines. Multiple coroutines running at the same time will still return [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool'), and there is no way to determine the amount of coroutines running at once.  
 #### See Also
 - [Routine](KeepCoding_Routine.md 'KeepCoding.Routine')

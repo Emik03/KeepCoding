@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using static System.String;
 
 namespace KeepCoding
 {
@@ -44,7 +43,7 @@ namespace KeepCoding
     /// </code>
     /// </example>
     /// <seealso cref="TypeHelper.ToTuple{T1, T2}(T1, T2)"/>
-    public abstract class TupleBase : ITuple, IEquatable<TupleBase>
+    public abstract class TupleBase : ITuple
     {
         /// <summary>
         /// Passes an index into the tuple, where items are considered ordered and part of an array.
@@ -93,67 +92,223 @@ namespace KeepCoding
         /// </example>
         /// <seealso cref="ToArray"/>
         /// <param name="index">The index to pass into <see cref="ToArray"/>.</param>
-        /// <exception cref="IndexOutOfRangeException">The index parameter is out of range because there are no items in this tuple type.</exception>
-        /// <returns><see cref="IndexOutOfRangeException"/>, ignoring the value.</returns>
+        /// <exception cref="IndexOutOfRangeException">The parameter <paramref name="index"/> is out of range because there are no items in this tuple type.</exception>
+        /// <returns><see cref="IndexOutOfRangeException"/>, ignoring <paramref name="index"/>.</returns>
         public object this[byte index] { get => throw IndexOutOfRange(index); set => throw IndexOutOfRange(index); }
 
         /// <summary>
-        /// undefined
+        /// Determines the amount of items in the tuple type.
         /// </summary>
-        public static bool operator ==(TupleBase left, TupleBase right) => left.Equals(right);
-
-        /// <summary>
-        /// undefined
-        /// </summary>
-        public static bool operator !=(TupleBase left, TupleBase right) => !(left == right);
-
-        /// <summary>
-        /// undefined
-        /// </summary>
-        public bool IsEmpty => Length == 0;
-
-        /// <summary>
-        /// undefined
-        /// </summary>
+        /// <value>
+        /// The number of generics in the current type.
+        /// </value>
+        /// <remarks>
+        /// The length is the amount of items in the tuple, which can be used to index <see cref="ToArray"/> or the indexer <see cref="this[byte]"/>.
+        /// </remarks>
+        /// <example>
+        /// The following example illustrates how a method can use the <see cref="Length"/> parameter as a way of determining the tuple item count being odd. <see cref="ArrayHelper.ConvertAll{TInput, TOutput}(TInput[], Converter{TInput, TOutput})"/> is used to convert all tuples to <see cref="bool"/>.
+        /// <code>using KeepCoding;
+        /// 
+        /// public static class Extensions
+        /// {
+        ///     public static bool[] IsOdds(params[] TupleBase tuples)
+        ///     {
+        ///         return tuples.ConvertAll(t => t.Length % 2 == 1);
+        ///     }
+        /// }
+        /// </code>
+        /// Next is five variables of all different lengths are now being tested.
+        /// <code>using KeepCoding;
+        /// 
+        /// public sealed class FooModule : ModuleScript
+        /// {
+        ///     private void Start()
+        ///     {
+        ///         Log(Extensions.IsOdds(new TupleBase(), // 0 items
+        ///             0.ToTuple(), // 1 item
+        ///             0.ToTuple(0), // 2 items
+        ///             0.ToTuple(0, 0), // 3 items
+        ///             0.ToTuple(0, 0, 0))); // 4 items
+        ///     }
+        /// }
+        /// </code>
+        /// This is the output from the console.
+        /// <code>[Foo #1] False, True, False, True, False
+        /// </code>
+        /// </example>
+        /// <seealso cref="this[byte]"/>
+        /// <seealso cref="ToArray"/>
+        /// <seealso cref="ArrayHelper.ConvertAll{TInput, TOutput}(TInput[], Converter{TInput, TOutput})"/>
         public byte Length => (byte)GetType().GetGenericArguments().Length;
 
         /// <summary>
-        /// undefined
+        /// Determines the upperbound of the amount of the length.
         /// </summary>
-        public byte UpperBound => IsEmpty ? throw new InvalidOperationException("The tuple is empty, meaning that the upper bound doesn't exist.") : (byte)(Length - 1);
+        /// <value>
+        /// <see cref="Length"/> - 1.
+        /// </value>
+        /// <remarks>
+        /// This can be used for indexing <see cref="ToArray"/> or the indexer <see cref="this[byte]"/>, getting the last item of the tuple. Calling <see cref="UpperBound"/> assumes that there is at least 1 generic in this type.
+        /// </remarks>
+        /// <example>
+        /// The following example illusrates a method that retrieves the last item of the tuple.
+        /// <code>using KeepCoding;
+        /// 
+        /// public static class Extensions
+        /// {
+        ///     public static object Last(TupleBase tuple)
+        ///     {
+        ///         return tuple[tuple.UpperBound];
+        ///     }
+        /// }
+        /// </code>
+        /// Now the method will be tested.
+        /// <code>using KeepCoding;
+        /// 
+        /// public sealed class FooModule : ModuleScript
+        /// {
+        ///     private void Start()
+        ///     {
+        ///         Log(Extensions.Last(0.ToTuple()));
+        ///         Log(Extensions.Last(1.ToTuple(2)));
+        ///         Log(Extensions.Last(3.ToTuple(4, 5)));
+        ///         Log(Extensions.Last(6.ToTuple(7, 8, 9)));
+        ///     }
+        /// }
+        /// </code>
+        /// This is the output from the console.
+        /// <code>[Foo #1] 0
+        /// [Foo #1] 2
+        /// [Foo #1] 5
+        /// [Foo #1] 9
+        /// </code>
+        /// </example>
+        /// <exception cref="InvalidOperationException">The length is 0, and therefore the upper bound doesn't exist.</exception>
+        /// <seealso cref="this[byte]"/>
+        /// <seealso cref="Length"/>
+        /// <seealso cref="ToArray"/>
+        public byte UpperBound => Length is 0 ? throw new InvalidOperationException("The tuple is empty, meaning that the upper bound doesn't exist.") : (byte)(Length - 1);
 
         /// <summary>
-        /// undefined
+        /// Converts all items to an array.
         /// </summary>
+        /// <value>
+        /// All items.
+        /// </value>
+        /// <remarks>
+        /// As the types are not determined, they have to be boxed in <see cref="object"/>.
+        /// </remarks>
+        /// <example>
+        /// The following example illustrates how an entire tuple can be printed using <see cref="ToArray"/>, since <see cref="Logger.Log{T}(T, object[])"/> can print arrays.
+        /// <code>using KeepCoding;
+        /// 
+        /// public sealed class FooModule : ModuleScript
+        /// {
+        ///     private void Start()
+        ///     {
+        ///         Log(4.ToTuple(3, 2, 1).ToArray);
+        ///     }
+        /// }
+        /// </code>
+        /// This is the output from the console.
+        /// <code>[Foo #1] 4, 3, 2, 1
+        /// </code>
+        /// </example>
+        /// <seealso cref="Logger.Log{T}(T, object[])"/>
         public abstract object[] ToArray { get; }
 
         /// <summary>
-        /// undefined
+        /// Overrides comparison by checking for individual item equality rather than itself.
         /// </summary>
+        /// <remarks>
+        /// For more details about comparison, look at <see cref="Equals(ITuple)"/>.
+        /// </remarks>
+        /// <param name="left">The left-hand side <see cref="TupleBase"/> comparison to compare to.</param>
+        /// <param name="right">The right-hand side <see cref="TupleBase"/> comparison to compare to.</param>
+        /// <returns><see langword="true"/> if all items in the tuple equal the other items of the same index.</returns>
+        public static bool operator ==(TupleBase left, TupleBase right) => left.Equals(right);
+
+        /// <summary>
+        /// Overrides comparison by checking for individual item equality rather than itself.
+        /// </summary>
+        /// <remarks>
+        /// For more details about comparison, look at <see cref="Equals(ITuple)"/>.
+        /// </remarks>
+        /// <param name="left">The left-hand side <see cref="TupleBase"/> comparison to compare to.</param>
+        /// <param name="right">The right-hand side <see cref="TupleBase"/> comparison to compare to.</param>
+        /// <returns><see langword="true"/> if any item in the tuple does not equal the other item of the same index.</returns>
+        public static bool operator !=(TupleBase left, TupleBase right) => !(left == right);
+
+        /// <summary>
+        /// Overrides <see cref="object.Equals(object)"/> by checking for individual item equality rather than itself.
+        /// </summary>
+        /// <remarks>
+        /// For more details about comparison, look at <see cref="Equals(ITuple)"/>.
+        /// </remarks>
+        /// <param name="obj">The <see cref="object"/> to compare to.</param>
+        /// <returns><see langword="true"/> if all items in the tuple equal the other items of the same index.</returns>
         public override bool Equals(object obj) => Equals(obj as ITuple);
 
         /// <summary>
-        /// undefined
+        /// Compares itself and another <see cref="ITuple"/> to determine if they contain the same values.
         /// </summary>
+        /// <remarks>
+        /// The comparison is done by taking both of their <see cref="ToArray"/> values and comparing them with <see cref="Enumerable.SequenceEqual{TSource}(IEnumerable{TSource}, IEnumerable{TSource})"/>. Note that if the tuples are different sizes, this will automatically return <see langword="true"/>.
+        /// </remarks>
+        /// <example>
+        /// The following example illustrates the different ways this method can return true or false.
+        /// <code>using KeepCoding;
+        /// 
+        /// public sealed class FooModule : ModuleScript
+        /// {
+        ///     private void Start()
+        ///     {
+        ///         Tuple&lt;int&gt; first = 2.ToTuple(),
+        ///             second = first,
+        ///             third = 2.ToTuple(),
+        ///             fourth = 4.ToTuple();
+        ///             
+        ///         Tuple&lt;int, int&gt; fifth = 2.ToTuple(2);
+        ///         
+        ///         Log(first.Equals(second));
+        ///         Log(first.Equals(third));
+        ///         Log(first.Equals(fourth));
+        ///         Log(first.Equals(fifth));
+        ///     }
+        /// }
+        /// </code>
+        /// This is the output from the console.
+        /// <code>[Foo #1] True
+        /// [Foo #1] True
+        /// [Foo #1] False
+        /// [Foo #1] False
+        /// </code>
+        /// </example>
+        /// <returns><see langword="true"/> if both of them have the same items, or are both <see langword="null"/>.</returns>
         public bool Equals(ITuple other) => other is null ? this is null : ToArray.SequenceEqual(other.ToArray);
 
         /// <summary>
-        /// undefined
+        /// Gets the hash code of <see cref="ToArray"/>.
         /// </summary>
-        public bool Equals(TupleBase other) => Equals(other as ITuple);
-
-        /// <summary>
-        /// undefined
-        /// </summary>
+        /// <remarks>
+        /// For more details about hash codes, refer to <see cref="object.GetHashCode"/>.
+        /// </remarks>
+        /// <seealso cref="ToArray"/>.
+        /// <returns>The hash code of this instance.</returns>
         public override int GetHashCode() => 1108013089 + EqualityComparer<object[]>.Default.GetHashCode(ToArray);
 
         /// <summary>
-        /// undefined
+        /// Joins <see cref="ToArray"/> to a string, with a space as a delimiter.
         /// </summary>
-        public override string ToString() => Join(" ", ToArray.ConvertAll(o => o.ToString()));
+        /// <remarks>
+        /// For more details about stringification, refer to <see cref="object.ToString"/>.
+        /// </remarks>
+        /// <seealso cref="ToArray"/>
+        /// <returns><see cref="ToArray"/> from <see cref="Helper.UnwrapToString{T}(T, bool, string)"/>.</returns>
+        public override string ToString() => ToArray.UnwrapToString(false, " ");
 
         /// <summary>
-        /// undefined
+        /// Gets the enumerator of <see cref="ToArray"/>.
         /// </summary>
         public IEnumerator GetEnumerator() => ToArray.GetEnumerator();
 

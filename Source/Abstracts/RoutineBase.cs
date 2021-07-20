@@ -92,7 +92,9 @@ namespace KeepCoding
         /// <value>
         /// A coroutine from <see cref="Coroutines"/> based on the index that was passed in.
         /// </value>
-        /// <remarks>Given that <see cref="RoutineBase"/> acts as a wrapper for handling mulitple coroutines, all of which stored in a <see cref="List{T}"/>, this acts as shorthand for accessing a specific index from <see cref="Coroutines"/>.</remarks>
+        /// <remarks>
+        /// Given that <see cref="RoutineBase"/> acts as a wrapper for handling mulitple coroutines, all of which stored in a <see cref="List{T}"/>, this acts as shorthand for accessing a specific index from <see cref="Coroutines"/>.
+        /// </remarks>
         /// <example>
         /// The following example illustrates using one of the implementations of <see cref="RoutineBase"/>, in this case <see cref="Routine"/> to index into <see cref="Coroutines"/>, to show that using the indexer is the same as using <see cref="Coroutines"/>. This is because <see cref="RoutineBase"/> by itself does not allow you to append any coroutines.
         /// <code>using KeepCoding;
@@ -141,7 +143,9 @@ namespace KeepCoding
         /// <value>
         /// A <see cref="bool"/> representing the state in which any coroutines are running.
         /// </value>
-        /// <remarks>Typically when coroutines are running they act as a black box with no way to access whether they have finished or not. This property allows you to determine if the containing variable is handling any coroutines. Multiple coroutines running at the same time will still return <see langword="true"/>, and there is no way to determine the amount of coroutines running at once.</remarks>
+        /// <remarks>
+        /// Typically when coroutines are running they act as a black box with no way to access whether they have finished or not. This property allows you to determine if the containing variable is handling any coroutines. Multiple coroutines running at the same time will still return <see langword="true"/>, and there is no way to determine the amount of coroutines running at once.
+        /// </remarks>
         /// <example>
         /// The following example illustrates using an <see cref="Routine"/> and an <see cref="IEnumerator"/> to run separately despite being called at the same time.
         /// <code>using KeepCoding;
@@ -190,7 +194,9 @@ namespace KeepCoding
         /// <value>
         /// The <see cref="int"/> representing the length of <see cref="Coroutines"/>.
         /// </value>
-        /// <remarks>Given that <see cref="RoutineBase"/> acts as a wrapper for handling mulitple coroutines, all of which stored in a <see cref="List{T}"/>, this acts as shorthand for accessing the <see cref="List{T}.Count"/> from <see cref="Coroutines"/>. <see cref="Coroutines"/> will never be <see langword="null"/> which means <see cref="Count"/> never throws an exception. Note that this does not store the amount of coroutines running, as finished coroutines will still be kept inside the <see cref="List{T}"/> <see cref="Coroutines"/>. When <see cref="Stop"/> or <see cref="StopAll"/> is called however, the coroutines to get removed from the <see cref="Coroutines"/> which will change the count and therefore this getter.</remarks>
+        /// <remarks>
+        /// Given that <see cref="RoutineBase"/> acts as a wrapper for handling mulitple coroutines, all of which stored in a <see cref="List{T}"/>, this acts as shorthand for accessing the <see cref="List{T}.Count"/> from <see cref="Coroutines"/>. <see cref="Coroutines"/> will never be <see langword="null"/> which means <see cref="Count"/> never throws an exception. Note that this does not store the amount of coroutines running, as finished coroutines will still be kept inside the <see cref="List{T}"/> <see cref="Coroutines"/>. When <see cref="Stop"/> or <see cref="StopAll"/> is called however, the coroutines to get removed from the <see cref="Coroutines"/> which will change the count and therefore this getter.
+        /// </remarks>
         /// <example>
         /// The following example illustrates a method that uses <see cref="Stop"/> to remove one entry from <see cref="Coroutines"/> and returns the size of the collection using <see cref="Count"/>.
         /// <code>using KeepCoding;
@@ -248,7 +254,9 @@ namespace KeepCoding
         /// <value>
         /// The <see cref="List{T}"/> which contains all of the stored coroutines.
         /// </value>
-        /// <remarks><see cref="RoutineBase"/> can store multiple coroutines in order to be able to handle multiple coroutines. This <see cref="List{T}"/> starts out empty and will never be <see langword="null"/>.</remarks>
+        /// <remarks>
+        /// <see cref="RoutineBase"/> can store multiple coroutines in order to be able to handle multiple coroutines. This <see cref="List{T}"/> starts out empty and will never be <see langword="null"/>.
+        /// </remarks>
         /// <example>
         /// The following example illustrates how <see cref="Coroutines"/> starts out as empty. A helper method will be first created to check for an empty list.
         /// <code>using System.Collections;
@@ -298,7 +306,9 @@ namespace KeepCoding
         /// <summary>
         /// Stops the first coroutine that was called, and removes it from <see cref="Coroutines"/>.
         /// </summary>
-        /// <remarks>Every time a coroutine gets added, it does so at the end of the <see cref="List{T}"/>. When <see cref="Stop"/> is called, the first and therefore oldest coroutine gets removed from this list in a similar vein to <see cref="Queue"/>. Note that when the coroutines are finished, they do not get removed from the list. If <see cref="Stop"/> is called on a coroutine which has already stopped, the first coroutine will still be attempted to be stopped, which will in that case do nothing, and be removed from the list.</remarks>
+        /// <remarks>
+        /// Every time a coroutine gets added, it does so at the end of the <see cref="List{T}"/>. When <see cref="Stop"/> is called, the first and therefore oldest coroutine gets removed from this list in a similar vein to <see cref="Queue"/>. Note that when the coroutines are finished, they do not get removed from the list. If <see cref="Stop"/> is called on a coroutine which has already stopped, the first coroutine will still be attempted to be stopped, which will in that case do nothing, and be removed from the list.
+        /// </remarks>
         /// <example>
         /// The following example illustrates running <see cref="Stop"/> three times despite only having two coroutines using the <see langword="class"/> <see cref="Routine"/> which inherits from <see cref="RoutineBase"/>. As <see cref="Stop"/> expects at least 1 coroutine, the code will cause an <see cref="EmptyIteratorException"/>.
         /// <code>using KeepCoding;
@@ -349,7 +359,9 @@ namespace KeepCoding
         /// <summary>
         /// Stops all coroutines that were called, and makes <see cref="Coroutines"/> empty.
         /// </summary>
-        /// <remarks><see cref="StopAll"/> stops and removes all coroutines from <see cref="Coroutines"/>, as such, it cannot be called twice in a row without throwing an exception or adding a coroutine in-between. Note that when the coroutines are finished, they do not get removed from the list. If <see cref="StopAll"/> is called on coroutines which have already stopped, those coroutines will still be attempted to be stopped, which will in that case do nothing, and be removed from the list.</remarks>
+        /// <remarks>
+        /// <see cref="StopAll"/> stops and removes all coroutines from <see cref="Coroutines"/>, as such, it cannot be called twice in a row without throwing an exception or adding a coroutine in-between. Note that when the coroutines are finished, they do not get removed from the list. If <see cref="StopAll"/> is called on coroutines which have already stopped, those coroutines will still be attempted to be stopped, which will in that case do nothing, and be removed from the list.
+        /// </remarks>
         /// <example>
         /// The following example illustrates running <see cref="StopAll"/> twice to demonstrate the error using the <see langword="class"/> <see cref="Routine"/> which inherits from <see cref="RoutineBase"/>. As <see cref="StopAll"/> expects at least 1 coroutine, the code will cause an <see cref="EmptyIteratorException"/>.
         /// <code>using KeepCoding;
@@ -397,7 +409,9 @@ namespace KeepCoding
         /// <summary>
         /// Gets the <see cref="IEnumerator"/> of the <see cref="Routine"/> from <see cref="Coroutines"/>.
         /// </summary>
-        /// <remarks>This retrieves the <see cref="Coroutines"/> as an <see cref="IEnumerator"/>. Note that <see cref="Coroutines"/> is never <see langword="null"/> but is empty by default.</remarks>
+        /// <remarks>
+        /// This retrieves the <see cref="Coroutines"/> as an <see cref="IEnumerator"/>. Note that <see cref="Coroutines"/> is never <see langword="null"/> but is empty by default.
+        /// </remarks>
         /// <example>
         /// The following example illustrates how <see cref="Coroutines"/> is empty by default by using <see cref="GetEnumerator"/> with <see cref="Routine"/> which derives from <see cref="RoutineBase"/>.
         /// <code>using KeepCoding;

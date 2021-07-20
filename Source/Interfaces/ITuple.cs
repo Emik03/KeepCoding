@@ -18,11 +18,6 @@ namespace KeepCoding
         public object this[byte index] { get; set; }
 
         /// <summary>
-        /// Determines if the tuple data type is empty.
-        /// </summary>
-        public bool IsEmpty { get; }
-
-        /// <summary>
         /// Gets the length of the tuple, describing the amount of elements there are.
         /// </summary>
         public byte Length { get; }
