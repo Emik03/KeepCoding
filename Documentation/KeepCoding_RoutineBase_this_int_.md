@@ -3,7 +3,7 @@
 ## RoutineBase.this[int] Property
 Indexes into [Coroutines](KeepCoding_RoutineBase_Coroutines.md 'KeepCoding.RoutineBase.Coroutines').  
 ```csharp
-public Coroutine this[int index] { get; }
+public UnityEngine.Coroutine this[int index] { get; }
 ```
 #### Parameters
 <a name='KeepCoding_RoutineBase_this_int__index'></a>

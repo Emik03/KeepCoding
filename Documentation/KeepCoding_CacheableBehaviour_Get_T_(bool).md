@@ -4,7 +4,7 @@
 Similar to [UnityEngine.Component.GetComponent&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Component.GetComponent--1 'UnityEngine.Component.GetComponent``1'), however it caches the result in a dictionary, and will return the cached result if called again.  
 ```csharp
 public T Get<T>(bool allowNull=false)
-    where T : Component;
+    where T : UnityEngine.Component;
 ```
 #### Type parameters
 <a name='KeepCoding_CacheableBehaviour_Get_T_(bool)_T'></a>

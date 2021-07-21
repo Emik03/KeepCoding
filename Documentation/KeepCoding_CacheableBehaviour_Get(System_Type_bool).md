@@ -3,7 +3,7 @@
 ## CacheableBehaviour.Get(Type, bool) Method
 Similar to [UnityEngine.Component.GetComponent(System.Type)](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Component.GetComponent#UnityEngine_Component_GetComponent_System_Type_ 'UnityEngine.Component.GetComponent(System.Type)'), however it caches the result in a dictionary, and will return the cached result if called again.  
 ```csharp
-public Component Get(System.Type type, bool allowNull=false);
+public UnityEngine.Component Get(System.Type type, bool allowNull=false);
 ```
 #### Parameters
 <a name='KeepCoding_CacheableBehaviour_Get(System_Type_bool)_type'></a>

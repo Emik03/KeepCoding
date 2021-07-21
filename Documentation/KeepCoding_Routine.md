@@ -10,7 +10,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Constructors | |
 | :--- | :--- |
-| [Routine(Func&lt;IEnumerator&gt;, MonoBehaviour)](KeepCoding_Routine_Routine(System_Func_System_Collections_IEnumerator__MonoBehaviour).md 'KeepCoding.Routine.Routine(System.Func&lt;System.Collections.IEnumerator&gt;, MonoBehaviour)') | Creates a list of coroutines so that you can start, restart, or stop any coroutine running inside this class.<br/> |
+| [Routine(Func&lt;IEnumerator&gt;, MonoBehaviour)](KeepCoding_Routine_Routine(System_Func_System_Collections_IEnumerator__UnityEngine_MonoBehaviour).md 'KeepCoding.Routine.Routine(System.Func&lt;System.Collections.IEnumerator&gt;, UnityEngine.MonoBehaviour)') | Creates a list of coroutines so that you can start, restart, or stop any coroutine running inside this class.<br/> |
 
 | Methods | |
 | :--- | :--- |

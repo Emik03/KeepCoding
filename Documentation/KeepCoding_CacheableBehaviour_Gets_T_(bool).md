@@ -4,7 +4,7 @@
 Similar to [UnityEngine.GameObject.GetComponents&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.GameObject.GetComponents--1 'UnityEngine.GameObject.GetComponents``1'), however it caches the result in a dictionary, and will return the cached result if called again.  
 ```csharp
 public T[] Gets<T>(bool allowNull=false)
-    where T : Component;
+    where T : UnityEngine.Component;
 ```
 #### Type parameters
 <a name='KeepCoding_CacheableBehaviour_Gets_T_(bool)_T'></a>

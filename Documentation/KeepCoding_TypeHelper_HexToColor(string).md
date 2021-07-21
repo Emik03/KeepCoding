@@ -3,7 +3,7 @@
 ## TypeHelper.HexToColor(string) Method
 Converts a hexadecimal string into colors.  
 ```csharp
-public static Color32 HexToColor(this string hex);
+public static UnityEngine.Color32 HexToColor(this string hex);
 ```
 #### Parameters
 <a name='KeepCoding_TypeHelper_HexToColor(string)_hex'></a>

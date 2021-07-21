@@ -240,7 +240,7 @@ namespace KeepCoding
         public static bool operator !=(TupleBase left, TupleBase right) => !(left == right);
 
         /// <summary>
-        /// Overrides <see cref="object.Equals(object)"/> by checking for individual item equality rather than itself.
+        /// Compares itself and another object attempted to casted as <see cref="ITuple"/> to determine if they contain the same values.
         /// </summary>
         /// <remarks>
         /// For more details about comparison, look at <see cref="Equals(ITuple)"/>.
@@ -253,7 +253,7 @@ namespace KeepCoding
         /// Compares itself and another <see cref="ITuple"/> to determine if they contain the same values.
         /// </summary>
         /// <remarks>
-        /// The comparison is done by taking both of their <see cref="ToArray"/> values and comparing them with <see cref="Enumerable.SequenceEqual{TSource}(IEnumerable{TSource}, IEnumerable{TSource})"/>. Note that if the tuples are different sizes, this will automatically return <see langword="true"/>.
+        /// The comparison is done by taking both of their <see cref="ToArray"/> values and comparing them with <see cref="Enumerable.SequenceEqual{TSource}(IEnumerable{TSource}, IEnumerable{TSource})"/>. Note that if the tuples are different sizes, this will automatically return <see langword="true"/>. For more information, <see cref="object.Equals(object)"/>.
         /// </remarks>
         /// <example>
         /// The following example illustrates the different ways this method can return true or false.
@@ -291,9 +291,28 @@ namespace KeepCoding
         /// Gets the hash code of <see cref="ToArray"/>.
         /// </summary>
         /// <remarks>
-        /// For more details about hash codes, refer to <see cref="object.GetHashCode"/>.
+        /// Hash codes are a way of quickly asserting equality. It converts all of the given relevant variables into hash codes and combines into a number that makes it unlikely for two different types to have the same hash code. That being said, it is still possible for the hash codes to be identical but not for the same values to have different hash codes, which is why it only should be used as the first step in determining equality and confirming by making the final comparisons to those with equal hash codes. For more information, see <see cref="object.GetHashCode"/>.
         /// </remarks>
-        /// <seealso cref="ToArray"/>.
+        /// <example>
+        /// The following example illustrates how two of the same values will result in the same hash code.
+        /// <code>using KeepCoding;
+        /// 
+        /// public sealed class FooModule : ModuleScript
+        /// {
+        ///     private void Start()
+        ///     {
+        ///         Tuple&lt;int&gt; first = 2.ToTuple(),
+        ///             second = 2.ToTuple();
+        ///             
+        ///         Log(first.GetHashCode() == second.GetHashCode());
+        ///     }
+        /// }
+        /// </code>
+        /// This is the output from the console.
+        /// <code>[Foo #1] True
+        /// </code>
+        /// </example>
+        /// <seealso cref="ToArray"/>
         /// <returns>The hash code of this instance.</returns>
         public override int GetHashCode() => 1108013089 + EqualityComparer<object[]>.Default.GetHashCode(ToArray);
 
@@ -301,7 +320,7 @@ namespace KeepCoding
         /// Joins <see cref="ToArray"/> to a string, with a space as a delimiter.
         /// </summary>
         /// <remarks>
-        /// For more details about stringification, refer to <see cref="object.ToString"/>.
+        /// Each element of <see cref="ToArray"/> is passed into <see cref="Helper.UnwrapToString{T}(T, bool, string)"/> to unpack iterators and allow each element to be seen. For more details about stringification, refer to <see cref="object.ToString"/>.
         /// </remarks>
         /// <seealso cref="ToArray"/>
         /// <returns><see cref="ToArray"/> from <see cref="Helper.UnwrapToString{T}(T, bool, string)"/>.</returns>

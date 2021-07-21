@@ -3,7 +3,7 @@
 ## CacheableBehaviour.GetChildren(Type, bool) Method
 Similar to [UnityEngine.GameObject.GetComponentsInChildren(System.Type)](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.GameObject.GetComponentsInChildren#UnityEngine_GameObject_GetComponentsInChildren_System_Type_ 'UnityEngine.GameObject.GetComponentsInChildren(System.Type)'), however it caches the result in a dictionary, and will return the cached result if called again.  
 ```csharp
-public Component[] GetChildren(System.Type type, bool allowNull=false);
+public UnityEngine.Component[] GetChildren(System.Type type, bool allowNull=false);
 ```
 #### Parameters
 <a name='KeepCoding_CacheableBehaviour_GetChildren(System_Type_bool)_type'></a>

@@ -3,7 +3,7 @@
 ## CacheableBehaviour.GetParent(Type, bool) Method
 Similar to [UnityEngine.Component.GetComponentInParent(System.Type)](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Component.GetComponentInParent#UnityEngine_Component_GetComponentInParent_System_Type_ 'UnityEngine.Component.GetComponentInParent(System.Type)'), however it caches the result in a dictionary, and will return the cached result if called again.  
 ```csharp
-public Component GetParent(System.Type type, bool allowNull=false);
+public UnityEngine.Component GetParent(System.Type type, bool allowNull=false);
 ```
 #### Parameters
 <a name='KeepCoding_CacheableBehaviour_GetParent(System_Type_bool)_type'></a>

@@ -58,16 +58,16 @@ This is the output from the console.
 | :--- | :--- |
 | [Length](KeepCoding_TupleBase_Length.md 'KeepCoding.TupleBase.Length') | Determines the amount of items in the tuple type.<br/> |
 | [this[byte]](KeepCoding_TupleBase_this_byte_.md 'KeepCoding.TupleBase.this[byte]') | Passes an index into the tuple, where items are considered ordered and part of an array.<br/> |
-| [ToArray](KeepCoding_TupleBase_ToArray.md 'KeepCoding.TupleBase.ToArray') | undefined<br/> |
-| [UpperBound](KeepCoding_TupleBase_UpperBound.md 'KeepCoding.TupleBase.UpperBound') | undefined<br/> |
+| [ToArray](KeepCoding_TupleBase_ToArray.md 'KeepCoding.TupleBase.ToArray') | Converts all items to an array.<br/> |
+| [UpperBound](KeepCoding_TupleBase_UpperBound.md 'KeepCoding.TupleBase.UpperBound') | Determines the upperbound of the amount of the length.<br/> |
 
 | Methods | |
 | :--- | :--- |
 | [Equals(ITuple)](KeepCoding_TupleBase_Equals(KeepCoding_ITuple).md 'KeepCoding.TupleBase.Equals(KeepCoding.ITuple)') | Compares itself and another [ITuple](KeepCoding_ITuple.md 'KeepCoding.ITuple') to determine if they contain the same values.<br/> |
 | [Equals(object)](KeepCoding_TupleBase_Equals(object).md 'KeepCoding.TupleBase.Equals(object)') | Overrides [System.Object.Equals(System.Object)](https://docs.microsoft.com/en-us/dotnet/api/System.Object.Equals#System_Object_Equals_System_Object_ 'System.Object.Equals(System.Object)') by checking for individual item equality rather than itself.<br/> |
-| [GetEnumerator()](KeepCoding_TupleBase_GetEnumerator().md 'KeepCoding.TupleBase.GetEnumerator()') | undefined<br/> |
-| [GetHashCode()](KeepCoding_TupleBase_GetHashCode().md 'KeepCoding.TupleBase.GetHashCode()') | undefined<br/> |
-| [ToString()](KeepCoding_TupleBase_ToString().md 'KeepCoding.TupleBase.ToString()') | undefined<br/> |
+| [GetEnumerator()](KeepCoding_TupleBase_GetEnumerator().md 'KeepCoding.TupleBase.GetEnumerator()') | Gets the enumerator of [ToArray](KeepCoding_TupleBase_ToArray.md 'KeepCoding.TupleBase.ToArray').<br/> |
+| [GetHashCode()](KeepCoding_TupleBase_GetHashCode().md 'KeepCoding.TupleBase.GetHashCode()') | Gets the hash code of [ToArray](KeepCoding_TupleBase_ToArray.md 'KeepCoding.TupleBase.ToArray').<br/> |
+| [ToString()](KeepCoding_TupleBase_ToString().md 'KeepCoding.TupleBase.ToString()') | Joins [ToArray](KeepCoding_TupleBase_ToArray.md 'KeepCoding.TupleBase.ToArray') to a string, with a space as a delimiter.<br/> |
 
 | Operators | |
 | :--- | :--- |

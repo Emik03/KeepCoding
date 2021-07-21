@@ -3,7 +3,7 @@
 ## CacheableBehaviour.Find(Type, bool) Method
 Similar to [UnityEngine.Object.FindObjectsOfType(System.Type)](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Object.FindObjectsOfType#UnityEngine_Object_FindObjectsOfType_System_Type_ 'UnityEngine.Object.FindObjectsOfType(System.Type)'), however it caches the result in a dictionary, and will return the cached result if called again.  
 ```csharp
-public Component Find(System.Type type, bool allowNull=false);
+public UnityEngine.Component Find(System.Type type, bool allowNull=false);
 ```
 #### Parameters
 <a name='KeepCoding_CacheableBehaviour_Find(System_Type_bool)_type'></a>

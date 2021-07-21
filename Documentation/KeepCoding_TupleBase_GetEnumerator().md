@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[TupleBase](KeepCoding_TupleBase.md 'KeepCoding.TupleBase')
 ## TupleBase.GetEnumerator() Method
-undefined  
+Gets the enumerator of [ToArray](KeepCoding_TupleBase_ToArray.md 'KeepCoding.TupleBase.ToArray').  
 ```csharp
 public System.Collections.IEnumerator GetEnumerator();
 ```

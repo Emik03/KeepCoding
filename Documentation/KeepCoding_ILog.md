@@ -13,6 +13,6 @@ Derived
 
 | Methods | |
 | :--- | :--- |
-| [Log&lt;T&gt;(T, LogType)](KeepCoding_ILog_Log_T_(T_LogType).md 'KeepCoding.ILog.Log&lt;T&gt;(T, LogType)') | Logs message, but formats it to be compliant with the Logfile Analyzer.<br/> |
 | [Log&lt;T&gt;(T, object[])](KeepCoding_ILog_Log_T_(T_object__).md 'KeepCoding.ILog.Log&lt;T&gt;(T, object[])') | Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.<br/> |
+| [Log&lt;T&gt;(T, LogType)](KeepCoding_ILog_Log_T_(T_UnityEngine_LogType).md 'KeepCoding.ILog.Log&lt;T&gt;(T, UnityEngine.LogType)') | Logs message, but formats it to be compliant with the Logfile Analyzer.<br/> |
 | [LogMultiple(string[])](KeepCoding_ILog_LogMultiple(string__).md 'KeepCoding.ILog.LogMultiple(string[])') | Logs multiple entries to the console.<br/> |

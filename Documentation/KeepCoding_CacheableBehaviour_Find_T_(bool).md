@@ -4,7 +4,7 @@
 Similar to [UnityEngine.Object.FindObjectsOfType&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Object.FindObjectsOfType--1 'UnityEngine.Object.FindObjectsOfType``1'), however it caches the result in a dictionary, and will return the cached result if called again.  
 ```csharp
 public T Find<T>(bool allowNull=false)
-    where T : Component;
+    where T : UnityEngine.Component;
 ```
 #### Type parameters
 <a name='KeepCoding_CacheableBehaviour_Find_T_(bool)_T'></a>
