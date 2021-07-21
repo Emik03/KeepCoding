@@ -13,9 +13,8 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 
 | Constructors | |
 | :--- | :--- |
-| [Sound(SoundEffect)](KeepCoding_Sound_Sound(global__KMSoundOverride_SoundEffect).md 'KeepCoding.Sound.Sound(global::KMSoundOverride.SoundEffect)') | An instance of sound where [Game](KeepCoding_Sound_Game.md 'KeepCoding.Sound.Game') is defined.<br/> |
+| [Sound(AudioClip)](KeepCoding_Sound_Sound(AudioClip).md 'KeepCoding.Sound.Sound(AudioClip)') | An instance of Sound where [Custom](KeepCoding_Sound_Custom.md 'KeepCoding.Sound.Custom') is defined.<br/> |
 | [Sound(string)](KeepCoding_Sound_Sound(string).md 'KeepCoding.Sound.Sound(string)') | An instance of Sound where [Custom](KeepCoding_Sound_Custom.md 'KeepCoding.Sound.Custom') is defined.<br/> |
-| [Sound(AudioClip)](KeepCoding_Sound_Sound(UnityEngine_AudioClip).md 'KeepCoding.Sound.Sound(UnityEngine.AudioClip)') | An instance of Sound where [Custom](KeepCoding_Sound_Custom.md 'KeepCoding.Sound.Custom') is defined.<br/> |
 
 | Properties | |
 | :--- | :--- |
@@ -64,15 +63,12 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 | [Equals(Sound)](KeepCoding_Sound_Equals(KeepCoding_Sound).md 'KeepCoding.Sound.Equals(KeepCoding.Sound)') | Determines if both [Sound](KeepCoding_Sound.md 'KeepCoding.Sound') variables are equal.<br/> |
 | [Equals(object)](KeepCoding_Sound_Equals(object).md 'KeepCoding.Sound.Equals(object)') | Determines if both [Sound](KeepCoding_Sound.md 'KeepCoding.Sound') variables are equal.<br/> |
 | [GetHashCode()](KeepCoding_Sound_GetHashCode().md 'KeepCoding.Sound.GetHashCode()') | Gets the current hash code.<br/> |
-| [Method(KMAudio)](KeepCoding_Sound_Method(global__KMAudio).md 'KeepCoding.Sound.Method(global::KMAudio)') | Gets the corresponding sound method matching the arguments of this instance of [Sound](KeepCoding_Sound.md 'KeepCoding.Sound').<br/> |
+| [Method(KMAudio)](KeepCoding_Sound_Method(KMAudio).md 'KeepCoding.Sound.Method(KMAudio)') | Gets the corresponding sound method matching the arguments of this instance of [Sound](KeepCoding_Sound.md 'KeepCoding.Sound').<br/> |
 | [StopSound()](KeepCoding_Sound_StopSound().md 'KeepCoding.Sound.StopSound()') | Stops the [Reference](KeepCoding_Sound_Reference.md 'KeepCoding.Sound.Reference')'s sound.<br/> |
 | [ToString()](KeepCoding_Sound_ToString().md 'KeepCoding.Sound.ToString()') | Converts the current sound to a string, returning the current sound.<br/> |
 
 | Operators | |
 | :--- | :--- |
-| [explicit operator SoundEffect(Sound)](KeepCoding_Sound_op_Explicitglobal__KMSoundOverride_SoundEffect(KeepCoding_Sound).md 'KeepCoding.Sound.op_Explicit global::KMSoundOverride.SoundEffect(KeepCoding.Sound)') | Returns [Game](KeepCoding_Sound_Game.md 'KeepCoding.Sound.Game') for the current variable.<br/> |
 | [explicit operator string(Sound)](KeepCoding_Sound_op_Explicitstring(KeepCoding_Sound).md 'KeepCoding.Sound.op_Explicit string(KeepCoding.Sound)') | Returns [Custom](KeepCoding_Sound_Custom.md 'KeepCoding.Sound.Custom') for the current variable.<br/> |
-| [explicit operator Nullable&lt;SoundEffect&gt;(Sound)](KeepCoding_Sound_op_ExplicitSystem_Nullable_global__KMSoundOverride_SoundEffect_(KeepCoding_Sound).md 'KeepCoding.Sound.op_Explicit System.Nullable&lt;global::KMSoundOverride.SoundEffect&gt;(KeepCoding.Sound)') | Returns [Game](KeepCoding_Sound_Game.md 'KeepCoding.Sound.Game') for the current variable.<br/> |
-| [implicit operator Sound(SoundEffect)](KeepCoding_Sound_op_ImplicitKeepCoding_Sound(global__KMSoundOverride_SoundEffect).md 'KeepCoding.Sound.op_Implicit KeepCoding.Sound(global::KMSoundOverride.SoundEffect)') | An instance of Sound where [Game](KeepCoding_Sound_Game.md 'KeepCoding.Sound.Game') is defined.<br/> |
+| [implicit operator Sound(AudioClip)](KeepCoding_Sound_op_ImplicitKeepCoding_Sound(AudioClip).md 'KeepCoding.Sound.op_Implicit KeepCoding.Sound(AudioClip)') | An instance of Sound where [Custom](KeepCoding_Sound_Custom.md 'KeepCoding.Sound.Custom') is defined.<br/> |
 | [implicit operator Sound(string)](KeepCoding_Sound_op_ImplicitKeepCoding_Sound(string).md 'KeepCoding.Sound.op_Implicit KeepCoding.Sound(string)') | An instance of Sound where [Custom](KeepCoding_Sound_Custom.md 'KeepCoding.Sound.Custom') is defined.<br/> |
-| [implicit operator Sound(AudioClip)](KeepCoding_Sound_op_ImplicitKeepCoding_Sound(UnityEngine_AudioClip).md 'KeepCoding.Sound.op_Implicit KeepCoding.Sound(UnityEngine.AudioClip)') | An instance of Sound where [Custom](KeepCoding_Sound_Custom.md 'KeepCoding.Sound.Custom') is defined.<br/> |

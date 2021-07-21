@@ -3,7 +3,7 @@
 ## ModuleContainer.Solvable Property
 Returns [KMBombModule](https://docs.microsoft.com/en-us/dotnet/api/KMBombModule 'KMBombModule'), or if null, throws a [System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException').  
 ```csharp
-public global::KMBombModule Solvable { get; }
+public KMBombModule Solvable { get; }
 ```
 #### Property Value
 [KMBombModule](https://docs.microsoft.com/en-us/dotnet/api/KMBombModule 'KMBombModule')

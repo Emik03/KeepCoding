@@ -4,7 +4,7 @@
 Similar to [UnityEngine.GameObject.GetComponentsInParent&lt;&gt;.Boolean)](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.GameObject.GetComponentsInParent--1#UnityEngine_GameObject_GetComponentsInParent__1_System_Boolean_ 'UnityEngine.GameObject.GetComponentsInParent``1(System.Boolean)'), however it caches the result in a dictionary, and will return the cached result if called again.  
 ```csharp
 public T[] GetParents<T>(bool includeInactive=false, bool allowNull=false)
-    where T : UnityEngine.Component;
+    where T : Component;
 ```
 #### Type parameters
 <a name='KeepCoding_CacheableBehaviour_GetParents_T_(bool_bool)_T'></a>

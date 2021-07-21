@@ -304,7 +304,7 @@ namespace KeepCoding
         /// <returns>All instances that <paramref name="func"/> used in an <see cref="IEnumerable{T}"/>.</returns>
         public static IEnumerable<T> For<T>(this int length, Func<int, T> func)
         {
-            var output = Empty<T>();
+            IEnumerable<T> output = Empty<T>();
 
             func.NullCheck("The action cannot be null.");
 
@@ -329,7 +329,7 @@ namespace KeepCoding
         /// <returns>All instances that <paramref name="func"/> used in an <see cref="IEnumerable{T}"/>.</returns>
         public static IEnumerable<T> For<T>(this T item, Func<T, T> func, Predicate<T> condition = null, Func<T, T> loop = null)
         {
-            var output = Empty<T>();
+            IEnumerable<T> output = Empty<T>();
 
             func.NullCheck("The action cannot be null.");
 
@@ -371,7 +371,7 @@ namespace KeepCoding
         {
             action.NullCheck("The action cannot be null.");
 
-            foreach (var item in iterator)
+            foreach (T item in iterator)
                 action(item);
 
             return iterator;
@@ -632,7 +632,7 @@ namespace KeepCoding
         /// <returns>All instances that <paramref name="func"/> used in an <see cref="IEnumerable{T}"/>.</returns>
         public static IEnumerable<T> While<T>(this Func<T> func, Func<bool> condition)
         {
-            var output = Empty<T>();
+            IEnumerable<T> output = Empty<T>();
 
             func.NullCheck("The action cannot be null.");
             condition.NullCheck("The condition cannot be null.");

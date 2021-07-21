@@ -29,6 +29,6 @@ Implements [IDump](KeepCoding_IDump.md 'KeepCoding.IDump'), [ILog](KeepCoding_IL
 | [Dump(Expression&lt;Func&lt;object&gt;&gt;[])](KeepCoding_Logger_Dump(System_Linq_Expressions_Expression_System_Func_object____).md 'KeepCoding.Logger.Dump(System.Linq.Expressions.Expression&lt;System.Func&lt;object&gt;&gt;[])') | Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.<br/> |
 | [Equals(object)](KeepCoding_Logger_Equals(object).md 'KeepCoding.Logger.Equals(object)') | Determines if both objects are equal.<br/> |
 | [GetHashCode()](KeepCoding_Logger_GetHashCode().md 'KeepCoding.Logger.GetHashCode()') | Gets the hash code of the object.<br/> |
+| [Log&lt;T&gt;(T, LogType)](KeepCoding_Logger_Log_T_(T_LogType).md 'KeepCoding.Logger.Log&lt;T&gt;(T, LogType)') | Logs message, but formats it to be compliant with the Logfile Analyzer.<br/> |
 | [Log&lt;T&gt;(T, object[])](KeepCoding_Logger_Log_T_(T_object__).md 'KeepCoding.Logger.Log&lt;T&gt;(T, object[])') | Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.<br/> |
-| [Log&lt;T&gt;(T, LogType)](KeepCoding_Logger_Log_T_(T_UnityEngine_LogType).md 'KeepCoding.Logger.Log&lt;T&gt;(T, UnityEngine.LogType)') | Logs message, but formats it to be compliant with the Logfile Analyzer.<br/> |
 | [LogMultiple(string[])](KeepCoding_Logger_LogMultiple(string__).md 'KeepCoding.Logger.LogMultiple(string[])') | Logs multiple entries to the console.<br/> |

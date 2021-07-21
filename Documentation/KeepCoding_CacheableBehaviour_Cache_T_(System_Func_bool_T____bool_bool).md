@@ -4,7 +4,7 @@
 Caches the result of a function call that returns a component array in a dictionary, and will return the cached result if called again. Use this to alleviate expensive function calls.  
 ```csharp
 public T[] Cache<T>(System.Func<bool,T[]> func, bool parameter=false, bool allowNull=false)
-    where T : UnityEngine.Component;
+    where T : Component;
 ```
 #### Type parameters
 <a name='KeepCoding_CacheableBehaviour_Cache_T_(System_Func_bool_T____bool_bool)_T'></a>

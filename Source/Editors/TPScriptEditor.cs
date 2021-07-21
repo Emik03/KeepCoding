@@ -20,7 +20,7 @@ namespace KeepCoding
         {
             DrawDefaultInspector();
 
-            var tp = (ITP)target;
+            ITP tp = (ITP)target;
 
             tp.IsTimeSkippable = Toggle(tp.IsTimeSkippable, "Allow time-skipping");
 
@@ -36,7 +36,7 @@ namespace KeepCoding
         private static IEnumerator VerifySolve(CacheableBehaviour obj)
         {
             var tp = (ITP)obj;
-            var module = obj.Get<ModuleScript>();
+            ModuleScript module = obj.Get<ModuleScript>();
 
             yield return tp.ForceSolve();
 

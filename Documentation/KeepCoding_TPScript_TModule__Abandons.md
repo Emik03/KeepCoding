@@ -3,7 +3,7 @@
 ## TPScript&lt;TModule&gt;.Abandons Property
 This list contains modules that it should stop processing. Currently, the only module that uses this capability is Souvenir.  
 ```csharp
-public System.Collections.Generic.List<global::KMBombModule> Abandons { get; set; }
+public System.Collections.Generic.List<KMBombModule> Abandons { get; set; }
 ```
 #### Property Value
 [System.Collections.Generic.List&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1')[KMBombModule](https://docs.microsoft.com/en-us/dotnet/api/KMBombModule 'KMBombModule')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1')

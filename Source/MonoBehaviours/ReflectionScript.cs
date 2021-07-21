@@ -20,9 +20,9 @@ namespace KeepCoding
     {
         private class NullableObject
         {
-            internal NullableObject(object o) => value = o;
+            internal NullableObject(object o) => _value = o;
 
-            internal readonly object value;
+            internal readonly object _value;
         }
 
         private enum Methods
@@ -85,7 +85,7 @@ namespace KeepCoding
 
             _members = Empty<Tuple<Component, NullableObject>>().ToList();
 
-            foreach (var component in Components)
+            foreach (Component component in Components)
             {
                 var tuple = component.ToTuple(GetDeepValue(component, _variable.Split('.')));
 
@@ -120,15 +120,15 @@ namespace KeepCoding
                 if (current is null)
                     return null;
 
-                var type = current.value?.GetType();
+                Type type = current._value?.GetType();
 
-                var vs = new[]
+                NullableObject[] vs = new[]
 {
-                    GetField(type, name, current.value),
-                    GetProperty(type, name, current.value),
+                    GetField(type, name, current._value),
+                    GetProperty(type, name, current._value),
                 };
 
-                current = vs.All(o => o is null) ? null : new NullableObject(vs.First(o => o is { }).value);
+                current = vs.All(o => o is null) ? null : new NullableObject(vs.First(o => o is { })._value);
             }
 
             return current;
@@ -158,7 +158,7 @@ namespace KeepCoding
 
         private static NullableObject GetField(in Type type, in string name, in object instance)
         {
-            var field = type?.GetField(name);
+            FieldInfo field = type?.GetField(name);
 
             return field is null ? null
                 : new NullableObject(field.IsStatic ? field.GetValue(null)
@@ -167,7 +167,7 @@ namespace KeepCoding
 
         private static NullableObject GetProperty(in Type type, in string name, in object instance)
         {
-            var property = type?.GetProperty(name);
+            PropertyInfo property = type?.GetProperty(name);
 
             return property is null ? null
                 : new NullableObject(property.GetAccessors(false).Any(x => x.IsStatic) ? property.GetValue(null, null)
@@ -182,9 +182,9 @@ namespace KeepCoding
 
                 yield return new WaitForSecondsRealtime(_slowMode ? 1 : 0.1f);
 
-                var objects = _members.Select(o => o.Item2.value);
+                IEnumerable<object> objects = _members.Select(o => o.Item2._value);
 
-                var split = objects.SplitBy(o => o is Object);
+                Tuple<IEnumerable<object>, IEnumerable<object>> split = objects.SplitBy(o => o is Object);
 
                 _components = split.Item1
                     .ToArray()

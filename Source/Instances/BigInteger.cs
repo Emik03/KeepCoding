@@ -573,7 +573,7 @@ namespace KeepCoding
 
         internal enum Operator { Add, Subtract, Multiply, Divide, Modulo }
 
-        private static readonly Dictionary<Operator, Func<sbyte[], sbyte[], sbyte[]>> _operations = new Dictionary<Operator, Func<sbyte[], sbyte[], sbyte[]>>()
+        private static readonly Dictionary<Operator, Func<sbyte[], sbyte[], sbyte[]>> s_operations = new Dictionary<Operator, Func<sbyte[], sbyte[], sbyte[]>>()
         {
             { Operator.Add, Addition },
             { Operator.Subtract, Addition },
@@ -584,7 +584,7 @@ namespace KeepCoding
 
         private readonly sbyte[] _value;
 
-        private static readonly sbyte[] _zero = new sbyte[0], _one = new sbyte[] { 1 };
+        private static readonly sbyte[] s_zero = new sbyte[0], s_one = new sbyte[] { 1 };
 
         private static bool IsArrayNegative(in sbyte[] vs) => vs[0] < 0;
 
@@ -656,17 +656,17 @@ namespace KeepCoding
 
         private static sbyte[] Division(sbyte[] left, sbyte[] right)
         {
-            if (right.SequenceEqual(_zero))
+            if (right.SequenceEqual(s_zero))
                 throw new DivideByZeroException("BigInteger was sent a right-hand operator that evaluated into zero on a division operation.");
 
-            if (left.SequenceEqual(_zero))
-                return _zero;
+            if (left.SequenceEqual(s_zero))
+                return s_zero;
 
-            if (right.SequenceEqual(_one))
+            if (right.SequenceEqual(s_one))
                 return left;
 
             if (left.SequenceEqual(right))
-                return _one;
+                return s_one;
 
             bool isNegative = IsArrayNegative(left) ^ IsArrayNegative(right);
 
@@ -678,7 +678,7 @@ namespace KeepCoding
 
             for (int i = 1; i <= left.Length; i++)
             {
-                var comparison = new BigInteger(right) * Pow(10, left.Length - i);
+                BigInteger comparison = new BigInteger(right) * Pow(10, left.Length - i);
 
                 if (mutator >= comparison)
                 {
@@ -692,14 +692,14 @@ namespace KeepCoding
 
         private static sbyte[] Modulation(sbyte[] left, sbyte[] right)
         {
-            if (right.SequenceEqual(_zero))
+            if (right.SequenceEqual(s_zero))
                 throw new DivideByZeroException("BigInteger was sent a right-hand operator that evaluated into zero on a modulo operation.");
 
             if (IsArrayNegative(right))
                 throw new NegativeNumberException("BigInteger was sent a right-hand operator that evaluated into the negatives on a modulo operation.");
 
-            if (left.SequenceEqual(_zero) || right.SequenceEqual(_zero) || left.SequenceEqual(right))
-                return _zero;
+            if (left.SequenceEqual(s_zero) || right.SequenceEqual(s_zero) || left.SequenceEqual(right))
+                return s_zero;
 
             bool isNegative = IsArrayNegative(left);
 
@@ -710,7 +710,7 @@ namespace KeepCoding
 
             for (int i = 1; i <= left.Length; i++)
             {
-                var comparison = new BigInteger(right) * Pow(10, left.Length - i);
+                BigInteger comparison = new BigInteger(right) * Pow(10, left.Length - i);
 
                 if (mutated >= comparison)
                 {
@@ -724,13 +724,13 @@ namespace KeepCoding
 
         private static sbyte[] Multiplication(sbyte[] left, sbyte[] right)
         {
-            if (left.SequenceEqual(_zero) || right.SequenceEqual(_zero))
-                return _zero;
+            if (left.SequenceEqual(s_zero) || right.SequenceEqual(s_zero))
+                return s_zero;
 
-            if (left.SequenceEqual(_one))
+            if (left.SequenceEqual(s_one))
                 return right;
 
-            if (right.SequenceEqual(_one))
+            if (right.SequenceEqual(s_one))
                 return left;
 
             bool isNegative = IsArrayNegative(left) ^ IsArrayNegative(right);
@@ -774,7 +774,7 @@ namespace KeepCoding
             if (obj is BigInteger big)
                 return big._value.ToArray();
 
-            var values = obj.Unwrap().Select(o => o.ToString());
+            IEnumerable<string> values = obj.Unwrap().Select(o => o.ToString());
 
             if (values.Count() == 1)
                 values = values.First().Select(c => c.ToString());
@@ -793,8 +793,8 @@ namespace KeepCoding
         }
 
         private static BigInteger Operate(in BigInteger bigIntegerA, in BigInteger bigIntegerB, in Operator op)
-            => _operations.ContainsKey(op)
-                ? new BigInteger(_operations[op](bigIntegerA._value.ToArray(), InvertConditional(bigIntegerB._value.ToArray(), op == Operator.Subtract)))
+            => s_operations.ContainsKey(op)
+                ? new BigInteger(s_operations[op](bigIntegerA._value.ToArray(), InvertConditional(bigIntegerB._value.ToArray(), op == Operator.Subtract)))
                 : throw new UnrecognizedValueException($"Unhandled operator: {op}.");
     }
 }

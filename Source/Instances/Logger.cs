@@ -26,10 +26,10 @@ namespace KeepCoding
         {
             Name = name.NullCheck("The name cannot be null!");
 
-            if (Name == _selfName)
-                throw new FormatException($"The name {_selfName} is reserved for the library.");
+            if (Name == s_selfName)
+                throw new FormatException($"The name {s_selfName} is reserved for the library.");
 
-            Id = ids.SetOrReplace(Name, i => ++i);
+            Id = s_ids.SetOrReplace(Name, i => ++i);
 
             _showId = showId;
             _showInLfa = showInLfa;
@@ -55,13 +55,13 @@ namespace KeepCoding
         /// </summary>
         public string Name { get; }
 
-        internal static readonly Dictionary<string, int> ids = new Dictionary<string, int>();
+        internal static readonly Dictionary<string, int> s_ids = new Dictionary<string, int>();
 
         private readonly bool _showId, _showInLfa;
 
         private readonly string _format;
 
-        private static readonly string _selfName = PathManager.AssemblyName.Name;
+        private static readonly string s_selfName = PathManager.AssemblyName.Name;
 
         /// <summary>
         /// Dumps all information that it can find of the type using reflection. This should only be used to debug.
@@ -138,6 +138,6 @@ namespace KeepCoding
             return hashCode;
         }
 
-        internal static void Self(in string message, in LogType logType = LogType.Log) => logType.Method()("[{0}] {1}".Form(_selfName, message));
+        internal static void Self(in string message, in LogType logType = LogType.Log) => logType.Method()("[{0}] {1}".Form(s_selfName, message));
     }
 }

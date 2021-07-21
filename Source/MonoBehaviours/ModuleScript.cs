@@ -20,9 +20,7 @@ namespace KeepCoding
     /// <summary>
     /// Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes. 
     /// </summary>
-#pragma warning disable IDE1006 // Naming Styles
     public abstract partial class ModuleScript : CacheableBehaviour, IDump, ILog
-#pragma warning restore IDE1006 // Naming Styles
     {
         /// <summary>
         /// Determines whether the module has been struck. Twitch Plays script will set this to false when a command is interrupted.
@@ -80,7 +78,7 @@ namespace KeepCoding
         /// <summary>
         /// The last Id instantiation for the module of this type.
         /// </summary>
-        public int LastId => ids[Module.Name];
+        public int LastId => s_ids[Module.Name];
 
         /// <summary>
         /// The amount of time left on the bomb, in seconds, rounded down.
@@ -123,15 +121,15 @@ namespace KeepCoding
         /// </summary>
         public ModuleContainer[] Modules { get; private set; }
 
-        internal bool isColorblindSupported = true;
+        internal bool _isColorblindSupported = true;
 
         private bool _hasException;
 
-        private static bool _hasCheckedVersion;
+        private static bool s_hasCheckedVersion;
 
         private int _strikes;
 
-        private static Dictionary<string, Dictionary<string, object>[]> _database;
+        private static Dictionary<string, Dictionary<string, object>[]> s_database;
 
         private Action _activate;
 
@@ -254,7 +252,7 @@ namespace KeepCoding
         /// Called when colorblind support needs to be updated for the module. Do not call <c>base.OnColorblindChanged()</c>.
         /// </summary>
         /// <param name="isEnabled">Whether colorblind support should be enabled.</param>
-        public virtual void OnColorblindChanged(bool isEnabled) => isColorblindSupported = false;
+        public virtual void OnColorblindChanged(bool isEnabled) => _isColorblindSupported = false;
 
         /// <summary>
         /// Called when any module on the current bomb has issued a strike.
@@ -299,20 +297,20 @@ namespace KeepCoding
         /// <param name="value">The value to store in the key.</param>
         public void Write<T>(string key, T value)
         {
-            if (!_database.ContainsKey(Module.Id))
-                _database.Add(Module.Id, new Dictionary<string, object>[] { });
+            if (!s_database.ContainsKey(Module.Id))
+                s_database.Add(Module.Id, new Dictionary<string, object>[] { });
 
             int index = LastId - Id;
 
-            Range(0, index - _database[Module.Id].Length + 1).ToArray().ForEach(_ => _database[Module.Id].Append(new Dictionary<string, object>()));
+            Range(0, index - s_database[Module.Id].Length + 1).ToArray().ForEach(_ => s_database[Module.Id].Append(new Dictionary<string, object>()));
 
-            if (!_database[Module.Id][index].ContainsKey(key))
-                _database[Module.Id][index].Add(key, null);
+            if (!s_database[Module.Id][index].ContainsKey(key))
+                s_database[Module.Id][index].Add(key, null);
 
-            _database[Module.Id][index][key] = value;
+            s_database[Module.Id][index][key] = value;
 
             if (IsEditor)
-                Self($"Added \"{value}\" to {nameof(_database)}: [{nameof(Module.Id)}, {Module.Id}: [{nameof(index)}, {index}: {value}]]");
+                Self($"Added \"{value}\" to {nameof(s_database)}: [{nameof(Module.Id)}, {Module.Id}: [{nameof(index)}, {index}: {value}]]");
         }
 
         /// <summary>
@@ -390,12 +388,15 @@ namespace KeepCoding
         /// <param name="allowDefault">Whether it should throw an exception if no value is found, or provide the default value instead.</param>
         /// <returns>Every instance of the value from the every instance of the module specified.</returns>
         public static T[] Read<T>(string module, string key, bool allowDefault = false) =>
-            !_database.ContainsKey(module) && !IsEditor ? throw new KeyNotFoundException($"The module {module} does not have an entry!") : _database[module].ConvertAll(d => !d.ContainsKey(key)
+            !s_database.ContainsKey(module) && !IsEditor ? throw new KeyNotFoundException($"The module {module} does not have an entry!") : s_database[module].ConvertAll(d => !d.ContainsKey(key)
                 ? allowDefault || IsEditor ? default(T) : throw new KeyNotFoundException($"The key {key} could not be found in the module {module}!")
                 : d[key] is T t
                 ? t
                 : throw new UnrecognizedTypeException($"The data type {typeof(T).Name} was expected, but received {d[key].GetType()} from module {module} with key {key}!"));
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected void Awake()
         {
             (Module = new ModuleContainer(this)).OnActivate(_activate = () =>
@@ -412,7 +413,7 @@ namespace KeepCoding
 
             _colorblind = new ColorblindInfo(this);
 
-            _database = new Dictionary<string, Dictionary<string, object>[]>();
+            s_database = new Dictionary<string, Dictionary<string, object>[]>();
 
             Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
 
@@ -420,6 +421,9 @@ namespace KeepCoding
             StartCoroutine(WaitForBomb());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected void OnDestroy() => logMessageReceived -= OnException;
 
         private void HookModules()
@@ -430,8 +434,8 @@ namespace KeepCoding
                 return false;
             }
 
-            var solvables = Bomb.GetComponentsInChildren<KMBombModule>();
-            var needies = Bomb.GetComponentsInChildren<KMNeedyModule>();
+            KMBombModule[] solvables = Bomb.GetComponentsInChildren<KMBombModule>();
+            KMNeedyModule[] needies = Bomb.GetComponentsInChildren<KMNeedyModule>();
 
             Modules = solvables.ConvertAll(m => new ModuleContainer(m, null)).Concat(needies.ConvertAll(m => new ModuleContainer(null, m))).ToArray();
 
@@ -492,10 +496,10 @@ namespace KeepCoding
 
         private static IEnumerator CheckForUpdates()
         {
-            if (!IsEditor || _hasCheckedVersion)
+            if (!IsEditor || s_hasCheckedVersion)
                 yield break;
 
-            _hasCheckedVersion = true;
+            s_hasCheckedVersion = true;
 
             var www = new WWW("https://api.github.com/repos/Emik03/KeepCoding/releases/latest");
             yield return www;
@@ -520,7 +524,7 @@ namespace KeepCoding
                 gameObject.AddComponent<KMBombInfo>();
             }
 
-            var bombInfo = Get<KMBombInfo>();
+            KMBombInfo bombInfo = Get<KMBombInfo>();
 
             while (true)
             {

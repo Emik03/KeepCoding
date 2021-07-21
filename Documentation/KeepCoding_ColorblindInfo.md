@@ -21,7 +21,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Methods | |
 | :--- | :--- |
-| [Deserialize(string, JsonSerializerSettings)](KeepCoding_ColorblindInfo_Deserialize(string_Newtonsoft_Json_JsonSerializerSettings).md 'KeepCoding.ColorblindInfo.Deserialize(string, Newtonsoft.Json.JsonSerializerSettings)') | Deserializes a ColorblindMode.json file.<br/> |
+| [Deserialize(string, JsonSerializerSettings)](KeepCoding_ColorblindInfo_Deserialize(string_JsonSerializerSettings).md 'KeepCoding.ColorblindInfo.Deserialize(string, JsonSerializerSettings)') | Deserializes a ColorblindMode.json file.<br/> |
 | [Equals(object)](KeepCoding_ColorblindInfo_Equals(object).md 'KeepCoding.ColorblindInfo.Equals(object)') | Determines if both objects are equal.<br/> |
 | [GetHashCode()](KeepCoding_ColorblindInfo_GetHashCode().md 'KeepCoding.ColorblindInfo.GetHashCode()') | Gets the hash code.<br/> |
 | [ToString()](KeepCoding_ColorblindInfo_ToString().md 'KeepCoding.ColorblindInfo.ToString()') | Converts the object to a string.<br/> |

@@ -56,7 +56,7 @@ namespace KeepCoding
         {
             KMBombModule bombModule => bombModule.RequiresTimerVisibility,
             KMNeedyModule needyModule => needyModule.RequiresTimerVisibility,
-            _ => throw _unreachableException,
+            _ => throw s_unreachableException,
         };
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace KeepCoding
         {
             KMBombModule bombModule => bombModule.ModuleDisplayName,
             KMNeedyModule needyModule => needyModule.ModuleDisplayName,
-            _ => throw _unreachableException,
+            _ => throw s_unreachableException,
         };
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace KeepCoding
         {
             KMBombModule bombModule => bombModule.ModuleType,
             KMNeedyModule needyModule => needyModule.ModuleType,
-            _ => throw _unreachableException,
+            _ => throw s_unreachableException,
         };
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace KeepCoding
         {
             KMBombModule bombModule => bombModule.HandlePass,
             KMNeedyModule needyModule => needyModule.HandlePass,
-            _ => throw _unreachableException,
+            _ => throw s_unreachableException,
         };
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace KeepCoding
         {
             KMBombModule bombModule => bombModule.HandleStrike,
             KMNeedyModule needyModule => needyModule.HandleStrike,
-            _ => throw _unreachableException,
+            _ => throw s_unreachableException,
         };
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace KeepCoding
         {
             KMBombModule bombModule => bombModule.GetRuleGenerationSeed,
             KMNeedyModule needyModule => needyModule.GetRuleGenerationSeed,
-            _ => throw _unreachableException,
+            _ => throw s_unreachableException,
         };
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace KeepCoding
                     break;
 
                 default:
-                    throw _unreachableException;
+                    throw s_unreachableException;
             }
         }
 
@@ -202,7 +202,7 @@ namespace KeepCoding
                     break;
 
                 default:
-                    throw _unreachableException;
+                    throw s_unreachableException;
             }
         }
 
@@ -230,6 +230,6 @@ namespace KeepCoding
 
         private readonly KMNeedyModule _needyModule;
 
-        private static readonly UnrecognizedTypeException _unreachableException = new UnrecognizedTypeException("Module is neither a KMBombModule or a KMNeedyModule. This is a bug caused by the library, please file a bug report alongside the source code.");
+        private static readonly UnrecognizedTypeException s_unreachableException = new UnrecognizedTypeException("Module is neither a KMBombModule or a KMNeedyModule. This is a bug caused by the library, please file a bug report alongside the source code.");
     }
 }

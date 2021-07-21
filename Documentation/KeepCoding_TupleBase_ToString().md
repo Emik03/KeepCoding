@@ -9,6 +9,6 @@ public override string ToString();
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
 [ToArray](KeepCoding_TupleBase_ToArray.md 'KeepCoding.TupleBase.ToArray') from [UnwrapToString&lt;T&gt;(T, bool, string)](KeepCoding_Helper_UnwrapToString_T_(T_bool_string).md 'KeepCoding.Helper.UnwrapToString&lt;T&gt;(T, bool, string)').
 ### Remarks
-For more details about stringification, refer to [System.Object.ToString](https://docs.microsoft.com/en-us/dotnet/api/System.Object.ToString 'System.Object.ToString').  
+Each element of [ToArray](KeepCoding_TupleBase_ToArray.md 'KeepCoding.TupleBase.ToArray') is passed into [UnwrapToString&lt;T&gt;(T, bool, string)](KeepCoding_Helper_UnwrapToString_T_(T_bool_string).md 'KeepCoding.Helper.UnwrapToString&lt;T&gt;(T, bool, string)') to unpack iterators and allow each element to be seen. For more details about stringification, refer to [System.Object.ToString](https://docs.microsoft.com/en-us/dotnet/api/System.Object.ToString 'System.Object.ToString').  
 #### See Also
 - [ToArray](KeepCoding_TupleBase_ToArray.md 'KeepCoding.TupleBase.ToArray')

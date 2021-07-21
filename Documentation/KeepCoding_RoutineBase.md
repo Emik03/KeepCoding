@@ -5,7 +5,7 @@ Provides the base [class](https://docs.microsoft.com/en-us/dotnet/csharp/languag
 ```csharp
 public abstract class RoutineBase :
 System.Collections.IEnumerable,
-System.Collections.Generic.IEnumerable<UnityEngine.Coroutine>
+System.Collections.Generic.IEnumerable<Coroutine>
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; RoutineBase  

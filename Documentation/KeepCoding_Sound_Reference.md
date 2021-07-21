@@ -3,7 +3,7 @@
 ## Sound.Reference Property
 The audio reference that is playing the sound.  
 ```csharp
-public global::KMAudio.KMAudioRef Reference { get; set; }
+public KMAudioRef Reference { get; set; }
 ```
 #### Property Value
-[KMAudio.KMAudioRef](https://docs.microsoft.com/en-us/dotnet/api/KMAudio.KMAudioRef 'KMAudio.KMAudioRef')
+[KMAudioRef](https://docs.microsoft.com/en-us/dotnet/api/KMAudioRef 'KMAudioRef')

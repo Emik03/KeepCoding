@@ -11,9 +11,7 @@ namespace KeepCoding
     /// Base class for TwitchPlays support for solvable and needy modded modules in Keep Talking and Nobody Explodes. 
     /// </summary>
     [RequireComponent(typeof(ModuleScript))]
-#pragma warning disable IDE1006 // Naming Styles
     public abstract class TPScript<TModule> : CacheableBehaviour, ITP where TModule : ModuleScript
-#pragma warning restore IDE1006 // Naming Styles
     {
         /// <summary>
         /// Determines if it should cancel command processing. If this returns true, then stop processing the command, clean up, then do a <c>yield return Cancelled;</c> to acknowledge the cancel.
@@ -316,7 +314,7 @@ namespace KeepCoding
         private static string Combine(in string main, params object[] toAppend) => main + toAppend.ConvertAll(o => $" {o}");
 
 #pragma warning disable IDE0051 // Remove unused private members
-        private IEnumerator ProcessTwitchCommand(string command) => Module.isColorblindSupported && command.ToLowerInvariant().Trim() == "colorblind" ? ToggleColorblind() : Process(command).Flatten(o => !(o is KMSelectable[]));
+        private IEnumerator ProcessTwitchCommand(string command) => Module._isColorblindSupported && command.ToLowerInvariant().Trim() == "colorblind" ? ToggleColorblind() : Process(command).Flatten(o => !(o is KMSelectable[]));
 #pragma warning restore IDE0051 // Remove unused private members
 
         private IEnumerator ToggleColorblind()

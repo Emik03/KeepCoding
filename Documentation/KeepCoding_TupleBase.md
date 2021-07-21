@@ -64,7 +64,7 @@ This is the output from the console.
 | Methods | |
 | :--- | :--- |
 | [Equals(ITuple)](KeepCoding_TupleBase_Equals(KeepCoding_ITuple).md 'KeepCoding.TupleBase.Equals(KeepCoding.ITuple)') | Compares itself and another [ITuple](KeepCoding_ITuple.md 'KeepCoding.ITuple') to determine if they contain the same values.<br/> |
-| [Equals(object)](KeepCoding_TupleBase_Equals(object).md 'KeepCoding.TupleBase.Equals(object)') | Overrides [System.Object.Equals(System.Object)](https://docs.microsoft.com/en-us/dotnet/api/System.Object.Equals#System_Object_Equals_System_Object_ 'System.Object.Equals(System.Object)') by checking for individual item equality rather than itself.<br/> |
+| [Equals(object)](KeepCoding_TupleBase_Equals(object).md 'KeepCoding.TupleBase.Equals(object)') | Compares itself and another object attempted to casted as [ITuple](KeepCoding_ITuple.md 'KeepCoding.ITuple') to determine if they contain the same values.<br/> |
 | [GetEnumerator()](KeepCoding_TupleBase_GetEnumerator().md 'KeepCoding.TupleBase.GetEnumerator()') | Gets the enumerator of [ToArray](KeepCoding_TupleBase_ToArray.md 'KeepCoding.TupleBase.ToArray').<br/> |
 | [GetHashCode()](KeepCoding_TupleBase_GetHashCode().md 'KeepCoding.TupleBase.GetHashCode()') | Gets the hash code of [ToArray](KeepCoding_TupleBase_ToArray.md 'KeepCoding.TupleBase.ToArray').<br/> |
 | [ToString()](KeepCoding_TupleBase_ToString().md 'KeepCoding.TupleBase.ToString()') | Joins [ToArray](KeepCoding_TupleBase_ToArray.md 'KeepCoding.TupleBase.ToArray') to a string, with a space as a delimiter.<br/> |

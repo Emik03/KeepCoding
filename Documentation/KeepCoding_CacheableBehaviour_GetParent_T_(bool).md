@@ -4,7 +4,7 @@
 Similar to [UnityEngine.Component.GetComponentInParent&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Component.GetComponentInParent--1 'UnityEngine.Component.GetComponentInParent``1'), however it caches the result in a dictionary, and will return the cached result if called again.  
 ```csharp
 public T GetParent<T>(bool allowNull=false)
-    where T : UnityEngine.Component;
+    where T : Component;
 ```
 #### Type parameters
 <a name='KeepCoding_CacheableBehaviour_GetParent_T_(bool)_T'></a>

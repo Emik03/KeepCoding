@@ -769,7 +769,7 @@ namespace KeepCoding
             {
                 if (source.Current is IEnumerator enumerator)
                 {
-                    var result = enumerator.Flatten(unwrap);
+                    IEnumerator result = enumerator.Flatten(unwrap);
 
                     while (result.MoveNext())
                         yield return result.Current;
@@ -788,7 +788,7 @@ namespace KeepCoding
         /// <returns>A list of unsolved module names.</returns>
         public static List<string> GetUnsolvedModuleIDs(this KMBombInfo bombInfo)
         {
-            var modules = bombInfo.GetSolvableModuleIDs();
+            List<string> modules = bombInfo.GetSolvableModuleIDs();
             bombInfo.GetSolvedModuleIDs().ForEach(m => modules.Remove(m));
             return modules;
         }
@@ -800,7 +800,7 @@ namespace KeepCoding
         /// <returns>A list of unsolved modules.</returns>
         public static List<string> GetUnsolvedModuleNames(this KMBombInfo bombInfo)
         {
-            var modules = bombInfo.GetSolvableModuleNames();
+            List<string> modules = bombInfo.GetSolvableModuleNames();
             bombInfo.GetSolvedModuleNames().ForEach(m => modules.Remove(m));
             return modules;
         }
@@ -837,10 +837,10 @@ namespace KeepCoding
         {
             source.NullCheck("The enumerator cannot be null");
 
-            var t = Empty<T>();
-            var f = Empty<T>();
+            IEnumerable<T> t = Empty<T>();
+            IEnumerable<T> f = Empty<T>();
 
-            foreach (var item in source)
+            foreach (T item in source)
             {
                 if (predicate(item))
                     t = t.Append(item);

@@ -35,11 +35,11 @@ namespace KeepCoding
             FileExtensionMacOS = "dylib",
             FileExtensionWindows = "dll";
 
-        private static readonly Dictionary<string, string> _paths = new Dictionary<string, string>();
+        private static readonly Dictionary<string, string> s_paths = new Dictionary<string, string>();
 
-        private static readonly Dictionary<string, ModInfo> _modInfos = new Dictionary<string, ModInfo>();
+        private static readonly Dictionary<string, ModInfo> s_modInfos = new Dictionary<string, ModInfo>();
 
-        private static readonly PlatformNotSupportedException _intPtrException = new PlatformNotSupportedException("IntPtr size is not 4 or 8, what kind of system is this?");
+        private static readonly PlatformNotSupportedException s_intPtrException = new PlatformNotSupportedException("IntPtr size is not 4 or 8, what kind of system is this?");
 
         /// <summary>
         /// Gets this library's <see cref="AssemblyName"/>.
@@ -108,14 +108,14 @@ namespace KeepCoding
         /// <returns>A <see cref="ModInfo"/> of the mod info json file located in the mod.</returns>
         public static ModInfo GetModInfo(string bundleFileName)
         {
-            if (_modInfos.TryGetValue(bundleFileName, out var info))
+            if (s_modInfos.TryGetValue(bundleFileName, out ModInfo info))
                 return info;
 
             Self($"Retrieving the {nameof(ModInfo)} data from \"{bundleFileName}\"...");
 
             if (isEditor)
             {
-                _modInfos.Add(bundleFileName, info = new ModInfo());
+                s_modInfos.Add(bundleFileName, info = new ModInfo());
 
                 Self($"This method is being run on the Editor, therefore a new instance of {nameof(ModInfo)} will be returned.");
 
@@ -134,7 +134,7 @@ namespace KeepCoding
 
             info = Deserialize(file);
 
-            _modInfos.Add(bundleFileName, info);
+            s_modInfos.Add(bundleFileName, info);
 
             return info;
         }
@@ -173,14 +173,14 @@ namespace KeepCoding
         /// <returns>The path to <paramref name="search"/>.</returns>
         public static string GetPath(string search)
         {
-            if (_paths.TryGetValue(search, out string path))
+            if (s_paths.TryGetValue(search, out string path))
                 return path;
 
             Self($"Searching for file \"{search}\" anywhere in the mods folder...");
 
             if (isEditor)
             {
-                _paths.Add(search, path = "");
+                s_paths.Add(search, path = "");
 
                 Self("This method is being run on the Editor, therefore an empty string will be returned.");
 
@@ -193,7 +193,7 @@ namespace KeepCoding
                 GetAllModPathsFromSource(SteamWorkshop).Call(action: f => Self($"Searching for {f.Count} enabled steam workshop mod(s)...")).Find(search))
                 .Replace($"/{search}", "").Replace(@$"\{search}", "");
 
-            _paths.Add(search, path);
+            s_paths.Add(search, path);
 
             return path;
         }
@@ -308,7 +308,7 @@ namespace KeepCoding
             switch (platform)
             {
                 case WindowsPlayer:
-                    File.Copy(path + (Size == 4 ? @"\dlls\x86\" : Size == 8 ? @"\dlls\x86_64\" : throw _intPtrException) + FileFormat(libraryFileName, FileExtensionWindows), dataPath + @"\Mono\" + FileFormat(libraryFileName, FileExtensionWindows), true);
+                    File.Copy(path + (Size == 4 ? @"\dlls\x86\" : Size == 8 ? @"\dlls\x86_64\" : throw s_intPtrException) + FileFormat(libraryFileName, FileExtensionWindows), dataPath + @"\Mono\" + FileFormat(libraryFileName, FileExtensionWindows), true);
                     break;
 
                 case OSXPlayer:
@@ -321,7 +321,7 @@ namespace KeepCoding
                     break;
 
                 case LinuxPlayer:
-                    File.Copy(CombineMultiple(path, "dlls", FileFormat(libraryFileName, FileExtensionLinux)), CombineMultiple(dataPath, "Mono", Size == 4 ? "x86" : Size == 8 ? "x86_64" : throw _intPtrException, FileFormat(libraryFileName, FileExtensionLinux)), true);
+                    File.Copy(CombineMultiple(path, "dlls", FileFormat(libraryFileName, FileExtensionLinux)), CombineMultiple(dataPath, "Mono", Size == 4 ? "x86" : Size == 8 ? "x86_64" : throw s_intPtrException, FileFormat(libraryFileName, FileExtensionLinux)), true);
                     break;
 
                 default: throw new PlatformNotSupportedException("The OS is not windows, linux, or mac, what kind of system is this?");
@@ -358,13 +358,13 @@ namespace KeepCoding
 
             string path = GetPath(FileFormat(bundleFileName, FileExtensionWindows));
 
-            var request = LoadFromFileAsync($"{path}{GetSlashType(path)}{FileFormat(bundleAssetFileName, FileExtensionBundle)}");
+            AssetBundleCreateRequest request = LoadFromFileAsync($"{path}{GetSlashType(path)}{FileFormat(bundleAssetFileName, FileExtensionBundle)}");
 
             yield return request;
 
-            var mainBundle = request.assetBundle.NullCheck("The bundle was null.");
+            AssetBundle mainBundle = request.assetBundle.NullCheck("The bundle was null.");
 
-            var assets = mainBundle.LoadAllAssets<TAsset>().OrderBy(o => o.name).ToArray().NullOrEmptyCheck($"There are no assets of type {typeof(TAsset).Name}.");
+            IEnumerable<TAsset> assets = mainBundle.LoadAllAssets<TAsset>().OrderBy(o => o.name).ToArray().NullOrEmptyCheck($"There are no assets of type {typeof(TAsset).Name}.");
 
             Self($"{assets.Count()} assets of type {typeof(TAsset).Name} have been loaded into memory!");
 

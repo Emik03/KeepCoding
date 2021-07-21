@@ -3,7 +3,7 @@
 ## RoutineBase.Coroutines Property
 The collection of all coroutines.  
 ```csharp
-public System.Collections.Generic.List<UnityEngine.Coroutine> Coroutines { get; set; }
+public System.Collections.Generic.List<Coroutine> Coroutines { get; set; }
 ```
 #### Property Value
 [System.Collections.Generic.List&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1')[UnityEngine.Coroutine](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Coroutine 'UnityEngine.Coroutine')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1')

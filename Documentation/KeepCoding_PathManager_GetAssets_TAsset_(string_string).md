@@ -4,7 +4,7 @@
 Retrieves assets of a specific type from a different bundle file.  
 ```csharp
 public static TAsset[] GetAssets<TAsset>(string bundleFileName, string bundleAssetFileName)
-    where TAsset : UnityEngine.Object;
+    where TAsset : Object;
 ```
 #### Type parameters
 <a name='KeepCoding_PathManager_GetAssets_TAsset_(string_string)_TAsset'></a>

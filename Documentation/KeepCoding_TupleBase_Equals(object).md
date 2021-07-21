@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[TupleBase](KeepCoding_TupleBase.md 'KeepCoding.TupleBase')
 ## TupleBase.Equals(object) Method
-Overrides [System.Object.Equals(System.Object)](https://docs.microsoft.com/en-us/dotnet/api/System.Object.Equals#System_Object_Equals_System_Object_ 'System.Object.Equals(System.Object)') by checking for individual item equality rather than itself.  
+Compares itself and another object attempted to casted as [ITuple](KeepCoding_ITuple.md 'KeepCoding.ITuple') to determine if they contain the same values.  
 ```csharp
 public override bool Equals(object obj);
 ```

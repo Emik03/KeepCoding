@@ -3,7 +3,7 @@
 ## ModuleScript.Bomb Property
 The bomb that this module is in.  
 ```csharp
-public global::KMBomb Bomb { get; set; }
+public KMBomb Bomb { get; set; }
 ```
 #### Property Value
 [KMBomb](https://docs.microsoft.com/en-us/dotnet/api/KMBomb 'KMBomb')

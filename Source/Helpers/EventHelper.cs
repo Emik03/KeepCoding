@@ -189,11 +189,9 @@ namespace KeepCoding
             if (self is null)
                 return self;
 
-            foreach (var other in others)
-            {
+            foreach (Action other in others)
                 if (other is { })
                     self += other;
-            }
 
             return self;
         }
@@ -209,11 +207,9 @@ namespace KeepCoding
             if (self is null)
                 return self;
 
-            foreach (var other in others)
-            {
+            foreach (Action<T> other in others)
                 if (other is { })
                     self += other;
-            }
 
             return self;
         }
@@ -229,11 +225,9 @@ namespace KeepCoding
             if (self is null)
                 return self;
 
-            foreach (var other in others)
-            {
+            foreach (Action<T1, T2> other in others)
                 if (other is { })
                     self += other;
-            }
 
             return self;
         }
@@ -249,11 +243,9 @@ namespace KeepCoding
             if (self is null)
                 return self;
 
-            foreach (var other in others)
-            {
+            foreach (Action<T1, T2, T3> other in others)
                 if (other is { })
                     self += other;
-            }
 
             return self;
         }
@@ -269,11 +261,9 @@ namespace KeepCoding
             if (self is null)
                 return self;
 
-            foreach (var other in others)
-            {
+            foreach (Action<T1, T2, T3, T4> other in others)
                 if (other is { })
                     self += other;
-            }
 
             return self;
         }
@@ -291,6 +281,7 @@ namespace KeepCoding
         {
             if (dele is { })
                 mutator = dele.Cast<T>();
+
             return mutator;
         }
 
@@ -326,11 +317,9 @@ namespace KeepCoding
             if (self is null)
                 return self;
 
-            foreach (var other in others)
-            {
+            foreach (Func<TResult> other in others)
                 if (other is { })
                     self += other;
-            }
 
             return self;
         }
@@ -346,11 +335,9 @@ namespace KeepCoding
             if (self is null)
                 return self;
 
-            foreach (var other in others)
-            {
+            foreach (Func<T, TResult> other in others)
                 if (other is { })
                     self += other;
-            }
 
             return self;
         }
@@ -366,11 +353,9 @@ namespace KeepCoding
             if (self is null)
                 return self;
 
-            foreach (var other in others)
-            {
+            foreach (Func<T1, T2, TResult> other in others)
                 if (other is { })
                     self += other;
-            }
 
             return self;
         }
@@ -386,11 +371,9 @@ namespace KeepCoding
             if (self is null)
                 return self;
 
-            foreach (var other in others)
-            {
+            foreach (Func<T1, T2, T3, TResult> other in others)
                 if (other is { })
                     self += other;
-            }
 
             return self;
         }
@@ -406,11 +389,9 @@ namespace KeepCoding
             if (self is null)
                 return self;
 
-            foreach (var other in others)
-            {
+            foreach (Func<T1, T2, T3, T4, TResult> other in others)
                 if (other is { })
                     self += other;
-            }
 
             return self;
         }
