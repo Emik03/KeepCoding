@@ -43,7 +43,7 @@ namespace KeepCoding.Internal
     /// </code>
     /// </example>
     /// <seealso cref="TypeHelper.ToTuple{T1, T2}(T1, T2)"/>
-    public abstract class TupleBase : ITuple
+    public abstract class TupleBase : IEnumerable, IEquatable<TupleBase>
     {
         /// <summary>
         /// Passes an index into the tuple, where items are considered ordered and part of an array.
@@ -222,7 +222,7 @@ namespace KeepCoding.Internal
         /// Overrides comparison by checking for individual item equality rather than itself.
         /// </summary>
         /// <remarks>
-        /// For more details about comparison, look at <see cref="Equals(ITuple)"/>.
+        /// For more details about comparison, look at <see cref="Equals(TupleBase)"/>.
         /// </remarks>
         /// <param name="left">The left-hand side <see cref="TupleBase"/> comparison to compare to.</param>
         /// <param name="right">The right-hand side <see cref="TupleBase"/> comparison to compare to.</param>
@@ -233,7 +233,7 @@ namespace KeepCoding.Internal
         /// Overrides comparison by checking for individual item equality rather than itself.
         /// </summary>
         /// <remarks>
-        /// For more details about comparison, look at <see cref="Equals(ITuple)"/>.
+        /// For more details about comparison, look at <see cref="Equals(TupleBase)"/>.
         /// </remarks>
         /// <param name="left">The left-hand side <see cref="TupleBase"/> comparison to compare to.</param>
         /// <param name="right">The right-hand side <see cref="TupleBase"/> comparison to compare to.</param>
@@ -241,17 +241,17 @@ namespace KeepCoding.Internal
         public static bool operator !=(TupleBase left, TupleBase right) => !(left == right);
 
         /// <summary>
-        /// Compares itself and another object attempted to casted as <see cref="ITuple"/> to determine if they contain the same values.
+        /// Compares itself and another object attempted to casted as <see cref="TupleBase"/> to determine if they contain the same values.
         /// </summary>
         /// <remarks>
-        /// For more details about comparison, look at <see cref="Equals(ITuple)"/>.
+        /// For more details about comparison, look at <see cref="Equals(TupleBase)"/>.
         /// </remarks>
         /// <param name="obj">The <see cref="object"/> to compare to.</param>
         /// <returns><see langword="true"/> if all items in the tuple equal the other items of the same index.</returns>
-        public override bool Equals(object obj) => Equals(obj as ITuple);
+        public override bool Equals(object obj) => Equals(obj as TupleBase);
 
         /// <summary>
-        /// Compares itself and another <see cref="ITuple"/> to determine if they contain the same values.
+        /// Compares itself and another <see cref="TupleBase"/> to determine if they contain the same values.
         /// </summary>
         /// <remarks>
         /// The comparison is done by taking both of their <see cref="ToArray"/> values and comparing them with <see cref="Enumerable.SequenceEqual{TSource}(IEnumerable{TSource}, IEnumerable{TSource})"/>. Note that if the tuples are different sizes, this will automatically return <see langword="true"/>. For more information, <see cref="object.Equals(object)"/>.
@@ -285,9 +285,9 @@ namespace KeepCoding.Internal
         /// [Foo #1] False
         /// </code>
         /// </example>
-        /// <param name="other">The <see cref="ITuple"/> to compare itself to.</param>
+        /// <param name="other">The <see cref="TupleBase"/> to compare itself to.</param>
         /// <returns><see langword="true"/> if both of them have the same items, or are both <see langword="null"/>.</returns>
-        public bool Equals(ITuple other) => other is null ? this is null : ToArray.SequenceEqual(other.ToArray);
+        public bool Equals(TupleBase other) => other is null ? this is null : ToArray.SequenceEqual(other.ToArray);
 
         /// <summary>
         /// Gets the hash code of <see cref="ToArray"/>.
