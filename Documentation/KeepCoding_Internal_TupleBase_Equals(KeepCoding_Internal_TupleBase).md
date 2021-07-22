@@ -1,14 +1,14 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding.Internal](KeepCoding_Internal.md 'KeepCoding.Internal').[TupleBase](KeepCoding_Internal_TupleBase.md 'KeepCoding.Internal.TupleBase')
-## TupleBase.Equals(ITuple) Method
-Compares itself and another [ITuple](KeepCoding_Internal_ITuple.md 'KeepCoding.Internal.ITuple') to determine if they contain the same values.  
+## TupleBase.Equals(TupleBase) Method
+Compares itself and another [TupleBase](KeepCoding_Internal_TupleBase.md 'KeepCoding.Internal.TupleBase') to determine if they contain the same values.  
 ```csharp
-public bool Equals(KeepCoding.Internal.ITuple other);
+public bool Equals(KeepCoding.Internal.TupleBase other);
 ```
 #### Parameters
-<a name='KeepCoding_Internal_TupleBase_Equals(KeepCoding_Internal_ITuple)_other'></a>
-`other` [ITuple](KeepCoding_Internal_ITuple.md 'KeepCoding.Internal.ITuple')  
-The [ITuple](KeepCoding_Internal_ITuple.md 'KeepCoding.Internal.ITuple') to compare itself to.
+<a name='KeepCoding_Internal_TupleBase_Equals(KeepCoding_Internal_TupleBase)_other'></a>
+`other` [TupleBase](KeepCoding_Internal_TupleBase.md 'KeepCoding.Internal.TupleBase')  
+The [TupleBase](KeepCoding_Internal_TupleBase.md 'KeepCoding.Internal.TupleBase') to compare itself to.
   
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  

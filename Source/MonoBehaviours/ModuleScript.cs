@@ -19,7 +19,7 @@ using static UnityEngine.Application;
 namespace KeepCoding
 {
     /// <summary>
-    /// Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes. 
+    /// Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes.
     /// </summary>
     public abstract partial class ModuleScript : CacheableBehaviour, IDump, ILog
     {
@@ -396,7 +396,7 @@ namespace KeepCoding
                 : throw new UnrecognizedTypeException($"The data type {typeof(T).Name} was expected, but received {d[key].GetType()} from module {module} with key {key}!"));
 
         /// <summary>
-        /// 
+        /// Sets up the module. If you declare this method, make sure to call <c>base.Awake()</c> to ensure that the module initializes correctly.
         /// </summary>
         protected void Awake()
         {
@@ -423,7 +423,7 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// 
+        /// Removes the module from <see cref="logMessageReceived"/>. If you declare this method, make sure to call <c>base.OnDestroy()</c> to ensure that the module cleans up correctly.
         /// </summary>
         protected void OnDestroy() => logMessageReceived -= OnException;
 

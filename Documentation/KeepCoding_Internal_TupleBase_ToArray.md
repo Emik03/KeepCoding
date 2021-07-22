@@ -8,8 +8,6 @@ public abstract object[] ToArray { get; }
 #### Property Value
 [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
 All items.  
-
-Implements [ToArray](KeepCoding_Internal_ITuple_ToArray.md 'KeepCoding.Internal.ITuple.ToArray')  
 ### Example
 The following example illustrates how an entire tuple can be printed using [ToArray](KeepCoding_Internal_TupleBase_ToArray.md 'KeepCoding.Internal.TupleBase.ToArray'), since [Log&lt;T&gt;(T, object[])](KeepCoding_Logger_Log_T_(T_object__).md 'KeepCoding.Logger.Log&lt;T&gt;(T, object[])') can print arrays.  
 ```csharp

@@ -12,8 +12,6 @@ public byte UpperBound { get; }
 #### Exceptions
 [System.InvalidOperationException](https://docs.microsoft.com/en-us/dotnet/api/System.InvalidOperationException 'System.InvalidOperationException')  
 The length is 0, and therefore the upper bound doesn't exist.
-
-Implements [UpperBound](KeepCoding_Internal_ITuple_UpperBound.md 'KeepCoding.Internal.ITuple.UpperBound')  
 ### Example
 The following example illusrates a method that retrieves the last item of the tuple.  
 ```csharp

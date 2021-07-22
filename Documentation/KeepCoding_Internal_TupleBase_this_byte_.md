@@ -17,8 +17,6 @@ The index to pass into [ToArray](KeepCoding_Internal_TupleBase_ToArray.md 'KeepC
 #### Exceptions
 [System.IndexOutOfRangeException](https://docs.microsoft.com/en-us/dotnet/api/System.IndexOutOfRangeException 'System.IndexOutOfRangeException')  
 The parameter [index](KeepCoding_Internal_TupleBase_this_byte_.md#KeepCoding_Internal_TupleBase_this_byte__index 'KeepCoding.Internal.TupleBase.this[byte].index') is out of range because there are no items in this tuple type.
-
-Implements [this[byte]](KeepCoding_Internal_ITuple_this_byte_.md 'KeepCoding.Internal.ITuple.this[byte]')  
 ### Example
 The following example illustrates how an [System.IndexOutOfRangeException](https://docs.microsoft.com/en-us/dotnet/api/System.IndexOutOfRangeException 'System.IndexOutOfRangeException') will always be thrown no matter what index is passed in.  
 ```csharp

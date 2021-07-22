@@ -4,9 +4,8 @@
 Provides the base [class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class') for the multiple tuple types.  
 ```csharp
 public abstract class TupleBase :
-KeepCoding.Internal.ITuple,
 System.Collections.IEnumerable,
-System.IEquatable<KeepCoding.Internal.ITuple>
+System.IEquatable<KeepCoding.Internal.TupleBase>
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; TupleBase  
@@ -14,7 +13,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 Derived  
 &#8627; [Tuple&lt;T&gt;](KeepCoding_Tuple_T_.md 'KeepCoding.Tuple&lt;T&gt;')  
 
-Implements [ITuple](KeepCoding_Internal_ITuple.md 'KeepCoding.Internal.ITuple'), [System.Collections.IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerable 'System.Collections.IEnumerable'), [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[ITuple](KeepCoding_Internal_ITuple.md 'KeepCoding.Internal.ITuple')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')  
+Implements [System.Collections.IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerable 'System.Collections.IEnumerable'), [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[TupleBase](KeepCoding_Internal_TupleBase.md 'KeepCoding.Internal.TupleBase')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')  
 ### Example
 The following example illustrates a method for returning the last item of any tuple that uses [TupleBase](KeepCoding_Internal_TupleBase.md 'KeepCoding.Internal.TupleBase').  
 ```csharp
@@ -63,8 +62,8 @@ This is the output from the console.
 
 | Methods | |
 | :--- | :--- |
-| [Equals(ITuple)](KeepCoding_Internal_TupleBase_Equals(KeepCoding_Internal_ITuple).md 'KeepCoding.Internal.TupleBase.Equals(KeepCoding.Internal.ITuple)') | Compares itself and another [ITuple](KeepCoding_Internal_ITuple.md 'KeepCoding.Internal.ITuple') to determine if they contain the same values.<br/> |
-| [Equals(object)](KeepCoding_Internal_TupleBase_Equals(object).md 'KeepCoding.Internal.TupleBase.Equals(object)') | Compares itself and another object attempted to casted as [ITuple](KeepCoding_Internal_ITuple.md 'KeepCoding.Internal.ITuple') to determine if they contain the same values.<br/> |
+| [Equals(TupleBase)](KeepCoding_Internal_TupleBase_Equals(KeepCoding_Internal_TupleBase).md 'KeepCoding.Internal.TupleBase.Equals(KeepCoding.Internal.TupleBase)') | Compares itself and another [TupleBase](KeepCoding_Internal_TupleBase.md 'KeepCoding.Internal.TupleBase') to determine if they contain the same values.<br/> |
+| [Equals(object)](KeepCoding_Internal_TupleBase_Equals(object).md 'KeepCoding.Internal.TupleBase.Equals(object)') | Compares itself and another object attempted to casted as [TupleBase](KeepCoding_Internal_TupleBase.md 'KeepCoding.Internal.TupleBase') to determine if they contain the same values.<br/> |
 | [GetEnumerator()](KeepCoding_Internal_TupleBase_GetEnumerator().md 'KeepCoding.Internal.TupleBase.GetEnumerator()') | Gets the [System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerator 'System.Collections.IEnumerator') of [ToArray](KeepCoding_Internal_TupleBase_ToArray.md 'KeepCoding.Internal.TupleBase.ToArray').<br/> |
 | [GetHashCode()](KeepCoding_Internal_TupleBase_GetHashCode().md 'KeepCoding.Internal.TupleBase.GetHashCode()') | Gets the hash code of [ToArray](KeepCoding_Internal_TupleBase_ToArray.md 'KeepCoding.Internal.TupleBase.ToArray').<br/> |
 | [ToString()](KeepCoding_Internal_TupleBase_ToString().md 'KeepCoding.Internal.TupleBase.ToString()') | Joins [ToArray](KeepCoding_Internal_TupleBase_ToArray.md 'KeepCoding.Internal.TupleBase.ToArray') to a string, with a space as a delimiter.<br/> |

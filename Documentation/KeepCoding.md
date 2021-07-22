@@ -21,7 +21,7 @@
 | [Logger](KeepCoding_Logger.md 'KeepCoding.Logger') | A class to allow logging with a specific format.<br/> |
 | [ModInfo](KeepCoding_ModInfo.md 'KeepCoding.ModInfo') | Contains information about the mod's info, this class can be used to deserialize every mod's "modInfo.json".<br/> |
 | [ModuleContainer](KeepCoding_ModuleContainer.md 'KeepCoding.ModuleContainer') | Container for both solvable and needy modules.<br/> |
-| [ModuleScript](KeepCoding_ModuleScript.md 'KeepCoding.ModuleScript') | Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes. <br/> |
+| [ModuleScript](KeepCoding_ModuleScript.md 'KeepCoding.ModuleScript') | Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes.<br/> |
 | [Number](KeepCoding_Number.md 'KeepCoding.Number') | Class meant to encapsulate a primitive numeric value.<br/> |
 | [PathManager](KeepCoding_PathManager.md 'KeepCoding.PathManager') | Allows loading external information stored on the module. <br/> |
 | [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') | Advanced coroutine handler.<br/> |

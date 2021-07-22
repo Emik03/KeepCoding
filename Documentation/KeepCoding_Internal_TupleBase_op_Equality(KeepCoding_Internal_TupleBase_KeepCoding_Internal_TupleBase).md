@@ -18,4 +18,4 @@ The right-hand side [TupleBase](KeepCoding_Internal_TupleBase.md 'KeepCoding.Int
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
 [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool') if all items in the tuple equal the other items of the same index.
 ### Remarks
-For more details about comparison, look at [Equals(ITuple)](KeepCoding_Internal_TupleBase_Equals(KeepCoding_Internal_ITuple).md 'KeepCoding.Internal.TupleBase.Equals(KeepCoding.Internal.ITuple)').  
+For more details about comparison, look at [Equals(TupleBase)](KeepCoding_Internal_TupleBase_Equals(KeepCoding_Internal_TupleBase).md 'KeepCoding.Internal.TupleBase.Equals(KeepCoding.Internal.TupleBase)').  

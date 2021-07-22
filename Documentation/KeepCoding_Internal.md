@@ -15,7 +15,3 @@
 | [UnrecognizedTypeException](KeepCoding_Internal_UnrecognizedTypeException.md 'KeepCoding.Internal.UnrecognizedTypeException') | An exception thrown for when the type isn't handled.<br/> |
 | [UnrecognizedValueException](KeepCoding_Internal_UnrecognizedValueException.md 'KeepCoding.Internal.UnrecognizedValueException') | An exception thrown for when the value isn't handled.<br/> |
 | [WorkBase](KeepCoding_Internal_WorkBase.md 'KeepCoding.Internal.WorkBase') | Abstract class for the [Work](KeepCoding_Work.md 'KeepCoding.Work') datatype, since the different overloads are similar to each other.<br/> |
-
-| Interfaces | |
-| :--- | :--- |
-| [ITuple](KeepCoding_Internal_ITuple.md 'KeepCoding.Internal.ITuple') | Interface for tuple type. <br/> |

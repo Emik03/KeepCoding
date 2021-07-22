@@ -7,5 +7,3 @@ public override object[] ToArray { get; }
 ```
 #### Property Value
 [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
-
-Implements [ToArray](KeepCoding_Internal_ITuple_ToArray.md 'KeepCoding.Internal.ITuple.ToArray')  

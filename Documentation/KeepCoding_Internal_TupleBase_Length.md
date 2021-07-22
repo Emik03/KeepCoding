@@ -8,8 +8,6 @@ public byte Length { get; }
 #### Property Value
 [System.Byte](https://docs.microsoft.com/en-us/dotnet/api/System.Byte 'System.Byte')
 The number of generics in the current type.  
-
-Implements [Length](KeepCoding_Internal_ITuple_Length.md 'KeepCoding.Internal.ITuple.Length')  
 ### Example
 The following example illustrates how a method can use the [Length](KeepCoding_Internal_TupleBase_Length.md 'KeepCoding.Internal.TupleBase.Length') parameter as a way of determining the tuple item count being odd. [ConvertAll&lt;TInput,TOutput&gt;(TInput[], Converter&lt;TInput,TOutput&gt;)](KeepCoding_ArrayHelper_ConvertAll_TInput_TOutput_(TInput___System_Converter_TInput_TOutput_).md 'KeepCoding.ArrayHelper.ConvertAll&lt;TInput,TOutput&gt;(TInput[], System.Converter&lt;TInput,TOutput&gt;)') is used to convert all tuples to [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean').  
 ```csharp

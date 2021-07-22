@@ -15,5 +15,3 @@ The index to use.
 #### Exceptions
 [System.IndexOutOfRangeException](https://docs.microsoft.com/en-us/dotnet/api/System.IndexOutOfRangeException 'System.IndexOutOfRangeException')  
 [UnrecognizedTypeException](KeepCoding_Internal_UnrecognizedTypeException.md 'KeepCoding.Internal.UnrecognizedTypeException')  
-
-Implements [this[byte]](KeepCoding_Internal_ITuple_this_byte_.md 'KeepCoding.Internal.ITuple.this[byte]')  
