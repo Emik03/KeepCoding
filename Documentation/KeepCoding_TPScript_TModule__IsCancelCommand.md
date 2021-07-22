@@ -3,7 +3,7 @@
 ## TPScript&lt;TModule&gt;.IsCancelCommand Property
 Determines if it should cancel command processing. If this returns true, then stop processing the command, clean up, then do a `yield return Cancelled;` to acknowledge the cancel.  
 ```csharp
-public bool IsCancelCommand { get; }
+public bool IsCancelCommand { get; set; }
 ```
 #### Property Value
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')

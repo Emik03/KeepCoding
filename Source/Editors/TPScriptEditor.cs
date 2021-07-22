@@ -24,6 +24,14 @@ namespace KeepCoding.Internal
 
             tp.IsTimeSkippable = Toggle(tp.IsTimeSkippable, "Allow time-skipping");
 
+            tp.IsTime = Toggle(tp.IsTime, "Enable time mode");
+
+            tp.IsTP = Toggle(tp.IsTP, "Enable TP mode");
+
+            tp.IsZen = Toggle(tp.IsZen, "Enable zen mode");
+
+            tp.IsCancelCommand = Toggle(tp.IsCancelCommand, "Should cancel command");
+
             if (Button("Run autosolver"))
                 StartVerification((CacheableBehaviour)target);
 

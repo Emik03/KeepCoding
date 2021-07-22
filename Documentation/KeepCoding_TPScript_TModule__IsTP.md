@@ -3,7 +3,7 @@
 ## TPScript&lt;TModule&gt;.IsTP Property
 Determines if Twitch Plays is currently active. This is for modules that need to display different items, or use different rules if Twitch Plays is active.  
 ```csharp
-public bool IsTP { get; }
+public bool IsTP { get; set; }
 ```
 #### Property Value
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')

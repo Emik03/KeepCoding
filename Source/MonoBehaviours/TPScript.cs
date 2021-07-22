@@ -20,8 +20,12 @@ namespace KeepCoding
         /// <remarks>
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
-        public bool IsCancelCommand => TwitchShouldCancelCommand;
-        private bool TwitchShouldCancelCommand { get; set; }
+        public bool IsCancelCommand { get => TwitchShouldCancelCommand; set => TwitchShouldCancelCommand = value; }
+#pragma warning disable IDE1006 // Naming Styles
+#pragma warning disable IDE0032 // Use auto property
+        private bool TwitchShouldCancelCommand;
+#pragma warning restore IDE0032 // Use auto property
+#pragma warning restore IDE1006 // Naming Styles
 
         /// <summary>
         /// Determines if it is in Time Mode, where solves change the timer. This is useful for modules that use the timer's value.
@@ -29,8 +33,12 @@ namespace KeepCoding
         /// <remarks>
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
-        public bool IsTime => TimeModeActive;
-        private bool TimeModeActive { get; set; }
+        public bool IsTime { get => TimeModeActive; set => TimeModeActive = value; }
+#pragma warning disable IDE1006 // Naming Styles
+#pragma warning disable IDE0032 // Use auto property
+        private bool TimeModeActive;
+#pragma warning restore IDE0032 // Use auto property
+#pragma warning restore IDE1006 // Naming Styles
 
         /// <summary>
         /// Determines if it should allow for the timer to be skipped when the module it is in, as well as any other modules that would like to skip time, are the only unsolved modules left on the bomb. 
@@ -39,7 +47,11 @@ namespace KeepCoding
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
         public bool IsTimeSkippable { get => TwitchPlaysSkipTimeAllowed; set => TwitchPlaysSkipTimeAllowed = value; }
-        private bool TwitchPlaysSkipTimeAllowed { get; set; }
+#pragma warning disable IDE1006 // Naming Styles
+#pragma warning disable IDE0032 // Use auto property
+        private bool TwitchPlaysSkipTimeAllowed;
+#pragma warning restore IDE0032 // Use auto property
+#pragma warning restore IDE1006 // Naming Styles
 
         /// <summary>
         /// Determines if Twitch Plays is currently active. This is for modules that need to display different items, or use different rules if Twitch Plays is active.
@@ -47,8 +59,12 @@ namespace KeepCoding
         /// <remarks>
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
-        public bool IsTP => TwitchPlaysActive;
-        private bool TwitchPlaysActive { get; set; }
+        public bool IsTP { get => TwitchPlaysActive; set => TwitchPlaysActive = value; }
+#pragma warning disable IDE1006 // Naming Styles
+#pragma warning disable IDE0032 // Use auto property
+        private bool TwitchPlaysActive;
+#pragma warning restore IDE0032 // Use auto property
+#pragma warning restore IDE1006 // Naming Styles
 
         /// <summary>
         /// Determines if the timer is counting up instead of down, for special cases, such as controlling how to sort button release times, or whether there is a low timer event or not.
@@ -56,8 +72,12 @@ namespace KeepCoding
         /// <remarks>
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
-        public bool IsZen => ZenModeActive;
-        private bool ZenModeActive { get; set; }
+        public bool IsZen { get => ZenModeActive; set => ZenModeActive = value; }
+#pragma warning disable IDE1006 // Naming Styles
+#pragma warning disable IDE0032 // Use auto property
+        private bool ZenModeActive;
+#pragma warning restore IDE0032 // Use auto property
+#pragma warning restore IDE1006 // Naming Styles
 
         /// <summary>
         /// The help message that gets sent when typing <c>!{id} help</c>.
@@ -72,7 +92,10 @@ namespace KeepCoding
         /// Specifies the manual that is looked up on The Manual Repository when <c>!{id} manual</c> is entered into chat.
         /// </summary>
         public string Manual { get => TwitchManualCode; set => TwitchManualCode = value; }
-        private string TwitchManualCode { get; set; }
+        [SerializeField]
+#pragma warning disable IDE1006 // Naming Styles
+        private string TwitchManualCode;
+#pragma warning restore IDE1006 // Naming Styles
 
         /// <summary>
         /// This list contains modules that it should stop processing. Currently, the only module that uses this capability is Souvenir.
@@ -81,7 +104,10 @@ namespace KeepCoding
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
         /// </remarks>
         public List<KMBombModule> Abandons { get => TwitchAbandonModule; set => TwitchAbandonModule = value; }
-        private List<KMBombModule> TwitchAbandonModule { get; set; }
+        [SerializeField]
+#pragma warning disable IDE1006 // Naming Styles
+        private List<KMBombModule> TwitchAbandonModule;
+#pragma warning restore IDE1006 // Naming Styles
 
         /// <summary>
         /// The instance of the module.

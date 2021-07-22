@@ -3,7 +3,7 @@
 ## ITP.IsZen Property
 Determines if the timer is counting up instead of down, for special cases, such as controlling how to sort button release times, or whether there is a low timer event or not.  
 ```csharp
-bool IsZen { get; }
+bool IsZen { get; set; }
 ```
 #### Property Value
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')

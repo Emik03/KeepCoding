@@ -3,7 +3,7 @@
 ## ITP.IsTime Property
 Determines if it is in Time Mode, where solves change the timer. This is useful for modules that use the timer's value.  
 ```csharp
-bool IsTime { get; }
+bool IsTime { get; set; }
 ```
 #### Property Value
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
