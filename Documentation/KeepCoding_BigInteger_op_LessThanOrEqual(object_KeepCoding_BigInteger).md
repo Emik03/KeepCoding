@@ -18,7 +18,7 @@ The right-hand side operator
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
 True if [value](KeepCoding_BigInteger_op_LessThanOrEqual(object_KeepCoding_BigInteger).md#KeepCoding_BigInteger_op_LessThanOrEqual(object_KeepCoding_BigInteger)_value 'KeepCoding.BigInteger.op_LessThanOrEqual(object, KeepCoding.BigInteger).value') is less than or equal [bigInteger](KeepCoding_BigInteger_op_LessThanOrEqual(object_KeepCoding_BigInteger).md#KeepCoding_BigInteger_op_LessThanOrEqual(object_KeepCoding_BigInteger)_bigInteger 'KeepCoding.BigInteger.op_LessThanOrEqual(object, KeepCoding.BigInteger).bigInteger').
 #### Exceptions
-[NullIteratorException](KeepCoding_NullIteratorException.md 'KeepCoding.NullIteratorException')  
+[NullIteratorException](KeepCoding_Internal_NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  
 [System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException')  
-[ConstructorArgumentException](KeepCoding_ConstructorArgumentException.md 'KeepCoding.ConstructorArgumentException')  
-[UnrecognizedValueException](KeepCoding_UnrecognizedValueException.md 'KeepCoding.UnrecognizedValueException')  
+[ConstructorArgumentException](KeepCoding_Internal_ConstructorArgumentException.md 'KeepCoding.Internal.ConstructorArgumentException')  
+[UnrecognizedValueException](KeepCoding_Internal_UnrecognizedValueException.md 'KeepCoding.Internal.UnrecognizedValueException')  

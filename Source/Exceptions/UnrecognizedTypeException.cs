@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KeepCoding
+namespace KeepCoding.Internal
 {
     /// <summary>
     /// An exception thrown for when the type isn't handled.

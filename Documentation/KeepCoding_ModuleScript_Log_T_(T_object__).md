@@ -19,6 +19,6 @@ The message to log.
 All of the arguments to embed into [message](KeepCoding_ModuleScript_Log_T_(T_object__).md#KeepCoding_ModuleScript_Log_T_(T_object__)_message 'KeepCoding.ModuleScript.Log&lt;T&gt;(T, object[]).message').
   
 #### Exceptions
-[UnrecognizedValueException](KeepCoding_UnrecognizedValueException.md 'KeepCoding.UnrecognizedValueException')  
+[UnrecognizedValueException](KeepCoding_Internal_UnrecognizedValueException.md 'KeepCoding.Internal.UnrecognizedValueException')  
 
 Implements [Log<T>(T, object[])](KeepCoding_ILog_Log_T_(T_object__).md 'KeepCoding.ILog.Log&lt;T&gt;(T, object[])')  

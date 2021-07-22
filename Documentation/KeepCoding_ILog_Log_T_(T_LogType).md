@@ -19,4 +19,4 @@ The message to log.
 The type of logging. Different logging types have different icons within the editor.
   
 #### Exceptions
-[UnrecognizedValueException](KeepCoding_UnrecognizedValueException.md 'KeepCoding.UnrecognizedValueException')  
+[UnrecognizedValueException](KeepCoding_Internal_UnrecognizedValueException.md 'KeepCoding.Internal.UnrecognizedValueException')  

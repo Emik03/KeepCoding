@@ -3,7 +3,7 @@
 ## Work&lt;T1,T2,T3,T4,TResult&gt; Class
 Advanced multi-threading handler.  
 ```csharp
-public sealed class Work<T1,T2,T3,T4,TResult> : KeepCoding.WorkBase
+public sealed class Work<T1,T2,T3,T4,TResult> : KeepCoding.Internal.WorkBase
 ```
 #### Type parameters
 <a name='KeepCoding_Work_T1_T2_T3_T4_TResult__T1'></a>
@@ -22,7 +22,7 @@ public sealed class Work<T1,T2,T3,T4,TResult> : KeepCoding.WorkBase
 `TResult`  
   
 
-Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [WorkBase](KeepCoding_WorkBase.md 'KeepCoding.WorkBase') &#129106; Work&lt;T1,T2,T3,T4,TResult&gt;  
+Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [WorkBase](KeepCoding_Internal_WorkBase.md 'KeepCoding.Internal.WorkBase') &#129106; Work&lt;T1,T2,T3,T4,TResult&gt;  
 
 | Constructors | |
 | :--- | :--- |

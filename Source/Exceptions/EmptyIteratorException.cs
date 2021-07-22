@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KeepCoding
+namespace KeepCoding.Internal
 {
     /// <summary>
     /// An exception thrown when the iterator is empty.

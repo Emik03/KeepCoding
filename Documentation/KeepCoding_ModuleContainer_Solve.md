@@ -8,4 +8,4 @@ public System.Action Solve { get; }
 #### Property Value
 [System.Action](https://docs.microsoft.com/en-us/dotnet/api/System.Action 'System.Action')
 #### Exceptions
-[UnrecognizedTypeException](KeepCoding_UnrecognizedTypeException.md 'KeepCoding.UnrecognizedTypeException')  
+[UnrecognizedTypeException](KeepCoding_Internal_UnrecognizedTypeException.md 'KeepCoding.Internal.UnrecognizedTypeException')  

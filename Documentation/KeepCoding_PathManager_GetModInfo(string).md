@@ -14,6 +14,6 @@ The name of the bundle assembly.
 [ModInfo](KeepCoding_ModInfo.md 'KeepCoding.ModInfo')  
 A [ModInfo](KeepCoding_ModInfo.md 'KeepCoding.ModInfo') of the mod info json file located in the mod.
 #### Exceptions
-[EmptyIteratorException](KeepCoding_EmptyIteratorException.md 'KeepCoding.EmptyIteratorException')  
-[NullIteratorException](KeepCoding_NullIteratorException.md 'KeepCoding.NullIteratorException')  
+[EmptyIteratorException](https://docs.microsoft.com/en-us/dotnet/api/EmptyIteratorException 'EmptyIteratorException')  
+[NullIteratorException](https://docs.microsoft.com/en-us/dotnet/api/NullIteratorException 'NullIteratorException')  
 [System.IO.FileNotFoundException](https://docs.microsoft.com/en-us/dotnet/api/System.IO.FileNotFoundException 'System.IO.FileNotFoundException')  

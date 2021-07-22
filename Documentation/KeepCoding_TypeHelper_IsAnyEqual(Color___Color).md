@@ -18,4 +18,4 @@ The color to compare it to.
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
 Boolean, true only if any color in [colors](KeepCoding_TypeHelper_IsAnyEqual(Color___Color).md#KeepCoding_TypeHelper_IsAnyEqual(Color___Color)_colors 'KeepCoding.TypeHelper.IsAnyEqual(Color[], Color).colors') is the exact same as [color](KeepCoding_TypeHelper_IsAnyEqual(Color___Color).md#KeepCoding_TypeHelper_IsAnyEqual(Color___Color)_color 'KeepCoding.TypeHelper.IsAnyEqual(Color[], Color).color')'s R, G, B, and A values.
 #### Exceptions
-[NullIteratorException](KeepCoding_NullIteratorException.md 'KeepCoding.NullIteratorException')  
+[NullIteratorException](https://docs.microsoft.com/en-us/dotnet/api/NullIteratorException 'NullIteratorException')  

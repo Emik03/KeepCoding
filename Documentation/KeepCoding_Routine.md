@@ -3,10 +3,10 @@
 ## Routine Class
 Advanced coroutine handler.  
 ```csharp
-public sealed class Routine : KeepCoding.RoutineBase
+public sealed class Routine : KeepCoding.Internal.RoutineBase
 ```
 
-Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') &#129106; Routine  
+Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [RoutineBase](KeepCoding_Internal_RoutineBase.md 'KeepCoding.Internal.RoutineBase') &#129106; Routine  
 
 | Constructors | |
 | :--- | :--- |

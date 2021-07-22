@@ -3,7 +3,7 @@ using static System.Reflection.BindingFlags;
 using static UnityEditor.EditorApplication;
 using static UnityEngine.GUILayout;
 
-namespace KeepCoding
+namespace KeepCoding.Internal
 {
     /// <summary>
     /// Custom inspector for <see cref="ModuleScript"/>. 

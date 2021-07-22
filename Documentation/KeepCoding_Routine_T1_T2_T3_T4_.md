@@ -3,7 +3,7 @@
 ## Routine&lt;T1,T2,T3,T4&gt; Class
 Advanced coroutine handler.   
 ```csharp
-public sealed class Routine<T1,T2,T3,T4> : KeepCoding.RoutineBase
+public sealed class Routine<T1,T2,T3,T4> : KeepCoding.Internal.RoutineBase
 ```
 #### Type parameters
 <a name='KeepCoding_Routine_T1_T2_T3_T4__T1'></a>
@@ -19,7 +19,7 @@ public sealed class Routine<T1,T2,T3,T4> : KeepCoding.RoutineBase
 `T4`  
   
 
-Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') &#129106; Routine&lt;T1,T2,T3,T4&gt;  
+Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [RoutineBase](KeepCoding_Internal_RoutineBase.md 'KeepCoding.Internal.RoutineBase') &#129106; Routine&lt;T1,T2,T3,T4&gt;  
 
 | Constructors | |
 | :--- | :--- |

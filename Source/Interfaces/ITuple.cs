@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 
-namespace KeepCoding
+namespace KeepCoding.Internal
 {
     /// <summary>
     /// Interface for tuple type. 

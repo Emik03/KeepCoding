@@ -15,4 +15,4 @@ The instance of a normal module.
 The instance of a needy module.
   
 #### Exceptions
-[ConstructorArgumentException](KeepCoding_ConstructorArgumentException.md 'KeepCoding.ConstructorArgumentException')  
+[ConstructorArgumentException](KeepCoding_Internal_ConstructorArgumentException.md 'KeepCoding.Internal.ConstructorArgumentException')  

@@ -23,6 +23,6 @@ The action to apply [source](KeepCoding_Helper_Call_T_(T___System_Action_T_int_)
 [T](KeepCoding_Helper_Call_T_(T___System_Action_T_int_).md#KeepCoding_Helper_Call_T_(T___System_Action_T_int_)_T 'KeepCoding.Helper.Call&lt;T&gt;(T[], System.Action&lt;T,int&gt;).T')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')  
 The item [source](KeepCoding_Helper_Call_T_(T___System_Action_T_int_).md#KeepCoding_Helper_Call_T_(T___System_Action_T_int_)_source 'KeepCoding.Helper.Call&lt;T&gt;(T[], System.Action&lt;T,int&gt;).source').
 #### Exceptions
-[NullIteratorException](KeepCoding_NullIteratorException.md 'KeepCoding.NullIteratorException')  
+[NullIteratorException](KeepCoding_Internal_NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  
 ### Remarks
 This can be used to intercept current variables or calculations by for example, printing the value as it is being passed as an argument.  

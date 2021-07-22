@@ -18,4 +18,4 @@ All of the base characters for the conversion to the base number, use [Alphanume
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
 [value](KeepCoding_Helper_LongToBase(long_string).md#KeepCoding_Helper_LongToBase(long_string)_value 'KeepCoding.Helper.LongToBase(long, string).value'), but in the base specified.
 #### Exceptions
-[NullIteratorException](KeepCoding_NullIteratorException.md 'KeepCoding.NullIteratorException')  
+[NullIteratorException](KeepCoding_Internal_NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  

@@ -31,6 +31,6 @@ The time in the audio it should start playing at.
 The volume of the sound clip relative to the game sound.
   
 #### Exceptions
-[NullIteratorException](KeepCoding_NullIteratorException.md 'KeepCoding.NullIteratorException')  
+[NullIteratorException](KeepCoding_Internal_NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  
 ### Remarks
 Multiple sounds can be played simultaneously with this method, however they cannot be cancelled.  

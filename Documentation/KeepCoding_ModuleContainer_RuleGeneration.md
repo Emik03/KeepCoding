@@ -8,4 +8,4 @@ public System.Func<int> RuleGeneration { get; }
 #### Property Value
 [System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-1 'System.Func`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-1 'System.Func`1')
 #### Exceptions
-[UnrecognizedTypeException](KeepCoding_UnrecognizedTypeException.md 'KeepCoding.UnrecognizedTypeException')  
+[UnrecognizedTypeException](KeepCoding_Internal_UnrecognizedTypeException.md 'KeepCoding.Internal.UnrecognizedTypeException')  

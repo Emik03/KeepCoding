@@ -35,7 +35,7 @@ The time in the audio it should start playing at.
 The volume of the sound clip relative to the game sound.
   
 #### Exceptions
-[NullIteratorException](KeepCoding_NullIteratorException.md 'KeepCoding.NullIteratorException')  
+[NullIteratorException](KeepCoding_Internal_NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  
 [UnityEngine.MissingComponentException](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MissingComponentException 'UnityEngine.MissingComponentException')  
 ### Remarks
 The sound can be cancelled with this method, but multiple sounds cannot play simultaneously.  

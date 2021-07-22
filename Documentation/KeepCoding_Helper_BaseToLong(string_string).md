@@ -19,4 +19,4 @@ All of the base characters for the conversion from the base number, use [Alphanu
 [value](KeepCoding_Helper_BaseToLong(string_string).md#KeepCoding_Helper_BaseToLong(string_string)_value 'KeepCoding.Helper.BaseToLong(string, string).value'), but in the base specified.
 #### Exceptions
 [System.FormatException](https://docs.microsoft.com/en-us/dotnet/api/System.FormatException 'System.FormatException')  
-[NullIteratorException](KeepCoding_NullIteratorException.md 'KeepCoding.NullIteratorException')  
+[NullIteratorException](KeepCoding_Internal_NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  

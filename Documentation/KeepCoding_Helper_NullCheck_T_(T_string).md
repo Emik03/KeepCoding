@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Helper](KeepCoding_Helper.md 'KeepCoding.Helper')
 ## Helper.NullCheck&lt;T&gt;(T, string) Method
-Throws a [System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException') or [NullIteratorException](KeepCoding_NullIteratorException.md 'KeepCoding.NullIteratorException') if the parameter provided is null.  
+Throws a [System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException') or [NullIteratorException](KeepCoding_Internal_NullIteratorException.md 'KeepCoding.Internal.NullIteratorException') if the parameter provided is null.  
 ```csharp
 public static T NullCheck<T>(this T item, string message="While asserting for null, the variable ended up null.");
 ```
@@ -23,5 +23,5 @@ The optional message to throw if null.
 [T](KeepCoding_Helper_NullCheck_T_(T_string).md#KeepCoding_Helper_NullCheck_T_(T_string)_T 'KeepCoding.Helper.NullCheck&lt;T&gt;(T, string).T')  
 [item](KeepCoding_Helper_NullCheck_T_(T_string).md#KeepCoding_Helper_NullCheck_T_(T_string)_item 'KeepCoding.Helper.NullCheck&lt;T&gt;(T, string).item')
 #### Exceptions
-[NullIteratorException](KeepCoding_NullIteratorException.md 'KeepCoding.NullIteratorException')  
+[NullIteratorException](KeepCoding_Internal_NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  
 [System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException')  

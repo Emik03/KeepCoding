@@ -3,10 +3,10 @@
 ## Work Class
 Advanced multi-threading handler.  
 ```csharp
-public sealed class Work : KeepCoding.WorkBase
+public sealed class Work : KeepCoding.Internal.WorkBase
 ```
 
-Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [WorkBase](KeepCoding_WorkBase.md 'KeepCoding.WorkBase') &#129106; Work  
+Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [WorkBase](KeepCoding_Internal_WorkBase.md 'KeepCoding.Internal.WorkBase') &#129106; Work  
 
 | Constructors | |
 | :--- | :--- |

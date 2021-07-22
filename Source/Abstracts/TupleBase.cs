@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace KeepCoding
+namespace KeepCoding.Internal
 {
     /// <summary>
     /// Provides the base <see langword="class"/> for the multiple tuple types.
@@ -13,7 +13,7 @@ namespace KeepCoding
     /// </remarks>
     /// <example>
     /// The following example illustrates a method for returning the last item of any tuple that uses <see cref="TupleBase"/>.
-    /// <code>using KeepCoding;
+    /// <code>using KeepCoding.Internal;
     /// 
     /// public static class Extensions
     /// {
@@ -57,6 +57,7 @@ namespace KeepCoding
         /// <example>
         /// The following example illustrates how an <see cref="IndexOutOfRangeException"/> will always be thrown no matter what index is passed in.
         /// <code>using KeepCoding;
+        /// using KeepCoding.Internal;
         /// 
         /// public sealed class FooModule : ModuleScript
         /// {
@@ -108,6 +109,7 @@ namespace KeepCoding
         /// <example>
         /// The following example illustrates how a method can use the <see cref="Length"/> parameter as a way of determining the tuple item count being odd. <see cref="ArrayHelper.ConvertAll{TInput, TOutput}(TInput[], Converter{TInput, TOutput})"/> is used to convert all tuples to <see cref="bool"/>.
         /// <code>using KeepCoding;
+        /// using KeepCoding.Internal;
         /// 
         /// public static class Extensions
         /// {
@@ -124,8 +126,7 @@ namespace KeepCoding
         /// {
         ///     private void Start()
         ///     {
-        ///         Log(Extensions.IsOdds(new TupleBase(), // 0 items
-        ///             0.ToTuple(), // 1 item
+        ///         Log(Extensions.IsOdds(0.ToTuple(), // 1 item
         ///             0.ToTuple(0), // 2 items
         ///             0.ToTuple(0, 0), // 3 items
         ///             0.ToTuple(0, 0, 0))); // 4 items
@@ -152,7 +153,7 @@ namespace KeepCoding
         /// </remarks>
         /// <example>
         /// The following example illusrates a method that retrieves the last item of the tuple.
-        /// <code>using KeepCoding;
+        /// <code>using KeepCoding.Internal;
         /// 
         /// public static class Extensions
         /// {
@@ -284,6 +285,7 @@ namespace KeepCoding
         /// [Foo #1] False
         /// </code>
         /// </example>
+        /// <param name="other">The <see cref="ITuple"/> to compare itself to.</param>
         /// <returns><see langword="true"/> if both of them have the same items, or are both <see langword="null"/>.</returns>
         public bool Equals(ITuple other) => other is null ? this is null : ToArray.SequenceEqual(other.ToArray);
 
@@ -322,13 +324,61 @@ namespace KeepCoding
         /// <remarks>
         /// Each element of <see cref="ToArray"/> is passed into <see cref="Helper.UnwrapToString{T}(T, bool, string)"/> to unpack iterators and allow each element to be seen. For more details about stringification, refer to <see cref="object.ToString"/>.
         /// </remarks>
+        /// <example>
+        /// The following example illustrates how a tuple gets converted to a <see cref="string"/>.
+        /// <code>using KeepCoding;
+        ///
+        /// public sealed class FooModule : ModuleScript
+        /// {
+        ///     private void Start()
+        ///     {
+        ///         Tuple&lt;int, string[], bool&gt; tuple = 0.ToTuple(new[] { "test1", "test2", "test3" }, false);
+        ///             
+        ///         Log(first.ToString());
+        ///     }
+        /// }
+        /// </code>
+        /// This is the output from the console.
+        /// <code>[Foo #1] 0, test1, test2, test3, False
+        /// </code>
+        /// </example>
         /// <seealso cref="ToArray"/>
+        /// <seealso cref="Helper.UnwrapToString{T}(T, bool, string)"/>
         /// <returns><see cref="ToArray"/> from <see cref="Helper.UnwrapToString{T}(T, bool, string)"/>.</returns>
         public override string ToString() => ToArray.UnwrapToString(false, " ");
 
         /// <summary>
-        /// Gets the enumerator of <see cref="ToArray"/>.
+        /// Gets the <see cref="IEnumerator"/> of <see cref="ToArray"/>.
         /// </summary>
+        /// <remarks>
+        /// This method is needed to implement <see cref="IEnumerator"/> interface. It takes <see cref="ToArray"/> and performs <see cref="Array.GetEnumerator"/>.
+        /// </remarks>
+        /// <example>
+        /// The following example illustrates how items in <see cref="ToArray"/> get converted into an <see cref="IEnumerator"/>, and using that <see cref="IEnumerator"/> to print every value.
+        /// <code>using System.Collections;
+        /// using KeepCoding;
+        ///
+        /// public sealed class FooModule : ModuleScript
+        /// {
+        ///     private void Start()
+        ///     {
+        ///         Tuple&lt;int, string[], bool&gt; tuple = 0.ToTuple(new[] { "test1", "test2", "test3" }, false);
+        ///             
+        ///         IEnumerator ienumerator = tuple.GetEnumerator();
+        ///
+        ///         while (ienumerator.MoveNext())
+        ///             Log(ienumerator.Current);
+        ///     }
+        /// }
+        /// </code>
+        /// This is the output from the console.
+        /// <code>[Foo #1] 0
+        /// [Foo #1] test1
+        /// [Foo #1] test2
+        /// [Foo #1] test3
+        /// [Foo #1] False
+        /// </code>
+        /// </example>
         public IEnumerator GetEnumerator() => ToArray.GetEnumerator();
 
         private protected static T Cast<T>(in object value, in int index) => value is T t ? t : throw UnrecognizedType(value, typeof(T), index);

@@ -11,7 +11,7 @@ using static System.String;
 using static UnityEngine.Application;
 using Object = UnityEngine.Object;
 
-namespace KeepCoding
+namespace KeepCoding.Internal
 {
     /// <summary>
     /// Editor-only behaviour that gets values from <see cref="Component"/>s in real-time.

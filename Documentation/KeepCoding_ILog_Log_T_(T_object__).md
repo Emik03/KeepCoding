@@ -19,4 +19,4 @@ The message to log.
 All of the arguments to embed into [message](KeepCoding_ILog_Log_T_(T_object__).md#KeepCoding_ILog_Log_T_(T_object__)_message 'KeepCoding.ILog.Log&lt;T&gt;(T, object[]).message').
   
 #### Exceptions
-[UnrecognizedValueException](KeepCoding_UnrecognizedValueException.md 'KeepCoding.UnrecognizedValueException')  
+[UnrecognizedValueException](KeepCoding_Internal_UnrecognizedValueException.md 'KeepCoding.Internal.UnrecognizedValueException')  

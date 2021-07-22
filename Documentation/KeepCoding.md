@@ -8,8 +8,6 @@
 | [CacheableBehaviour](KeepCoding_CacheableBehaviour.md 'KeepCoding.CacheableBehaviour') | A [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') with additional caching capabilities. <br/> |
 | [ColorblindInfo](KeepCoding_ColorblindInfo.md 'KeepCoding.ColorblindInfo') | Contains information about the colorblind mod's info, this class can be used to deserialize every mod's "modInfo.json".<br/> |
 | [ComponentPool](KeepCoding_ComponentPool.md 'KeepCoding.ComponentPool') | A ComponentPool is a collection of Module Types. The generator will pick Count times from this list and instantiate a component of the chosen type.<br/> |
-| [ConstructorArgumentException](KeepCoding_ConstructorArgumentException.md 'KeepCoding.ConstructorArgumentException') | An exception thrown when the constructor throws an exception due to a bad argument.<br/> |
-| [EmptyIteratorException](KeepCoding_EmptyIteratorException.md 'KeepCoding.EmptyIteratorException') | An exception thrown when the iterator is empty.<br/> |
 | [EventHelper](KeepCoding_EventHelper.md 'KeepCoding.EventHelper') | KMFramework extension methods that makes it easier to assign multiple events to a variable in one statement.<br/> |
 | [Game](KeepCoding_Game.md 'KeepCoding.Game') | Allows access into the game's internal code. <br/> |
 | [Game.KTInputManager](KeepCoding_Game_KTInputManager.md 'KeepCoding.Game.KTInputManager') | Allows access relating to how the game is being interacted with.<br/> |
@@ -24,43 +22,32 @@
 | [ModInfo](KeepCoding_ModInfo.md 'KeepCoding.ModInfo') | Contains information about the mod's info, this class can be used to deserialize every mod's "modInfo.json".<br/> |
 | [ModuleContainer](KeepCoding_ModuleContainer.md 'KeepCoding.ModuleContainer') | Container for both solvable and needy modules.<br/> |
 | [ModuleScript](KeepCoding_ModuleScript.md 'KeepCoding.ModuleScript') | Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes. <br/> |
-| [ModuleScriptEditor](KeepCoding_ModuleScriptEditor.md 'KeepCoding.ModuleScriptEditor') | Custom inspector for [ModuleScript](KeepCoding_ModuleScript.md 'KeepCoding.ModuleScript'). <br/> |
-| [NegativeNumberException](KeepCoding_NegativeNumberException.md 'KeepCoding.NegativeNumberException') | An exception thrown when the number is unexpectedly negative.<br/> |
-| [NullIteratorException](KeepCoding_NullIteratorException.md 'KeepCoding.NullIteratorException') | An exception thrown when the iterator is null.<br/> |
 | [Number](KeepCoding_Number.md 'KeepCoding.Number') | Class meant to encapsulate a primitive numeric value.<br/> |
 | [PathManager](KeepCoding_PathManager.md 'KeepCoding.PathManager') | Allows loading external information stored on the module. <br/> |
-| [ReflectionScript](KeepCoding_ReflectionScript.md 'KeepCoding.ReflectionScript') | Editor-only behaviour that gets values from [UnityEngine.Component](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Component 'UnityEngine.Component')s in real-time.<br/> |
 | [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') | Advanced coroutine handler.<br/> |
 | [Routine&lt;T&gt;](KeepCoding_Routine_T_.md 'KeepCoding.Routine&lt;T&gt;') | Advanced coroutine handler. <br/> |
 | [Routine&lt;T1,T2&gt;](KeepCoding_Routine_T1_T2_.md 'KeepCoding.Routine&lt;T1,T2&gt;') | Advanced coroutine handler. <br/> |
 | [Routine&lt;T1,T2,T3&gt;](KeepCoding_Routine_T1_T2_T3_.md 'KeepCoding.Routine&lt;T1,T2,T3&gt;') | Advanced coroutine handler. <br/> |
 | [Routine&lt;T1,T2,T3,T4&gt;](KeepCoding_Routine_T1_T2_T3_T4_.md 'KeepCoding.Routine&lt;T1,T2,T3,T4&gt;') | Advanced coroutine handler. <br/> |
-| [RoutineBase](KeepCoding_RoutineBase.md 'KeepCoding.RoutineBase') | Provides the base [class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class') for the multiple routine types.<br/> |
 | [Sound](KeepCoding_Sound.md 'KeepCoding.Sound') | Class meant to encapsulate all types of sound effects [KMAudio](https://docs.microsoft.com/en-us/dotnet/api/KMAudio 'KMAudio') uses. Currently used in [ModuleScript](KeepCoding_ModuleScript.md 'KeepCoding.ModuleScript').<br/> |
 | [TPScript&lt;TModule&gt;](KeepCoding_TPScript_TModule_.md 'KeepCoding.TPScript&lt;TModule&gt;') | Base class for TwitchPlays support for solvable and needy modded modules in Keep Talking and Nobody Explodes. <br/> |
-| [TPScriptEditor](KeepCoding_TPScriptEditor.md 'KeepCoding.TPScriptEditor') | Custom inspector for [TPScript&lt;TModule&gt;](KeepCoding_TPScript_TModule_.md 'KeepCoding.TPScript&lt;TModule&gt;'). <br/> |
 | [Tuple&lt;T&gt;](KeepCoding_Tuple_T_.md 'KeepCoding.Tuple&lt;T&gt;') | A basic tuple data type for C# 4.<br/> |
 | [Tuple&lt;T1,T2&gt;](KeepCoding_Tuple_T1_T2_.md 'KeepCoding.Tuple&lt;T1,T2&gt;') | A basic tuple data type for C# 4. <br/> |
 | [Tuple&lt;T1,T2,T3&gt;](KeepCoding_Tuple_T1_T2_T3_.md 'KeepCoding.Tuple&lt;T1,T2,T3&gt;') | A basic tuple data type for C# 4. <br/> |
 | [Tuple&lt;T1,T2,T3,T4&gt;](KeepCoding_Tuple_T1_T2_T3_T4_.md 'KeepCoding.Tuple&lt;T1,T2,T3,T4&gt;') | A basic tuple data type for C# 4. <br/> |
-| [TupleBase](KeepCoding_TupleBase.md 'KeepCoding.TupleBase') | Provides the base [class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class') for the multiple tuple types.<br/> |
 | [TypeHelper](KeepCoding_TypeHelper.md 'KeepCoding.TypeHelper') | Extension methods to help you create data types easier.<br/> |
-| [UnrecognizedTypeException](KeepCoding_UnrecognizedTypeException.md 'KeepCoding.UnrecognizedTypeException') | An exception thrown for when the type isn't handled.<br/> |
-| [UnrecognizedValueException](KeepCoding_UnrecognizedValueException.md 'KeepCoding.UnrecognizedValueException') | An exception thrown for when the value isn't handled.<br/> |
 | [Work](KeepCoding_Work.md 'KeepCoding.Work') | Advanced multi-threading handler.<br/> |
 | [Work&lt;T&gt;](KeepCoding_Work_T_.md 'KeepCoding.Work&lt;T&gt;') | Advanced multi-threading handler.<br/> |
 | [Work&lt;T,TResult&gt;](KeepCoding_Work_T_TResult_.md 'KeepCoding.Work&lt;T,TResult&gt;') | Advanced multi-threading handler.<br/> |
 | [Work&lt;T1,T2,T3,T4,TResult&gt;](KeepCoding_Work_T1_T2_T3_T4_TResult_.md 'KeepCoding.Work&lt;T1,T2,T3,T4,TResult&gt;') | Advanced multi-threading handler.<br/> |
 | [Work&lt;T1,T2,T3,TResult&gt;](KeepCoding_Work_T1_T2_T3_TResult_.md 'KeepCoding.Work&lt;T1,T2,T3,TResult&gt;') | Advanced multi-threading handler.<br/> |
 | [Work&lt;T1,T2,TResult&gt;](KeepCoding_Work_T1_T2_TResult_.md 'KeepCoding.Work&lt;T1,T2,TResult&gt;') | Advanced multi-threading handler.<br/> |
-| [WorkBase](KeepCoding_WorkBase.md 'KeepCoding.WorkBase') | Abstract class for the [Work](KeepCoding_Work.md 'KeepCoding.Work') datatype, since the different overloads are similar to each other.<br/> |
 
 | Interfaces | |
 | :--- | :--- |
 | [IDump](KeepCoding_IDump.md 'KeepCoding.IDump') | An interface to implement dump methods. Make each method return the same method in your [Logger](KeepCoding_Logger.md 'KeepCoding.Logger') instance. <br/> |
 | [ILog](KeepCoding_ILog.md 'KeepCoding.ILog') | An interface to implement log methods. Make each method return the same method in your [Logger](KeepCoding_Logger.md 'KeepCoding.Logger') instance.  <br/> |
 | [ITP](KeepCoding_ITP.md 'KeepCoding.ITP') | Interface for Twitch Plays support. <br/> |
-| [ITuple](KeepCoding_ITuple.md 'KeepCoding.ITuple') | Interface for tuple type. <br/> |
 
 | Enums | |
 | :--- | :--- |

@@ -28,6 +28,6 @@ Whether it should throw an exception if no value is found, or provide the defaul
 Every instance of the value from the every instance of the module specified.
 #### Exceptions
 [System.Collections.Generic.KeyNotFoundException](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.KeyNotFoundException 'System.Collections.Generic.KeyNotFoundException')  
-[UnrecognizedTypeException](KeepCoding_UnrecognizedTypeException.md 'KeepCoding.UnrecognizedTypeException')  
+[UnrecognizedTypeException](KeepCoding_Internal_UnrecognizedTypeException.md 'KeepCoding.Internal.UnrecognizedTypeException')  
 ### Remarks
 To ensure that this method works correctly, make sure that both modules have the same version of KeepCoding.  

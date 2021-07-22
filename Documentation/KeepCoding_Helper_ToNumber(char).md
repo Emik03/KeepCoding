@@ -14,4 +14,4 @@ The character to convert.
 [System.Byte](https://docs.microsoft.com/en-us/dotnet/api/System.Byte 'System.Byte')  
 [source](KeepCoding_Helper_ToNumber(char).md#KeepCoding_Helper_ToNumber(char)_source 'KeepCoding.Helper.ToNumber(char).source') as [System.Byte](https://docs.microsoft.com/en-us/dotnet/api/System.Byte 'System.Byte').
 #### Exceptions
-[UnrecognizedValueException](KeepCoding_UnrecognizedValueException.md 'KeepCoding.UnrecognizedValueException')  
+[UnrecognizedValueException](KeepCoding_Internal_UnrecognizedValueException.md 'KeepCoding.Internal.UnrecognizedValueException')  

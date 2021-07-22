@@ -13,7 +13,7 @@ public class Tuple<T1,T2> : KeepCoding.Tuple<T1>
 `T2`  
   
 
-Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [TupleBase](KeepCoding_TupleBase.md 'KeepCoding.TupleBase') &#129106; [KeepCoding.Tuple&lt;](KeepCoding_Tuple_T_.md 'KeepCoding.Tuple&lt;T&gt;')[T1](KeepCoding_Tuple_T1_T2_.md#KeepCoding_Tuple_T1_T2__T1 'KeepCoding.Tuple&lt;T1,T2&gt;.T1')[&gt;](KeepCoding_Tuple_T_.md 'KeepCoding.Tuple&lt;T&gt;') &#129106; Tuple&lt;T1,T2&gt;  
+Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [TupleBase](KeepCoding_Internal_TupleBase.md 'KeepCoding.Internal.TupleBase') &#129106; [KeepCoding.Tuple&lt;](KeepCoding_Tuple_T_.md 'KeepCoding.Tuple&lt;T&gt;')[T1](KeepCoding_Tuple_T1_T2_.md#KeepCoding_Tuple_T1_T2__T1 'KeepCoding.Tuple&lt;T1,T2&gt;.T1')[&gt;](KeepCoding_Tuple_T_.md 'KeepCoding.Tuple&lt;T&gt;') &#129106; Tuple&lt;T1,T2&gt;  
 
 Derived  
 &#8627; [Tuple&lt;T1,T2,T3&gt;](KeepCoding_Tuple_T1_T2_T3_.md 'KeepCoding.Tuple&lt;T1,T2,T3&gt;')  

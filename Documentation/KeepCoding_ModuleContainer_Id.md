@@ -8,4 +8,4 @@ public string Id { get; }
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 #### Exceptions
-[UnrecognizedTypeException](KeepCoding_UnrecognizedTypeException.md 'KeepCoding.UnrecognizedTypeException')  
+[UnrecognizedTypeException](KeepCoding_Internal_UnrecognizedTypeException.md 'KeepCoding.Internal.UnrecognizedTypeException')  

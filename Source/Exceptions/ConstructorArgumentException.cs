@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KeepCoding
+namespace KeepCoding.Internal
 {
     /// <summary>
     /// An exception thrown when the constructor throws an exception due to a bad argument.

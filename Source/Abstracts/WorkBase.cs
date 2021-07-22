@@ -2,13 +2,15 @@
 using System.Threading;
 using UnityEngine;
 
-namespace KeepCoding
+namespace KeepCoding.Internal
 {
     /// <summary>
     /// Abstract class for the <see cref="Work"/> datatype, since the different overloads are similar to each other.
     /// </summary>
     public abstract class WorkBase
     {
+        private readonly uint _maximumThreadsActive;
+
         internal WorkBase() : this(true, 1) { }
 
         internal WorkBase(in bool allowSimultaneousActive, in uint maximumThreadsActive)
@@ -36,8 +38,6 @@ namespace KeepCoding
         /// The thread of the class.
         /// </summary>
         public Thread Thread { get; private protected set; }
-
-        private readonly uint _maximumThreadsActive;
 
         /// <summary>
         /// Interrupts the thread.

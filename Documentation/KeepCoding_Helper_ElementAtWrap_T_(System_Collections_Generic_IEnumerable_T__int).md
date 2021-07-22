@@ -23,5 +23,5 @@ The index, which will wrap around if it's larger than the array.
 [T](KeepCoding_Helper_ElementAtWrap_T_(System_Collections_Generic_IEnumerable_T__int).md#KeepCoding_Helper_ElementAtWrap_T_(System_Collections_Generic_IEnumerable_T__int)_T 'KeepCoding.Helper.ElementAtWrap&lt;T&gt;(System.Collections.Generic.IEnumerable&lt;T&gt;, int).T')  
 The element in [source](KeepCoding_Helper_ElementAtWrap_T_(System_Collections_Generic_IEnumerable_T__int).md#KeepCoding_Helper_ElementAtWrap_T_(System_Collections_Generic_IEnumerable_T__int)_source 'KeepCoding.Helper.ElementAtWrap&lt;T&gt;(System.Collections.Generic.IEnumerable&lt;T&gt;, int).source') using [index](KeepCoding_Helper_ElementAtWrap_T_(System_Collections_Generic_IEnumerable_T__int).md#KeepCoding_Helper_ElementAtWrap_T_(System_Collections_Generic_IEnumerable_T__int)_index 'KeepCoding.Helper.ElementAtWrap&lt;T&gt;(System.Collections.Generic.IEnumerable&lt;T&gt;, int).index') with rem-euclid modulo.
 #### Exceptions
-[NullIteratorException](KeepCoding_NullIteratorException.md 'KeepCoding.NullIteratorException')  
-[EmptyIteratorException](KeepCoding_EmptyIteratorException.md 'KeepCoding.EmptyIteratorException')  
+[NullIteratorException](KeepCoding_Internal_NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  
+[EmptyIteratorException](KeepCoding_Internal_EmptyIteratorException.md 'KeepCoding.Internal.EmptyIteratorException')  

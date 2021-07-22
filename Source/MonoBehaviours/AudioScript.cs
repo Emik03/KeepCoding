@@ -1,7 +1,8 @@
-﻿using KeepCoding;
-using System;
+﻿using System;
 using System.Collections;
 using System.Linq;
+using KeepCoding;
+using KeepCoding.Internal;
 using UnityEngine;
 using static KeepCoding.Game.PlayerSettings;
 

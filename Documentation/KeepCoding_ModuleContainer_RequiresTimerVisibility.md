@@ -8,4 +8,4 @@ public bool RequiresTimerVisibility { get; }
 #### Property Value
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
 #### Exceptions
-[UnrecognizedTypeException](KeepCoding_UnrecognizedTypeException.md 'KeepCoding.UnrecognizedTypeException')  
+[UnrecognizedTypeException](KeepCoding_Internal_UnrecognizedTypeException.md 'KeepCoding.Internal.UnrecognizedTypeException')  

@@ -19,4 +19,4 @@ The list to reverse.
 [System.Collections.Generic.List&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1')[T](KeepCoding_Helper_Rev_T_(System_Collections_Generic_List_T_).md#KeepCoding_Helper_Rev_T_(System_Collections_Generic_List_T_)_T 'KeepCoding.Helper.Rev&lt;T&gt;(System.Collections.Generic.List&lt;T&gt;).T')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1')  
 [source](KeepCoding_Helper_Rev_T_(System_Collections_Generic_List_T_).md#KeepCoding_Helper_Rev_T_(System_Collections_Generic_List_T_)_source 'KeepCoding.Helper.Rev&lt;T&gt;(System.Collections.Generic.List&lt;T&gt;).source') with the elements reversed.
 #### Exceptions
-[NullIteratorException](KeepCoding_NullIteratorException.md 'KeepCoding.NullIteratorException')  
+[NullIteratorException](KeepCoding_Internal_NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  

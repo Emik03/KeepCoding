@@ -14,4 +14,4 @@ The [System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api
 [System.Collections.IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerable 'System.Collections.IEnumerable')  
 [source](KeepCoding_Helper_AsEnumerable(System_Collections_IEnumerator).md#KeepCoding_Helper_AsEnumerable(System_Collections_IEnumerator)_source 'KeepCoding.Helper.AsEnumerable(System.Collections.IEnumerator).source') as an [System.Collections.IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerable 'System.Collections.IEnumerable').
 #### Exceptions
-[NullIteratorException](KeepCoding_NullIteratorException.md 'KeepCoding.NullIteratorException')  
+[NullIteratorException](KeepCoding_Internal_NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  

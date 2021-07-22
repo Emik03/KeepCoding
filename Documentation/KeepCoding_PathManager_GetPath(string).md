@@ -14,8 +14,8 @@ The file to search for. Make sure to include extensions!
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
 The path to [search](KeepCoding_PathManager_GetPath(string).md#KeepCoding_PathManager_GetPath(string)_search 'KeepCoding.PathManager.GetPath(string).search').
 #### Exceptions
-[EmptyIteratorException](KeepCoding_EmptyIteratorException.md 'KeepCoding.EmptyIteratorException')  
+[EmptyIteratorException](https://docs.microsoft.com/en-us/dotnet/api/EmptyIteratorException 'EmptyIteratorException')  
 [System.IO.FileNotFoundException](https://docs.microsoft.com/en-us/dotnet/api/System.IO.FileNotFoundException 'System.IO.FileNotFoundException')  
-[NullIteratorException](KeepCoding_NullIteratorException.md 'KeepCoding.NullIteratorException')  
+[NullIteratorException](https://docs.microsoft.com/en-us/dotnet/api/NullIteratorException 'NullIteratorException')  
 ### Remarks
 You need to specify the extensions of the file too, otherwise the file cannot be found.  

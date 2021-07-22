@@ -23,4 +23,4 @@ The third argument to pass into the coroutine.
 If called multiple times, waits until the others are finished.
   
 #### Exceptions
-[EmptyIteratorException](KeepCoding_EmptyIteratorException.md 'KeepCoding.EmptyIteratorException')  
+[EmptyIteratorException](KeepCoding_Internal_EmptyIteratorException.md 'KeepCoding.Internal.EmptyIteratorException')  

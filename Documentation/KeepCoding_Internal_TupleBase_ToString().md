@@ -1,0 +1,35 @@
+#### [KeepCoding](index.md 'index')
+### [KeepCoding.Internal](KeepCoding_Internal.md 'KeepCoding.Internal').[TupleBase](KeepCoding_Internal_TupleBase.md 'KeepCoding.Internal.TupleBase')
+## TupleBase.ToString() Method
+Joins [ToArray](KeepCoding_Internal_TupleBase_ToArray.md 'KeepCoding.Internal.TupleBase.ToArray') to a string, with a space as a delimiter.  
+```csharp
+public override string ToString();
+```
+#### Returns
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
+[ToArray](KeepCoding_Internal_TupleBase_ToArray.md 'KeepCoding.Internal.TupleBase.ToArray') from [UnwrapToString&lt;T&gt;(T, bool, string)](KeepCoding_Helper_UnwrapToString_T_(T_bool_string).md 'KeepCoding.Helper.UnwrapToString&lt;T&gt;(T, bool, string)').
+### Example
+The following example illustrates how a tuple gets converted to a [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String').  
+```csharp
+using KeepCoding;  
+  
+public sealed class FooModule : ModuleScript  
+{  
+    private void Start()  
+    {  
+        Tuple<int, string[], bool> tuple = 0.ToTuple(new[] { "test1", "test2", "test3" }, false);  
+              
+        Log(first.ToString());  
+    }  
+}  
+```
+  
+This is the output from the console.  
+```csharp
+[Foo #1] 0, test1, test2, test3, False  
+```
+### Remarks
+Each element of [ToArray](KeepCoding_Internal_TupleBase_ToArray.md 'KeepCoding.Internal.TupleBase.ToArray') is passed into [UnwrapToString&lt;T&gt;(T, bool, string)](KeepCoding_Helper_UnwrapToString_T_(T_bool_string).md 'KeepCoding.Helper.UnwrapToString&lt;T&gt;(T, bool, string)') to unpack iterators and allow each element to be seen. For more details about stringification, refer to [System.Object.ToString](https://docs.microsoft.com/en-us/dotnet/api/System.Object.ToString 'System.Object.ToString').  
+#### See Also
+- [ToArray](KeepCoding_Internal_TupleBase_ToArray.md 'KeepCoding.Internal.TupleBase.ToArray')
+- [UnwrapToString&lt;T&gt;(T, bool, string)](KeepCoding_Helper_UnwrapToString_T_(T_bool_string).md 'KeepCoding.Helper.UnwrapToString&lt;T&gt;(T, bool, string)')

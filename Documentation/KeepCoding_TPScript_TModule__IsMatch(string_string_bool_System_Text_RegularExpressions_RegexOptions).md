@@ -26,4 +26,4 @@ Any additional options for regular expressions.
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
 True if [input](KeepCoding_TPScript_TModule__IsMatch(string_string_bool_System_Text_RegularExpressions_RegexOptions).md#KeepCoding_TPScript_TModule__IsMatch(string_string_bool_System_Text_RegularExpressions_RegexOptions)_input 'KeepCoding.TPScript&lt;TModule&gt;.IsMatch(string, string, bool, System.Text.RegularExpressions.RegexOptions).input') passes the test of the [pattern](KeepCoding_TPScript_TModule__IsMatch(string_string_bool_System_Text_RegularExpressions_RegexOptions).md#KeepCoding_TPScript_TModule__IsMatch(string_string_bool_System_Text_RegularExpressions_RegexOptions)_pattern 'KeepCoding.TPScript&lt;TModule&gt;.IsMatch(string, string, bool, System.Text.RegularExpressions.RegexOptions).pattern').
 #### Exceptions
-[NullIteratorException](KeepCoding_NullIteratorException.md 'KeepCoding.NullIteratorException')  
+[NullIteratorException](KeepCoding_Internal_NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  

@@ -4,7 +4,7 @@ using UnityEditor;
 using static UnityEngine.GUILayout;
 using static UnityEngine.LogType;
 
-namespace KeepCoding
+namespace KeepCoding.Internal
 {
     /// <summary>
     /// Custom inspector for <see cref="TPScript{TModule}"/>. 
@@ -20,7 +20,7 @@ namespace KeepCoding
         {
             DrawDefaultInspector();
 
-            ITP tp = (ITP)target;
+            var tp = (ITP)target;
 
             tp.IsTimeSkippable = Toggle(tp.IsTimeSkippable, "Allow time-skipping");
 
