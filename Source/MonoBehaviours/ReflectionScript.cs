@@ -16,7 +16,7 @@ namespace KeepCoding.Internal
     /// <summary>
     /// Editor-only behaviour that gets values from <see cref="Component"/>s in real-time.
     /// </summary>
-    public sealed class ReflectionScript : MonoBehaviour, ILog
+    public sealed class ReflectionScript : CacheableBehaviour, ILog
     {
         private class NullableObject
         {
@@ -48,7 +48,7 @@ namespace KeepCoding.Internal
 
         [SerializeField]
 #pragma warning disable IDE0044 // Add readonly modifier
-        private bool _slowMode;
+        private bool _slowMode;                                                                                                         
 #pragma warning restore IDE0044 // Add readonly modifier
 
         [SerializeField]

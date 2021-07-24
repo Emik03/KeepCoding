@@ -10,6 +10,7 @@ Inheritance [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/
 
 Derived  
 &#8627; [AudioScript](AudioScript.md 'AudioScript')  
+&#8627; [ReflectionScript](KeepCoding_Internal_ReflectionScript.md 'KeepCoding.Internal.ReflectionScript')  
 &#8627; [ModuleScript](KeepCoding_ModuleScript.md 'KeepCoding.ModuleScript')  
 &#8627; [TPScript&lt;TModule&gt;](KeepCoding_TPScript_TModule_.md 'KeepCoding.TPScript&lt;TModule&gt;')  
 

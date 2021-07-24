@@ -15,6 +15,7 @@ using static KMAudio;
 using static KMSoundOverride;
 using static System.Linq.Enumerable;
 using static UnityEngine.Application;
+using UnityEngine.Networking;
 
 namespace KeepCoding
 {
@@ -124,7 +125,7 @@ namespace KeepCoding
 
         internal bool IsColorblindSupported { get; private set; } = true;
 
-        internal bool IsLatest { get; private set; } = true;
+        internal static bool IsOutdated { get; private set; }
 
         private bool _hasException;
 
@@ -504,23 +505,25 @@ namespace KeepCoding
 
             s_hasCheckedVersion = true;
 
-            WWW www = PathManager.LatestGitHub;
-            yield return www;
-
-            if (www.error is { })
+            using (UnityWebRequest latest = PathManager.LatestGitHub)
             {
-                Self($"The library was unable to get the version number: {www.error}", LogType.Warning);
-                yield break;
+                yield return latest.SendWebRequest();
+
+                if (latest.isNetworkError || latest.isHttpError)
+                {
+                    Self($"The library was unable to get the version number: {latest.error}", LogType.Warning);
+                    yield break;
+                }
+
+                string tagName = JObject.Parse(latest.downloadHandler.text).GetValue("tag_name").ToObject<string>();
+
+                if (tagName.ToVersion() <= PathManager.Version)
+                    yield break;
+
+                IsOutdated = true;
+
+                Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please press the update button on any {PathManager.AssemblyName}-based ${nameof(GameObject)} or download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
             }
-
-            string tagName = JObject.Parse(www.text).GetValue("tag_name").ToObject<string>();
-
-            if (tagName.ToVersion() <= PathManager.Version)
-                yield break;
-
-            IsLatest = false;
-
-            Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
         }
 
         private IEnumerator EditorTimerTick()
