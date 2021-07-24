@@ -68,7 +68,7 @@ namespace KeepCoding.Internal
                 yield return InstallLatest(tagName, "xml");
                 yield return InstallLatest(tagName, "dll");
 
-                Self($"Process complete. To load the new files, right-click {SelfPath} and click \"Reimport\", then delete the old KeepCoding files.");
+                Self($"Process complete. Please delete the old versions located in {SelfPath}.");
             }
         }
 
