@@ -341,7 +341,7 @@ namespace KeepCoding
         private static string Combine(in string main, params object[] toAppend) => main + toAppend.ConvertAll(o => $" {o}");
 
 #pragma warning disable IDE0051 // Remove unused private members
-        private IEnumerator ProcessTwitchCommand(string command) => Module._isColorblindSupported && command.ToLowerInvariant().Trim() == "colorblind" ? ToggleColorblind() : Process(command).Flatten(o => !(o is KMSelectable[]));
+        private IEnumerator ProcessTwitchCommand(string command) => Module.IsColorblindSupported && command.ToLowerInvariant().Trim() == "colorblind" ? ToggleColorblind() : Process(command).Flatten(o => !(o is KMSelectable[]));
 #pragma warning restore IDE0051 // Remove unused private members
 
         private IEnumerator ToggleColorblind()
