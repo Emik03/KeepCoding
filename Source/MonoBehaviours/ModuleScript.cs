@@ -122,7 +122,9 @@ namespace KeepCoding
         /// </summary>
         public ModuleContainer[] Modules { get; private set; }
 
-        internal bool _isColorblindSupported = true;
+        internal bool IsColorblindSupported { get; private set; } = true;
+
+        internal bool IsLatest { get; private set; } = true;
 
         private bool _hasException;
 
@@ -219,7 +221,7 @@ namespace KeepCoding
                 return;
 
             if (_hasException)
-                Game.AddStrikes(gameObject, -_strikes);
+                Game.AddStrikes(gameObject, -_strikes, false);
 
             LogMultiple(logs);
 
@@ -253,7 +255,7 @@ namespace KeepCoding
         /// Called when colorblind support needs to be updated for the module. Do not call <c>base.OnColorblindChanged()</c>.
         /// </summary>
         /// <param name="isEnabled">Whether colorblind support should be enabled.</param>
-        public virtual void OnColorblindChanged(bool isEnabled) => _isColorblindSupported = false;
+        public virtual void OnColorblindChanged(bool isEnabled) => IsColorblindSupported = false;
 
         /// <summary>
         /// Called when any module on the current bomb has issued a strike.
@@ -303,7 +305,7 @@ namespace KeepCoding
 
             int index = LastId - Id;
 
-            Range(0, index - s_database[Module.Id].Length + 1).ToArray().ForEach(_ => s_database[Module.Id].Append(new Dictionary<string, object>()));
+            (index - s_database[Module.Id].Length + 1).For(_ => s_database[Module.Id].Append(new Dictionary<string, object>()));
 
             if (!s_database[Module.Id][index].ContainsKey(key))
                 s_database[Module.Id][index].Add(key, null);
@@ -495,14 +497,14 @@ namespace KeepCoding
 
         private static uint VersionToNumber(in string s) => uint.Parse(s.Replace(".", "").PadRight(9, '0'));
 
-        private static IEnumerator CheckForUpdates()
+        private IEnumerator CheckForUpdates()
         {
             if (!IsEditor || s_hasCheckedVersion)
                 yield break;
 
             s_hasCheckedVersion = true;
 
-            var www = new WWW("https://api.github.com/repos/Emik03/KeepCoding/releases/latest");
+            WWW www = PathManager.LatestGitHub;
             yield return www;
 
             if (www.error is { })
@@ -513,8 +515,12 @@ namespace KeepCoding
 
             string tagName = JObject.Parse(www.text).GetValue("tag_name").ToObject<string>();
 
-            if (tagName.ToVersion() > PathManager.Version)
-                Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
+            if (tagName.ToVersion() <= PathManager.Version)
+                yield break;
+
+            IsLatest = false;
+
+            Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
         }
 
         private IEnumerator EditorTimerTick()

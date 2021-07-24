@@ -14,6 +14,6 @@ Any data from the assembly, which is used to get the name.
 [ModInfo](KeepCoding_ModInfo.md 'KeepCoding.ModInfo')  
 A [ModInfo](KeepCoding_ModInfo.md 'KeepCoding.ModInfo') of the mod info json file located in the mod.
 #### Exceptions
-[EmptyIteratorException](https://docs.microsoft.com/en-us/dotnet/api/EmptyIteratorException 'EmptyIteratorException')  
-[NullIteratorException](https://docs.microsoft.com/en-us/dotnet/api/NullIteratorException 'NullIteratorException')  
+[EmptyIteratorException](KeepCoding_Internal_EmptyIteratorException.md 'KeepCoding.Internal.EmptyIteratorException')  
+[NullIteratorException](KeepCoding_Internal_NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  
 [System.IO.FileNotFoundException](https://docs.microsoft.com/en-us/dotnet/api/System.IO.FileNotFoundException 'System.IO.FileNotFoundException')  

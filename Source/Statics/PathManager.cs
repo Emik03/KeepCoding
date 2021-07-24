@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using KeepCoding.Internal;
 using UnityEngine;
 using UnityEngine.Video;
 using static KeepCoding.Game.ModManager;
@@ -40,6 +41,8 @@ namespace KeepCoding
         private static readonly Dictionary<string, ModInfo> s_modInfos = new Dictionary<string, ModInfo>();
 
         private static readonly PlatformNotSupportedException s_intPtrException = new PlatformNotSupportedException("IntPtr size is not 4 or 8, what kind of system is this?");
+
+        internal static WWW LatestGitHub => new WWW("https://api.github.com/repos/Emik03/KeepCoding/releases/latest");
 
         /// <summary>
         /// Gets this library's <see cref="AssemblyName"/>.

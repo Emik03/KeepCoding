@@ -15,8 +15,8 @@ Any data from the assembly, which is used to get the name.
 The library's name, excluding the extension.
   
 #### Exceptions
-[EmptyIteratorException](https://docs.microsoft.com/en-us/dotnet/api/EmptyIteratorException 'EmptyIteratorException')  
+[EmptyIteratorException](KeepCoding_Internal_EmptyIteratorException.md 'KeepCoding.Internal.EmptyIteratorException')  
 [System.IO.FileNotFoundException](https://docs.microsoft.com/en-us/dotnet/api/System.IO.FileNotFoundException 'System.IO.FileNotFoundException')  
-[NullIteratorException](https://docs.microsoft.com/en-us/dotnet/api/NullIteratorException 'NullIteratorException')  
+[NullIteratorException](KeepCoding_Internal_NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  
 ### Remarks
 If the library has already been loaded, then this method will prematurely halt.  

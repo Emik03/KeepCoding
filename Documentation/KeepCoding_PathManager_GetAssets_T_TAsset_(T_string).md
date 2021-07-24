@@ -28,6 +28,6 @@ The name of the bundle that contains videos.
 [TAsset](KeepCoding_PathManager_GetAssets_T_TAsset_(T_string).md#KeepCoding_PathManager_GetAssets_T_TAsset_(T_string)_TAsset 'KeepCoding.PathManager.GetAssets&lt;T,TAsset&gt;(T, string).TAsset')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')  
 The [UnityEngine.AssetBundleCreateRequest](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.AssetBundleCreateRequest 'UnityEngine.AssetBundleCreateRequest') needed to load the files, followed by the [UnityEngine.Video.VideoClip](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Video.VideoClip 'UnityEngine.Video.VideoClip')[System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array').
 #### Exceptions
-[EmptyIteratorException](https://docs.microsoft.com/en-us/dotnet/api/EmptyIteratorException 'EmptyIteratorException')  
+[EmptyIteratorException](KeepCoding_Internal_EmptyIteratorException.md 'KeepCoding.Internal.EmptyIteratorException')  
 [System.IO.FileNotFoundException](https://docs.microsoft.com/en-us/dotnet/api/System.IO.FileNotFoundException 'System.IO.FileNotFoundException')  
-[NullIteratorException](https://docs.microsoft.com/en-us/dotnet/api/NullIteratorException 'NullIteratorException')  
+[NullIteratorException](KeepCoding_Internal_NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  
