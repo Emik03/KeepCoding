@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static KeepCoding.ComponentPool;
 using static KeepCoding.Logger;
@@ -94,7 +95,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool IsCurrentControlTypeVR => CurrentControlType is ControlType.Gaze || CurrentControlType is ControlType.Motion || CurrentControlType is ControlType.ThreeDOF;
+            public static bool IsCurrentControlTypeVR => new[] { ControlType.Gaze, ControlType.Motion, ControlType.ThreeDOF }.Contains(CurrentControlType);
 
             /// <summary>
             /// The current way the game is being controlled.
@@ -399,14 +400,13 @@ namespace KeepCoding
         /// <remarks>
         /// Default: Internal Logger method call.
         /// </remarks>
-        public static Action<GameObject, int> AddStrikes => isEditor
-            ? (gameObject, amount) => Self($"Adding the bomb's strike count with {amount}.")
+        public static Action<GameObject, int, bool> AddStrikes => isEditor
+            ? (gameObject, amount, checkIfExploded) => Self($"Adding the bomb's strike count with {amount}.")
             : AddStrikesInner;
-        private static Action<GameObject, int> AddStrikesInner => (gameObject, amount) =>
+        private static Action<GameObject, int, bool> AddStrikesInner => (gameObject, amount, checkIfExploded) =>
         {
-            Self($"Adding the bomb's strike count with {amount}.");
             var bomb = (Bomb)Bomb(gameObject);
-            bomb.StrikeIndicator.StrikeCount = bomb.NumStrikes += amount;
+            StrikesInner(bomb, bomb.NumStrikes + amount, checkIfExploded);
         };
 
         /// <summary>
@@ -415,14 +415,22 @@ namespace KeepCoding
         /// <remarks>
         /// Default: Internal Logger method call.
         /// </remarks>
-        public static Action<GameObject, int> SetStrikes => isEditor
-            ? (gameObject, amount) => Self($"Setting the bomb's strike count to {amount}.")
+        public static Action<GameObject, int, bool> SetStrikes => isEditor
+            ? (gameObject, amount, checkIfExploded) => Self($"Setting the bomb's strike count to {amount}.")
             : SetStrikesInner;
-        private static Action<GameObject, int> SetStrikesInner => (gameObject, amount) =>
+        private static Action<GameObject, int, bool> SetStrikesInner => (gameObject, amount, checkIfExploded) =>
         {
-            Logger.Self($"Setting the bomb's strike count to {amount}.");
             var bomb = (Bomb)Bomb(gameObject);
+            StrikesInner(bomb, amount, checkIfExploded);
+        };
+
+        private static Action<object, int, bool> StrikesInner => (obj, amount, checkIfExploded) =>
+        {
+            var bomb = (Bomb)obj;
             bomb.StrikeIndicator.StrikeCount = bomb.NumStrikes = amount;
+
+            if (checkIfExploded && bomb.NumStrikes >= bomb.NumStrikesToLose)
+                bomb.Detonate();
         };
 
         /// <summary>
