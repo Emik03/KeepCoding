@@ -522,7 +522,7 @@ namespace KeepCoding
 
                 IsOutdated = true;
 
-                Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please press the update button on any {PathManager.AssemblyName}-based ${nameof(GameObject)} or download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
+                Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please press the update button on any {PathManager.AssemblyName.Name}-based {nameof(GameObject)} or download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
             }
         }
 
