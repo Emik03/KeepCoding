@@ -238,6 +238,11 @@ namespace KeepCoding
         }
 
         /// <summary>
+        /// Called when the module instantiates, well before the lights turn on.
+        /// </summary>
+        public virtual void OnAwake() { }
+
+        /// <summary>
         /// Called when the lights turn on.
         /// </summary>
         public virtual void OnActivate() { }
@@ -409,6 +414,8 @@ namespace KeepCoding
 
             StartCoroutine(CheckForUpdates());
             StartCoroutine(WaitForBomb());
+
+            OnAwake();
         }
 
         private void HookModules()
