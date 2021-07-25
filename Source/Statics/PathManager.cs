@@ -130,7 +130,7 @@ namespace KeepCoding
             bundleFileName.NullOrEmptyCheck("You cannot retrieve a mod's modInfo.json if the bundle file name is null or empty.");
 
             string search = GetPath(FileFormat(bundleFileName, FileExtensionWindows)),
-                file = $"{search}{GetSlashType(search)}modInfo.json";
+                file = CombineMultiple(search, "modInfo.json");
 
             if (!File.Exists(file))
                 throw new FileNotFoundException($"The mod bundle was found in {search}, but no mod info was found! (Expected to find \"{file}\")");
@@ -333,8 +333,6 @@ namespace KeepCoding
             }
         }
 
-        private static char GetSlashType(in string path) => path.Count(c => c == '/') >= path.Count(c => c == '\\') ? '/' : '\\';
-
         private static string FileFormat(in string fileName, in string fileExtension) => "{0}.{1}".Form(fileName, fileExtension);
 
         private static string Find(in List<string> directories, string search) => directories.FirstValue(path =>
@@ -363,7 +361,7 @@ namespace KeepCoding
 
             string path = GetPath(FileFormat(bundleFileName, FileExtensionWindows));
 
-            AssetBundleCreateRequest request = LoadFromFileAsync($"{path}{GetSlashType(path)}{FileFormat(bundleAssetFileName, FileExtensionBundle)}");
+            AssetBundleCreateRequest request = LoadFromFileAsync(CombineMultiple(path, FileFormat(bundleAssetFileName, FileExtensionBundle));
 
             yield return request;
 
