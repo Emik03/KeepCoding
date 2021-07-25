@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -16,7 +15,7 @@ namespace KeepCoding.Internal
     /// <summary>
     /// Editor-only behaviour that gets values from <see cref="Component"/>s in real-time.
     /// </summary>
-    public sealed class ReflectionScript : CacheableBehaviour, ILog
+    public sealed class ReflectionScript : Behaviour, ILog
     {
         private class NullableObject
         {
@@ -48,11 +47,6 @@ namespace KeepCoding.Internal
 
         [SerializeField]
 #pragma warning disable IDE0044 // Add readonly modifier
-        private bool _slowMode;                                                                                                         
-#pragma warning restore IDE0044 // Add readonly modifier
-
-        [SerializeField]
-#pragma warning disable IDE0044 // Add readonly modifier
         private int _limitResults;
 #pragma warning restore IDE0044 // Add readonly modifier
 
@@ -78,6 +72,28 @@ namespace KeepCoding.Internal
 
         private readonly Logger _logger = new Logger(nameof(ReflectionScript), true, false);
 
+        /// <summary>
+        /// Logs message, but formats it to be compliant with the Logfile Analyzer.
+        /// </summary>
+        /// <exception cref="UnrecognizedValueException"></exception>
+        /// <param name="message">The message to log.</param>
+        /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
+        public void Log<T>(T message, LogType logType = LogType.Log) => _logger.Log(message, logType);
+
+        /// <summary>
+        /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
+        /// </summary>
+        /// <exception cref="UnrecognizedValueException"></exception>
+        /// <param name="message">The message to log.</param>
+        /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
+        public void Log<T>(T message, params object[] args) => _logger.Log(message, args);
+
+        /// <summary>
+        /// Logs multiple entries to the console.
+        /// </summary>
+        /// <param name="logs">The array of logs to individual output into the console.</param>
+        public void LogMultiple(params string[] logs) => _logger.LogMultiple(logs);
+
         private void OnValidate()
         {
             if (_variable is null)
@@ -102,13 +118,33 @@ namespace KeepCoding.Internal
         private void Start()
         {
             if (isEditor)
-            {
-                StartCoroutine(Loop());
                 return;
-            }
 
             Self($"A {nameof(ReflectionScript)} showed up in-game! Automatically deleting component...");
             Destroy(this);
+        }
+
+        private void FixedUpdate()
+        {
+            IEnumerable<object> objects = _members.Select(o => o.Item2._value);
+
+            Tuple<IEnumerable<object>, IEnumerable<object>> split = objects.SplitBy(o => o is Object);
+
+            _components = split.Item1
+                .ToArray()
+                .ConvertAll(o => (Object)o);
+
+            _values = split.Item2
+                .ToArray()
+                .ConvertAll(o => o.UnwrapToString());
+
+            if (_current.SequenceEqual(objects))
+                return;
+
+            _current = objects;
+
+            if (!_current.IsNullOrEmpty())
+                _logger.Log($"{gameObject.name}, {_variable}\n{Join(", ", _values)}");
         }
 
         private static NullableObject GetDeepValue(in object instance, in string[] names)
@@ -134,28 +170,6 @@ namespace KeepCoding.Internal
             return current;
         }
 
-        /// <summary>
-        /// Logs message, but formats it to be compliant with the Logfile Analyzer.
-        /// </summary>
-        /// <exception cref="UnrecognizedValueException"></exception>
-        /// <param name="message">The message to log.</param>
-        /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
-        public void Log<T>(T message, LogType logType = LogType.Log) => _logger.Log(message, logType);
-
-        /// <summary>
-        /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
-        /// </summary>
-        /// <exception cref="UnrecognizedValueException"></exception>
-        /// <param name="message">The message to log.</param>
-        /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
-        public void Log<T>(T message, params object[] args) => _logger.Log(message, args);
-
-        /// <summary>
-        /// Logs multiple entries to the console.
-        /// </summary>
-        /// <param name="logs">The array of logs to individual output into the console.</param>
-        public void LogMultiple(params string[] logs) => _logger.LogMultiple(logs);
-
         private static NullableObject GetField(in Type type, in string name, in object instance)
         {
             FieldInfo field = type?.GetField(name);
@@ -172,36 +186,6 @@ namespace KeepCoding.Internal
             return property is null ? null
                 : new NullableObject(property.GetAccessors(false).Any(x => x.IsStatic) ? property.GetValue(null, null)
                 : property.GetValue(instance, null));
-        }
-
-        private IEnumerator Loop()
-        {
-            while (true)
-            {
-                yield return new WaitUntil(() => enabled);
-
-                yield return new WaitForSecondsRealtime(_slowMode ? 1 : 0.1f);
-
-                IEnumerable<object> objects = _members.Select(o => o.Item2._value);
-
-                Tuple<IEnumerable<object>, IEnumerable<object>> split = objects.SplitBy(o => o is Object);
-
-                _components = split.Item1
-                    .ToArray()
-                    .ConvertAll(o => (Object)o);
-
-                _values = split.Item2
-                    .ToArray()
-                    .ConvertAll(o => o.UnwrapToString());
-
-                if (_current.SequenceEqual(objects))
-                    continue;
-
-                _current = objects;
-
-                if (!_current.IsNullOrEmpty())
-                    _logger.Log($"{gameObject.name}, {_variable}\n{Join(", ", _values)}");
-            }
         }
     }
 }

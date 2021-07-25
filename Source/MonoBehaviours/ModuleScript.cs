@@ -8,14 +8,15 @@ using System.Text.RegularExpressions;
 using KeepCoding.Internal;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
+using UnityEngine.Networking;
+using static System.AppDomain;
+using static System.Linq.Enumerable;
 using static KeepCoding.Game.KTInputManager;
 using static KeepCoding.Game.MasterAudio;
 using static KeepCoding.Logger;
 using static KMAudio;
 using static KMSoundOverride;
-using static System.Linq.Enumerable;
 using static UnityEngine.Application;
-using UnityEngine.Networking;
 
 namespace KeepCoding
 {
@@ -127,11 +128,7 @@ namespace KeepCoding
 
         internal static bool IsOutdated { get; private set; }
 
-        private bool _hasException;
-
         private static bool s_hasCheckedVersion;
-
-        private int _strikes;
 
         private static Dictionary<string, Dictionary<string, object>[]> s_database;
 
@@ -221,9 +218,6 @@ namespace KeepCoding
             if (IsSolved)
                 return;
 
-            if (_hasException)
-                Game.AddStrikes(gameObject, -_strikes, false);
-
             LogMultiple(logs);
 
             IsSolved = true;
@@ -236,13 +230,9 @@ namespace KeepCoding
         /// <param name="logs">All of the entries to log.</param>
         public void Strike(params string[] logs)
         {
-            if (_hasException)
-                return;
-
             LogMultiple(logs);
 
             HasStruck = true;
-            _strikes++;
 
             Module.Strike();
         }
@@ -409,26 +399,17 @@ namespace KeepCoding
                 OnActivate();
             });
 
-            Self($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
-
             _logger = new Logger(Module.Name, true);
-
-            logMessageReceived += OnException;
-
             _colorblind = new ColorblindInfo(this);
 
             s_database = new Dictionary<string, Dictionary<string, object>[]>();
 
+            Self($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
             Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
 
             StartCoroutine(CheckForUpdates());
             StartCoroutine(WaitForBomb());
         }
-
-        /// <summary>
-        /// Removes the module from <see cref="logMessageReceived"/>. If you declare this method, make sure to call <c>base.OnDestroy()</c> to ensure that the module cleans up correctly.
-        /// </summary>
-        protected void OnDestroy() => logMessageReceived -= OnException;
 
         private void HookModules()
         {
@@ -458,31 +439,6 @@ namespace KeepCoding
             });
         }
 
-        private void OnException(string condition, string stackTrace, LogType type)
-        {
-            void ForceSolve()
-            {
-                StartCoroutine(WaitForSolve());
-                Get<KMSelectable>().OnInteract = null;
-            }
-
-            if (type != LogType.Exception || !IsLogFromThis(stackTrace))
-                return;
-
-            logMessageReceived -= OnException;
-            _hasException = true;
-
-            Log("The module threw an unhandled exception... {0}", condition);
-
-            if (TP?.IsTP ?? false)
-                return;
-
-            if (Get<KMSelectable>(allowNull: true))
-                Get<KMSelectable>().Assign(onInteract: ForceSolve);
-            else
-                ForceSolve();
-        }
-
         private void TimerTickInner()
         {
             var timer = (TimerComponent)Game.Timer(gameObject);
@@ -493,8 +449,6 @@ namespace KeepCoding
                 OnTimerTick();
             };
         }
-
-        private bool IsLogFromThis(in string stackTrace) => stackTrace.Split('\n').Any(s => Regex.IsMatch(s, $@"^{GetType().Name}"));
 
         private static uint VersionToNumber(in string s) => uint.Parse(s.Replace(".", "").PadRight(9, '0'));
 

@@ -3,11 +3,11 @@
 ## ReflectionScript Class
 Editor-only behaviour that gets values from [UnityEngine.Component](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Component 'UnityEngine.Component')s in real-time.  
 ```csharp
-public sealed class ReflectionScript : KeepCoding.CacheableBehaviour,
+public sealed class ReflectionScript :
 KeepCoding.ILog
 ```
 
-Inheritance [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') &#129106; [CacheableBehaviour](KeepCoding_CacheableBehaviour.md 'KeepCoding.CacheableBehaviour') &#129106; ReflectionScript  
+Inheritance [UnityEngine.Behaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Behaviour 'UnityEngine.Behaviour') &#129106; ReflectionScript  
 
 Implements [ILog](KeepCoding_ILog.md 'KeepCoding.ILog')  
 

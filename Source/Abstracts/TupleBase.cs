@@ -316,7 +316,7 @@ namespace KeepCoding.Internal
         /// </example>
         /// <seealso cref="ToArray"/>
         /// <returns>The hash code of this instance.</returns>
-        public override int GetHashCode() => 1108013089 + EqualityComparer<object[]>.Default.GetHashCode(ToArray);
+        public override int GetHashCode() => 1108013089 + ToArray.ConvertAll(o => o.GetHashCode()).Sum();
 
         /// <summary>
         /// Joins <see cref="ToArray"/> to a string, with a space as a delimiter.

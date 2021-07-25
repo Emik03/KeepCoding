@@ -484,14 +484,7 @@ namespace KeepCoding
         /// Gets the hash code of the current values.
         /// </summary>
         /// <returns>The hash code.</returns>
-        public override int GetHashCode()
-        {
-            int hashCode = 26699601;
-            hashCode = hashCode * -1521134295 + IsNegative.GetHashCode();
-            hashCode = hashCode * -1521134295 + Length.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<sbyte[]>.Default.GetHashCode(_value);
-            return hashCode;
-        }
+        public override int GetHashCode() => -1939223833 + EqualityComparer<sbyte[]>.Default.GetHashCode(_value);
 
         /// <summary>
         /// Converts the current array it stores as a string.

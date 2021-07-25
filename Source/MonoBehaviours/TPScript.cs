@@ -338,20 +338,25 @@ namespace KeepCoding
             Module.HasStruck = false;
         }
 
-        private static string Combine(in string main, params object[] toAppend) => main + toAppend.ConvertAll(o => $" {o}");
+        /// <summary>
+        /// This method gets grabbed by Twitch Plays. It grabs <see cref="Process(string)"/> and flattens it using <see cref="Helper.Flatten(IEnumerator, Predicate{object})"/>.
+        /// </summary>
+        /// <param name="command">The command of the user.</param>
+        /// <returns>A list of instructions for Twitch Plays.</returns>
+        protected IEnumerator ProcessTwitchCommand(string command) => Module.IsColorblindSupported && command.ToLowerInvariant().Trim() == "colorblind" ? ToggleColorblind() : Process(command).Flatten(o => !(o is KMSelectable[]));
 
-#pragma warning disable IDE0051 // Remove unused private members
-        private IEnumerator ProcessTwitchCommand(string command) => Module.IsColorblindSupported && command.ToLowerInvariant().Trim() == "colorblind" ? ToggleColorblind() : Process(command).Flatten(o => !(o is KMSelectable[]));
-#pragma warning restore IDE0051 // Remove unused private members
+        /// <summary>
+        /// This method gets grabbed by Twitch Plays. It grabs <see cref="ForceSolve()"/> and flattens it using <see cref="Helper.Flatten(IEnumerator, Predicate{object})"/>.
+        /// </summary>
+        /// <returns>A list of instructions for Twitch Plays.</returns>
+        protected IEnumerator TwitchHandleForcedSolve() => ForceSolve().Flatten(o => !(o is KMSelectable[]));
+
+        private static string Combine(in string main, params object[] toAppend) => main + toAppend.ConvertAll(o => $" {o}");
 
         private IEnumerator ToggleColorblind()
         {
             Module.IsColorblind = !Module.IsColorblind;
             yield return null;
         }
-
-#pragma warning disable IDE0051 // Remove unused private members
-        private IEnumerator TwitchHandleForcedSolve() => ForceSolve().Flatten(o => !(o is KMSelectable[]));
-#pragma warning restore IDE0051 // Remove unused private members
     }
 }
