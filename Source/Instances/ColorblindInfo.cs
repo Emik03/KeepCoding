@@ -27,7 +27,7 @@ namespace KeepCoding
             if (isEditor)
                 return;
 
-            if (!Exists(Directory))
+            if (!Exists(File))
             {
                 Write(moduleId);
                 return;
@@ -35,7 +35,10 @@ namespace KeepCoding
 
             try
             {
-                Deserialize(Directory);
+                ColorblindInfo info = Deserialize(File);
+
+                IsEnabled = info.IsEnabled;
+                Modules = info.Modules;
             }
             catch (Exception e) when (e is ArgumentException || e is ArgumentNullException || e is DirectoryNotFoundException || e is FileNotFoundException || e is IOException || e is NotSupportedException || e is NullIteratorException || e is NullReferenceException || e is PathTooLongException || e is SecurityException || e is UnauthorizedAccessException)
             {
@@ -47,7 +50,7 @@ namespace KeepCoding
         /// Creates a <see cref="ColorblindInfo"/> while modifying <see cref="ModuleScript.IsColorblind"/>.
         /// </summary>
         /// <param name="module">The module to modify <see cref="ModuleScript.IsColorblind"/> with.</param>
-        public ColorblindInfo(ModuleScript module) : this()
+        public ColorblindInfo(ModuleScript module) : this(module.Module.Id)
         {
             if (isEditor)
                 return;
@@ -57,7 +60,7 @@ namespace KeepCoding
 
             Write(module.Module.Id);
 
-            IsEnabled = isEnabled ?? IsEnabled;
+            module.IsColorblind = isEnabled ?? IsEnabled;
         }
 
         [JsonConstructor]
@@ -78,7 +81,7 @@ namespace KeepCoding
         /// <summary>
         /// The directory of the mod settings file.
         /// </summary>
-        public static string Directory { get; } = CombineMultiple(persistentDataPath, "Modsettings", "ColorblindMode.json");
+        public static string File { get; } = CombineMultiple(persistentDataPath, "Modsettings", "ColorblindMode.json");
 
         /// <summary>
         /// Contains module ids and their colorblind states.
@@ -130,17 +133,13 @@ namespace KeepCoding
         /// <returns><paramref name="path"/> deserialized as <see cref="ColorblindInfo"/>.</returns>
         public static ColorblindInfo Deserialize(string path, JsonSerializerSettings settings = null) => DeserializeObject<ColorblindInfo>(ReadAllText(path.NullCheck("A \"null\" path cannot be searched.")), settings);
 
-        private static void Error(in string moduleId, in Exception e)
-        {
-            if (!isEditor)
-                new Logger("Colorblind Mode", false).Log(@$"Error in ""{moduleId ?? Helper.Null}"": {e.Message} ({e.GetType().FullName}){e.StackTrace}");
-        }
+        private static void Error(string moduleId, Exception e) => new Logger("Colorblind Mode", false).Log(@$"Error in ""{moduleId ?? Helper.Null}"": {e.Message} ({e.GetType().FullName}){e.StackTrace}");
 
-        private void Write(in string moduleId)
+        private void Write(string moduleId)
         {
             try
             {
-                WriteAllText(Directory, SerializeObject(this, Indented));
+                WriteAllText(File, SerializeObject(this, Indented));
             }
             catch (Exception e) when (e is ArgumentException || e is ArgumentNullException || e is DirectoryNotFoundException || e is IOException || e is NotSupportedException || e is PathTooLongException || e is SecurityException || e is UnauthorizedAccessException)
             {

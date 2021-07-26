@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text.RegularExpressions;
 using KeepCoding.Internal;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
-using static System.AppDomain;
 using static System.Linq.Enumerable;
+using static System.Reflection.BindingFlags;
 using static KeepCoding.Game.KTInputManager;
 using static KeepCoding.Game.MasterAudio;
 using static KeepCoding.Logger;
@@ -124,7 +123,7 @@ namespace KeepCoding
         /// </summary>
         public ModuleContainer[] Modules { get; private set; }
 
-        internal bool IsColorblindSupported { get; private set; } = true;
+        internal bool IsColorblindSupported => GetType().ImplementsMethod(nameof(OnColorblindChanged), DeclaredOnly | Instance | Public);
 
         internal static bool IsOutdated { get; private set; }
 
@@ -248,10 +247,10 @@ namespace KeepCoding
         public virtual void OnActivate() { }
 
         /// <summary>
-        /// Called when colorblind support needs to be updated for the module. Do not call <c>base.OnColorblindChanged()</c>.
+        /// Called when colorblind support needs to be updated for the module.
         /// </summary>
         /// <param name="isEnabled">Whether colorblind support should be enabled.</param>
-        public virtual void OnColorblindChanged(bool isEnabled) => IsColorblindSupported = false;
+        public virtual void OnColorblindChanged(bool isEnabled) { }
 
         /// <summary>
         /// Called when any module on the current bomb has issued a strike.
@@ -394,7 +393,7 @@ namespace KeepCoding
                 : throw new UnrecognizedTypeException($"The data type {typeof(T).Name} was expected, but received {d[key].GetType()} from module {module} with key {key}!"));
 
         /// <summary>
-        /// Sets up the module. If you declare this method, make sure to call <c>base.Awake()</c> to ensure that the module initializes correctly.
+        /// Sets up base functionality for the module. If you declare this method yourself, make sure to call <c>base.Awake()</c> to ensure that the module initializes correctly, or use <see cref="OnAwake"/> instead.
         /// </summary>
         protected void Awake()
         {
@@ -405,7 +404,9 @@ namespace KeepCoding
             });
 
             _logger = new Logger(Module.Name, true);
-            _colorblind = new ColorblindInfo(this);
+
+            if (IsColorblindSupported)
+                _colorblind = new ColorblindInfo(this);
 
             s_database = new Dictionary<string, Dictionary<string, object>[]>();
 

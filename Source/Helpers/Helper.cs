@@ -64,6 +64,35 @@ namespace KeepCoding
         public static bool HasComponent<T>(this GameObject obj, out T component) where T : Component => (component = obj.GetComponent<T>()) is T;
 
         /// <summary>
+        /// Determines if a <see langword="class"/> implements a given method.
+        /// </summary>
+        /// <typeparam name="T">The <see cref="Type"/> to check all <see cref="MethodInfo"/>s.</typeparam>
+        /// <param name="_">The discard to get the <see cref="Type"/>.</param>
+        /// <param name="method">The method to get.</param>
+        /// <param name="flags">The <see cref="BindingFlags"/> to use in <see cref="Type.GetMethod(string, BindingFlags)"/>.</param>
+        /// <returns><see langword="true"/> if <typeparamref name="T"/> has <paramref name="method"/>.</returns>
+        public static bool ImplementsMethod<T>(this T _, string method, BindingFlags flags = Flags) => ImplementsMethod<T>(method, flags);
+
+        /// <summary>
+        /// Determines if a <see langword="class"/> implements a given method.
+        /// </summary>
+        /// <typeparam name="T">The <see cref="Type"/> to check all <see cref="MethodInfo"/>s.</typeparam>
+        /// <param name="method">The method to get.</param>
+        /// <param name="flags">The <see cref="BindingFlags"/> to use in <see cref="Type.GetMethod(string, BindingFlags)"/>.</param>
+        /// <returns><see langword="true"/> if <typeparamref name="T"/> has <paramref name="method"/>.</returns>
+        public static bool ImplementsMethod<T>(this string method, BindingFlags flags = Flags) => ImplementsMethod(typeof(T), method, flags);
+
+        /// <summary>
+        /// Determines if a <see langword="class"/> implements a given method.
+        /// </summary>
+        /// <typeparam name="T">The <see cref="Type"/> to check all <see cref="MethodInfo"/>s.</typeparam>
+        /// <param name="type">The type to check.</param>
+        /// <param name="method">The method to get.</param>
+        /// <param name="flags">The <see cref="BindingFlags"/> to use in <see cref="Type.GetMethod(string, BindingFlags)"/>.</param>
+        /// <returns><see langword="true"/> if <typeparamref name="T"/> has <paramref name="method"/>.</returns>
+        public static bool ImplementsMethod<T>(this Type type, string method, BindingFlags flags = Flags) => type.GetMethods(Flags).Any(s => s.Name == method);
+
+        /// <summary>
         /// Determines whether the number is equal or in-between 2 values.
         /// </summary>
         /// <param name="comparison">The number to use as comparison.</param>

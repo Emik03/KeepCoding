@@ -35,7 +35,7 @@ namespace KeepCoding.Internal
 
             var module = (ModuleScript)target;
 
-            if (isPlaying && module.GetType().GetMethod("OnColorblindChanged", DeclaredOnly | Instance | Public) is { })
+            if (isPlaying && module.IsColorblindSupported)
                 module.IsColorblind = Toggle(module.IsColorblind, "Enable colorblind");
 
             if (IsOutdated && Button("Download latest KeepCoding version"))
