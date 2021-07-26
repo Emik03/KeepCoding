@@ -6,7 +6,7 @@
 | [ArrayHelper](KeepCoding_ArrayHelper.md 'KeepCoding.ArrayHelper') | Extension methods surrounding [System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array') static methods to make code a bit shorter.<br/> |
 | [BigInteger](KeepCoding_BigInteger.md 'KeepCoding.BigInteger') | Stores an arbitrarily large number.<br/> |
 | [CacheableBehaviour](KeepCoding_CacheableBehaviour.md 'KeepCoding.CacheableBehaviour') | A [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') with additional caching capabilities. <br/> |
-| [ColorblindInfo](KeepCoding_ColorblindInfo.md 'KeepCoding.ColorblindInfo') | Contains information about the colorblind mod's info, this class can be used to deserialize every mod's "modInfo.json".<br/> |
+| [ColorblindInfo](KeepCoding_ColorblindInfo.md 'KeepCoding.ColorblindInfo') | Contains information about the colorblind mod's info, this class can be used to deserialize "ColorblindMode.json".<br/> |
 | [ComponentPool](KeepCoding_ComponentPool.md 'KeepCoding.ComponentPool') | A ComponentPool is a collection of Module Types. The generator will pick Count times from this list and instantiate a component of the chosen type.<br/> |
 | [EventHelper](KeepCoding_EventHelper.md 'KeepCoding.EventHelper') | KMFramework extension methods that makes it easier to assign multiple events to a variable in one statement.<br/> |
 | [Game](KeepCoding_Game.md 'KeepCoding.Game') | Allows access into the game's internal code. <br/> |

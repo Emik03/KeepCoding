@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 using KeepCoding.Internal;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
@@ -25,7 +26,7 @@ namespace KeepCoding
     public abstract partial class ModuleScript : CacheableBehaviour, IDump, ILog
     {
         /// <summary>
-        /// Determines whether the module has been struck. Twitch Plays script will set this to false when a command is interrupted.
+        /// Determines whether the module has been struck. <see cref="TPScript{TModule}.OnInteractSequence(KMSelectable[], float, int[])"/> will set this to <see langword="false"/> when a command is interrupted.
         /// </summary>
         public bool HasStruck { get; set; }
 
@@ -37,13 +38,14 @@ namespace KeepCoding
         /// <summary>
         /// Determines whether the module's colorblind mode is enabled.
         /// </summary>
+        /// <exception cref="MissingMethodException"></exception>
         public bool IsColorblind
         {
-            get => _colorblind.IsEnabled;
+            get => IsColorblindSupported ? _colorblind.IsModuleEnabled : throw new MissingMethodException($"Colorblind is not implemented for this module! You need to override {nameof(OnColorblindChanged)} if you want to implement colorblind support!");
             set
             {
-                if (_colorblind.IsEnabled != value)
-                    OnColorblindChanged(_colorblind.IsEnabled = value);
+                if (_colorblind.IsModuleEnabled != value)
+                    OnColorblindChanged(_colorblind.IsModuleEnabled = value);
             }
         }
 
@@ -60,7 +62,9 @@ namespace KeepCoding
         /// <summary>
         /// Determines whether the needy is active.
         /// </summary>
-        public bool IsNeedyActive { get; private set; }
+        /// <exception cref="MissingComponentException"></exception>
+        public bool IsNeedyActive { get => Module.Module is KMNeedyModule ? _isNeedyActive : throw new MissingComponentException($"A {nameof(KMNeedyModule)} must be attached in order to access this property!"); private set => _isNeedyActive = value; }
+        private bool _isNeedyActive;
 
         /// <summary>
         /// Determines whether the module has been solved.
@@ -127,7 +131,11 @@ namespace KeepCoding
 
         internal static bool IsOutdated { get; private set; }
 
+        private bool _hasException;
+
         private static bool s_hasCheckedVersion;
+
+        private int _strikes;
 
         private static Dictionary<string, Dictionary<string, object>[]> s_database;
 
@@ -217,6 +225,9 @@ namespace KeepCoding
             if (IsSolved)
                 return;
 
+            if (_hasException)
+                Game.AddStrikes(gameObject, -_strikes, false);
+
             LogMultiple(logs);
 
             IsSolved = true;
@@ -229,9 +240,13 @@ namespace KeepCoding
         /// <param name="logs">All of the entries to log.</param>
         public void Strike(params string[] logs)
         {
+            if (_hasException)
+                return;
+
             LogMultiple(logs);
 
             HasStruck = true;
+            _strikes++;
 
             Module.Strike();
         }
@@ -251,6 +266,11 @@ namespace KeepCoding
         /// </summary>
         /// <param name="isEnabled">Whether colorblind support should be enabled.</param>
         public virtual void OnColorblindChanged(bool isEnabled) { }
+
+        /// <summary>
+        /// Called when the module destroys itself, after the bomb unloads.
+        /// </summary>
+        public virtual void OnDestruct() { }
 
         /// <summary>
         /// Called when any module on the current bomb has issued a strike.
@@ -401,12 +421,14 @@ namespace KeepCoding
             {
                 IsActive = true;
                 OnActivate();
-            });
-
-            _logger = new Logger(Module.Name, true);
+            }); 
 
             if (IsColorblindSupported)
-                _colorblind = new ColorblindInfo(this);
+                _colorblind = new ColorblindInfo(Module.Id);
+
+            logMessageReceived += OnException;
+
+            _logger = new Logger(Module.Name, true);
 
             s_database = new Dictionary<string, Dictionary<string, object>[]>();
 
@@ -417,6 +439,15 @@ namespace KeepCoding
             StartCoroutine(WaitForBomb());
 
             OnAwake();
+        }
+
+        /// <summary>
+        /// Removes the module from <see cref="logMessageReceived"/>. If you declare this method, make sure to call <c>base.OnDestroy()</c> to ensure that the module cleans up correctly.
+        /// </summary>
+        protected void OnDestroy()
+        {
+            logMessageReceived -= OnException;
+            OnDestruct();
         }
 
         private void HookModules()
@@ -446,6 +477,33 @@ namespace KeepCoding
                 m.OnStrike += () => Run(m, OnModuleStrike);
             });
         }
+
+        private void OnException(string condition, string stackTrace, LogType type)
+        {
+            void ForceSolve()
+            {
+                StartCoroutine(WaitForSolve());
+                Get<KMSelectable>().OnInteract = null;
+            }
+
+            if (type != LogType.Exception || !IsLogFromThis(stackTrace))
+                return;
+
+            logMessageReceived -= OnException;
+            _hasException = true;
+
+            Log("The module threw an unhandled exception... {0}", condition);
+
+            if (TP?.IsTP ?? false)
+                return;
+
+            if (Get<KMSelectable>(allowNull: true))
+                Get<KMSelectable>().Assign(onInteract: ForceSolve);
+            else
+                ForceSolve();
+        }
+
+        private bool IsLogFromThis(in string stackTrace) => stackTrace.Split('\n').Any(s => Regex.IsMatch(s, $@"^{GetType().Name}"));
 
         private void TimerTickInner()
         {

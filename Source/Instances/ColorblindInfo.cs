@@ -14,14 +14,14 @@ using static UnityEngine.Application;
 namespace KeepCoding
 {
     /// <summary>
-    /// Contains information about the colorblind mod's info, this class can be used to deserialize every mod's "modInfo.json".
+    /// Contains information about the colorblind mod's info, this class can be used to deserialize "ColorblindMode.json".
     /// </summary>
     public sealed class ColorblindInfo
     {
         /// <summary>
-        /// Default constructor. Deserializes with the default directory.
+        /// Creates a <see cref="ColorblindInfo"/> while read/writing the file.
         /// </summary>
-        /// <param name="moduleId">The module id, which is only used for logging in case of failure.</param>
+        /// <param name="moduleId">The module's id to grab information from.</param>
         public ColorblindInfo(string moduleId = null)
         {
             if (isEditor)
@@ -44,23 +44,13 @@ namespace KeepCoding
             {
                 Error(moduleId, e);
             }
-        }
 
-        /// <summary>
-        /// Creates a <see cref="ColorblindInfo"/> while modifying <see cref="ModuleScript.IsColorblind"/>.
-        /// </summary>
-        /// <param name="module">The module to modify <see cref="ModuleScript.IsColorblind"/> with.</param>
-        public ColorblindInfo(ModuleScript module) : this(module.Module.Id)
-        {
-            if (isEditor)
-                return;
+            if (!Modules.TryGetValue(moduleId, out bool? isEnabled))
+                Modules[moduleId] = null;
 
-            if (!Modules.TryGetValue(module.Module.Id, out bool? isEnabled))
-                Modules[module.Module.Id] = null;
+            Write(moduleId);
 
-            Write(module.Module.Id);
-
-            module.IsColorblind = isEnabled ?? IsEnabled;
+            IsModuleEnabled = isEnabled ?? IsEnabled;
         }
 
         [JsonConstructor]
@@ -77,6 +67,11 @@ namespace KeepCoding
         /// </summary>
         [JsonProperty("Enabled")]
         public bool IsEnabled { get; set; }
+
+        /// <summary>
+        /// Determines whether colorblind mode for the module is on.
+        /// </summary>
+        public bool IsModuleEnabled { get; set; }
 
         /// <summary>
         /// The directory of the mod settings file.

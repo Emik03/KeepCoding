@@ -90,7 +90,7 @@ namespace KeepCoding
         /// <param name="method">The method to get.</param>
         /// <param name="flags">The <see cref="BindingFlags"/> to use in <see cref="Type.GetMethod(string, BindingFlags)"/>.</param>
         /// <returns><see langword="true"/> if <typeparamref name="T"/> has <paramref name="method"/>.</returns>
-        public static bool ImplementsMethod<T>(this Type type, string method, BindingFlags flags = Flags) => type.GetMethods(Flags).Any(s => s.Name == method);
+        public static bool ImplementsMethod(this Type type, string method, BindingFlags flags = Flags) => type.GetMethods(Flags).Any(s => s.Name == method);
 
         /// <summary>
         /// Determines whether the number is equal or in-between 2 values.

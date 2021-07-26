@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## ColorblindInfo Class
-Contains information about the colorblind mod's info, this class can be used to deserialize every mod's "modInfo.json".  
+Contains information about the colorblind mod's info, this class can be used to deserialize "ColorblindMode.json".  
 ```csharp
 public sealed class ColorblindInfo
 ```
@@ -10,13 +10,13 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Constructors | |
 | :--- | :--- |
-| [ColorblindInfo(ModuleScript)](KeepCoding_ColorblindInfo_ColorblindInfo(KeepCoding_ModuleScript).md 'KeepCoding.ColorblindInfo.ColorblindInfo(KeepCoding.ModuleScript)') | Creates a [ColorblindInfo](KeepCoding_ColorblindInfo.md 'KeepCoding.ColorblindInfo') while modifying [IsColorblind](KeepCoding_ModuleScript_IsColorblind.md 'KeepCoding.ModuleScript.IsColorblind').<br/> |
-| [ColorblindInfo(string)](KeepCoding_ColorblindInfo_ColorblindInfo(string).md 'KeepCoding.ColorblindInfo.ColorblindInfo(string)') | Default constructor. Deserializes with the default directory.<br/> |
+| [ColorblindInfo(string)](KeepCoding_ColorblindInfo_ColorblindInfo(string).md 'KeepCoding.ColorblindInfo.ColorblindInfo(string)') | Creates a [ColorblindInfo](KeepCoding_ColorblindInfo.md 'KeepCoding.ColorblindInfo') while read/writing the file.<br/> |
 
 | Properties | |
 | :--- | :--- |
-| [Directory](KeepCoding_ColorblindInfo_Directory.md 'KeepCoding.ColorblindInfo.Directory') | The directory of the mod settings file.<br/> |
+| [File](KeepCoding_ColorblindInfo_File.md 'KeepCoding.ColorblindInfo.File') | The directory of the mod settings file.<br/> |
 | [IsEnabled](KeepCoding_ColorblindInfo_IsEnabled.md 'KeepCoding.ColorblindInfo.IsEnabled') | Determines whether colorblind mode is on.<br/> |
+| [IsModuleEnabled](KeepCoding_ColorblindInfo_IsModuleEnabled.md 'KeepCoding.ColorblindInfo.IsModuleEnabled') | Determines whether colorblind mode for the module is on.<br/> |
 | [Modules](KeepCoding_ColorblindInfo_Modules.md 'KeepCoding.ColorblindInfo.Modules') | Contains module ids and their colorblind states.<br/> |
 
 | Methods | |

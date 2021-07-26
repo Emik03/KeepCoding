@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ModuleScript](KeepCoding_ModuleScript.md 'KeepCoding.ModuleScript')
 ## ModuleScript.OnColorblindChanged(bool) Method
-Called when colorblind support needs to be updated for the module. Do not call `base.OnColorblindChanged()`.  
+Called when colorblind support needs to be updated for the module.  
 ```csharp
 public virtual void OnColorblindChanged(bool isEnabled);
 ```
