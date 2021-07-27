@@ -7,7 +7,7 @@ public sealed class ReflectionScript :
 KeepCoding.ILog
 ```
 
-Inheritance [UnityEngine.Behaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Behaviour 'UnityEngine.Behaviour') &#129106; ReflectionScript  
+Inheritance [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') &#129106; ReflectionScript  
 
 Implements [ILog](KeepCoding_ILog.md 'KeepCoding.ILog')  
 
