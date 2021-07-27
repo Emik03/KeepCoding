@@ -9,6 +9,7 @@ using System.Security;
 using System.Text;
 using KeepCoding.Internal;
 using UnityEngine;
+using static System.Globalization.CultureInfo;
 using static System.Int32;
 using static System.Linq.Enumerable;
 using static System.Math;
@@ -47,7 +48,7 @@ namespace KeepCoding
         public const string Binary = "01";
 
         internal const string
-            Null = "<null>",
+            Null = "null",
             Unknown = "<unknown>",
             VariableTemplate = "\n\n[{0}] {1}\n({2})\n{3}";
 
@@ -85,11 +86,10 @@ namespace KeepCoding
         /// <summary>
         /// Determines if a <see langword="class"/> implements a given method.
         /// </summary>
-        /// <typeparam name="T">The <see cref="Type"/> to check all <see cref="MethodInfo"/>s.</typeparam>
-        /// <param name="type">The type to check.</param>
+        /// <param name="type">The type to check all <see cref="MethodInfo"/>s.</param>
         /// <param name="method">The method to get.</param>
         /// <param name="flags">The <see cref="BindingFlags"/> to use in <see cref="Type.GetMethod(string, BindingFlags)"/>.</param>
-        /// <returns><see langword="true"/> if <typeparamref name="T"/> has <paramref name="method"/>.</returns>
+        /// <returns><see langword="true"/> if <paramref name="type"/> has <paramref name="method"/>.</returns>
         public static bool ImplementsMethod(this Type type, string method, BindingFlags flags = Flags) => type.GetMethods(Flags).Any(s => s.Name == method);
 
         /// <summary>
@@ -396,6 +396,21 @@ namespace KeepCoding
         public static string Base(this string value, int fromBaseNumber, int toBaseNumber) => value.Base(new string(Alphanumeric.Take(fromBaseNumber).ToArray()), new string(Alphanumeric.Take(toBaseNumber).ToArray()));
 
         /// <summary>
+        /// Conbines the iterator into one long <see cref="string"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the <paramref name="source"/>.</typeparam>
+        /// <param name="source">The iterator.</param>
+        /// <param name="delimiter">The separator between each element.</param>
+        /// <returns>A <see cref="string"/> representing all elements in <paramref name="source"/> with the separator <paramref name="delimiter"/>.</returns>
+        public static string Combine<T>(this T source, string delimiter = ", ") => source switch
+        {
+            string s => s,
+            IEnumerable enumerable => Join(delimiter, enumerable.Cast<object>().Select(o => Combine(o, delimiter)).ToArray()),
+            IEnumerator enumerator => Stringify(AsEnumerable(enumerator)),
+            _ => source.ToString()
+        };
+
+        /// <summary>
         /// Finds a file name within a list of directories, or <see langword="null"/> if none is found.
         /// </summary>
         /// <param name="directories">The list of directories.</param>
@@ -409,7 +424,7 @@ namespace KeepCoding
         /// <param name="str">The string to format. Typically with placeholders involving {0}, {1}, {2}...</param>
         /// <param name="args">All of the arguments to put into <paramref name="str"/>.</param>
         /// <returns>The formatted <see cref="string"/>.</returns>
-        public static string Form(this string str, params object[] args) => string.Format(str, args.Select(o => o.UnwrapToString()).ToArray());
+        public static string Form(this string str, params object[] args) => Format(str, args.Select(o => o.Combine()).ToArray());
 
         /// <summary>
         /// Replaces whitespace characters with line breaks based on the line length.
@@ -514,6 +529,31 @@ namespace KeepCoding
         public static string[] Split(this string source, string separator) => source.Split(new string[] { separator }, StringSplitOptions.None);
 
         /// <summary>
+        /// Converts <paramref name="source"/> into a <see cref="string"/> representation of <paramref name="source"/>.
+        /// </summary>
+        /// <remarks>
+        /// Unlike <see cref="object.ToString"/>, the individual items inside <paramref name="source"/> if it is an iterator is deconstructed.
+        /// </remarks>
+        /// <typeparam name="T">The format of the string.</typeparam>
+        /// <param name="source">The item to represent as a <see cref="string"/></param>
+        /// <returns><paramref name="source"/> as a <see cref="string"/>.</returns>
+        public static string Stringify<T>(this T source) => source switch
+        {
+            null => Null,
+            bool b => b ? "true" : "false",
+            char c => $"'{c}'",
+            string s => $"\"{s}\"",
+            float f => f.ToString(InvariantCulture),
+            double d => d.ToString(InvariantCulture),
+            decimal de => de.ToString(InvariantCulture),
+            TupleBase tuple => $"({Stringify(tuple.ToArray)})",
+            IDictionary dictionary => $"{{ {Stringify(AsEnumerable(dictionary.GetEnumerator()).Cast<object>().Select(o => $"{Stringify(((DictionaryEntry)o).Key)}: {Stringify(((DictionaryEntry)o).Value)}"))} }}",
+            IEnumerable enumerable => $"[{Join(", ", enumerable.Cast<object>().Select(Stringify).ToArray())}]",
+            IEnumerator enumerator => Stringify(AsEnumerable(enumerator)),
+            _ => source.ToString()
+        };
+
+        /// <summary>
         /// Converts a number to the ordinal as <see cref="string"/>.
         /// </summary>
         /// <param name="i">The number to convert to an ordinal.</param>
@@ -525,30 +565,6 @@ namespace KeepCoding
             3 => "rd",
             _ => "th",
         };
-
-        /// <summary>
-        /// Unwraps any object, whether it be a class, list, tuple, or any other data and concatenates it into a string.
-        /// </summary>
-        /// <param name="item">The object to unwrap.</param>
-        /// <param name="getVariables">Whether it should search recursively inside the variable and yield return the elements inside <paramref name="item"/>.</param>
-        /// <param name="delimiter">The characters in-between each element.</param>
-        /// <returns>A string consisting of all values from <paramref name="item"/>.</returns>
-        public static string UnwrapToString<T>(this T item, bool getVariables = false, string delimiter = ", ") => Join(delimiter, Unwrap(item, getVariables).Select(o => o.ToString()).ToArray());
-
-        /// <summary>
-        /// Unwraps any object, whether it be a class, list, tuple, or any other data.
-        /// </summary>
-        /// <param name="source">The object to unwrap.</param>
-        /// <param name="isRecursive">Whether it should search inside the variable and yield return the elements inside <paramref name="source"/>.</param>
-        /// <returns>An <see cref="object"/> <see cref="Array"/> of all elements within <paramref name="source"/>.</returns>
-        public static object[] Unwrap<T>(this T source, bool isRecursive = false) => (source switch
-        {
-            null => new object[] { Null },
-            string s => new object[] { s },
-            IEnumerable ienumerable => ienumerable.Unwrap(),
-            IEnumerator ienumerator => ienumerator.AsEnumerable().Unwrap(),
-            _ => isRecursive ? source.ReflectAll().Cast<object>().Prepend(source) : new object[] { source },
-        }).ToArray();
 
         /// <summary>
         /// Gets the appropriate log method depending on the type of <see cref="LogType"/>.
@@ -644,7 +660,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="source">The item to get all fields and properties.</param>
         /// <returns>All fields and properties of <paramref name="source"/>.</returns>
-        public static IEnumerable<string> ReflectAll<T>(this T source) => source?.GetType().GetFields(Flags).Select(f => $"\n{f} (Field): {f?.GetValue(source).UnwrapToString()}").Concat(source?.GetType().GetProperties(Flags).Select(p => $"\n{p} (Property): {p?.GetValue(source, null).UnwrapToString()}"));
+        public static IEnumerable<string> ReflectAll<T>(this T source) => source?.GetType().GetFields(Flags).Select(f => $"\n{f} (Field): {f?.GetValue(source).Stringify()}").Concat(source?.GetType().GetProperties(Flags).Select(p => $"\n{p} (Property): {p?.GetValue(source, null).Stringify()}"));
 
         /// <summary>
         /// Removes the elements whose index does not match any of the indices.
@@ -764,34 +780,10 @@ namespace KeepCoding
         public static IEnumerator<T> NullOrEmptyCheck<T>(this IEnumerator<T> source, string message = null) => (IEnumerator<T>)source.AsEnumerable().NullOrEmptyCheck(message);
 
         /// <summary>
-        /// Unwraps any <see cref="IEnumerable"/> of type <see cref="object"/>, which ends up flattening it as a <see cref="Array"/> of type <see cref="object"/>.
-        /// </summary>
-        /// <param name="source">The object to unwrap.</param>
-        /// <param name="isRecursive">Whether it should search inside the variable and yield return the elements inside <paramref name="source"/>.</param>
-        /// <returns>An <see cref="object"/> <see cref="Array"/> of all elements within <paramref name="source"/>.</returns>
-        public static IEnumerable<object> Unwrap(this IEnumerable source, bool isRecursive = false)
-        {
-            var list = new List<object>();
-
-            try
-            {
-                foreach (object item in source)
-                {
-                    foreach (object o in item.Unwrap(isRecursive))
-                        list.Add(o);
-                }
-            }
-            catch (SecurityException) { }
-
-            foreach (object o in list)
-                yield return o;
-        }
-
-        /// <summary>
         /// Flattens an <see cref="IEnumerator"/> such that nested <see cref="IEnumerator"/> calls get replaced with the output of those calls.
         /// </summary>
         /// <param name="source">The <see cref="IEnumerator"/> to flatten.</param>
-        /// <param name="unwrap">Determines if it should call <see cref="Unwrap{T}(T, bool)"/> for the item.</param>
+        /// <param name="unwrap">Determines if it should call <see cref="Stringify{T}(T)"/> for the item.</param>
         /// <returns><paramref name="source"/> where <see langword="yield"/> <see langword="return"/> <see cref="IEnumerator"/>s gets replaced with the output of those calls.</returns>
         public static IEnumerator Flatten(this IEnumerator source, Predicate<object> unwrap = null)
         {
@@ -803,11 +795,9 @@ namespace KeepCoding
 
                     while (result.MoveNext())
                         yield return result.Current;
-
-                    continue;
                 }
 
-                yield return unwrap?.Invoke(source.Current) ?? false ? source.Current.Unwrap() : source.Current;
+                yield return (unwrap?.Invoke(source.Current) ?? false) && source.Current is IEnumerator e ? Flatten(e) : source.Current;
             }
         }
 
@@ -913,7 +903,7 @@ namespace KeepCoding
         /// <param name="item">The item to log</param>
         /// <param name="logType">The type of logging.</param>
         /// <returns>The item <paramref name="item"/>.</returns>
-        public static T Call<T>(this T item, LogType logType = LogType.Log) => item.Call(t => logType.Method()(t.UnwrapToString()));
+        public static T Call<T>(this T item, LogType logType = LogType.Log) => item.Call(t => logType.Method()(t.Stringify()));
 
         /// <summary>
         /// Returns the element of an array, pretending that the array wraps around or is circular.

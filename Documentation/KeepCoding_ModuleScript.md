@@ -15,7 +15,7 @@ Implements [IDump](KeepCoding_IDump.md 'KeepCoding.IDump'), [ILog](KeepCoding_IL
 | Properties | |
 | :--- | :--- |
 | [Bomb](KeepCoding_ModuleScript_Bomb.md 'KeepCoding.ModuleScript.Bomb') | The bomb that this module is in.<br/> |
-| [HasStruck](KeepCoding_ModuleScript_HasStruck.md 'KeepCoding.ModuleScript.HasStruck') | Determines whether the module has been struck. Twitch Plays script will set this to false when a command is interrupted.<br/> |
+| [HasStruck](KeepCoding_ModuleScript_HasStruck.md 'KeepCoding.ModuleScript.HasStruck') | Determines whether the module has been struck. [OnInteractSequence(KMSelectable[], float, int[])](KeepCoding_TPScript_TModule__OnInteractSequence(KMSelectable___float_int__).md 'KeepCoding.TPScript&lt;TModule&gt;.OnInteractSequence(KMSelectable[], float, int[])') will set this to [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool') when a command is interrupted.<br/> |
 | [Id](KeepCoding_ModuleScript_Id.md 'KeepCoding.ModuleScript.Id') | The Unique Id for the module of this type.<br/> |
 | [IsActive](KeepCoding_ModuleScript_IsActive.md 'KeepCoding.ModuleScript.IsActive') | Determines whether the bomb is currently active, and the timer is ticking.<br/> |
 | [IsColorblind](KeepCoding_ModuleScript_IsColorblind.md 'KeepCoding.ModuleScript.IsColorblind') | Determines whether the module's colorblind mode is enabled.<br/> |

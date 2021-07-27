@@ -135,7 +135,7 @@ public sealed class AudioScript : CacheableBehaviour
     /// <param name="delay">The amount of delay before the sound starts.</param>
     /// <param name="time">The time in the audio it should start playing at.</param>
     /// <param name="pitch">The pitch of the sound.</param>
-    public void Play(string name, bool loop = false, byte priority = 128, float delay = 0, float pitch = 1, float time = 0, float volume = 1) => Play(_audioClips.FirstOrDefault(c => c.name == name) ?? throw new MissingComponentException($"There is no sound effect named \"{name}\". List of audio clips from the prefab: {_audioClips.UnwrapToString()}"), loop, priority, delay, pitch, time, volume);
+    public void Play(string name, bool loop = false, byte priority = 128, float delay = 0, float pitch = 1, float time = 0, float volume = 1) => Play(_audioClips.FirstOrDefault(c => c.name == name) ?? throw new MissingComponentException($"There is no sound effect named \"{name}\". List of audio clips from the prefab: {_audioClips.Stringify()}"), loop, priority, delay, pitch, time, volume);
 
     /// <summary>
     /// Plays a sound, with optional parameters.
@@ -170,7 +170,7 @@ public sealed class AudioScript : CacheableBehaviour
     /// <param name="priority">The priority of the sound.</param>
     /// <param name="time">The time in the audio it should start playing at.</param>
     /// <param name="pitch">The pitch of the sound.</param>
-    public void PlayStackable(string name, bool loop = false, byte priority = 128, float pitch = 1, float time = 0, float volume = 1) => PlayStackable(_audioClips.FirstOrDefault(c => c.name == name) ?? throw new MissingComponentException($"There is no sound effect named \"{name}\". List of audio clips from the prefab: {_audioClips.UnwrapToString()}"), loop, priority, pitch, time, volume);
+    public void PlayStackable(string name, bool loop = false, byte priority = 128, float pitch = 1, float time = 0, float volume = 1) => PlayStackable(_audioClips.FirstOrDefault(c => c.name == name) ?? throw new MissingComponentException($"There is no sound effect named \"{name}\". List of audio clips from the prefab: {_audioClips.Stringify()}"), loop, priority, pitch, time, volume);
 
     /// <summary>
     /// Stops playing the clip.

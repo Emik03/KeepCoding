@@ -8,7 +8,6 @@ using static System.Uri;
 using static System.IO.File;
 using static System.IO.Path;
 using static System.Reflection.Assembly;
-using static System.Reflection.BindingFlags;
 using static KeepCoding.Logger;
 using static KeepCoding.ModuleScript;
 using static UnityEditor.EditorApplication;

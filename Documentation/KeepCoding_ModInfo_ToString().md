@@ -7,4 +7,4 @@ public override string ToString();
 ```
 #### Returns
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
-[Values](KeepCoding_ModInfo_Values.md 'KeepCoding.ModInfo.Values') unwrapped with [UnwrapToString&lt;T&gt;(T, bool, string)](KeepCoding_Helper_UnwrapToString_T_(T_bool_string).md 'KeepCoding.Helper.UnwrapToString&lt;T&gt;(T, bool, string)').
+[Values](KeepCoding_ModInfo_Values.md 'KeepCoding.ModInfo.Values') unwrapped with [Stringify&lt;T&gt;(T)](KeepCoding_Helper_Stringify_T_(T).md 'KeepCoding.Helper.Stringify&lt;T&gt;(T)').

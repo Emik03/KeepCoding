@@ -322,7 +322,7 @@ namespace KeepCoding.Internal
         /// Joins <see cref="ToArray"/> to a string, with a space as a delimiter.
         /// </summary>
         /// <remarks>
-        /// Each element of <see cref="ToArray"/> is passed into <see cref="Helper.UnwrapToString{T}(T, bool, string)"/> to unpack iterators and allow each element to be seen. For more details about stringification, refer to <see cref="object.ToString"/>.
+        /// Each element of <see cref="ToArray"/> is passed into <see cref="Helper.Stringify{T}(T)"/> to unpack iterators and allow each element to be seen. For more details about stringification, refer to <see cref="object.ToString"/>.
         /// </remarks>
         /// <example>
         /// The following example illustrates how a tuple gets converted to a <see cref="string"/>.
@@ -343,9 +343,9 @@ namespace KeepCoding.Internal
         /// </code>
         /// </example>
         /// <seealso cref="ToArray"/>
-        /// <seealso cref="Helper.UnwrapToString{T}(T, bool, string)"/>
-        /// <returns><see cref="ToArray"/> from <see cref="Helper.UnwrapToString{T}(T, bool, string)"/>.</returns>
-        public override string ToString() => ToArray.UnwrapToString(false, " ");
+        /// <seealso cref="Helper.Stringify{T}(T)"/>
+        /// <returns><see cref="ToArray"/> from <see cref="Helper.Stringify{T}(T)"/>.</returns>
+        public override string ToString() => this.Stringify();
 
         /// <summary>
         /// Gets the <see cref="IEnumerator"/> of <see cref="ToArray"/>.
@@ -385,6 +385,6 @@ namespace KeepCoding.Internal
 
         private IndexOutOfRangeException IndexOutOfRange(in int i) => new IndexOutOfRangeException($"The index {i} was out of range from the tuple of length {ToArray.Length}.");
 
-        private static UnrecognizedTypeException UnrecognizedType<T>(in T received, in Type expected, in int index) => new UnrecognizedTypeException($"The {(index + 1).ToOrdinal()} element in the tuple cannot be assigned because the value {received.UnwrapToString()} is type {received.GetType().Name} which doesn't match the expected type {expected.Name}.");
+        private static UnrecognizedTypeException UnrecognizedType<T>(in T received, in Type expected, in int index) => new UnrecognizedTypeException($"The {(index + 1).ToOrdinal()} element in the tuple cannot be assigned because the value {received.Stringify()} is type {received.GetType().Name} which doesn't match the expected type {expected.Name}.");
     }
 }

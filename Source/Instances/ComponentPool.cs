@@ -200,7 +200,7 @@ namespace KeepCoding
         /// </summary>
         /// <returns>The list of mod types with a count at the end.</returns>
         public override string ToString() => SpecialComponentType == None
-                ? $"[{ComponentTypes.Select(c => c.ToString()).Concat(ModTypes.Where(s => !s.IsNullOrEmpty())).UnwrapToString()}] Count: {Count}"
+                ? $"[{ComponentTypes.Select(c => c.ToString()).Concat(ModTypes.Where(s => !s.IsNullOrEmpty())).Stringify()}] Count: {Count}"
                 : $"[{SpecialComponentType}] Count: {Count}";
     }
 }

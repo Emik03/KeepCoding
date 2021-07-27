@@ -106,8 +106,8 @@ namespace KeepCoding
         /// <summary>
         /// Converts the object to a string.
         /// </summary>
-        /// <returns><see cref="Modules"/> unwrapped with <see cref="Helper.UnwrapToString{T}(T, bool, string)"/>.</returns>
-        public override string ToString() => Modules.UnwrapToString();
+        /// <returns><see cref="Modules"/> unwrapped with <see cref="Helper.Stringify{T}(T)"/>.</returns>
+        public override string ToString() => Modules.Stringify();
 
         /// <summary>
         /// Deserializes a ColorblindMode.json file.

@@ -76,7 +76,7 @@ namespace KeepCoding
             string indent = new string(Repeat(' ', indentation * depth).ToArray());
 
             Log($"{indent}{obj.name}");
-            LogWarning($"{indent}{obj.GetComponents<Component>().UnwrapToString()}");
+            LogWarning($"{indent}{obj.GetComponents<Component>().Stringify()}");
 
             foreach (Transform child in obj.transform)
                 PrintHierarchy(child.gameObject, (ushort)(depth + 1), indentation);

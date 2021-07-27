@@ -79,8 +79,8 @@ namespace KeepCoding
         /// <summary>
         /// Converts the object to a string.
         /// </summary>
-        /// <returns><see cref="Values"/> unwrapped with <see cref="Helper.UnwrapToString{T}(T, bool, string)"/>.</returns>
-        public override string ToString() => Values.UnwrapToString();
+        /// <returns><see cref="Values"/> unwrapped with <see cref="Helper.Stringify{T}(T)"/>.</returns>
+        public override string ToString() => Values.Stringify();
 
         /// <summary>
         /// Deserializes a modInfo.json file.

@@ -136,7 +136,7 @@ namespace KeepCoding.Internal
 
             _values = split.Item2
                 .ToArray()
-                .ConvertAll(o => o.UnwrapToString());
+                .ConvertAll(o => o.Stringify());
 
             if (_current.SequenceEqual(objects))
                 return;

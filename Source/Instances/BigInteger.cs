@@ -768,7 +768,7 @@ namespace KeepCoding
             if (obj is BigInteger big)
                 return big._value.ToArray();
 
-            IEnumerable<string> values = obj.Unwrap().Select(o => o.ToString());
+            IEnumerable<string> values = obj.Combine().Select(o => o.ToString());
 
             if (values.Count() == 1)
                 values = values.First().Select(c => c.ToString());
@@ -782,7 +782,7 @@ namespace KeepCoding
             }
             catch (InvalidCastException e)
             {
-                throw new ConstructorArgumentException($"Cannot create a big integer because the argument \"{obj.UnwrapToString()}\" supplied with the constructor is bad: {e.Message}");
+                throw new ConstructorArgumentException($"Cannot create a big integer because the argument \"{obj.Combine()}\" supplied with the constructor is bad: {e.Message}");
             }
         }
 

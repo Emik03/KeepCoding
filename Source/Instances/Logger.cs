@@ -72,7 +72,7 @@ namespace KeepCoding
         /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
         public void Dump<T>(T obj, bool getVariables = false)
         {
-            string Format<TValue>(in string name, ref int index, in TValue value) => VariableTemplate.Form(index++, name, typeof(TValue).ToString() ?? Null, value.UnwrapToString(getVariables));
+            static string Format<TValue>(in string name, ref int index, in TValue value) => VariableTemplate.Form(index++, name, typeof(TValue).ToString() ?? Null, value.Stringify());
 
             int index = 0;
             var values = new List<string>();
@@ -88,7 +88,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
         /// <param name="logs">All of the variables to throughly log.</param>
-        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => Log(Join("", logs.Select((l, n) => VariableTemplate.Form(n, l.NameOf(), l.Compile()()?.GetType().ToString() ?? Null, l.Compile()().UnwrapToString())).ToArray()), LogType.Warning);
+        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => Log(Join("", logs.Select((l, n) => VariableTemplate.Form(n, l.NameOf(), l.Compile()()?.GetType().ToString() ?? Null, l.Compile()().Stringify())).ToArray()), LogType.Warning);
 
         /// <summary>
         /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
@@ -102,7 +102,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="message">The message to log.</param>
         /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
-        public void Log<T>(T message, LogType logType = LogType.Log) => logType.Method()(_format.Form($"{Name}{(_showId ? $" #{Id}" : "")}", message.UnwrapToString()));
+        public void Log<T>(T message, LogType logType = LogType.Log) => logType.Method()(_format.Form($"{Name}{(_showId ? $" #{Id}" : "")}", message.Combine()));
 
         /// <summary>
         /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
@@ -110,7 +110,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="message">The message to log.</param>
         /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
-        public void Log<T>(T message, params object[] args) => Log(message.UnwrapToString().Form(args.ConvertAll(a => a.UnwrapToString())));
+        public void Log<T>(T message, params object[] args) => Log(message.Combine().Form(args.ConvertAll(a => a.Combine())));
 
         /// <summary>
         /// Logs multiple entries to the console.

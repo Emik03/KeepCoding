@@ -8,7 +8,7 @@ public static bool ImplementsMethod(this System.Type type, string method, System
 #### Parameters
 <a name='KeepCoding_Helper_ImplementsMethod(System_Type_string_System_Reflection_BindingFlags)_type'></a>
 `type` [System.Type](https://docs.microsoft.com/en-us/dotnet/api/System.Type 'System.Type')  
-The type to check.
+The type to check all [System.Reflection.MethodInfo](https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.MethodInfo 'System.Reflection.MethodInfo')s.
   
 <a name='KeepCoding_Helper_ImplementsMethod(System_Type_string_System_Reflection_BindingFlags)_method'></a>
 `method` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
@@ -20,4 +20,4 @@ The [System.Reflection.BindingFlags](https://docs.microsoft.com/en-us/dotnet/api
   
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
-[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool') if T has [method](KeepCoding_Helper_ImplementsMethod(System_Type_string_System_Reflection_BindingFlags).md#KeepCoding_Helper_ImplementsMethod(System_Type_string_System_Reflection_BindingFlags)_method 'KeepCoding.Helper.ImplementsMethod(System.Type, string, System.Reflection.BindingFlags).method').
+[true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool') if [type](KeepCoding_Helper_ImplementsMethod(System_Type_string_System_Reflection_BindingFlags).md#KeepCoding_Helper_ImplementsMethod(System_Type_string_System_Reflection_BindingFlags)_type 'KeepCoding.Helper.ImplementsMethod(System.Type, string, System.Reflection.BindingFlags).type') has [method](KeepCoding_Helper_ImplementsMethod(System_Type_string_System_Reflection_BindingFlags).md#KeepCoding_Helper_ImplementsMethod(System_Type_string_System_Reflection_BindingFlags)_method 'KeepCoding.Helper.ImplementsMethod(System.Type, string, System.Reflection.BindingFlags).method').

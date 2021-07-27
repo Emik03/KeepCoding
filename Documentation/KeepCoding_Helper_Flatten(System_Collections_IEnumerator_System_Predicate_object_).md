@@ -12,7 +12,7 @@ The [System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api
   
 <a name='KeepCoding_Helper_Flatten(System_Collections_IEnumerator_System_Predicate_object_)_unwrap'></a>
 `unwrap` [System.Predicate&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Predicate-1 'System.Predicate`1')[System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Predicate-1 'System.Predicate`1')  
-Determines if it should call [Unwrap&lt;T&gt;(T, bool)](KeepCoding_Helper_Unwrap_T_(T_bool).md 'KeepCoding.Helper.Unwrap&lt;T&gt;(T, bool)') for the item.
+Determines if it should call [Stringify&lt;T&gt;(T)](KeepCoding_Helper_Stringify_T_(T).md 'KeepCoding.Helper.Stringify&lt;T&gt;(T)') for the item.
   
 #### Returns
 [System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerator 'System.Collections.IEnumerator')  
