@@ -71,6 +71,7 @@ namespace KeepCoding
         /// <summary>
         /// Determines whether colorblind mode for the module is on.
         /// </summary>
+        [JsonIgnore]
         public bool IsModuleEnabled { get; set; }
 
         /// <summary>
