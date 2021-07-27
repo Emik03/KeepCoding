@@ -172,7 +172,7 @@ namespace KeepCoding.Internal
 
         private static NullableObject GetField(in Type type, in string name, in object instance)
         {
-            FieldInfo field = type?.GetField(name);
+            FieldInfo field = type?.GetField(name, Flags);
 
             return field is null ? null
                 : new NullableObject(field.IsStatic ? field.GetValue(null)
@@ -181,7 +181,7 @@ namespace KeepCoding.Internal
 
         private static NullableObject GetProperty(in Type type, in string name, in object instance)
         {
-            PropertyInfo property = type?.GetProperty(name);
+            PropertyInfo property = type?.GetProperty(name, Flags);
 
             return property is null ? null
                 : new NullableObject(property.GetAccessors(false).Any(x => x.IsStatic) ? property.GetValue(null, null)
