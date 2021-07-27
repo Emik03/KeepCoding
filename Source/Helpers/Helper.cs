@@ -546,8 +546,8 @@ namespace KeepCoding
             float f => f.ToString(InvariantCulture),
             double d => d.ToString(InvariantCulture),
             decimal de => de.ToString(InvariantCulture),
-            TupleBase tuple => $"({Stringify(tuple.ToArray)})",
-            IDictionary dictionary => $"{{ {Stringify(AsEnumerable(dictionary.GetEnumerator()).Cast<object>().Select(o => $"{Stringify(((DictionaryEntry)o).Key)}: {Stringify(((DictionaryEntry)o).Value)}"))} }}",
+            TupleBase tuple => $"({Combine(tuple.ToArray.ConvertAll(o => Stringify(o)))})",
+            IDictionary dictionary => $"{{ {Combine(AsEnumerable(dictionary.GetEnumerator()).Cast<object>().Select(o => $"{Stringify(((DictionaryEntry)o).Key)}: {Stringify(((DictionaryEntry)o).Value)}"))} }}",
             IEnumerable enumerable => $"[{Join(", ", enumerable.Cast<object>().Select(Stringify).ToArray())}]",
             IEnumerator enumerator => Stringify(AsEnumerable(enumerator)),
             _ => source.ToString()
