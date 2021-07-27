@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -41,11 +42,11 @@ namespace KeepCoding
         /// <exception cref="MissingMethodException"></exception>
         public bool IsColorblind
         {
-            get => IsColorblindSupported ? _colorblind.IsModuleEnabled : throw new MissingMethodException($"Colorblind is not implemented for this module! You need to override {nameof(OnColorblindChanged)} if you want to implement colorblind support!");
-            set
-            {
-                if (_colorblind.IsModuleEnabled != value)
-                    OnColorblindChanged(_colorblind.IsModuleEnabled = value);
+            get => IsColorblindSupported ? Colorblind.IsModuleEnabled : throw new MissingMethodException($"Colorblind is not implemented for this module! You need to override {nameof(OnColorblindChanged)} if you want to implement colorblind support!");
+set
+{
+                if (Colorblind.IsModuleEnabled != value)
+                    OnColorblindChanged(Colorblind.IsModuleEnabled = value);
             }
         }
 
@@ -99,6 +100,11 @@ namespace KeepCoding
         public string Version => IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(GetType()).Version;
 
         /// <summary>
+        /// Contains colorblind information.
+        /// </summary>
+        public ColorblindInfo Colorblind;
+
+        /// <summary>
         /// Gets the Twitch Plays <see cref="Component"/> attached to this <see cref="GameObject"/>.
         /// </summary>
         /// <remarks>
@@ -118,14 +124,14 @@ namespace KeepCoding
         public ModuleContainer Module { get; private set; }
 
         /// <summary>
-        /// Contains an instance for every <see cref="Sound"/> played by this module using <see cref="PlaySound(Transform, bool, Sound[])"/> or any of its overloads.
-        /// </summary>
-        public Sound[] Sounds { get; private set; } = new Sound[0];
-
-        /// <summary>
         /// Contains every modded module in <see cref="Bomb"/>, separated by type.
         /// </summary>
         public ModuleContainer[] Modules { get; private set; }
+
+        /// <summary>
+        /// Contains an instance for every <see cref="Sound"/> played by this module using <see cref="PlaySound(Transform, bool, Sound[])"/> or any of its overloads.
+        /// </summary>
+        public Sound[] Sounds { get; private set; } = new Sound[0];
 
         internal bool IsColorblindSupported => GetType().ImplementsMethod(nameof(OnColorblindChanged), DeclaredOnly | Instance | Public);
 
@@ -140,8 +146,6 @@ namespace KeepCoding
         private static Dictionary<string, Dictionary<string, object>[]> s_database;
 
         private Action _activate;
-
-        private ColorblindInfo _colorblind;
 
         private Logger _logger;
 
@@ -421,10 +425,10 @@ namespace KeepCoding
             {
                 IsActive = true;
                 OnActivate();
-            }); 
+            });
 
             if (IsColorblindSupported)
-                _colorblind = new ColorblindInfo(Module.Id);
+                Colorblind = new ColorblindInfo(Module.Id);
 
             logMessageReceived += OnException;
 
