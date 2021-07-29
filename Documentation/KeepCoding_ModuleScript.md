@@ -12,6 +12,10 @@ Inheritance [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/
 
 Implements [IDump](KeepCoding_IDump.md 'KeepCoding.IDump'), [ILog](KeepCoding_ILog.md 'KeepCoding.ILog')  
 
+| Fields | |
+| :--- | :--- |
+| [Colorblind](KeepCoding_ModuleScript_Colorblind.md 'KeepCoding.ModuleScript.Colorblind') | Contains colorblind information.<br/> |
+
 | Properties | |
 | :--- | :--- |
 | [Bomb](KeepCoding_ModuleScript_Bomb.md 'KeepCoding.ModuleScript.Bomb') | The bomb that this module is in.<br/> |

@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[PathManager](KeepCoding_PathManager.md 'KeepCoding.PathManager')
 ## PathManager.LoadLibrary&lt;T&gt;(T, string) Method
-Loads a library by searching for the bundle. Do not run this on the Editor.  
+Loads a library by searching for the bundle.  
 ```csharp
 public static void LoadLibrary<T>(T _, string libraryFileName);
 ```

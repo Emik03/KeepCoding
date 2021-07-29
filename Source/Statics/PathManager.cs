@@ -219,7 +219,7 @@ namespace KeepCoding
         public static string GetPath<T>(T _ = default) => GetPath(FileFormat(NameOfAssembly<T>(), FileExtensionWindows));
 
         /// <summary>
-        /// Loads a library by searching for the bundle. Do not run this on the Editor.
+        /// Loads a library by searching for the bundle.
         /// </summary>
         /// <remarks>
         /// If the library has already been loaded, then this method will prematurely halt.
@@ -249,7 +249,7 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// Loads a library by searching for the bundle. Do not run this on the Editor.
+        /// Loads a library by searching for the bundle.
         /// </summary>
         /// <remarks>
         /// If the library has already been loaded, then this method will prematurely halt.
@@ -262,7 +262,7 @@ namespace KeepCoding
         public static void LoadLibrary(Type type, string libraryFileName) => LoadLibrary(NameOfAssembly(type), libraryFileName);
 
         /// <summary>
-        /// Loads a library by searching for the bundle. Do not run this on the Editor.
+        /// Loads a library by searching for the bundle.
         /// </summary>
         /// <remarks>
         /// If the library has already been loaded, then this method will prematurely halt.
