@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -24,7 +23,7 @@ namespace KeepCoding
     /// <summary>
     /// Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes.
     /// </summary>
-    public abstract partial class ModuleScript : CacheableBehaviour, IDump, ILog
+    public abstract class ModuleScript : CacheableBehaviour, IDump, ILog
     {
         /// <summary>
         /// Determines whether the module has been struck. <see cref="TPScript{TModule}.OnInteractSequence(KMSelectable[], float, int[])"/> will set this to <see langword="false"/> when a command is interrupted.
@@ -43,8 +42,8 @@ namespace KeepCoding
         public bool IsColorblind
         {
             get => IsColorblindSupported ? Colorblind.IsModuleEnabled : throw new MissingMethodException($"Colorblind is not implemented for this module! You need to override {nameof(OnColorblindChanged)} if you want to implement colorblind support!");
-set
-{
+            set
+            {
                 if (Colorblind.IsModuleEnabled != value)
                     OnColorblindChanged(Colorblind.IsModuleEnabled = value);
             }
