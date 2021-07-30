@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using static KeepCoding.Logger;
 using static System.Linq.Enumerable;
 using static System.Reflection.BindingFlags;
 using static System.String;
+using static KeepCoding.Logger;
 using static UnityEngine.Application;
 using Object = UnityEngine.Object;
 

@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using static KeepCoding.Helper;
 using static System.Linq.Enumerable;
+using static KeepCoding.Helper;
 
 namespace KeepCoding
 {

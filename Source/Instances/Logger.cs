@@ -5,8 +5,8 @@ using System.Linq.Expressions;
 using System.Reflection;
 using KeepCoding.Internal;
 using UnityEngine;
-using static KeepCoding.Helper;
 using static System.String;
+using static KeepCoding.Helper;
 
 namespace KeepCoding
 {

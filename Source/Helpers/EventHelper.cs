@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
+using static System.Linq.Enumerable;
 using static KMAudio;
 using static KMGameInfo;
-using static System.Linq.Enumerable;
 using Object = UnityEngine.Object;
 
 namespace KeepCoding
