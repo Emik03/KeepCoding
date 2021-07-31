@@ -949,17 +949,17 @@ namespace KeepCoding
         public static T NullCheck<T>(this T item, string message = "While asserting for null, the variable ended up null.") => item is null ? throw GetNullException(item)(message) : item;
 
         /// <summary>
-        /// Invokes a method of <typeparamref name="TInput"/> to <typeparamref name="TOutput"/> and then returns the argument provided.
+        /// Invokes a method of <typeparamref name="T"/> to <typeparamref name="TResult"/> and then returns the argument provided.
         /// </summary>
         /// <remarks>
         /// This can be used to intercept current variables or calculations by for example, printing the value as it is being passed as an argument.
         /// </remarks>
-        /// <typeparam name="TInput">The type of <paramref name="item"/>.</typeparam>
-        /// <typeparam name="TOutput">The type to return.</typeparam>
+        /// <typeparam name="T">The type of <paramref name="item"/>.</typeparam>
+        /// <typeparam name="TResult">The type to return.</typeparam>
         /// <param name="item">The item to use as reference and modify.</param>
         /// <param name="func">The function to apply <paramref name="item"/> to.</param>
         /// <returns>The item <paramref name="item"/> after <paramref name="func"/>.</returns>
-        public static TOutput Apply<TInput, TOutput>(this TInput item, Func<TInput, TOutput> func) => func(item);
+        public static TResult Apply<T, TResult>(this T item, Func<T, TResult> func) => func(item);
 
         /// <summary>
         /// Appends the element provided to the array.
@@ -1008,16 +1008,48 @@ namespace KeepCoding
         public static T[] Prepend<T>(this T[] array, T item) => (T[])array.Resize(array.Length + 1).Copy(0, array, 1, array.Length).Set(item, 0);
 
         /// <summary>
-        /// Invokes a method of <typeparamref name="TInput"/> to <typeparamref name="TOutput"/> and then returns the argument provided.
+        /// Invokes a method of <typeparamref name="T"/> to <typeparamref name="TResult"/> and then returns the argument provided.
         /// </summary>
         /// <remarks>
         /// This can be used to intercept current variables or calculations by for example, printing the value as it is being passed as an argument.
         /// </remarks>
-        /// <typeparam name="TInput">The type of <paramref name="items"/>.</typeparam>
-        /// <typeparam name="TOutput">The type to return.</typeparam>
+        /// <typeparam name="T">The type of <paramref name="items"/>.</typeparam>
+        /// <typeparam name="TResult">The type to return.</typeparam>
         /// <param name="items">The item to use as reference and modify.</param>
         /// <param name="func">The function to apply <paramref name="items"/> to.</param>
         /// <returns>The item <paramref name="items"/> after <paramref name="func"/>.</returns>
-        public static TOutput[] Apply<TInput, TOutput>(this TInput[] items, Func<TInput, int, TOutput> func) => items.Select((i, n) => func(i, n)).ToArray();
+        public static TResult[] Apply<T, TResult>(this T[] items, Func<T, int, TResult> func) => items.Select((i, n) => func(i, n)).ToArray();
+
+        /// <summary>
+        /// Produces a sequence of tuples with elements from the two specified sequences.
+        /// </summary>
+        /// <typeparam name="T1">The type of the elements of the first input sequence.</typeparam>
+        /// <typeparam name="T2">The type of the elements of the second input sequence.</typeparam>
+        /// <param name="first">The first sequence to merge.</param>
+        /// <param name="second">The second sequence to merge.</param>
+        /// <returns>A sequence of tuples with elements taken from the first and second sequences, in that order.</returns>
+        public static IEnumerable<Tuple<T1, T2>> Zip<T1, T2>(this IEnumerable<T1> first, IEnumerable<T2> second) => Zip(first, second, (a, b) => a.ToTuple(b));
+
+        /// <summary>
+        /// Applies a specified function to the corresponding elements of two sequences, producing a sequence of the results.
+        /// </summary>
+        /// <typeparam name="T1">The type of the elements of the first input sequence.</typeparam>
+        /// <typeparam name="T2">The type of the elements of the second input sequence.</typeparam>
+        /// <typeparam name="TResult">The type of the elements of the result sequence.</typeparam>
+        /// <param name="first">The first sequence to merge.</param>
+        /// <param name="second">The second sequence to merge.</param>
+        /// <param name="selector">A function that specifies how to merge the elements from the two sequences.</param>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <returns>An <see cref="IEnumerable{T}"/> that contains merged elements of two input sequences.</returns>
+        public static IEnumerable<TResult> Zip<T1, T2, TResult>(this IEnumerable<T1> first, IEnumerable<T2> second, Func<T1, T2, TResult> selector)
+        {
+            selector.NullCheck("The selector cannot be null!");
+
+            IEnumerator<T1> e1 = first.GetEnumerator();
+            IEnumerator<T2> e2 = second.GetEnumerator();
+
+            while (e1.MoveNext() & e2.MoveNext())
+                yield return selector(e1.Current, e2.Current);
+        }
     }
 }
