@@ -1043,6 +1043,8 @@ namespace KeepCoding
         /// <returns>An <see cref="IEnumerable{T}"/> that contains merged elements of two input sequences.</returns>
         public static IEnumerable<TResult> Zip<T1, T2, TResult>(this IEnumerable<T1> first, IEnumerable<T2> second, Func<T1, T2, TResult> selector)
         {
+            first.NullCheck("The first enumerator cannot be null!");
+            second.NullCheck("The second enumerator cannot be null!");
             selector.NullCheck("The selector cannot be null!");
 
             IEnumerator<T1> e1 = first.GetEnumerator();
