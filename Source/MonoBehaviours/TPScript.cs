@@ -325,7 +325,7 @@ namespace KeepCoding
         /// <returns>A sequence of button presses for Twitch Plays to process.</returns>
         protected IEnumerator OnInteractSequence(KMSelectable[] selectables, float wait, params int[] indices)
         {
-            selectables.NullOrEmptyCheck("The KMSelectable array is null or empty.");
+            selectables.NullOrEmptyCheck($"The {nameof(KMSelectable)} array is null or empty.");
 
             Module.HasStruck = false;
 
@@ -337,19 +337,21 @@ namespace KeepCoding
 
             Module.HasStruck = false;
         }
-
+        
         /// <summary>
         /// This method gets grabbed by Twitch Plays. It grabs <see cref="Process(string)"/> and flattens it using <see cref="Helper.Flatten(IEnumerator, Predicate{object})"/>.
         /// </summary>
         /// <param name="command">The command of the user.</param>
         /// <returns>A list of instructions for Twitch Plays.</returns>
-        protected IEnumerator ProcessTwitchCommand(string command) => Module.IsColorblindSupported && command.ToLowerInvariant().Trim() == "colorblind" ? ToggleColorblind() : Process(command).Flatten(o => !(o is KMSelectable[]));
+        protected IEnumerator ProcessTwitchCommand(string command) => Module.IsColorblindSupported && command.ToLowerInvariant().Trim() == "colorblind" ? ToggleColorblind() : Process(command).Flatten(IsExcludedType);
 
         /// <summary>
         /// This method gets grabbed by Twitch Plays. It grabs <see cref="ForceSolve()"/> and flattens it using <see cref="Helper.Flatten(IEnumerator, Predicate{object})"/>.
         /// </summary>
         /// <returns>A list of instructions for Twitch Plays.</returns>
-        protected IEnumerator TwitchHandleForcedSolve() => ForceSolve().Flatten(o => !(o is KMSelectable[]));
+        protected IEnumerator TwitchHandleForcedSolve() => ForceSolve().Flatten(IsExcludedType);
+
+        private static bool IsExcludedType<T>(T item) => item is string || item is KMSelectable[];
 
         private static string Combine(in string main, params object[] toAppend) => main + toAppend.ConvertAll(o => $" {o}");
 
