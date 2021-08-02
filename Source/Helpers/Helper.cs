@@ -405,7 +405,7 @@ namespace KeepCoding
         {
             string s => s,
             IEnumerable enumerable => Join(delimiter, enumerable.Cast<object>().Select(o => Combine(o, delimiter)).ToArray()),
-            IEnumerator enumerator => Stringify(AsEnumerable(enumerator)),
+            IEnumerator enumerator => Combine(AsEnumerable(enumerator)),
             _ => source.ToString()
         };
 
