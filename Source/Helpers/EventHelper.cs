@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using KeepCoding.Internal;
 using UnityEngine;
 using static System.Linq.Enumerable;
 using static KMAudio;
@@ -103,9 +104,29 @@ namespace KeepCoding
             return needyModule;
         }
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+        /// <summary>
+        /// Assigns events specified into <paramref name="selectable"/>. Reassigning them will replace their values.
+        /// </summary>
+        /// <remarks>
+        /// An event that is null will be skipped. This extension method simplifies all of the KMFramework events into Actions.
+        /// </remarks>
+        /// <exception cref="UnassignedReferenceException"></exception>
+        /// <param name="selectable">The KMSelectable array to add events to.</param>
+        /// <param name="overrideReturn">True will make it act as a module/submodule, and false as a button. Null (default) will set it to true or false based on <see cref="Helper.IsParent(KMSelectable)"/>. Note that in VR, <see cref="KMSelectable.OnHighlight"/> and <see cref="KMSelectable.OnHighlightEnded"/> are skipped out on.</param>
+        /// <param name="onCancel">Called when player backs out of this selectable. Return true will make it act as a module/submodule, and false as a button.</param>
+        /// <param name="onDefocus">Called when a different selectable becomes the focus, or the module has been backed out of.</param>
+        /// <param name="onDeselect">Called when the selectable stops being the current selectable.</param>
+        /// <param name="onFocus">Called when a module is focused, this is when it is interacted with from the bomb face level and its children can be selected.</param>
+        /// <param name="onHighlight">Called when the highlight is turned on.</param>
+        /// <param name="onHighlightEnded">Called when the highlight is turned off.</param>
+        /// <param name="onInteract">Called when player interacts with the selctable. Return true will make it act as a module/submodule, and false as a button.</param>
+        /// <param name="onInteractEnded">Called when a player interacting with the selectable releases the mouse or controller button.</param>
+        /// <param name="onInteractionPunch">Called when the interaction punch method is called.</param>
+        /// <param name="onLeft">Called when the left controller stick is pulled while selected.</param>
+        /// <param name="onRight">Called when the right controller stick is pulled while selected.</param>
+        /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
+        /// <param name="onUpdateChildren">Called when the selectable updates its children.</param>
         public static KMSelectable Assign(this KMSelectable selectable, bool? overrideReturn = null, Action onCancel = null, Action onDefocus = null, Action onDeselect = null, Action onFocus = null, Action onHighlight = null, Action onHighlightEnded = null, Action onInteract = null, Action onInteractEnded = null, Action<float> onInteractionPunch = null, Action onLeft = null, Action onRight = null, Action onSelect = null, Action<KMSelectable> onUpdateChildren = null)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             AssertDefault(selectable);
 
@@ -128,9 +149,31 @@ namespace KeepCoding
             return selectable;
         }
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+        /// <summary>
+        /// Assigns events specified into <paramref name="selectable"/>. Reassigning them will replace their values. The number passed into each method represents the index that came from the array.
+        /// </summary>
+        /// <remarks>
+        /// An event that is null will be skipped. This extension method simplifies all of the KMFramework events into Actions.
+        /// </remarks>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="UnassignedReferenceException"></exception>
+        /// <param name="selectable">The <see cref="KMSelectable"/> array to add events to.</param>
+        /// <param name="overrideReturn">True will make it act as a module/submodule, and false as a button. Null (default) will set it to true or false based on <see cref="Helper.IsParent(KMSelectable)"/>. Note that in VR, <see cref="KMSelectable.OnHighlight"/> and <see cref="KMSelectable.OnHighlightEnded"/> are skipped out on.</param>
+        /// <param name="onCancel">Called when player backs out of this selectable.</param>
+        /// <param name="onDefocus">Called when a different selectable becomes the focus, or the module has been backed out of.</param>
+        /// <param name="onDeselect">Called when the selectable stops being the current selectable.</param>
+        /// <param name="onFocus">Called when a module is focused, this is when it is interacted with from the bomb face level and its children can be selected.</param>
+        /// <param name="onHighlight">Called when the highlight is turned on.</param>
+        /// <param name="onHighlightEnded">Called when the highlight is turned off.</param>
+        /// <param name="onInteract">Called when player interacts with the selctable.</param>
+        /// <param name="onInteractEnded">Called when a player interacting with the selectable releases the mouse or controller button.</param>
+        /// <param name="onInteractionPunch">Called when the interaction punch method is called.</param>
+        /// <param name="onLeft">Called when the left controller stick is pulled while selected.</param>
+        /// <param name="onRight">Called when the right controller stick is pulled while selected.</param>
+        /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
+        /// <param name="onUpdateChildren">Called when the selectable updates its children.</param>
         public static KMSelectable[] Assign(this KMSelectable[] selectable, bool? overrideReturn = null, Action<int> onCancel = null, Action<int> onDefocus = null, Action<int> onDeselect = null, Action<int> onFocus = null, Action<int> onHighlight = null, Action<int> onHighlightEnded = null, Action<int> onInteract = null, Action<int> onInteractEnded = null, Action<int, float> onInteractionPunch = null, Action<int> onLeft = null, Action<int> onRight = null, Action<int> onSelect = null, Action<int, KMSelectable> onUpdateChildren = null) =>
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
             selectable.NullOrEmptyCheck("The array is not populated. Please check your public fields in Unity.").ToArray().Call((s, i) => s.Assign(
                 overrideReturn,
                 ToAction(onCancel, i),
@@ -147,9 +190,31 @@ namespace KeepCoding
                 ToAction(onSelect, i),
                 ToAction(onUpdateChildren, i)));
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+        /// <summary>
+        /// Assigns events specified into <paramref name="selectable"/>. Reassigning them will replace their values. The number passed into each method represents the index that came from the array.
+        /// </summary>
+        /// <remarks>
+        /// An event that is null will be skipped. This extension method simplifies all of the KMFramework events into Actions.
+        /// </remarks>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="UnassignedReferenceException"></exception>
+        /// <param name="selectable">The <see cref="KMSelectable"/> array to add events to.</param>
+        /// <param name="overrideReturn">True will make it act as a module/submodule, and false as a button. Null (default) will set it to true or false based on <see cref="Helper.IsParent(KMSelectable)"/>. Note that in VR, <see cref="KMSelectable.OnHighlight"/> and <see cref="KMSelectable.OnHighlightEnded"/> are skipped out on.</param>
+        /// <param name="onCancel">Called when player backs out of this selectable.</param>
+        /// <param name="onDefocus">Called when a different selectable becomes the focus, or the module has been backed out of.</param>
+        /// <param name="onDeselect">Called when the selectable stops being the current selectable.</param>
+        /// <param name="onFocus">Called when a module is focused, this is when it is interacted with from the bomb face level and its children can be selected.</param>
+        /// <param name="onHighlight">Called when the highlight is turned on.</param>
+        /// <param name="onHighlightEnded">Called when the highlight is turned off.</param>
+        /// <param name="onInteract">Called when player interacts with the selctable.</param>
+        /// <param name="onInteractEnded">Called when a player interacting with the selectable releases the mouse or controller button.</param>
+        /// <param name="onInteractionPunch">Called when the interaction punch method is called.</param>
+        /// <param name="onLeft">Called when the left controller stick is pulled while selected.</param>
+        /// <param name="onRight">Called when the right controller stick is pulled while selected.</param>
+        /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
+        /// <param name="onUpdateChildren">Called when the selectable updates its children.</param>
         public static KMSelectable[] Assign(this KMSelectable[] selectable, bool? overrideReturn = null, Action<KMSelectable> onCancel = null, Action<KMSelectable> onDefocus = null, Action<KMSelectable> onDeselect = null, Action<KMSelectable> onFocus = null, Action<KMSelectable> onHighlight = null, Action<KMSelectable> onHighlightEnded = null, Action<KMSelectable> onInteract = null, Action<KMSelectable> onInteractEnded = null, Action<KMSelectable, float> onInteractionPunch = null, Action<KMSelectable> onLeft = null, Action<KMSelectable> onRight = null, Action<KMSelectable> onSelect = null, Action<KMSelectable, KMSelectable> onUpdateChildren = null) =>
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
             selectable.NullOrEmptyCheck("The array is not populated. Please check your public fields in Unity.").ToArray().ForEach(s => s.Assign(
                 overrideReturn,
                 ToAction(onCancel, s),

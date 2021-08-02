@@ -7,13 +7,19 @@ using static KeepCoding.ComponentPool.SpecialComponentTypeEnum;
 namespace KeepCoding
 {
     /// <summary>
-    /// A ComponentPool is a collection of Module Types. The generator will pick Count times from this list and instantiate a component of the chosen type.
+    /// A ComponentPool is a collection of Module Types. The generator will pick <see cref="Count"/> times from this list and instantiate a component of the chosen type.
     /// </summary>
     public sealed class ComponentPool
     {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+        /// <summary>
+        /// Creates a pool of selectable modules.
+        /// </summary>
+        /// <param name="count">The amount of times this pool should be used.</param>
+        /// <param name="allowedSources">Determines the source of the modules.</param>
+        /// <param name="specialComponentType">Determines more random-based module picking.</param>
+        /// <param name="modTypes">The different modded modules to pick from.</param>
+        /// <param name="componentTypes">The different vanilla modules to pick from.</param>
         public ComponentPool(int count, ComponentSource allowedSources, SpecialComponentTypeEnum specialComponentType, List<string> modTypes, List<ComponentTypeEnum> componentTypes)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             Count = count;
             AllowedSources = allowedSources;
