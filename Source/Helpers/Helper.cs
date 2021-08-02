@@ -782,21 +782,22 @@ namespace KeepCoding
         /// Flattens an <see cref="IEnumerator"/> such that nested <see cref="IEnumerator"/> calls get replaced with the output of those calls.
         /// </summary>
         /// <param name="source">The <see cref="IEnumerator"/> to flatten.</param>
-        /// <param name="unwrap">Determines if it should call <see cref="Stringify{T}(T)"/> for the item.</param>
+        /// <param name="except">Determines if it should call <see cref="Flatten(IEnumerator, Predicate{object})"/> for the item.</param>
         /// <returns><paramref name="source"/> where <see langword="yield"/> <see langword="return"/> <see cref="IEnumerator"/>s gets replaced with the output of those calls.</returns>
-        public static IEnumerator Flatten(this IEnumerator source, Predicate<object> unwrap = null)
+        public static IEnumerator Flatten(this IEnumerator source, Predicate<object> except = null)
         {
             while (source.MoveNext())
             {
-                if (source.Current is IEnumerator enumerator)
+                if (!(except?.Invoke(source.Current) ?? false) && source.Current is IEnumerator enumerator)
                 {
-                    IEnumerator result = enumerator.Flatten(unwrap);
+                    IEnumerator result = enumerator.Flatten(except);
 
                     while (result.MoveNext())
                         yield return result.Current;
                 }
 
-                yield return (unwrap?.Invoke(source.Current) ?? false) && source.Current is IEnumerator e ? Flatten(e) : source.Current;
+                else
+                    yield return source.Current;
             }
         }
 
