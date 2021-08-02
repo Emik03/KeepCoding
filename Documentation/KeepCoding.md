@@ -3,56 +3,61 @@
 
 | Classes | |
 | :--- | :--- |
-| [ArrayHelper](KeepCoding_ArrayHelper.md 'KeepCoding.ArrayHelper') | Extension methods surrounding [System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array') static methods to make code a bit shorter.<br/> |
-| [BigInteger](KeepCoding_BigInteger.md 'KeepCoding.BigInteger') | Stores an arbitrarily large number.<br/> |
-| [CacheableBehaviour](KeepCoding_CacheableBehaviour.md 'KeepCoding.CacheableBehaviour') | A [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') with additional caching capabilities. <br/> |
-| [ColorblindInfo](KeepCoding_ColorblindInfo.md 'KeepCoding.ColorblindInfo') | Contains information about the colorblind mod's info, this class can be used to deserialize "ColorblindMode.json".<br/> |
-| [ComponentPool](KeepCoding_ComponentPool.md 'KeepCoding.ComponentPool') | A ComponentPool is a collection of Module Types. The generator will pick Count times from this list and instantiate a component of the chosen type.<br/> |
-| [EventHelper](KeepCoding_EventHelper.md 'KeepCoding.EventHelper') | KMFramework extension methods that makes it easier to assign multiple events to a variable in one statement.<br/> |
-| [Game](KeepCoding_Game.md 'KeepCoding.Game') | Allows access into the game's internal code. <br/> |
-| [Game.KTInputManager](KeepCoding_Game_KTInputManager.md 'KeepCoding.Game.KTInputManager') | Allows access relating to how the game is being interacted with.<br/> |
-| [Game.MasterAudio](KeepCoding_Game_MasterAudio.md 'KeepCoding.Game.MasterAudio') | Allows access relating to the game's main master channel for audio.<br/> |
-| [Game.Mission](KeepCoding_Game_Mission.md 'KeepCoding.Game.Mission') | Allows access relating to the current mission.<br/> |
-| [Game.ModManager](KeepCoding_Game_ModManager.md 'KeepCoding.Game.ModManager') | Allows access to methods relating mod paths.<br/> |
-| [Game.PlayerSettings](KeepCoding_Game_PlayerSettings.md 'KeepCoding.Game.PlayerSettings') | Allows access into the player settings from the game. Do not use this class in the unity editor. <br/> |
-| [GeneratorSetting](KeepCoding_GeneratorSetting.md 'KeepCoding.GeneratorSetting') | Everything needed to generate a single bomb.<br/> |
-| [Helper](KeepCoding_Helper.md 'KeepCoding.Helper') | General extension class covering both KMFramework and native datatypes.<br/> |
-| [KeyHelper](KeepCoding_KeyHelper.md 'KeepCoding.KeyHelper') | Inline methods for when typically key words are used.<br/> |
-| [Logger](KeepCoding_Logger.md 'KeepCoding.Logger') | A class to allow logging with a specific format.<br/> |
-| [ModInfo](KeepCoding_ModInfo.md 'KeepCoding.ModInfo') | Contains information about the mod's info, this class can be used to deserialize every mod's "modInfo.json".<br/> |
-| [ModuleContainer](KeepCoding_ModuleContainer.md 'KeepCoding.ModuleContainer') | Container for both solvable and needy modules.<br/> |
-| [ModuleScript](KeepCoding_ModuleScript.md 'KeepCoding.ModuleScript') | Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes.<br/> |
-| [Number](KeepCoding_Number.md 'KeepCoding.Number') | Class meant to encapsulate a primitive numeric value.<br/> |
-| [PathManager](KeepCoding_PathManager.md 'KeepCoding.PathManager') | Allows loading external information stored on the module. <br/> |
-| [Routine](KeepCoding_Routine.md 'KeepCoding.Routine') | Advanced coroutine handler.<br/> |
-| [Routine&lt;T&gt;](KeepCoding_Routine_T_.md 'KeepCoding.Routine&lt;T&gt;') | Advanced coroutine handler. <br/> |
-| [Routine&lt;T1,T2&gt;](KeepCoding_Routine_T1_T2_.md 'KeepCoding.Routine&lt;T1,T2&gt;') | Advanced coroutine handler. <br/> |
-| [Routine&lt;T1,T2,T3&gt;](KeepCoding_Routine_T1_T2_T3_.md 'KeepCoding.Routine&lt;T1,T2,T3&gt;') | Advanced coroutine handler. <br/> |
-| [Routine&lt;T1,T2,T3,T4&gt;](KeepCoding_Routine_T1_T2_T3_T4_.md 'KeepCoding.Routine&lt;T1,T2,T3,T4&gt;') | Advanced coroutine handler. <br/> |
-| [Sound](KeepCoding_Sound.md 'KeepCoding.Sound') | Class meant to encapsulate all types of sound effects [KMAudio](https://docs.microsoft.com/en-us/dotnet/api/KMAudio 'KMAudio') uses. Currently used in [ModuleScript](KeepCoding_ModuleScript.md 'KeepCoding.ModuleScript').<br/> |
-| [TPScript&lt;TModule&gt;](KeepCoding_TPScript_TModule_.md 'KeepCoding.TPScript&lt;TModule&gt;') | Base class for TwitchPlays support for solvable and needy modded modules in Keep Talking and Nobody Explodes. <br/> |
-| [Tuple&lt;T&gt;](KeepCoding_Tuple_T_.md 'KeepCoding.Tuple&lt;T&gt;') | A basic tuple data type for C# 4.<br/> |
-| [Tuple&lt;T1,T2&gt;](KeepCoding_Tuple_T1_T2_.md 'KeepCoding.Tuple&lt;T1,T2&gt;') | A basic tuple data type for C# 4. <br/> |
-| [Tuple&lt;T1,T2,T3&gt;](KeepCoding_Tuple_T1_T2_T3_.md 'KeepCoding.Tuple&lt;T1,T2,T3&gt;') | A basic tuple data type for C# 4. <br/> |
-| [Tuple&lt;T1,T2,T3,T4&gt;](KeepCoding_Tuple_T1_T2_T3_T4_.md 'KeepCoding.Tuple&lt;T1,T2,T3,T4&gt;') | A basic tuple data type for C# 4. <br/> |
-| [TypeHelper](KeepCoding_TypeHelper.md 'KeepCoding.TypeHelper') | Extension methods to help you create data types easier.<br/> |
-| [Work](KeepCoding_Work.md 'KeepCoding.Work') | Advanced multi-threading handler.<br/> |
-| [Work&lt;T&gt;](KeepCoding_Work_T_.md 'KeepCoding.Work&lt;T&gt;') | Advanced multi-threading handler.<br/> |
-| [Work&lt;T,TResult&gt;](KeepCoding_Work_T_TResult_.md 'KeepCoding.Work&lt;T,TResult&gt;') | Advanced multi-threading handler.<br/> |
-| [Work&lt;T1,T2,T3,T4,TResult&gt;](KeepCoding_Work_T1_T2_T3_T4_TResult_.md 'KeepCoding.Work&lt;T1,T2,T3,T4,TResult&gt;') | Advanced multi-threading handler.<br/> |
-| [Work&lt;T1,T2,T3,TResult&gt;](KeepCoding_Work_T1_T2_T3_TResult_.md 'KeepCoding.Work&lt;T1,T2,T3,TResult&gt;') | Advanced multi-threading handler.<br/> |
-| [Work&lt;T1,T2,TResult&gt;](KeepCoding_Work_T1_T2_TResult_.md 'KeepCoding.Work&lt;T1,T2,TResult&gt;') | Advanced multi-threading handler.<br/> |
+| [ArrayHelper](ArrayHelper.md 'KeepCoding.ArrayHelper') | Extension methods surrounding [System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array') static methods to make code a bit shorter.<br/> |
+| [BigInteger](BigInteger.md 'KeepCoding.BigInteger') | Stores an arbitrarily large number.<br/> |
+| [CacheableBehaviour](CacheableBehaviour.md 'KeepCoding.CacheableBehaviour') | A [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') with additional caching capabilities. <br/> |
+| [ColorblindInfo](ColorblindInfo.md 'KeepCoding.ColorblindInfo') | Contains information about the colorblind mod's info, this class can be used to deserialize "ColorblindMode.json".<br/> |
+| [ComponentPool](ComponentPool.md 'KeepCoding.ComponentPool') | A ComponentPool is a collection of Module Types. The generator will pick [Count](ComponentPool_Count.md 'KeepCoding.ComponentPool.Count') times from this list and instantiate a component of the chosen type.<br/> |
+| [ConsecutiveGroup&lt;TItem,TKey&gt;](ConsecutiveGroup_TItem_TKey_.md 'KeepCoding.ConsecutiveGroup&lt;TItem,TKey&gt;') | Encapsulates information about a group generated by [GroupConsecutive&lt;TItem&gt;(IEnumerable&lt;TItem&gt;, IEqualityComparer&lt;TItem&gt;)](UtilityExtensions_GroupConsecutive_xrlhWGeM3mtlgGG8wNhotQ.md 'KeepCoding.UtilityExtensions.GroupConsecutive&lt;TItem&gt;(System.Collections.Generic.IEnumerable&lt;TItem&gt;, System.Collections.Generic.IEqualityComparer&lt;TItem&gt;)') and its<br/>overloads. |
+| [CustomComparer&lt;T&gt;](CustomComparer_T_.md 'KeepCoding.CustomComparer&lt;T&gt;') | Encapsulates an IComparer<T> that uses a comparison function provided as a delegate. |
+| [CustomEqualityComparer&lt;T&gt;](CustomEqualityComparer_T_.md 'KeepCoding.CustomEqualityComparer&lt;T&gt;') | Encapsulates an IEqualityComparer<T> that uses an equality comparison function provided as a delegate. |
+| [EventHelper](EventHelper.md 'KeepCoding.EventHelper') | KMFramework extension methods that makes it easier to assign multiple events to a variable in one statement.<br/> |
+| [Game](Game.md 'KeepCoding.Game') | Allows access into the game's internal code. <br/> |
+| [Game.KTInputManager](Game_KTInputManager.md 'KeepCoding.Game.KTInputManager') | Allows access relating to how the game is being interacted with.<br/> |
+| [Game.MasterAudio](Game_MasterAudio.md 'KeepCoding.Game.MasterAudio') | Allows access relating to the game's main master channel for audio.<br/> |
+| [Game.Mission](Game_Mission.md 'KeepCoding.Game.Mission') | Allows access relating to the current mission.<br/> |
+| [Game.ModManager](Game_ModManager.md 'KeepCoding.Game.ModManager') | Allows access to methods relating mod paths.<br/> |
+| [Game.PlayerSettings](Game_PlayerSettings.md 'KeepCoding.Game.PlayerSettings') | Allows access into the player settings from the game. Do not use this class in the unity editor. <br/> |
+| [GeneratorSetting](GeneratorSetting.md 'KeepCoding.GeneratorSetting') | Everything needed to generate a single bomb.<br/> |
+| [Helper](Helper.md 'KeepCoding.Helper') | General extension class covering both KMFramework and native datatypes.<br/> |
+| [KeyHelper](KeyHelper.md 'KeepCoding.KeyHelper') | Inline methods for when typically key words are used.<br/> |
+| [Logger](Logger.md 'KeepCoding.Logger') | A class to allow logging with a specific format.<br/> |
+| [ModInfo](ModInfo.md 'KeepCoding.ModInfo') | Contains information about the mod's info, this class can be used to deserialize every mod's "modInfo.json".<br/> |
+| [ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer') | Container for both solvable and needy modules.<br/> |
+| [ModuleScript](ModuleScript.md 'KeepCoding.ModuleScript') | Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes.<br/> |
+| [Number](Number.md 'KeepCoding.Number') | Class meant to encapsulate a primitive numeric value.<br/> |
+| [PathManager](PathManager.md 'KeepCoding.PathManager') | Allows loading external information stored on the module. <br/> |
+| [Routine](Routine.md 'KeepCoding.Routine') | Advanced coroutine handler.<br/> |
+| [Routine&lt;T&gt;](Routine_T_.md 'KeepCoding.Routine&lt;T&gt;') | Advanced coroutine handler. <br/> |
+| [Routine&lt;T1,T2&gt;](Routine_T1_T2_.md 'KeepCoding.Routine&lt;T1,T2&gt;') | Advanced coroutine handler. <br/> |
+| [Routine&lt;T1,T2,T3&gt;](Routine_T1_T2_T3_.md 'KeepCoding.Routine&lt;T1,T2,T3&gt;') | Advanced coroutine handler. <br/> |
+| [Routine&lt;T1,T2,T3,T4&gt;](Routine_T1_T2_T3_T4_.md 'KeepCoding.Routine&lt;T1,T2,T3,T4&gt;') | Advanced coroutine handler. <br/> |
+| [Sound](Sound.md 'KeepCoding.Sound') | Class meant to encapsulate all types of sound effects [KMAudio](https://docs.microsoft.com/en-us/dotnet/api/KMAudio 'KMAudio') uses. Currently used in [ModuleScript](ModuleScript.md 'KeepCoding.ModuleScript').<br/> |
+| [TPScript&lt;TModule&gt;](TPScript_TModule_.md 'KeepCoding.TPScript&lt;TModule&gt;') | Base class for TwitchPlays support for solvable and needy modded modules in Keep Talking and Nobody Explodes. <br/> |
+| [Tuple&lt;T&gt;](Tuple_T_.md 'KeepCoding.Tuple&lt;T&gt;') | A basic tuple data type for C# 4.<br/> |
+| [Tuple&lt;T1,T2&gt;](Tuple_T1_T2_.md 'KeepCoding.Tuple&lt;T1,T2&gt;') | A basic tuple data type for C# 4. <br/> |
+| [Tuple&lt;T1,T2,T3&gt;](Tuple_T1_T2_T3_.md 'KeepCoding.Tuple&lt;T1,T2,T3&gt;') | A basic tuple data type for C# 4. <br/> |
+| [Tuple&lt;T1,T2,T3,T4&gt;](Tuple_T1_T2_T3_T4_.md 'KeepCoding.Tuple&lt;T1,T2,T3,T4&gt;') | A basic tuple data type for C# 4. <br/> |
+| [TypeHelper](TypeHelper.md 'KeepCoding.TypeHelper') | Extension methods to help you create data types easier.<br/> |
+| [UtilityExtensions](UtilityExtensions.md 'KeepCoding.UtilityExtensions') | Wad of extension methods from RT Util Core.<br/> |
+| [Work](Work.md 'KeepCoding.Work') | Advanced multi-threading handler.<br/> |
+| [Work&lt;T&gt;](Work_T_.md 'KeepCoding.Work&lt;T&gt;') | Advanced multi-threading handler.<br/> |
+| [Work&lt;T,TResult&gt;](Work_T_TResult_.md 'KeepCoding.Work&lt;T,TResult&gt;') | Advanced multi-threading handler.<br/> |
+| [Work&lt;T1,T2,T3,T4,TResult&gt;](Work_T1_T2_T3_T4_TResult_.md 'KeepCoding.Work&lt;T1,T2,T3,T4,TResult&gt;') | Advanced multi-threading handler.<br/> |
+| [Work&lt;T1,T2,T3,TResult&gt;](Work_T1_T2_T3_TResult_.md 'KeepCoding.Work&lt;T1,T2,T3,TResult&gt;') | Advanced multi-threading handler.<br/> |
+| [Work&lt;T1,T2,TResult&gt;](Work_T1_T2_TResult_.md 'KeepCoding.Work&lt;T1,T2,TResult&gt;') | Advanced multi-threading handler.<br/> |
 
 | Interfaces | |
 | :--- | :--- |
-| [IDump](KeepCoding_IDump.md 'KeepCoding.IDump') | An interface to implement dump methods. Make each method return the same method in your [Logger](KeepCoding_Logger.md 'KeepCoding.Logger') instance. <br/> |
-| [ILog](KeepCoding_ILog.md 'KeepCoding.ILog') | An interface to implement log methods. Make each method return the same method in your [Logger](KeepCoding_Logger.md 'KeepCoding.Logger') instance.  <br/> |
-| [ITP](KeepCoding_ITP.md 'KeepCoding.ITP') | Interface for Twitch Plays support. <br/> |
+| [IDump](IDump.md 'KeepCoding.IDump') | An interface to implement dump methods. Make each method return the same method in your [Logger](Logger.md 'KeepCoding.Logger') instance. <br/> |
+| [ILog](ILog.md 'KeepCoding.ILog') | An interface to implement log methods. Make each method return the same method in your [Logger](Logger.md 'KeepCoding.Logger') instance.  <br/> |
+| [ITP](ITP.md 'KeepCoding.ITP') | Interface for Twitch Plays support. <br/> |
 
 | Enums | |
 | :--- | :--- |
-| [ComponentPool.ComponentSource](KeepCoding_ComponentPool_ComponentSource.md 'KeepCoding.ComponentPool.ComponentSource') | Controls where this pool will draw from (e.g. the base game modules, modules from mods, or both).<br/> |
-| [ComponentPool.ComponentTypeEnum](KeepCoding_ComponentPool_ComponentTypeEnum.md 'KeepCoding.ComponentPool.ComponentTypeEnum') | The module types in the base game.<br/> |
-| [ComponentPool.SpecialComponentTypeEnum](KeepCoding_ComponentPool_SpecialComponentTypeEnum.md 'KeepCoding.ComponentPool.SpecialComponentTypeEnum') | Controls whether the modules will be chosen dynamically at runtime from whatever modules are loaded (based on the ComponentSource). Set to "None" to select specific module types.<br/> |
-| [Game.ControlType](KeepCoding_Game_ControlType.md 'KeepCoding.Game.ControlType') | Determines how the game is controlled.<br/> |
-| [Game.ModSourceEnum](KeepCoding_Game_ModSourceEnum.md 'KeepCoding.Game.ModSourceEnum') | Determines how the mod is stored.<br/> |
+| [ComponentPool.ComponentSource](ComponentPool_ComponentSource.md 'KeepCoding.ComponentPool.ComponentSource') | Controls where this pool will draw from (e.g. the base game modules, modules from mods, or both).<br/> |
+| [ComponentPool.ComponentTypeEnum](ComponentPool_ComponentTypeEnum.md 'KeepCoding.ComponentPool.ComponentTypeEnum') | The module types in the base game.<br/> |
+| [ComponentPool.SpecialComponentTypeEnum](ComponentPool_SpecialComponentTypeEnum.md 'KeepCoding.ComponentPool.SpecialComponentTypeEnum') | Controls whether the modules will be chosen dynamically at runtime from whatever modules are loaded (based on the ComponentSource). Set to "None" to select specific module types.<br/> |
+| [Game.ControlType](Game_ControlType.md 'KeepCoding.Game.ControlType') | Determines how the game is controlled.<br/> |
+| [Game.ModSourceEnum](Game_ModSourceEnum.md 'KeepCoding.Game.ModSourceEnum') | Determines how the mod is stored.<br/> |
+| [UtilityExtensions.JsQuotes](UtilityExtensions_JsQuotes.md 'KeepCoding.UtilityExtensions.JsQuotes') | Selects how the escaped JS string should be put into quotes. |

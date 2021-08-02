@@ -1,0 +1,29 @@
+#### [KeepCoding](index.md 'index')
+### [KeepCoding](KeepCoding.md 'KeepCoding')
+## Work&lt;T,TResult&gt; Class
+Advanced multi-threading handler.  
+```csharp
+public sealed class Work<T,TResult> : KeepCoding.Internal.WorkBase
+```
+#### Type parameters
+<a name='KeepCoding_Work_T_TResult__T'></a>
+`T`  
+  
+<a name='KeepCoding_Work_T_TResult__TResult'></a>
+`TResult`  
+  
+
+Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [WorkBase](WorkBase.md 'KeepCoding.Internal.WorkBase') &#129106; Work&lt;T,TResult&gt;  
+
+| Constructors | |
+| :--- | :--- |
+| [Work(Func&lt;T,TResult&gt;)](Work_T_TResult___ctor_IhM9Nka2uNFv+mqgLKHytA.md 'KeepCoding.Work&lt;T,TResult&gt;.Work(System.Func&lt;T,TResult&gt;)') | Stores the method so that it can later be called when a new thread starts. Multiple simultaneous threads are allowed, but are queued and limited to one at-a-time.<br/> |
+| [Work(Func&lt;T,TResult&gt;, bool, uint)](Work_T_TResult___ctor_oSBNXmZfMKet5RZInlNSpw.md 'KeepCoding.Work&lt;T,TResult&gt;.Work(System.Func&lt;T,TResult&gt;, bool, uint)') | Stores the method so that it can later be called when a new thread starts.<br/> |
+
+| Properties | |
+| :--- | :--- |
+| [Result](Work_T_TResult__Result.md 'KeepCoding.Work&lt;T,TResult&gt;.Result') | The returned value of the thread.<br/> |
+
+| Methods | |
+| :--- | :--- |
+| [Start(T)](Work_T_TResult__Start_tK5OLTPYXaKL4NEh+W+ZrQ.md 'KeepCoding.Work&lt;T,TResult&gt;.Start(T)') | Starts a new thread, and waits until it is finished before halting.<br/> |
