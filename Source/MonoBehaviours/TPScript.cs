@@ -343,7 +343,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="command">The command of the user.</param>
         /// <returns>A list of instructions for Twitch Plays.</returns>
-        protected IEnumerator ProcessTwitchCommand(string command) => command.ToLowerInvariant().Trim() is "colorblind" && Module.IsColorblindSupported ? ToggleColorblind() : Process(command);
+        protected IEnumerator ProcessTwitchCommand(string command) => command.ToLowerInvariant().Trim() is "colorblind" && Module.IsColorblindSupported ? ToggleColorblind() : Process(command).Flatten(IsExcludedType);
 
         /// <summary>
         /// This method gets grabbed by Twitch Plays. It grabs <see cref="ForceSolve()"/> and flattens it using <see cref="Helper.Flatten(IEnumerator, Predicate{IEnumerator})"/>.
