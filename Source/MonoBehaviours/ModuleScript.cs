@@ -459,6 +459,7 @@ namespace KeepCoding
             StartCoroutine(CheckForUpdates());
             StartCoroutine(WaitForBomb());
 
+            Assign();
             OnAwake();
         }
 
