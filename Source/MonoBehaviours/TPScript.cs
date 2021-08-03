@@ -351,7 +351,7 @@ namespace KeepCoding
         /// <returns>A list of instructions for Twitch Plays.</returns>
         protected IEnumerator TwitchHandleForcedSolve() => ForceSolve().Flatten(IsExcludedType);
 
-        private static bool IsExcludedType<T>(T item) => item is string || item is KMSelectable[];
+        private static bool IsExcludedType<T>(T item) => item is IEnumerable<char> || item is KMSelectable[];
 
         private static string Combine(in string main, params object[] toAppend) => main + toAppend.ConvertAll(o => $" {o}");
 
