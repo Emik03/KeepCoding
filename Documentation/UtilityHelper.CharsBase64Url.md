@@ -1,0 +1,9 @@
+#### [KeepCoding](index.md 'index')
+### [KeepCoding](KeepCoding.md 'KeepCoding').[UtilityHelper](UtilityHelper.md 'KeepCoding.UtilityHelper')
+## UtilityHelper.CharsBase64Url Field
+Contains the set of characters that are used in base64-url encoding.
+```csharp
+public const string CharsBase64Url = ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_;
+```
+#### Field Value
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
