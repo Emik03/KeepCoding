@@ -917,25 +917,45 @@ namespace KeepCoding
         public static T ElementAtWrap<T>(this IEnumerable<T> source, int index) => source.NullOrEmptyCheck($"The source cannot be null or empty.").ElementAt(index.Modulo(source.Count()));
 
         /// <summary>
-        /// Returns the first element which doesn't return null, or null if all of them return null.
+        /// Returns the first element which doesn't <see langword="return"/> <see langword="null"/>, or <see langword="null"/> if all of them <see langword="return"/> <see langword="null"/>.
         /// </summary>
         /// <exception cref="NullIteratorException"></exception>
         /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T">The type of array, and method.</typeparam>
         /// <param name="source">The array to iterate on.</param>
-        /// <param name="func">The method which returns</param>
-        /// <returns>The first value from <paramref name="source"/> where <paramref name="func"/> doesn't return null, or null.</returns>
+        /// <returns>The first value from <paramref name="source"/> where it isn't <see langword="null"/>, or <see langword="null"/>.</returns>
+        public static T FirstValue<T>(this IEnumerable<T> source) => source.NullCheck("The source cannot be null.").FirstOrDefault(t => t is T);
+
+        /// <summary>
+        /// Returns the first element which doesn't <see langword="return"/> <see langword="null"/>, or <see langword="null"/> if all of them <see langword="return"/> <see langword="null"/>.
+        /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <typeparam name="T">The type of array, and method.</typeparam>
+        /// <param name="source">The array to iterate on.</param>
+        /// <param name="func">The method which returns something or <see langword="null"/>.</param>
+        /// <returns>The first value from <paramref name="source"/> where <paramref name="func"/> doesn't return <see langword="null"/>, or <see langword="null"/>.</returns>
         public static T FirstValue<T>(this IEnumerable<T> source, Func<T, T> func) => source.NullCheck("The source cannot be null.").FirstOrDefault(t => func.NullCheck("The function cannot be null.")(t) is T);
 
         /// <summary>
-        /// Returns the last element which doesn't return null, or null if all of them return null.
+        /// Returns the last element which doesn't <see langword="return"/> <see langword="null"/>, or <see langword="null"/> if all of them <see langword="return"/> <see langword="null"/>.
         /// </summary>
         /// <exception cref="NullIteratorException"></exception>
         /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T">The type of array, and method.</typeparam>
         /// <param name="source">The array to iterate on.</param>
-        /// <param name="func">The method which returns</param>
-        /// <returns>The last value from <paramref name="source"/> where <paramref name="func"/> doesn't return null, or null.</returns>
+        /// <returns>The last value from <paramref name="source"/> where it isn't <see langword="null"/>, or <see langword="null"/>.</returns>
+        public static T LastValue<T>(this IEnumerable<T> source) => source.Reverse().FirstValue();
+
+        /// <summary>
+        /// Returns the last element which doesn't <see langword="return"/> <see langword="null"/>, or <see langword="null"/> if all of them <see langword="null"/>return <see langword="null"/>.
+        /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <typeparam name="T">The type of array, and method.</typeparam>
+        /// <param name="source">The array to iterate on.</param>
+        /// <param name="func">The method which returns something or <see langword="null"/>.</param>
+        /// <returns>The last value from <paramref name="source"/> where <paramref name="func"/> doesn't <see langword="return"/> <see langword="null"/>, or <see langword="null"/>.</returns>
         public static T LastValue<T>(this IEnumerable<T> source, Func<T, T> func) => source.Reverse().FirstValue(func.NullCheck("The function cannot be null."));
 
         /// <summary>
