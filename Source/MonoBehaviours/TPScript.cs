@@ -297,26 +297,6 @@ namespace KeepCoding
         protected static object Evaluate<T>(bool condition, T then, object otherwise = null) => condition ? then : otherwise;
 
         /// <summary>
-        /// You can yield return this to repeatedly yield return an item until a condition is no longer met.
-        /// </summary>
-        /// <param name="item">The item to yield repeatedly.</param>
-        /// <param name="condition">The condition to repeatedly check until it returns <see langword="false"/>.</param>
-        /// <returns><paramref name="item"/> continously until <paramref name="condition"/> is <see langword="false"/></returns>
-        protected static IEnumerator YieldWhile<T>(T item, Func<bool> condition)
-        {
-            while (condition())
-                yield return item;
-        }
-
-        /// <summary>
-        /// You can yield return this to repeatedly yield return an item until a condition is met.
-        /// </summary>
-        /// <param name="item">The item to yield repeatedly.</param>
-        /// <param name="condition">The condition to repeatedly check until it returns <see langword="false"/>.</param>
-        /// <returns><paramref name="item"/> continously until <paramref name="condition"/> is <see langword="true"/></returns>
-        protected static IEnumerator YieldUntil<T>(T item, Func<bool> condition) => YieldWhile(item, () => !condition());
-
-        /// <summary>
         /// Presses a sequence of buttons according to <paramref name="indices"/> within <paramref name="selectables"/>, waiting <paramref name="wait"/> seconds in-between each, and interrupting as soon as <see cref="ModuleScript.HasStruck"/> is true.
         /// </summary>
         /// <param name="selectables">The array of selectables to interact with.</param>
@@ -337,6 +317,26 @@ namespace KeepCoding
 
             Module.HasStruck = false;
         }
+
+        /// <summary>
+        /// You can yield return this to repeatedly yield return an item until a condition is no longer met.
+        /// </summary>
+        /// <param name="item">The item to yield repeatedly.</param>
+        /// <param name="condition">The condition to repeatedly check until it returns <see langword="false"/>.</param>
+        /// <returns><paramref name="item"/> continously until <paramref name="condition"/> is <see langword="false"/></returns>
+        protected static IEnumerator YieldWhile<T>(T item, Func<bool> condition)
+        {
+            while (condition())
+                yield return item;
+        }
+
+        /// <summary>
+        /// You can yield return this to repeatedly yield return an item until a condition is met.
+        /// </summary>
+        /// <param name="item">The item to yield repeatedly.</param>
+        /// <param name="condition">The condition to repeatedly check until it returns <see langword="false"/>.</param>
+        /// <returns><paramref name="item"/> continously until <paramref name="condition"/> is <see langword="true"/></returns>
+        protected static IEnumerator YieldUntil<T>(T item, Func<bool> condition) => YieldWhile(item, () => !condition());
 
         /// <summary>
         /// This method gets grabbed by Twitch Plays. It grabs <see cref="Process(string)"/> and flattens it using <see cref="Helper.Flatten(IEnumerator, Predicate{IEnumerator})"/>.
