@@ -1,5 +1,5 @@
 #### [KeepCoding](index.md 'index')
-### [KeepCoding.Internal](KeepCoding_Internal.md 'KeepCoding.Internal')
+### [KeepCoding.Internal](KeepCoding.Internal.md 'KeepCoding.Internal')
 ## NegativeNumberException Class
 An exception thrown when the number is unexpectedly negative.  
 ```csharp
@@ -10,6 +10,6 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Constructors | |
 | :--- | :--- |
-| [NegativeNumberException()](NegativeNumberException_NegativeNumberException().md 'KeepCoding.Internal.NegativeNumberException.NegativeNumberException()') | An exception thrown when the number is unexpectedly negative.<br/> |
-| [NegativeNumberException(string)](NegativeNumberException__ctor_W0j4Q_eSD3Bk589o_+AJ_g.md 'KeepCoding.Internal.NegativeNumberException.NegativeNumberException(string)') | An exception thrown when the number is unexpectedly negative.<br/> |
-| [NegativeNumberException(string, Exception)](NegativeNumberException__ctor_APmbPe98Q3k4ro8qVSei6w.md 'KeepCoding.Internal.NegativeNumberException.NegativeNumberException(string, System.Exception)') | An exception thrown when the number is unexpectedly negative.<br/> |
+| [NegativeNumberException()](NegativeNumberException.NegativeNumberException().md 'KeepCoding.Internal.NegativeNumberException.NegativeNumberException()') | An exception thrown when the number is unexpectedly negative.<br/> |
+| [NegativeNumberException(string)](NegativeNumberException..ctor.W0j4Q.eSD3Bk589o.+AJ.g.md 'KeepCoding.Internal.NegativeNumberException.NegativeNumberException(string)') | An exception thrown when the number is unexpectedly negative.<br/> |
+| [NegativeNumberException(string, Exception)](NegativeNumberException..ctor.APmbPe98Q3k4ro8qVSei6w.md 'KeepCoding.Internal.NegativeNumberException.NegativeNumberException(string, System.Exception)') | An exception thrown when the number is unexpectedly negative.<br/> |

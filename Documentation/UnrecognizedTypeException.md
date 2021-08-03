@@ -1,5 +1,5 @@
 #### [KeepCoding](index.md 'index')
-### [KeepCoding.Internal](KeepCoding_Internal.md 'KeepCoding.Internal')
+### [KeepCoding.Internal](KeepCoding.Internal.md 'KeepCoding.Internal')
 ## UnrecognizedTypeException Class
 An exception thrown for when the type isn't handled.  
 ```csharp
@@ -10,6 +10,6 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Constructors | |
 | :--- | :--- |
-| [UnrecognizedTypeException()](UnrecognizedTypeException_UnrecognizedTypeException().md 'KeepCoding.Internal.UnrecognizedTypeException.UnrecognizedTypeException()') | An exception thrown for when the type isn't handled.<br/> |
-| [UnrecognizedTypeException(string)](UnrecognizedTypeException__ctor_cWnNBCzhExIfEtkJqv73Dw.md 'KeepCoding.Internal.UnrecognizedTypeException.UnrecognizedTypeException(string)') | An exception thrown for when the type isn't handled.<br/> |
-| [UnrecognizedTypeException(string, Exception)](UnrecognizedTypeException__ctor_2f8a9N7GKtr3jzP52ssouA.md 'KeepCoding.Internal.UnrecognizedTypeException.UnrecognizedTypeException(string, System.Exception)') | An exception thrown for when the type isn't handled.<br/> |
+| [UnrecognizedTypeException()](UnrecognizedTypeException.UnrecognizedTypeException().md 'KeepCoding.Internal.UnrecognizedTypeException.UnrecognizedTypeException()') | An exception thrown for when the type isn't handled.<br/> |
+| [UnrecognizedTypeException(string)](UnrecognizedTypeException..ctor.cWnNBCzhExIfEtkJqv73Dw.md 'KeepCoding.Internal.UnrecognizedTypeException.UnrecognizedTypeException(string)') | An exception thrown for when the type isn't handled.<br/> |
+| [UnrecognizedTypeException(string, Exception)](UnrecognizedTypeException..ctor.2f8a9N7GKtr3jzP52ssouA.md 'KeepCoding.Internal.UnrecognizedTypeException.UnrecognizedTypeException(string, System.Exception)') | An exception thrown for when the type isn't handled.<br/> |

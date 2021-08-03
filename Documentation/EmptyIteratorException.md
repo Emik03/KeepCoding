@@ -1,5 +1,5 @@
 #### [KeepCoding](index.md 'index')
-### [KeepCoding.Internal](KeepCoding_Internal.md 'KeepCoding.Internal')
+### [KeepCoding.Internal](KeepCoding.Internal.md 'KeepCoding.Internal')
 ## EmptyIteratorException Class
 An exception thrown when the iterator is empty.  
 ```csharp
@@ -10,6 +10,6 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Constructors | |
 | :--- | :--- |
-| [EmptyIteratorException()](EmptyIteratorException_EmptyIteratorException().md 'KeepCoding.Internal.EmptyIteratorException.EmptyIteratorException()') | An exception thrown when the iterator is empty.<br/> |
-| [EmptyIteratorException(string)](EmptyIteratorException__ctor_xET2fkBOvrf7PYoeI4mdhQ.md 'KeepCoding.Internal.EmptyIteratorException.EmptyIteratorException(string)') | An exception thrown when the iterator is empty.<br/> |
-| [EmptyIteratorException(string, Exception)](EmptyIteratorException__ctor_SqpdVCnN7qVrWH7BVuCK5g.md 'KeepCoding.Internal.EmptyIteratorException.EmptyIteratorException(string, System.Exception)') | An exception thrown when the iterator is empty.<br/> |
+| [EmptyIteratorException()](EmptyIteratorException.EmptyIteratorException().md 'KeepCoding.Internal.EmptyIteratorException.EmptyIteratorException()') | An exception thrown when the iterator is empty.<br/> |
+| [EmptyIteratorException(string)](EmptyIteratorException..ctor.xET2fkBOvrf7PYoeI4mdhQ.md 'KeepCoding.Internal.EmptyIteratorException.EmptyIteratorException(string)') | An exception thrown when the iterator is empty.<br/> |
+| [EmptyIteratorException(string, Exception)](EmptyIteratorException..ctor.SqpdVCnN7qVrWH7BVuCK5g.md 'KeepCoding.Internal.EmptyIteratorException.EmptyIteratorException(string, System.Exception)') | An exception thrown when the iterator is empty.<br/> |

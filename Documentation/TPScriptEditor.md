@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
-### [KeepCoding.Internal](KeepCoding_Internal.md 'KeepCoding.Internal')
+### [KeepCoding.Internal](KeepCoding.Internal.md 'KeepCoding.Internal')
 ## TPScriptEditor Class
-Custom inspector for [TPScript&lt;TModule&gt;](TPScript_TModule_.md 'KeepCoding.TPScript&lt;TModule&gt;').   
+Custom inspector for [TPScript&lt;TModule&gt;](TPScript.TModule..md 'KeepCoding.TPScript&lt;TModule&gt;').   
 ```csharp
 public sealed class TPScriptEditor
 ```
@@ -10,4 +10,4 @@ Inheritance [UnityEditor.Editor](https://docs.microsoft.com/en-us/dotnet/api/Uni
 
 | Methods | |
 | :--- | :--- |
-| [OnInspectorGUI()](TPScriptEditor_OnInspectorGUI().md 'KeepCoding.Internal.TPScriptEditor.OnInspectorGUI()') | Creates the force solve buttons.<br/> |
+| [OnInspectorGUI()](TPScriptEditor.OnInspectorGUI().md 'KeepCoding.Internal.TPScriptEditor.OnInspectorGUI()') | Creates the force solve buttons.<br/> |

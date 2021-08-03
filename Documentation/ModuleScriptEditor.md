@@ -1,5 +1,5 @@
 #### [KeepCoding](index.md 'index')
-### [KeepCoding.Internal](KeepCoding_Internal.md 'KeepCoding.Internal')
+### [KeepCoding.Internal](KeepCoding.Internal.md 'KeepCoding.Internal')
 ## ModuleScriptEditor Class
 Custom inspector for [ModuleScript](ModuleScript.md 'KeepCoding.ModuleScript').   
 ```csharp
@@ -10,4 +10,4 @@ Inheritance [UnityEditor.Editor](https://docs.microsoft.com/en-us/dotnet/api/Uni
 
 | Methods | |
 | :--- | :--- |
-| [OnInspectorGUI()](ModuleScriptEditor_OnInspectorGUI().md 'KeepCoding.Internal.ModuleScriptEditor.OnInspectorGUI()') | Creates the colorblind button.<br/> |
+| [OnInspectorGUI()](ModuleScriptEditor.OnInspectorGUI().md 'KeepCoding.Internal.ModuleScriptEditor.OnInspectorGUI()') | Creates the colorblind button.<br/> |

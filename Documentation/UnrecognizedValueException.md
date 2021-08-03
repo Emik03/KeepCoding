@@ -1,5 +1,5 @@
 #### [KeepCoding](index.md 'index')
-### [KeepCoding.Internal](KeepCoding_Internal.md 'KeepCoding.Internal')
+### [KeepCoding.Internal](KeepCoding.Internal.md 'KeepCoding.Internal')
 ## UnrecognizedValueException Class
 An exception thrown for when the value isn't handled.  
 ```csharp
@@ -10,6 +10,6 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Constructors | |
 | :--- | :--- |
-| [UnrecognizedValueException()](UnrecognizedValueException_UnrecognizedValueException().md 'KeepCoding.Internal.UnrecognizedValueException.UnrecognizedValueException()') | An exception thrown for when the type isn't handled.<br/> |
-| [UnrecognizedValueException(string)](UnrecognizedValueException__ctor_RglUxMbpg9BBgTWfwNhN_Q.md 'KeepCoding.Internal.UnrecognizedValueException.UnrecognizedValueException(string)') | An exception thrown for when the value isn't handled.<br/> |
-| [UnrecognizedValueException(string, Exception)](UnrecognizedValueException__ctor_x69aTwCJoXhKt0ptHPPYqQ.md 'KeepCoding.Internal.UnrecognizedValueException.UnrecognizedValueException(string, System.Exception)') | An exception thrown for when the value isn't handled.<br/> |
+| [UnrecognizedValueException()](UnrecognizedValueException.UnrecognizedValueException().md 'KeepCoding.Internal.UnrecognizedValueException.UnrecognizedValueException()') | An exception thrown for when the type isn't handled.<br/> |
+| [UnrecognizedValueException(string)](UnrecognizedValueException..ctor.RglUxMbpg9BBgTWfwNhN.Q.md 'KeepCoding.Internal.UnrecognizedValueException.UnrecognizedValueException(string)') | An exception thrown for when the value isn't handled.<br/> |
+| [UnrecognizedValueException(string, Exception)](UnrecognizedValueException..ctor.x69aTwCJoXhKt0ptHPPYqQ.md 'KeepCoding.Internal.UnrecognizedValueException.UnrecognizedValueException(string, System.Exception)') | An exception thrown for when the value isn't handled.<br/> |

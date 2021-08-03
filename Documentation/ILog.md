@@ -13,6 +13,6 @@ Derived
 
 | Methods | |
 | :--- | :--- |
-| [Log&lt;T&gt;(T, LogType)](ILog_Log_D5O48+PY35ntCSBU53qA2w.md 'KeepCoding.ILog.Log&lt;T&gt;(T, LogType)') | Logs message, but formats it to be compliant with the Logfile Analyzer.<br/> |
-| [Log&lt;T&gt;(T, object[])](ILog_Log_HWlPrcOi+ru2nlGrnQnZCg.md 'KeepCoding.ILog.Log&lt;T&gt;(T, object[])') | Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.<br/> |
-| [LogMultiple(string[])](ILog_LogMultiple_8hEw_NM7KbVYXvf+JfGQBw.md 'KeepCoding.ILog.LogMultiple(string[])') | Logs multiple entries to the console.<br/> |
+| [Log&lt;T&gt;(T, LogType)](ILog.Log.D5O48+PY35ntCSBU53qA2w.md 'KeepCoding.ILog.Log&lt;T&gt;(T, LogType)') | Logs message, but formats it to be compliant with the Logfile Analyzer.<br/> |
+| [Log&lt;T&gt;(T, object[])](ILog.Log.HWlPrcOi+ru2nlGrnQnZCg.md 'KeepCoding.ILog.Log&lt;T&gt;(T, object[])') | Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.<br/> |
+| [LogMultiple(string[])](ILog.LogMultiple.8hEw.NM7KbVYXvf+JfGQBw.md 'KeepCoding.ILog.LogMultiple(string[])') | Logs multiple entries to the console.<br/> |

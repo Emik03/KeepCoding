@@ -12,6 +12,6 @@ Derived
 
 | Methods | |
 | :--- | :--- |
-| [Dump&lt;T&gt;(T, bool)](IDump_Dump_XVZkFQ1vamTg6HNQMK8XrA.md 'KeepCoding.IDump.Dump&lt;T&gt;(T, bool)') | Dumps all information that it can find of the type using reflection. This should only be used to debug.<br/> |
-| [Dump(bool, Expression&lt;Func&lt;object&gt;&gt;[])](IDump_Dump_oEw32XwclI51RGS_ki+2AA.md 'KeepCoding.IDump.Dump(bool, System.Linq.Expressions.Expression&lt;System.Func&lt;object&gt;&gt;[])') | Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.<br/> |
-| [Dump(Expression&lt;Func&lt;object&gt;&gt;[])](IDump_Dump_QhCNgIQQrFEyJ0efpnPpQg.md 'KeepCoding.IDump.Dump(System.Linq.Expressions.Expression&lt;System.Func&lt;object&gt;&gt;[])') | Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.<br/> |
+| [Dump&lt;T&gt;(T, bool)](IDump.Dump.XVZkFQ1vamTg6HNQMK8XrA.md 'KeepCoding.IDump.Dump&lt;T&gt;(T, bool)') | Dumps all information that it can find of the type using reflection. This should only be used to debug.<br/> |
+| [Dump(bool, Expression&lt;Func&lt;object&gt;&gt;[])](IDump.Dump.oEw32XwclI51RGS.ki+2AA.md 'KeepCoding.IDump.Dump(bool, System.Linq.Expressions.Expression&lt;System.Func&lt;object&gt;&gt;[])') | Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.<br/> |
+| [Dump(Expression&lt;Func&lt;object&gt;&gt;[])](IDump.Dump.QhCNgIQQrFEyJ0efpnPpQg.md 'KeepCoding.IDump.Dump(System.Linq.Expressions.Expression&lt;System.Func&lt;object&gt;&gt;[])') | Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.<br/> |

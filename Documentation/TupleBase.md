@@ -1,5 +1,5 @@
 #### [KeepCoding](index.md 'index')
-### [KeepCoding.Internal](KeepCoding_Internal.md 'KeepCoding.Internal')
+### [KeepCoding.Internal](KeepCoding.Internal.md 'KeepCoding.Internal')
 ## TupleBase Class
 Provides the base [class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class') for the multiple tuple types.  
 ```csharp
@@ -11,7 +11,7 @@ System.IEquatable<KeepCoding.Internal.TupleBase>
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; TupleBase  
 
 Derived  
-&#8627; [Tuple&lt;T&gt;](Tuple_T_.md 'KeepCoding.Tuple&lt;T&gt;')  
+&#8627; [Tuple&lt;T&gt;](Tuple.T..md 'KeepCoding.Tuple&lt;T&gt;')  
 
 Implements [System.Collections.IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerable 'System.Collections.IEnumerable'), [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[TupleBase](TupleBase.md 'KeepCoding.Internal.TupleBase')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')  
 ### Example
@@ -28,7 +28,7 @@ public static class Extensions
 }  
 ```
   
-This can then used on any kind of tuple. A constructor can be used, but in this example the extension method [ToTuple&lt;T1,T2&gt;(T1, T2)](TypeHelper_ToTuple_LI2EmOv9CB_9ftgGskWBBQ.md 'KeepCoding.TypeHelper.ToTuple&lt;T1,T2&gt;(T1, T2)') is used instead.  
+This can then used on any kind of tuple. A constructor can be used, but in this example the extension method [ToTuple&lt;T1,T2&gt;(T1, T2)](TypeHelper.ToTuple.LI2EmOv9CB.9ftgGskWBBQ.md 'KeepCoding.TypeHelper.ToTuple&lt;T1,T2&gt;(T1, T2)') is used instead.  
 ```csharp
 using KeepCoding;  
   
@@ -55,22 +55,22 @@ This is the output from the console.
 
 | Properties | |
 | :--- | :--- |
-| [Length](TupleBase_Length.md 'KeepCoding.Internal.TupleBase.Length') | Determines the amount of items in the tuple type.<br/> |
-| [this[byte]](TupleBase_Item_xD9oSgxwMFO7sQCYiZEn_g.md 'KeepCoding.Internal.TupleBase.this[byte]') | Passes an index into the tuple, where items are considered ordered and part of an array.<br/> |
-| [ToArray](TupleBase_ToArray.md 'KeepCoding.Internal.TupleBase.ToArray') | Converts all items to an array.<br/> |
-| [UpperBound](TupleBase_UpperBound.md 'KeepCoding.Internal.TupleBase.UpperBound') | Determines the upperbound of the amount of the length.<br/> |
+| [Length](TupleBase.Length.md 'KeepCoding.Internal.TupleBase.Length') | Determines the amount of items in the tuple type.<br/> |
+| [this[byte]](TupleBase.Item.xD9oSgxwMFO7sQCYiZEn.g.md 'KeepCoding.Internal.TupleBase.this[byte]') | Passes an index into the tuple, where items are considered ordered and part of an array.<br/> |
+| [ToArray](TupleBase.ToArray.md 'KeepCoding.Internal.TupleBase.ToArray') | Converts all items to an array.<br/> |
+| [UpperBound](TupleBase.UpperBound.md 'KeepCoding.Internal.TupleBase.UpperBound') | Determines the upperbound of the amount of the length.<br/> |
 
 | Methods | |
 | :--- | :--- |
-| [Equals(TupleBase)](TupleBase_Equals_HuhNuJeXWPM+umotXvsseQ.md 'KeepCoding.Internal.TupleBase.Equals(KeepCoding.Internal.TupleBase)') | Compares itself and another [TupleBase](TupleBase.md 'KeepCoding.Internal.TupleBase') to determine if they contain the same values.<br/> |
-| [Equals(object)](TupleBase_Equals_amqDAq1qhQ3GOIML433Idw.md 'KeepCoding.Internal.TupleBase.Equals(object)') | Compares itself and another object attempted to casted as [TupleBase](TupleBase.md 'KeepCoding.Internal.TupleBase') to determine if they contain the same values.<br/> |
-| [GetEnumerator()](TupleBase_GetEnumerator().md 'KeepCoding.Internal.TupleBase.GetEnumerator()') | Gets the [System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerator 'System.Collections.IEnumerator') of [ToArray](TupleBase_ToArray.md 'KeepCoding.Internal.TupleBase.ToArray').<br/> |
-| [GetHashCode()](TupleBase_GetHashCode().md 'KeepCoding.Internal.TupleBase.GetHashCode()') | Gets the hash code of [ToArray](TupleBase_ToArray.md 'KeepCoding.Internal.TupleBase.ToArray').<br/> |
-| [ToString()](TupleBase_ToString().md 'KeepCoding.Internal.TupleBase.ToString()') | Joins [ToArray](TupleBase_ToArray.md 'KeepCoding.Internal.TupleBase.ToArray') to a string, with a space as a delimiter.<br/> |
+| [Equals(TupleBase)](TupleBase.Equals.HuhNuJeXWPM+umotXvsseQ.md 'KeepCoding.Internal.TupleBase.Equals(KeepCoding.Internal.TupleBase)') | Compares itself and another [TupleBase](TupleBase.md 'KeepCoding.Internal.TupleBase') to determine if they contain the same values.<br/> |
+| [Equals(object)](TupleBase.Equals.amqDAq1qhQ3GOIML433Idw.md 'KeepCoding.Internal.TupleBase.Equals(object)') | Compares itself and another object attempted to casted as [TupleBase](TupleBase.md 'KeepCoding.Internal.TupleBase') to determine if they contain the same values.<br/> |
+| [GetEnumerator()](TupleBase.GetEnumerator().md 'KeepCoding.Internal.TupleBase.GetEnumerator()') | Gets the [System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerator 'System.Collections.IEnumerator') of [ToArray](TupleBase.ToArray.md 'KeepCoding.Internal.TupleBase.ToArray').<br/> |
+| [GetHashCode()](TupleBase.GetHashCode().md 'KeepCoding.Internal.TupleBase.GetHashCode()') | Gets the hash code of [ToArray](TupleBase.ToArray.md 'KeepCoding.Internal.TupleBase.ToArray').<br/> |
+| [ToString()](TupleBase.ToString().md 'KeepCoding.Internal.TupleBase.ToString()') | Joins [ToArray](TupleBase.ToArray.md 'KeepCoding.Internal.TupleBase.ToArray') to a string, with a space as a delimiter.<br/> |
 
 | Operators | |
 | :--- | :--- |
-| [operator ==(TupleBase, TupleBase)](TupleBase_op_Equality_s5GsIBlGxCppnFCGceJQcQ.md 'KeepCoding.Internal.TupleBase.op_Equality(KeepCoding.Internal.TupleBase, KeepCoding.Internal.TupleBase)') | Overrides comparison by checking for individual item equality rather than itself.<br/> |
-| [operator !=(TupleBase, TupleBase)](TupleBase_op_Inequality_pEQp7JTYsbs8qi3AYLpxRA.md 'KeepCoding.Internal.TupleBase.op_Inequality(KeepCoding.Internal.TupleBase, KeepCoding.Internal.TupleBase)') | Overrides comparison by checking for individual item equality rather than itself.<br/> |
+| [operator ==(TupleBase, TupleBase)](TupleBase.op_Equality.s5GsIBlGxCppnFCGceJQcQ.md 'KeepCoding.Internal.TupleBase.op_Equality(KeepCoding.Internal.TupleBase, KeepCoding.Internal.TupleBase)') | Overrides comparison by checking for individual item equality rather than itself.<br/> |
+| [operator !=(TupleBase, TupleBase)](TupleBase.op_Inequality.pEQp7JTYsbs8qi3AYLpxRA.md 'KeepCoding.Internal.TupleBase.op_Inequality(KeepCoding.Internal.TupleBase, KeepCoding.Internal.TupleBase)') | Overrides comparison by checking for individual item equality rather than itself.<br/> |
 #### See Also
-- [ToTuple&lt;T1,T2&gt;(T1, T2)](TypeHelper_ToTuple_LI2EmOv9CB_9ftgGskWBBQ.md 'KeepCoding.TypeHelper.ToTuple&lt;T1,T2&gt;(T1, T2)')
+- [ToTuple&lt;T1,T2&gt;(T1, T2)](TypeHelper.ToTuple.LI2EmOv9CB.9ftgGskWBBQ.md 'KeepCoding.TypeHelper.ToTuple&lt;T1,T2&gt;(T1, T2)')

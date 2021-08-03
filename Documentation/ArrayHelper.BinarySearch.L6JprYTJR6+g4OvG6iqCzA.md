@@ -1,0 +1,40 @@
+#### [KeepCoding](index.md 'index')
+### [KeepCoding](KeepCoding.md 'KeepCoding').[ArrayHelper](ArrayHelper.md 'KeepCoding.ArrayHelper')
+## ArrayHelper.BinarySearch(Array, int, int, object, IComparer) Method
+Searches a range of elements in a one-dimensional sorted array for a value, using the specified [System.Collections.IComparer](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IComparer 'System.Collections.IComparer') interface.  
+```csharp
+public static int BinarySearch(this System.Array array, int index, int length, object value, System.Collections.IComparer comparer);
+```
+#### Parameters
+<a name='KeepCoding.ArrayHelper.BinarySearch(System.Array.int.int.object.System.Collections.IComparer).array'></a>
+`array` [System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')  
+The sorted one-dimensional [System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array') to search.
+  
+<a name='KeepCoding.ArrayHelper.BinarySearch(System.Array.int.int.object.System.Collections.IComparer).index'></a>
+`index` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')  
+The starting index of the range to search.
+  
+<a name='KeepCoding.ArrayHelper.BinarySearch(System.Array.int.int.object.System.Collections.IComparer).length'></a>
+`length` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')  
+The length of the range to search.
+  
+<a name='KeepCoding.ArrayHelper.BinarySearch(System.Array.int.int.object.System.Collections.IComparer).value'></a>
+`value` [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')  
+The object to search for.
+  
+<a name='KeepCoding.ArrayHelper.BinarySearch(System.Array.int.int.object.System.Collections.IComparer).comparer'></a>
+`comparer` [System.Collections.IComparer](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IComparer 'System.Collections.IComparer')  
+The [System.Collections.IComparer](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IComparer 'System.Collections.IComparer') implementation to use when comparing elements or `null` to use the [System.IComparable](https://docs.microsoft.com/en-us/dotnet/api/System.IComparable 'System.IComparable') implementation of each element..
+  
+#### Returns
+[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')  
+The index of the specified [value](ArrayHelper.BinarySearch.L6JprYTJR6+g4OvG6iqCzA.md#KeepCoding.ArrayHelper.BinarySearch(System.Array.int.int.object.System.Collections.IComparer).value 'KeepCoding.ArrayHelper.BinarySearch(System.Array, int, int, object, System.Collections.IComparer).value') in the specified [array](ArrayHelper.BinarySearch.L6JprYTJR6+g4OvG6iqCzA.md#KeepCoding.ArrayHelper.BinarySearch(System.Array.int.int.object.System.Collections.IComparer).array 'KeepCoding.ArrayHelper.BinarySearch(System.Array, int, int, object, System.Collections.IComparer).array'), if [value](ArrayHelper.BinarySearch.L6JprYTJR6+g4OvG6iqCzA.md#KeepCoding.ArrayHelper.BinarySearch(System.Array.int.int.object.System.Collections.IComparer).value 'KeepCoding.ArrayHelper.BinarySearch(System.Array, int, int, object, System.Collections.IComparer).value') is found; otherwise, a negative number. If [value](ArrayHelper.BinarySearch.L6JprYTJR6+g4OvG6iqCzA.md#KeepCoding.ArrayHelper.BinarySearch(System.Array.int.int.object.System.Collections.IComparer).value 'KeepCoding.ArrayHelper.BinarySearch(System.Array, int, int, object, System.Collections.IComparer).value') is not found and [value](ArrayHelper.BinarySearch.L6JprYTJR6+g4OvG6iqCzA.md#KeepCoding.ArrayHelper.BinarySearch(System.Array.int.int.object.System.Collections.IComparer).value 'KeepCoding.ArrayHelper.BinarySearch(System.Array, int, int, object, System.Collections.IComparer).value') is less than one or more elements in [array](ArrayHelper.BinarySearch.L6JprYTJR6+g4OvG6iqCzA.md#KeepCoding.ArrayHelper.BinarySearch(System.Array.int.int.object.System.Collections.IComparer).array 'KeepCoding.ArrayHelper.BinarySearch(System.Array, int, int, object, System.Collections.IComparer).array'), the negative number returned is the bitwise complement of the index of the first element that is larger than [value](ArrayHelper.BinarySearch.L6JprYTJR6+g4OvG6iqCzA.md#KeepCoding.ArrayHelper.BinarySearch(System.Array.int.int.object.System.Collections.IComparer).value 'KeepCoding.ArrayHelper.BinarySearch(System.Array, int, int, object, System.Collections.IComparer).value'). If [value](ArrayHelper.BinarySearch.L6JprYTJR6+g4OvG6iqCzA.md#KeepCoding.ArrayHelper.BinarySearch(System.Array.int.int.object.System.Collections.IComparer).value 'KeepCoding.ArrayHelper.BinarySearch(System.Array, int, int, object, System.Collections.IComparer).value') is not found and [value](ArrayHelper.BinarySearch.L6JprYTJR6+g4OvG6iqCzA.md#KeepCoding.ArrayHelper.BinarySearch(System.Array.int.int.object.System.Collections.IComparer).value 'KeepCoding.ArrayHelper.BinarySearch(System.Array, int, int, object, System.Collections.IComparer).value') is greater than all elements in [array](ArrayHelper.BinarySearch.L6JprYTJR6+g4OvG6iqCzA.md#KeepCoding.ArrayHelper.BinarySearch(System.Array.int.int.object.System.Collections.IComparer).array 'KeepCoding.ArrayHelper.BinarySearch(System.Array, int, int, object, System.Collections.IComparer).array'), the negative number returned is the bitwise complement of (the index of the last element plus 1). If this method is called with a non-sorted [array](ArrayHelper.BinarySearch.L6JprYTJR6+g4OvG6iqCzA.md#KeepCoding.ArrayHelper.BinarySearch(System.Array.int.int.object.System.Collections.IComparer).array 'KeepCoding.ArrayHelper.BinarySearch(System.Array, int, int, object, System.Collections.IComparer).array'), the return [value](ArrayHelper.BinarySearch.L6JprYTJR6+g4OvG6iqCzA.md#KeepCoding.ArrayHelper.BinarySearch(System.Array.int.int.object.System.Collections.IComparer).value 'KeepCoding.ArrayHelper.BinarySearch(System.Array, int, int, object, System.Collections.IComparer).value') can be incorrect and a negative number could be returned, even if [value](ArrayHelper.BinarySearch.L6JprYTJR6+g4OvG6iqCzA.md#KeepCoding.ArrayHelper.BinarySearch(System.Array.int.int.object.System.Collections.IComparer).value 'KeepCoding.ArrayHelper.BinarySearch(System.Array, int, int, object, System.Collections.IComparer).value') is present in [array](ArrayHelper.BinarySearch.L6JprYTJR6+g4OvG6iqCzA.md#KeepCoding.ArrayHelper.BinarySearch(System.Array.int.int.object.System.Collections.IComparer).array 'KeepCoding.ArrayHelper.BinarySearch(System.Array, int, int, object, System.Collections.IComparer).array').
+#### Exceptions
+[System.ArgumentNullException](https://docs.microsoft.com/en-us/dotnet/api/System.ArgumentNullException 'System.ArgumentNullException')  
+[System.RankException](https://docs.microsoft.com/en-us/dotnet/api/System.RankException 'System.RankException')  
+[System.ArgumentOutOfRangeException](https://docs.microsoft.com/en-us/dotnet/api/System.ArgumentOutOfRangeException 'System.ArgumentOutOfRangeException')  
+[System.ArgumentException](https://docs.microsoft.com/en-us/dotnet/api/System.ArgumentException 'System.ArgumentException')  
+[System.InvalidOperationException](https://docs.microsoft.com/en-us/dotnet/api/System.InvalidOperationException 'System.InvalidOperationException')  
+### Remarks
+#### See Also
+- [https://docs.microsoft.com/en-us/dotnet/api/system.array.binarysearch?view=net-5.0#System_Array_BinarySearch_System_Array_System_Int32_System_Int32_System_Object_System_Collections_IComparer_](https://docs.microsoft.com/en-us/dotnet/api/system.array.binarysearch?view=net-5.0#System_Array_BinarySearch_System_Array_System_Int32_System_Int32_System_Object_System_Collections_IComparer_ 'https://docs.microsoft.com/en-us/dotnet/api/system.array.binarysearch?view=net-5.0#System_Array_BinarySearch_System_Array_System_Int32_System_Int32_System_Object_System_Collections_IComparer_')
