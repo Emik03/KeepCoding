@@ -160,7 +160,15 @@ namespace KeepCoding
         /// <param name="onPass">Called when the needy is solved.</param>
         /// <param name="onStrike">Called when the needy strikes.</param>
         /// <param name="onTimerExpired">Called when the timer runs out of time.</param>
-        public void Assign(Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null) => Module.Assign(_activate.Combine(onActivate), onNeedyActivation.Combine(() => IsNeedyActive = true), onNeedyDeactivation.Combine(() => IsNeedyActive = false), onPass, onStrike, onTimerExpired);
+        public void Assign(Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null) => Module.Assign(_activate.Combine(onActivate), onNeedyActivation.Combine(() =>
+        {
+            OnNeedyActivate();
+            IsNeedyActive = true;
+        }), onNeedyDeactivation.Combine(() =>
+        {
+            OnNeedyDeactivate();
+            IsNeedyActive = false;
+        }), onPass, onStrike, onTimerExpired);
 
         /// <summary>
         /// Handles typical button <see cref="KMSelectable.OnInteract"/> behaviour.
@@ -283,6 +291,16 @@ namespace KeepCoding
         /// </remarks>
         /// <param name="moduleName">The sender's module name, which caused a strike.</param>
         public virtual void OnModuleStrike(string moduleName) { }
+
+        /// <summary>
+        /// Called when the needy activates.
+        /// </summary>
+        public virtual void OnNeedyActivate() { }
+
+        /// <summary>
+        /// Called when the needy deactivates.
+        /// </summary>
+        public virtual void OnNeedyDeactivate() { }
 
         /// <summary>
         /// Called when any <see cref="KMNeedyModule"/> on the current bomb has been solved.
