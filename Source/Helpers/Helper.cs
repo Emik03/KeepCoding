@@ -782,22 +782,22 @@ namespace KeepCoding
         /// Flattens an <see cref="IEnumerator"/> such that nested <see cref="IEnumerator"/> calls get replaced with the output of those calls.
         /// </summary>
         /// <param name="source">The <see cref="IEnumerator"/> to flatten.</param>
-        /// <param name="except">Determines if it should call <see cref="Flatten(IEnumerator, Predicate{object})"/> for the item.</param>
+        /// <param name="except">If <see langword="true"/>, <see cref="Flatten(IEnumerator, Predicate{IEnumerator})"/> gets called recursively and each item from that output gets returned individually, otherwise the item is simply returned.</param>
         /// <returns><paramref name="source"/> where <see langword="yield"/> <see langword="return"/> <see cref="IEnumerator"/>s gets replaced with the output of those calls.</returns>
-        public static IEnumerator Flatten(this IEnumerator source, Predicate<object> except = null)
+        public static IEnumerator Flatten(this IEnumerator source, Predicate<IEnumerator> except = null)
         {
             while (source.MoveNext())
             {
-                if (!(except?.Invoke(source.Current) ?? false) && source.Current is IEnumerator enumerator)
+                if (!(source.Current is IEnumerator enumerator) || (except?.Invoke(enumerator) ?? false))
                 {
-                    IEnumerator result = enumerator.Flatten(except);
-
-                    while (result.MoveNext())
-                        yield return result.Current;
+                    yield return source.Current;
+                    continue;
                 }
 
-                else
-                    yield return source.Current;
+                IEnumerator result = enumerator.Flatten(except);
+
+                while (result.MoveNext())
+                    yield return result.Current;
             }
         }
 
