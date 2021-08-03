@@ -2659,14 +2659,28 @@ namespace KeepCoding
         ///     Clips this value to the range defined by <paramref name="minimumValue"/> and <paramref name="maximumValue"/>.
         ///     The returned number will be no less than the minimum value and no greater than the maximum value. Throws an
         ///     exception if min value is greater than the max value.</summary>
+        public static float Clip(this float value, float minimumValue, float maximumValue) => minimumValue > maximumValue
+                ? throw new ArgumentException("Clip: minimumValue cannot be greater than maximumValue.", nameof(maximumValue))
+                : value <= minimumValue ? minimumValue : value >= maximumValue ? maximumValue : value;
+
+        /// <summary>Clips this value so that it is no less than the minimum value specified.</summary>
+        public static float ClipMin(this float value, float minimumValue) => value <= minimumValue ? minimumValue : value;
+
+        /// <summary>Clips this value so that it is no greater than the maximum value specified.</summary>
+        public static float ClipMax(this float value, float maxnimumValue) => value >= maxnimumValue ? maxnimumValue : value;
+
+        /// <summary>
+        ///     Clips this value to the range defined by <paramref name="minimumValue"/> and <paramref name="maximumValue"/>.
+        ///     The returned number will be no less than the minimum value and no greater than the maximum value. Throws an
+        ///     exception if min value is greater than the max value.</summary>
         public static double Clip(this double value, double minimumValue, double maximumValue) => minimumValue > maximumValue
                 ? throw new ArgumentException("Clip: minimumValue cannot be greater than maximumValue.", nameof(maximumValue))
                 : value <= minimumValue ? minimumValue : value >= maximumValue ? maximumValue : value;
 
         /// <summary>Clips this value so that it is no less than the minimum value specified.</summary>
         public static double ClipMin(this double value, double minimumValue) => value <= minimumValue ? minimumValue : value;
+
         /// <summary>Clips this value so that it is no greater than the maximum value specified.</summary>
-        /// 
         public static double ClipMax(this double value, double maxnimumValue) => value >= maxnimumValue ? maxnimumValue : value;
 
         /// <summary>
