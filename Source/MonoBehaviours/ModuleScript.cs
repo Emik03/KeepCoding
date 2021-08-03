@@ -109,7 +109,7 @@ namespace KeepCoding
         /// <remarks>
         /// Due to type ambiguity, a non-generic interface is returned.
         /// </remarks>
-        public ITP TP => _tp ??= GetComponents<Component>().FirstOrDefault(c => c is ITP) as ITP;
+        public ITP TP => _tp ??= GetComponent<ITP>();
         private ITP _tp;
 
         /// <summary>
