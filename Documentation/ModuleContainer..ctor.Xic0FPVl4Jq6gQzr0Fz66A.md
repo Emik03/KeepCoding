@@ -3,7 +3,7 @@
 ## ModuleContainer.ModuleContainer(KMBombModule, KMNeedyModule) Constructor
 Encapsulates either a solvable or needy module.  
 ```csharp
-public ModuleContainer(KMBombModule solvable=null, KMNeedyModule needy=null);
+public ModuleContainer(KMBombModule solvable, KMNeedyModule needy);
 ```
 #### Parameters
 <a name='KeepCoding.ModuleContainer.ModuleContainer(KMBombModule.KMNeedyModule).solvable'></a>
