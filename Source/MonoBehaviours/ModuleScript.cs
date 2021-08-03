@@ -228,41 +228,6 @@ namespace KeepCoding
         public void LogMultiple(params string[] logs) => _logger.LogMultiple(logs);
 
         /// <summary>
-        /// Solves the module, and logs all of the parameters.
-        /// </summary>
-        /// <param name="logs">All of the entries to log.</param>
-        public void Solve(params string[] logs)
-        {
-            if (IsSolved)
-                return;
-
-            if (_hasException)
-                Game.AddStrikes(gameObject, -_strikes, false);
-
-            LogMultiple(logs);
-
-            IsSolved = true;
-            Module.Solve();
-        }
-
-        /// <summary>
-        /// Strikes the module, and logs all of the parameters.
-        /// </summary>
-        /// <param name="logs">All of the entries to log.</param>
-        public void Strike(params string[] logs)
-        {
-            if (_hasException)
-                return;
-
-            LogMultiple(logs);
-
-            HasStruck = true;
-            _strikes++;
-
-            Module.Strike();
-        }
-
-        /// <summary>
         /// Called when the module instantiates, well before the lights turn on.
         /// </summary>
         public virtual void OnAwake() { }
@@ -324,6 +289,41 @@ namespace KeepCoding
         /// Called when the timer's seconds-digit changes.
         /// </summary>
         public virtual void OnTimerTick() { }
+
+        /// <summary>
+        /// Solves the module, and logs all of the parameters.
+        /// </summary>
+        /// <param name="logs">All of the entries to log.</param>
+        public void Solve(params string[] logs)
+        {
+            if (IsSolved)
+                return;
+
+            if (_hasException)
+                Game.AddStrikes(gameObject, -_strikes, false);
+
+            LogMultiple(logs);
+
+            IsSolved = true;
+            Module.Solve();
+        }
+
+        /// <summary>
+        /// Strikes the module, and logs all of the parameters.
+        /// </summary>
+        /// <param name="logs">All of the entries to log.</param>
+        public void Strike(params string[] logs)
+        {
+            if (_hasException)
+                return;
+
+            LogMultiple(logs);
+
+            HasStruck = true;
+            _strikes++;
+
+            Module.Strike();
+        }
 
         /// <summary>
         /// Sends information to a static variable such that other modules can access it.
