@@ -44,7 +44,7 @@ namespace KeepCoding
             get => IsColorblindSupported ? Colorblind.IsModuleEnabled : throw new MissingMethodException($"Colorblind is not implemented for this module! You need to override {nameof(OnColorblindChanged)} if you want to implement colorblind support!");
             set
             {
-                if (Colorblind.IsModuleEnabled != value)
+                if (IsColorblind != value)
                     OnColorblindChanged(Colorblind.IsModuleEnabled = value);
             }
         }
