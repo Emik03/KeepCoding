@@ -168,7 +168,11 @@ namespace KeepCoding
         {
             OnNeedyDeactivate();
             IsNeedyActive = false;
-        }), onPass, onStrike, onTimerExpired);
+        }), onPass, onStrike, onTimerExpired.Combine(() =>
+        {
+            OnNeedyDeactivate();
+            IsNeedyActive = false;
+        }));
 
         /// <summary>
         /// Handles typical button <see cref="KMSelectable.OnInteract"/> behaviour.
@@ -263,7 +267,7 @@ namespace KeepCoding
         public virtual void OnNeedyActivate() { }
 
         /// <summary>
-        /// Called when the needy deactivates.
+        /// Called when the needy deactivates or runs out of time.
         /// </summary>
         public virtual void OnNeedyDeactivate() { }
 
