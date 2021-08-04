@@ -54,7 +54,7 @@ Implements [IDump](IDump.md 'KeepCoding.IDump'), [ILog](ILog.md 'KeepCoding.ILog
 | [OnDestruct()](ModuleScript.OnDestruct().md 'KeepCoding.ModuleScript.OnDestruct()') | Called when the module destroys itself, after the bomb unloads.<br/> |
 | [OnModuleStrike(string)](ModuleScript.OnModuleStrike.MUPuIM99ct4yNa4EgzAU0A.md 'KeepCoding.ModuleScript.OnModuleStrike(string)') | Called when any module on the current bomb has issued a strike.<br/> |
 | [OnNeedyActivate()](ModuleScript.OnNeedyActivate().md 'KeepCoding.ModuleScript.OnNeedyActivate()') | Called when the needy activates.<br/> |
-| [OnNeedyDeactivate()](ModuleScript.OnNeedyDeactivate().md 'KeepCoding.ModuleScript.OnNeedyDeactivate()') | Called when the needy deactivates.<br/> |
+| [OnNeedyDeactivate()](ModuleScript.OnNeedyDeactivate().md 'KeepCoding.ModuleScript.OnNeedyDeactivate()') | Called when the needy deactivates or runs out of time.<br/> |
 | [OnNeedySolved(string)](ModuleScript.OnNeedySolved.Qhy3nCuSXavj4NqCT0E0bA.md 'KeepCoding.ModuleScript.OnNeedySolved(string)') | Called when any [KMNeedyModule](https://docs.microsoft.com/en-us/dotnet/api/KMNeedyModule 'KMNeedyModule') on the current bomb has been solved.<br/> |
 | [OnSolvableSolved(string)](ModuleScript.OnSolvableSolved.MDFRwwyawutqM6KSZwb63w.md 'KeepCoding.ModuleScript.OnSolvableSolved(string)') | Called when any [KMBombModule](https://docs.microsoft.com/en-us/dotnet/api/KMBombModule 'KMBombModule') on the current bomb has been solved.<br/> |
 | [OnTimerTick()](ModuleScript.OnTimerTick().md 'KeepCoding.ModuleScript.OnTimerTick()') | Called when the timer's seconds-digit changes.<br/> |
