@@ -66,7 +66,7 @@ namespace KeepCoding.Internal
         ///         TupleBase tuple = new TupleBase();
         ///         
         ///         // This uses the getter.
-        ///         Try(b => Log(tuple[b]);
+        ///         Try(b => Log(tuple[b]));
         ///         
         ///         // This uses the setter.
         ///         Try(b => tuple[b] = 0);
