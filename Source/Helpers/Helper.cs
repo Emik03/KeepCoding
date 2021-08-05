@@ -92,6 +92,24 @@ namespace KeepCoding
         public static bool ImplementsMethod(this Type type, string method, BindingFlags flags = Flags) => type.GetMethods(Flags).Any(s => s.Name == method);
 
         /// <summary>
+        /// Determines whether <paramref name="item"/> is equal to any items in <paramref name="comparisons"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of both parameters, and the type to use equality for.</typeparam>
+        /// <param name="item">The type of the initial item to compare.</param>
+        /// <param name="comparisons">The <see cref="Array"/> of items to compare to.</param>
+        /// <returns><see langword="true"/> if any of the items in <paramref name="comparisons"/> is equal to <paramref name="item"/>.</returns>
+        public static bool IsAny<T>(this T item, params T[] comparisons) => comparisons.Contains(item);
+
+        /// <summary>
+        /// Determines whether <paramref name="item"/> is equal to all items in <paramref name="comparisons"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of both parameters, and the type to use equality for.</typeparam>
+        /// <param name="item">The type of the initial item to compare.</param>
+        /// <param name="comparisons">The <see cref="Array"/> of items to compare to.</param>
+        /// <returns><see langword="true"/> if all items in <paramref name="comparisons"/> is equal to <paramref name="item"/>.</returns>
+        public static bool IsAll<T>(this T item, params T[] comparisons) => comparisons.All(t => t.Equals(item));
+
+        /// <summary>
         /// Determines whether the number is equal or in-between 2 values.
         /// </summary>
         /// <param name="comparison">The number to use as comparison.</param>
