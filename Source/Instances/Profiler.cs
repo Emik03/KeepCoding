@@ -11,9 +11,7 @@ namespace KeepCoding
     /// </summary>
     public sealed class Profiler : IDisposable
     {
-        private readonly Action<string> _first;
-
-        private readonly Action<TimeSpan> _second;
+        private readonly Action<string, TimeSpan> _action;
 
         private readonly Stopwatch _stopwatch;
 
@@ -21,20 +19,26 @@ namespace KeepCoding
         /// Creates a profiler that will run an <see cref="Action{T}"/> with a <see cref="string"/> as the resulting parameter when <see cref="Dispose"/> runs.
         /// </summary>
         /// <param name="action">The action to run when disposed.</param>
-        public Profiler(Action<string> action) : this() => _first = action ?? throw new ArgumentNullException(nameof(action));
+        public Profiler(Action<string> action) : this() => _action = (s, t) => action?.Invoke(s);
 
         /// <summary>
         /// Creates a profiler that will run an <see cref="Action{T}"/> with a <see cref="string"/> and <see cref="LogType"/> as the resulting parameter when <see cref="Dispose"/> runs.
         /// </summary>
         /// <param name="action">The action to run when disposed.</param>
         /// <param name="type">The type of logging to perform.</param>
-        public Profiler(Action<string, LogType> action, LogType type = Log) : this() => _first = s => (action ?? throw new ArgumentNullException(nameof(action)))(s, type);
+        public Profiler(Action<string, LogType> action, LogType type = Log) : this() => _action = (s, t) => action?.Invoke(s, type);
+
+        /// <summary>
+        /// Creates a profiler that will run an <see cref="Action{T}"/> with a <see cref="string"/> and <see cref="TimeSpan"/> as the resulting parameter when <see cref="Dispose"/> runs.
+        /// </summary>
+        /// <param name="action">The action to run when disposed.</param>
+        public Profiler(Action<string, TimeSpan> action) : this() => _action = action;
 
         /// <summary>
         /// Creates a profiler that will run an <see cref="Action{T}"/> with a <see cref="TimeSpan"/> as the resulting parameter when <see cref="Dispose"/> runs.
         /// </summary>
         /// <param name="action">The action to run when disposed.</param>
-        public Profiler(Action<TimeSpan> action) : this() => _second = action ?? throw new ArgumentNullException(nameof(action));
+        public Profiler(Action<TimeSpan> action) : this() => _action = (s, t) => action?.Invoke(t);
 
         /// <summary>
         /// Creates a profiler that will not run any actions.
@@ -53,11 +57,7 @@ namespace KeepCoding
         {
             TimeSpan elapsed = Stop();
 
-            if (_first is { })
-                _first(elapsed.ToString());
-
-            if (_second is { })
-                _second(elapsed);
+            _action?.Invoke($"{new StackTrace().GetFrame(1).GetMethod().Name}: {elapsed}", elapsed);
         }
 
         /// <summary>
