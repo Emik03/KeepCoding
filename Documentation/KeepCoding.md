@@ -27,6 +27,7 @@
 | [ModuleScript](ModuleScript.md 'KeepCoding.ModuleScript') | Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes.<br/> |
 | [Number](Number.md 'KeepCoding.Number') | Class meant to encapsulate a primitive numeric value.<br/> |
 | [PathManager](PathManager.md 'KeepCoding.PathManager') | Allows loading external information stored on the module. <br/> |
+| [Profiler](Profiler.md 'KeepCoding.Profiler') | Times your code and runs a method after [Dispose()](Profiler.Dispose().md 'KeepCoding.Profiler.Dispose()') runs.<br/> |
 | [Routine](Routine.md 'KeepCoding.Routine') | Advanced coroutine handler.<br/> |
 | [Routine&lt;T&gt;](Routine.T..md 'KeepCoding.Routine&lt;T&gt;') | Advanced coroutine handler. <br/> |
 | [Routine&lt;T1,T2&gt;](Routine.T1.T2..md 'KeepCoding.Routine&lt;T1,T2&gt;') | Advanced coroutine handler. <br/> |
