@@ -95,7 +95,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool IsCurrentControlTypeVR => new[] { ControlType.Gaze, ControlType.Motion, ControlType.ThreeDOF }.Contains(CurrentControlType);
+            public static bool IsCurrentControlTypeVR => CurrentControlType.IsAny(ControlType.Gaze, ControlType.Motion, ControlType.ThreeDOF);
 
             /// <summary>
             /// The current way the game is being controlled.
