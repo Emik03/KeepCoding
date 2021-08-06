@@ -8,7 +8,6 @@ using System.Reflection;
 using System.Text;
 using KeepCoding.Internal;
 using UnityEngine;
-using static System.Globalization.CultureInfo;
 using static System.Int32;
 using static System.Linq.Enumerable;
 using static System.Math;
@@ -553,22 +552,44 @@ namespace KeepCoding
         /// </remarks>
         /// <typeparam name="T">The format of the string.</typeparam>
         /// <param name="source">The item to represent as a <see cref="string"/></param>
+        /// <param name="format">Determines how it is formatted.</param>
         /// <returns><paramref name="source"/> as a <see cref="string"/>.</returns>
-        public static string Stringify<T>(this T source) => source switch
+        public static string Stringify<T>(this T source, StringifyFormat format = null)
         {
-            null => Null,
-            bool b => b ? "true" : "false",
-            char c => $"'{c}'",
-            string s => $"\"{s}\"",
-            float f => f.ToString(InvariantCulture),
-            double d => d.ToString(InvariantCulture),
-            decimal de => de.ToString(InvariantCulture),
-            TupleBase tuple => $"({Combine(tuple.ToArray.ConvertAll(o => Stringify(o)))})",
-            IDictionary dictionary => $"{{ {Combine(AsEnumerable(dictionary.GetEnumerator()).Cast<object>().Select(o => $"{Stringify(((DictionaryEntry)o).Key)}: {Stringify(((DictionaryEntry)o).Value)}"))} }}",
-            IEnumerable enumerable => $"[{Join(", ", enumerable.Cast<object>().Select(Stringify).ToArray())}]",
-            IEnumerator enumerator => Stringify(AsEnumerable(enumerator)),
-            _ => source.ToString()
-        };
+            static string Recursion(IEnumerable enumerable, string join, StringifyFormat format) => Join(join, enumerable
+                .Cast<object>()
+                .Select(o => Stringify(o, format))
+                .ToArray());
+
+            format ??= new StringifyFormat();
+
+            return source switch
+            {
+                null => format.NullArg,
+
+                bool b => b ? format.TrueArg : format.FalseArg,
+
+                char c => $"{format.CharIndicator}{c}{format.CharIndicator}",
+
+                string s => $"{format.StringIndicator}{s}{format.StringIndicator}",
+
+                float f => f.ToString(format.DecimalFormat),
+
+                double d => d.ToString(format.DecimalFormat),
+
+                decimal de => de.ToString(format.DecimalFormat),
+
+                TupleBase tuple => $"{format.TupleStart}{Recursion(tuple.ToArray, format.TupleSeparator, format)}{format.TupleEnd}",
+
+                IDictionary dictionary => $"{format.DictionaryStart}{Join(format.DictionarySeparator, AsEnumerable(dictionary.GetEnumerator()).Cast<object>().Select(o => $"{Stringify(((DictionaryEntry)o).Key)}{format.KeyValuePairSeparator}{Stringify(((DictionaryEntry)o).Value)}").ToArray())}{format.DictionaryEnd}",
+
+                IEnumerable enumerable => $"{format.ArrayStart}{Recursion(enumerable, format.ArraySeparator, format)}{format.ArrayEnd}",
+
+                IEnumerator enumerator => Stringify(AsEnumerable(enumerator)),
+
+                _ => source.ToString()
+            };
+        }
 
         /// <summary>
         /// Converts a number to the ordinal as <see cref="string"/>.

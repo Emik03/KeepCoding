@@ -34,6 +34,7 @@
 | [Routine&lt;T1,T2,T3&gt;](Routine.T1.T2.T3..md 'KeepCoding.Routine&lt;T1,T2,T3&gt;') | Advanced coroutine handler. <br/> |
 | [Routine&lt;T1,T2,T3,T4&gt;](Routine.T1.T2.T3.T4..md 'KeepCoding.Routine&lt;T1,T2,T3,T4&gt;') | Advanced coroutine handler. <br/> |
 | [Sound](Sound.md 'KeepCoding.Sound') | Class meant to encapsulate all types of sound effects [KMAudio](https://docs.microsoft.com/en-us/dotnet/api/KMAudio 'KMAudio') uses. Currently used in [ModuleScript](ModuleScript.md 'KeepCoding.ModuleScript').<br/> |
+| [StringifyFormat](StringifyFormat.md 'KeepCoding.StringifyFormat') | Specfies a format for [Stringify&lt;T&gt;(T, StringifyFormat)](Helper.Stringify.MMjDPqfcLXL+EYRaH4glrw.md 'KeepCoding.Helper.Stringify&lt;T&gt;(T, KeepCoding.StringifyFormat)').<br/> |
 | [TPScript&lt;TModule&gt;](TPScript.TModule..md 'KeepCoding.TPScript&lt;TModule&gt;') | Base class for TwitchPlays support for solvable and needy modded modules in Keep Talking and Nobody Explodes. <br/> |
 | [Tuple&lt;T&gt;](Tuple.T..md 'KeepCoding.Tuple&lt;T&gt;') | A basic tuple data type for C# 4.<br/> |
 | [Tuple&lt;T1,T2&gt;](Tuple.T1.T2..md 'KeepCoding.Tuple&lt;T1,T2&gt;') | A basic tuple data type for C# 4. <br/> |
