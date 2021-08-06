@@ -307,6 +307,9 @@ namespace KeepCoding
         {
             selectables.NullOrEmptyCheck($"The {nameof(KMSelectable)} array is null or empty.");
 
+            if (indices is null)
+                yield break;
+
             Module.HasStruck = false;
 
             for (int i = 0; i < indices.Length && !Module.HasStruck; i++)
