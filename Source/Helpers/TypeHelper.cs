@@ -372,6 +372,30 @@ namespace KeepCoding
                 y + vector.y);
 
         /// <summary>
+        /// Duplicates the vector, and sets the x and y components only if they are specified.
+        /// </summary>
+        /// <param name="vector">The <see cref="Vector2Int"/> to duplicate and modify.</param>
+        /// <param name="x">The x value.</param>
+        /// <param name="y">The y value.</param>
+        /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
+        public static Vector2Int Add(ref Vector2Int vector, int x = 0, int y = 0)
+            => vector = new Vector2Int(
+                x + vector.x,
+                y + vector.y);
+
+        /// <summary>
+        /// Takes the vector, and sets the x and y components only if they are specified.
+        /// </summary>
+        /// <param name="vector">The <see cref="Vector2Int"/> to duplicate and modify.</param>
+        /// <param name="x">The x value.</param>
+        /// <param name="y">The y value.</param>
+        /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
+        public static Vector2Int Add(this Vector2Int vector, int x = 0, int y = 0)
+            => new Vector2Int(
+                x + vector.x,
+                y + vector.y);
+
+        /// <summary>
         /// Duplicates the vector, and sets the x, y, and z components only if they are specified.
         /// </summary>
         /// <param name="vector">The <see cref="Vector3"/> to duplicate and modify.</param>
@@ -395,6 +419,34 @@ namespace KeepCoding
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
         public static Vector3 Add(this Vector3 vector, float x = 0, float y = 0, float z = 0)
             => new Vector3(
+                x + vector.x,
+                y + vector.y,
+                z + vector.z);
+
+        /// <summary>
+        /// Duplicates the vector, and sets the x, y, and z components only if they are specified.
+        /// </summary>
+        /// <param name="vector">The <see cref="Vector3Int"/> to duplicate and modify.</param>
+        /// <param name="x">The x value.</param>
+        /// <param name="y">The y value.</param>
+        /// <param name="z">The z value.</param>
+        /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
+        public static Vector3Int Add(ref Vector3Int vector, int x = 0, int y = 0, int z = 0)
+            => vector = new Vector3Int(
+                x + vector.x,
+                y + vector.y,
+                z + vector.z);
+
+        /// <summary>
+        /// Takes the vector, and sets the x, y, and z components only if they are specified.
+        /// </summary>
+        /// <param name="vector">The <see cref="Vector3Int"/> to duplicate and modify.</param>
+        /// <param name="x">The x value.</param>
+        /// <param name="y">The y value.</param>
+        /// <param name="z">The z value.</param>
+        /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
+        public static Vector3Int Add(this Vector3Int vector, int x = 0, int y = 0, int z = 0)
+            => new Vector3Int(
                 x + vector.x,
                 y + vector.y,
                 z + vector.z);
@@ -456,6 +508,30 @@ namespace KeepCoding
                 y ?? vector.y);
 
         /// <summary>
+        /// Takes the vector, and sets the x and y components only if they are specified.
+        /// </summary>
+        /// <param name="vector">The <see cref="Vector2Int"/> to duplicate and modify.</param>
+        /// <param name="x">The x value.</param>
+        /// <param name="y">The y value.</param>
+        /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
+        public static Vector2Int Set(ref Vector2Int vector, int? x = null, int? y = null)
+            => vector = new Vector2Int(
+                x ?? vector.x,
+                y ?? vector.y);
+
+        /// <summary>
+        /// Duplicates the vector, and sets the x and y components only if they are specified.
+        /// </summary>
+        /// <param name="vector">The <see cref="Vector2Int"/> to duplicate and modify.</param>
+        /// <param name="x">The x value.</param>
+        /// <param name="y">The y value.</param>
+        /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
+        public static Vector2Int Set(this Vector2Int vector, int? x = null, int? y = null)
+            => new Vector2Int(
+                x ?? vector.x,
+                y ?? vector.y);
+
+        /// <summary>
         /// Takes the vector, and sets the x, y, and z components only if they are specified.
         /// </summary>
         /// <param name="vector">The <see cref="Vector3"/> to duplicate and modify.</param>
@@ -479,6 +555,34 @@ namespace KeepCoding
         /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
         public static Vector3 Set(this Vector3 vector, float? x = null, float? y = null, float? z = null)
             => new Vector3(
+                x ?? vector.x,
+                y ?? vector.y,
+                z ?? vector.z);
+
+        /// <summary>
+        /// Takes the vector, and sets the x, y, and z components only if they are specified.
+        /// </summary>
+        /// <param name="vector">The <see cref="Vector3Int"/> to duplicate and modify.</param>
+        /// <param name="x">The x value.</param>
+        /// <param name="y">The y value.</param>
+        /// <param name="z">The z value.</param>
+        /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
+        public static Vector3Int Set(ref Vector3Int vector, int? x = null, int? y = null, int? z = null)
+            => vector = new Vector3Int(
+                x ?? vector.x,
+                y ?? vector.y,
+                z ?? vector.z);
+
+        /// <summary>
+        /// Duplicates the vector, and sets the x, y, and z components only if they are specified.
+        /// </summary>
+        /// <param name="vector">The <see cref="Vector3Int"/> to duplicate and modify.</param>
+        /// <param name="x">The x value.</param>
+        /// <param name="y">The y value.</param>
+        /// <param name="z">The z value.</param>
+        /// <returns>A new instance of <paramref name="vector"/>, with the arguments replacing the values.</returns>
+        public static Vector3Int Set(this Vector3Int vector, int? x = null, int? y = null, int? z = null)
+            => new Vector3Int(
                 x ?? vector.x,
                 y ?? vector.y,
                 z ?? vector.z);
