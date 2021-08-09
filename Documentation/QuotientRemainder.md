@@ -5,6 +5,8 @@ Encapsulates the two-valued result of a division/modulo operation ([DivideModulo
 ```csharp
 public struct QuotientRemainder
 ```
+### Remarks
+This struct has been written by Timwi. [https://github.com/Timwi/](https://github.com/Timwi/ 'https://github.com/Timwi/')
 
 | Constructors | |
 | :--- | :--- |

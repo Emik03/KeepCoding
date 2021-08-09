@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[BigInt](BigInt.md 'KeepCoding.BigInt')
 ## BigInt.Equals(object) Method
-Equality comparison.
+Equality comparison.  
 ```csharp
 public override bool Equals(object obj);
 ```

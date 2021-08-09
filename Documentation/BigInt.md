@@ -9,6 +9,8 @@ System.IEquatable<KeepCoding.BigInt>
 ```
 
 Implements [System.IComparable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IComparable-1 'System.IComparable`1')[BigInt](BigInt.md 'KeepCoding.BigInt')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IComparable-1 'System.IComparable`1'), [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[BigInt](BigInt.md 'KeepCoding.BigInt')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')  
+### Remarks
+This struct has been written by Timwi. [https://github.com/Timwi/](https://github.com/Timwi/ 'https://github.com/Timwi/')
 
 | Constructors | |
 | :--- | :--- |
@@ -20,7 +22,7 @@ Implements [System.IComparable&lt;](https://docs.microsoft.com/en-us/dotnet/api/
 | Properties | |
 | :--- | :--- |
 | [AbsoluteValue](BigInt.AbsoluteValue.md 'KeepCoding.BigInt.AbsoluteValue') | Returns the absolute value. |
-| [Inverse](BigInt.Inverse.md 'KeepCoding.BigInt.Inverse') | Returns the bitwise inverse (bitwise NOT). |
+| [Inverse](BigInt.Inverse.md 'KeepCoding.BigInt.Inverse') | Returns the bitwise inverse (bitwise NOT).<br/> |
 | [IsZero](BigInt.IsZero.md 'KeepCoding.BigInt.IsZero') | Determines whether the integer is 0.<br/> |
 | [MostSignificantBit](BigInt.MostSignificantBit.md 'KeepCoding.BigInt.MostSignificantBit') | Returns the bit-index of the most significant bit in this number. If the number is positive, this is the index of the most significant ‘1’ bit. If the number is negative, it is the index of the most significant ‘0’ bit. If the number is zero, the result is `-1`.<br/> |
 | [Negative](BigInt.Negative.md 'KeepCoding.BigInt.Negative') | Returns the negative value.<br/> |
@@ -33,7 +35,7 @@ Implements [System.IComparable&lt;](https://docs.microsoft.com/en-us/dotnet/api/
 | [Divide(BigInt)](BigInt.Divide.Tj+33o..jQkItwvaPt2hPQ.md 'KeepCoding.BigInt.Divide(KeepCoding.BigInt)') | Returns the quotient obtained by dividing this integer by [other](BigInt.Divide.Tj+33o..jQkItwvaPt2hPQ.md#KeepCoding.BigInt.Divide(KeepCoding.BigInt).other 'KeepCoding.BigInt.Divide(KeepCoding.BigInt).other').<br/> |
 | [DivideModulo(BigInt)](BigInt.DivideModulo.hKNytB2JMgJyLX17vZnr3Q.md 'KeepCoding.BigInt.DivideModulo(KeepCoding.BigInt)') | Calculates a quotient and remainder by dividing this integer by [other](BigInt.DivideModulo.hKNytB2JMgJyLX17vZnr3Q.md#KeepCoding.BigInt.DivideModulo(KeepCoding.BigInt).other 'KeepCoding.BigInt.DivideModulo(KeepCoding.BigInt).other').<br/> |
 | [Equals(BigInt)](BigInt.Equals.z9hX7TQe9Z2sVLNi.8zbPg.md 'KeepCoding.BigInt.Equals(KeepCoding.BigInt)') | Equality comparison.<br/> |
-| [Equals(object)](BigInt.Equals.5Ojuqo5l7af9VYeu3fJn5g.md 'KeepCoding.BigInt.Equals(object)') | Equality comparison. |
+| [Equals(object)](BigInt.Equals.5Ojuqo5l7af9VYeu3fJn5g.md 'KeepCoding.BigInt.Equals(object)') | Equality comparison.<br/> |
 | [GetBit(int)](BigInt.GetBit.oTqEE9Kz73+bDeqztoytlw.md 'KeepCoding.BigInt.GetBit(int)') | Returns whether the bit at [index](BigInt.GetBit.oTqEE9Kz73+bDeqztoytlw.md#KeepCoding.BigInt.GetBit(int).index 'KeepCoding.BigInt.GetBit(int).index') is 1 (regardless of the integer’s sign).<br/> |
 | [GetHashCode()](BigInt.GetHashCode().md 'KeepCoding.BigInt.GetHashCode()') | Hash code function.<br/> |
 | [Modulo(BigInt)](BigInt.Modulo.bLrlGdip1uw394Nftl4mog.md 'KeepCoding.BigInt.Modulo(KeepCoding.BigInt)') | Returns the remainder obtained when dividing this integer by [other](BigInt.Modulo.bLrlGdip1uw394Nftl4mog.md#KeepCoding.BigInt.Modulo(KeepCoding.BigInt).other 'KeepCoding.BigInt.Modulo(KeepCoding.BigInt).other').<br/> |
