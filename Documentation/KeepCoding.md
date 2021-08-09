@@ -4,7 +4,6 @@
 | Classes | |
 | :--- | :--- |
 | [ArrayHelper](ArrayHelper.md 'KeepCoding.ArrayHelper') | Extension methods surrounding [System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array') static methods to make code a bit shorter.<br/> |
-| [BigInteger](BigInteger.md 'KeepCoding.BigInteger') | Stores an arbitrarily large number.<br/> |
 | [CacheableBehaviour](CacheableBehaviour.md 'KeepCoding.CacheableBehaviour') | A [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') with additional caching capabilities. <br/> |
 | [ColorblindInfo](ColorblindInfo.md 'KeepCoding.ColorblindInfo') | Contains information about the colorblind mod's info, this class can be used to deserialize "ColorblindMode.json".<br/> |
 | [ComponentPool](ComponentPool.md 'KeepCoding.ComponentPool') | A ComponentPool is a collection of Module Types. The generator will pick [Count](ComponentPool.Count.md 'KeepCoding.ComponentPool.Count') times from this list and instantiate a component of the chosen type.<br/> |
@@ -48,6 +47,11 @@
 | [Work&lt;T1,T2,T3,T4,TResult&gt;](Work.T1.T2.T3.T4.TResult..md 'KeepCoding.Work&lt;T1,T2,T3,T4,TResult&gt;') | Advanced multi-threading handler.<br/> |
 | [Work&lt;T1,T2,T3,TResult&gt;](Work.T1.T2.T3.TResult..md 'KeepCoding.Work&lt;T1,T2,T3,TResult&gt;') | Advanced multi-threading handler.<br/> |
 | [Work&lt;T1,T2,TResult&gt;](Work.T1.T2.TResult..md 'KeepCoding.Work&lt;T1,T2,TResult&gt;') | Advanced multi-threading handler.<br/> |
+
+| Structs | |
+| :--- | :--- |
+| [BigInt](BigInt.md 'KeepCoding.BigInt') | Encapsulates an arbitrary-size integer.<br/> |
+| [QuotientRemainder](QuotientRemainder.md 'KeepCoding.QuotientRemainder') | Encapsulates the two-valued result of a division/modulo operation ([DivideModulo(BigInt)](BigInt.DivideModulo.hKNytB2JMgJyLX17vZnr3Q.md 'KeepCoding.BigInt.DivideModulo(KeepCoding.BigInt)').<br/> |
 
 | Interfaces | |
 | :--- | :--- |
