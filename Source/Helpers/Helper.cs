@@ -112,8 +112,25 @@ namespace KeepCoding
         /// Determines whether the number is equal or in-between 2 values.
         /// </summary>
         /// <param name="comparison">The number to use as comparison.</param>
-        /// <param name="min">The minimum value required to return true.</param>
-        /// <param name="max">The maximum value required to return true.</param>
+        /// <param name="min">The minimum value required to return <see langword="true"/>.</param>
+        /// <param name="max">The maximum value required to return <see langword="true"/>.</param>
+        /// <returns>True if <paramref name="comparison"/> is more than or equal <paramref name="min"/> and less than or equal <paramref name="max"/>.</returns>
+        public static bool IsBetween(this char comparison, char min, char max) => comparison >= min && comparison <= max;
+
+        /// <summary>
+        /// Determines whether the number is equal or in-between a tuple's <see cref="Tuple{T}.Item1"/> (minimum) and <see cref="Tuple{T1, T2}.Item2"/> (maximum).
+        /// </summary>
+        /// <param name="comparison">The number to use as comparison.</param>
+        /// <param name="range">The minimum and maximum value required to return <see langword="true"/>.</param>
+        /// <returns>True if <paramref name="comparison"/> is more than or equal <see cref="Tuple{T}.Item1"/> and less than or equal <see cref="Tuple{T1, T2}.Item2"/>.</returns>
+        public static bool IsBetween(this char comparison, Tuple<char, char> range) => comparison >= range.Item1 && comparison <= range.Item2;
+
+        /// <summary>
+        /// Determines whether the number is equal or in-between 2 values.
+        /// </summary>
+        /// <param name="comparison">The number to use as comparison.</param>
+        /// <param name="min">The minimum value required to return <see langword="true"/>.</param>
+        /// <param name="max">The maximum value required to return <see langword="true"/>.</param>
         /// <returns>True if <paramref name="comparison"/> is more than or equal <paramref name="min"/> and less than or equal <paramref name="max"/>.</returns>
         public static bool IsBetween(this int comparison, int min, int max) => comparison >= min && comparison <= max;
 
@@ -121,7 +138,7 @@ namespace KeepCoding
         /// Determines whether the number is equal or in-between a tuple's <see cref="Tuple{T}.Item1"/> (minimum) and <see cref="Tuple{T1, T2}.Item2"/> (maximum).
         /// </summary>
         /// <param name="comparison">The number to use as comparison.</param>
-        /// <param name="range">The minimum and maximum value required to return true.</param>
+        /// <param name="range">The minimum and maximum value required to return <see langword="true"/>.</param>
         /// <returns>True if <paramref name="comparison"/> is more than or equal <see cref="Tuple{T}.Item1"/> and less than or equal <see cref="Tuple{T1, T2}.Item2"/>.</returns>
         public static bool IsBetween(this int comparison, Tuple<int, int> range) => comparison >= range.Item1 && comparison <= range.Item2;
 
@@ -129,8 +146,8 @@ namespace KeepCoding
         /// Determines whether the number is equal or in-between 2 values.
         /// </summary>
         /// <param name="comparison">The number to use as comparison.</param>
-        /// <param name="min">The minimum value required to return true.</param>
-        /// <param name="max">The maximum value required to return true.</param>
+        /// <param name="min">The minimum value required to return <see langword="true"/>.</param>
+        /// <param name="max">The maximum value required to return <see langword="true"/>.</param>
         /// <returns>True if <paramref name="comparison"/> is more than or equal <paramref name="min"/> and less than or equal <paramref name="max"/>.</returns>
         public static bool IsBetween(this float comparison, float min, float max) => comparison >= min && comparison <= max;
 
@@ -138,9 +155,60 @@ namespace KeepCoding
         /// Determines whether the number is equal or in-between a tuple's <see cref="Tuple{T}.Item1"/> (minimum) and <see cref="Tuple{T1, T2}.Item2"/> (maximum).
         /// </summary>
         /// <param name="comparison">The number to use as comparison.</param>
-        /// <param name="range">The minimum and maximum value required to return true.</param>
+        /// <param name="range">The minimum and maximum value required to return <see langword="true"/>.</param>
         /// <returns>True if <paramref name="comparison"/> is more than or equal <see cref="Tuple{T}.Item1"/> and less than or equal <see cref="Tuple{T1, T2}.Item2"/>.</returns>
         public static bool IsBetween(this float comparison, Tuple<float, float> range) => comparison >= range.Item1 && comparison <= range.Item2;
+
+        /// <summary>
+        /// Determines whether the number is equal or in-between 2 values.
+        /// </summary>
+        /// <param name="comparison">The number to use as comparison.</param>
+        /// <param name="min">The minimum value required to return <see langword="true"/>.</param>
+        /// <param name="max">The maximum value required to return <see langword="true"/>.</param>
+        /// <returns>True if <paramref name="comparison"/> is more than or equal <paramref name="min"/> and less than or equal <paramref name="max"/>.</returns>
+        public static bool IsBetween(this long comparison, long min, long max) => comparison >= min && comparison <= max;
+
+        /// <summary>
+        /// Determines whether the number is equal or in-between a tuple's <see cref="Tuple{T}.Item1"/> (minimum) and <see cref="Tuple{T1, T2}.Item2"/> (maximum).
+        /// </summary>
+        /// <param name="comparison">The number to use as comparison.</param>
+        /// <param name="range">The minimum and maximum value required to return <see langword="true"/>.</param>
+        /// <returns>True if <paramref name="comparison"/> is more than or equal <see cref="Tuple{T}.Item1"/> and less than or equal <see cref="Tuple{T1, T2}.Item2"/>.</returns>
+        public static bool IsBetween(this long comparison, Tuple<long, long> range) => comparison >= range.Item1 && comparison <= range.Item2;
+
+        /// <summary>
+        /// Determines whether the number is equal or in-between 2 values.
+        /// </summary>
+        /// <param name="comparison">The number to use as comparison.</param>
+        /// <param name="min">The minimum value required to return <see langword="true"/>.</param>
+        /// <param name="max">The maximum value required to return <see langword="true"/>.</param>
+        /// <returns>True if <paramref name="comparison"/> is more than or equal <paramref name="min"/> and less than or equal <paramref name="max"/>.</returns>
+        public static bool IsBetween(this uint comparison, uint min, uint max) => comparison >= min && comparison <= max;
+
+        /// <summary>
+        /// Determines whether the number is equal or in-between a tuple's <see cref="Tuple{T}.Item1"/> (minimum) and <see cref="Tuple{T1, T2}.Item2"/> (maximum).
+        /// </summary>
+        /// <param name="comparison">The number to use as comparison.</param>
+        /// <param name="range">The minimum and maximum value required to return <see langword="true"/>.</param>
+        /// <returns>True if <paramref name="comparison"/> is more than or equal <see cref="Tuple{T}.Item1"/> and less than or equal <see cref="Tuple{T1, T2}.Item2"/>.</returns>
+        public static bool IsBetween(this uint comparison, Tuple<uint, uint> range) => comparison >= range.Item1 && comparison <= range.Item2;
+
+        /// <summary>
+        /// Determines whether the number is equal or in-between 2 values.
+        /// </summary>
+        /// <param name="comparison">The number to use as comparison.</param>
+        /// <param name="min">The minimum value required to return <see langword="true"/>.</param>
+        /// <param name="max">The maximum value required to return <see langword="true"/>.</param>
+        /// <returns>True if <paramref name="comparison"/> is more than or equal <paramref name="min"/> and less than or equal <paramref name="max"/>.</returns>
+        public static bool IsBetween(this ulong comparison, ulong min, ulong max) => comparison >= min && comparison <= max;
+
+        /// <summary>
+        /// Determines whether the number is equal or in-between a tuple's <see cref="Tuple{T}.Item1"/> (minimum) and <see cref="Tuple{T1, T2}.Item2"/> (maximum).
+        /// </summary>
+        /// <param name="comparison">The number to use as comparison.</param>
+        /// <param name="range">The minimum and maximum value required to return <see langword="true"/>.</param>
+        /// <returns>True if <paramref name="comparison"/> is more than or equal <see cref="Tuple{T}.Item1"/> and less than or equal <see cref="Tuple{T1, T2}.Item2"/>.</returns>
+        public static bool IsBetween(this ulong comparison, Tuple<ulong, ulong> range) => comparison >= range.Item1 && comparison <= range.Item2;
 
         /// <summary>
         /// Determines if the index is pointing to null in any way.
@@ -618,14 +686,6 @@ namespace KeepCoding
             LogType.Exception => o => LogException((Exception)o),
             _ => throw new UnrecognizedValueException($"{logType} is not a valid log type."),
         };
-
-        /// <summary>
-        /// Calculates the rem-euclid modulo, which allows negative numbers to be properly calculated.
-        /// </summary>
-        /// <param name="item">The left-hand side operator.</param>
-        /// <param name="bigInteger">The right-hand side operator.</param>
-        /// <returns>Itself mod <paramref name="bigInteger"/>.</returns>
-        public static BigInteger Modulo(this object item, BigInteger bigInteger) => (item % bigInteger + bigInteger) % bigInteger;
 
         /// <summary>
         /// Stops the coroutines only if they aren't <see langword="null"/>.

@@ -12,11 +12,11 @@ The number to use as comparison.
   
 <a name='KeepCoding.Helper.IsBetween(float.float.float).min'></a>
 `min` [System.Single](https://docs.microsoft.com/en-us/dotnet/api/System.Single 'System.Single')  
-The minimum value required to return true.
+The minimum value required to return [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool').
   
 <a name='KeepCoding.Helper.IsBetween(float.float.float).max'></a>
 `max` [System.Single](https://docs.microsoft.com/en-us/dotnet/api/System.Single 'System.Single')  
-The maximum value required to return true.
+The maximum value required to return [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool').
   
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
