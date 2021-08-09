@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[BigInt](BigInt.md 'KeepCoding.BigInt')
 ## BigInt.operator &(BigInt, BigInt) Operator
-Bitwise and operator.
+Bitwise and operator.  
 ```csharp
 public static KeepCoding.BigInt operator &(KeepCoding.BigInt one, KeepCoding.BigInt two);
 ```
