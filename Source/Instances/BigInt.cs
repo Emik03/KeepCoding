@@ -28,22 +28,6 @@ namespace KeepCoding
         public BigInt(int value) : this(null, value) { }
 
         /// <summary>
-        /// Constructs a <see cref="BigInt"/> from a 64-bit signed integer.
-        /// </summary>
-        public BigInt(long value)
-        {
-            if (value.IsBetween(int.MinValue, int.MaxValue))
-            {
-                _value = null;
-                _sign = (int)value;
-                return;
-            }
-
-            _value = new uint[] { unchecked((uint)value), unchecked((uint)(value >> 32)) };
-            _sign = unchecked((int)(value >> 63));
-        }
-
-        /// <summary>
         /// Constructs a <see cref="BigInt"/> from a 32-bit signed integer.
         /// </summary>
         public BigInt(uint value)
@@ -57,6 +41,22 @@ namespace KeepCoding
 
             _value = new uint[] { value };
             _sign = 0;
+        }
+
+        /// <summary>
+        /// Constructs a <see cref="BigInt"/> from a 64-bit signed integer.
+        /// </summary>
+        public BigInt(long value)
+        {
+            if (value.IsBetween(int.MinValue, int.MaxValue))
+            {
+                _value = null;
+                _sign = (int)value;
+                return;
+            }
+
+            _value = new uint[] { unchecked((uint)value), unchecked((uint)(value >> 32)) };
+            _sign = unchecked((int)(value >> 63));
         }
 
         /// <summary>
@@ -178,7 +178,9 @@ namespace KeepCoding
         /// </summary>
         public int Sign => _sign < 0 ? -1 : IsZero ? 0 : 1;
 
-        /// <summary>Returns the absolute value.</summary>
+        /// <summary>
+        /// Returns the absolute value.
+        /// </summary>
         public BigInt AbsoluteValue => _sign < 0 ? Negative : this;
 
         /// <summary>
@@ -454,7 +456,9 @@ namespace KeepCoding
             return new BigInt(nv, shorter._sign | longer._sign);
         }
 
-        /// <summary>Bitwise and operator.</summary>
+        /// <summary>
+        /// Bitwise and operator.
+        /// </summary>
         public static BigInt operator &(BigInt one, BigInt two)
         {
             uint[] nv, oth;
@@ -557,7 +561,8 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// Returns the result of a bit-shift-right by the specified <paramref name="amount"/>. This is equivalent to dividing by 2 to the power of <paramref name="amount"/> and rounding down.</summary>
+        /// Returns the result of a bit-shift-right by the specified <paramref name="amount"/>. This is equivalent to dividing by 2 to the power of <paramref name="amount"/> and rounding down.
+        /// </summary>
         /// <remarks>
         /// If <paramref name="amount"/> is negative, the number is shifted left instead.
         /// </remarks>
@@ -604,7 +609,8 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// Returns the result of a bit-shift-left by the specified <paramref name="amount"/>. This is equivalent to multiply by 2 to the power of <paramref name="amount"/>.</summary>
+        /// Returns the result of a bit-shift-left by the specified <paramref name="amount"/>. This is equivalent to multiply by 2 to the power of <paramref name="amount"/>.
+        /// </summary>
         /// <remarks>
         /// If <paramref name="amount"/> is negative, the number is shifted right instead.
         /// </remarks>
