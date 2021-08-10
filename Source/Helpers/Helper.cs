@@ -869,15 +869,6 @@ namespace KeepCoding
         public static IEnumerable<IEnumerable<T>> SplitEvery<T>(this IEnumerable<T> source, int length) => length > 0 ? source.NullCheck("The source cannot be null.").Select((item, inx) => new { item, inx }).GroupBy(x => x.inx / length).Select(g => g.Select(x => x.item)) : throw new ArgumentException($"The variable {nameof(length)} must be a positive number.");
 
         /// <summary>
-        /// Throws an exception if the <see cref="IEnumerator{T}"/> is null or empty.
-        /// </summary>
-        /// <exception cref="NullIteratorException"></exception>
-        /// <exception cref="EmptyIteratorException"></exception>
-        /// <param name="source">The string to check for null and empty.</param>
-        /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
-        public static IEnumerator<T> NullOrEmptyCheck<T>(this IEnumerator<T> source, string message = null) => (IEnumerator<T>)source.AsEnumerable().NullOrEmptyCheck(message);
-
-        /// <summary>
         /// Flattens an <see cref="IEnumerator"/> such that nested <see cref="IEnumerator"/> calls get replaced with the output of those calls.
         /// </summary>
         /// <param name="source">The <see cref="IEnumerator"/> to flatten.</param>
@@ -899,6 +890,15 @@ namespace KeepCoding
                     yield return result.Current;
             }
         }
+
+        /// <summary>
+        /// Throws an exception if the <see cref="IEnumerator{T}"/> is null or empty.
+        /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <param name="source">The string to check for null and empty.</param>
+        /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
+        public static IEnumerator<T> NullOrEmptyCheck<T>(this IEnumerator<T> source, string message = null) => (IEnumerator<T>)source.AsEnumerable().NullOrEmptyCheck(message);
 
         /// <summary>
         /// Gives list of module names that are unsolved.
