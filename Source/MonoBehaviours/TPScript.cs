@@ -305,7 +305,8 @@ namespace KeepCoding
         /// <returns>A sequence of button presses for Twitch Plays to process.</returns>
         protected IEnumerator OnInteractSequence(KMSelectable[] selectables, float wait)
         {
-            selectables.NullOrEmptyCheck($"The {nameof(KMSelectable)} array is null or empty.");
+            if (selectables is null)
+                yield break;
 
             Module.HasStruck = false;
 
