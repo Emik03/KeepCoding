@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[CustomEqualityComparer&lt;T&gt;](CustomEqualityComparer.T..md 'KeepCoding.CustomEqualityComparer&lt;T&gt;')
 ## CustomEqualityComparer&lt;T&gt;.CustomEqualityComparer(Func&lt;T,T,bool&gt;, Func&lt;T,int&gt;) Constructor
-Constructor.
+Constructor.  
 ```csharp
 public CustomEqualityComparer(System.Func<T,T,bool> comparison, System.Func<T,int> getHashCode);
 ```

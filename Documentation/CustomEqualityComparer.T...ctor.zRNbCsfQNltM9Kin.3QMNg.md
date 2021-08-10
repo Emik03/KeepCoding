@@ -1,8 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[CustomEqualityComparer&lt;T&gt;](CustomEqualityComparer.T..md 'KeepCoding.CustomEqualityComparer&lt;T&gt;')
 ## CustomEqualityComparer&lt;T&gt;.CustomEqualityComparer(Func&lt;T,T,bool&gt;) Constructor
-Constructor which re-uses the default hash function. Use this overload only if using the objects’ original  
-hash function is appropriate for this equality comparison.
+Constructor which re-uses the default hash function. Use this overload only if using the objects’ original hash function is appropriate for this equality comparison.
 ```csharp
 public CustomEqualityComparer(System.Func<T,T,bool> comparison);
 ```

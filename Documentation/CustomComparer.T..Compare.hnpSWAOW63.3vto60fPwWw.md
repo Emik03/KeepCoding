@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[CustomComparer&lt;T&gt;](CustomComparer.T..md 'KeepCoding.CustomComparer&lt;T&gt;')
 ## CustomComparer&lt;T&gt;.Compare(T, T) Method
-Compares two elements.
+Compares two elements.  
 ```csharp
 public int Compare(T x, T y);
 ```
@@ -17,4 +17,4 @@ public int Compare(T x, T y);
 
 Implements [Compare(T, T)](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IComparer-1.Compare#System_Collections_Generic_IComparer_1_Compare__0,_0_ 'System.Collections.Generic.IComparer`1.Compare(`0,`0)')  
 ### Remarks
-This method implements [System.Collections.Generic.IComparer&lt;&gt;.Compare(@0,@0)](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IComparer-1.Compare#System_Collections_Generic_IComparer_1_Compare__0,_0_ 'System.Collections.Generic.IComparer`1.Compare(`0,`0)').
+This method implements [System.Collections.Generic.IComparer&lt;&gt;.Compare(@0,@0)](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IComparer-1.Compare#System_Collections_Generic_IComparer_1_Compare__0,_0_ 'System.Collections.Generic.IComparer`1.Compare(`0,`0)').  

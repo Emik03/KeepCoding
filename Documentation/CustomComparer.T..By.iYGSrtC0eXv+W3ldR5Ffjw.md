@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[CustomComparer&lt;T&gt;](CustomComparer.T..md 'KeepCoding.CustomComparer&lt;T&gt;')
 ## CustomComparer&lt;T&gt;.By&lt;TBy&gt;(Func&lt;T,TBy&gt;, Comparison&lt;TBy&gt;) Method
-Creates and returns a CustomComparer which compares items by comparing the results of a selector function.
+Creates and returns a CustomComparer which compares items by comparing the results of a selector function.  
 ```csharp
 public static KeepCoding.CustomComparer<T> By<TBy>(System.Func<T,TBy> selector, System.Comparison<TBy> comparison);
 ```

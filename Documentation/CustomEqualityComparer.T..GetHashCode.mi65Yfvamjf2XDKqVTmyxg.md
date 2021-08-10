@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[CustomEqualityComparer&lt;T&gt;](CustomEqualityComparer.T..md 'KeepCoding.CustomEqualityComparer&lt;T&gt;')
 ## CustomEqualityComparer&lt;T&gt;.GetHashCode(T) Method
-Returns a hash code for an element.
+Returns a hash code for an element.  
 ```csharp
 public int GetHashCode(T obj);
 ```
@@ -14,4 +14,4 @@ public int GetHashCode(T obj);
 
 Implements [GetHashCode(T)](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEqualityComparer-1.GetHashCode#System_Collections_Generic_IEqualityComparer_1_GetHashCode__0_ 'System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)')  
 ### Remarks
-This method implements [System.Collections.Generic.IEqualityComparer&lt;&gt;.GetHashCode(@0)](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEqualityComparer-1.GetHashCode#System_Collections_Generic_IEqualityComparer_1_GetHashCode__0_ 'System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)').
+This method implements [System.Collections.Generic.IEqualityComparer&lt;&gt;.GetHashCode(@0)](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEqualityComparer-1.GetHashCode#System_Collections_Generic_IEqualityComparer_1_GetHashCode__0_ 'System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)').  

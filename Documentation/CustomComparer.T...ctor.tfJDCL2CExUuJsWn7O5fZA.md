@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[CustomComparer&lt;T&gt;](CustomComparer.T..md 'KeepCoding.CustomComparer&lt;T&gt;')
 ## CustomComparer&lt;T&gt;.CustomComparer(Comparison&lt;T&gt;) Constructor
-Constructor.
+Constructor.  
 ```csharp
 public CustomComparer(System.Comparison<T> comparison);
 ```

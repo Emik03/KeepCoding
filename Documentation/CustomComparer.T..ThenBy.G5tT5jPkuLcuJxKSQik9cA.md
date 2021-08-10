@@ -1,8 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[CustomComparer&lt;T&gt;](CustomComparer.T..md 'KeepCoding.CustomComparer&lt;T&gt;')
 ## CustomComparer&lt;T&gt;.ThenBy&lt;TBy&gt;(Func&lt;T,TBy&gt;, Comparison&lt;TBy&gt;) Method
-Creates and returns a CustomComparer which uses the current comparer first, and if the current comparer says  
-the items are equal, further compares items by comparing the results of a selector function.
+Creates and returns a CustomComparer which uses the current comparer first, and if the current comparer says the items are equal, further compares items by comparing the results of a selector function.  
 ```csharp
 public KeepCoding.CustomComparer<T> ThenBy<TBy>(System.Func<T,TBy> selector, System.Comparison<TBy> comparison);
 ```

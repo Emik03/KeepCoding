@@ -3,7 +3,7 @@
 ## StringifyFormat Class
 Specfies a format for [Stringify&lt;T&gt;(T, StringifyFormat)](Helper.Stringify.MMjDPqfcLXL+EYRaH4glrw.md 'KeepCoding.Helper.Stringify&lt;T&gt;(T, KeepCoding.StringifyFormat)').  
 ```csharp
-public class StringifyFormat
+public sealed class StringifyFormat
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; StringifyFormat  
