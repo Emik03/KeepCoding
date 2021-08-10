@@ -51,7 +51,7 @@
 | :--- | :--- |
 | [BigInt](BigInt.md 'KeepCoding.BigInt') | Encapsulates an arbitrary-size integer.<br/> |
 | [Number](Number.md 'KeepCoding.Number') | Class meant to encapsulate a primitive numeric value.<br/> |
-| [QuotientRemainder](QuotientRemainder.md 'KeepCoding.QuotientRemainder') | Encapsulates the two-valued result of a division/modulo operation ([DivideModulo(BigInt)](BigInt.DivideModulo.hKNytB2JMgJyLX17vZnr3Q.md 'KeepCoding.BigInt.DivideModulo(KeepCoding.BigInt)').<br/> |
+| [QuotientRemainder](QuotientRemainder.md 'KeepCoding.QuotientRemainder') | Encapsulates the two-valued result of a division/modulo operation ([DivideModulo(BigInt)](BigInt.DivideModulo.hKNytB2JMgJyLX17vZnr3Q.md 'KeepCoding.BigInt.DivideModulo(KeepCoding.BigInt)')).<br/> |
 
 | Interfaces | |
 | :--- | :--- |

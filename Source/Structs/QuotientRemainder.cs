@@ -1,7 +1,7 @@
 ﻿namespace KeepCoding
 {
     /// <summary>
-    /// Encapsulates the two-valued result of a division/modulo operation (<see cref="BigInt.DivideModulo(BigInt)"/>.
+    /// Encapsulates the two-valued result of a division/modulo operation (<see cref="BigInt.DivideModulo(BigInt)"/>).
     /// </summary>
     /// <remarks>
     /// This struct has been written by Timwi. <see href="https://github.com/Timwi/"/>

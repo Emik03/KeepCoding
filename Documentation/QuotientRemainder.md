@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## QuotientRemainder Struct
-Encapsulates the two-valued result of a division/modulo operation ([DivideModulo(BigInt)](BigInt.DivideModulo.hKNytB2JMgJyLX17vZnr3Q.md 'KeepCoding.BigInt.DivideModulo(KeepCoding.BigInt)').  
+Encapsulates the two-valued result of a division/modulo operation ([DivideModulo(BigInt)](BigInt.DivideModulo.hKNytB2JMgJyLX17vZnr3Q.md 'KeepCoding.BigInt.DivideModulo(KeepCoding.BigInt)')).  
 ```csharp
 public struct QuotientRemainder
 ```
