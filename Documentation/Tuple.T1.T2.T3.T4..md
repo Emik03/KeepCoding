@@ -29,8 +29,8 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 | Properties | |
 | :--- | :--- |
 | [Item4](Tuple.T1.T2.T3.T4..Item4.md 'KeepCoding.Tuple&lt;T1,T2,T3,T4&gt;.Item4') | The fourth item of the tuple.<br/> |
+| [Items](Tuple.T1.T2.T3.T4..Items.md 'KeepCoding.Tuple&lt;T1,T2,T3,T4&gt;.Items') | All of the tuple's items as an array, ordered by item number.<br/> |
 | [this[byte]](Tuple.T1.T2.T3.T4..Item.p61vL6r2qKI0jh9zi.TZdQ.md 'KeepCoding.Tuple&lt;T1,T2,T3,T4&gt;.this[byte]') | Indexable tuple. Be careful when using this as the compiler will not notice if you are using the wrong type.<br/> |
-| [ToArray](Tuple.T1.T2.T3.T4..ToArray.md 'KeepCoding.Tuple&lt;T1,T2,T3,T4&gt;.ToArray') | All of the tuple's items as an array, ordered by item number.<br/> |
 
 | Methods | |
 | :--- | :--- |

@@ -29,8 +29,8 @@ Derived
 | Properties | |
 | :--- | :--- |
 | [Item3](Tuple.T1.T2.T3..Item3.md 'KeepCoding.Tuple&lt;T1,T2,T3&gt;.Item3') | The third item of the tuple.<br/> |
+| [Items](Tuple.T1.T2.T3..Items.md 'KeepCoding.Tuple&lt;T1,T2,T3&gt;.Items') | All of the tuple's items as an array, ordered by item number.<br/> |
 | [this[byte]](Tuple.T1.T2.T3..Item.omX9Ud5ahVfT6eApnUby9A.md 'KeepCoding.Tuple&lt;T1,T2,T3&gt;.this[byte]') | Indexable tuple. Be careful when using this as the compiler will not notice if you are using the wrong type.<br/> |
-| [ToArray](Tuple.T1.T2.T3..ToArray.md 'KeepCoding.Tuple&lt;T1,T2,T3&gt;.ToArray') | All of the tuple's items as an array, ordered by item number.<br/> |
 
 | Methods | |
 | :--- | :--- |

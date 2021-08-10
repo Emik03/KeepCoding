@@ -44,8 +44,8 @@ This is the output from the console.
 [Foo #1] False, True, False, True, False  
 ```
 ### Remarks
-The length is the amount of items in the tuple, which can be used to index [ToArray](TupleBase.ToArray.md 'KeepCoding.Internal.TupleBase.ToArray') or the indexer [this[byte]](TupleBase.Item.xD9oSgxwMFO7sQCYiZEn.g.md 'KeepCoding.Internal.TupleBase.this[byte]').  
+The length is the amount of items in the tuple, which can be used to index [Items](TupleBase.Items.md 'KeepCoding.Internal.TupleBase.Items') or the indexer [this[byte]](TupleBase.Item.xD9oSgxwMFO7sQCYiZEn.g.md 'KeepCoding.Internal.TupleBase.this[byte]').  
 #### See Also
 - [this[byte]](TupleBase.Item.xD9oSgxwMFO7sQCYiZEn.g.md 'KeepCoding.Internal.TupleBase.this[byte]')
-- [ToArray](TupleBase.ToArray.md 'KeepCoding.Internal.TupleBase.ToArray')
+- [Items](TupleBase.Items.md 'KeepCoding.Internal.TupleBase.Items')
 - [ConvertAll&lt;TInput,TOutput&gt;(TInput[], Converter&lt;TInput,TOutput&gt;)](ArrayHelper.ConvertAll.Nd6Y1H3fix1AnfN9NVjGiA.md 'KeepCoding.ArrayHelper.ConvertAll&lt;TInput,TOutput&gt;(TInput[], System.Converter&lt;TInput,TOutput&gt;)')

@@ -1,15 +1,15 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding.Internal](KeepCoding.Internal.md 'KeepCoding.Internal').[TupleBase](TupleBase.md 'KeepCoding.Internal.TupleBase')
-## TupleBase.ToArray Property
+## TupleBase.Items Property
 Converts all items to an array.  
 ```csharp
-public abstract object[] ToArray { get; }
+public abstract object[] Items { get; }
 ```
 #### Property Value
 [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
 All items.  
 ### Example
-The following example illustrates how an entire tuple can be printed using [ToArray](TupleBase.ToArray.md 'KeepCoding.Internal.TupleBase.ToArray'), since [Log&lt;T&gt;(T, object[])](Logger.Log.VQRwxNpiXEL9B9w1CEt5IA.md 'KeepCoding.Logger.Log&lt;T&gt;(T, object[])') can print arrays.  
+The following example illustrates how an entire tuple can be printed using [Items](TupleBase.Items.md 'KeepCoding.Internal.TupleBase.Items'), since [Log&lt;T&gt;(T, object[])](Logger.Log.VQRwxNpiXEL9B9w1CEt5IA.md 'KeepCoding.Logger.Log&lt;T&gt;(T, object[])') can print arrays.  
 ```csharp
 using KeepCoding;  
   

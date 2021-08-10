@@ -41,7 +41,7 @@ namespace KeepCoding
         /// <summary>
         /// All of the tuple's items as an array, ordered by item number.
         /// </summary>
-        public override object[] ToArray => new object[] { Item1 };
+        public override object[] Items => new object[] { Item1 };
 
         /// <summary>
         /// The first item of the tuple.
@@ -94,7 +94,7 @@ namespace KeepCoding
         /// <summary>
         /// All of the tuple's items as an array, ordered by item number.
         /// </summary>
-        public override object[] ToArray => new object[] { Item1, Item2 };
+        public override object[] Items => new object[] { Item1, Item2 };
 
         /// <summary>
         /// The second item of the tuple.
@@ -153,7 +153,7 @@ namespace KeepCoding
         /// <summary>
         /// All of the tuple's items as an array, ordered by item number.
         /// </summary>
-        public override object[] ToArray => new object[] { Item1, Item2, Item3 };
+        public override object[] Items => new object[] { Item1, Item2, Item3 };
 
         /// <summary>
         /// The third item of the tuple.
@@ -214,7 +214,7 @@ namespace KeepCoding
         /// <summary>
         /// All of the tuple's items as an array, ordered by item number.
         /// </summary>
-        public override object[] ToArray => new object[] { Item1, Item2, Item3, Item4 };
+        public override object[] Items => new object[] { Item1, Item2, Item3, Item4 };
 
         /// <summary>
         /// The fourth item of the tuple.

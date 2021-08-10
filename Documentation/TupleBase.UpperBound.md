@@ -50,8 +50,8 @@ This is the output from the console.
 [Foo #1] 9  
 ```
 ### Remarks
-This can be used for indexing [ToArray](TupleBase.ToArray.md 'KeepCoding.Internal.TupleBase.ToArray') or the indexer [this[byte]](TupleBase.Item.xD9oSgxwMFO7sQCYiZEn.g.md 'KeepCoding.Internal.TupleBase.this[byte]'), getting the last item of the tuple. Calling [UpperBound](TupleBase.UpperBound.md 'KeepCoding.Internal.TupleBase.UpperBound') assumes that there is at least 1 generic in this type.  
+This can be used for indexing [Items](TupleBase.Items.md 'KeepCoding.Internal.TupleBase.Items') or the indexer [this[byte]](TupleBase.Item.xD9oSgxwMFO7sQCYiZEn.g.md 'KeepCoding.Internal.TupleBase.this[byte]'), getting the last item of the tuple. Calling [UpperBound](TupleBase.UpperBound.md 'KeepCoding.Internal.TupleBase.UpperBound') assumes that there is at least 1 generic in this type.  
 #### See Also
 - [this[byte]](TupleBase.Item.xD9oSgxwMFO7sQCYiZEn.g.md 'KeepCoding.Internal.TupleBase.this[byte]')
 - [Length](TupleBase.Length.md 'KeepCoding.Internal.TupleBase.Length')
-- [ToArray](TupleBase.ToArray.md 'KeepCoding.Internal.TupleBase.ToArray')
+- [Items](TupleBase.Items.md 'KeepCoding.Internal.TupleBase.Items')

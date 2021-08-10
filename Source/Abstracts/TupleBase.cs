@@ -49,7 +49,7 @@ namespace KeepCoding.Internal
         /// Passes an index into the tuple, where items are considered ordered and part of an array.
         /// </summary>
         /// <value>
-        /// <see cref="ToArray"/> with the index specified.
+        /// <see cref="Items"/> with the index specified.
         /// </value>
         /// <remarks>
         /// A <see cref="TupleBase"/> will always throw an <see cref="IndexOutOfRangeException"/> regardless if the getter or setter is called as it contains no items to index into. The purpose of this indexer is to provide all derived classes the same <see cref="IndexOutOfRangeException"/> message. As there is type ambiguity between multiple generics, the <see langword="return"/> type has to be <see cref="object"/> as any value is passed into each item.
@@ -91,8 +91,8 @@ namespace KeepCoding.Internal
         /// }
         /// </code>
         /// </example>
-        /// <seealso cref="ToArray"/>
-        /// <param name="index">The index to pass into <see cref="ToArray"/>.</param>
+        /// <seealso cref="Items"/>
+        /// <param name="index">The index to pass into <see cref="Items"/>.</param>
         /// <exception cref="IndexOutOfRangeException">The parameter <paramref name="index"/> is out of range because there are no items in this tuple type.</exception>
         /// <returns><see cref="IndexOutOfRangeException"/>, ignoring <paramref name="index"/>.</returns>
         public object this[byte index] { get => throw IndexOutOfRange(index); set => throw IndexOutOfRange(index); }
@@ -104,7 +104,7 @@ namespace KeepCoding.Internal
         /// The number of generics in the current type.
         /// </value>
         /// <remarks>
-        /// The length is the amount of items in the tuple, which can be used to index <see cref="ToArray"/> or the indexer <see cref="this[byte]"/>.
+        /// The length is the amount of items in the tuple, which can be used to index <see cref="Items"/> or the indexer <see cref="this[byte]"/>.
         /// </remarks>
         /// <example>
         /// The following example illustrates how a method can use the <see cref="Length"/> parameter as a way of determining the tuple item count being odd. <see cref="ArrayHelper.ConvertAll{TInput, TOutput}(TInput[], Converter{TInput, TOutput})"/> is used to convert all tuples to <see cref="bool"/>.
@@ -138,7 +138,7 @@ namespace KeepCoding.Internal
         /// </code>
         /// </example>
         /// <seealso cref="this[byte]"/>
-        /// <seealso cref="ToArray"/>
+        /// <seealso cref="Items"/>
         /// <seealso cref="ArrayHelper.ConvertAll{TInput, TOutput}(TInput[], Converter{TInput, TOutput})"/>
         public byte Length => (byte)GetType().GetGenericArguments().Length;
 
@@ -149,7 +149,7 @@ namespace KeepCoding.Internal
         /// <see cref="Length"/> - 1.
         /// </value>
         /// <remarks>
-        /// This can be used for indexing <see cref="ToArray"/> or the indexer <see cref="this[byte]"/>, getting the last item of the tuple. Calling <see cref="UpperBound"/> assumes that there is at least 1 generic in this type.
+        /// This can be used for indexing <see cref="Items"/> or the indexer <see cref="this[byte]"/>, getting the last item of the tuple. Calling <see cref="UpperBound"/> assumes that there is at least 1 generic in this type.
         /// </remarks>
         /// <example>
         /// The following example illusrates a method that retrieves the last item of the tuple.
@@ -187,7 +187,7 @@ namespace KeepCoding.Internal
         /// <exception cref="InvalidOperationException">The length is 0, and therefore the upper bound doesn't exist.</exception>
         /// <seealso cref="this[byte]"/>
         /// <seealso cref="Length"/>
-        /// <seealso cref="ToArray"/>
+        /// <seealso cref="Items"/>
         public byte UpperBound => Length is 0 ? throw new InvalidOperationException("The tuple is empty, meaning that the upper bound doesn't exist.") : (byte)(Length - 1);
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace KeepCoding.Internal
         /// As the types are not determined, they have to be boxed in <see cref="object"/>.
         /// </remarks>
         /// <example>
-        /// The following example illustrates how an entire tuple can be printed using <see cref="ToArray"/>, since <see cref="Logger.Log{T}(T, object[])"/> can print arrays.
+        /// The following example illustrates how an entire tuple can be printed using <see cref="Items"/>, since <see cref="Logger.Log{T}(T, object[])"/> can print arrays.
         /// <code>using KeepCoding;
         /// 
         /// public sealed class FooModule : ModuleScript
@@ -216,7 +216,7 @@ namespace KeepCoding.Internal
         /// </code>
         /// </example>
         /// <seealso cref="Logger.Log{T}(T, object[])"/>
-        public abstract object[] ToArray { get; }
+        public abstract object[] Items { get; }
 
         /// <summary>
         /// Overrides comparison by checking for individual item equality rather than itself.
@@ -254,7 +254,7 @@ namespace KeepCoding.Internal
         /// Compares itself and another <see cref="TupleBase"/> to determine if they contain the same values.
         /// </summary>
         /// <remarks>
-        /// The comparison is done by taking both of their <see cref="ToArray"/> values and comparing them with <see cref="Enumerable.SequenceEqual{TSource}(IEnumerable{TSource}, IEnumerable{TSource})"/>. Note that if the tuples are different sizes, this will automatically return <see langword="true"/>. For more information, <see cref="object.Equals(object)"/>.
+        /// The comparison is done by taking both of their <see cref="Items"/> values and comparing them with <see cref="Enumerable.SequenceEqual{TSource}(IEnumerable{TSource}, IEnumerable{TSource})"/>. Note that if the tuples are different sizes, this will automatically return <see langword="true"/>. For more information, <see cref="object.Equals(object)"/>.
         /// </remarks>
         /// <example>
         /// The following example illustrates the different ways this method can return true or false.
@@ -287,10 +287,10 @@ namespace KeepCoding.Internal
         /// </example>
         /// <param name="other">The <see cref="TupleBase"/> to compare itself to.</param>
         /// <returns><see langword="true"/> if both of them have the same items, or are both <see langword="null"/>.</returns>
-        public bool Equals(TupleBase other) => other is null ? this is null : ToArray.SequenceEqual(other.ToArray);
+        public bool Equals(TupleBase other) => other is null ? this is null : Items.SequenceEqual(other.Items);
 
         /// <summary>
-        /// Gets the hash code of <see cref="ToArray"/>.
+        /// Gets the hash code of <see cref="Items"/>.
         /// </summary>
         /// <remarks>
         /// Hash codes are a way of quickly asserting equality. It converts all of the given relevant variables into hash codes and combines into a number that makes it unlikely for two different types to have the same hash code. That being said, it is still possible for the hash codes to be identical but not for the same values to have different hash codes, which is why it only should be used as the first step in determining equality and confirming by making the final comparisons to those with equal hash codes. For more information, see <see cref="object.GetHashCode"/>.
@@ -314,15 +314,15 @@ namespace KeepCoding.Internal
         /// <code>[Foo #1] True
         /// </code>
         /// </example>
-        /// <seealso cref="ToArray"/>
+        /// <seealso cref="Items"/>
         /// <returns>The hash code of this instance.</returns>
-        public override int GetHashCode() => 1108013089 + ToArray.ConvertAll(o => o.GetHashCode()).Sum();
+        public override int GetHashCode() => 1108013089 + Items.ConvertAll(o => o.GetHashCode()).Sum();
 
         /// <summary>
-        /// Joins <see cref="ToArray"/> to a string, with a space as a delimiter.
+        /// Joins <see cref="Items"/> to a string, with a space as a delimiter.
         /// </summary>
         /// <remarks>
-        /// Each element of <see cref="ToArray"/> is passed into <see cref="Helper.Stringify{T}(T)"/> to unpack iterators and allow each element to be seen. For more details about stringification, refer to <see cref="object.ToString"/>.
+        /// Each element of <see cref="Items"/> is passed into <see cref="Helper.Stringify{T}(T)"/> to unpack iterators and allow each element to be seen. For more details about stringification, refer to <see cref="object.ToString"/>.
         /// </remarks>
         /// <example>
         /// The following example illustrates how a tuple gets converted to a <see cref="string"/>.
@@ -342,19 +342,19 @@ namespace KeepCoding.Internal
         /// <code>[Foo #1] 0, test1, test2, test3, False
         /// </code>
         /// </example>
-        /// <seealso cref="ToArray"/>
+        /// <seealso cref="Items"/>
         /// <seealso cref="Helper.Stringify{T}(T)"/>
-        /// <returns><see cref="ToArray"/> from <see cref="Helper.Stringify{T}(T)"/>.</returns>
+        /// <returns><see cref="Items"/> from <see cref="Helper.Stringify{T}(T)"/>.</returns>
         public override string ToString() => this.Stringify();
 
         /// <summary>
-        /// Gets the <see cref="IEnumerator"/> of <see cref="ToArray"/>.
+        /// Gets the <see cref="IEnumerator"/> of <see cref="Items"/>.
         /// </summary>
         /// <remarks>
-        /// This method is needed to implement <see cref="IEnumerator"/> interface. It takes <see cref="ToArray"/> and performs <see cref="Array.GetEnumerator"/>.
+        /// This method is needed to implement <see cref="IEnumerator"/> interface. It takes <see cref="Items"/> and performs <see cref="Array.GetEnumerator"/>.
         /// </remarks>
         /// <example>
-        /// The following example illustrates how items in <see cref="ToArray"/> get converted into an <see cref="IEnumerator"/>, and using that <see cref="IEnumerator"/> to print every value.
+        /// The following example illustrates how items in <see cref="Items"/> get converted into an <see cref="IEnumerator"/>, and using that <see cref="IEnumerator"/> to print every value.
         /// <code>using System.Collections;
         /// using KeepCoding;
         ///
@@ -379,11 +379,11 @@ namespace KeepCoding.Internal
         /// [Foo #1] False
         /// </code>
         /// </example>
-        public IEnumerator GetEnumerator() => ToArray.GetEnumerator();
+        public IEnumerator GetEnumerator() => Items.GetEnumerator();
 
         private protected static T Cast<T>(in object value, in int index) => value is T t ? t : throw UnrecognizedType(value, typeof(T), index);
 
-        private IndexOutOfRangeException IndexOutOfRange(in int i) => new IndexOutOfRangeException($"The index {i} was out of range from the tuple of length {ToArray.Length}.");
+        private IndexOutOfRangeException IndexOutOfRange(in int i) => new IndexOutOfRangeException($"The index {i} was out of range from the tuple of length {Items.Length}.");
 
         private static UnrecognizedTypeException UnrecognizedType<T>(in T received, in Type expected, in int index) => new UnrecognizedTypeException($"The {(index + 1).ToOrdinal()} element in the tuple cannot be assigned because the value {received.Stringify()} is type {received.GetType().Name} which doesn't match the expected type {expected.Name}.");
     }

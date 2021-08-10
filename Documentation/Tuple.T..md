@@ -23,8 +23,8 @@ Derived
 | Properties | |
 | :--- | :--- |
 | [Item1](Tuple.T..Item1.md 'KeepCoding.Tuple&lt;T&gt;.Item1') | The first item of the tuple.<br/> |
+| [Items](Tuple.T..Items.md 'KeepCoding.Tuple&lt;T&gt;.Items') | All of the tuple's items as an array, ordered by item number.<br/> |
 | [this[byte]](Tuple.T..Item.oi5GOCxZadHbjK3qPaMAWQ.md 'KeepCoding.Tuple&lt;T&gt;.this[byte]') | Indexable tuple. Be careful when using this as the compiler will not notice if you are using the wrong type.<br/> |
-| [ToArray](Tuple.T..ToArray.md 'KeepCoding.Tuple&lt;T&gt;.ToArray') | All of the tuple's items as an array, ordered by item number.<br/> |
 
 | Methods | |
 | :--- | :--- |

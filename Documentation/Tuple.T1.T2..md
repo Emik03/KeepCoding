@@ -26,8 +26,8 @@ Derived
 | Properties | |
 | :--- | :--- |
 | [Item2](Tuple.T1.T2..Item2.md 'KeepCoding.Tuple&lt;T1,T2&gt;.Item2') | The second item of the tuple.<br/> |
+| [Items](Tuple.T1.T2..Items.md 'KeepCoding.Tuple&lt;T1,T2&gt;.Items') | All of the tuple's items as an array, ordered by item number.<br/> |
 | [this[byte]](Tuple.T1.T2..Item.W7Pkzsy.8wxWZqBmDAYlWg.md 'KeepCoding.Tuple&lt;T1,T2&gt;.this[byte]') | Indexable tuple. Be careful when using this as the compiler will not notice if you are using the wrong type.<br/> |
-| [ToArray](Tuple.T1.T2..ToArray.md 'KeepCoding.Tuple&lt;T1,T2&gt;.ToArray') | All of the tuple's items as an array, ordered by item number.<br/> |
 
 | Methods | |
 | :--- | :--- |

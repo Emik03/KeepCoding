@@ -55,18 +55,18 @@ This is the output from the console.
 
 | Properties | |
 | :--- | :--- |
+| [Items](TupleBase.Items.md 'KeepCoding.Internal.TupleBase.Items') | Converts all items to an array.<br/> |
 | [Length](TupleBase.Length.md 'KeepCoding.Internal.TupleBase.Length') | Determines the amount of items in the tuple type.<br/> |
 | [this[byte]](TupleBase.Item.xD9oSgxwMFO7sQCYiZEn.g.md 'KeepCoding.Internal.TupleBase.this[byte]') | Passes an index into the tuple, where items are considered ordered and part of an array.<br/> |
-| [ToArray](TupleBase.ToArray.md 'KeepCoding.Internal.TupleBase.ToArray') | Converts all items to an array.<br/> |
 | [UpperBound](TupleBase.UpperBound.md 'KeepCoding.Internal.TupleBase.UpperBound') | Determines the upperbound of the amount of the length.<br/> |
 
 | Methods | |
 | :--- | :--- |
 | [Equals(TupleBase)](TupleBase.Equals.HuhNuJeXWPM+umotXvsseQ.md 'KeepCoding.Internal.TupleBase.Equals(KeepCoding.Internal.TupleBase)') | Compares itself and another [TupleBase](TupleBase.md 'KeepCoding.Internal.TupleBase') to determine if they contain the same values.<br/> |
 | [Equals(object)](TupleBase.Equals.amqDAq1qhQ3GOIML433Idw.md 'KeepCoding.Internal.TupleBase.Equals(object)') | Compares itself and another object attempted to casted as [TupleBase](TupleBase.md 'KeepCoding.Internal.TupleBase') to determine if they contain the same values.<br/> |
-| [GetEnumerator()](TupleBase.GetEnumerator().md 'KeepCoding.Internal.TupleBase.GetEnumerator()') | Gets the [System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerator 'System.Collections.IEnumerator') of [ToArray](TupleBase.ToArray.md 'KeepCoding.Internal.TupleBase.ToArray').<br/> |
-| [GetHashCode()](TupleBase.GetHashCode().md 'KeepCoding.Internal.TupleBase.GetHashCode()') | Gets the hash code of [ToArray](TupleBase.ToArray.md 'KeepCoding.Internal.TupleBase.ToArray').<br/> |
-| [ToString()](TupleBase.ToString().md 'KeepCoding.Internal.TupleBase.ToString()') | Joins [ToArray](TupleBase.ToArray.md 'KeepCoding.Internal.TupleBase.ToArray') to a string, with a space as a delimiter.<br/> |
+| [GetEnumerator()](TupleBase.GetEnumerator().md 'KeepCoding.Internal.TupleBase.GetEnumerator()') | Gets the [System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerator 'System.Collections.IEnumerator') of [Items](TupleBase.Items.md 'KeepCoding.Internal.TupleBase.Items').<br/> |
+| [GetHashCode()](TupleBase.GetHashCode().md 'KeepCoding.Internal.TupleBase.GetHashCode()') | Gets the hash code of [Items](TupleBase.Items.md 'KeepCoding.Internal.TupleBase.Items').<br/> |
+| [ToString()](TupleBase.ToString().md 'KeepCoding.Internal.TupleBase.ToString()') | Joins [Items](TupleBase.Items.md 'KeepCoding.Internal.TupleBase.Items') to a string, with a space as a delimiter.<br/> |
 
 | Operators | |
 | :--- | :--- |

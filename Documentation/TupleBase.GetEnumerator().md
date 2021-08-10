@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding.Internal](KeepCoding.Internal.md 'KeepCoding.Internal').[TupleBase](TupleBase.md 'KeepCoding.Internal.TupleBase')
 ## TupleBase.GetEnumerator() Method
-Gets the [System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerator 'System.Collections.IEnumerator') of [ToArray](TupleBase.ToArray.md 'KeepCoding.Internal.TupleBase.ToArray').  
+Gets the [System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerator 'System.Collections.IEnumerator') of [Items](TupleBase.Items.md 'KeepCoding.Internal.TupleBase.Items').  
 ```csharp
 public System.Collections.IEnumerator GetEnumerator();
 ```
@@ -10,7 +10,7 @@ public System.Collections.IEnumerator GetEnumerator();
 
 Implements [GetEnumerator()](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerable.GetEnumerator 'System.Collections.IEnumerable.GetEnumerator')  
 ### Example
-The following example illustrates how items in [ToArray](TupleBase.ToArray.md 'KeepCoding.Internal.TupleBase.ToArray') get converted into an [System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerator 'System.Collections.IEnumerator'), and using that [System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerator 'System.Collections.IEnumerator') to print every value.  
+The following example illustrates how items in [Items](TupleBase.Items.md 'KeepCoding.Internal.TupleBase.Items') get converted into an [System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerator 'System.Collections.IEnumerator'), and using that [System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerator 'System.Collections.IEnumerator') to print every value.  
 ```csharp
 using System.Collections;  
 using KeepCoding;  
@@ -38,4 +38,4 @@ This is the output from the console.
 [Foo #1] False  
 ```
 ### Remarks
-This method is needed to implement [System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerator 'System.Collections.IEnumerator') interface. It takes [ToArray](TupleBase.ToArray.md 'KeepCoding.Internal.TupleBase.ToArray') and performs [System.Array.GetEnumerator](https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetEnumerator 'System.Array.GetEnumerator').  
+This method is needed to implement [System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerator 'System.Collections.IEnumerator') interface. It takes [Items](TupleBase.Items.md 'KeepCoding.Internal.TupleBase.Items') and performs [System.Array.GetEnumerator](https://docs.microsoft.com/en-us/dotnet/api/System.Array.GetEnumerator 'System.Array.GetEnumerator').  
