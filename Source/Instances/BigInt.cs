@@ -18,7 +18,7 @@ namespace KeepCoding
         private int _sign;
 
         // If the number fits into a single Int32, this is null.
-        private readonly uint[] _value;
+        private readonly uint[] _values;
 
         private static readonly int[] s_powersOfTen = { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000 };
 
@@ -34,12 +34,12 @@ namespace KeepCoding
         {
             if (value <= int.MaxValue)
             {
-                _value = null;
+                _values = null;
                 _sign = (int)value;
                 return;
             }
 
-            _value = new uint[] { value };
+            _values = new uint[] { value };
             _sign = 0;
         }
 
@@ -50,12 +50,12 @@ namespace KeepCoding
         {
             if (value.IsBetween(int.MinValue, int.MaxValue))
             {
-                _value = null;
+                _values = null;
                 _sign = (int)value;
                 return;
             }
 
-            _value = new uint[] { unchecked((uint)value), unchecked((uint)(value >> 32)) };
+            _values = new uint[] { unchecked((uint)value), unchecked((uint)(value >> 32)) };
             _sign = unchecked((int)(value >> 63));
         }
 
@@ -66,12 +66,12 @@ namespace KeepCoding
         {
             if (value <= int.MaxValue)
             {
-                _value = null;
+                _values = null;
                 _sign = (int)value;
                 return;
             }
 
-            _value = new uint[] { unchecked((uint)value), (uint)(value >> 32) };
+            _values = new uint[] { unchecked((uint)value), (uint)(value >> 32) };
             _sign = 0;
         }
 
@@ -86,14 +86,14 @@ namespace KeepCoding
             // Check if we can reduce the array to a single value.
             if (value.Length is 0)
             {
-                _value = null;
+                _values = null;
                 _sign = 0;
                 return;
             }
 
             if (value.Length is 1 && sign is 0 ^ value[0] >= 0x80000000U)
             {
-                _value = null;
+                _values = null;
                 _sign = unchecked((int)value[0]);
                 return;
             }
@@ -113,7 +113,7 @@ namespace KeepCoding
             // Check if we can reduce the array to a single value.
             if (ix <= 1 && sign is 0 ^ value[0] >= 0x80000000U)
             {
-                _value = null;
+                _values = null;
                 _sign = unchecked((int)value[0]);
                 return;
             }
@@ -122,20 +122,20 @@ namespace KeepCoding
             if (value.Length < 8)
                 goto defaultCase;
 
-            _value = new uint[ix];
-            Array.Copy(value, 0, _value, 0, ix);
+            _values = new uint[ix];
+            Array.Copy(value, 0, _values, 0, ix);
             _sign = sign;
             return;
 
         defaultCase:
-            _value = value;
+            _values = value;
             _sign = sign;
         }
 
         /// <summary>
         /// Determines whether the integer is 0.
         /// </summary>
-        public bool IsZero => _value is null && _sign is 0;
+        public bool IsZero => _values is null && _sign is 0;
 
         /// <summary>
         /// Returns the bit-index of the most significant bit in this number. If the number is positive, this is the index of the most significant ‘1’ bit. If the number is negative, it is the index of the most significant ‘0’ bit. If the number is zero, the result is <c>-1</c>.
@@ -147,7 +147,7 @@ namespace KeepCoding
                 uint examine;
                 int ix;
 
-                if (_value is null)
+                if (_values is null)
                 {
                     examine = unchecked((uint)_sign);
                     ix = 0;
@@ -155,12 +155,12 @@ namespace KeepCoding
 
                 else
                 {
-                    ix = _value.Length - 1;
+                    ix = _values.Length - 1;
 
-                    while (ix > 0 && _value[ix] == _sign)
+                    while (ix > 0 && _values[ix] == _sign)
                         ix--;
 
-                    examine = _value[ix];
+                    examine = _values[ix];
                 }
 
                 bool signBit = _sign < 0;
@@ -190,10 +190,10 @@ namespace KeepCoding
         {
             get
             {
-                if (_value is null)
+                if (_values is null)
                     return new BigInt(null, ~_sign);
 
-                uint[] val = (uint[])_value.Clone();
+                uint[] val = (uint[])_values.Clone();
 
                 for (int i = 0; i < val.Length; i++)
                     val[i] = ~val[i];
@@ -209,7 +209,7 @@ namespace KeepCoding
         {
             get
             {
-                if (_value is null)
+                if (_values is null)
                 {
                     long negL = -_sign;
                     int negI = unchecked((int)negL);
@@ -221,11 +221,11 @@ namespace KeepCoding
 
                 BigInt neg = Add(this, new BigInt(null, -1), subtract: false);
 
-                if (neg._value is null)
+                if (neg._values is null)
                     return new BigInt(null, ~neg._sign);
 
-                for (int i = 0; i < neg._value.Length; i++)
-                    neg._value[i] = ~neg._value[i];
+                for (int i = 0; i < neg._values.Length; i++)
+                    neg._values[i] = ~neg._values[i];
 
                 neg._sign = ~neg._sign;
 
@@ -402,25 +402,25 @@ namespace KeepCoding
         {
             uint[] nv, oth;
 
-            if (one._value is null)
+            if (one._values is null)
             {
-                if (two._value is null)
+                if (two._values is null)
                     return new BigInt(null, one._sign | two._sign);
 
                 if (one._sign < 0)
-                    return new BigInt(null, one._sign | unchecked((int)two._value[0]));
+                    return new BigInt(null, one._sign | unchecked((int)two._values[0]));
 
-                nv = (uint[])two._value.Clone();
+                nv = (uint[])two._values.Clone();
                 nv[0] |= unchecked((uint)one._sign);
 
                 return new BigInt(nv, two._sign | (one._sign >> 31));
             }
-            else if (two._value is null)
+            else if (two._values is null)
             {
                 if (two._sign < 0)
-                    return new BigInt(null, two._sign | unchecked((int)one._value[0]));
+                    return new BigInt(null, two._sign | unchecked((int)one._values[0]));
 
-                nv = (uint[])one._value.Clone();
+                nv = (uint[])one._values.Clone();
                 nv[0] |= unchecked((uint)two._sign);
 
                 return new BigInt(nv, one._sign | (two._sign >> 31));
@@ -428,7 +428,7 @@ namespace KeepCoding
 
             BigInt longer, shorter;
 
-            if (one._value.Length > two._value.Length)
+            if (one._values.Length > two._values.Length)
             {
                 longer = one;
                 shorter = two;
@@ -441,16 +441,16 @@ namespace KeepCoding
 
             if (shorter._sign < 0)
             {
-                nv = (uint[])shorter._value.Clone();
-                oth = longer._value;
+                nv = (uint[])shorter._values.Clone();
+                oth = longer._values;
             }
             else
             {
-                nv = (uint[])longer._value.Clone();
-                oth = shorter._value;
+                nv = (uint[])longer._values.Clone();
+                oth = shorter._values;
             }
 
-            for (int i = shorter._value.Length - 1; i >= 0; i--)
+            for (int i = shorter._values.Length - 1; i >= 0; i--)
                 nv[i] |= oth[i];
 
             return new BigInt(nv, shorter._sign | longer._sign);
@@ -463,25 +463,25 @@ namespace KeepCoding
         {
             uint[] nv, oth;
 
-            if (one._value is null)
+            if (one._values is null)
             {
-                if (two._value is null)
+                if (two._values is null)
                     return new BigInt(null, one._sign & two._sign);
 
                 if (one._sign >= 0)
-                    return new BigInt(null, one._sign & unchecked((int)two._value[0]));
+                    return new BigInt(null, one._sign & unchecked((int)two._values[0]));
 
-                nv = (uint[])two._value.Clone();
+                nv = (uint[])two._values.Clone();
                 nv[0] &= unchecked((uint)one._sign);
 
                 return new BigInt(nv, two._sign & (one._sign >> 31));
             }
-            else if (two._value is null)
+            else if (two._values is null)
             {
                 if (two._sign >= 0)
-                    return new BigInt(null, two._sign & unchecked((int)one._value[0]));
+                    return new BigInt(null, two._sign & unchecked((int)one._values[0]));
 
-                nv = (uint[])one._value.Clone();
+                nv = (uint[])one._values.Clone();
                 nv[0] &= unchecked((uint)two._sign);
 
                 return new BigInt(nv, one._sign & (two._sign >> 31));
@@ -489,7 +489,7 @@ namespace KeepCoding
 
             BigInt longer, shorter;
 
-            if (one._value.Length > two._value.Length)
+            if (one._values.Length > two._values.Length)
             {
                 longer = one;
                 shorter = two;
@@ -502,16 +502,16 @@ namespace KeepCoding
 
             if (shorter._sign < 0)
             {
-                nv = (uint[])longer._value.Clone();
-                oth = shorter._value;
+                nv = (uint[])longer._values.Clone();
+                oth = shorter._values;
             }
             else
             {
-                nv = (uint[])shorter._value.Clone();
-                oth = longer._value;
+                nv = (uint[])shorter._values.Clone();
+                oth = longer._values;
             }
 
-            for (int i = shorter._value.Length - 1; i >= 0; i--)
+            for (int i = shorter._values.Length - 1; i >= 0; i--)
                 nv[i] &= oth[i];
 
             return new BigInt(nv, shorter._sign & longer._sign);
@@ -522,10 +522,10 @@ namespace KeepCoding
         /// </summary>
         public static BigInt operator ^(BigInt one, BigInt two)
         {
-            if (one._value is null && two._value is null)
+            if (one._values is null && two._values is null)
                 return new BigInt(null, one._sign ^ two._sign);
 
-            int len = Max(one._value is null ? 1 : one._value.Length, two._value is null ? 1 : two._value.Length),
+            int len = Max(one._values is null ? 1 : one._values.Length, two._values is null ? 1 : two._values.Length),
                 sign = (one._sign >> 31) ^ (two._sign >> 31);
 
             uint[] nv = null;
@@ -533,8 +533,8 @@ namespace KeepCoding
 
             for (int i = len - 1; i >= 1; i--)
             {
-                v = (one._value is null || i >= one._value.Length ? unchecked((uint)(one._sign >> 31)) : one._value[i])
-                  ^ (two._value is null || i >= two._value.Length ? unchecked((uint)(two._sign >> 31)) : two._value[i]);
+                v = (one._values is null || i >= one._values.Length ? unchecked((uint)(one._sign >> 31)) : one._values[i])
+                  ^ (two._values is null || i >= two._values.Length ? unchecked((uint)(two._sign >> 31)) : two._values[i]);
 
                 if (v != sign)
                 {
@@ -545,7 +545,7 @@ namespace KeepCoding
                 }
             }
 
-            v = (one._value is null ? unchecked((uint)one._sign) : one._value[0]) ^ (two._value is null ? unchecked((uint)two._sign) : two._value[0]);
+            v = (one._values is null ? unchecked((uint)one._sign) : one._values[0]) ^ (two._values is null ? unchecked((uint)two._sign) : two._values[0]);
 
             if (nv is null)
             {
@@ -574,7 +574,7 @@ namespace KeepCoding
             if (amount < 0)
                 return operand << (-amount);
 
-            if (operand._value is null)
+            if (operand._values is null)
                 return new BigInt(null, operand._sign >> Min(31, amount));
 
             int hb = operand.MostSignificantBit - amount;
@@ -589,8 +589,8 @@ namespace KeepCoding
 
             if (amountRest is 0)
             {
-                nv = new uint[operand._value.Length - amount32];
-                Array.Copy(operand._value, amount32, nv, 0, operand._value.Length - amount32);
+                nv = new uint[operand._values.Length - amount32];
+                Array.Copy(operand._values, amount32, nv, 0, operand._values.Length - amount32);
                 return new BigInt(nv, operand._sign);
             }
 
@@ -598,12 +598,12 @@ namespace KeepCoding
 
             nv = new uint[hb32 + 1];
 
-            nv[hb32] = (hb32 + amount32 + 1 >= operand._value.Length)
-                ? (operand._value[hb32 + amount32] >> amountRest)
-                : (operand._value[hb32 + amount32] >> amountRest) | (operand._value[hb32 + amount32 + 1] << (32 - amountRest));
+            nv[hb32] = (hb32 + amount32 + 1 >= operand._values.Length)
+                ? (operand._values[hb32 + amount32] >> amountRest)
+                : (operand._values[hb32 + amount32] >> amountRest) | (operand._values[hb32 + amount32 + 1] << (32 - amountRest));
 
             for (int i = hb32 - 1; i >= 0; i--)
-                nv[i] = (operand._value[i + amount32] >> amountRest) | (operand._value[i + amount32 + 1] << (32 - amountRest));
+                nv[i] = (operand._values[i + amount32] >> amountRest) | (operand._values[i + amount32 + 1] << (32 - amountRest));
 
             return new BigInt(nv, operand._sign);
         }
@@ -616,13 +616,13 @@ namespace KeepCoding
         /// </remarks>
         public static BigInt operator <<(BigInt operand, int amount)
         {
-            if (amount is 0 || operand._value is null && (operand._sign is 0 || operand._sign is -1))
+            if (amount is 0 || operand._values is null && (operand._sign is 0 || operand._sign is -1))
                 return operand;
 
             if (amount < 0)
                 return operand >> (-amount);
 
-            if (operand._value is null && amount < 32)
+            if (operand._values is null && amount < 32)
             {
                 int shI = operand._sign << amount;
 
@@ -639,19 +639,19 @@ namespace KeepCoding
 
             if (amountRest is 0)
             {
-                if (operand._value is null)
+                if (operand._values is null)
                     nv[amount32] = unchecked((uint)operand._sign);
 
                 else
-                    for (int j = Math.Min(operand._value.Length - 1, nv.Length - amount32 - 1); j >= 0; j--)
-                        nv[j + amount32] = operand._value[j];
+                    for (int j = Math.Min(operand._values.Length - 1, nv.Length - amount32 - 1); j >= 0; j--)
+                        nv[j + amount32] = operand._values[j];
 
                 return new BigInt(nv, operand._sign >> 31);
             }
 
             uint last;
 
-            if (operand._value is null)
+            if (operand._values is null)
             {
                 nv[amount32] = unchecked((uint)operand._sign << amountRest);
 
@@ -663,14 +663,14 @@ namespace KeepCoding
                 return new BigInt(nv, operand._sign >> 31);
             }
 
-            nv[amount32] = operand._value[0] << amountRest;
+            nv[amount32] = operand._values[0] << amountRest;
 
             int i = 1;
 
-            for (; i < operand._value.Length; i++)
-                nv[i + amount32] = (operand._value[i] << amountRest) | (operand._value[i - 1] >> (32 - amountRest));
+            for (; i < operand._values.Length; i++)
+                nv[i + amount32] = (operand._values[i] << amountRest) | (operand._values[i - 1] >> (32 - amountRest));
 
-            last = operand._value[i - 1] >> (32 - amountRest);
+            last = operand._values[i - 1] >> (32 - amountRest);
 
             if (!(last is 0))
                 nv[i + amount32] = last;
@@ -695,13 +695,13 @@ namespace KeepCoding
             if (index < 0)
                 throw new ArgumentOutOfRangeException(nameof(index), "index cannot be negative.");
 
-            if (_value is null)
+            if (_values is null)
                 return index >= 31 ? (_sign < 0) : !((_sign & (1 << index)) is 0);
 
             // = index / 32 (optimized)
             int pos = index >> 5;
 
-            return pos >= _value.Length ? (_sign < 0) : !((_value[pos] & (1 << (index & 0x1f))) is 0);
+            return pos >= _values.Length ? (_sign < 0) : !((_values[pos] & (1 << (index & 0x1f))) is 0);
         }
 
         /// <summary>
@@ -712,20 +712,20 @@ namespace KeepCoding
             if (_sign != other._sign)
                 return _sign < other._sign ? -1 : 1;
 
-            if (_value is null && other._value is null)
+            if (_values is null && other._values is null)
                 return _sign.CompareTo(other._sign);
 
-            for (int i = Max(_value is null ? 0 : _value.Length - 1, other._value is null ? 0 : other._value.Length - 1); i >= 1; i--)
+            for (int i = Max(_values is null ? 0 : _values.Length - 1, other._values is null ? 0 : other._values.Length - 1); i >= 1; i--)
             {
-                uint v1 = _value is null || i >= _value.Length ? 0u : _value[i],
-                    v2 = other._value is null || i >= other._value.Length ? 0u : other._value[i];
+                uint v1 = _values is null || i >= _values.Length ? 0u : _values[i],
+                    v2 = other._values is null || i >= other._values.Length ? 0u : other._values[i];
 
                 if (v1 != v2)
                     return v1 < v2 ? -1 : 1;
             }
 
-            uint vv1 = _value is null ? unchecked((uint)_sign) : _value[0],
-                vv2 = other._value is null ? unchecked((uint)other._sign) : other._value[0];
+            uint vv1 = _values is null ? unchecked((uint)_sign) : _values[0],
+                vv2 = other._values is null ? unchecked((uint)other._sign) : other._values[0];
 
             return vv1.CompareTo(vv2);
         }
@@ -733,7 +733,7 @@ namespace KeepCoding
         /// <summary>
         /// Hash code function.
         /// </summary>
-        public override int GetHashCode() => _value == null ? _sign : unchecked((int)_value[0] + MostSignificantBit);
+        public override int GetHashCode() => _values == null ? _sign : unchecked((int)_values[0] + MostSignificantBit);
 
         /// <summary>
         /// Override; see base.
@@ -750,7 +750,7 @@ namespace KeepCoding
             {
                 QuotientRemainder qr = val.DivideModulo(1000000000);
 
-                if (qr.Remainder._value is { })
+                if (qr.Remainder._values is { })
                     throw new InvalidOperationException($"An internal error occurred in {nameof(ToString)}.");
 
                 string str = qr.Remainder._sign.ToString();
@@ -796,7 +796,7 @@ namespace KeepCoding
 
         private static BigInt Add(BigInt one, BigInt two, bool subtract)
         {
-            if (one._value is null && two._value is null)
+            if (one._values is null && two._values is null)
             {
                 long sumL = subtract ? (long)one._sign - two._sign : (long)one._sign + two._sign;
                 int sumI = unchecked((int)sumL);
@@ -809,12 +809,12 @@ namespace KeepCoding
             uint subtractor = subtract ? 0xffffffffu : 0u,
                 th = (two._sign < 0) ^ subtract ? 0xffffffffu : 0u;
 
-            int l1 = one._value is null ? 1 : one._value.Length,
-                l2 = two._value is null ? 1 : two._value.Length,
+            int l1 = one._values is null ? 1 : one._values.Length,
+                l2 = two._values is null ? 1 : two._values.Length,
                 len = Max(l1, l2);
 
-            long lastVal1 = one._value is null ? one._sign : unchecked((long)(one._value[one._value.Length - 1] | ((ulong)one._sign << 32))),
-                lastVal2 = two._value is null ? two._sign : unchecked((long)(two._value[two._value.Length - 1] | ((ulong)two._sign << 32))),
+            long lastVal1 = one._values is null ? one._sign : unchecked((long)(one._values[one._values.Length - 1] | ((ulong)one._sign << 32))),
+                lastVal2 = two._values is null ? two._sign : unchecked((long)(two._values[two._values.Length - 1] | ((ulong)two._sign << 32))),
                 test = subtract ? (lastVal1 - lastVal2 - 1) : (lastVal1 + lastVal2 + 1);
 
             if (test != unchecked((int)test))
@@ -823,8 +823,8 @@ namespace KeepCoding
             uint[] nv = new uint[len];
 
             ulong sum =
-                (ulong)(one._value is null ? unchecked((uint)one._sign) : one._value[0]) +
-                ((two._value is null ? unchecked((uint)two._sign) : two._value[0]) ^ subtractor) +
+                (ulong)(one._values is null ? unchecked((uint)one._sign) : one._values[0]) +
+                ((two._values is null ? unchecked((uint)two._sign) : two._values[0]) ^ subtractor) +
                 (subtract ? 1ul : 0ul);
 
             nv[0] = unchecked((uint)sum);
@@ -833,8 +833,8 @@ namespace KeepCoding
 
             for (int i = 1; i < len; i++)
             {
-                sum = (ulong)(one._value is null ? 0u : i >= one._value.Length ? unchecked((uint)one._sign) : one._value[i]) +
-                    (two._value is null ? th : (i >= two._value.Length ? unchecked((uint)two._sign) : two._value[i]) ^ subtractor) + carry;
+                sum = (ulong)(one._values is null ? 0u : i >= one._values.Length ? unchecked((uint)one._sign) : one._values[i]) +
+                    (two._values is null ? th : (i >= two._values.Length ? unchecked((uint)two._sign) : two._values[i]) ^ subtractor) + carry;
 
                 nv[i] = unchecked((uint)sum);
 
@@ -849,13 +849,13 @@ namespace KeepCoding
             if (one.IsZero || two.IsZero)
                 return new BigInt(null, 0);
 
-            if (one._value is null && one._sign is 1)
+            if (one._values is null && one._sign is 1)
                 return two;
 
-            if (two._value is null && two._sign is 1)
+            if (two._values is null && two._sign is 1)
                 return one;
 
-            if (one._value is null && two._value is null)
+            if (one._values is null && two._values is null)
             {
                 long prL = (long)one._sign * two._sign;
                 int prI = unchecked((int)prL);
@@ -869,10 +869,10 @@ namespace KeepCoding
             for (int i = 0; i < nv.Length; i++)
             {
                 ulong vL = i is 0
-                    ? one._value is null ? (uint)one._sign : one._value[0]
-                    : one._value is null || i >= one._value.Length ? (uint)(one._sign >> 31) : one._value[i];
+                    ? one._values is null ? (uint)one._sign : one._values[0]
+                    : one._values is null || i >= one._values.Length ? (uint)(one._sign >> 31) : one._values[i];
 
-                ulong mL = vL * unchecked(two._value is null ? unchecked((uint)two._sign) : two._value[0]) + nv[i];
+                ulong mL = vL * unchecked(two._values is null ? unchecked((uint)two._sign) : two._values[0]) + nv[i];
 
                 nv[i] = unchecked((uint)mL);
 
@@ -880,7 +880,7 @@ namespace KeepCoding
 
                 for (int j = i + 1; j < nv.Length; j++)
                 {
-                    mL = vL * unchecked(two._value is null || j - i >= two._value.Length ? unchecked((uint)(two._sign >> 31)) : two._value[j - i]) + carry + nv[j];
+                    mL = vL * unchecked(two._values is null || j - i >= two._values.Length ? unchecked((uint)(two._sign >> 31)) : two._values[j - i]) + carry + nv[j];
                     nv[j] = unchecked((uint)mL);
                     carry = unchecked((uint)(mL >> 32));
                 }
@@ -894,7 +894,7 @@ namespace KeepCoding
             if (two.IsZero)
                 throw new DivideByZeroException();
 
-            if (one._value is null && two._value is null)
+            if (one._values is null && two._values is null)
                 return new QuotientRemainder(new BigInt(null, one._sign / two._sign), new BigInt(null, one._sign % two._sign));
 
             bool neg1 = false, neg2 = false;
@@ -913,10 +913,10 @@ namespace KeepCoding
 
             // This array starts out with the value of ‘one’ (the dividend). We will successively subtract left-shifted ‘two’s
             // from it until it is smaller than ‘two’, at which point it will contain the remainder.
-            uint[] rem = one._value is null ? new[] { unchecked((uint)one._sign) } : neg1 ? one._value : (uint[])one._value.Clone();
+            uint[] rem = one._values is null ? new[] { unchecked((uint)one._sign) } : neg1 ? one._values : (uint[])one._values.Clone();
 
             // Divisor.
-            uint[] div = two._value ?? new[] { unchecked((uint)two._sign) };
+            uint[] div = two._values ?? new[] { unchecked((uint)two._sign) };
 
             int msb1 = one.MostSignificantBit + 1,
                 msb2 = two.MostSignificantBit + 1;
