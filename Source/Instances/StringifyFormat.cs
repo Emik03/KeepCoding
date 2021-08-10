@@ -8,7 +8,7 @@ namespace KeepCoding
     /// <summary>
     /// Specfies a format for <see cref="Helper.Stringify{T}(T, StringifyFormat)"/>.
     /// </summary>
-    public class StringifyFormat
+    public sealed class StringifyFormat
     {
         /// <summary>
         /// Indicates how <see cref="IEnumerator"/>s and <see cref="IEnumerable"/>s should end with.
