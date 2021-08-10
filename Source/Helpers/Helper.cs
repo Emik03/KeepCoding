@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -944,6 +945,14 @@ namespace KeepCoding
         /// <param name="expression">The expression that retrieves the method.</param>
         /// <returns>The method info of the function.</returns>
         public static MethodInfo GetMethodInfo<T>(this Expression<Action<T>> expression) => expression.Body is MethodCallExpression member ? member.Method : throw new ArgumentException($"The expression {nameof(expression)} is not a method");
+
+        /// <summary>
+        /// Gets a <see cref="ReadOnlyCollection{T}"/> from the current <see cref="IEnumerable{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of <paramref name="source"/> and <see langword="return"/>.</typeparam>
+        /// <param name="source">The collection to turn into a <see cref="ReadOnlyCollection{T}"/>.</param>
+        /// <returns>A <see cref="ReadOnlyCollection{T}"/> with values of <paramref name="source"/>.</returns>
+        public static ReadOnlyCollection<T> ToReadOnly<T>(this IEnumerable<T> source) => source.NullCheck("The source cannot be null!").ToList().AsReadOnly();
 
         /// <summary>
         /// Splits an <see cref="IEnumerable"/> in two based on a method provided.
