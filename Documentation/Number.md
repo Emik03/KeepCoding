@@ -1,9 +1,9 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
-## Number Class
+## Number Struct
 Class meant to encapsulate a primitive numeric value.  
 ```csharp
-public sealed class Number :
+public struct Number :
 System.IComparable,
 System.IFormattable,
 System.IComparable<KeepCoding.Number>,
@@ -11,8 +11,6 @@ System.IEquatable<KeepCoding.Number>,
 System.IComparable<System.ValueType>,
 System.IEquatable<System.ValueType>
 ```
-
-Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; Number  
 
 Implements [System.IComparable](https://docs.microsoft.com/en-us/dotnet/api/System.IComparable 'System.IComparable'), [System.IFormattable](https://docs.microsoft.com/en-us/dotnet/api/System.IFormattable 'System.IFormattable'), [System.IComparable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IComparable-1 'System.IComparable`1')[Number](Number.md 'KeepCoding.Number')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IComparable-1 'System.IComparable`1'), [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[Number](Number.md 'KeepCoding.Number')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1'), [System.IComparable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IComparable-1 'System.IComparable`1')[System.ValueType](https://docs.microsoft.com/en-us/dotnet/api/System.ValueType 'System.ValueType')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IComparable-1 'System.IComparable`1'), [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')[System.ValueType](https://docs.microsoft.com/en-us/dotnet/api/System.ValueType 'System.ValueType')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.IEquatable-1 'System.IEquatable`1')  
 
@@ -102,7 +100,6 @@ Implements [System.IComparable](https://docs.microsoft.com/en-us/dotnet/api/Syst
 | [implicit operator long(Number)](Number.op_Implicit.dqrf.ywWIAdXgj8UpNnkIQ.md 'KeepCoding.Number.op_Implicit long(KeepCoding.Number)') | Implicitly converts the value to a [System.Int64](https://docs.microsoft.com/en-us/dotnet/api/System.Int64 'System.Int64').<br/> |
 | [implicit operator sbyte(Number)](Number.op_Implicit.DD+oH5zxuIzyna4uZ96UZg.md 'KeepCoding.Number.op_Implicit sbyte(KeepCoding.Number)') | Implicitly converts the value to a [System.SByte](https://docs.microsoft.com/en-us/dotnet/api/System.SByte 'System.SByte').<br/> |
 | [implicit operator short(Number)](Number.op_Implicit.RBW5iDRxlvA3bztZTQecUA.md 'KeepCoding.Number.op_Implicit short(KeepCoding.Number)') | Implicitly converts the value to a [System.Int16](https://docs.microsoft.com/en-us/dotnet/api/System.Int16 'System.Int16').<br/> |
-| [implicit operator ValueType(Number)](Number.op_Implicit.dIekkbHrzpQGd0vTCWyvIA.md 'KeepCoding.Number.op_Implicit System.ValueType(KeepCoding.Number)') | Implicitly converts the value to a [System.ValueType](https://docs.microsoft.com/en-us/dotnet/api/System.ValueType 'System.ValueType').<br/> |
 | [implicit operator uint(Number)](Number.op_Implicit.aWPmBTMQit3TQTyDVJg7Tg.md 'KeepCoding.Number.op_Implicit uint(KeepCoding.Number)') | Implicitly converts the value to a [System.UInt32](https://docs.microsoft.com/en-us/dotnet/api/System.UInt32 'System.UInt32').<br/> |
 | [implicit operator ulong(Number)](Number.op_Implicit.sgMKRdIqn7BX7lgRRu+q3Q.md 'KeepCoding.Number.op_Implicit ulong(KeepCoding.Number)') | Implicitly converts the value to a [System.UInt64](https://docs.microsoft.com/en-us/dotnet/api/System.UInt64 'System.UInt64').<br/> |
 | [implicit operator ushort(Number)](Number.op_Implicit.CU2hf7hj3nZwW9jgmDCpAQ.md 'KeepCoding.Number.op_Implicit ushort(KeepCoding.Number)') | Implicitly converts the value to a [System.UInt16](https://docs.microsoft.com/en-us/dotnet/api/System.UInt16 'System.UInt16').<br/> |
