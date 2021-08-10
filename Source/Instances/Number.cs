@@ -10,7 +10,7 @@ namespace KeepCoding
     /// <summary>
     /// Class meant to encapsulate a primitive numeric value.
     /// </summary>
-    public sealed class Number : IComparable, IFormattable, IComparable<Number>, IEquatable<Number>, IComparable<ValueType>, IEquatable<ValueType>
+    public struct Number : IComparable, IFormattable, IComparable<Number>, IEquatable<Number>, IComparable<ValueType>, IEquatable<ValueType>
     {
         /// <summary>
         /// Creates a <see cref="Number"/> with the inner type <see cref="sbyte"/>.
@@ -723,12 +723,6 @@ namespace KeepCoding
         public static implicit operator decimal(Number number) => ToDecimal(number._value);
 
         /// <summary>
-        /// Implicitly converts the value to a <see cref="ValueType"/>.
-        /// </summary>
-        /// <param name="number">The number to cast.</param>
-        public static implicit operator ValueType(Number number) => number._value;
-
-        /// <summary>
         /// Implicitly converts the value to a <see cref="Number"/>.
         /// </summary>
         /// <param name="value">The value to use in the constructor.</param>
@@ -881,7 +875,17 @@ namespace KeepCoding
         /// <param name="info">The <see cref="NumberFormatInfo"/> used for parsing.</param>
         /// <param name="number">The number to store the result in. An instance is returned if it is able to be casted successfully, and <see langword="null"/> otherwise.</param>
         /// <returns>True if it was able to successfully parse the string as a <see cref="Number"/>.</returns>
-        public static bool TryParse(string s, NumberStyles style, NumberFormatInfo info, out Number number) => (number = EarliestParse(s, style, info)) is { };
+        public static bool TryParse(string s, NumberStyles style, NumberFormatInfo info, out Number number)
+        {
+            if (EarliestParse(s, style, info) is Number result)
+            {
+                number = result;
+                return true;
+            }
+
+            number = default;
+            return false;
+        }
 
         /// <summary>
         /// Compares and determines the difference between both items.
@@ -1087,32 +1091,37 @@ namespace KeepCoding
         /// Casts the <see cref="Number"/> into the numeric type. Unlike implicit casting, the value will trim the bytes that cannot occupy the new datatype, such as a number being too large or decimals.
         /// </summary>
         /// <returns>Itself as <typeparamref name="T"/>.</returns>
-        public T Cast<T>() => (T)New<T>().Do<object>(
-            _ => (sbyte)(Trunc() % sbyte.MaxValue),
-            _ => (byte)(TruncAbs() % byte.MaxValue),
-            _ => (short)(Trunc() % short.MaxValue),
-            _ => (ushort)(TruncAbs() % ushort.MaxValue),
-            _ => (int)(Trunc() % int.MaxValue),
-            _ => (uint)(TruncAbs() % uint.MaxValue),
-            _ => (long)(Trunc() % long.MaxValue),
-            _ => (ulong)(TruncAbs() % ulong.MaxValue),
-            _ => (float)this,
-            _ => (double)this,
-            _ => (decimal)this);
+        public T Cast<T>()
+        {
+            Number number = this;
+
+            return (T)New<T>().Do<object>(
+                _ => (sbyte)(number.Trunc() % sbyte.MaxValue),
+                _ => (byte)(number.TruncAbs() % byte.MaxValue),
+                _ => (short)(number.Trunc() % short.MaxValue),
+                _ => (ushort)(number.TruncAbs() % ushort.MaxValue),
+                _ => (int)(number.Trunc() % int.MaxValue),
+                _ => (uint)(number.TruncAbs() % uint.MaxValue),
+                _ => (long)(number.Trunc() % long.MaxValue),
+                _ => (ulong)(number.TruncAbs() % ulong.MaxValue),
+                _ => (float)number,
+                _ => (double)number,
+                _ => (decimal)number);
+        }
 
         private static FormatException WrongFormat(in string value) => throw new FormatException($"The value {value} is not formatted correctly.");
 
-        private static Number EarliestParse(in string s, in NumberStyles style, in NumberFormatInfo info) => sbyte.TryParse(s, out sbyte sb) ? (Number)sb :
-                byte.TryParse(s, style, info, out byte b) ? (Number)b :
-                short.TryParse(s, style, info, out short sh) ? (Number)sh :
-                ushort.TryParse(s, style, info, out ushort us) ? (Number)us :
-                int.TryParse(s, style, info, out int i) ? (Number)i :
-                uint.TryParse(s, style, info, out uint ui) ? (Number)ui :
-                long.TryParse(s, style, info, out long l) ? (Number)l :
-                ulong.TryParse(s, style, info, out ulong ul) ? (Number)ul :
-                float.TryParse(s, style, info, out float f) ? (Number)f :
-                double.TryParse(s, style, info, out double d) ? (Number)d :
-                decimal.TryParse(s, style, info, out decimal de) ? (Number)de : null;
+        private static Number? EarliestParse(in string s, in NumberStyles style, in NumberFormatInfo info) => sbyte.TryParse(s, out sbyte sb) ? (Number)sb :
+                byte.TryParse(s, style, info, out byte b) ? b :
+                short.TryParse(s, style, info, out short sh) ? sh :
+                ushort.TryParse(s, style, info, out ushort us) ? us :
+                int.TryParse(s, style, info, out int i) ? i :
+                uint.TryParse(s, style, info, out uint ui) ? ui :
+                long.TryParse(s, style, info, out long l) ? l :
+                ulong.TryParse(s, style, info, out ulong ul) ? ul :
+                float.TryParse(s, style, info, out float f) ? f :
+                double.TryParse(s, style, info, out double d) ? d :
+                decimal.TryParse(s, style, info, out decimal de) ? (Number?)de : null;
 
         private Number Trunc() => Truncate((double)this);
 

@@ -17,9 +17,9 @@
 	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	<Copyright>Emik</Copyright>
 	<RunPostBuildEvent>Always</RunPostBuildEvent>
-	<AssemblyVersion>8.0.0.0</AssemblyVersion>
-	<FileVersion>8.0.0.0</FileVersion>
-	<Version>8</Version>
+	<AssemblyVersion>9.0.0.5</AssemblyVersion>
+	<FileVersion>9.0.0.5</FileVersion>
+	<Version>9.0.0.5</Version>
 	<PackageId>KeepCoding</PackageId>
 	<SignAssembly>true</SignAssembly>
 	<DelaySign>false</DelaySign>
@@ -117,7 +117,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCoding.dll&quot;  &quot;D:\Emik's Modules\Assets\Plugins\Managed&quot;&#xD;&#xA;xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCoding.xml&quot; &quot;D:\Emik's Modules\Assets\Plugins\Managed&quot;&#xD;&#xA;" />
+    <Exec Command="xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCoding.dll&quot;  &quot;D:\Emik's Modules\Assets\Plugins\Managed&quot;&#xD;&#xA;xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCoding.xml&quot; &quot;D:\Emik's Modules\Assets\Plugins\Managed&quot;&#xD;&#xA;xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCoding.dll&quot;  &quot;D:\AlphaModules\Assets\Plugins\Managed&quot;&#xD;&#xA;xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCoding.xml&quot; &quot;D:\AlphaModules\Assets\Plugins\Managed&quot;&#xD;&#xA;" />
 	<GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
       <Output TaskParameter="Assemblies" ItemName="Targets" />
     </GetAssemblyIdentity>
