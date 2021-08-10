@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using KeepCoding.Internal;
 using UnityEngine;
@@ -15,7 +16,7 @@ namespace KeepCoding
     public abstract class TPScript<TModule> : CacheableBehaviour, ITP where TModule : ModuleScript
     {
         /// <summary>
-        /// Determines if it should cancel command processing. If this returns true, then stop processing the command, clean up, then do a <c>yield return Cancelled;</c> to acknowledge the cancel.
+        /// Determines if it should cancel command processing. If this returns <see langword="true"/>, then stop processing the command, clean up, then do a <c><see langword="yield"/> <see langword="return"/> <see cref="Cancelled"/>;</c> to acknowledge the cancel.
         /// </summary>
         /// <remarks>
         /// These values are set by the Twitch Plays mod using reflection. This field is set in <c>Start()</c>, therefore there's no guarantee that it'll be available there, the field must be first accessed in a delegate in <see cref="KMBombModule.OnActivate"/> or <see cref="KMNeedyModule.OnActivate"/> or later.
@@ -126,7 +127,7 @@ namespace KeepCoding
         protected const string CancelDetonate = "cancel detonate";
 
         /// <summary>
-        /// Yield return this to indicate that you have stopped processing the command in response to the <see cref="TwitchShouldCancelCommand"/> bool being set to true.
+        /// Yield return this to indicate that you have stopped processing the command in response to the <see cref="TwitchShouldCancelCommand"/> bool being set to <see langword="true"/>.
         /// </summary>
         protected const string Cancelled = "cancelled";
 
@@ -193,7 +194,7 @@ namespace KeepCoding
         /// When a command is typed into Twitch Plays with the Id of this module, it calls this method and passes in the exact command typed.
         /// </summary>
         /// <remarks>
-        /// Anything that gets yield returned will be processed by Twitch Plays. This includes other <see cref="IEnumerable"/> methods, <see cref="KMSelectable"/>, an <see cref="System.Array"/> of <see cref="KMSelectable"/>, <see cref="string"/>, <c>true</c>, or <c>null</c>.
+        /// Anything that gets yield returned will be processed by Twitch Plays. This includes other <see cref="IEnumerable"/> methods, <see cref="KMSelectable"/>, an <see cref="Array"/> of <see cref="KMSelectable"/>, <see cref="string"/>, <c><see langword="true"/></c>, or <c><see langword="null"/></c>.
         /// </remarks>
         /// <param name="command">The user's command.</param>
         /// <returns>A series of instructions for the Twitch Plays mod to handle as requested by the user.</returns>
@@ -263,7 +264,7 @@ namespace KeepCoding
         protected static string Detonate(float? time = null, string message = null) => Combine("detonate", time, message);
 
         /// <summary>
-        /// Yield return this to try advancing the clock to the specified time. You must put the full time you wish to skip to, and this time either needs to be less than the current time, if in normal/time mode, or greater than the current time, if in zen mode. Example, if you wanted to set the clock to 5:24, then you do "skiptime 324" or "skiptime 5:24". You can target partway through the seconds, such as "skiptime 45.28", which would then set the clock to 45.28, provided that time has NOT gone by already. You must also set <see cref="IsTimeSkippable"/> to true, for this function to work.
+        /// Yield return this to try advancing the clock to the specified time. You must put the full time you wish to skip to, and this time either needs to be less than the current time, if in normal/time mode, or greater than the current time, if in zen mode. Example, if you wanted to set the clock to 5:24, then you do "skiptime 324" or "skiptime 5:24". You can target partway through the seconds, such as "skiptime 45.28", which would then set the clock to 45.28, provided that time has NOT gone by already. You must also set <see cref="IsTimeSkippable"/> to <see langword="true"/>, for this function to work.
         /// </summary>
         /// <param name="seconds">The time to skip to in seconds.</param>
         /// <returns>A formatted string for Twitch Plays.</returns>
@@ -284,24 +285,45 @@ namespace KeepCoding
         protected static string AwardPointsOnSolve(int points) => Combine("awardpointsonsolve", points);
 
         /// <summary>
-        /// Works as a ternary operator. Returns <paramref name="then"/> if <paramref name="condition"/> is true, otherwise <paramref name="otherwise"/>.
+        /// Works as a ternary operator. Returns <paramref name="then"/> if <paramref name="condition"/> is <see langword="true"/>, otherwise <paramref name="otherwise"/>.
         /// </summary>
         /// <remarks>
         /// You can <see langword="yield"/> <see langword="return"/> different types with this method, such as ambiguity between a <see cref="KMSelectable"/> <see cref="Array"/> and a <see cref="string"/>.
         /// </remarks>
         /// <typeparam name="T">The type of then condition.</typeparam>
         /// <param name="condition">The boolean to check.</param>
-        /// <param name="then">The output to return if <paramref name="condition"/> is true.</param>
+        /// <param name="then">The output to return if <paramref name="condition"/> is <see langword="true"/>.</param>
         /// <param name="otherwise">The output to return if <paramref name="condition"/> is false.</param>
         /// <returns><paramref name="then"/> or <paramref name="otherwise"/>, depending on <paramref name="condition"/>.</returns>
         protected static object Evaluate<T>(bool condition, T then, object otherwise = null) => condition ? then : otherwise;
 
         /// <summary>
+        /// Presses a sequence of buttons in order of <paramref name="selectables"/>, waiting <paramref name="wait"/> seconds in-between each, and interrupting as soon as <see cref="ModuleScript.HasStruck"/> is <see langword="true"/>.
+        /// </summary>
+        /// <param name="selectables">The array of selectables to interact with.</param>
+        /// <param name="wait">The delay between each button press in seconds.</param>
+        /// <returns>A sequence of button presses for Twitch Plays to process.</returns>
+        protected IEnumerator OnInteractSequence(KMSelectable[] selectables, float wait)
+        {
+            selectables.NullOrEmptyCheck($"The {nameof(KMSelectable)} array is null or empty.");
+
+            Module.HasStruck = false;
+
+            foreach (KMSelectable selectable in selectables)
+            {
+                selectable.OnInteract();
+                yield return new WaitForSecondsRealtime(wait);
+            }
+
+            Module.HasStruck = false;
+        }
+
+        /// <summary>
         /// Presses a sequence of buttons according to <paramref name="indices"/> within <paramref name="selectables"/>, waiting <paramref name="wait"/> seconds in-between each, and interrupting as soon as <see cref="ModuleScript.HasStruck"/> is true.
         /// </summary>
         /// <param name="selectables">The array of selectables to interact with.</param>
-        /// <param name="indices">The indices to press within the array.</param>
         /// <param name="wait">The delay between each button press in seconds.</param>
+        /// <param name="indices">The indices to press within the array.</param>
         /// <returns>A sequence of button presses for Twitch Plays to process.</returns>
         protected IEnumerator OnInteractSequence(KMSelectable[] selectables, float wait, params int[] indices)
         {
@@ -310,36 +332,10 @@ namespace KeepCoding
             if (indices is null)
                 yield break;
 
-            Module.HasStruck = false;
-
-            for (int i = 0; i < indices.Length && !Module.HasStruck; i++)
-            {
-                selectables[indices[i]].OnInteract();
-                yield return new WaitForSecondsRealtime(wait);
-            }
-
-            Module.HasStruck = false;
+            yield return indices.All(i => i.IsBetween(0, selectables.GetUpperBound()))
+                ? OnInteractSequence(indices.ConvertAll(i => selectables[i]), wait)
+                : throw new IndexOutOfRangeException("The indices are out of range!");
         }
-
-        /// <summary>
-        /// You can yield return this to repeatedly yield return an item until a condition is no longer met.
-        /// </summary>
-        /// <param name="item">The item to yield repeatedly.</param>
-        /// <param name="condition">The condition to repeatedly check until it returns <see langword="false"/>.</param>
-        /// <returns><paramref name="item"/> continously until <paramref name="condition"/> is <see langword="false"/></returns>
-        protected static IEnumerator YieldWhile<T>(T item, Func<bool> condition)
-        {
-            while (condition())
-                yield return item;
-        }
-
-        /// <summary>
-        /// You can yield return this to repeatedly yield return an item until a condition is met.
-        /// </summary>
-        /// <param name="item">The item to yield repeatedly.</param>
-        /// <param name="condition">The condition to repeatedly check until it returns <see langword="false"/>.</param>
-        /// <returns><paramref name="item"/> continously until <paramref name="condition"/> is <see langword="true"/></returns>
-        protected static IEnumerator YieldUntil<T>(T item, Func<bool> condition) => YieldWhile(item, () => !condition());
 
         /// <summary>
         /// This method gets grabbed by Twitch Plays. It grabs <see cref="Process(string)"/> and flattens it using <see cref="Helper.Flatten(IEnumerator, Predicate{IEnumerator})"/>.
@@ -353,6 +349,26 @@ namespace KeepCoding
         /// </summary>
         /// <returns>A list of instructions for Twitch Plays.</returns>
         protected IEnumerator TwitchHandleForcedSolve() => ForceSolve().Flatten(IsExcludedType);
+
+        /// <summary>
+        /// You can <see langword="yield"/> <see langword="return"/> this to repeatedly <see langword="yield"/> <see langword="return"/> an item until a condition is no longer met.
+        /// </summary>
+        /// <param name="item">The item to yield repeatedly.</param>
+        /// <param name="condition">The condition to repeatedly check until it returns <see langword="false"/>.</param>
+        /// <returns><paramref name="item"/> continously until <paramref name="condition"/> is <see langword="false"/></returns>
+        protected static IEnumerator YieldWhile<T>(T item, Func<bool> condition)
+        {
+            while (condition())
+                yield return item;
+        }
+
+        /// <summary>
+        /// You can <see langword="yield"/> <see langword="return"/> this to repeatedly <see langword="yield"/> <see langword="return"/> an item until a condition is met.
+        /// </summary>
+        /// <param name="item">The item to yield repeatedly.</param>
+        /// <param name="condition">The condition to repeatedly check until it returns <see langword="false"/>.</param>
+        /// <returns><paramref name="item"/> continously until <paramref name="condition"/> is <see langword="true"/></returns>
+        protected static IEnumerator YieldUntil<T>(T item, Func<bool> condition) => YieldWhile(item, () => !condition());
 
         private static bool IsExcludedType<T>(T item) => item is IEnumerable<char> || item is KMSelectable[];
 
