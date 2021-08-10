@@ -1111,6 +1111,10 @@ namespace KeepCoding
 
         private static FormatException WrongFormat(in string value) => throw new FormatException($"The value {value} is not formatted correctly.");
 
+        private Number Trunc() => Truncate((double)this);
+
+        private Number TruncAbs() => Abs(Truncate((double)this));
+
         private static Number? EarliestParse(in string s, in NumberStyles style, in NumberFormatInfo info) => sbyte.TryParse(s, out sbyte sb) ? sb :
                 byte.TryParse(s, style, info, out byte b) ? b :
                 short.TryParse(s, style, info, out short sh) ? sh :
@@ -1122,10 +1126,6 @@ namespace KeepCoding
                 float.TryParse(s, style, info, out float f) ? f :
                 double.TryParse(s, style, info, out double d) ? d :
                 decimal.TryParse(s, style, info, out decimal de) ? (Number?)de : null;
-
-        private Number Trunc() => Truncate((double)this);
-
-        private Number TruncAbs() => Abs(Truncate((double)this));
 
         private static UnrecognizedTypeException WrongType<T>() => throw new UnrecognizedTypeException($"The type {typeof(T)} in this case is not valid.");
 
