@@ -206,6 +206,12 @@ namespace KeepCoding
         /// <returns>The <see cref="Module"/>'s hash code.</returns>
         public override int GetHashCode() => 1212890949 + EqualityComparer<MonoBehaviour>.Default.GetHashCode(Module);
 
+        /// <summary>
+        /// Gets the <see cref="Name"/> and <see cref="Id"/> of the module.
+        /// </summary>
+        /// <returns><see cref="Name"/> and <see cref="Id"/></returns>
+        public override string ToString() => $"{Name} ({Id})";
+
         private readonly KMBombModule _bombModule;
 
         private readonly KMNeedyModule _needyModule;
