@@ -442,7 +442,7 @@ namespace KeepCoding
         /// </summary>
         protected void Awake()
         {
-            (Module = new ModuleContainer(this)).OnActivate(_activate = () =>
+            (Module = new ModuleContainer(this)).Assign(onActivate: _activate = () =>
             {
                 IsActive = true;
                 OnActivate();

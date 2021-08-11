@@ -187,27 +187,6 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// Sets the action of OnActivate.
-        /// </summary>
-        /// <param name="action">The delegate to set.</param>
-        public void OnActivate(Action action)
-        {
-            switch (Module)
-            {
-                case KMBombModule bombModule:
-                    action.Set(ref bombModule.OnActivate);
-                    break;
-
-                case KMNeedyModule needyModule:
-                    action.Set(ref needyModule.OnActivate);
-                    break;
-
-                default:
-                    throw s_unreachableException;
-            }
-        }
-
-        /// <summary>
         /// Determines if both <see cref="ModuleContainer"/> variables are equal.
         /// </summary>
         /// <param name="obj">The comparison.</param>
@@ -219,7 +198,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="other">The comparison.</param>
         /// <returns>True if both contain the same instance of <see cref="KMBombModule"/>, <c>null</c>, <see cref="KMNeedyModule"/></returns>
-        public bool Equals(ModuleContainer other) => Module == other.Module;
+        public bool Equals(ModuleContainer other) => other is null ? this is null : Module == other.Module;
 
         /// <summary>
         /// Gets the current hash code.
