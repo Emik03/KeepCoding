@@ -7,7 +7,7 @@ public override string ToString();
 ```
 #### Returns
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
-[Items](TupleBase.Items.md 'KeepCoding.Internal.TupleBase.Items') from [Helper.Stringify<T>(T)](https://docs.microsoft.com/en-us/dotnet/api/Helper.Stringify<T>#Helper_Stringify<T>_T_ 'Helper.Stringify<T>(T)').
+[Items](TupleBase.Items.md 'KeepCoding.Internal.TupleBase.Items') from [Stringify&lt;T&gt;(T, StringifyFormat)](Helper.Stringify.MMjDPqfcLXL+EYRaH4glrw.md 'KeepCoding.Helper.Stringify&lt;T&gt;(T, KeepCoding.StringifyFormat)').
 ### Example
 The following example illustrates how a tuple gets converted to a [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String').  
 ```csharp
@@ -29,7 +29,7 @@ This is the output from the console.
 [Foo #1] 0, test1, test2, test3, False  
 ```
 ### Remarks
-Each element of [Items](TupleBase.Items.md 'KeepCoding.Internal.TupleBase.Items') is passed into [Helper.Stringify<T>(T)](https://docs.microsoft.com/en-us/dotnet/api/Helper.Stringify<T>#Helper_Stringify<T>_T_ 'Helper.Stringify<T>(T)') to unpack iterators and allow each element to be seen. For more details about stringification, refer to [System.Object.ToString](https://docs.microsoft.com/en-us/dotnet/api/System.Object.ToString 'System.Object.ToString').  
+Each element of [Items](TupleBase.Items.md 'KeepCoding.Internal.TupleBase.Items') is passed into [Stringify&lt;T&gt;(T, StringifyFormat)](Helper.Stringify.MMjDPqfcLXL+EYRaH4glrw.md 'KeepCoding.Helper.Stringify&lt;T&gt;(T, KeepCoding.StringifyFormat)') to unpack iterators and allow each element to be seen. For more details about stringification, refer to [System.Object.ToString](https://docs.microsoft.com/en-us/dotnet/api/System.Object.ToString 'System.Object.ToString').  
 #### See Also
 - [Items](TupleBase.Items.md 'KeepCoding.Internal.TupleBase.Items')
-- [Helper.Stringify<T>(T)](https://docs.microsoft.com/en-us/dotnet/api/Helper.Stringify<T>#Helper_Stringify<T>_T_ 'Helper.Stringify<T>(T)')
+- [Stringify&lt;T&gt;(T, StringifyFormat)](Helper.Stringify.MMjDPqfcLXL+EYRaH4glrw.md 'KeepCoding.Helper.Stringify&lt;T&gt;(T, KeepCoding.StringifyFormat)')

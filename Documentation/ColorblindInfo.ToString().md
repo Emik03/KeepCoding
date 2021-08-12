@@ -7,4 +7,4 @@ public override string ToString();
 ```
 #### Returns
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
-[Modules](ColorblindInfo.Modules.md 'KeepCoding.ColorblindInfo.Modules') unwrapped with [Helper.Stringify<T>(T)](https://docs.microsoft.com/en-us/dotnet/api/Helper.Stringify<T>#Helper_Stringify<T>_T_ 'Helper.Stringify<T>(T)').
+[Modules](ColorblindInfo.Modules.md 'KeepCoding.ColorblindInfo.Modules') unwrapped with [Stringify&lt;T&gt;(T, StringifyFormat)](Helper.Stringify.MMjDPqfcLXL+EYRaH4glrw.md 'KeepCoding.Helper.Stringify&lt;T&gt;(T, KeepCoding.StringifyFormat)').

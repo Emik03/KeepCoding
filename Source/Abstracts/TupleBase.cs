@@ -322,7 +322,7 @@ namespace KeepCoding.Internal
         /// Joins <see cref="Items"/> to a string, with a space as a delimiter.
         /// </summary>
         /// <remarks>
-        /// Each element of <see cref="Items"/> is passed into <see cref="Helper.Stringify{T}(T)"/> to unpack iterators and allow each element to be seen. For more details about stringification, refer to <see cref="object.ToString"/>.
+        /// Each element of <see cref="Items"/> is passed into <see cref="Helper.Stringify{T}(T, StringifyFormat)"/> to unpack iterators and allow each element to be seen. For more details about stringification, refer to <see cref="object.ToString"/>.
         /// </remarks>
         /// <example>
         /// The following example illustrates how a tuple gets converted to a <see cref="string"/>.
@@ -343,8 +343,8 @@ namespace KeepCoding.Internal
         /// </code>
         /// </example>
         /// <seealso cref="Items"/>
-        /// <seealso cref="Helper.Stringify{T}(T)"/>
-        /// <returns><see cref="Items"/> from <see cref="Helper.Stringify{T}(T)"/>.</returns>
+        /// <seealso cref="Helper.Stringify{T}(T, StringifyFormat)"/>
+        /// <returns><see cref="Items"/> from <see cref="Helper.Stringify{T}(T, StringifyFormat)"/>.</returns>
         public override string ToString() => this.Stringify();
 
         /// <summary>
