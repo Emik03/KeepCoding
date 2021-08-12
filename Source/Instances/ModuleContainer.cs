@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using KeepCoding.Internal;
 using UnityEngine;
+using static UnityEngine.Application;
 
 namespace KeepCoding
 {
@@ -10,6 +11,16 @@ namespace KeepCoding
     /// </summary>
     public sealed class ModuleContainer : IEquatable<ModuleContainer>
     {
+        private bool _isNeedy, _requiresTimerVisibility;
+
+        private string _id, _name;
+
+        private readonly KMBombModule _bombModule;
+
+        private readonly KMNeedyModule _needyModule;
+
+        private static readonly UnrecognizedTypeException s_unassignedException = new UnrecognizedTypeException($"{nameof(Module)} is neither a {nameof(KMBombModule)} or a {nameof(KMNeedyModule)}.");
+
         /// <summary>
         /// Encapsulates either a solvable or needy module. Uses <see cref="CacheableBehaviour.Get{T}(bool)"/>.
         /// </summary>
@@ -20,16 +31,23 @@ namespace KeepCoding
         /// Encapsulates either a solvable or needy module. Uses <see cref="Component.GetComponent{T}"/>.
         /// </summary>
         /// <param name="component">The component to get the modules from.</param>
-        public ModuleContainer(Component component) : this(component.GetComponent<KMBombModule>(), component.GetComponent<KMNeedyModule>()) { }
+        public ModuleContainer(Component component)
+        {
+            if (!isEditor)
+                ExtractBombComponent(component);
+
+            _bombModule = component.GetComponent<KMBombModule>();
+            _needyModule = component.GetComponent<KMNeedyModule>();
+        }
 
         /// <summary>
-        /// Encapsulates either a solvable module.
+        /// Encapsulates a solvable module.
         /// </summary>
         /// <param name="solvable">The instance of a normal module.</param>
         public ModuleContainer(KMBombModule solvable) : this(solvable, null) { }
 
         /// <summary>
-        /// Encapsulates either a solvable module.
+        /// Encapsulates a needy module.
         /// </summary>
         /// <param name="needy">The instance of a needy module.</param>
         public ModuleContainer(KMNeedyModule needy) : this(null, needy) { }
@@ -50,6 +68,16 @@ namespace KeepCoding
         }
 
         /// <summary>
+        /// Determines whether this instance contains a <see cref="Needy"/>.
+        /// </summary>
+        public bool IsNeedy => Module switch
+        {
+            KMBombModule _ => false,
+            KMNeedyModule _ => true,
+            _ => _isNeedy,
+        };
+
+        /// <summary>
         /// Set to true to only allow this module to be placed on the same face as the timer. Useful when the rules involve the timer in some way (like the Big Button), but should be used sparingly as it limits generation possibilities.
         /// </summary>
         /// <exception cref="UnrecognizedTypeException"></exception>
@@ -57,18 +85,7 @@ namespace KeepCoding
         {
             KMBombModule bombModule => bombModule.RequiresTimerVisibility,
             KMNeedyModule needyModule => needyModule.RequiresTimerVisibility,
-            _ => throw s_unreachableException,
-        };
-
-        /// <summary>
-        /// The nice display name shown to players. e.g. "The Button"
-        /// </summary>
-        /// <exception cref="UnrecognizedTypeException"></exception>
-        public string Name => Module switch
-        {
-            KMBombModule bombModule => bombModule.ModuleDisplayName,
-            KMNeedyModule needyModule => needyModule.ModuleDisplayName,
-            _ => throw s_unreachableException,
+            _ => _requiresTimerVisibility,
         };
 
         /// <summary>
@@ -79,7 +96,18 @@ namespace KeepCoding
         {
             KMBombModule bombModule => bombModule.ModuleType,
             KMNeedyModule needyModule => needyModule.ModuleType,
-            _ => throw s_unreachableException,
+            _ => _id,
+        };
+
+        /// <summary>
+        /// The nice display name shown to players. e.g. "The Button"
+        /// </summary>
+        /// <exception cref="UnrecognizedTypeException"></exception>
+        public string Name => Module switch
+        {
+            KMBombModule bombModule => bombModule.ModuleDisplayName,
+            KMNeedyModule needyModule => needyModule.ModuleDisplayName,
+            _ => _name,
         };
 
         /// <summary>
@@ -90,7 +118,7 @@ namespace KeepCoding
         {
             KMBombModule bombModule => bombModule.HandlePass,
             KMNeedyModule needyModule => needyModule.HandlePass,
-            _ => throw s_unreachableException,
+            _ => throw s_unassignedException,
         };
 
         /// <summary>
@@ -101,7 +129,7 @@ namespace KeepCoding
         {
             KMBombModule bombModule => bombModule.HandleStrike,
             KMNeedyModule needyModule => needyModule.HandleStrike,
-            _ => throw s_unreachableException,
+            _ => throw s_unassignedException,
         };
 
         /// <summary>
@@ -112,7 +140,7 @@ namespace KeepCoding
         {
             KMBombModule bombModule => bombModule.GetRuleGenerationSeed,
             KMNeedyModule needyModule => needyModule.GetRuleGenerationSeed,
-            _ => throw s_unreachableException,
+            _ => throw s_unassignedException,
         };
 
         /// <summary>
@@ -182,7 +210,7 @@ namespace KeepCoding
                     break;
 
                 default:
-                    throw s_unreachableException;
+                    throw s_unassignedException;
             }
         }
 
@@ -212,10 +240,15 @@ namespace KeepCoding
         /// <returns><see cref="Name"/> and <see cref="Id"/></returns>
         public override string ToString() => $"{Name} ({Id})";
 
-        private readonly KMBombModule _bombModule;
-
-        private readonly KMNeedyModule _needyModule;
-
-        private static readonly UnrecognizedTypeException s_unreachableException = new UnrecognizedTypeException("Module is neither a KMBombModule or a KMNeedyModule. This is a bug caused by the library, please file a bug report alongside the source code.");
+        private void ExtractBombComponent(object obj)
+        {
+            if (obj is BombComponent b)
+            {
+                _isNeedy = b is NeedyComponent;
+                _requiresTimerVisibility = b.RequiresTimerVisibility;
+                _id = b.ComponentType.ToString();
+                _name = b.GetModuleDisplayName();
+            }
+        }
     }
 }

@@ -15,13 +15,14 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 | :--- | :--- |
 | [ModuleContainer(Component)](ModuleContainer..ctor..Cs02hEnCdQzEJgKilVrCw.md 'KeepCoding.ModuleContainer.ModuleContainer(Component)') | Encapsulates either a solvable or needy module. Uses [UnityEngine.Component.GetComponent&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Component.GetComponent--1 'UnityEngine.Component.GetComponent``1').<br/> |
 | [ModuleContainer(CacheableBehaviour)](ModuleContainer..ctor.JCblanSidmYIrRxqclMaQA.md 'KeepCoding.ModuleContainer.ModuleContainer(KeepCoding.CacheableBehaviour)') | Encapsulates either a solvable or needy module. Uses [Get&lt;T&gt;(bool)](CacheableBehaviour.Get.BCvpnMdzS10TWkqsNXOG8g.md 'KeepCoding.CacheableBehaviour.Get&lt;T&gt;(bool)').<br/> |
-| [ModuleContainer(KMBombModule)](ModuleContainer..ctor.oSkW9iuREXZkl2mmHzyCLg.md 'KeepCoding.ModuleContainer.ModuleContainer(KMBombModule)') | Encapsulates either a solvable module.<br/> |
+| [ModuleContainer(KMBombModule)](ModuleContainer..ctor.oSkW9iuREXZkl2mmHzyCLg.md 'KeepCoding.ModuleContainer.ModuleContainer(KMBombModule)') | Encapsulates a solvable module.<br/> |
 | [ModuleContainer(KMBombModule, KMNeedyModule)](ModuleContainer..ctor.Xic0FPVl4Jq6gQzr0Fz66A.md 'KeepCoding.ModuleContainer.ModuleContainer(KMBombModule, KMNeedyModule)') | Encapsulates either a solvable or needy module.<br/> |
-| [ModuleContainer(KMNeedyModule)](ModuleContainer..ctor.7Z9tdLztI4cePCb33dLsgA.md 'KeepCoding.ModuleContainer.ModuleContainer(KMNeedyModule)') | Encapsulates either a solvable module.<br/> |
+| [ModuleContainer(KMNeedyModule)](ModuleContainer..ctor.7Z9tdLztI4cePCb33dLsgA.md 'KeepCoding.ModuleContainer.ModuleContainer(KMNeedyModule)') | Encapsulates a needy module.<br/> |
 
 | Properties | |
 | :--- | :--- |
 | [Id](ModuleContainer.Id.md 'KeepCoding.ModuleContainer.Id') | The identifier for the module as referenced in missions. e.g. "BigButton" Also known as a "Module ID".<br/> |
+| [IsNeedy](ModuleContainer.IsNeedy.md 'KeepCoding.ModuleContainer.IsNeedy') | Determines whether this instance contains a [Needy](ModuleContainer.Needy.md 'KeepCoding.ModuleContainer.Needy').<br/> |
 | [Module](ModuleContainer.Module.md 'KeepCoding.ModuleContainer.Module') | Returns [KMBombModule](https://docs.microsoft.com/en-us/dotnet/api/KMBombModule 'KMBombModule'), or if null, [KMNeedyModule](https://docs.microsoft.com/en-us/dotnet/api/KMNeedyModule 'KMNeedyModule').<br/> |
 | [Name](ModuleContainer.Name.md 'KeepCoding.ModuleContainer.Name') | The nice display name shown to players. e.g. "The Button"<br/> |
 | [Needy](ModuleContainer.Needy.md 'KeepCoding.ModuleContainer.Needy') | Returns [KMNeedyModule](https://docs.microsoft.com/en-us/dotnet/api/KMNeedyModule 'KMNeedyModule'), or if null, throws a [System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException').<br/> |
