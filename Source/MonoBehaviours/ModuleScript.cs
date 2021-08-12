@@ -258,8 +258,8 @@ namespace KeepCoding
         /// <remarks>
         /// Vanilla modules are an exception, they will not invoke this method.
         /// </remarks>
-        /// <param name="moduleName">The sender's module name, which caused a strike.</param>
-        public virtual void OnModuleStrike(string moduleName) { }
+        /// <param name="module">The sender encapsulated as <see cref="ModuleContainer"/>, which caused a strike.</param>
+        public virtual void OnModuleStrike(ModuleContainer module) { }
 
         /// <summary>
         /// Called when the needy activates.
@@ -277,8 +277,8 @@ namespace KeepCoding
         /// <remarks>
         /// Vanilla modules are an exception, they will not invoke this method.
         /// </remarks>
-        /// <param name="moduleName">The sender's module name, which was solved.</param>
-        public virtual void OnNeedySolved(string moduleName) { }
+        /// <param name="module">The sender encapsulated as <see cref="ModuleContainer"/>, which was solved.</param>
+        public virtual void OnNeedySolved(ModuleContainer module) { }
 
         /// <summary>
         /// Called when any <see cref="KMBombModule"/> on the current bomb has been solved.
@@ -286,8 +286,8 @@ namespace KeepCoding
         /// <remarks>
         /// Vanilla modules are an exception, they will not invoke this method.
         /// </remarks>
-        /// <param name="moduleName">The sender's module name, which was solved.</param>
-        public virtual void OnSolvableSolved(string moduleName) { }
+        /// <param name="module">The sender encapsulated as <see cref="ModuleContainer"/>, which was solved.</param>
+        public virtual void OnSolvableSolved(ModuleContainer module) { }
 
         /// <summary>
         /// Called when the timer's seconds-digit changes.
@@ -478,29 +478,32 @@ namespace KeepCoding
 
         private void HookModules()
         {
-            static bool Run(ModuleContainer module, Action<string> action)
+            static Func<bool> Run(ModuleContainer module, Action<ModuleContainer> action) => () =>
             {
-                action(module.Name);
+                action(module);
                 return false;
-            }
+            };
 
             KMBombModule[] solvables = Bomb.GetComponentsInChildren<KMBombModule>();
             KMNeedyModule[] needies = Bomb.GetComponentsInChildren<KMNeedyModule>();
 
-            Modules = solvables.ConvertAll(m => new ModuleContainer(m, null)).Concat(needies.ConvertAll(m => new ModuleContainer(null, m))).ToArray();
+            Modules = solvables
+                .ConvertAll(m => (ModuleContainer)m)
+                .Concat(needies.ConvertAll(m => (ModuleContainer)m))
+                .ToArray();
 
             Self($"Subscribing current bomb's {Modules.Length} module(s) to {nameof(OnSolvableSolved)}, {nameof(OnNeedySolved)}, and {nameof(OnModuleStrike)}.");
 
             solvables.ForEach(m =>
             {
-                m.OnPass += () => Run(m, OnSolvableSolved);
-                m.OnStrike += () => Run(m, OnModuleStrike);
+                Run(m, OnSolvableSolved).Set(ref m.OnPass);
+                Run(m, OnModuleStrike).Set(ref m.OnStrike);
             });
 
             needies.ForEach(m =>
             {
-                m.OnPass += () => Run(m, OnNeedySolved);
-                m.OnStrike += () => Run(m, OnModuleStrike);
+                Run(m, OnNeedySolved).Set(ref m.OnPass);
+                Run(m, OnModuleStrike).Set(ref m.OnStrike);
             });
         }
 
