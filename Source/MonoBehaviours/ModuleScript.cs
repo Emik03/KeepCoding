@@ -27,6 +27,18 @@ namespace KeepCoding
     /// </summary>
     public abstract class ModuleScript : CacheableBehaviour, IDump, ILog
     {
+        private bool _hasException;
+
+        private static bool s_hasCheckedVersion;
+
+        private int _strikes;
+
+        private Action _activate;
+
+        private static Dictionary<string, Dictionary<string, object>[]> s_database;
+
+        private Logger _logger;
+
         /// <summary>
         /// Determines whether the module has been struck. <see cref="TPScript{TModule}.OnInteractSequence(KMSelectable[], float, int[])"/> will set this to <see langword="false"/> when a command is interrupted.
         /// </summary>
@@ -140,18 +152,6 @@ namespace KeepCoding
         internal bool IsColorblindSupported => GetType().ImplementsMethod(nameof(OnColorblindChanged), DeclaredOnly | Instance | Public);
 
         internal static bool IsOutdated { get; private set; }
-
-        private bool _hasException;
-
-        private static bool s_hasCheckedVersion;
-
-        private int _strikes;
-
-        private static Dictionary<string, Dictionary<string, object>[]> s_database;
-
-        private Action _activate;
-
-        private Logger _logger;
 
         /// <summary>
         /// Assigns events specified into <see cref="Module"/>. Reassigning them will replace their values.
