@@ -242,7 +242,7 @@ namespace KeepCoding
         /// <param name="func">The function to run in the loop.</param>
         /// <param name="condition">The condition to determine whether the loop should keep going.</param>
         /// <returns>All instances that <paramref name="func"/> used in an <see cref="IEnumerable{T}"/>.</returns>
-        public static IEnumerable<T> DoWhile<T>(this Func<T> func, Func<bool> condition) => Empty<T>().Append(func.NullCheck("The action cannot be null.")()).Concat(While(func, condition));
+        public static IEnumerable<T> DoWhile<T>(this Func<T> func, Func<bool> condition) => func.NullCheck("The action cannot be null.")().Yield().Concat(While(func, condition));
 
         /// <summary>
         /// The <see langword="for"/> statement executes a statement or a block of statements while a specified Boolean expression evaluates to <see langword="true"/>.
@@ -304,12 +304,12 @@ namespace KeepCoding
         /// <returns>All instances that <paramref name="func"/> used in an <see cref="IEnumerable{T}"/>.</returns>
         public static IEnumerable<T> For<T>(this int length, Func<int, T> func)
         {
-            IEnumerable<T> output = Empty<T>();
+            var output = new List<T>();
 
             func.NullCheck("The action cannot be null.");
 
             for (int i = 0; i < length; i++)
-                output = output.Append(func(i));
+                output.Add(func(i));
 
             return output;
         }
@@ -329,13 +329,13 @@ namespace KeepCoding
         /// <returns>All instances that <paramref name="func"/> used in an <see cref="IEnumerable{T}"/>.</returns>
         public static IEnumerable<T> For<T>(this T item, Func<T, T> func, Predicate<T> condition = null, Func<T, T> loop = null)
         {
-            IEnumerable<T> output = Empty<T>();
+            var output = new List<T>();
 
             func.NullCheck("The action cannot be null.");
 
             for (; condition?.Invoke(item) ?? true;)
             {
-                output = output.Append(func(item));
+                output.Add(func(item));
 
                 if (loop is { })
                     item = loop(item);
@@ -632,13 +632,13 @@ namespace KeepCoding
         /// <returns>All instances that <paramref name="func"/> used in an <see cref="IEnumerable{T}"/>.</returns>
         public static IEnumerable<T> While<T>(this Func<T> func, Func<bool> condition)
         {
-            IEnumerable<T> output = Empty<T>();
+            var output = new List<T>();
 
             func.NullCheck("The action cannot be null.");
             condition.NullCheck("The condition cannot be null.");
 
             while (condition())
-                output = output.Append(func());
+                output.Add(func());
 
             return output;
         }
