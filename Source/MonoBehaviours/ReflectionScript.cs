@@ -47,17 +47,23 @@ namespace KeepCoding.Internal
 
         [SerializeField]
 #pragma warning disable IDE0044 // Add readonly modifier
+#pragma warning disable 0649
         private int _limitResults;
+#pragma warning restore 0649
 #pragma warning restore IDE0044 // Add readonly modifier
 
         [SerializeField]
 #pragma warning disable IDE0044 // Add readonly modifier
+#pragma warning disable 0649
         private Methods _method;
+#pragma warning restore 0649
 #pragma warning restore IDE0044 // Add readonly modifier
 
         [SerializeField]
 #pragma warning disable IDE0044 // Add readonly modifier
+#pragma warning disable 0649
         private string _variable;
+#pragma warning restore 0649
 #pragma warning restore IDE0044 // Add readonly modifier
 
         [SerializeField]

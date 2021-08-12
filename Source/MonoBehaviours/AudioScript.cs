@@ -51,7 +51,9 @@ public sealed class AudioScript : CacheableBehaviour
     /// </summary>
     [SerializeField]
 #pragma warning disable IDE0044 // Add readonly modifier
-    private bool _isSFX = true;
+#pragma warning disable 0649
+    private bool _isSFX;
+#pragma warning restore 0649
 #pragma warning restore IDE0044 // Add readonly modifier
 
     /// <summary>
