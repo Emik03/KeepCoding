@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer')
 ## ModuleContainer.ModuleContainer(KMNeedyModule) Constructor
-Encapsulates either a solvable module.  
+Encapsulates a needy module.  
 ```csharp
 public ModuleContainer(KMNeedyModule needy);
 ```
