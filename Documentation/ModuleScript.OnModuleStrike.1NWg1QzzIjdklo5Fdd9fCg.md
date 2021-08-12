@@ -10,5 +10,3 @@ public virtual void OnModuleStrike(KeepCoding.ModuleContainer module);
 `module` [ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer')  
 The sender encapsulated as [ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer'), which caused a strike.
   
-### Remarks
-Vanilla modules are an exception, they will not invoke this method.  

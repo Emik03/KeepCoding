@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using KeepCoding.Internal;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
+using static System.Delegate;
 using static System.Linq.Enumerable;
 using static System.Reflection.BindingFlags;
 using static KeepCoding.Game.KTInputManager;
@@ -115,6 +117,9 @@ namespace KeepCoding
         /// <summary>
         /// The bomb that this module is in.
         /// </summary>
+        /// <remarks>
+        /// Note that this variable is not available on <see cref="Awake"/> or <see cref="OnAwake"/>. A small amount of time is needed for this property to be set.
+        /// </remarks>
         public KMBomb Bomb { get; private set; }
 
         /// <summary>
@@ -255,9 +260,6 @@ namespace KeepCoding
         /// <summary>
         /// Called when any module on the current bomb has issued a strike.
         /// </summary>
-        /// <remarks>
-        /// Vanilla modules are an exception, they will not invoke this method.
-        /// </remarks>
         /// <param name="module">The sender encapsulated as <see cref="ModuleContainer"/>, which caused a strike.</param>
         public virtual void OnModuleStrike(ModuleContainer module) { }
 
@@ -272,22 +274,10 @@ namespace KeepCoding
         public virtual void OnNeedyDeactivate() { }
 
         /// <summary>
-        /// Called when any <see cref="KMNeedyModule"/> on the current bomb has been solved.
+        /// Called when any <see cref="KMBombModule"/> or BombComponent on the current bomb has been solved.
         /// </summary>
-        /// <remarks>
-        /// Vanilla modules are an exception, they will not invoke this method.
-        /// </remarks>
         /// <param name="module">The sender encapsulated as <see cref="ModuleContainer"/>, which was solved.</param>
-        public virtual void OnNeedySolved(ModuleContainer module) { }
-
-        /// <summary>
-        /// Called when any <see cref="KMBombModule"/> on the current bomb has been solved.
-        /// </summary>
-        /// <remarks>
-        /// Vanilla modules are an exception, they will not invoke this method.
-        /// </remarks>
-        /// <param name="module">The sender encapsulated as <see cref="ModuleContainer"/>, which was solved.</param>
-        public virtual void OnSolvableSolved(ModuleContainer module) { }
+        public virtual void OnModuleSolved(ModuleContainer module) { }
 
         /// <summary>
         /// Called when the timer's seconds-digit changes.
@@ -460,11 +450,11 @@ namespace KeepCoding
             Self($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
             Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
 
-            StartCoroutine(CheckForUpdates());
-            StartCoroutine(WaitForBomb());
-
             Assign();
             OnAwake();
+
+            StartCoroutine(CheckForUpdates());
+            StartCoroutine(WaitForBomb());
         }
 
         /// <summary>
@@ -478,11 +468,11 @@ namespace KeepCoding
 
         private void HookModules()
         {
-            static Func<bool> Run(ModuleContainer module, Action<ModuleContainer> action) => () =>
+            static bool Run(ModuleContainer module, Action<ModuleContainer> action)
             {
                 action(module);
                 return false;
-            };
+            }
 
             KMBombModule[] solvables = Bomb.GetComponentsInChildren<KMBombModule>();
             KMNeedyModule[] needies = Bomb.GetComponentsInChildren<KMNeedyModule>();
@@ -492,19 +482,32 @@ namespace KeepCoding
                 .Concat(needies.ConvertAll(m => (ModuleContainer)m))
                 .ToArray();
 
-            Self($"Subscribing current bomb's {Modules.Length} module(s) to {nameof(OnSolvableSolved)}, {nameof(OnNeedySolved)}, and {nameof(OnModuleStrike)}.");
-
             solvables.ForEach(m =>
             {
-                Run(m, OnSolvableSolved).Set(ref m.OnPass);
-                Run(m, OnModuleStrike).Set(ref m.OnStrike);
+                m.OnPass += () => Run(m, OnModuleSolved);
+                m.OnStrike += () => Run(m, OnModuleStrike);
             });
 
-            needies.ForEach(m =>
+            needies.ForEach(m => m.OnStrike += () => Run(m, OnModuleStrike));
+        }
+
+        private void HookVanillas()
+        {
+            object[] vanillas = Game.Vanillas(Bomb);
+
+            MethodInfo passMethod = typeof(ModuleScript).GetMethod(nameof(VanillaPassHandler), Instance | NonPublic),
+                strikeMethod = typeof(ModuleScript).GetMethod(nameof(VanillaStrikeHandler), Instance | NonPublic);
+
+            var passEvent = (PassEvent)CreateDelegate(typeof(PassEvent), this, passMethod);
+            var strikeEvent = (StrikeEvent)CreateDelegate(typeof(StrikeEvent), this, strikeMethod);
+
+            foreach (object vanilla in vanillas)
             {
-                Run(m, OnNeedySolved).Set(ref m.OnPass);
-                Run(m, OnModuleStrike).Set(ref m.OnStrike);
-            });
+                var bomb = (BombComponent)vanilla;
+
+                bomb.OnPass += passEvent;
+                bomb.OnStrike += strikeEvent;
+            }
         }
 
         private void OnException(string condition, string stackTrace, LogType type)
@@ -532,8 +535,6 @@ namespace KeepCoding
                 ForceSolve();
         }
 
-        private bool IsLogFromThis(in string stackTrace) => stackTrace.Split('\n').Any(s => Regex.IsMatch(s, $@"^{GetType().Name}"));
-
         private void TimerTickInner()
         {
             var timer = (TimerComponent)Game.Timer(gameObject);
@@ -543,6 +544,20 @@ namespace KeepCoding
                 TimeLeft = remaining;
                 OnTimerTick();
             };
+        }
+
+        private bool IsLogFromThis(in string stackTrace) => stackTrace.Split('\n').Any(s => Regex.IsMatch(s, $@"^{GetType().Name}"));
+
+        private bool VanillaPassHandler(MonoBehaviour c)
+        {
+            OnModuleSolved(new ModuleContainer(c));
+            return false;
+        }
+
+        private bool VanillaStrikeHandler(MonoBehaviour c)
+        {
+            OnModuleStrike(new ModuleContainer(c));
+            return false;
         }
 
         private static uint VersionToNumber(in string s) => uint.Parse(s.Replace(".", "").PadRight(9, '0'));
@@ -599,14 +614,9 @@ namespace KeepCoding
 
         private IEnumerator WaitForBomb()
         {
-            do
-            {
-                Bomb = GetComponentInParent<KMBomb>();
-                yield return null;
-            }
-            while (!Bomb);
+            yield return null;
 
-            Self($"{nameof(KMBomb)} located.");
+            Bomb = GetParent<KMBomb>();
 
             HookModules();
 
@@ -617,6 +627,7 @@ namespace KeepCoding
             }
 
             TimerTickInner();
+            HookVanillas();
         }
 
         private IEnumerator WaitForSolve()
