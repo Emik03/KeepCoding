@@ -505,10 +505,7 @@ namespace KeepCoding
             {
                 var bomb = (BombComponent)vanilla;
 
-                bool isNeedy = bomb is NeedyComponent,
-                    isModded = bomb.GetComponents<Component>().Any(c => c is KMBombModule || c is KMNeedyModule);
-
-                if (!isNeedy && !isModded)
+                if (!(bomb is NeedyComponent))
                     bomb.OnPass += passEvent;
                 bomb.OnStrike += strikeEvent;
             }
