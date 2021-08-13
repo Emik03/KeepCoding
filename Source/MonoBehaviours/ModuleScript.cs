@@ -493,19 +493,21 @@ namespace KeepCoding
 
         private void HookVanillas()
         {
-            object[] vanillas = Game.Vanillas(Bomb);
-
-            MethodInfo passMethod = typeof(ModuleScript).GetMethod(nameof(VanillaPassHandler), Instance | NonPublic),
-                strikeMethod = typeof(ModuleScript).GetMethod(nameof(VanillaStrikeHandler), Instance | NonPublic);
+            MethodInfo passMethod = typeof(ModuleScript).GetMethod(nameof(VanillaSolve), Instance | NonPublic),
+                strikeMethod = typeof(ModuleScript).GetMethod(nameof(VanillaStrike), Instance | NonPublic);
 
             var passEvent = (PassEvent)CreateDelegate(typeof(PassEvent), this, passMethod);
             var strikeEvent = (StrikeEvent)CreateDelegate(typeof(StrikeEvent), this, strikeMethod);
 
-            foreach (object vanilla in vanillas)
+            foreach (object vanilla in Game.Vanillas(Bomb))
             {
                 var bomb = (BombComponent)vanilla;
 
-                bomb.OnPass += passEvent;
+                bool isNeedy = bomb is NeedyComponent,
+                    isModded = bomb.GetComponents<Component>().Any(c => c is KMBombModule || c is KMNeedyModule);
+
+                if (!isNeedy && !isModded)
+                    bomb.OnPass += passEvent;
                 bomb.OnStrike += strikeEvent;
             }
         }
@@ -548,13 +550,13 @@ namespace KeepCoding
 
         private bool IsLogFromThis(in string stackTrace) => stackTrace.Split('\n').Any(s => Regex.IsMatch(s, $@"^{GetType().Name}"));
 
-        private bool VanillaPassHandler(MonoBehaviour c)
+        private bool VanillaSolve(MonoBehaviour c)
         {
             OnModuleSolved(new ModuleContainer(c));
             return false;
         }
 
-        private bool VanillaStrikeHandler(MonoBehaviour c)
+        private bool VanillaStrike(MonoBehaviour c)
         {
             OnModuleStrike(new ModuleContainer(c));
             return false;
