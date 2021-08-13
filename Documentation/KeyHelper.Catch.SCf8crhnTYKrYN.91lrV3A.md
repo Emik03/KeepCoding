@@ -3,7 +3,7 @@
 ## KeyHelper.Catch&lt;T1,T2,TResult&gt;(Func&lt;TResult&gt;, Func&lt;Exception,TResult&gt;) Method
 The try-catch statement consists of a [try](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/try 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/try') block followed by one or more [catch](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/catch 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/catch') clauses, which specify handlers for different exceptions.  
 ```csharp
-public static TResult Catch<T1,T2,TResult>(this System.Func<TResult> action, System.Func<System.Exception,TResult> caught)
+public static System.Func<TResult> Catch<T1,T2,TResult>(this System.Func<TResult> action, System.Func<System.Exception,TResult> caught)
     where T1 : System.Exception
     where T2 : System.Exception;
 ```
@@ -30,7 +30,8 @@ The action to try.
 The action to run when an exception is caught.
   
 #### Returns
-[TResult](KeyHelper.Catch.SCf8crhnTYKrYN.91lrV3A.md#KeepCoding.KeyHelper.Catch.T1.T2.TResult.(System.Func.TResult..System.Func.System.Exception.TResult.).TResult 'KeepCoding.KeyHelper.Catch&lt;T1,T2,TResult&gt;(System.Func&lt;TResult&gt;, System.Func&lt;System.Exception,TResult&gt;).TResult')  
+[System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-1 'System.Func`1')[TResult](KeyHelper.Catch.SCf8crhnTYKrYN.91lrV3A.md#KeepCoding.KeyHelper.Catch.T1.T2.TResult.(System.Func.TResult..System.Func.System.Exception.TResult.).TResult 'KeepCoding.KeyHelper.Catch&lt;T1,T2,TResult&gt;(System.Func&lt;TResult&gt;, System.Func&lt;System.Exception,TResult&gt;).TResult')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-1 'System.Func`1')  
+[action](KeyHelper.Catch.SCf8crhnTYKrYN.91lrV3A.md#KeepCoding.KeyHelper.Catch.T1.T2.TResult.(System.Func.TResult..System.Func.System.Exception.TResult.).action 'KeepCoding.KeyHelper.Catch&lt;T1,T2,TResult&gt;(System.Func&lt;TResult&gt;, System.Func&lt;System.Exception,TResult&gt;).action') with [caught](KeyHelper.Catch.SCf8crhnTYKrYN.91lrV3A.md#KeepCoding.KeyHelper.Catch.T1.T2.TResult.(System.Func.TResult..System.Func.System.Exception.TResult.).caught 'KeepCoding.KeyHelper.Catch&lt;T1,T2,TResult&gt;(System.Func&lt;TResult&gt;, System.Func&lt;System.Exception,TResult&gt;).caught') if the specified [System.Exception](https://docs.microsoft.com/en-us/dotnet/api/System.Exception 'System.Exception')s are caught.
 #### Exceptions
 [System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException')  
 ### Remarks

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.InteropServices;
 using static System.Linq.Enumerable;
 using static KeepCoding.Helper;
 
@@ -31,17 +32,18 @@ namespace KeepCoding
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/try-catch"/>
         /// </remarks>
         /// <exception cref="NullReferenceException"></exception>
+        /// <typeparam name="T">The type to catch.</typeparam>
         /// <param name="action">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <param name="final">The action to run on either clause.</param>
-        /// <param name="exceptions">The types of exceptions to catch.</param>
-        public static void Catch(this Action action, Action<Exception> caught = null, Action final = null, params Type[] exceptions)
+        /// <returns><paramref name="action"/> with <paramref name="caught"/> if <typeparamref name="T"/> is caught.</returns>
+        public static Action Catch<T>(this Action action, Action<T> caught = null, Action final = null) where T : Exception => () =>
         {
             try
             {
                 action.NullCheck("The action cannot be null.")();
             }
-            catch (Exception e) when (exceptions.Contains(e.GetType()))
+            catch (T e)
             {
                 caught?.Invoke(e);
             }
@@ -49,20 +51,7 @@ namespace KeepCoding
             {
                 final?.Invoke();
             }
-        }
-
-        /// <summary>
-        /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
-        /// </summary>
-        /// <remarks>
-        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/try-catch"/>
-        /// </remarks>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <typeparam name="T">The type to catch.</typeparam>
-        /// <param name="action">The action to try.</param>
-        /// <param name="caught">The action to run when an exception is caught.</param>
-        /// <param name="final">The action to run on either clause.</param>
-        public static void Catch<T>(this Action action, Action<Exception> caught = null, Action final = null) where T : Exception => Catch(action, caught, final, typeof(T));
+        };
 
         /// <summary>
         /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
@@ -76,7 +65,22 @@ namespace KeepCoding
         /// <param name="action">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <param name="final">The action to run on either clause.</param>
-        public static void Catch<T1, T2>(this Action action, Action<Exception> caught = null, Action final = null) where T1 : Exception where T2 : Exception => Catch(action, caught, final, typeof(T1), typeof(T2));
+        /// <returns><paramref name="action"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
+        public static Action Catch<T1, T2>(this Action action, Action<Exception> caught = null, Action final = null) where T1 : Exception where T2 : Exception => () =>
+        {
+            try
+            {
+                action.NullCheck("The action cannot be null.")();
+            }
+            catch (Exception e) when (e is T1 || e is T2)
+            {
+                caught?.Invoke(e);
+            }
+            finally
+            {
+                final?.Invoke();
+            }
+        };
 
         /// <summary>
         /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
@@ -91,7 +95,22 @@ namespace KeepCoding
         /// <param name="action">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <param name="final">The action to run on either clause.</param>
-        public static void Catch<T1, T2, T3>(this Action action, Action<Exception> caught = null, Action final = null) where T1 : Exception where T2 : Exception where T3 : Exception => Catch(action, caught, final, typeof(T1), typeof(T2), typeof(T3));
+        /// <returns><paramref name="action"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
+        public static Action Catch<T1, T2, T3>(this Action action, Action<Exception> caught = null, Action final = null) where T1 : Exception where T2 : Exception where T3 : Exception => () =>
+        {
+            try
+            {
+                action.NullCheck("The action cannot be null.")();
+            }
+            catch (Exception e) when (e is T1 || e is T2 || e is T3)
+            {
+                caught?.Invoke(e);
+            }
+            finally
+            {
+                final?.Invoke();
+            }
+        };
 
         /// <summary>
         /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
@@ -107,7 +126,22 @@ namespace KeepCoding
         /// <param name="action">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <param name="final">The action to run on either clause.</param>
-        public static void Catch<T1, T2, T3, T4>(this Action action, Action<Exception> caught = null, Action final = null) where T1 : Exception where T2 : Exception where T3 : Exception where T4 : Exception => Catch(action, caught, final, typeof(T1), typeof(T2), typeof(T3), typeof(T4));
+        /// <returns><paramref name="action"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
+        public static Action Catch<T1, T2, T3, T4>(this Action action, Action<Exception> caught = null, Action final = null) where T1 : Exception where T2 : Exception where T3 : Exception where T4 : Exception => () =>
+        {
+            try
+            {
+                action.NullCheck("The action cannot be null.")();
+            }
+            catch (Exception e) when (e is T1 || e is T2 || e is T3 || e is T4)
+            {
+                caught?.Invoke(e);
+            }
+            finally
+            {
+                final?.Invoke();
+            }
+        };
 
         /// <summary>
         /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
@@ -116,34 +150,22 @@ namespace KeepCoding
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/try-catch"/>
         /// </remarks>
         /// <exception cref="NullReferenceException"></exception>
-        /// <typeparam name="T">The return type.</typeparam>
+        /// <typeparam name="T">The type to catch.</typeparam>
+        /// <typeparam name="TResult">The return type.</typeparam>
         /// <param name="action">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
-        /// <param name="exceptions">The types of exceptions to catch.</param>
-        public static T Catch<T>(this Func<T> action, Func<Exception, T> caught, params Type[] exceptions)
+        /// <returns><paramref name="action"/> with <paramref name="caught"/> if <typeparamref name="T"/> is caught.</returns>
+        public static Func<TResult> Catch<T, TResult>(this Func<TResult> action, Func<T, TResult> caught) where T : Exception => () =>
         {
             try
             {
                 return action.NullCheck("The action cannot be null.")();
             }
-            catch (Exception e) when (exceptions.Contains(e.GetType()))
+            catch (T e)
             {
                 return caught.NullCheck("The caught cannot be null.")(e);
             }
-        }
-
-        /// <summary>
-        /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
-        /// </summary>
-        /// <remarks>
-        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/try-catch"/>
-        /// </remarks>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <typeparam name="T">The type to catch.</typeparam>
-        /// <typeparam name="TResult">The return type.</typeparam>
-        /// <param name="action">The action to try.</param>
-        /// <param name="caught">The action to run when an exception is caught.</param>
-        public static TResult Catch<T, TResult>(this Func<TResult> action, Func<Exception, TResult> caught) where T : Exception => Catch(action, caught, typeof(T));
+        };
 
         /// <summary>
         /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
@@ -157,7 +179,18 @@ namespace KeepCoding
         /// <typeparam name="TResult">The return type.</typeparam>
         /// <param name="action">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
-        public static TResult Catch<T1, T2, TResult>(this Func<TResult> action, Func<Exception, TResult> caught) where T1 : Exception where T2 : Exception => Catch(action, caught, typeof(T1), typeof(T2));
+        /// <returns><paramref name="action"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
+        public static Func<TResult> Catch<T1, T2, TResult>(this Func<TResult> action, Func<Exception, TResult> caught) where T1 : Exception where T2 : Exception => () =>
+        {
+            try
+            {
+                return action.NullCheck("The action cannot be null.")();
+            }
+            catch (Exception e) when (e is T1 || e is T2)
+            {
+                return caught.NullCheck("The caught cannot be null.")(e);
+            }
+        };
 
         /// <summary>
         /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
@@ -172,7 +205,18 @@ namespace KeepCoding
         /// <typeparam name="TResult">The return type.</typeparam>
         /// <param name="action">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
-        public static TResult Catch<T1, T2, T3, TResult>(this Func<TResult> action, Func<Exception, TResult> caught) where T1 : Exception where T2 : Exception where T3 : Exception => Catch(action, caught, typeof(T1), typeof(T2), typeof(T3));
+        /// <returns><paramref name="action"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
+        public static Func<TResult> Catch<T1, T2, T3, TResult>(this Func<TResult> action, Func<Exception, TResult> caught) where T1 : Exception where T2 : Exception where T3 : Exception => () =>
+        {
+            try
+            {
+                return action.NullCheck("The action cannot be null.")();
+            }
+            catch (Exception e) when (e is T1 || e is T2 || e is T3)
+            {
+                return caught.NullCheck("The caught cannot be null.")(e);
+            }
+        };
 
         /// <summary>
         /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
@@ -188,7 +232,18 @@ namespace KeepCoding
         /// <typeparam name="TResult">The return type.</typeparam>
         /// <param name="action">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
-        public static TResult Catch<T1, T2, T3, T4, TResult>(this Func<TResult> action, Func<Exception, TResult> caught) where T1 : Exception where T2 : Exception where T3 : Exception where T4 : Exception => Catch(action, caught, typeof(T1), typeof(T2), typeof(T3), typeof(T4));
+        /// <returns><paramref name="action"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
+        public static Func<TResult> Catch<T1, T2, T3, T4, TResult>(this Func<TResult> action, Func<Exception, TResult> caught) where T1 : Exception where T2 : Exception where T3 : Exception where T4 : Exception => () =>
+        {
+            try
+            {
+                return action.NullCheck("The action cannot be null.")();
+            }
+            catch (Exception e) when (e is T1 || e is T2 || e is T3 || e is T4)
+            {
+                return caught.NullCheck("The caught cannot be null.")(e);
+            }
+        };
 
         /// <summary>
         /// The <see langword="checked"/> keyword is used to explicitly enable overflow checking for integral-type arithmetic operations and conversions.
