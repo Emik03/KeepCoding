@@ -36,7 +36,7 @@ public sealed class AudioScript : CacheableBehaviour
     private AudioSource _audioSource;
 
     private Routine<float, float> _fade;
-    
+
     /// <summary>
     /// Determines if the <see cref="AudioSource"/> is muted.
     /// </summary>
