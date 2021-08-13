@@ -27,9 +27,9 @@ namespace KeepCoding
     public static class Helper
     {
         /// <summary>
-        /// Contains the most commonly used flags, use this as a "catch-all" expression.
+        /// The entire English alphabet in Uppercase. From A-Z.
         /// </summary>
-        public const BindingFlags Flags = DeclaredOnly | Instance | Static | Public | NonPublic;
+        public const string Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         /// <summary>
         /// The entire alphanumeric series, also known as base-62. From 0-9, A-Z, a-z.
@@ -37,19 +37,21 @@ namespace KeepCoding
         public const string Alphanumeric = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
         /// <summary>
+        /// The entire binary series, also known as base-2. From 0-1.
+        /// </summary>
+        public const string Binary = "01";
+
+        /// <summary>
         /// The entire decimal series, also known as base-10. From 0-9.
         /// </summary>
         public const string Decimal = "0123456789";
 
         /// <summary>
-        /// The entire binary series, also known as base-2. From 0-1.
+        /// Contains the most commonly used flags, use this as a "catch-all" expression.
         /// </summary>
-        public const string Binary = "01";
+        public const BindingFlags Flags = DeclaredOnly | Instance | Static | Public | NonPublic;
 
-        internal const string
-            Null = "null",
-            Unknown = "<unknown>",
-            VariableTemplate = "\n\n[{0}] {1}\n({2})\n{3}";
+        internal const string Null = "null";
 
         /// <summary>
         /// Determines if the current game object has a component of a specific type.
