@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static KeepCoding.ComponentPool;
 using static KeepCoding.Logger;
@@ -457,6 +458,9 @@ namespace KeepCoding
         /// Default: An empty <see cref="object"/> <see cref="Array"/>.
         /// </remarks>
         public static Func<KMBomb, object[]> Vanillas => isEditor ? gameObject => new object[0] : VanillasInner;
-        private static Func<KMBomb, object[]> VanillasInner => bomb => bomb.GetComponentsInChildren(typeof(BombComponent)).ConvertAll(c => (object)c);
+        private static Func<KMBomb, object[]> VanillasInner => bomb => bomb.GetComponentsInChildren(typeof(BombComponent))
+            .Where(c => !(c.GetComponent<KMBombModule>() || c.GetComponent<KMNeedyModule>()))
+            .ToArray()
+            .ConvertAll(c => (object)c);
     }
 }
