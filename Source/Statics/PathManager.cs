@@ -44,8 +44,6 @@ namespace KeepCoding
 
         private static readonly PlatformNotSupportedException s_intPtrException = new PlatformNotSupportedException("IntPtr size is not 4 or 8, what kind of system is this?");
 
-        internal static UnityWebRequest LatestGitHub => Get("https://api.github.com/repos/Emik03/KeepCoding/releases/latest");
-
         /// <summary>
         /// Gets this library's <see cref="AssemblyName"/>.
         /// </summary>
@@ -58,6 +56,8 @@ namespace KeepCoding
         /// If you want the version number of your modules, refer to <see cref="ModuleScript.Version"/> instead, or <see cref="GetModInfo{T}(T)"/>.
         /// </remarks>
         public static Version Version => AssemblyName.Version;
+
+        internal static UnityWebRequest LatestGitHub => Get("https://api.github.com/repos/Emik03/KeepCoding/releases/latest");
 
         /// <summary>
         /// Prints a hierarchy of all game objects.

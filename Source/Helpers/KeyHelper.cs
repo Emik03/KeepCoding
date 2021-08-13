@@ -3,9 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Runtime.InteropServices;
 using static System.Linq.Enumerable;
-using static KeepCoding.Helper;
 
 namespace KeepCoding
 {
@@ -591,7 +589,7 @@ namespace KeepCoding
             }
             catch (InvalidCastException)
             {
-                return expression.Compile()().ToString() ?? Unknown;
+                return expression.Compile()().ToString() ?? "<unknown>";
             }
         }
 

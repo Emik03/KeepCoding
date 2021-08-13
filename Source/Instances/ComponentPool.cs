@@ -12,23 +12,6 @@ namespace KeepCoding
     public sealed class ComponentPool
     {
         /// <summary>
-        /// Creates a pool of selectable modules.
-        /// </summary>
-        /// <param name="count">The amount of times this pool should be used.</param>
-        /// <param name="allowedSources">Determines the source of the modules.</param>
-        /// <param name="specialComponentType">Determines more random-based module picking.</param>
-        /// <param name="modTypes">The different modded modules to pick from.</param>
-        /// <param name="componentTypes">The different vanilla modules to pick from.</param>
-        public ComponentPool(int count, ComponentSource allowedSources, SpecialComponentTypeEnum specialComponentType, List<string> modTypes, List<ComponentTypeEnum> componentTypes)
-        {
-            Count = count;
-            AllowedSources = allowedSources;
-            SpecialComponentType = specialComponentType;
-            ModTypes = modTypes;
-            ComponentTypes = componentTypes;
-        }
-
-        /// <summary>
         /// Controls where this pool will draw from (e.g. the base game modules, modules from mods, or both).
         /// </summary>
         [Flags]
@@ -177,6 +160,23 @@ namespace KeepCoding
         }
 
         /// <summary>
+        /// Creates a pool of selectable modules.
+        /// </summary>
+        /// <param name="count">The amount of times this pool should be used.</param>
+        /// <param name="allowedSources">Determines the source of the modules.</param>
+        /// <param name="specialComponentType">Determines more random-based module picking.</param>
+        /// <param name="modTypes">The different modded modules to pick from.</param>
+        /// <param name="componentTypes">The different vanilla modules to pick from.</param>
+        public ComponentPool(int count, ComponentSource allowedSources, SpecialComponentTypeEnum specialComponentType, List<string> modTypes, List<ComponentTypeEnum> componentTypes)
+        {
+            Count = count;
+            AllowedSources = allowedSources;
+            SpecialComponentType = specialComponentType;
+            ModTypes = modTypes;
+            ComponentTypes = componentTypes;
+        }
+
+        /// <summary>
         /// How many components from this pool should be selected.
         /// </summary>
         public int Count { get; }
@@ -185,11 +185,6 @@ namespace KeepCoding
         /// Controls where components can come from (either the base game, mods, or both).
         /// </summary>
         public ComponentSource AllowedSources { get; } = Base;
-
-        /// <summary>
-        /// Special types which are calculated at runtime, such as <see cref="ALL_SOLVABLE"/>.
-        /// </summary>
-        public SpecialComponentTypeEnum SpecialComponentType { get; }
 
         /// <summary>
         /// A list of mod types to be included in the pool, if they exist.
@@ -202,10 +197,15 @@ namespace KeepCoding
         public List<ComponentTypeEnum> ComponentTypes { get; }
 
         /// <summary>
+        /// Special types which are calculated at runtime, such as <see cref="ALL_SOLVABLE"/>.
+        /// </summary>
+        public SpecialComponentTypeEnum SpecialComponentType { get; }
+
+        /// <summary>
         /// Converts itself to a string.
         /// </summary>
         /// <returns>The list of mod types with a count at the end.</returns>
-        public override string ToString() => SpecialComponentType == None
+        public override string ToString() => SpecialComponentType is None
                 ? $"[{ComponentTypes.Select(c => c.ToString()).Concat(ModTypes.Where(s => !s.IsNullOrEmpty())).Stringify()}] Count: {Count}"
                 : $"[{SpecialComponentType}] Count: {Count}";
     }

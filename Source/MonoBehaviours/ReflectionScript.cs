@@ -32,19 +32,6 @@ namespace KeepCoding.Internal
             Find
         }
 
-        private const BindingFlags Flags = Instance | Static | Public | NonPublic | FlattenHierarchy;
-
-        private Component[] Components => _method switch
-        {
-            Methods.Get => GetComponents<Component>(),
-            Methods.GetChild => GetComponentsInChildren<Component>(true),
-            Methods.GetParent => GetComponentsInParent<Component>(true),
-            Methods.Find => FindObjectsOfType<Component>(),
-            _ => throw new NotImplementedException(),
-        };
-
-        private static IList<Tuple<Component, NullableObject>> Empty => Empty<Tuple<Component, NullableObject>>().ToList();
-
         [SerializeField]
 #pragma warning disable IDE0044 // Add readonly modifier
 #pragma warning disable 0649
@@ -74,9 +61,22 @@ namespace KeepCoding.Internal
 
         private IEnumerable<object> _current = Empty<object>();
 
-        private IList<Tuple<Component, NullableObject>> _members = Empty;
+        private List<Tuple<Component, NullableObject>> _members = Empty;
 
         private readonly Logger _logger = new Logger(nameof(ReflectionScript), true, false);
+
+        private const BindingFlags Flags = Instance | Static | Public | NonPublic | FlattenHierarchy;
+
+        private Component[] Components => _method switch
+        {
+            Methods.Get => GetComponents<Component>(),
+            Methods.GetChild => GetComponentsInChildren<Component>(true),
+            Methods.GetParent => GetComponentsInParent<Component>(true),
+            Methods.Find => FindObjectsOfType<Component>(),
+            _ => throw new NotImplementedException(),
+        };
+
+        private static List<Tuple<Component, NullableObject>> Empty => Empty<Tuple<Component, NullableObject>>().ToList();
 
         /// <summary>
         /// Logs message, but formats it to be compliant with the Logfile Analyzer.

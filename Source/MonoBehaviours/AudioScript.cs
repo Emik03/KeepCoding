@@ -9,8 +9,34 @@ using static KeepCoding.Game.PlayerSettings;
 /// <summary>
 /// Encapsulates an <see cref="AudioSource"/> and scales it with the game's volume using <see cref="SFXVolume"/> and <see cref="MusicVolume"/>.
 /// </summary>
+#pragma warning disable CA1050 // Declare types in namespaces
 public sealed class AudioScript : CacheableBehaviour
+#pragma warning restore CA1050 // Declare types in namespaces
 {
+    /// <summary>
+    /// Setting this value to true will make the volume relative to <see cref="MusicVolume"/>, and <see cref="SFXVolume"/> otherwise.
+    /// </summary>
+    [SerializeField]
+#pragma warning disable IDE0044 // Add readonly modifier
+#pragma warning disable 0649
+    private bool _isSFX;
+#pragma warning restore 0649
+#pragma warning restore IDE0044 // Add readonly modifier
+
+    /// <summary>
+    /// The <see cref="Array"/> of clips it can play from.
+    /// </summary>
+    [SerializeField]
+    private AudioClip[] _audioClips;
+
+    /// <summary>
+    /// The audio source field.
+    /// </summary>
+    [SerializeField]
+    private AudioSource _audioSource;
+
+    private Routine<float, float> _fade;
+    
     /// <summary>
     /// Determines if the <see cref="AudioSource"/> is muted.
     /// </summary>
@@ -45,30 +71,6 @@ public sealed class AudioScript : CacheableBehaviour
     /// The main <see cref="UnityEngine.AudioSource"/> property. If the field it is referencing is <see langword="null"/> then it adds a component.
     /// </summary>
     public AudioSource AudioSource => _audioSource ? _audioSource : _audioSource = gameObject.AddComponent<AudioSource>();
-
-    /// <summary>
-    /// Setting this value to true will make the volume relative to <see cref="MusicVolume"/>, and <see cref="SFXVolume"/> otherwise.
-    /// </summary>
-    [SerializeField]
-#pragma warning disable IDE0044 // Add readonly modifier
-#pragma warning disable 0649
-    private bool _isSFX;
-#pragma warning restore 0649
-#pragma warning restore IDE0044 // Add readonly modifier
-
-    /// <summary>
-    /// The <see cref="Array"/> of clips it can play from.
-    /// </summary>
-    [SerializeField]
-    private AudioClip[] _audioClips;
-
-    /// <summary>
-    /// The audio source field.
-    /// </summary>
-    [SerializeField]
-    private AudioSource _audioSource;
-
-    private Routine<float, float> _fade;
 
     /// <summary>
     /// Returns the <see cref="AudioSource"/>.

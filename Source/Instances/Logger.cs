@@ -15,6 +15,14 @@ namespace KeepCoding
     /// </summary>
     public sealed class Logger : IDump, ILog
     {
+        internal static readonly Dictionary<string, int> s_ids = new Dictionary<string, int>();
+
+        private readonly bool _showId, _showInLfa;
+
+        private readonly string _format;
+
+        private static readonly string s_selfName = PathManager.AssemblyName.Name;
+
         /// <summary>
         /// The string constructor. The string determines the name.
         /// </summary>
@@ -56,13 +64,7 @@ namespace KeepCoding
         /// </summary>
         public string Name { get; }
 
-        internal static readonly Dictionary<string, int> s_ids = new Dictionary<string, int>();
-
-        private readonly bool _showId, _showInLfa;
-
-        private readonly string _format;
-
-        private static readonly string s_selfName = PathManager.AssemblyName.Name;
+        private const string VariableTemplate = "\n\n[{0}] {1}\n({2})\n{3}";
 
         /// <summary>
         /// Dumps all information that it can find of the type using reflection. This should only be used to debug.

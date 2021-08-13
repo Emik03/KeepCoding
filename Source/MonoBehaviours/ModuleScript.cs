@@ -493,8 +493,10 @@ namespace KeepCoding
 
         private void HookVanillas()
         {
-            MethodInfo passMethod = typeof(ModuleScript).GetMethod(nameof(VanillaSolve), Instance | NonPublic),
-                strikeMethod = typeof(ModuleScript).GetMethod(nameof(VanillaStrike), Instance | NonPublic);
+            const BindingFlags Flags = DeclaredOnly | Instance | NonPublic;
+
+            MethodInfo passMethod = typeof(ModuleScript).GetMethod(nameof(VanillaSolve), Flags),
+                strikeMethod = typeof(ModuleScript).GetMethod(nameof(VanillaStrike), Flags);
 
             var passEvent = (PassEvent)CreateDelegate(typeof(PassEvent), this, passMethod);
             var strikeEvent = (StrikeEvent)CreateDelegate(typeof(StrikeEvent), this, strikeMethod);

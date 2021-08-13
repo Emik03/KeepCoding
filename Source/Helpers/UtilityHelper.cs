@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using static System.Reflection.BindingFlags;
 
 namespace KeepCoding
 {
@@ -29,6 +30,8 @@ namespace KeepCoding
             /// <summary>Do not put any quotes around the output. The escaped output may be surrounded with either type of quotes.</summary>
             None
         }
+
+        private const BindingFlags Flags = DeclaredOnly | Instance | Public | NonPublic;
 
         /// <summary>
         ///     Similar to <see cref="string.Substring(int)"/>, but for arrays. Returns a new array containing all items from
@@ -2813,7 +2816,7 @@ namespace KeepCoding
         ///     fields inherited from base classes.</returns>
         public static IEnumerable<FieldInfo> GetAllFields(this Type type)
         {
-            IEnumerable<FieldInfo> fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            IEnumerable<FieldInfo> fields = type.GetFields(Flags);
 
             Type baseType = type.BaseType;
 
@@ -2830,7 +2833,7 @@ namespace KeepCoding
         ///     private properties inherited from base classes.</returns>
         public static IEnumerable<PropertyInfo> GetAllProperties(this Type type)
         {
-            IEnumerable<PropertyInfo> properties = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            IEnumerable<PropertyInfo> properties = type.GetProperties(Flags);
 
             Type baseType = type.BaseType;
 
