@@ -10,6 +10,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Fields | |
 | :--- | :--- |
+| [Alphabet](Helper.Alphabet.md 'KeepCoding.Helper.Alphabet') | The entire English alphabet in Uppercase. From A-Z.<br/> |
 | [Alphanumeric](Helper.Alphanumeric.md 'KeepCoding.Helper.Alphanumeric') | The entire alphanumeric series, also known as base-62. From 0-9, A-Z, a-z.<br/> |
 | [Binary](Helper.Binary.md 'KeepCoding.Helper.Binary') | The entire binary series, also known as base-2. From 0-1.<br/> |
 | [Decimal](Helper.Decimal.md 'KeepCoding.Helper.Decimal') | The entire decimal series, also known as base-10. From 0-9.<br/> |
