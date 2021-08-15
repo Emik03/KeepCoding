@@ -1,20 +1,22 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[PathManager](PathManager.md 'KeepCoding.PathManager')
-## PathManager.GetDirectory(string) Method
-Finds the directory of the specified mod's assembly name.  
+## PathManager.GetPath(string) Method
+Finds the path of a given file within the mod caller.  
 ```csharp
-public static string GetDirectory(string assembly);
+public static string GetPath(string file);
 ```
 #### Parameters
-<a name='KeepCoding.PathManager.GetDirectory(string).assembly'></a>
-`assembly` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
-The mod assembly's name.
+<a name='KeepCoding.PathManager.GetPath(string).file'></a>
+`file` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
+The file to search for. Make sure to include extensions!
   
 #### Returns
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
-The directory to [assembly](PathManager.GetDirectory.PxCKkzQ.eQgFtLQeot8Ppw.md#KeepCoding.PathManager.GetDirectory(string).assembly 'KeepCoding.PathManager.GetDirectory(string).assembly').
+The path to [file](PathManager.GetPath.g+hbdyae81kNmq6jUuelvg.md#KeepCoding.PathManager.GetPath(string).file 'KeepCoding.PathManager.GetPath(string).file') within the mod caller directory.
 #### Exceptions
 [EmptyIteratorException](EmptyIteratorException.md 'KeepCoding.Internal.EmptyIteratorException')  
 [System.IO.FileNotFoundException](https://docs.microsoft.com/en-us/dotnet/api/System.IO.FileNotFoundException 'System.IO.FileNotFoundException')  
 [System.Collections.Generic.KeyNotFoundException](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.KeyNotFoundException 'System.Collections.Generic.KeyNotFoundException')  
 [NullIteratorException](NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  
+### Remarks
+You need to specify the extensions of the file too, otherwise the file cannot be found.  
