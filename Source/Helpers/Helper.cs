@@ -591,6 +591,13 @@ namespace KeepCoding
         public static string LongToBase(this long value, int baseNumber) => value.LongToBase(new string(Alphanumeric.Take(baseNumber).ToArray()));
 
         /// <summary>
+        /// Gets the assembly's directory where the type <paramref name="type"/> exists.
+        /// </summary>
+        /// <param name="type">The type to get the assembly directory of.</param>
+        /// <returns>The path to the directory of the assembly where the type <paramref name="type"/> comes from.</returns>
+        public static string NameOfAssembly(this Type type) => type.Assembly.GetName().Name;
+
+        /// <summary>
         /// Throws an exception if the <see cref="string"/> is null or empty.
         /// </summary>
         /// <exception cref="NullIteratorException"></exception>
