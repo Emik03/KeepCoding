@@ -111,7 +111,7 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="OperationCanceledException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
-        public string Version => IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(Type).Version;
+        public string Version => IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(Type.NameOfAssembly()).Version;
 
         /// <summary>
         /// Contains colorblind information.
@@ -150,12 +150,12 @@ namespace KeepCoding
         /// </summary>
         public Sound[] Sounds { get; private set; } = new Sound[0];
 
-        internal Type Type => _type ??= GetType();
-        private Type _type;
-
         internal bool IsColorblindSupported => Type.ImplementsMethod(nameof(OnColorblindChanged), DeclaredOnly | Instance | Public);
 
         internal static bool IsOutdated { get; private set; }
+
+        private Type Type => _type ??= GetType();
+        private Type _type;
 
         /// <summary>
         /// Assigns events specified into <see cref="Module"/>. Reassigning them will replace their values.
@@ -371,7 +371,7 @@ namespace KeepCoding
 
             sounds = sounds.Where(s =>
             {
-                if (s.Custom is null || IsGroupInfo($"{PathManager.GetModInfo(Type).Id}_{s.Custom}"))
+                if (s.Custom is null || IsGroupInfo($"{PathManager.GetModInfo(Type.NameOfAssembly()).Id}_{s.Custom}"))
                     s.Reference = s.Method(Get<KMAudio>())(transform, loop);
 
                 else
