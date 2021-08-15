@@ -169,7 +169,7 @@ namespace KeepCoding
 
             path = s_modDirectories[assembly];
 
-            Self($"Found {assembly} in {path}!");
+            Self($"The directory {assembly} has been found. Location: {path}!");
 
             s_filePaths.Add(assembly, path);
 
@@ -220,7 +220,7 @@ namespace KeepCoding
 
             path = Find(file, GetDirectory(assembly));
 
-            Self($"Found {assembly}'s {file} in {path}!");
+            Self($"The file {file} from {assembly} has been found. Location: {path}");
 
             s_filePaths.Add(key, path);
 
@@ -262,14 +262,14 @@ namespace KeepCoding
                 return info;
             }
 
-            assembly.NullOrEmptyCheck("You cannot retrieve a mod's modInfo.json if the bundle file name is null or empty.");
+            assembly.NullOrEmptyCheck($"You cannot retrieve a mod's {nameof(ModInfo)} if the bundle file name is null or empty.");
 
             string file = GetPath("modInfo.json", assembly);
 
             if (!File.Exists(file))
-                throw new FileNotFoundException($"The mod bundle was found in {assembly}, but no mod info was found! (Expected to find \"{file}\")");
+                throw new FileNotFoundException($"The mod bundle was found in \"{assembly}\", but no mod info was found! (Expected to find \"{file}\")");
 
-            Self($"File found! Returning {file}.");
+            Self($"Deserializing \"{file}\"...");
 
             info = Deserialize(file);
 
@@ -363,7 +363,7 @@ namespace KeepCoding
                     }, FileFormat(libraryFileName, FileExtensionLinux)), true);
                     break;
 
-                default: throw new PlatformNotSupportedException("The OS is not windows, linux, or mac, what kind of system is this?");
+                default: throw new PlatformNotSupportedException($"The platform \"{platform}\" is unsupported. The operating systems supported are Windows, Mac, and Linux.");
             }
         }
 
@@ -377,21 +377,19 @@ namespace KeepCoding
             }
             catch (Exception ex) when (ex is ArgumentException || ex is ArgumentNullException || ex is DirectoryNotFoundException || ex is UnauthorizedAccessException)
             {
-                Self($"Caught {ex.GetType()}!");
+                Self($"The file \"{find}\" could not be accessed: {ex}");
+                return null;
             }
-
-            Self($"The file \"{find}\" could not be found.");
-            return null;
         }
 
         private static IEnumerator LoadAssets<TAsset>(string file, string assembly) where TAsset : Object
         {
-            Self($"Loading type {typeof(TAsset).Name} from \"{file}\" which exists in \"{assembly}\".");
-
             file.NullOrEmptyCheck("You cannot load a video from a nonexistent file.");
 
             if (!file.Contains('.'))
                 file += ".bundle";
+
+            Self($"Loading type \"{typeof(TAsset).Name}\" from \"{file}\" which exists in \"{assembly}\".");
 
             AssetBundleCreateRequest request = LoadFromFileAsync(GetPath(file, assembly));
 
@@ -399,9 +397,9 @@ namespace KeepCoding
 
             AssetBundle mainBundle = request.assetBundle.NullCheck("The bundle was null.");
 
-            IEnumerable<TAsset> assets = mainBundle.LoadAllAssets<TAsset>().OrderBy(o => o.name).ToArray().NullOrEmptyCheck($"There are no assets of type {typeof(TAsset).Name}.");
+            IEnumerable<TAsset> assets = mainBundle.LoadAllAssets<TAsset>().OrderBy(o => o.name).ToArray().NullOrEmptyCheck($"There are no assets of type \"{typeof(TAsset).Name}\".");
 
-            Self($"{assets.Count()} assets of type {typeof(TAsset).Name} have been loaded into memory!");
+            Self($"{assets.Count()} assets of type \"{typeof(TAsset).Name}\" have been loaded into memory!");
 
             yield return assets;
         }
