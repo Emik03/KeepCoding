@@ -467,13 +467,16 @@ namespace KeepCoding
             OnDestruct();
         }
 
-        private void HookModules()
+        private void HookModules(bool isHookingPass, bool isHookingStrike)
         {
             static bool Run(ModuleContainer module, Action<ModuleContainer> action)
             {
                 action(module);
                 return false;
             }
+
+            if (!isHookingPass && !isHookingStrike)
+                return;
 
             KMBombModule[] solvables = Bomb.GetComponentsInChildren<KMBombModule>();
             KMNeedyModule[] needies = Bomb.GetComponentsInChildren<KMNeedyModule>();
@@ -485,15 +488,21 @@ namespace KeepCoding
 
             solvables.ForEach(m =>
             {
-                m.OnPass += () => Run(m, OnModuleSolved);
-                m.OnStrike += () => Run(m, OnModuleStrike);
+                if (isHookingPass)
+                    m.OnPass += () => Run(m, OnModuleSolved);
+
+                if (isHookingStrike)
+                    m.OnStrike += () => Run(m, OnModuleStrike);
             });
 
             needies.ForEach(m => m.OnStrike += () => Run(m, OnModuleStrike));
         }
 
-        private void HookVanillas()
+        private void HookVanillas(bool isHookingPass, bool isHookingStrike)
         {
+            if (!isHookingPass && !isHookingStrike)
+                return;
+
             const BindingFlags Flags = DeclaredOnly | Instance | NonPublic;
 
             MethodInfo passMethod = typeof(ModuleScript).GetMethod(nameof(VanillaSolve), Flags),
@@ -506,9 +515,11 @@ namespace KeepCoding
             {
                 var bomb = (BombComponent)vanilla;
 
-                if (!(bomb is NeedyComponent))
+                if (isHookingPass && !(bomb is NeedyComponent))
                     bomb.OnPass += passEvent;
-                bomb.OnStrike += strikeEvent;
+
+                if (isHookingStrike)
+                    bomb.OnStrike += strikeEvent;
             }
         }
 
@@ -620,7 +631,12 @@ namespace KeepCoding
 
             Bomb = GetParent<KMBomb>();
 
-            HookModules();
+            const BindingFlags Flags = Instance | NonPublic;
+
+            bool isHookingPass = GetType().ImplementsMethod(nameof(OnModuleSolved), Flags),
+                isHookingStrike = GetType().ImplementsMethod(nameof(OnModuleStrike), Flags);
+
+            HookModules(isHookingPass, isHookingStrike);
 
             if (IsEditor)
             {
@@ -629,7 +645,7 @@ namespace KeepCoding
             }
 
             TimerTickInner();
-            HookVanillas();
+            HookVanillas(isHookingPass, isHookingStrike);
         }
 
         private IEnumerator WaitForSolve()
