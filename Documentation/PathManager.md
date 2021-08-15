@@ -19,12 +19,15 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 | [GetAssets&lt;T,TAsset&gt;(T, string)](PathManager.GetAssets.c2fHwuyOEHatq5hScVdKOg.md 'KeepCoding.PathManager.GetAssets&lt;T,TAsset&gt;(T, string)') | Retrieves assets of a specific type from a different bundle file.<br/> |
 | [GetAssets&lt;TAsset&gt;(string, string)](PathManager.GetAssets.uXpKvqa+Ry.ck6FJmDvMFA.md 'KeepCoding.PathManager.GetAssets&lt;TAsset&gt;(string, string)') | Retrieves assets of a specific type from a different bundle file.<br/> |
 | [GetAssets&lt;TAsset&gt;(Type, string)](PathManager.GetAssets.G77e0SahD.nTdTU638gMrA.md 'KeepCoding.PathManager.GetAssets&lt;TAsset&gt;(System.Type, string)') | Retrieves assets of a specific type from a different bundle file.<br/> |
+| [GetDirectory&lt;T&gt;(T)](PathManager.GetDirectory.lwjbcWWnaNMhL2Dclo7.hg.md 'KeepCoding.PathManager.GetDirectory&lt;T&gt;(T)') | Finds the path of the mod.<br/> |
+| [GetDirectory(string)](PathManager.GetDirectory.PxCKkzQ.eQgFtLQeot8Ppw.md 'KeepCoding.PathManager.GetDirectory(string)') | Finds the path of a mod.<br/> |
+| [GetDirectory(Type)](PathManager.GetDirectory.mBPGy0U9x09t4oiRXTtt5Q.md 'KeepCoding.PathManager.GetDirectory(System.Type)') | Finds the path of the mod.<br/> |
 | [GetModInfo&lt;T&gt;(T)](PathManager.GetModInfo.e3z5Sk9DBgt1y0w8ZBsnlw.md 'KeepCoding.PathManager.GetModInfo&lt;T&gt;(T)') | Gets the path and deserializes the modInfo.json located at every mod's root folder.<br/> |
 | [GetModInfo(string)](PathManager.GetModInfo.yasiGDRIL0pHGpi56k7gSg.md 'KeepCoding.PathManager.GetModInfo(string)') | Gets the path and deserializes the modInfo.json located at every mod's root folder.<br/> |
 | [GetModInfo(Type)](PathManager.GetModInfo.DEUmnHMIodQgjMjKDZ4cWg.md 'KeepCoding.PathManager.GetModInfo(System.Type)') | Gets the path and deserializes the modInfo.json located at every mod's root folder.<br/> |
-| [GetPath&lt;T&gt;(T)](PathManager.GetPath.9.6TDVlpOu0OAEPaiWS0fw.md 'KeepCoding.PathManager.GetPath&lt;T&gt;(T)') | Finds the path of the mod.<br/> |
-| [GetPath(string)](PathManager.GetPath.g+hbdyae81kNmq6jUuelvg.md 'KeepCoding.PathManager.GetPath(string)') | Finds the path of a given file within each mod.<br/> |
-| [GetPath(Type)](PathManager.GetPath.gEINYgODgEj5HAD4lhcKuQ.md 'KeepCoding.PathManager.GetPath(System.Type)') | Finds the path of the mod.<br/> |
+| [GetPath&lt;T&gt;(T, string)](PathManager.GetPath.KyRt8Nr0o5Tz2yxr99WFEg.md 'KeepCoding.PathManager.GetPath&lt;T&gt;(T, string)') | Finds the path of a given file within each mod.<br/> |
+| [GetPath(string, string)](PathManager.GetPath.tUZslFgv6LjckNCrHHOckg.md 'KeepCoding.PathManager.GetPath(string, string)') | Finds the path of a given file within each mod.<br/> |
+| [GetPath(Type, string)](PathManager.GetPath.RZvSszuQKBZ9bWRTyTL+HA.md 'KeepCoding.PathManager.GetPath(System.Type, string)') | Finds the path of a given file within each mod.<br/> |
 | [LoadLibrary&lt;T&gt;(T, string)](PathManager.LoadLibrary.Uaj1ofaVTz.PItqMS6Eoeg.md 'KeepCoding.PathManager.LoadLibrary&lt;T&gt;(T, string)') | Loads a library by searching for the bundle.<br/> |
 | [LoadLibrary(string, string)](PathManager.LoadLibrary.A3UAFyv.TBm8PGx1od8xCQ.md 'KeepCoding.PathManager.LoadLibrary(string, string)') | Loads a library by searching for the bundle.<br/> |
 | [LoadLibrary(Type, string)](PathManager.LoadLibrary.JdDALpJM78A79nvBhgxLPw.md 'KeepCoding.PathManager.LoadLibrary(System.Type, string)') | Loads a library by searching for the bundle.<br/> |

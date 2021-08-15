@@ -1,18 +1,18 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[PathManager](PathManager.md 'KeepCoding.PathManager')
-## PathManager.GetModInfo(string) Method
-Gets the path and deserializes the modInfo.json located at every mod's root folder.  
+## PathManager.GetDirectory(string) Method
+Finds the path of a mod.  
 ```csharp
-public static KeepCoding.ModInfo GetModInfo(string modAssembly);
+public static string GetDirectory(string modAssembly);
 ```
 #### Parameters
-<a name='KeepCoding.PathManager.GetModInfo(string).modAssembly'></a>
+<a name='KeepCoding.PathManager.GetDirectory(string).modAssembly'></a>
 `modAssembly` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
 The mod assembly's name. This is used to get the mod in question.
   
 #### Returns
-[ModInfo](ModInfo.md 'KeepCoding.ModInfo')  
-A [ModInfo](ModInfo.md 'KeepCoding.ModInfo') of the mod info json file located in the mod.
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
+The path to [modAssembly](PathManager.GetDirectory.PxCKkzQ.eQgFtLQeot8Ppw.md#KeepCoding.PathManager.GetDirectory(string).modAssembly 'KeepCoding.PathManager.GetDirectory(string).modAssembly').
 #### Exceptions
 [EmptyIteratorException](EmptyIteratorException.md 'KeepCoding.Internal.EmptyIteratorException')  
 [System.IO.FileNotFoundException](https://docs.microsoft.com/en-us/dotnet/api/System.IO.FileNotFoundException 'System.IO.FileNotFoundException')  

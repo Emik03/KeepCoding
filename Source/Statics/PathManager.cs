@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -11,8 +12,7 @@ using UnityEngine.Video;
 using static System.IntPtr;
 using static System.Linq.Enumerable;
 using static System.Reflection.Assembly;
-using static KeepCoding.Game.ModManager;
-using static KeepCoding.Game.ModSourceEnum;
+using static System.Reflection.BindingFlags;
 using static KeepCoding.Logger;
 using static KeepCoding.ModInfo;
 using static UnityEngine.Application;
@@ -38,7 +38,8 @@ namespace KeepCoding
             FileExtensionMacOS = "dylib",
             FileExtensionWindows = "dll";
 
-        private static readonly Dictionary<string, string> s_paths = new Dictionary<string, string>();
+        private static readonly Dictionary<string, string> s_filePaths = new Dictionary<string, string>(),
+            s_modDirectories = new Dictionary<string, string>();
 
         private static readonly Dictionary<string, ModInfo> s_modInfos = new Dictionary<string, ModInfo>();
 
@@ -58,6 +59,63 @@ namespace KeepCoding
         public static Version Version => AssemblyName.Version;
 
         internal static UnityWebRequest LatestGitHub => Get("https://api.github.com/repos/Emik03/KeepCoding/releases/latest");
+
+        private static string GetCaller => new StackFrame(2).GetMethod().ReflectedType.Name;
+
+        /// <summary>
+        /// Loads a library by searching for the bundle.
+        /// </summary>
+        /// <remarks>
+        /// If the library has already been loaded, then this method will prematurely halt.
+        /// </remarks>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <param name="bundleFileName">The name of the bundle file.</param>
+        /// <param name="libraryFileName">The library's name, excluding the extension.</param>
+        public static void LoadLibrary(string bundleFileName, string libraryFileName)
+        {
+            Self($"Preparing to copy library \"{libraryFileName}\" which exists in \"{bundleFileName}\".");
+
+            if (isEditor)
+            {
+                Self($"This method is being run on the Editor, therefore nothing will be done.");
+                return;
+            }
+
+            libraryFileName.NullOrEmptyCheck("You cannot load a library which has a null or empty name.");
+
+            CopyLibrary(libraryFileName, GetDirectory(bundleFileName));
+
+            Self($"The library has been copied over. They are now ready to be referenced.");
+        }
+
+        /// <summary>
+        /// Loads a library by searching for the bundle.
+        /// </summary>
+        /// <remarks>
+        /// If the library has already been loaded, then this method will prematurely halt.
+        /// </remarks>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <param name="type">Any data from the assembly, which is used to get the name.</param>
+        /// <param name="libraryFileName">The library's name, excluding the extension.</param>
+        public static void LoadLibrary(Type type, string libraryFileName) => LoadLibrary(NameOfAssembly(type), libraryFileName);
+
+        /// <summary>
+        /// Loads a library by searching for the bundle.
+        /// </summary>
+        /// <remarks>
+        /// If the library has already been loaded, then this method will prematurely halt.
+        /// </remarks>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <typeparam name="T">The type to get the assembly from, which is used to get the name.</typeparam>
+        /// <param name="_">Any data from the assembly, which is used to get the name.</param>
+        /// <param name="libraryFileName">The library's name, excluding the extension.</param>
+        public static void LoadLibrary<T>(T _, string libraryFileName) => LoadLibrary(NameOfAssembly<T>(), libraryFileName);
 
         /// <summary>
         /// Prints a hierarchy of all game objects.
@@ -90,6 +148,117 @@ namespace KeepCoding
         public static string CombineMultiple(params string[] paths) => paths.Aggregate(Path.Combine);
 
         /// <summary>
+        /// Finds the path of a mod.
+        /// </summary>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="KeyNotFoundException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <param name="modAssembly">The mod assembly's name. This is used to get the mod in question.</param>
+        /// <returns>The path to <paramref name="modAssembly"/>.</returns>
+        public static string GetDirectory(string modAssembly)
+        {
+            if (s_modDirectories.TryGetValue(modAssembly, out string path))
+                return path;
+
+            Self($"Searching for \"{modAssembly}\" within the mod dictionary...");
+
+            if (isEditor)
+            {
+                s_modDirectories.Add(modAssembly, path = "");
+
+                Self("This method is being run on the Editor, therefore an empty string will be returned.");
+
+                return path;
+            }
+
+            modAssembly.NullOrEmptyCheck("You cannot retrieve a path if the mod assembly is null or empty.");
+
+            if (!s_modDirectories.ContainsKey(modAssembly))
+                CacheModDirectories(modAssembly);
+
+            path = s_modDirectories[modAssembly];
+
+            Self($"Found {modAssembly} in {path}!");
+
+            s_filePaths.Add(modAssembly, path);
+
+            return path;
+        }
+
+        /// <summary>
+        /// Finds the path of the mod.
+        /// </summary>
+        /// <param name="type">Any data from the assembly, which is used to get the name.</param>
+        /// <returns>The path to the mod.</returns>
+        public static string GetDirectory(Type type) => GetDirectory(NameOfAssembly(type));
+
+        /// <summary>
+        /// Finds the path of the mod.
+        /// </summary>
+        /// <typeparam name="T">The type to get the assembly from, which is used to get the name.</typeparam>
+        /// <param name="_">Any data from the assembly, which is used to get the name.</param>
+        /// <returns>The path to the mod.</returns>
+        public static string GetDirectory<T>(T _ = default) => GetDirectory(NameOfAssembly<T>());
+
+        /// <summary>
+        /// Finds the path of a given file within each mod.
+        /// </summary>
+        /// <remarks>
+        /// You need to specify the extensions of the file too, otherwise the file cannot be found.
+        /// </remarks>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="KeyNotFoundException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <param name="modAssembly">The mod assembly's name. This is used to get the mod in question.</param>
+        /// <param name="search">The file to search for. Make sure to include extensions!</param>
+        /// <returns>The path to <paramref name="search"/>.</returns>
+        public static string GetPath(string modAssembly, string search)
+        {
+            string key = $"{modAssembly}_{search}";
+
+            if (s_filePaths.TryGetValue(key, out string path))
+                return path;
+
+            if (isEditor)
+            {
+                s_filePaths.Add(key, path = "");
+
+                Self("This method is being run on the Editor, therefore an empty string will be returned.");
+
+                return path;
+            }
+
+            search.NullOrEmptyCheck("You cannot retrieve a path if the file name is null or empty.");
+
+            path = Find(search, GetDirectory(modAssembly));
+
+            Self($"Found {modAssembly}'s {search} in {path}!");
+
+            s_filePaths.Add(key, path);
+
+            return path;
+        }
+
+        /// <summary>
+        /// Finds the path of a given file within each mod.
+        /// </summary>
+        /// <param name="type">Any data from the assembly, which is used to get the name.</param>
+        /// <param name="search">The file to search for. Make sure to include extensions!</param>
+        /// <returns>The path to the mod.</returns>
+        public static string GetPath(Type type, string search) => GetPath(NameOfAssembly(type), FileFormat(NameOfAssembly(type), FileExtensionWindows));
+
+        /// <summary>
+        /// Finds the path of a given file within each mod.
+        /// </summary>
+        /// <typeparam name="T">The type to get the assembly from, which is used to get the name.</typeparam>
+        /// <param name="_">Any data from the assembly, which is used to get the name.</param>
+        /// <param name="search">The file to search for. Make sure to include extensions!</param>
+        /// <returns>The path to the mod.</returns>
+        public static string GetPath<T>(T _, string search) => GetPath(NameOfAssembly<T>(), FileFormat(NameOfAssembly<T>(), FileExtensionWindows));
+
+        /// <summary>
         /// Gets the assembly's directory where the type <paramref name="type"/> exists.
         /// </summary>
         /// <param name="type">The type to get the assembly directory of.</param>
@@ -107,39 +276,39 @@ namespace KeepCoding
         /// Gets the path and deserializes the modInfo.json located at every mod's root folder.
         /// </summary>
         /// <exception cref="EmptyIteratorException"></exception>
-        /// <exception cref="NullIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
-        /// <param name="bundleFileName">The name of the bundle assembly.</param>
+        /// <exception cref="KeyNotFoundException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <param name="modAssembly">The mod assembly's name. This is used to get the mod in question.</param>
         /// <returns>A <see cref="ModInfo"/> of the mod info json file located in the mod.</returns>
-        public static ModInfo GetModInfo(string bundleFileName)
+        public static ModInfo GetModInfo(string modAssembly)
         {
-            if (s_modInfos.TryGetValue(bundleFileName, out ModInfo info))
+            if (s_modInfos.TryGetValue(modAssembly, out ModInfo info))
                 return info;
 
-            Self($"Retrieving the {nameof(ModInfo)} data from \"{bundleFileName}\"...");
+            Self($"Retrieving the {nameof(ModInfo)} data from \"{modAssembly}\"...");
 
             if (isEditor)
             {
-                s_modInfos.Add(bundleFileName, info = new ModInfo());
+                s_modInfos.Add(modAssembly, info = new ModInfo());
 
                 Self($"This method is being run on the Editor, therefore a new instance of {nameof(ModInfo)} will be returned.");
 
                 return info;
             }
 
-            bundleFileName.NullOrEmptyCheck("You cannot retrieve a mod's modInfo.json if the bundle file name is null or empty.");
+            modAssembly.NullOrEmptyCheck("You cannot retrieve a mod's modInfo.json if the bundle file name is null or empty.");
 
-            string search = GetPath(FileFormat(bundleFileName, FileExtensionWindows)),
-                file = Path.Combine(search, "modInfo.json");
+            string file = GetPath(modAssembly, "modInfo.json");
 
             if (!File.Exists(file))
-                throw new FileNotFoundException($"The mod bundle was found in {search}, but no mod info was found! (Expected to find \"{file}\")");
+                throw new FileNotFoundException($"The mod bundle was found in {modAssembly}, but no mod info was found! (Expected to find \"{file}\")");
 
             Self($"File found! Returning {file}.");
 
             info = Deserialize(file);
 
-            s_modInfos.Add(bundleFileName, info);
+            s_modInfos.Add(modAssembly, info);
 
             return info;
         }
@@ -164,116 +333,6 @@ namespace KeepCoding
         /// <param name="_">Any data from the assembly, which is used to get the name.</param>
         /// <returns>A <see cref="ModInfo"/> of the mod info json file located in the mod.</returns>
         public static ModInfo GetModInfo<T>(T _) => GetModInfo(NameOfAssembly<T>());
-
-        /// <summary>
-        /// Finds the path of a given file within each mod.
-        /// </summary>
-        /// <remarks>
-        /// You need to specify the extensions of the file too, otherwise the file cannot be found.
-        /// </remarks>
-        /// <exception cref="EmptyIteratorException"></exception>
-        /// <exception cref="FileNotFoundException"></exception>
-        /// <exception cref="NullIteratorException"></exception>
-        /// <param name="search">The file to search for. Make sure to include extensions!</param>
-        /// <returns>The path to <paramref name="search"/>.</returns>
-        public static string GetPath(string search)
-        {
-            if (s_paths.TryGetValue(search, out string path))
-                return path;
-
-            Self($"Searching for file \"{search}\" anywhere in the mods folder...");
-
-            if (isEditor)
-            {
-                s_paths.Add(search, path = "");
-
-                Self("This method is being run on the Editor, therefore an empty string will be returned.");
-
-                return path;
-            }
-
-            search.NullOrEmptyCheck("You cannot retrieve a path if the file name is null or empty.");
-
-            path = (GetAllModPathsFromSource(Local).Call(f => Self($"Searching for {f.Count} enabled local mod(s)...")).Find(search) ??
-                GetAllModPathsFromSource(SteamWorkshop).Call(action: f => Self($"Searching for {f.Count} enabled steam workshop mod(s)...")).Find(search))
-                .Replace($"/{search}", "").Replace(@$"\{search}", "");
-
-            s_paths.Add(search, path);
-
-            return path;
-        }
-
-        /// <summary>
-        /// Finds the path of the mod.
-        /// </summary>
-        /// <param name="type">Any data from the assembly, which is used to get the name.</param>
-        /// <returns>The path to the mod.</returns>
-        public static string GetPath(Type type) => GetPath(FileFormat(NameOfAssembly(type), FileExtensionWindows));
-
-        /// <summary>
-        /// Finds the path of the mod.
-        /// </summary>
-        /// <typeparam name="T">The type to get the assembly from, which is used to get the name.</typeparam>
-        /// <param name="_">Any data from the assembly, which is used to get the name.</param>
-        /// <returns>The path to the mod.</returns>
-        public static string GetPath<T>(T _ = default) => GetPath(FileFormat(NameOfAssembly<T>(), FileExtensionWindows));
-
-        /// <summary>
-        /// Loads a library by searching for the bundle.
-        /// </summary>
-        /// <remarks>
-        /// If the library has already been loaded, then this method will prematurely halt.
-        /// </remarks>
-        /// <exception cref="EmptyIteratorException"></exception>
-        /// <exception cref="FileNotFoundException"></exception>
-        /// <exception cref="NullIteratorException"></exception>
-        /// <param name="bundleFileName">The name of the bundle file.</param>
-        /// <param name="libraryFileName">The library's name, excluding the extension.</param>
-        public static void LoadLibrary(string bundleFileName, string libraryFileName)
-        {
-            Self($"Preparing to copy library \"{libraryFileName}\" which exists in \"{bundleFileName}\".");
-
-            if (isEditor)
-            {
-                Self($"This method is being run on the Editor, therefore nothing will be done.");
-                return;
-            }
-
-            libraryFileName.NullOrEmptyCheck("You cannot load a library which has a null or empty name.");
-
-            string path = GetPath(FileFormat(bundleFileName, FileExtensionWindows));
-
-            CopyLibrary(libraryFileName, path);
-
-            Self($"The library has been copied over. They are now ready to be referenced.");
-        }
-
-        /// <summary>
-        /// Loads a library by searching for the bundle.
-        /// </summary>
-        /// <remarks>
-        /// If the library has already been loaded, then this method will prematurely halt.
-        /// </remarks>
-        /// <exception cref="EmptyIteratorException"></exception>
-        /// <exception cref="FileNotFoundException"></exception>
-        /// <exception cref="NullIteratorException"></exception>
-        /// <param name="type">Any data from the assembly, which is used to get the name.</param>
-        /// <param name="libraryFileName">The library's name, excluding the extension.</param>
-        public static void LoadLibrary(Type type, string libraryFileName) => LoadLibrary(NameOfAssembly(type), libraryFileName);
-
-        /// <summary>
-        /// Loads a library by searching for the bundle.
-        /// </summary>
-        /// <remarks>
-        /// If the library has already been loaded, then this method will prematurely halt.
-        /// </remarks>
-        /// <exception cref="EmptyIteratorException"></exception>
-        /// <exception cref="FileNotFoundException"></exception>
-        /// <exception cref="NullIteratorException"></exception>
-        /// <typeparam name="T">The type to get the assembly from, which is used to get the name.</typeparam>
-        /// <param name="_">Any data from the assembly, which is used to get the name.</param>
-        /// <param name="libraryFileName">The library's name, excluding the extension.</param>
-        public static void LoadLibrary<T>(T _, string libraryFileName) => LoadLibrary(NameOfAssembly<T>(), libraryFileName);
 
         /// <summary>
         /// Retrieves assets of a specific type from a different bundle file.
@@ -308,6 +367,16 @@ namespace KeepCoding
         /// <returns>The <see cref="AssetBundleCreateRequest"/> needed to load the files, followed by the <see cref="VideoClip"/> <see cref="Array"/>.</returns>
         public static TAsset[] GetAssets<T, TAsset>(T _, string bundleVideoFileName) where TAsset : Object => GetAssets<TAsset>(NameOfAssembly<T>(), bundleVideoFileName);
 
+        private static void CacheModDirectories(in string modAssembly)
+        {
+            foreach (KeyValuePair<string, Mod> mod in (Dictionary<string, Mod>)typeof(ModManager).GetField("loadedMods", DeclaredOnly | Instance | NonPublic).GetValue(ModManager.Instance))
+                if (!s_modDirectories.ContainsKey(mod.Value.ModID))
+                    s_modDirectories.Add(mod.Value.ModID, mod.Key);
+
+            if (!s_modDirectories.ContainsKey(modAssembly))
+                throw new KeyNotFoundException($"The mod assembly \"{modAssembly}\" could not be found in the dictionary! Contents: {s_modDirectories.Stringify()}");
+        }
+
         private static void CopyLibrary(in string libraryFileName, in string path)
         {
             switch (platform)
@@ -335,14 +404,11 @@ namespace KeepCoding
 
         private static string FileFormat(in string fileName, in string fileExtension) => "{0}.{1}".Form(fileName, fileExtension);
 
-        private static string Find(in List<string> directories, string search) => directories.FirstValue(path =>
+        private static string Find(in string search, in string directory)
         {
             try
             {
-                string[] files = Directory.GetFiles(path, search);
-
-                if (files.LengthOrDefault() > 0 && !files[0].Trim().IsNullOrEmpty())
-                    return files[0].Call(s => Self($"Found \"{search}\" in {s}!"));
+                return Directory.GetFiles(directory, search).FirstOrDefault();
             }
             catch (Exception ex) when (ex is ArgumentException || ex is ArgumentNullException || ex is DirectoryNotFoundException || ex is UnauthorizedAccessException)
             {
@@ -351,7 +417,7 @@ namespace KeepCoding
 
             Self($"The file \"{search}\" could not be found.");
             return null;
-        });
+        }
 
         private static IEnumerator LoadAssets<TAsset>(string bundleFileName, string bundleAssetFileName) where TAsset : Object
         {
@@ -359,9 +425,10 @@ namespace KeepCoding
 
             bundleAssetFileName.NullOrEmptyCheck("You cannot load a video from a nonexistent file.");
 
-            string path = GetPath(FileFormat(bundleFileName, FileExtensionWindows));
+            if (!bundleAssetFileName.Contains('.'))
+                bundleAssetFileName += ".bundle";
 
-            AssetBundleCreateRequest request = LoadFromFileAsync(Path.Combine(path, FileFormat(bundleAssetFileName, FileExtensionBundle)));
+            AssetBundleCreateRequest request = LoadFromFileAsync(GetPath(bundleFileName, bundleAssetFileName));
 
             yield return request;
 
