@@ -94,6 +94,7 @@ namespace KeepCoding
         /// The Unique Id for the module of this type.
         /// </summary>
         public int Id => _logger.Id;
+        private int ModuleId => Id;
 
         /// <summary>
         /// The last Id instantiation for the module of this type.
