@@ -111,7 +111,7 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="OperationCanceledException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
-        public string Version => IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(GetType()).Version;
+        public string Version => IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(Type).Version;
 
         /// <summary>
         /// Contains colorblind information.
@@ -150,7 +150,10 @@ namespace KeepCoding
         /// </summary>
         public Sound[] Sounds { get; private set; } = new Sound[0];
 
-        internal bool IsColorblindSupported => GetType().ImplementsMethod(nameof(OnColorblindChanged), DeclaredOnly | Instance | Public);
+        internal Type Type => _type ??= GetType();
+        private Type _type;
+
+        internal bool IsColorblindSupported => Type.ImplementsMethod(nameof(OnColorblindChanged), DeclaredOnly | Instance | Public);
 
         internal static bool IsOutdated { get; private set; }
 
@@ -368,7 +371,7 @@ namespace KeepCoding
 
             sounds = sounds.Where(s =>
             {
-                if (s.Custom is null || IsGroupInfo($"{PathManager.GetModInfo(GetType()).Id}_{s.Custom}"))
+                if (s.Custom is null || IsGroupInfo($"{PathManager.GetModInfo(Type).Id}_{s.Custom}"))
                     s.Reference = s.Method(Get<KMAudio>())(transform, loop);
 
                 else
@@ -559,7 +562,7 @@ namespace KeepCoding
             };
         }
 
-        private bool IsLogFromThis(in string stackTrace) => stackTrace.Split('\n').Any(s => Regex.IsMatch(s, $@"^{GetType().Name}"));
+        private bool IsLogFromThis(in string stackTrace) => stackTrace.Split('\n').Any(s => Regex.IsMatch(s, $@"^{Type.Name}"));
 
         private bool VanillaSolve(MonoBehaviour c)
         {
@@ -631,20 +634,25 @@ namespace KeepCoding
 
             Bomb = GetParent<KMBomb>();
 
-            const BindingFlags Flags = Instance | NonPublic;
+            const BindingFlags Flags = DeclaredOnly | Instance | Public;
 
-            bool isHookingPass = GetType().ImplementsMethod(nameof(OnModuleSolved), Flags),
-                isHookingStrike = GetType().ImplementsMethod(nameof(OnModuleStrike), Flags);
+            bool isHookingPass = Type.ImplementsMethod(nameof(OnModuleSolved), Flags),
+                isHookingStrike = Type.ImplementsMethod(nameof(OnModuleStrike), Flags),
+                isHookingTimer = Type.ImplementsMethod(nameof(OnTimerTick), Flags);
 
             HookModules(isHookingPass, isHookingStrike);
 
             if (IsEditor)
             {
-                StartCoroutine(EditorTimerTick());
+                if (isHookingTimer)
+                    StartCoroutine(EditorTimerTick());
+
                 yield break;
             }
 
-            TimerTickInner();
+            if (isHookingTimer)
+                TimerTickInner();
+
             HookVanillas(isHookingPass, isHookingStrike);
         }
 
