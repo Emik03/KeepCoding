@@ -66,4 +66,5 @@
 | [ComponentPool.SpecialComponentTypeEnum](ComponentPool.SpecialComponentTypeEnum.md 'KeepCoding.ComponentPool.SpecialComponentTypeEnum') | Controls whether the modules will be chosen dynamically at runtime from whatever modules are loaded (based on the ComponentSource). Set to "None" to select specific module types.<br/> |
 | [Game.ControlType](Game.ControlType.md 'KeepCoding.Game.ControlType') | Determines how the game is controlled.<br/> |
 | [Game.ModSourceEnum](Game.ModSourceEnum.md 'KeepCoding.Game.ModSourceEnum') | Determines how the mod is stored.<br/> |
+| [Game.References](Game.References.md 'KeepCoding.Game.References') | Determines what references are used within this class.<br/> |
 | [UtilityHelper.JsQuotes](UtilityHelper.JsQuotes.md 'KeepCoding.UtilityHelper.JsQuotes') | Selects how the escaped JS string should be put into quotes. |
