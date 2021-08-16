@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Security;
+using KeepCoding.Internal;
 using UnityEngine;
 using static KeepCoding.ComponentPool;
 using static KeepCoding.Logger;
@@ -30,6 +31,10 @@ namespace KeepCoding
     /// </remarks>
     public static class Game
     {
+        private static readonly NotSupportedException s_notDone = new NotSupportedException("The library that is required for this action hasn't been released yet.");
+
+        private static readonly UnrecognizedValueException s_value = new UnrecognizedValueException($"The value of {nameof(Reference)} ({Reference}) is not a valid library!");
+
         /// <summary>
         /// Determines how the game is controlled.
         /// </summary>
@@ -130,8 +135,14 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see cref="ControlType.Mouse"/>.
             /// </remarks>
-            public static ControlType CurrentControlType => IsNoneReference ? ControlType.Mouse : CurrentControlTypeInner;
+            public static ControlType CurrentControlType => IsNoneReference ? ControlType.Mouse : Reference switch
+            {
+                References.Ktane => CurrentControlTypeInner,
+                References.KtaneRewritten => CurrentControlTypeRewrittenInner,
+                _ => throw s_value
+            };
             private static ControlType CurrentControlTypeInner => (ControlType)global::KTInputManager.Instance.CurrentControlType;
+            private static ControlType CurrentControlTypeRewrittenInner => throw s_notDone;
         }
 
         /// <summary>
@@ -153,8 +164,14 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="null"/>.
             /// </remarks>
-            public static Func<string, object> GroupInfo => IsNoneReference ? s => null : GroupInfoInner;
+            public static Func<string, object> GroupInfo => IsNoneReference ? s => null : Reference switch
+            {
+                References.Ktane => GroupInfoInner,
+                References.KtaneRewritten => GroupInfoRewrittenInner,
+                _ => throw s_value
+            };
             private static Func<string, object> GroupInfoInner => KTMasterAudio.GetGroupInfo;
+            private static Func<string, object> GroupInfoRewrittenInner => throw s_notDone;
         }
 
         /// <summary>
@@ -168,8 +185,14 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool IsPacingEvents => !IsNoneReference && IsPacingEventsInner;
+            public static bool IsPacingEvents => !IsNoneReference && Reference switch
+            {
+                References.Ktane => IsPacingEventsInner,
+                References.KtaneRewritten => IsPacingEventsRewrittenInner,
+                _ => throw s_value
+            };
             private static bool IsPacingEventsInner => KTSceneManager.Instance.GameplayState.Mission.PacingEventsEnabled;
+            private static bool IsPacingEventsRewrittenInner => throw s_notDone;
 
             /// <summary>
             /// The description as it appears in the bomb binder.
@@ -179,8 +202,14 @@ namespace KeepCoding
             /// </remarks>
             public static string Description => IsNoneReference
                 ? "Everybody has to start somewhere. Let's just hope it doesn't end here too.\n\nMake sure your experts have the manual and are ready to help."
-                : DescriptionInner;
+                : Reference switch
+                {
+                    References.Ktane => DescriptionInner,
+                    References.KtaneRewritten => DescriptionRewrittenInner,
+                    _ => throw s_value
+                };
             private static string DescriptionInner => GetLocalizedString(KTSceneManager.Instance.GameplayState.Mission.DescriptionTerm);
+            private static string DescriptionRewrittenInner => throw s_notDone;
 
             /// <summary>
             /// The mission name as it appears in the bomb binder.
@@ -188,8 +217,14 @@ namespace KeepCoding
             /// <remarks>
             /// Default: "The First Bomb"
             /// </remarks>
-            public static string DisplayName => IsNoneReference ? "The First Bomb" : DisplayNameInner;
+            public static string DisplayName => IsNoneReference ? "The First Bomb" : Reference switch
+            {
+                References.Ktane => DisplayNameInner,
+                References.KtaneRewritten => DisplayNameRewrittenInner,
+                _ => throw s_value
+            };
             private static string DisplayNameInner => GetLocalizedString(KTSceneManager.Instance.GameplayState.Mission.DisplayNameTerm);
+            private static string DisplayNameRewrittenInner => throw s_notDone;
 
             /// <summary>
             /// The ID of the mission.
@@ -197,8 +232,14 @@ namespace KeepCoding
             /// <remarks>
             /// Default: "firsttime"
             /// </remarks>
-            public static string ID => IsNoneReference ? "firsttime" : IDInner;
+            public static string ID => IsNoneReference ? "firsttime" : Reference switch
+            {
+                References.Ktane => IDInner,
+                References.KtaneRewritten => IDRewrittenInner,
+                _ => throw s_value
+            };
             private static string IDInner => KTSceneManager.Instance.GameplayState.Mission.ID;
+            private static string IDRewrittenInner => throw s_notDone;
 
             /// <summary>
             /// Gets the generator setting of the mission.
@@ -206,7 +247,12 @@ namespace KeepCoding
             /// <remarks>
             /// New instance of <see cref="GeneratorSetting"/>, default constructor.
             /// </remarks>
-            public static GeneratorSetting GeneratorSetting => IsNoneReference ? new GeneratorSetting() : GeneratorSettingInner;
+            public static GeneratorSetting GeneratorSetting => IsNoneReference ? new GeneratorSetting() : Reference switch
+            {
+                References.Ktane => GeneratorSettingInner,
+                References.KtaneRewritten => GeneratorSettingRewrittenInner,
+                _ => throw s_value
+            };
             private static GeneratorSetting GeneratorSettingInner
             {
                 get
@@ -239,6 +285,7 @@ namespace KeepCoding
                         list);
                 }
             }
+            private static GeneratorSetting GeneratorSettingRewrittenInner => throw s_notDone;
         }
 
         /// <summary>
@@ -252,8 +299,14 @@ namespace KeepCoding
             /// <remarks>
             /// New instance of <see cref="List{T}"/>, with no elements.
             /// </remarks>
-            public static Func<List<string>> GetDisabledModPaths => IsNoneReference ? () => new List<string>() : GetDisabledModPathsInner;
+            public static Func<List<string>> GetDisabledModPaths => IsNoneReference ? () => new List<string>() : Reference switch
+            {
+                References.Ktane => GetDisabledModPathsInner,
+                References.KtaneRewritten => GetDisabledModPathsRewrittenInner,
+                _ => throw s_value
+            };
             private static Func<List<string>> GetDisabledModPathsInner => KTModManager.Instance.GetDisabledModPaths;
+            private static Func<List<string>> GetDisabledModPathsRewrittenInner => throw s_notDone;
 
             /// <summary>
             /// Gets all of the mod paths within the <see cref="ModSourceEnum"/> constraint.
@@ -261,8 +314,14 @@ namespace KeepCoding
             /// <remarks>
             /// New instance of <see cref="List{T}"/>, with no elements.
             /// </remarks>
-            public static Func<ModSourceEnum, List<string>> GetAllModPathsFromSource => IsNoneReference ? source => new List<string>() : GetAllModPathsFromSourceInner;
+            public static Func<ModSourceEnum, List<string>> GetAllModPathsFromSource => IsNoneReference ? source => new List<string>() : Reference switch
+            {
+                References.Ktane => GetAllModPathsFromSourceInner,
+                References.KtaneRewritten => GetAllModPathsFromSourceRewrittenInner,
+                _ => throw s_value
+            };
             private static Func<ModSourceEnum, List<string>> GetAllModPathsFromSourceInner => source => KTModManager.Instance.GetAllModPathsFromSource((KTModSourceEnum)source);
+            private static Func<ModSourceEnum, List<string>> GetAllModPathsFromSourceRewrittenInner => throw s_notDone;
 
             /// <summary>
             /// Gets all of the enabled mod paths within the <see cref="ModSourceEnum"/> constraint.
@@ -270,8 +329,14 @@ namespace KeepCoding
             /// <remarks>
             /// New instance of <see cref="List{T}"/>, with no elements.
             /// </remarks>
-            public static Func<ModSourceEnum, List<string>> GetEnabledModPaths => IsNoneReference ? source => new List<string>() : GetEnabledModPathsInner;
+            public static Func<ModSourceEnum, List<string>> GetEnabledModPaths => IsNoneReference ? source => new List<string>() : Reference switch
+            {
+                References.Ktane => GetEnabledModPathsInner,
+                References.KtaneRewritten => GetEnabledModPathsRewrittenInner,
+                _ => throw s_value
+            };
             private static Func<ModSourceEnum, List<string>> GetEnabledModPathsInner => source => KTModManager.Instance.GetEnabledModPaths((KTModSourceEnum)source);
+            private static Func<ModSourceEnum, List<string>> GetEnabledModPathsRewrittenInner => throw s_notDone;
         }
 
         /// <summary>
@@ -285,8 +350,14 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool InvertTiltControls => !IsNoneReference && InvertTiltControlsInner;
+            public static bool InvertTiltControls => !IsNoneReference && Reference switch
+            {
+                References.Ktane => InvertTiltControlsInner,
+                References.KtaneRewritten => InvertTiltControlsRewrittenInner,
+                _ => throw s_value
+            };
             private static bool InvertTiltControlsInner => KTPlayerSettingsManager.Instance.PlayerSettings.InvertTiltControls;
+            private static bool InvertTiltControlsRewrittenInner => throw s_notDone;
 
             /// <summary>
             /// Determines if the option to lock the mouse to the window is enabled.
@@ -294,8 +365,14 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool LockMouseToWindow => !IsNoneReference && LockMouseToWindowInner;
+            public static bool LockMouseToWindow => !IsNoneReference && Reference switch
+            {
+                References.Ktane => LockMouseToWindowInner,
+                References.KtaneRewritten => LockMouseToWindowRewrittenInner,
+                _ => throw s_value
+            };
             private static bool LockMouseToWindowInner => KTPlayerSettingsManager.Instance.PlayerSettings.LockMouseToWindow;
+            private static bool LockMouseToWindowRewrittenInner => throw s_notDone;
 
             /// <summary>
             /// Determines if the option to show the leaderboards from the pamphlet.
@@ -303,8 +380,14 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="true"/>.
             /// </remarks>
-            public static bool ShowLeaderBoards => IsNoneReference || ShowLeaderBoardsInner;
+            public static bool ShowLeaderBoards => IsNoneReference || Reference switch
+            {
+                References.Ktane => ShowLeaderBoardsInner,
+                References.KtaneRewritten => ShowLeaderBoardsRewrittenInner,
+                _ => throw s_value
+            };
             private static bool ShowLeaderBoardsInner => KTPlayerSettingsManager.Instance.PlayerSettings.ShowLeaderBoards;
+            private static bool ShowLeaderBoardsRewrittenInner => throw s_notDone;
 
             /// <summary>
             /// Determines if the option to show the rotation of the User Interface is enabled.
@@ -312,8 +395,14 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="true"/>.
             /// </remarks>
-            public static bool ShowRotationUI => IsNoneReference || ShowRotationUIInner;
+            public static bool ShowRotationUI => IsNoneReference || Reference switch
+            {
+                References.Ktane => ShowRotationUIInner,
+                References.KtaneRewritten => ShowRotationUIRewrittenInner,
+                _ => throw s_value
+            };
             private static bool ShowRotationUIInner => KTPlayerSettingsManager.Instance.PlayerSettings.ShowRotationUI;
+            private static bool ShowRotationUIRewrittenInner => throw s_notDone;
 
             /// <summary>
             /// Determines if the option to show scanlines is enabled.
@@ -321,8 +410,14 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="true"/>.
             /// </remarks>
-            public static bool ShowScanline => IsNoneReference || ShowScanlineInner;
+            public static bool ShowScanline => IsNoneReference || Reference switch
+            {
+                References.Ktane => ShowScanlineInner,
+                References.KtaneRewritten => ShowScanlineRewrittenInner,
+                _ => throw s_value
+            };
             private static bool ShowScanlineInner => KTPlayerSettingsManager.Instance.PlayerSettings.ShowScanline;
+            private static bool ShowScanlineRewrittenInner => throw s_notDone;
 
             /// <summary>
             /// Determines if the option to skip the title screen is enabled.
@@ -330,8 +425,14 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool SkipTitleScreen => !IsNoneReference && SkipTitleScreenInner;
+            public static bool SkipTitleScreen => !IsNoneReference && Reference switch
+            {
+                References.Ktane => SkipTitleScreenInner,
+                References.KtaneRewritten => SkipTitleScreenRewrittenInner,
+                _ => throw s_value
+            };
             private static bool SkipTitleScreenInner => KTPlayerSettingsManager.Instance.PlayerSettings.SkipTitleScreen;
+            private static bool SkipTitleScreenRewrittenInner => throw s_notDone;
 
             /// <summary>
             /// Determines if the VR or regular controllers vibrate.
@@ -339,8 +440,14 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="true"/>.
             /// </remarks>
-            public static bool RumbleEnabled => IsNoneReference || RumbleEnabledInner;
+            public static bool RumbleEnabled => IsNoneReference || Reference switch
+            {
+                References.Ktane => RumbleEnabledInner,
+                References.KtaneRewritten => RumbleEnabledRewrittenInner,
+                _ => throw s_value
+            };
             private static bool RumbleEnabledInner => KTPlayerSettingsManager.Instance.PlayerSettings.RumbleEnabled;
+            private static bool RumbleEnabledRewrittenInner => throw s_notDone;
 
             /// <summary>
             /// Determines if the touchpad controls are inverted.
@@ -348,8 +455,14 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool TouchpadInvert => !IsNoneReference && TouchpadInvertInner;
+            public static bool TouchpadInvert => !IsNoneReference && Reference switch
+            {
+                References.Ktane => TouchpadInvertInner,
+                References.KtaneRewritten => TouchpadInvertRewrittenInner,
+                _ => throw s_value
+            };
             private static bool TouchpadInvertInner => KTPlayerSettingsManager.Instance.PlayerSettings.TouchpadInvert;
+            private static bool TouchpadInvertRewrittenInner => throw s_notDone;
 
             /// <summary>
             /// Determines if the option to always use mods is enabled.
@@ -357,8 +470,14 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool UseModsAlways => !IsNoneReference && UseModsAlwaysInner;
+            public static bool UseModsAlways => !IsNoneReference && Reference switch
+            {
+                References.Ktane => UseModsAlwaysInner,
+                References.KtaneRewritten => UseModsAlwaysRewrittenInner,
+                _ => throw s_value
+            };
             private static bool UseModsAlwaysInner => KTPlayerSettingsManager.Instance.PlayerSettings.UseModsAlways;
+            private static bool UseModsAlwaysRewrittenInner => throw s_notDone;
 
             /// <summary>
             /// Determines if the option to use parallel/simultaneous mod loading is enabled.
@@ -366,14 +485,26 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool UseParallelModLoading => !IsNoneReference && UseParallelModLoadingInner;
+            public static bool UseParallelModLoading => !IsNoneReference && Reference switch
+            {
+                References.Ktane => UseParallelModLoadingInner,
+                References.KtaneRewritten => UseParallelModLoadingRewrittenInner,
+                _ => throw s_value
+            };
             private static bool UseParallelModLoadingInner => KTPlayerSettingsManager.Instance.PlayerSettings.UseParallelModLoading;
+            private static bool UseParallelModLoadingRewrittenInner => throw s_notDone;
 
             /// <summary>
             /// Determines if VR mode is requested.
             /// </summary>
-            public static bool VRModeRequested => IsNoneReference || VRModeRequestedInner;
+            public static bool VRModeRequested => IsNoneReference || Reference switch
+            {
+                References.Ktane => VRModeRequestedInner,
+                References.KtaneRewritten => VRModeRequestedRewrittenInner,
+                _ => throw s_value
+            };
             private static bool VRModeRequestedInner => KTPlayerSettingsManager.Instance.PlayerSettings.VRModeRequested;
+            private static bool VRModeRequestedRewrittenInner => throw s_notDone;
 
             /// <summary>
             /// The intensity of anti-aliasing currently on the game. Ranges 0 to 8.
@@ -381,8 +512,14 @@ namespace KeepCoding
             /// <remarks>
             /// Default: 8.
             /// </remarks>
-            public static int AntiAliasing => IsNoneReference ? 8 : AntiAliasingInner;
+            public static int AntiAliasing => IsNoneReference ? 8 : Reference switch
+            {
+                References.Ktane => AntiAliasingInner,
+                References.KtaneRewritten => AntiAliasingRewrittenInner,
+                _ => throw s_value
+            };
             private static int AntiAliasingInner => KTPlayerSettingsManager.Instance.PlayerSettings.AntiAliasing;
+            private static int AntiAliasingRewrittenInner => throw s_notDone;
 
             /// <summary>
             /// The current music volume from the dossier menu. Ranges 0 to 100.
@@ -390,8 +527,14 @@ namespace KeepCoding
             /// <remarks>
             /// Default: 100.
             /// </remarks>
-            public static int MusicVolume => IsNoneReference ? 100 : MusicVolumeInner;
+            public static int MusicVolume => IsNoneReference ? 100 : Reference switch
+            {
+                References.Ktane => MusicVolumeInner,
+                References.KtaneRewritten => MusicVolumeRewrittenInner,
+                _ => throw s_value
+            };
             private static int MusicVolumeInner => KTPlayerSettingsManager.Instance.PlayerSettings.MusicVolume;
+            private static int MusicVolumeRewrittenInner => throw s_notDone;
 
             /// <summary>
             /// The current sound effects volume from the dosssier menu. Ranges 0 to 100.
@@ -399,8 +542,14 @@ namespace KeepCoding
             /// <remarks>
             /// Default: 100.
             /// </remarks>
-            public static int SFXVolume => IsNoneReference ? 100 : SFXVolumeInner;
+            public static int SFXVolume => IsNoneReference ? 100 : Reference switch
+            {
+                References.Ktane => SFXVolumeInner,
+                References.KtaneRewritten => SFXVolumeRewrittenInner,
+                _ => throw s_value
+            };
             private static int SFXVolumeInner => KTPlayerSettingsManager.Instance.PlayerSettings.SFXVolume;
+            private static int SFXVolumeRewrittenInner => throw s_notDone;
 
             /// <summary>
             /// Determines if VSync is on or off.
@@ -408,8 +557,14 @@ namespace KeepCoding
             /// <remarks>
             /// Default: 1.
             /// </remarks>
-            public static int VSync => IsNoneReference ? 1 : VSyncInner;
+            public static int VSync => IsNoneReference ? 1 : Reference switch
+            {
+                References.Ktane => VSyncInner,
+                References.KtaneRewritten => VSyncRewrittenInner,
+                _ => throw s_value
+            };
             private static int VSyncInner => KTPlayerSettingsManager.Instance.PlayerSettings.VSync;
+            private static int VSyncRewrittenInner => throw s_notDone;
 
             /// <summary>
             /// The current language code.
@@ -417,11 +572,17 @@ namespace KeepCoding
             /// <remarks>
             /// Default: "en".
             /// </remarks>
-            public static string LanguageCode => IsNoneReference ? "en" : LanguageCodeInner;
+            public static string LanguageCode => IsNoneReference ? "en" : Reference switch
+            {
+                References.Ktane => LanguageCodeInner,
+                References.KtaneRewritten => LanguageCodeRewrittenInner,
+                _ => throw s_value
+            };
             private static string LanguageCodeInner => KTPlayerSettingsManager.Instance.PlayerSettings.LanguageCode;
+            private static string LanguageCodeRewrittenInner => throw s_notDone;
         }
 
-        private static bool IsNoneReference => IsNoneReference || (Reference is References.None);
+        private static bool IsNoneReference => isEditor || Reference is References.None;
 
         /// <summary>
         /// Adds an amount of strikes on the bomb.
@@ -431,12 +592,18 @@ namespace KeepCoding
         /// </remarks>
         public static Action<GameObject, int, bool> AddStrikes => IsNoneReference
             ? (gameObject, amount, checkIfExploded) => Self($"Adding the bomb's strike count with {amount}.")
-            : AddStrikesInner;
+            : Reference switch
+            {
+                References.Ktane => AddStrikesInner,
+                References.KtaneRewritten => AddStrikesRewrittenInner,
+                _ => throw s_value
+            };
         private static Action<GameObject, int, bool> AddStrikesInner => (gameObject, amount, checkIfExploded) =>
         {
             var bomb = (Bomb)Bomb(gameObject);
             StrikesInner(bomb, bomb.NumStrikes + amount, checkIfExploded);
         };
+        private static Action<GameObject, int, bool> AddStrikesRewrittenInner => throw s_notDone;
 
         /// <summary>
         /// Sets an amount of strikes on the bomb.
@@ -446,12 +613,18 @@ namespace KeepCoding
         /// </remarks>
         public static Action<GameObject, int, bool> SetStrikes => IsNoneReference
             ? (gameObject, amount, checkIfExploded) => Self($"Setting the bomb's strike count to {amount}.")
-            : SetStrikesInner;
+            : Reference switch
+            {
+                References.Ktane => SetStrikesInner,
+                References.KtaneRewritten => SetStrikesRewrittenInner,
+                _ => throw s_value
+            };
         private static Action<GameObject, int, bool> SetStrikesInner => (gameObject, amount, checkIfExploded) =>
         {
             var bomb = (Bomb)Bomb(gameObject);
             StrikesInner(bomb, amount, checkIfExploded);
         };
+        private static Action<GameObject, int, bool> SetStrikesRewrittenInner => throw s_notDone;
 
         private static Action<object, int, bool> StrikesInner => (obj, amount, checkIfExploded) =>
         {
@@ -468,8 +641,14 @@ namespace KeepCoding
         /// <remarks>
         /// Default: <see langword="null"/>.
         /// </remarks>
-        public static Func<GameObject, object> Bomb => IsNoneReference ? gameObject => null : BombInner;
+        public static Func<GameObject, object> Bomb => IsNoneReference ? gameObject => null : Reference switch
+        {
+            References.Ktane => BombInner,
+            References.KtaneRewritten => BombRewrittenInner,
+            _ => throw s_value
+        };
         private static Func<GameObject, object> BombInner => gameObject => gameObject.GetComponentInParent(typeof(Bomb));
+        private static Func<GameObject, object> BombRewrittenInner => throw s_notDone;
 
         /// <summary>
         /// Gets the game's internal timer component. To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to TimerComponent or <see cref="MonoBehaviour"/> type to restore its functionality.
@@ -477,8 +656,14 @@ namespace KeepCoding
         /// <remarks>
         /// Default: <see langword="null"/>.
         /// </remarks>
-        public static Func<GameObject, object> Timer => IsNoneReference ? gameObject => null : TimerInner;
+        public static Func<GameObject, object> Timer => IsNoneReference ? gameObject => null : Reference switch
+        {
+            References.Ktane => TimerInner,
+            References.KtaneRewritten => TimerRewrittenInner,
+            _ => throw s_value
+        };
         private static Func<GameObject, object> TimerInner => gameObject => ((Bomb)Bomb(gameObject)).GetTimer();
+        private static Func<GameObject, object> TimerRewrittenInner => throw s_notDone;
 
         /// <summary>
         /// Gets all of the vanilla modules from the bomb supplied, including needies. To prevent a reference to the game, the type is boxed in an <see cref="object"/> <see cref="Array"/>. You can cast it to BombComponent type to restore its functionality.
@@ -486,14 +671,20 @@ namespace KeepCoding
         /// <remarks>
         /// Default: An empty <see cref="object"/> <see cref="Array"/>.
         /// </remarks>
-        public static Func<KMBomb, object[]> Vanillas => IsNoneReference ? gameObject => new object[0] : VanillasInner;
+        public static Func<KMBomb, object[]> Vanillas => IsNoneReference ? gameObject => new object[0] : Reference switch
+        {
+            References.Ktane => VanillasInner,
+            References.KtaneRewritten => VanillasRewrittenInner,
+            _ => throw s_value
+        };
         private static Func<KMBomb, object[]> VanillasInner => bomb => bomb.GetComponentsInChildren(typeof(BombComponent))
             .Where(c => !(c.GetComponent<KMBombModule>() || c.GetComponent<KMNeedyModule>()))
             .ToArray()
             .ConvertAll(c => (object)c);
+        private static Func<KMBomb, object[]> VanillasRewrittenInner => throw s_notDone;
 
         /// <summary>
-        /// Determines what reference this library should use for the current class. You may only modify this value if 
+        /// Determines what reference this library should use for the current class. This value can only be modified by the libraries featured in <see cref="References"/>, a <see cref="SecurityException"/> is thrown when this is attempted regardless.
         /// </summary>
         /// <exception cref="SecurityException"></exception>
         public static References Reference
@@ -510,7 +701,9 @@ namespace KeepCoding
                 };
 
                 s_references = trustedSources.Contains(source.FullName)
+                    ? Helper.GetValues<References>().Any(r => r == value)
                     ? value
+                    : throw new ArgumentException($"The value \"{value}\" is not valid!")
                     : throw new SecurityException($"The library \"{source.GetName().Name}\" does not have permission to edit this value!");
             }
         }
