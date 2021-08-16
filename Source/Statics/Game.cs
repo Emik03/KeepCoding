@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Security;
 using KeepCoding.Internal;
 using UnityEngine;
+using static System.Reflection.Assembly;
 using static KeepCoding.ComponentPool;
 using static KeepCoding.Logger;
 using static Localization;
@@ -33,7 +34,608 @@ namespace KeepCoding
     {
         private static readonly NotSupportedException s_notDone = new NotSupportedException("The library that is required for this action hasn't been released yet.");
 
-        private static readonly UnrecognizedValueException s_badValue = new UnrecognizedValueException($"The value of {nameof(Reference)} ({Reference}) is not a valid library!");
+        private static readonly UnrecognizedValueException s_badValue = new UnrecognizedValueException($"The value of {nameof(Reference)} ({Reference}) is not a valid library! This normally shouldn't happen, so please leave submit a bug report in the event that you do see this exception message thrown!");
+
+        /// <summary>
+        /// Allows access relating to how the game is being interacted with.
+        /// </summary>
+        public static class KTInputManager
+        {
+            /// <summary>
+            /// Determines if the current way the game is being controlled is VR-related.
+            /// </summary>
+            /// <remarks>
+            /// Default: <see langword="false"/>.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static bool IsCurrentControlTypeVR => CurrentControlType.IsAny(ControlType.Gaze, ControlType.Motion, ControlType.ThreeDOF);
+
+            /// <summary>
+            /// The current way the game is being controlled.
+            /// </summary>
+            /// <remarks>
+            /// Default: <see cref="ControlType.Mouse"/>.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static ControlType CurrentControlType => Reference switch
+            {
+                References.None => ControlType.Mouse,
+                References.Ktane => CurrentControlTypeInner,
+                References.KtaneRewritten => CurrentControlTypeRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static ControlType CurrentControlTypeInner => (ControlType)global::KTInputManager.Instance.CurrentControlType;
+
+            private static ControlType CurrentControlTypeRewrittenInner => throw s_notDone;
+        }
+
+        /// <summary>
+        /// Allows access relating to the game's main master channel for audio.
+        /// </summary>
+        public static class MasterAudio
+        {
+            /// <summary>
+            /// Determines whether a given string has a group info.
+            /// </summary>
+            /// <remarks>
+            /// Default: <see langword="true"/>.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static Predicate<string> IsGroupInfo => s => GroupInfo(s) is { };
+
+            /// <summary>
+            /// Gets the group info of a given string. To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to AudioGroupInfo type to restore its functionality.
+            /// </summary>
+            /// <remarks>
+            /// Default: Returns the <see cref="string"/> argument given boxed as <see cref="object"/>.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static Func<string, object> GroupInfo => Reference switch
+            {
+                References.None => s => s,
+                References.Ktane => GroupInfoInner,
+                References.KtaneRewritten => GroupInfoRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static Func<string, object> GroupInfoInner => KTMasterAudio.GetGroupInfo;
+
+            private static Func<string, object> GroupInfoRewrittenInner => throw s_notDone;
+        }
+
+        /// <summary>
+        /// Allows access relating to the current mission.
+        /// </summary>
+        public static class Mission
+        {
+            /// <summary>
+            /// Determines whether or not all pacing events are enabled. Default: <see langword="false"/>.
+            /// </summary>
+            /// <remarks>
+            /// Default: <see langword="false"/>.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static bool IsPacingEvents => Reference switch
+            {
+                References.None => false,
+                References.Ktane => IsPacingEventsInner,
+                References.KtaneRewritten => IsPacingEventsRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static bool IsPacingEventsInner => KTSceneManager.Instance.GameplayState.Mission.PacingEventsEnabled;
+
+            private static bool IsPacingEventsRewrittenInner => throw s_notDone;
+
+            /// <summary>
+            /// The description as it appears in the bomb binder.
+            /// </summary>
+            /// <remarks>
+            /// Default: "Everybody has to start somewhere. Let's just hope it doesn't end here too.\n\nMake sure your experts have the manual and are ready to help.".
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static string Description => Reference switch
+            {
+                References.None => "Everybody has to start somewhere. Let's just hope it doesn't end here too.\n\nMake sure your experts have the manual and are ready to help.",
+                References.Ktane => DescriptionInner,
+                References.KtaneRewritten => DescriptionRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static string DescriptionInner => GetLocalizedString(KTSceneManager.Instance.GameplayState.Mission.DescriptionTerm);
+
+            private static string DescriptionRewrittenInner => throw s_notDone;
+
+            /// <summary>
+            /// The mission name as it appears in the bomb binder.
+            /// </summary>
+            /// <remarks>
+            /// Default: "The First Bomb"
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static string DisplayName => Reference switch
+            {
+                References.None => "The First Bomb",
+                References.Ktane => DisplayNameInner,
+                References.KtaneRewritten => DisplayNameRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static string DisplayNameInner => GetLocalizedString(KTSceneManager.Instance.GameplayState.Mission.DisplayNameTerm);
+
+            private static string DisplayNameRewrittenInner => throw s_notDone;
+
+            /// <summary>
+            /// The ID of the mission.
+            /// </summary>
+            /// <remarks>
+            /// Default: "firsttime"
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static string ID => Reference switch
+            {
+                References.None => "firsttime",
+                References.Ktane => IDInner,
+                References.KtaneRewritten => IDRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static string IDInner => KTSceneManager.Instance.GameplayState.Mission.ID;
+
+            private static string IDRewrittenInner => throw s_notDone;
+
+            /// <summary>
+            /// Gets the generator setting of the mission.
+            /// </summary>
+            /// <remarks>
+            /// New instance of <see cref="GeneratorSetting"/>, default constructor.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static GeneratorSetting GeneratorSetting => Reference switch
+            {
+                References.None => new GeneratorSetting(),
+                References.Ktane => GeneratorSettingInner,
+                References.KtaneRewritten => GeneratorSettingRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static GeneratorSetting GeneratorSettingInner
+            {
+                get
+                {
+                    KTGeneratorSetting setting = KTSceneManager.Instance.GameplayState.Mission.GeneratorSetting;
+
+                    var list = new List<ComponentPool>();
+
+                    foreach (KTComponentPool pool in setting.ComponentPools)
+                    {
+                        var types = new List<ComponentTypeEnum>();
+
+                        foreach (KTComponentTypeEnum type in pool.ComponentTypes)
+                            types.Add((ComponentTypeEnum)type);
+
+                        list.Add(new ComponentPool(
+                            pool.Count,
+                            (ComponentSource)pool.AllowedSources,
+                            (SpecialComponentTypeEnum)pool.SpecialComponentType,
+                            pool.ModTypes,
+                            types));
+                    }
+
+                    return new GeneratorSetting(
+                        setting.FrontFaceOnly,
+                        setting.OptionalWidgetCount,
+                        setting.NumStrikes,
+                        setting.TimeBeforeNeedyActivation,
+                        setting.TimeLimit,
+                        list);
+                }
+            }
+
+            private static GeneratorSetting GeneratorSettingRewrittenInner => throw s_notDone;
+        }
+
+        /// <summary>
+        /// Allows access to methods relating mod paths.
+        /// </summary>
+        public static class ModManager
+        {
+            /// <summary>
+            /// Gets all of the disabled mod paths.
+            /// </summary>
+            /// <remarks>
+            /// Default: New instance of <see cref="List{T}"/>, with no elements.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static Func<List<string>> GetDisabledModPaths => Reference switch
+            {
+                References.None => () => new List<string>(),
+                References.Ktane => GetDisabledModPathsInner,
+                References.KtaneRewritten => GetDisabledModPathsRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static Func<List<string>> GetDisabledModPathsInner => KTModManager.Instance.GetDisabledModPaths;
+
+            private static Func<List<string>> GetDisabledModPathsRewrittenInner => throw s_notDone;
+
+            /// <summary>
+            /// Gets all of the mod paths within the <see cref="ModSourceEnum"/> constraint.
+            /// </summary>
+            /// <remarks>
+            /// Default: New instance of <see cref="List{T}"/>, with no elements.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static Func<ModSourceEnum, List<string>> GetAllModPathsFromSource => Reference switch
+            {
+                References.None => source => new List<string>(),
+                References.Ktane => GetAllModPathsFromSourceInner,
+                References.KtaneRewritten => GetAllModPathsFromSourceRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static Func<ModSourceEnum, List<string>> GetAllModPathsFromSourceInner => source => KTModManager.Instance.GetAllModPathsFromSource((KTModSourceEnum)source);
+
+            private static Func<ModSourceEnum, List<string>> GetAllModPathsFromSourceRewrittenInner => throw s_notDone;
+
+            /// <summary>
+            /// Gets all of the enabled mod paths within the <see cref="ModSourceEnum"/> constraint.
+            /// </summary>
+            /// <remarks>
+            /// Default: New instance of <see cref="List{T}"/>, with no elements.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static Func<ModSourceEnum, List<string>> GetEnabledModPaths => Reference switch
+            {
+                References.None => source => new List<string>(),
+                References.Ktane => GetEnabledModPathsInner,
+                References.KtaneRewritten => GetEnabledModPathsRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static Func<ModSourceEnum, List<string>> GetEnabledModPathsInner => source => KTModManager.Instance.GetEnabledModPaths((KTModSourceEnum)source);
+
+            private static Func<ModSourceEnum, List<string>> GetEnabledModPathsRewrittenInner => throw s_notDone;
+        }
+
+        /// <summary>
+        /// Allows access into the player settings from the game. Do not use this class in the unity editor. 
+        /// </summary>
+        public static class PlayerSettings
+        {
+            /// <summary>
+            /// Determines if vertical tilting is flipped or not.
+            /// </summary>
+            /// <remarks>
+            /// Default: <see langword="false"/>.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static bool InvertTiltControls => Reference switch
+            {
+                References.None => false,
+                References.Ktane => InvertTiltControlsInner,
+                References.KtaneRewritten => InvertTiltControlsRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static bool InvertTiltControlsInner => KTPlayerSettingsManager.Instance.PlayerSettings.InvertTiltControls;
+
+            private static bool InvertTiltControlsRewrittenInner => throw s_notDone;
+
+            /// <summary>
+            /// Determines if the option to lock the mouse to the window is enabled.
+            /// </summary>
+            /// <remarks>
+            /// Default: <see langword="false"/>.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static bool LockMouseToWindow => Reference switch
+            {
+                References.None => false,
+                References.Ktane => LockMouseToWindowInner,
+                References.KtaneRewritten => LockMouseToWindowRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static bool LockMouseToWindowInner => KTPlayerSettingsManager.Instance.PlayerSettings.LockMouseToWindow;
+
+            private static bool LockMouseToWindowRewrittenInner => throw s_notDone;
+
+            /// <summary>
+            /// Determines if the option to show the leaderboards from the pamphlet.
+            /// </summary>
+            /// <remarks>
+            /// Default: <see langword="true"/>.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static bool ShowLeaderBoards => Reference switch
+            {
+                References.None => true,
+                References.Ktane => ShowLeaderBoardsInner,
+                References.KtaneRewritten => ShowLeaderBoardsRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static bool ShowLeaderBoardsInner => KTPlayerSettingsManager.Instance.PlayerSettings.ShowLeaderBoards;
+
+            private static bool ShowLeaderBoardsRewrittenInner => throw s_notDone;
+
+            /// <summary>
+            /// Determines if the option to show the rotation of the User Interface is enabled.
+            /// </summary>
+            /// <remarks>
+            /// Default: <see langword="true"/>.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static bool ShowRotationUI => Reference switch
+            {
+                References.None => false,
+                References.Ktane => ShowRotationUIInner,
+                References.KtaneRewritten => ShowRotationUIRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static bool ShowRotationUIInner => KTPlayerSettingsManager.Instance.PlayerSettings.ShowRotationUI;
+
+            private static bool ShowRotationUIRewrittenInner => throw s_notDone;
+
+            /// <summary>
+            /// Determines if the option to show scanlines is enabled.
+            /// </summary>
+            /// <remarks>
+            /// Default: <see langword="true"/>.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static bool ShowScanline => Reference switch
+            {
+                References.None => true,
+                References.Ktane => ShowScanlineInner,
+                References.KtaneRewritten => ShowScanlineRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static bool ShowScanlineInner => KTPlayerSettingsManager.Instance.PlayerSettings.ShowScanline;
+
+            private static bool ShowScanlineRewrittenInner => throw s_notDone;
+
+            /// <summary>
+            /// Determines if the option to skip the title screen is enabled.
+            /// </summary>
+            /// <remarks>
+            /// Default: <see langword="false"/>.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static bool SkipTitleScreen => Reference switch
+            {
+                References.None => false,
+                References.Ktane => SkipTitleScreenInner,
+                References.KtaneRewritten => SkipTitleScreenRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static bool SkipTitleScreenInner => KTPlayerSettingsManager.Instance.PlayerSettings.SkipTitleScreen;
+
+            private static bool SkipTitleScreenRewrittenInner => throw s_notDone;
+
+            /// <summary>
+            /// Determines if the VR or regular controllers vibrate.
+            /// </summary>
+            /// <remarks>
+            /// Default: <see langword="true"/>.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static bool RumbleEnabled => Reference switch
+            {
+                References.None => true,
+                References.Ktane => RumbleEnabledInner,
+                References.KtaneRewritten => RumbleEnabledRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static bool RumbleEnabledInner => KTPlayerSettingsManager.Instance.PlayerSettings.RumbleEnabled;
+
+            private static bool RumbleEnabledRewrittenInner => throw s_notDone;
+
+            /// <summary>
+            /// Determines if the touchpad controls are inverted.
+            /// </summary>
+            /// <remarks>
+            /// Default: <see langword="false"/>.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static bool TouchpadInvert => Reference switch
+            {
+                References.None => false,
+                References.Ktane => TouchpadInvertInner,
+                References.KtaneRewritten => TouchpadInvertRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static bool TouchpadInvertInner => KTPlayerSettingsManager.Instance.PlayerSettings.TouchpadInvert;
+
+            private static bool TouchpadInvertRewrittenInner => throw s_notDone;
+
+            /// <summary>
+            /// Determines if the option to always use mods is enabled.
+            /// </summary>
+            /// <remarks>
+            /// Default: <see langword="false"/>.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static bool UseModsAlways => Reference switch
+            {
+                References.None => false,
+                References.Ktane => UseModsAlwaysInner,
+                References.KtaneRewritten => UseModsAlwaysRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static bool UseModsAlwaysInner => KTPlayerSettingsManager.Instance.PlayerSettings.UseModsAlways;
+
+            private static bool UseModsAlwaysRewrittenInner => throw s_notDone;
+
+            /// <summary>
+            /// Determines if the option to use parallel/simultaneous mod loading is enabled.
+            /// </summary>
+            /// <remarks>
+            /// Default: <see langword="false"/>.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static bool UseParallelModLoading => Reference switch
+            {
+                References.None => false,
+                References.Ktane => UseParallelModLoadingInner,
+                References.KtaneRewritten => UseParallelModLoadingRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static bool UseParallelModLoadingInner => KTPlayerSettingsManager.Instance.PlayerSettings.UseParallelModLoading;
+
+            private static bool UseParallelModLoadingRewrittenInner => throw s_notDone;
+
+            /// <summary>
+            /// Determines if VR mode is requested.
+            /// </summary>
+            /// <remarks>
+            /// Default: <see langword="true"/>.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static bool VRModeRequested => Reference switch
+            {
+                References.None => true,
+                References.Ktane => VRModeRequestedInner,
+                References.KtaneRewritten => VRModeRequestedRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static bool VRModeRequestedInner => KTPlayerSettingsManager.Instance.PlayerSettings.VRModeRequested;
+
+            private static bool VRModeRequestedRewrittenInner => throw s_notDone;
+
+            /// <summary>
+            /// The intensity of anti-aliasing currently on the game. Ranges 0 to 8.
+            /// </summary>
+            /// <remarks>
+            /// Default: 8.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static int AntiAliasing => Reference switch
+            {
+                References.None => 8,
+                References.Ktane => AntiAliasingInner,
+                References.KtaneRewritten => AntiAliasingRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static int AntiAliasingInner => KTPlayerSettingsManager.Instance.PlayerSettings.AntiAliasing;
+
+            private static int AntiAliasingRewrittenInner => throw s_notDone;
+
+            /// <summary>
+            /// The current music volume from the dossier menu. Ranges 0 to 100.
+            /// </summary>
+            /// <remarks>
+            /// Default: 100.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static int MusicVolume => Reference switch
+            {
+                References.None => 100,
+                References.Ktane => MusicVolumeInner,
+                References.KtaneRewritten => MusicVolumeRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static int MusicVolumeInner => KTPlayerSettingsManager.Instance.PlayerSettings.MusicVolume;
+
+            private static int MusicVolumeRewrittenInner => throw s_notDone;
+
+            /// <summary>
+            /// The current sound effects volume from the dosssier menu. Ranges 0 to 100.
+            /// </summary>
+            /// <remarks>
+            /// Default: 100.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static int SFXVolume => Reference switch
+            {
+                References.None => 100,
+                References.Ktane => SFXVolumeInner,
+                References.KtaneRewritten => SFXVolumeRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static int SFXVolumeInner => KTPlayerSettingsManager.Instance.PlayerSettings.SFXVolume;
+
+            private static int SFXVolumeRewrittenInner => throw s_notDone;
+
+            /// <summary>
+            /// Determines if VSync is on or off.
+            /// </summary>
+            /// <remarks>
+            /// Default: 1.
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static int VSync => Reference switch
+            {
+                References.None => 1,
+                References.Ktane => VSyncInner,
+                References.KtaneRewritten => VSyncRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static int VSyncInner => KTPlayerSettingsManager.Instance.PlayerSettings.VSync;
+
+            private static int VSyncRewrittenInner => throw s_notDone;
+
+            /// <summary>
+            /// The current language code.
+            /// </summary>
+            /// <remarks>
+            /// Default: "en".
+            /// </remarks>
+            /// <exception cref="NotSupportedException"></exception>
+            /// <exception cref="UnrecognizedValueException"></exception>
+            public static string LanguageCode => Reference switch
+            {
+                References.None => "en",
+                References.Ktane => LanguageCodeInner,
+                References.KtaneRewritten => LanguageCodeRewrittenInner,
+                _ => throw s_badValue
+            };
+
+            private static string LanguageCodeInner => KTPlayerSettingsManager.Instance.PlayerSettings.LanguageCode;
+
+            private static string LanguageCodeRewrittenInner => throw s_notDone;
+        }
 
         /// <summary>
         /// Determines how the game is controlled.
@@ -117,556 +719,13 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// Allows access relating to how the game is being interacted with.
-        /// </summary>
-        public static class KTInputManager
-        {
-            /// <summary>
-            /// Determines if the current way the game is being controlled is VR-related.
-            /// </summary>
-            /// <remarks>
-            /// Default: <see langword="false"/>.
-            /// </remarks>
-            public static bool IsCurrentControlTypeVR => CurrentControlType.IsAny(ControlType.Gaze, ControlType.Motion, ControlType.ThreeDOF);
-
-            /// <summary>
-            /// The current way the game is being controlled.
-            /// </summary>
-            /// <remarks>
-            /// Default: <see cref="ControlType.Mouse"/>.
-            /// </remarks>
-            public static ControlType CurrentControlType => Reference switch
-            {
-                References.None => ControlType.Mouse,
-                References.Ktane => CurrentControlTypeInner,
-                References.KtaneRewritten => CurrentControlTypeRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static ControlType CurrentControlTypeInner => (ControlType)global::KTInputManager.Instance.CurrentControlType;
-
-            private static ControlType CurrentControlTypeRewrittenInner => throw s_notDone;
-        }
-
-        /// <summary>
-        /// Allows access relating to the game's main master channel for audio.
-        /// </summary>
-        public static class MasterAudio
-        {
-            /// <summary>
-            /// Determines whether a given string has a group info.
-            /// </summary>
-            /// <remarks>
-            /// Default: <see langword="true"/>.
-            /// </remarks>
-            public static Predicate<string> IsGroupInfo => s => GroupInfo(s) is { };
-
-            /// <summary>
-            /// Gets the group info of a given string. To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to AudioGroupInfo type to restore its functionality.
-            /// </summary>
-            /// <remarks>
-            /// Default: Returns the <see cref="string"/> argument given boxed as <see cref="object"/>.
-            /// </remarks>
-            public static Func<string, object> GroupInfo => Reference switch
-            {
-                References.None => s => s,
-                References.Ktane => GroupInfoInner,
-                References.KtaneRewritten => GroupInfoRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static Func<string, object> GroupInfoInner => KTMasterAudio.GetGroupInfo;
-
-            private static Func<string, object> GroupInfoRewrittenInner => throw s_notDone;
-        }
-
-        /// <summary>
-        /// Allows access relating to the current mission.
-        /// </summary>
-        public static class Mission
-        {
-            /// <summary>
-            /// Determines whether or not all pacing events are enabled. Default: <see langword="false"/>.
-            /// </summary>
-            /// <remarks>
-            /// Default: <see langword="false"/>.
-            /// </remarks>
-            public static bool IsPacingEvents => Reference switch
-            {
-                References.None => false,
-                References.Ktane => IsPacingEventsInner,
-                References.KtaneRewritten => IsPacingEventsRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static bool IsPacingEventsInner => KTSceneManager.Instance.GameplayState.Mission.PacingEventsEnabled;
-
-            private static bool IsPacingEventsRewrittenInner => throw s_notDone;
-
-            /// <summary>
-            /// The description as it appears in the bomb binder.
-            /// </summary>
-            /// <remarks>
-            /// Default: "Everybody has to start somewhere. Let's just hope it doesn't end here too.\n\nMake sure your experts have the manual and are ready to help.".
-            /// </remarks>
-            public static string Description => Reference switch
-            {
-                References.None => "Everybody has to start somewhere. Let's just hope it doesn't end here too.\n\nMake sure your experts have the manual and are ready to help.",
-                References.Ktane => DescriptionInner,
-                References.KtaneRewritten => DescriptionRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static string DescriptionInner => GetLocalizedString(KTSceneManager.Instance.GameplayState.Mission.DescriptionTerm);
-
-            private static string DescriptionRewrittenInner => throw s_notDone;
-
-            /// <summary>
-            /// The mission name as it appears in the bomb binder.
-            /// </summary>
-            /// <remarks>
-            /// Default: "The First Bomb"
-            /// </remarks>
-            public static string DisplayName => Reference switch
-            {
-                References.None => "The First Bomb",
-                References.Ktane => DisplayNameInner,
-                References.KtaneRewritten => DisplayNameRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static string DisplayNameInner => GetLocalizedString(KTSceneManager.Instance.GameplayState.Mission.DisplayNameTerm);
-
-            private static string DisplayNameRewrittenInner => throw s_notDone;
-
-            /// <summary>
-            /// The ID of the mission.
-            /// </summary>
-            /// <remarks>
-            /// Default: "firsttime"
-            /// </remarks>
-            public static string ID => Reference switch
-            {
-                References.None => "firsttime",
-                References.Ktane => IDInner,
-                References.KtaneRewritten => IDRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static string IDInner => KTSceneManager.Instance.GameplayState.Mission.ID;
-
-            private static string IDRewrittenInner => throw s_notDone;
-
-            /// <summary>
-            /// Gets the generator setting of the mission.
-            /// </summary>
-            /// <remarks>
-            /// New instance of <see cref="GeneratorSetting"/>, default constructor.
-            /// </remarks>
-            public static GeneratorSetting GeneratorSetting => Reference switch
-            {
-                References.None => new GeneratorSetting(),
-                References.Ktane => GeneratorSettingInner,
-                References.KtaneRewritten => GeneratorSettingRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static GeneratorSetting GeneratorSettingInner
-            {
-                get
-                {
-                    KTGeneratorSetting setting = KTSceneManager.Instance.GameplayState.Mission.GeneratorSetting;
-
-                    var list = new List<ComponentPool>();
-
-                    foreach (KTComponentPool pool in setting.ComponentPools)
-                    {
-                        var types = new List<ComponentTypeEnum>();
-
-                        foreach (KTComponentTypeEnum type in pool.ComponentTypes)
-                            types.Add((ComponentTypeEnum)type);
-
-                        list.Add(new ComponentPool(
-                            pool.Count,
-                            (ComponentSource)pool.AllowedSources,
-                            (SpecialComponentTypeEnum)pool.SpecialComponentType,
-                            pool.ModTypes,
-                            types));
-                    }
-
-                    return new GeneratorSetting(
-                        setting.FrontFaceOnly,
-                        setting.OptionalWidgetCount,
-                        setting.NumStrikes,
-                        setting.TimeBeforeNeedyActivation,
-                        setting.TimeLimit,
-                        list);
-                }
-            }
-
-            private static GeneratorSetting GeneratorSettingRewrittenInner => throw s_notDone;
-        }
-
-        /// <summary>
-        /// Allows access to methods relating mod paths.
-        /// </summary>
-        public static class ModManager
-        {
-            /// <summary>
-            /// Gets all of the disabled mod paths.
-            /// </summary>
-            /// <remarks>
-            /// Default: New instance of <see cref="List{T}"/>, with no elements.
-            /// </remarks>
-            public static Func<List<string>> GetDisabledModPaths => Reference switch
-            {
-                References.None => () => new List<string>(),
-                References.Ktane => GetDisabledModPathsInner,
-                References.KtaneRewritten => GetDisabledModPathsRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static Func<List<string>> GetDisabledModPathsInner => KTModManager.Instance.GetDisabledModPaths;
-
-            private static Func<List<string>> GetDisabledModPathsRewrittenInner => throw s_notDone;
-
-            /// <summary>
-            /// Gets all of the mod paths within the <see cref="ModSourceEnum"/> constraint.
-            /// </summary>
-            /// <remarks>
-            /// Default: New instance of <see cref="List{T}"/>, with no elements.
-            /// </remarks>
-            public static Func<ModSourceEnum, List<string>> GetAllModPathsFromSource => Reference switch
-            {
-                References.None => source => new List<string>(),
-                References.Ktane => GetAllModPathsFromSourceInner,
-                References.KtaneRewritten => GetAllModPathsFromSourceRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static Func<ModSourceEnum, List<string>> GetAllModPathsFromSourceInner => source => KTModManager.Instance.GetAllModPathsFromSource((KTModSourceEnum)source);
-
-            private static Func<ModSourceEnum, List<string>> GetAllModPathsFromSourceRewrittenInner => throw s_notDone;
-
-            /// <summary>
-            /// Gets all of the enabled mod paths within the <see cref="ModSourceEnum"/> constraint.
-            /// </summary>
-            /// <remarks>
-            /// Default: New instance of <see cref="List{T}"/>, with no elements.
-            /// </remarks>
-            public static Func<ModSourceEnum, List<string>> GetEnabledModPaths => Reference switch
-            {
-                References.None => source => new List<string>(),
-                References.Ktane => GetEnabledModPathsInner,
-                References.KtaneRewritten => GetEnabledModPathsRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static Func<ModSourceEnum, List<string>> GetEnabledModPathsInner => source => KTModManager.Instance.GetEnabledModPaths((KTModSourceEnum)source);
-
-            private static Func<ModSourceEnum, List<string>> GetEnabledModPathsRewrittenInner => throw s_notDone;
-        }
-
-        /// <summary>
-        /// Allows access into the player settings from the game. Do not use this class in the unity editor. 
-        /// </summary>
-        public static class PlayerSettings
-        {
-            /// <summary>
-            /// Determines if vertical tilting is flipped or not.
-            /// </summary>
-            /// <remarks>
-            /// Default: <see langword="false"/>.
-            /// </remarks>
-            public static bool InvertTiltControls => Reference switch
-            {
-                References.None => false,
-                References.Ktane => InvertTiltControlsInner,
-                References.KtaneRewritten => InvertTiltControlsRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static bool InvertTiltControlsInner => KTPlayerSettingsManager.Instance.PlayerSettings.InvertTiltControls;
-
-            private static bool InvertTiltControlsRewrittenInner => throw s_notDone;
-
-            /// <summary>
-            /// Determines if the option to lock the mouse to the window is enabled.
-            /// </summary>
-            /// <remarks>
-            /// Default: <see langword="false"/>.
-            /// </remarks>
-            public static bool LockMouseToWindow => Reference switch
-            {
-                References.None => false,
-                References.Ktane => LockMouseToWindowInner,
-                References.KtaneRewritten => LockMouseToWindowRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static bool LockMouseToWindowInner => KTPlayerSettingsManager.Instance.PlayerSettings.LockMouseToWindow;
-
-            private static bool LockMouseToWindowRewrittenInner => throw s_notDone;
-
-            /// <summary>
-            /// Determines if the option to show the leaderboards from the pamphlet.
-            /// </summary>
-            /// <remarks>
-            /// Default: <see langword="true"/>.
-            /// </remarks>
-            public static bool ShowLeaderBoards => Reference switch
-            {
-                References.None => true,
-                References.Ktane => ShowLeaderBoardsInner,
-                References.KtaneRewritten => ShowLeaderBoardsRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static bool ShowLeaderBoardsInner => KTPlayerSettingsManager.Instance.PlayerSettings.ShowLeaderBoards;
-
-            private static bool ShowLeaderBoardsRewrittenInner => throw s_notDone;
-
-            /// <summary>
-            /// Determines if the option to show the rotation of the User Interface is enabled.
-            /// </summary>
-            /// <remarks>
-            /// Default: <see langword="true"/>.
-            /// </remarks>
-            public static bool ShowRotationUI => Reference switch
-            {
-                References.None => false,
-                References.Ktane => ShowRotationUIInner,
-                References.KtaneRewritten => ShowRotationUIRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static bool ShowRotationUIInner => KTPlayerSettingsManager.Instance.PlayerSettings.ShowRotationUI;
-
-            private static bool ShowRotationUIRewrittenInner => throw s_notDone;
-
-            /// <summary>
-            /// Determines if the option to show scanlines is enabled.
-            /// </summary>
-            /// <remarks>
-            /// Default: <see langword="true"/>.
-            /// </remarks>
-            public static bool ShowScanline => Reference switch
-            {
-                References.None => true,
-                References.Ktane => ShowScanlineInner,
-                References.KtaneRewritten => ShowScanlineRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static bool ShowScanlineInner => KTPlayerSettingsManager.Instance.PlayerSettings.ShowScanline;
-
-            private static bool ShowScanlineRewrittenInner => throw s_notDone;
-
-            /// <summary>
-            /// Determines if the option to skip the title screen is enabled.
-            /// </summary>
-            /// <remarks>
-            /// Default: <see langword="false"/>.
-            /// </remarks>
-            public static bool SkipTitleScreen => Reference switch
-            {
-                References.None => false,
-                References.Ktane => SkipTitleScreenInner,
-                References.KtaneRewritten => SkipTitleScreenRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static bool SkipTitleScreenInner => KTPlayerSettingsManager.Instance.PlayerSettings.SkipTitleScreen;
-
-            private static bool SkipTitleScreenRewrittenInner => throw s_notDone;
-
-            /// <summary>
-            /// Determines if the VR or regular controllers vibrate.
-            /// </summary>
-            /// <remarks>
-            /// Default: <see langword="true"/>.
-            /// </remarks>
-            public static bool RumbleEnabled => Reference switch
-            {
-                References.None => true,
-                References.Ktane => RumbleEnabledInner,
-                References.KtaneRewritten => RumbleEnabledRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static bool RumbleEnabledInner => KTPlayerSettingsManager.Instance.PlayerSettings.RumbleEnabled;
-
-            private static bool RumbleEnabledRewrittenInner => throw s_notDone;
-
-            /// <summary>
-            /// Determines if the touchpad controls are inverted.
-            /// </summary>
-            /// <remarks>
-            /// Default: <see langword="false"/>.
-            /// </remarks>
-            public static bool TouchpadInvert => Reference switch
-            {
-                References.None => false,
-                References.Ktane => TouchpadInvertInner,
-                References.KtaneRewritten => TouchpadInvertRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static bool TouchpadInvertInner => KTPlayerSettingsManager.Instance.PlayerSettings.TouchpadInvert;
-
-            private static bool TouchpadInvertRewrittenInner => throw s_notDone;
-
-            /// <summary>
-            /// Determines if the option to always use mods is enabled.
-            /// </summary>
-            /// <remarks>
-            /// Default: <see langword="false"/>.
-            /// </remarks>
-            public static bool UseModsAlways => Reference switch
-            {
-                References.None => false,
-                References.Ktane => UseModsAlwaysInner,
-                References.KtaneRewritten => UseModsAlwaysRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static bool UseModsAlwaysInner => KTPlayerSettingsManager.Instance.PlayerSettings.UseModsAlways;
-
-            private static bool UseModsAlwaysRewrittenInner => throw s_notDone;
-
-            /// <summary>
-            /// Determines if the option to use parallel/simultaneous mod loading is enabled.
-            /// </summary>
-            /// <remarks>
-            /// Default: <see langword="false"/>.
-            /// </remarks>
-            public static bool UseParallelModLoading => Reference switch
-            {
-                References.None => false,
-                References.Ktane => UseParallelModLoadingInner,
-                References.KtaneRewritten => UseParallelModLoadingRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static bool UseParallelModLoadingInner => KTPlayerSettingsManager.Instance.PlayerSettings.UseParallelModLoading;
-
-            private static bool UseParallelModLoadingRewrittenInner => throw s_notDone;
-
-            /// <summary>
-            /// Determines if VR mode is requested.
-            /// </summary>
-            /// <remarks>
-            /// Default: <see langword="true"/>.
-            /// </remarks>
-            public static bool VRModeRequested => Reference switch
-            {
-                References.None => true,
-                References.Ktane => VRModeRequestedInner,
-                References.KtaneRewritten => VRModeRequestedRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static bool VRModeRequestedInner => KTPlayerSettingsManager.Instance.PlayerSettings.VRModeRequested;
-
-            private static bool VRModeRequestedRewrittenInner => throw s_notDone;
-
-            /// <summary>
-            /// The intensity of anti-aliasing currently on the game. Ranges 0 to 8.
-            /// </summary>
-            /// <remarks>
-            /// Default: 8.
-            /// </remarks>
-            public static int AntiAliasing => Reference switch
-            {
-                References.None => 8,
-                References.Ktane => AntiAliasingInner,
-                References.KtaneRewritten => AntiAliasingRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static int AntiAliasingInner => KTPlayerSettingsManager.Instance.PlayerSettings.AntiAliasing;
-
-            private static int AntiAliasingRewrittenInner => throw s_notDone;
-
-            /// <summary>
-            /// The current music volume from the dossier menu. Ranges 0 to 100.
-            /// </summary>
-            /// <remarks>
-            /// Default: 100.
-            /// </remarks>
-            public static int MusicVolume => Reference switch
-            {
-                References.None => 100,
-                References.Ktane => MusicVolumeInner,
-                References.KtaneRewritten => MusicVolumeRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static int MusicVolumeInner => KTPlayerSettingsManager.Instance.PlayerSettings.MusicVolume;
-
-            private static int MusicVolumeRewrittenInner => throw s_notDone;
-
-            /// <summary>
-            /// The current sound effects volume from the dosssier menu. Ranges 0 to 100.
-            /// </summary>
-            /// <remarks>
-            /// Default: 100.
-            /// </remarks>
-            public static int SFXVolume => Reference switch
-            {
-                References.None => 100,
-                References.Ktane => SFXVolumeInner,
-                References.KtaneRewritten => SFXVolumeRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static int SFXVolumeInner => KTPlayerSettingsManager.Instance.PlayerSettings.SFXVolume;
-
-            private static int SFXVolumeRewrittenInner => throw s_notDone;
-
-            /// <summary>
-            /// Determines if VSync is on or off.
-            /// </summary>
-            /// <remarks>
-            /// Default: 1.
-            /// </remarks>
-            public static int VSync => Reference switch
-            {
-                References.None => 1,
-                References.Ktane => VSyncInner,
-                References.KtaneRewritten => VSyncRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static int VSyncInner => KTPlayerSettingsManager.Instance.PlayerSettings.VSync;
-
-            private static int VSyncRewrittenInner => throw s_notDone;
-
-            /// <summary>
-            /// The current language code.
-            /// </summary>
-            /// <remarks>
-            /// Default: "en".
-            /// </remarks>
-            public static string LanguageCode => Reference switch
-            {
-                References.None => "en",
-                References.Ktane => LanguageCodeInner,
-                References.KtaneRewritten => LanguageCodeRewrittenInner,
-                _ => throw s_badValue
-            };
-
-            private static string LanguageCodeInner => KTPlayerSettingsManager.Instance.PlayerSettings.LanguageCode;
-
-            private static string LanguageCodeRewrittenInner => throw s_notDone;
-        }
-
-        /// <summary>
         /// Adds an amount of strikes on the bomb.
         /// </summary>
         /// <remarks>
         /// Default: Internal Logger method call.
         /// </remarks>
+        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         public static Action<GameObject, int, bool> AddStrikes => Reference switch
         {
             References.None => (gameObject, amount, checkIfExploded) => Self($"Adding the bomb's strike count with {amount}."),
@@ -689,6 +748,8 @@ namespace KeepCoding
         /// <remarks>
         /// Default: Internal Logger method call.
         /// </remarks>
+        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         public static Action<GameObject, int, bool> SetStrikes => Reference switch
         {
             References.None => (gameObject, amount, checkIfExploded) => Self($"Setting the bomb's strike count to {amount}."),
@@ -720,6 +781,8 @@ namespace KeepCoding
         /// <remarks>
         /// Default: <see langword="null"/>.
         /// </remarks>
+        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         public static Func<GameObject, object> Bomb => Reference switch
         {
             References.None => gameObject => null,
@@ -738,6 +801,8 @@ namespace KeepCoding
         /// <remarks>
         /// Default: <see langword="null"/>.
         /// </remarks>
+        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         public static Func<GameObject, object> Timer => Reference switch
         {
             References.None => gameObject => null,
@@ -756,6 +821,8 @@ namespace KeepCoding
         /// <remarks>
         /// Default: An empty <see cref="object"/> <see cref="Array"/>.
         /// </remarks>
+        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="UnrecognizedValueException"></exception>
         public static Func<KMBomb, object[]> Vanillas => Reference switch
         {
             References.None => gameObject => new object[0],
@@ -774,6 +841,7 @@ namespace KeepCoding
         /// <summary>
         /// Determines what reference this library should use for the current class. This value can only be modified by the libraries featured in <see cref="References"/>, a <see cref="SecurityException"/> is thrown when this is attempted regardless.
         /// </summary>
+        /// <exception cref="ArgumentException"></exception>
         /// <exception cref="SecurityException"></exception>
         public static References Reference
         {
@@ -784,7 +852,7 @@ namespace KeepCoding
 
                 string[] trustedSources = new[]
                 {
-                    Assembly.GetExecutingAssembly().FullName,
+                    GetExecutingAssembly().FullName,
                     "Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
                 };
 
