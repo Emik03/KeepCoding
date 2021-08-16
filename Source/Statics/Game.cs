@@ -33,7 +33,7 @@ namespace KeepCoding
     {
         private static readonly NotSupportedException s_notDone = new NotSupportedException("The library that is required for this action hasn't been released yet.");
 
-        private static readonly UnrecognizedValueException s_value = new UnrecognizedValueException($"The value of {nameof(Reference)} ({Reference}) is not a valid library!");
+        private static readonly UnrecognizedValueException s_badValue = new UnrecognizedValueException($"The value of {nameof(Reference)} ({Reference}) is not a valid library!");
 
         /// <summary>
         /// Determines how the game is controlled.
@@ -139,7 +139,7 @@ namespace KeepCoding
             {
                 References.Ktane => CurrentControlTypeInner,
                 References.KtaneRewritten => CurrentControlTypeRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static ControlType CurrentControlTypeInner => (ControlType)global::KTInputManager.Instance.CurrentControlType;
             private static ControlType CurrentControlTypeRewrittenInner => throw s_notDone;
@@ -168,7 +168,7 @@ namespace KeepCoding
             {
                 References.Ktane => GroupInfoInner,
                 References.KtaneRewritten => GroupInfoRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static Func<string, object> GroupInfoInner => KTMasterAudio.GetGroupInfo;
             private static Func<string, object> GroupInfoRewrittenInner => throw s_notDone;
@@ -189,7 +189,7 @@ namespace KeepCoding
             {
                 References.Ktane => IsPacingEventsInner,
                 References.KtaneRewritten => IsPacingEventsRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static bool IsPacingEventsInner => KTSceneManager.Instance.GameplayState.Mission.PacingEventsEnabled;
             private static bool IsPacingEventsRewrittenInner => throw s_notDone;
@@ -206,7 +206,7 @@ namespace KeepCoding
                 {
                     References.Ktane => DescriptionInner,
                     References.KtaneRewritten => DescriptionRewrittenInner,
-                    _ => throw s_value
+                    _ => throw s_badValue
                 };
             private static string DescriptionInner => GetLocalizedString(KTSceneManager.Instance.GameplayState.Mission.DescriptionTerm);
             private static string DescriptionRewrittenInner => throw s_notDone;
@@ -221,7 +221,7 @@ namespace KeepCoding
             {
                 References.Ktane => DisplayNameInner,
                 References.KtaneRewritten => DisplayNameRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static string DisplayNameInner => GetLocalizedString(KTSceneManager.Instance.GameplayState.Mission.DisplayNameTerm);
             private static string DisplayNameRewrittenInner => throw s_notDone;
@@ -236,7 +236,7 @@ namespace KeepCoding
             {
                 References.Ktane => IDInner,
                 References.KtaneRewritten => IDRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static string IDInner => KTSceneManager.Instance.GameplayState.Mission.ID;
             private static string IDRewrittenInner => throw s_notDone;
@@ -251,7 +251,7 @@ namespace KeepCoding
             {
                 References.Ktane => GeneratorSettingInner,
                 References.KtaneRewritten => GeneratorSettingRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static GeneratorSetting GeneratorSettingInner
             {
@@ -303,7 +303,7 @@ namespace KeepCoding
             {
                 References.Ktane => GetDisabledModPathsInner,
                 References.KtaneRewritten => GetDisabledModPathsRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static Func<List<string>> GetDisabledModPathsInner => KTModManager.Instance.GetDisabledModPaths;
             private static Func<List<string>> GetDisabledModPathsRewrittenInner => throw s_notDone;
@@ -318,7 +318,7 @@ namespace KeepCoding
             {
                 References.Ktane => GetAllModPathsFromSourceInner,
                 References.KtaneRewritten => GetAllModPathsFromSourceRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static Func<ModSourceEnum, List<string>> GetAllModPathsFromSourceInner => source => KTModManager.Instance.GetAllModPathsFromSource((KTModSourceEnum)source);
             private static Func<ModSourceEnum, List<string>> GetAllModPathsFromSourceRewrittenInner => throw s_notDone;
@@ -333,7 +333,7 @@ namespace KeepCoding
             {
                 References.Ktane => GetEnabledModPathsInner,
                 References.KtaneRewritten => GetEnabledModPathsRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static Func<ModSourceEnum, List<string>> GetEnabledModPathsInner => source => KTModManager.Instance.GetEnabledModPaths((KTModSourceEnum)source);
             private static Func<ModSourceEnum, List<string>> GetEnabledModPathsRewrittenInner => throw s_notDone;
@@ -354,7 +354,7 @@ namespace KeepCoding
             {
                 References.Ktane => InvertTiltControlsInner,
                 References.KtaneRewritten => InvertTiltControlsRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static bool InvertTiltControlsInner => KTPlayerSettingsManager.Instance.PlayerSettings.InvertTiltControls;
             private static bool InvertTiltControlsRewrittenInner => throw s_notDone;
@@ -369,7 +369,7 @@ namespace KeepCoding
             {
                 References.Ktane => LockMouseToWindowInner,
                 References.KtaneRewritten => LockMouseToWindowRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static bool LockMouseToWindowInner => KTPlayerSettingsManager.Instance.PlayerSettings.LockMouseToWindow;
             private static bool LockMouseToWindowRewrittenInner => throw s_notDone;
@@ -384,7 +384,7 @@ namespace KeepCoding
             {
                 References.Ktane => ShowLeaderBoardsInner,
                 References.KtaneRewritten => ShowLeaderBoardsRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static bool ShowLeaderBoardsInner => KTPlayerSettingsManager.Instance.PlayerSettings.ShowLeaderBoards;
             private static bool ShowLeaderBoardsRewrittenInner => throw s_notDone;
@@ -399,7 +399,7 @@ namespace KeepCoding
             {
                 References.Ktane => ShowRotationUIInner,
                 References.KtaneRewritten => ShowRotationUIRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static bool ShowRotationUIInner => KTPlayerSettingsManager.Instance.PlayerSettings.ShowRotationUI;
             private static bool ShowRotationUIRewrittenInner => throw s_notDone;
@@ -414,7 +414,7 @@ namespace KeepCoding
             {
                 References.Ktane => ShowScanlineInner,
                 References.KtaneRewritten => ShowScanlineRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static bool ShowScanlineInner => KTPlayerSettingsManager.Instance.PlayerSettings.ShowScanline;
             private static bool ShowScanlineRewrittenInner => throw s_notDone;
@@ -429,7 +429,7 @@ namespace KeepCoding
             {
                 References.Ktane => SkipTitleScreenInner,
                 References.KtaneRewritten => SkipTitleScreenRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static bool SkipTitleScreenInner => KTPlayerSettingsManager.Instance.PlayerSettings.SkipTitleScreen;
             private static bool SkipTitleScreenRewrittenInner => throw s_notDone;
@@ -444,7 +444,7 @@ namespace KeepCoding
             {
                 References.Ktane => RumbleEnabledInner,
                 References.KtaneRewritten => RumbleEnabledRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static bool RumbleEnabledInner => KTPlayerSettingsManager.Instance.PlayerSettings.RumbleEnabled;
             private static bool RumbleEnabledRewrittenInner => throw s_notDone;
@@ -459,7 +459,7 @@ namespace KeepCoding
             {
                 References.Ktane => TouchpadInvertInner,
                 References.KtaneRewritten => TouchpadInvertRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static bool TouchpadInvertInner => KTPlayerSettingsManager.Instance.PlayerSettings.TouchpadInvert;
             private static bool TouchpadInvertRewrittenInner => throw s_notDone;
@@ -474,7 +474,7 @@ namespace KeepCoding
             {
                 References.Ktane => UseModsAlwaysInner,
                 References.KtaneRewritten => UseModsAlwaysRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static bool UseModsAlwaysInner => KTPlayerSettingsManager.Instance.PlayerSettings.UseModsAlways;
             private static bool UseModsAlwaysRewrittenInner => throw s_notDone;
@@ -489,7 +489,7 @@ namespace KeepCoding
             {
                 References.Ktane => UseParallelModLoadingInner,
                 References.KtaneRewritten => UseParallelModLoadingRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static bool UseParallelModLoadingInner => KTPlayerSettingsManager.Instance.PlayerSettings.UseParallelModLoading;
             private static bool UseParallelModLoadingRewrittenInner => throw s_notDone;
@@ -501,7 +501,7 @@ namespace KeepCoding
             {
                 References.Ktane => VRModeRequestedInner,
                 References.KtaneRewritten => VRModeRequestedRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static bool VRModeRequestedInner => KTPlayerSettingsManager.Instance.PlayerSettings.VRModeRequested;
             private static bool VRModeRequestedRewrittenInner => throw s_notDone;
@@ -516,7 +516,7 @@ namespace KeepCoding
             {
                 References.Ktane => AntiAliasingInner,
                 References.KtaneRewritten => AntiAliasingRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static int AntiAliasingInner => KTPlayerSettingsManager.Instance.PlayerSettings.AntiAliasing;
             private static int AntiAliasingRewrittenInner => throw s_notDone;
@@ -531,7 +531,7 @@ namespace KeepCoding
             {
                 References.Ktane => MusicVolumeInner,
                 References.KtaneRewritten => MusicVolumeRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static int MusicVolumeInner => KTPlayerSettingsManager.Instance.PlayerSettings.MusicVolume;
             private static int MusicVolumeRewrittenInner => throw s_notDone;
@@ -546,7 +546,7 @@ namespace KeepCoding
             {
                 References.Ktane => SFXVolumeInner,
                 References.KtaneRewritten => SFXVolumeRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static int SFXVolumeInner => KTPlayerSettingsManager.Instance.PlayerSettings.SFXVolume;
             private static int SFXVolumeRewrittenInner => throw s_notDone;
@@ -561,7 +561,7 @@ namespace KeepCoding
             {
                 References.Ktane => VSyncInner,
                 References.KtaneRewritten => VSyncRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static int VSyncInner => KTPlayerSettingsManager.Instance.PlayerSettings.VSync;
             private static int VSyncRewrittenInner => throw s_notDone;
@@ -576,7 +576,7 @@ namespace KeepCoding
             {
                 References.Ktane => LanguageCodeInner,
                 References.KtaneRewritten => LanguageCodeRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
             private static string LanguageCodeInner => KTPlayerSettingsManager.Instance.PlayerSettings.LanguageCode;
             private static string LanguageCodeRewrittenInner => throw s_notDone;
@@ -596,7 +596,7 @@ namespace KeepCoding
             {
                 References.Ktane => AddStrikesInner,
                 References.KtaneRewritten => AddStrikesRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
         private static Action<GameObject, int, bool> AddStrikesInner => (gameObject, amount, checkIfExploded) =>
         {
@@ -617,7 +617,7 @@ namespace KeepCoding
             {
                 References.Ktane => SetStrikesInner,
                 References.KtaneRewritten => SetStrikesRewrittenInner,
-                _ => throw s_value
+                _ => throw s_badValue
             };
         private static Action<GameObject, int, bool> SetStrikesInner => (gameObject, amount, checkIfExploded) =>
         {
@@ -645,7 +645,7 @@ namespace KeepCoding
         {
             References.Ktane => BombInner,
             References.KtaneRewritten => BombRewrittenInner,
-            _ => throw s_value
+            _ => throw s_badValue
         };
         private static Func<GameObject, object> BombInner => gameObject => gameObject.GetComponentInParent(typeof(Bomb));
         private static Func<GameObject, object> BombRewrittenInner => throw s_notDone;
@@ -660,7 +660,7 @@ namespace KeepCoding
         {
             References.Ktane => TimerInner,
             References.KtaneRewritten => TimerRewrittenInner,
-            _ => throw s_value
+            _ => throw s_badValue
         };
         private static Func<GameObject, object> TimerInner => gameObject => ((Bomb)Bomb(gameObject)).GetTimer();
         private static Func<GameObject, object> TimerRewrittenInner => throw s_notDone;
@@ -675,7 +675,7 @@ namespace KeepCoding
         {
             References.Ktane => VanillasInner,
             References.KtaneRewritten => VanillasRewrittenInner,
-            _ => throw s_value
+            _ => throw s_badValue
         };
         private static Func<KMBomb, object[]> VanillasInner => bomb => bomb.GetComponentsInChildren(typeof(BombComponent))
             .Where(c => !(c.GetComponent<KMBombModule>() || c.GetComponent<KMNeedyModule>()))
