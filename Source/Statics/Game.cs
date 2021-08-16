@@ -165,11 +165,11 @@ namespace KeepCoding
             /// Gets the group info of a given string. To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to AudioGroupInfo type to restore its functionality.
             /// </summary>
             /// <remarks>
-            /// Default: <see langword="null"/>.
+            /// Default: Returns the <see cref="string"/> argument given boxed as <see cref="object"/>.
             /// </remarks>
             public static Func<string, object> GroupInfo => Reference switch
             {
-                References.None => s => null,
+                References.None => s => s,
                 References.Ktane => GroupInfoInner,
                 References.KtaneRewritten => GroupInfoRewrittenInner,
                 _ => throw s_badValue
@@ -316,7 +316,7 @@ namespace KeepCoding
             /// Gets all of the disabled mod paths.
             /// </summary>
             /// <remarks>
-            /// New instance of <see cref="List{T}"/>, with no elements.
+            /// Default: New instance of <see cref="List{T}"/>, with no elements.
             /// </remarks>
             public static Func<List<string>> GetDisabledModPaths => Reference switch
             {
@@ -334,7 +334,7 @@ namespace KeepCoding
             /// Gets all of the mod paths within the <see cref="ModSourceEnum"/> constraint.
             /// </summary>
             /// <remarks>
-            /// New instance of <see cref="List{T}"/>, with no elements.
+            /// Default: New instance of <see cref="List{T}"/>, with no elements.
             /// </remarks>
             public static Func<ModSourceEnum, List<string>> GetAllModPathsFromSource => Reference switch
             {
@@ -352,7 +352,7 @@ namespace KeepCoding
             /// Gets all of the enabled mod paths within the <see cref="ModSourceEnum"/> constraint.
             /// </summary>
             /// <remarks>
-            /// New instance of <see cref="List{T}"/>, with no elements.
+            /// Default: New instance of <see cref="List{T}"/>, with no elements.
             /// </remarks>
             public static Func<ModSourceEnum, List<string>> GetEnabledModPaths => Reference switch
             {

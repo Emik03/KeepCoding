@@ -8,4 +8,4 @@ public static System.Func<string,object> GroupInfo { get; }
 #### Property Value
 [System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[,](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')[System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-2 'System.Func`2')
 ### Remarks
-Default: [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null').  
+Default: Returns the [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String') argument given boxed as [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object').  
