@@ -7,5 +7,8 @@ public static string ID { get; }
 ```
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+#### Exceptions
+[System.NotSupportedException](https://docs.microsoft.com/en-us/dotnet/api/System.NotSupportedException 'System.NotSupportedException')  
+[UnrecognizedValueException](UnrecognizedValueException.md 'KeepCoding.Internal.UnrecognizedValueException')  
 ### Remarks
 Default: "firsttime"  

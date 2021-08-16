@@ -8,4 +8,5 @@ public static KeepCoding.Game.References Reference { get; set; }
 #### Property Value
 [References](Game.References.md 'KeepCoding.Game.References')
 #### Exceptions
+[System.ArgumentException](https://docs.microsoft.com/en-us/dotnet/api/System.ArgumentException 'System.ArgumentException')  
 [System.Security.SecurityException](https://docs.microsoft.com/en-us/dotnet/api/System.Security.SecurityException 'System.Security.SecurityException')  
