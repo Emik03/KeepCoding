@@ -790,7 +790,7 @@ namespace KeepCoding
 
                 s_references = !isEditor && trustedSources.Contains(source.FullName)
                     ? Helper.GetValues<References>().Any(r => r == value)
-                    ? value.Call(r => Self($"Changing {nameof(Reference)} to be {value} from previous {Reference}"))
+                    ? value.Call(r => Self($"Changing {nameof(Reference)} to be \"{value}\" from previous \"{Reference}\"."))
                     : throw new ArgumentException($"The value \"{value}\" is not valid!")
                     : throw new SecurityException($"The library \"{source.GetName().Name}\" does not have permission to edit this value!");
             }
