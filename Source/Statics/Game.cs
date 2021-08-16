@@ -777,7 +777,7 @@ namespace KeepCoding
         /// <exception cref="SecurityException"></exception>
         public static References Reference
         {
-            get => isEditor ? References.None : s_references;
+            get => s_references;
             set
             {
                 Assembly source = new StackFrame(1).GetMethod().ReflectedType.Assembly;
@@ -788,7 +788,7 @@ namespace KeepCoding
                     "Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
                 };
 
-                s_references = trustedSources.Contains(source.FullName)
+                s_references = !isEditor && trustedSources.Contains(source.FullName)
                     ? Helper.GetValues<References>().Any(r => r == value)
                     ? value.Call(r => Self($"Changing {nameof(Reference)} to be {value} from previous {Reference}"))
                     : throw new ArgumentException($"The value \"{value}\" is not valid!")
@@ -796,6 +796,6 @@ namespace KeepCoding
             }
         }
 
-        private static References s_references = References.Ktane;
+        private static References s_references = isEditor ? References.None : References.Ktane;
     }
 }
