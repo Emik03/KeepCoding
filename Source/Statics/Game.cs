@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
+using System.Security;
 using UnityEngine;
 using static KeepCoding.ComponentPool;
 using static KeepCoding.Logger;
@@ -85,6 +88,30 @@ namespace KeepCoding
         }
 
         /// <summary>
+        /// Determines what references are used within this class.
+        /// </summary>
+        public enum References
+        {
+            /// <summary>
+            /// Implies that no reference should be used, and default values are returned.
+            /// </summary>
+            None,
+
+            /// <summary>
+            /// Implies that the Assembly-CSharp.dll from Keep Talking and Nobody Explodes be used, and its values are returned.
+            /// </summary>
+            Ktane,
+
+            /// <summary>
+            /// Implies that the library from TheDarkSid3r's Keep Talking and Nobody Explodes Rewritten be used, and its values are returned.
+            /// </summary>
+            /// <remarks>
+            /// As of right now, this value is unused as the library is yet to be finished. This value will become usable at a later date.
+            /// </remarks>
+            KtaneRewritten
+        }
+
+        /// <summary>
         /// Allows access relating to how the game is being interacted with.
         /// </summary>
         public static class KTInputManager
@@ -103,7 +130,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see cref="ControlType.Mouse"/>.
             /// </remarks>
-            public static ControlType CurrentControlType => isEditor ? ControlType.Mouse : CurrentControlTypeInner;
+            public static ControlType CurrentControlType => IsNoneReference ? ControlType.Mouse : CurrentControlTypeInner;
             private static ControlType CurrentControlTypeInner => (ControlType)global::KTInputManager.Instance.CurrentControlType;
         }
 
@@ -118,7 +145,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="true"/>.
             /// </remarks>
-            public static Predicate<string> IsGroupInfo => s => isEditor || GroupInfoInner(s) is { };
+            public static Predicate<string> IsGroupInfo => s => IsNoneReference || GroupInfoInner(s) is { };
 
             /// <summary>
             /// Gets the group info of a given string. To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to AudioGroupInfo type to restore its functionality.
@@ -126,7 +153,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="null"/>.
             /// </remarks>
-            public static Func<string, object> GroupInfo => isEditor ? s => null : GroupInfoInner;
+            public static Func<string, object> GroupInfo => IsNoneReference ? s => null : GroupInfoInner;
             private static Func<string, object> GroupInfoInner => KTMasterAudio.GetGroupInfo;
         }
 
@@ -141,7 +168,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool IsPacingEvents => !isEditor && IsPacingEventsInner;
+            public static bool IsPacingEvents => !IsNoneReference && IsPacingEventsInner;
             private static bool IsPacingEventsInner => KTSceneManager.Instance.GameplayState.Mission.PacingEventsEnabled;
 
             /// <summary>
@@ -150,7 +177,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: "Everybody has to start somewhere. Let's just hope it doesn't end here too.\n\nMake sure your experts have the manual and are ready to help.".
             /// </remarks>
-            public static string Description => isEditor
+            public static string Description => IsNoneReference
                 ? "Everybody has to start somewhere. Let's just hope it doesn't end here too.\n\nMake sure your experts have the manual and are ready to help."
                 : DescriptionInner;
             private static string DescriptionInner => GetLocalizedString(KTSceneManager.Instance.GameplayState.Mission.DescriptionTerm);
@@ -161,7 +188,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: "The First Bomb"
             /// </remarks>
-            public static string DisplayName => isEditor ? "The First Bomb" : DisplayNameInner;
+            public static string DisplayName => IsNoneReference ? "The First Bomb" : DisplayNameInner;
             private static string DisplayNameInner => GetLocalizedString(KTSceneManager.Instance.GameplayState.Mission.DisplayNameTerm);
 
             /// <summary>
@@ -170,7 +197,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: "firsttime"
             /// </remarks>
-            public static string ID => isEditor ? "firsttime" : IDInner;
+            public static string ID => IsNoneReference ? "firsttime" : IDInner;
             private static string IDInner => KTSceneManager.Instance.GameplayState.Mission.ID;
 
             /// <summary>
@@ -179,7 +206,7 @@ namespace KeepCoding
             /// <remarks>
             /// New instance of <see cref="GeneratorSetting"/>, default constructor.
             /// </remarks>
-            public static GeneratorSetting GeneratorSetting => isEditor ? new GeneratorSetting() : GeneratorSettingInner;
+            public static GeneratorSetting GeneratorSetting => IsNoneReference ? new GeneratorSetting() : GeneratorSettingInner;
             private static GeneratorSetting GeneratorSettingInner
             {
                 get
@@ -225,7 +252,7 @@ namespace KeepCoding
             /// <remarks>
             /// New instance of <see cref="List{T}"/>, with no elements.
             /// </remarks>
-            public static Func<List<string>> GetDisabledModPaths => isEditor ? () => new List<string>() : GetDisabledModPathsInner;
+            public static Func<List<string>> GetDisabledModPaths => IsNoneReference ? () => new List<string>() : GetDisabledModPathsInner;
             private static Func<List<string>> GetDisabledModPathsInner => KTModManager.Instance.GetDisabledModPaths;
 
             /// <summary>
@@ -234,7 +261,7 @@ namespace KeepCoding
             /// <remarks>
             /// New instance of <see cref="List{T}"/>, with no elements.
             /// </remarks>
-            public static Func<ModSourceEnum, List<string>> GetAllModPathsFromSource => isEditor ? source => new List<string>() : GetAllModPathsFromSourceInner;
+            public static Func<ModSourceEnum, List<string>> GetAllModPathsFromSource => IsNoneReference ? source => new List<string>() : GetAllModPathsFromSourceInner;
             private static Func<ModSourceEnum, List<string>> GetAllModPathsFromSourceInner => source => KTModManager.Instance.GetAllModPathsFromSource((KTModSourceEnum)source);
 
             /// <summary>
@@ -243,7 +270,7 @@ namespace KeepCoding
             /// <remarks>
             /// New instance of <see cref="List{T}"/>, with no elements.
             /// </remarks>
-            public static Func<ModSourceEnum, List<string>> GetEnabledModPaths => isEditor ? source => new List<string>() : GetEnabledModPathsInner;
+            public static Func<ModSourceEnum, List<string>> GetEnabledModPaths => IsNoneReference ? source => new List<string>() : GetEnabledModPathsInner;
             private static Func<ModSourceEnum, List<string>> GetEnabledModPathsInner => source => KTModManager.Instance.GetEnabledModPaths((KTModSourceEnum)source);
         }
 
@@ -258,7 +285,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool InvertTiltControls => !isEditor && InvertTiltControlsInner;
+            public static bool InvertTiltControls => !IsNoneReference && InvertTiltControlsInner;
             private static bool InvertTiltControlsInner => KTPlayerSettingsManager.Instance.PlayerSettings.InvertTiltControls;
 
             /// <summary>
@@ -267,7 +294,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool LockMouseToWindow => !isEditor && LockMouseToWindowInner;
+            public static bool LockMouseToWindow => !IsNoneReference && LockMouseToWindowInner;
             private static bool LockMouseToWindowInner => KTPlayerSettingsManager.Instance.PlayerSettings.LockMouseToWindow;
 
             /// <summary>
@@ -276,7 +303,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="true"/>.
             /// </remarks>
-            public static bool ShowLeaderBoards => isEditor || ShowLeaderBoardsInner;
+            public static bool ShowLeaderBoards => IsNoneReference || ShowLeaderBoardsInner;
             private static bool ShowLeaderBoardsInner => KTPlayerSettingsManager.Instance.PlayerSettings.ShowLeaderBoards;
 
             /// <summary>
@@ -285,7 +312,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="true"/>.
             /// </remarks>
-            public static bool ShowRotationUI => isEditor || ShowRotationUIInner;
+            public static bool ShowRotationUI => IsNoneReference || ShowRotationUIInner;
             private static bool ShowRotationUIInner => KTPlayerSettingsManager.Instance.PlayerSettings.ShowRotationUI;
 
             /// <summary>
@@ -294,7 +321,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="true"/>.
             /// </remarks>
-            public static bool ShowScanline => isEditor || ShowScanlineInner;
+            public static bool ShowScanline => IsNoneReference || ShowScanlineInner;
             private static bool ShowScanlineInner => KTPlayerSettingsManager.Instance.PlayerSettings.ShowScanline;
 
             /// <summary>
@@ -303,7 +330,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool SkipTitleScreen => !isEditor && SkipTitleScreenInner;
+            public static bool SkipTitleScreen => !IsNoneReference && SkipTitleScreenInner;
             private static bool SkipTitleScreenInner => KTPlayerSettingsManager.Instance.PlayerSettings.SkipTitleScreen;
 
             /// <summary>
@@ -312,7 +339,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="true"/>.
             /// </remarks>
-            public static bool RumbleEnabled => isEditor || RumbleEnabledInner;
+            public static bool RumbleEnabled => IsNoneReference || RumbleEnabledInner;
             private static bool RumbleEnabledInner => KTPlayerSettingsManager.Instance.PlayerSettings.RumbleEnabled;
 
             /// <summary>
@@ -321,7 +348,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool TouchpadInvert => !isEditor && TouchpadInvertInner;
+            public static bool TouchpadInvert => !IsNoneReference && TouchpadInvertInner;
             private static bool TouchpadInvertInner => KTPlayerSettingsManager.Instance.PlayerSettings.TouchpadInvert;
 
             /// <summary>
@@ -330,7 +357,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool UseModsAlways => !isEditor && UseModsAlwaysInner;
+            public static bool UseModsAlways => !IsNoneReference && UseModsAlwaysInner;
             private static bool UseModsAlwaysInner => KTPlayerSettingsManager.Instance.PlayerSettings.UseModsAlways;
 
             /// <summary>
@@ -339,13 +366,13 @@ namespace KeepCoding
             /// <remarks>
             /// Default: <see langword="false"/>.
             /// </remarks>
-            public static bool UseParallelModLoading => !isEditor && UseParallelModLoadingInner;
+            public static bool UseParallelModLoading => !IsNoneReference && UseParallelModLoadingInner;
             private static bool UseParallelModLoadingInner => KTPlayerSettingsManager.Instance.PlayerSettings.UseParallelModLoading;
 
             /// <summary>
             /// Determines if VR mode is requested.
             /// </summary>
-            public static bool VRModeRequested => isEditor || VRModeRequestedInner;
+            public static bool VRModeRequested => IsNoneReference || VRModeRequestedInner;
             private static bool VRModeRequestedInner => KTPlayerSettingsManager.Instance.PlayerSettings.VRModeRequested;
 
             /// <summary>
@@ -354,7 +381,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: 8.
             /// </remarks>
-            public static int AntiAliasing => isEditor ? 8 : AntiAliasingInner;
+            public static int AntiAliasing => IsNoneReference ? 8 : AntiAliasingInner;
             private static int AntiAliasingInner => KTPlayerSettingsManager.Instance.PlayerSettings.AntiAliasing;
 
             /// <summary>
@@ -363,7 +390,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: 100.
             /// </remarks>
-            public static int MusicVolume => isEditor ? 100 : MusicVolumeInner;
+            public static int MusicVolume => IsNoneReference ? 100 : MusicVolumeInner;
             private static int MusicVolumeInner => KTPlayerSettingsManager.Instance.PlayerSettings.MusicVolume;
 
             /// <summary>
@@ -372,7 +399,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: 100.
             /// </remarks>
-            public static int SFXVolume => isEditor ? 100 : SFXVolumeInner;
+            public static int SFXVolume => IsNoneReference ? 100 : SFXVolumeInner;
             private static int SFXVolumeInner => KTPlayerSettingsManager.Instance.PlayerSettings.SFXVolume;
 
             /// <summary>
@@ -381,7 +408,7 @@ namespace KeepCoding
             /// <remarks>
             /// Default: 1.
             /// </remarks>
-            public static int VSync => isEditor ? 1 : VSyncInner;
+            public static int VSync => IsNoneReference ? 1 : VSyncInner;
             private static int VSyncInner => KTPlayerSettingsManager.Instance.PlayerSettings.VSync;
 
             /// <summary>
@@ -390,9 +417,11 @@ namespace KeepCoding
             /// <remarks>
             /// Default: "en".
             /// </remarks>
-            public static string LanguageCode => isEditor ? "en" : LanguageCodeInner;
+            public static string LanguageCode => IsNoneReference ? "en" : LanguageCodeInner;
             private static string LanguageCodeInner => KTPlayerSettingsManager.Instance.PlayerSettings.LanguageCode;
         }
+
+        private static bool IsNoneReference => IsNoneReference || (Reference is References.None);
 
         /// <summary>
         /// Adds an amount of strikes on the bomb.
@@ -400,7 +429,7 @@ namespace KeepCoding
         /// <remarks>
         /// Default: Internal Logger method call.
         /// </remarks>
-        public static Action<GameObject, int, bool> AddStrikes => isEditor
+        public static Action<GameObject, int, bool> AddStrikes => IsNoneReference
             ? (gameObject, amount, checkIfExploded) => Self($"Adding the bomb's strike count with {amount}.")
             : AddStrikesInner;
         private static Action<GameObject, int, bool> AddStrikesInner => (gameObject, amount, checkIfExploded) =>
@@ -415,7 +444,7 @@ namespace KeepCoding
         /// <remarks>
         /// Default: Internal Logger method call.
         /// </remarks>
-        public static Action<GameObject, int, bool> SetStrikes => isEditor
+        public static Action<GameObject, int, bool> SetStrikes => IsNoneReference
             ? (gameObject, amount, checkIfExploded) => Self($"Setting the bomb's strike count to {amount}.")
             : SetStrikesInner;
         private static Action<GameObject, int, bool> SetStrikesInner => (gameObject, amount, checkIfExploded) =>
@@ -439,7 +468,7 @@ namespace KeepCoding
         /// <remarks>
         /// Default: <see langword="null"/>.
         /// </remarks>
-        public static Func<GameObject, object> Bomb => isEditor ? gameObject => null : BombInner;
+        public static Func<GameObject, object> Bomb => IsNoneReference ? gameObject => null : BombInner;
         private static Func<GameObject, object> BombInner => gameObject => gameObject.GetComponentInParent(typeof(Bomb));
 
         /// <summary>
@@ -448,7 +477,7 @@ namespace KeepCoding
         /// <remarks>
         /// Default: <see langword="null"/>.
         /// </remarks>
-        public static Func<GameObject, object> Timer => isEditor ? gameObject => null : TimerInner;
+        public static Func<GameObject, object> Timer => IsNoneReference ? gameObject => null : TimerInner;
         private static Func<GameObject, object> TimerInner => gameObject => ((Bomb)Bomb(gameObject)).GetTimer();
 
         /// <summary>
@@ -457,10 +486,34 @@ namespace KeepCoding
         /// <remarks>
         /// Default: An empty <see cref="object"/> <see cref="Array"/>.
         /// </remarks>
-        public static Func<KMBomb, object[]> Vanillas => isEditor ? gameObject => new object[0] : VanillasInner;
+        public static Func<KMBomb, object[]> Vanillas => IsNoneReference ? gameObject => new object[0] : VanillasInner;
         private static Func<KMBomb, object[]> VanillasInner => bomb => bomb.GetComponentsInChildren(typeof(BombComponent))
             .Where(c => !(c.GetComponent<KMBombModule>() || c.GetComponent<KMNeedyModule>()))
             .ToArray()
             .ConvertAll(c => (object)c);
+
+        /// <summary>
+        /// Determines what reference this library should use for the current class. You may only modify this value if 
+        /// </summary>
+        /// <exception cref="SecurityException"></exception>
+        public static References Reference
+        {
+            get => s_references;
+            set
+            {
+                Assembly source = new StackFrame(1).GetMethod().ReflectedType.Assembly;
+
+                string[] trustedSources = new[]
+                {
+                    Assembly.GetExecutingAssembly().FullName,
+                    "Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                };
+
+                s_references = trustedSources.Contains(source.FullName)
+                    ? value
+                    : throw new SecurityException($"The library \"{source.GetName().Name}\" does not have permission to edit this value!");
+            }
+        }
+        private static References s_references;
     }
 }
