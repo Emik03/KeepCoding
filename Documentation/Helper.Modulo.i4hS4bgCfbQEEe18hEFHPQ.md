@@ -17,3 +17,5 @@ The right-hand side operator.
 #### Returns
 [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')  
 [number](Helper.Modulo.i4hS4bgCfbQEEe18hEFHPQ.md#KeepCoding.Helper.Modulo(int.int).number 'KeepCoding.Helper.Modulo(int, int).number') mod [modulo](Helper.Modulo.i4hS4bgCfbQEEe18hEFHPQ.md#KeepCoding.Helper.Modulo(int.int).modulo 'KeepCoding.Helper.Modulo(int, int).modulo').
+#### Exceptions
+[System.ArgumentOutOfRangeException](https://docs.microsoft.com/en-us/dotnet/api/System.ArgumentOutOfRangeException 'System.ArgumentOutOfRangeException')  

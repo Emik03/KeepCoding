@@ -17,3 +17,5 @@ The right-hand side operator.
 #### Returns
 [System.Single](https://docs.microsoft.com/en-us/dotnet/api/System.Single 'System.Single')  
 [number](Helper.Modulo.7YVGsuI3GjjLRF0BYbxX8g.md#KeepCoding.Helper.Modulo(float.float).number 'KeepCoding.Helper.Modulo(float, float).number') mod [modulo](Helper.Modulo.7YVGsuI3GjjLRF0BYbxX8g.md#KeepCoding.Helper.Modulo(float.float).modulo 'KeepCoding.Helper.Modulo(float, float).modulo').
+#### Exceptions
+[System.ArgumentOutOfRangeException](https://docs.microsoft.com/en-us/dotnet/api/System.ArgumentOutOfRangeException 'System.ArgumentOutOfRangeException')  

@@ -338,10 +338,13 @@ namespace KeepCoding
         /// <summary>
         /// Calculates the rem-euclid modulo, which allows negative numbers to be properly calculated.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <param name="number">The left-hand side operator</param>
         /// <param name="modulo">The right-hand side operator.</param>
         /// <returns><paramref name="number"/> mod <paramref name="modulo"/>.</returns>
-        public static int Modulo(this int number, int modulo) => (number % modulo + modulo) % modulo;
+        public static int Modulo(this int number, int modulo) => modulo is 0
+                ? throw new ArgumentOutOfRangeException(nameof(modulo), $"({nameof(number)} mod 0) is undefined.")
+                : (number %= modulo) < 0 == modulo > 0 ? number + modulo : number;
 
         /// <summary>
         /// Sets or replaces the value of a dictionary with a given function.
@@ -436,10 +439,13 @@ namespace KeepCoding
         /// <summary>
         /// Calculates the rem-euclid modulo, which allows negative numbers to be properly calculated.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <param name="number">The left-hand side operator</param>
         /// <param name="modulo">The right-hand side operator.</param>
         /// <returns><paramref name="number"/> mod <paramref name="modulo"/>.</returns>
-        public static float Modulo(this float number, float modulo) => (number % modulo + modulo) % modulo;
+        public static float Modulo(this float number, float modulo) => modulo is 0
+                ? throw new ArgumentOutOfRangeException(nameof(modulo), $"({nameof(number)} mod 0) is undefined.")
+                : (number %= modulo) < 0 == modulo > 0 ? number + modulo : number;
 
         /// <summary>
         /// Generates a random set of floats.
