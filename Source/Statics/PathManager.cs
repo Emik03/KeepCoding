@@ -82,15 +82,13 @@ namespace KeepCoding
         /// <param name="assembly">The mod's assembly name.</param>
         public static void LoadLibrary(string name, string assembly)
         {
-            Self($"Preparing to copy library \"{name}\" which exists in \"{assembly}\".");
+            Self($"Preparing to copy library \"{name.NullOrEmptyCheck("You cannot load a library which has a null or empty name.")}\" which exists in \"{assembly.NullOrEmptyCheck("You cannot load a library which has a null or empty name.")}\".");
 
             if (isEditor)
             {
                 Self($"This method is being run on the Editor, therefore nothing will be done.");
                 return;
             }
-
-            name.NullOrEmptyCheck("You cannot load a library which has a null or empty name.");
 
             CopyLibrary(name, GetDirectory(assembly));
 
@@ -148,7 +146,7 @@ namespace KeepCoding
         /// <returns>The directory to <paramref name="assembly"/>.</returns>
         public static string GetDirectory(string assembly)
         {
-            if (s_modDirectories.TryGetValue(assembly, out string path))
+            if (s_modDirectories.TryGetValue(assembly.NullOrEmptyCheck("You cannot retrieve a path if the mod assembly is null or empty."), out string path))
                 return path;
 
             Self($"Searching for \"{assembly}\" within the mod dictionary...");
@@ -162,10 +160,18 @@ namespace KeepCoding
                 return path;
             }
 
-            assembly.NullOrEmptyCheck("You cannot retrieve a path if the mod assembly is null or empty.");
+            
 
             if (!s_modDirectories.ContainsKey(assembly))
+            {
                 CacheModDirectories(assembly);
+
+                if (!s_modDirectories.ContainsKey(assembly))
+                {
+                    Self($"The assembly {assembly} could not be found in the mod dictionary and will therefore return an empty string: {s_modDirectories.Stringify()}");
+                    return "";
+                }
+            }
 
             path = s_modDirectories[assembly];
 
@@ -355,9 +361,6 @@ namespace KeepCoding
             foreach (KeyValuePair<string, Mod> mod in (Dictionary<string, Mod>)typeof(ModManager).GetField("loadedMods", DeclaredOnly | Instance | NonPublic).GetValue(ModManager.Instance))
                 if (!s_modDirectories.ContainsKey(mod.Value.ModID))
                     s_modDirectories.Add(mod.Value.ModID, mod.Key);
-
-            if (!s_modDirectories.ContainsKey(modAssembly))
-                throw new KeyNotFoundException($"The mod assembly \"{modAssembly}\" could not be found in the dictionary! Contents: {s_modDirectories.Stringify()}");
         }
 
         private static void CopyLibrary(in string libraryFileName, in string path)
