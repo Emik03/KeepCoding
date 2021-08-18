@@ -182,10 +182,15 @@ namespace KeepCoding
         /// <remarks>
         /// You need to specify the extensions of the file too, otherwise the file cannot be found.
         /// </remarks>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="DirectoryNotFoundException"></exception>
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="IOException"></exception>
         /// <exception cref="KeyNotFoundException"></exception>
         /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="PathTooLongException"></exception>
+        /// <exception cref="UnauthorizedAccessException"></exception>
         /// <param name="file">The file to search for. Make sure to include extensions!</param>
         /// <returns>The path to <paramref name="file"/> within the mod caller directory.</returns>
         public static string GetPath(string file) => GetPath(file, Caller);
@@ -193,10 +198,15 @@ namespace KeepCoding
         /// <summary>
         /// Finds the path of a given file within a specified mod's assembly name.
         /// </summary>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="DirectoryNotFoundException"></exception>
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="IOException"></exception>
         /// <exception cref="KeyNotFoundException"></exception>
         /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="PathTooLongException"></exception>
+        /// <exception cref="UnauthorizedAccessException"></exception>
         /// <param name="file">The file to search for. Make sure to include extensions!</param>
         /// <param name="assembly">The mod assembly's name.</param>
         /// <returns>The path to <paramref name="file"/> within <paramref name="assembly"/>.</returns>
@@ -218,7 +228,7 @@ namespace KeepCoding
 
             file.NullOrEmptyCheck("You cannot retrieve a path if the file name is null or empty.");
 
-            path = Find(file, GetDirectory(assembly));
+            path = Directory.GetFiles(file, GetDirectory(assembly)).FirstOrDefault();
 
             Self($"The file {file} from {assembly} has been found. Location: {path}");
 
@@ -230,20 +240,30 @@ namespace KeepCoding
         /// <summary>
         /// Deserializes the modInfo.json of the mod caller.
         /// </summary>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="DirectoryNotFoundException"></exception>
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="IOException"></exception>
         /// <exception cref="KeyNotFoundException"></exception>
         /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="PathTooLongException"></exception>
+        /// <exception cref="UnauthorizedAccessException"></exception>
         /// <returns>A <see cref="ModInfo"/> from the mod caller's modInfo.json file.</returns>
         public static ModInfo GetModInfo() => GetModInfo(Caller);
 
         /// <summary>
         /// Deserializes the modInfo.json of a specified mod's assembly name.
         /// </summary>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="DirectoryNotFoundException"></exception>
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="IOException"></exception>
         /// <exception cref="KeyNotFoundException"></exception>
         /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="PathTooLongException"></exception>
+        /// <exception cref="UnauthorizedAccessException"></exception>
         /// <param name="assembly">The mod assembly's name.</param>
         /// <returns>A <see cref="ModInfo"/> from <paramref name="assembly"/>.</returns>
         public static ModInfo GetModInfo(string assembly)
@@ -298,10 +318,15 @@ namespace KeepCoding
         /// <summary>
         /// Retrieves assets of a specific type from a bundle file within the mod caller.
         /// </summary>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="DirectoryNotFoundException"></exception>
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="IOException"></exception>
         /// <exception cref="KeyNotFoundException"></exception>
         /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="PathTooLongException"></exception>
+        /// <exception cref="UnauthorizedAccessException"></exception>
         /// <typeparam name="T">The type of asset to retrieve.</typeparam>
         /// <param name="file">The name of the bundle file to grab the assets from.</param>
         /// <returns>The assets retrieved from the mod caller.</returns>
@@ -310,10 +335,15 @@ namespace KeepCoding
         /// <summary>
         /// Retrieves assets of a specific type from a bundle file within a specified mod's assembly name.
         /// </summary>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="DirectoryNotFoundException"></exception>
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="IOException"></exception>
         /// <exception cref="KeyNotFoundException"></exception>
         /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="PathTooLongException"></exception>
+        /// <exception cref="UnauthorizedAccessException"></exception>
         /// <typeparam name="T">The type of asset to retrieve.</typeparam>
         /// <param name="file">The name of the bundle file to grab the assets from.</param>
         /// <param name="assembly">The mod assembly's name.</param>
@@ -368,19 +398,6 @@ namespace KeepCoding
         }
 
         private static string FileFormat(in string fileName, in string fileExtension) => "{0}.{1}".Form(fileName, fileExtension);
-
-        private static string Find(in string find, in string directory)
-        {
-            try
-            {
-                return Directory.GetFiles(directory, find).FirstOrDefault();
-            }
-            catch (Exception ex) when (ex is ArgumentException || ex is ArgumentNullException || ex is DirectoryNotFoundException || ex is UnauthorizedAccessException)
-            {
-                Self($"The file \"{find}\" could not be accessed: {ex}");
-                return null;
-            }
-        }
 
         private static IEnumerator LoadAssets<TAsset>(string file, string assembly) where TAsset : Object
         {
