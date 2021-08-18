@@ -47,7 +47,8 @@ namespace KeepCoding
         /// <summary>
         /// Gets this library's <see cref="AssemblyName"/>.
         /// </summary>
-        public static AssemblyName AssemblyName => GetExecutingAssembly().GetName();
+        public static AssemblyName AssemblyName => s_assemblyName ??= GetExecutingAssembly().GetName();
+        private static AssemblyName s_assemblyName;
 
         /// <summary>
         /// Gets this library's version number. Currently used by <see cref="ModuleScript"/> to log the version number of this library.
