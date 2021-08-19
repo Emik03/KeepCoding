@@ -83,7 +83,7 @@ namespace KeepCoding
         /// <param name="assembly">The mod's assembly name.</param>
         public static void LoadLibrary(string name, string assembly)
         {
-            Self($"Preparing to copy library \"{name.NullOrEmptyCheck("You cannot load a library which has a null or empty name.")}\" which exists in \"{assembly.NullOrEmptyCheck("You cannot load a library which has a null or empty name.")}\".");
+            Self($"Preparing to copy library \"{name.NullOrEmptyCheck("You cannot load a library which has a null or empty name.")}\" which exists in \"{assembly.NullOrEmptyCheck("You cannot load a library which has a null or empty mod assembly.")}\".");
 
             if (isEditor)
             {
@@ -161,22 +161,12 @@ namespace KeepCoding
                 return path;
             }
 
-            
-
             if (!s_modDirectories.ContainsKey(assembly))
-            {
                 CacheModDirectories(assembly);
-
-                if (!s_modDirectories.ContainsKey(assembly))
-                {
-                    Self($"The assembly {assembly} could not be found in the mod dictionary and will therefore return an empty string: {s_modDirectories.Stringify()}");
-                    return "";
-                }
-            }
 
             path = s_modDirectories[assembly];
 
-            Self($"The directory {assembly} has been found. Location: {path}!");
+            Self($"The directory {assembly} has been found. Location: {path}");
 
             s_filePaths.Add(assembly, path);
 
@@ -219,7 +209,7 @@ namespace KeepCoding
         /// <returns>The path to <paramref name="file"/> within <paramref name="assembly"/>.</returns>
         public static string GetPath(string file, string assembly)
         {
-            string key = $"{assembly}_{file}";
+            string key = $"{assembly.NullOrEmptyCheck("You cannot retrieve a path if the mod assembly is null or empty.")}_{file.NullOrEmptyCheck("You cannot retrieve a path if the file name is null or empty.")}";
 
             if (s_filePaths.TryGetValue(key, out string path))
                 return path;
@@ -232,8 +222,6 @@ namespace KeepCoding
 
                 return path;
             }
-
-            file.NullOrEmptyCheck("You cannot retrieve a path if the file name is null or empty.");
 
             path = Directory.GetFiles(file, GetDirectory(assembly)).FirstOrDefault();
 
@@ -275,7 +263,7 @@ namespace KeepCoding
         /// <returns>A <see cref="ModInfo"/> from <paramref name="assembly"/>.</returns>
         public static ModInfo GetModInfo(string assembly)
         {
-            if (s_modInfos.TryGetValue(assembly, out ModInfo info))
+            if (s_modInfos.TryGetValue(assembly.NullOrEmptyCheck($"You cannot retrieve a mod's {nameof(ModInfo)} if the bundle file name is null or empty."), out ModInfo info))
                 return info;
 
             Self($"Retrieving the {nameof(ModInfo)} data from \"{assembly}\"...");
@@ -288,8 +276,6 @@ namespace KeepCoding
 
                 return info;
             }
-
-            assembly.NullOrEmptyCheck($"You cannot retrieve a mod's {nameof(ModInfo)} if the bundle file name is null or empty.");
 
             string file = GetPath("modInfo.json", assembly);
 
@@ -362,6 +348,9 @@ namespace KeepCoding
             foreach (KeyValuePair<string, Mod> mod in (Dictionary<string, Mod>)typeof(ModManager).GetField("loadedMods", DeclaredOnly | Instance | NonPublic).GetValue(ModManager.Instance))
                 if (!s_modDirectories.ContainsKey(mod.Value.ModID))
                     s_modDirectories.Add(mod.Value.ModID, mod.Key);
+
+            if (!s_modDirectories.ContainsKey(modAssembly))
+                throw new KeyNotFoundException($"The mod assembly \"{modAssembly}\" could not be found in the dictionary! Contents: {s_modDirectories.Stringify()}");
         }
 
         private static void CopyLibrary(in string libraryFileName, in string path)
