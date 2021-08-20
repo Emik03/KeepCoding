@@ -5,6 +5,7 @@ using System.Security;
 using KeepCoding.Internal;
 using Newtonsoft.Json;
 using static System.IO.File;
+using static KeepCoding.PathManager;
 using static Newtonsoft.Json.JsonConvert;
 
 namespace KeepCoding
@@ -85,20 +86,11 @@ namespace KeepCoding
         /// <summary>
         /// Deserializes a modInfo.json file.
         /// </summary>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="DirectoryNotFoundException"></exception>
-        /// <exception cref="FileNotFoundException"></exception>
-        /// <exception cref="IOException"></exception>
-        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="JsonException"></exception>
         /// <exception cref="NullIteratorException"></exception>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <exception cref="PathTooLongException"></exception>
-        /// <exception cref="SecurityException"></exception>
-        /// <exception cref="UnauthorizedAccessException"></exception>
         /// <param name="path">The path of the file to deserialize.</param>
         /// <param name="settings">The settings for the serialization.</param>
         /// <returns><paramref name="path"/> deserialized as <see cref="ModInfo"/>.</returns>
-        public static ModInfo Deserialize(string path, JsonSerializerSettings settings = null) => DeserializeObject<ModInfo>(ReadAllText(path.NullCheck("A \"null\" path cannot be searched.")), settings);
+        public static ModInfo Deserialize(string path, JsonSerializerSettings settings = null) => SuppressIO(() => DeserializeObject<ModInfo>(ReadAllText(path.NullCheck("A \"null\" path cannot be searched.")), settings), new ModInfo());
     }
 }
