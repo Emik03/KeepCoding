@@ -84,7 +84,7 @@ namespace KeepCoding
         public override string ToString() => Values.Stringify();
 
         /// <summary>
-        /// Deserializes a modInfo.json file.
+        /// Deserializes a modInfo.json file. An <see cref="IOException"/> will make it return a new <see cref="ColorblindInfo"/> instance with no arguments.
         /// </summary>
         /// <exception cref="JsonException"></exception>
         /// <exception cref="NullIteratorException"></exception>

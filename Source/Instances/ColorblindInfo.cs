@@ -107,7 +107,7 @@ namespace KeepCoding
         public override string ToString() => Modules.Stringify();
 
         /// <summary>
-        /// Deserializes a ColorblindMode.json file.
+        /// Deserializes a ColorblindMode.json file. An <see cref="IOException"/> will make it return a new <see cref="ColorblindInfo"/> instance with no arguments.
         /// </summary>
         /// <exception cref="JsonException"></exception>
         /// <exception cref="NullIteratorException"></exception>

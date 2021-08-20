@@ -28,7 +28,7 @@ namespace KeepCoding
     extern alias core;
 
     /// <summary>
-    /// Allows loading external information stored on the module. 
+    /// Allows loading external information stored on the module. Default values are returned either when run on the editor or when an <see cref="IOException"/> and similar occur. The default values are specified in the remarks of each method.
     /// </summary>
     public static class PathManager
     {
@@ -125,6 +125,9 @@ namespace KeepCoding
         /// <summary>
         /// Finds the directory of the mod caller.
         /// </summary>
+        /// <remarks>
+        /// Default: An empty <see cref="string"/>.
+        /// </remarks>
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="NullIteratorException"></exception>
         /// <returns>The directory to the mod caller.</returns>
@@ -133,6 +136,9 @@ namespace KeepCoding
         /// <summary>
         /// Finds the directory of the specified mod's assembly name.
         /// </summary>
+        /// <remarks>
+        /// Default: An empty <see cref="string"/>.
+        /// </remarks>
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="NullIteratorException"></exception>
         /// <param name="assembly">The mod assembly's name.</param>
@@ -174,10 +180,10 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// Finds the path of a given file within the mod caller.
+        /// Finds the path of a given file within the mod caller. You need to specify the extensions of the file too, otherwise the file cannot be found.
         /// </summary>
         /// <remarks>
-        /// You need to specify the extensions of the file too, otherwise the file cannot be found.
+        /// Default: An empty <see cref="string"/>.
         /// </remarks>
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="NullIteratorException"></exception>
@@ -186,8 +192,11 @@ namespace KeepCoding
         public static string GetPath(string file) => GetPath(file, Caller);
 
         /// <summary>
-        /// Finds the path of a given file within a specified mod's assembly name.
+        /// Finds the path of a given file within a specified mod's assembly name. You need to specify the extensions of the file too, otherwise the file cannot be found.
         /// </summary>
+        /// <remarks>
+        /// Default: An empty <see cref="string"/>.
+        /// </remarks>
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="NullIteratorException"></exception>
         /// <param name="file">The file to search for. Make sure to include extensions!</param>
@@ -221,6 +230,9 @@ namespace KeepCoding
         /// <summary>
         /// Deserializes the modInfo.json of the mod caller.
         /// </summary>
+        /// <remarks>
+        /// Default: A new instance of <see cref="ModInfo"/> with <see keyword="default"/> values.
+        /// </remarks>
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="JsonException"></exception>
         /// <exception cref="NullIteratorException"></exception>
@@ -230,6 +242,9 @@ namespace KeepCoding
         /// <summary>
         /// Deserializes the modInfo.json of a specified mod's assembly name.
         /// </summary>
+        /// <remarks>
+        /// Default: A new instance of <see cref="ModInfo"/> with <see keyword="default"/> values.
+        /// </remarks>
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="JsonException"></exception>
         /// <exception cref="NullIteratorException"></exception>
