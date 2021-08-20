@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using KeepCoding.Internal;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
 using static System.IntPtr;
@@ -42,8 +43,6 @@ namespace KeepCoding
 
         private static readonly Dictionary<string, ModInfo> s_modInfos = new Dictionary<string, ModInfo>();
 
-        private static readonly PlatformNotSupportedException s_intPtrException = new PlatformNotSupportedException("IntPtr size is not 4 or 8, what kind of system is this?");
-
         /// <summary>
         /// Gets this library's <see cref="AssemblyName"/>.
         /// </summary>
@@ -66,8 +65,6 @@ namespace KeepCoding
         /// Loads a library from the directory of the mod caller.
         /// </summary>
         /// <exception cref="EmptyIteratorException"></exception>
-        /// <exception cref="FileNotFoundException"></exception>
-        /// <exception cref="KeyNotFoundException"></exception>
         /// <exception cref="NullIteratorException"></exception>
         /// <param name="name">The library's name, excluding the extension.</param>
         public static void LoadLibrary(string name) => LoadLibrary(name, Caller);
@@ -76,8 +73,6 @@ namespace KeepCoding
         /// Loads a library from the directory of the specified mod's assembly name.
         /// </summary>
         /// <exception cref="EmptyIteratorException"></exception>
-        /// <exception cref="FileNotFoundException"></exception>
-        /// <exception cref="KeyNotFoundException"></exception>
         /// <exception cref="NullIteratorException"></exception>
         /// <param name="name">The library's name, excluding the extension.</param>
         /// <param name="assembly">The mod's assembly name.</param>
@@ -91,7 +86,7 @@ namespace KeepCoding
                 return;
             }
 
-            CopyLibrary(name, GetDirectory(assembly));
+            SuppressIO(() => CopyLibrary(name, GetDirectory(assembly)));
 
             Self($"The library has been copied over. They are now ready to be referenced.");
         }
@@ -105,6 +100,7 @@ namespace KeepCoding
         /// <summary>
         /// Prints the hierarchy from the game object specified.
         /// </summary>
+        /// <exception cref="MissingComponentException"></exception>
         /// <param name="obj">The game object to search the hierarchy.</param>
         /// <param name="indent">The amount of spaces used for indenting children of game objects.</param>
         /// <param name="depth">The level of depth which determines level of indentation. Leave this variable as 0.</param>
@@ -112,7 +108,7 @@ namespace KeepCoding
         {
             string space = new string(Repeat(' ', indent * depth).ToArray());
 
-            Log($"{space}{obj.name}");
+            Log($"{space}{obj.Assert("The game object cannot be null.").name}");
             LogWarning($"{space}{obj.GetComponents<Component>().Stringify()}");
 
             foreach (Transform child in obj.transform)
@@ -130,8 +126,6 @@ namespace KeepCoding
         /// Finds the directory of the mod caller.
         /// </summary>
         /// <exception cref="EmptyIteratorException"></exception>
-        /// <exception cref="FileNotFoundException"></exception>
-        /// <exception cref="KeyNotFoundException"></exception>
         /// <exception cref="NullIteratorException"></exception>
         /// <returns>The directory to the mod caller.</returns>
         public static string GetDirectory() => GetDirectory(Caller);
@@ -140,8 +134,6 @@ namespace KeepCoding
         /// Finds the directory of the specified mod's assembly name.
         /// </summary>
         /// <exception cref="EmptyIteratorException"></exception>
-        /// <exception cref="FileNotFoundException"></exception>
-        /// <exception cref="KeyNotFoundException"></exception>
         /// <exception cref="NullIteratorException"></exception>
         /// <param name="assembly">The mod assembly's name.</param>
         /// <returns>The directory to <paramref name="assembly"/>.</returns>
@@ -162,7 +154,15 @@ namespace KeepCoding
             }
 
             if (!s_modDirectories.ContainsKey(assembly))
-                CacheModDirectories(assembly);
+            {
+                CacheModDirectories();
+
+                if (!s_modDirectories.ContainsKey(assembly))
+                {
+                    Self($"Unable to index \"{assembly}\" into {nameof(s_modDirectories)}, contents: {s_modDirectories.Stringify()}");
+                    return "";
+                }
+            }
 
             path = s_modDirectories[assembly];
 
@@ -179,15 +179,8 @@ namespace KeepCoding
         /// <remarks>
         /// You need to specify the extensions of the file too, otherwise the file cannot be found.
         /// </remarks>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="DirectoryNotFoundException"></exception>
         /// <exception cref="EmptyIteratorException"></exception>
-        /// <exception cref="FileNotFoundException"></exception>
-        /// <exception cref="IOException"></exception>
-        /// <exception cref="KeyNotFoundException"></exception>
         /// <exception cref="NullIteratorException"></exception>
-        /// <exception cref="PathTooLongException"></exception>
-        /// <exception cref="UnauthorizedAccessException"></exception>
         /// <param name="file">The file to search for. Make sure to include extensions!</param>
         /// <returns>The path to <paramref name="file"/> within the mod caller directory.</returns>
         public static string GetPath(string file) => GetPath(file, Caller);
@@ -195,15 +188,8 @@ namespace KeepCoding
         /// <summary>
         /// Finds the path of a given file within a specified mod's assembly name.
         /// </summary>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="DirectoryNotFoundException"></exception>
         /// <exception cref="EmptyIteratorException"></exception>
-        /// <exception cref="FileNotFoundException"></exception>
-        /// <exception cref="IOException"></exception>
-        /// <exception cref="KeyNotFoundException"></exception>
         /// <exception cref="NullIteratorException"></exception>
-        /// <exception cref="PathTooLongException"></exception>
-        /// <exception cref="UnauthorizedAccessException"></exception>
         /// <param name="file">The file to search for. Make sure to include extensions!</param>
         /// <param name="assembly">The mod assembly's name.</param>
         /// <returns>The path to <paramref name="file"/> within <paramref name="assembly"/>.</returns>
@@ -223,7 +209,7 @@ namespace KeepCoding
                 return path;
             }
 
-            path = Directory.GetFiles(file, GetDirectory(assembly)).FirstOrDefault();
+            path = SuppressIO(() => Directory.GetFiles(file, GetDirectory(assembly)).FirstOrDefault());
 
             Self($"The file {file} from {assembly} has been found. Location: {path}");
 
@@ -235,30 +221,18 @@ namespace KeepCoding
         /// <summary>
         /// Deserializes the modInfo.json of the mod caller.
         /// </summary>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="DirectoryNotFoundException"></exception>
         /// <exception cref="EmptyIteratorException"></exception>
-        /// <exception cref="FileNotFoundException"></exception>
-        /// <exception cref="IOException"></exception>
-        /// <exception cref="KeyNotFoundException"></exception>
+        /// <exception cref="JsonException"></exception>
         /// <exception cref="NullIteratorException"></exception>
-        /// <exception cref="PathTooLongException"></exception>
-        /// <exception cref="UnauthorizedAccessException"></exception>
         /// <returns>A <see cref="ModInfo"/> from the mod caller's modInfo.json file.</returns>
         public static ModInfo GetModInfo() => GetModInfo(Caller);
 
         /// <summary>
         /// Deserializes the modInfo.json of a specified mod's assembly name.
         /// </summary>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="DirectoryNotFoundException"></exception>
         /// <exception cref="EmptyIteratorException"></exception>
-        /// <exception cref="FileNotFoundException"></exception>
-        /// <exception cref="IOException"></exception>
-        /// <exception cref="KeyNotFoundException"></exception>
+        /// <exception cref="JsonException"></exception>
         /// <exception cref="NullIteratorException"></exception>
-        /// <exception cref="PathTooLongException"></exception>
-        /// <exception cref="UnauthorizedAccessException"></exception>
         /// <param name="assembly">The mod assembly's name.</param>
         /// <returns>A <see cref="ModInfo"/> from <paramref name="assembly"/>.</returns>
         public static ModInfo GetModInfo(string assembly)
@@ -280,7 +254,10 @@ namespace KeepCoding
             string file = GetPath("modInfo.json", assembly);
 
             if (!File.Exists(file))
-                throw new FileNotFoundException($"The mod bundle was found in \"{assembly}\", but no mod info was found! (Expected to find \"{file}\")");
+            {
+                Self($"The path finder located a file that does not exist, therefore a new instance of {nameof(ModInfo)} will be returned.");
+                return new ModInfo();
+            }
 
             Self($"Deserializing \"{file}\"...");
 
@@ -311,15 +288,9 @@ namespace KeepCoding
         /// <summary>
         /// Retrieves assets of a specific type from a bundle file within the mod caller.
         /// </summary>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="DirectoryNotFoundException"></exception>
         /// <exception cref="EmptyIteratorException"></exception>
-        /// <exception cref="FileNotFoundException"></exception>
-        /// <exception cref="IOException"></exception>
-        /// <exception cref="KeyNotFoundException"></exception>
         /// <exception cref="NullIteratorException"></exception>
-        /// <exception cref="PathTooLongException"></exception>
-        /// <exception cref="UnauthorizedAccessException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T">The type of asset to retrieve.</typeparam>
         /// <param name="file">The name of the bundle file to grab the assets from.</param>
         /// <returns>The assets retrieved from the mod caller.</returns>
@@ -328,44 +299,49 @@ namespace KeepCoding
         /// <summary>
         /// Retrieves assets of a specific type from a bundle file within a specified mod's assembly name.
         /// </summary>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="DirectoryNotFoundException"></exception>
         /// <exception cref="EmptyIteratorException"></exception>
-        /// <exception cref="FileNotFoundException"></exception>
-        /// <exception cref="IOException"></exception>
-        /// <exception cref="KeyNotFoundException"></exception>
         /// <exception cref="NullIteratorException"></exception>
-        /// <exception cref="PathTooLongException"></exception>
-        /// <exception cref="UnauthorizedAccessException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T">The type of asset to retrieve.</typeparam>
         /// <param name="file">The name of the bundle file to grab the assets from.</param>
         /// <param name="assembly">The mod assembly's name.</param>
         /// <returns>The assets retrieved from <paramref name="assembly"/>.</returns>
-        public static T[] GetAssets<T>(string file, string assembly) where T : Object => (T[])LoadAssets<T>(file, assembly).AsEnumerable().OfType<object>().Last();
+        public static T[] GetAssets<T>(string file, string assembly) where T : Object => LoadAssets<T>(file, assembly).AsEnumerable().OfType<T[]>().First();
 
-        private static void CacheModDirectories(in string modAssembly)
+        internal static void SuppressIO(Action func, Action<Exception> caught = null) => func.Catch<IOException, NotSupportedException, UnauthorizedAccessException>(e =>
+        {
+            Self($"Caught error of type {e.GetType()}: {e}");
+            caught?.Invoke(e);
+        });
+
+        internal static T SuppressIO<T>(Func<T> func, T caught = default) => func.Catch<IOException, NotSupportedException, UnauthorizedAccessException, T>(e =>
+        {
+            Self($"Caught error of type {e.GetType()}, returning new instance of {typeof(T).Name}: {e}");
+            return caught;
+        })();
+
+        private static void CacheModDirectories()
         {
             foreach (KeyValuePair<string, Mod> mod in (Dictionary<string, Mod>)typeof(ModManager).GetField("loadedMods", DeclaredOnly | Instance | NonPublic).GetValue(ModManager.Instance))
                 if (!s_modDirectories.ContainsKey(mod.Value.ModID))
                     s_modDirectories.Add(mod.Value.ModID, mod.Key);
-
-            if (!s_modDirectories.ContainsKey(modAssembly))
-                throw new KeyNotFoundException($"The mod assembly \"{modAssembly}\" could not be found in the dictionary! Contents: {s_modDirectories.Stringify()}");
         }
 
         private static void CopyLibrary(in string libraryFileName, in string path)
         {
             const string Target = "dlls";
 
+            string architecture = Size switch
+            {
+                4 => "x86",
+                8 => "x86_64",
+                _ => throw new PlatformNotSupportedException($"{nameof(IntPtr)}'s {nameof(Size)} is not 4 or 8. Only 32-bit and 64-bit devices are supported.")
+            };
+
             switch (platform)
             {
                 case WindowsPlayer:
-                    File.Copy(path + Size switch
-                    {
-                        4 => @$"\{Target}\x86\",
-                        8 => @$"\{Target}\x86_64\",
-                        _ => throw s_intPtrException
-                    } + FileFormat(libraryFileName, FileExtensionWindows), dataPath + @"\Mono\" + FileFormat(libraryFileName, FileExtensionWindows), true);
+                    File.Copy(@$"{path}\{Target}\{architecture}\{FileFormat(libraryFileName, FileExtensionWindows)}", @$"{dataPath}\Mono\{FileFormat(libraryFileName, FileExtensionWindows)}", true);
                     break;
 
                 case OSXPlayer:
@@ -378,19 +354,14 @@ namespace KeepCoding
                     break;
 
                 case LinuxPlayer:
-                    File.Copy(CombineMultiple(path, Target, FileFormat(libraryFileName, FileExtensionLinux)), CombineMultiple(dataPath, "Mono", Size switch
-                    {
-                        4 => "x86",
-                        8 => "x86_64",
-                        _ => throw s_intPtrException
-                    }, FileFormat(libraryFileName, FileExtensionLinux)), true);
+                    File.Copy(CombineMultiple(path, Target, FileFormat(libraryFileName, FileExtensionLinux)), CombineMultiple(dataPath, "Mono", architecture, FileFormat(libraryFileName, FileExtensionLinux)), true);
                     break;
 
                 default: throw new PlatformNotSupportedException($"The platform \"{platform}\" is unsupported. The operating systems supported are Windows, Mac, and Linux.");
             }
         }
 
-        private static string FileFormat(in string fileName, in string fileExtension) => "{0}.{1}".Form(fileName, fileExtension);
+        private static string FileFormat(in string fileName, in string fileExtension) => $"{fileName}.{fileExtension}";
 
         private static IEnumerator LoadAssets<TAsset>(string file, string assembly) where TAsset : Object
         {
@@ -407,7 +378,7 @@ namespace KeepCoding
 
             AssetBundle mainBundle = request.assetBundle.NullCheck("The bundle was null.");
 
-            IEnumerable<TAsset> assets = mainBundle.LoadAllAssets<TAsset>().OrderBy(o => o.name).ToArray().NullOrEmptyCheck($"There are no assets of type \"{typeof(TAsset).Name}\".");
+            IEnumerable<TAsset> assets = mainBundle.LoadAllAssets<TAsset>().OrderBy(o => o.name).NullOrEmptyCheck($"There are no assets of type \"{typeof(TAsset).Name}\".");
 
             Self($"{assets.Count()} assets of type \"{typeof(TAsset).Name}\" have been loaded into memory!");
 
