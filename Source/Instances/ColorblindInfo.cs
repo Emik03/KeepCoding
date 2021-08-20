@@ -33,17 +33,13 @@ namespace KeepCoding
                 return;
             }
 
-            try
+            SuppressIO(() =>
             {
                 ColorblindInfo info = Deserialize(File);
 
                 IsEnabled = info.IsEnabled;
                 Modules = info.Modules;
-            }
-            catch (Exception e) when (e is ArgumentException || e is ArgumentNullException || e is DirectoryNotFoundException || e is FileNotFoundException || e is IOException || e is NotSupportedException || e is NullIteratorException || e is NullReferenceException || e is PathTooLongException || e is SecurityException || e is UnauthorizedAccessException)
-            {
-                Error(moduleId, e);
-            }
+            }, e => Error(moduleId, e));
 
             if (!Modules.TryGetValue(moduleId, out bool? isEnabled))
                 Modules[moduleId] = null;
@@ -113,34 +109,15 @@ namespace KeepCoding
         /// <summary>
         /// Deserializes a ColorblindMode.json file.
         /// </summary>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="DirectoryNotFoundException"></exception>
-        /// <exception cref="FileNotFoundException"></exception>
-        /// <exception cref="IOException"></exception>
-        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="JsonException"></exception>
         /// <exception cref="NullIteratorException"></exception>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <exception cref="PathTooLongException"></exception>
-        /// <exception cref="SecurityException"></exception>
-        /// <exception cref="UnauthorizedAccessException"></exception>
         /// <param name="path">The path of the file to deserialize.</param>
         /// <param name="settings">The settings for the serialization.</param>
         /// <returns><paramref name="path"/> deserialized as <see cref="ColorblindInfo"/>.</returns>
-        public static ColorblindInfo Deserialize(string path, JsonSerializerSettings settings = null) => DeserializeObject<ColorblindInfo>(ReadAllText(path.NullCheck("A \"null\" path cannot be searched.")), settings);
+        public static ColorblindInfo Deserialize(string path, JsonSerializerSettings settings = null) => SuppressIO(() => DeserializeObject<ColorblindInfo>(ReadAllText(path.NullCheck("A \"null\" path cannot be searched.")), settings), new ColorblindInfo());
 
         private static void Error(string moduleId, Exception e) => new Logger("Colorblind Mode", false).Log(@$"Error in ""{moduleId ?? Helper.Null}"": {e.Message} ({e.GetType().FullName}){e.StackTrace}");
 
-        private void Write(string moduleId)
-        {
-            try
-            {
-                WriteAllText(File, SerializeObject(this, Indented));
-            }
-            catch (Exception e) when (e is ArgumentException || e is ArgumentNullException || e is DirectoryNotFoundException || e is IOException || e is NotSupportedException || e is PathTooLongException || e is SecurityException || e is UnauthorizedAccessException)
-            {
-                Error(moduleId, e);
-            }
-        }
+        private void Write(string moduleId) => SuppressIO(() => WriteAllText(File, SerializeObject(this, Indented)), e => Error(moduleId, e));
     }
 }
