@@ -150,14 +150,14 @@ namespace KeepCoding
         /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T">The type to catch.</typeparam>
         /// <typeparam name="TResult">The return type.</typeparam>
-        /// <param name="action">The action to try.</param>
+        /// <param name="func">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
-        /// <returns><paramref name="action"/> with <paramref name="caught"/> if <typeparamref name="T"/> is caught.</returns>
-        public static Func<TResult> Catch<T, TResult>(this Func<TResult> action, Func<T, TResult> caught) where T : Exception => () =>
+        /// <returns><paramref name="func"/> with <paramref name="caught"/> if <typeparamref name="T"/> is caught.</returns>
+        public static Func<TResult> Catch<T, TResult>(this Func<TResult> func, Func<T, TResult> caught) where T : Exception => () =>
         {
             try
             {
-                return action.NullCheck("The action cannot be null.")();
+                return func.NullCheck("The action cannot be null.")();
             }
             catch (T e)
             {
@@ -175,14 +175,14 @@ namespace KeepCoding
         /// <typeparam name="T1">The first type to catch.</typeparam>
         /// <typeparam name="T2">The second type to catch.</typeparam>
         /// <typeparam name="TResult">The return type.</typeparam>
-        /// <param name="action">The action to try.</param>
+        /// <param name="func">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
-        /// <returns><paramref name="action"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
-        public static Func<TResult> Catch<T1, T2, TResult>(this Func<TResult> action, Func<Exception, TResult> caught) where T1 : Exception where T2 : Exception => () =>
+        /// <returns><paramref name="func"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
+        public static Func<TResult> Catch<T1, T2, TResult>(this Func<TResult> func, Func<Exception, TResult> caught) where T1 : Exception where T2 : Exception => () =>
         {
             try
             {
-                return action.NullCheck("The action cannot be null.")();
+                return func.NullCheck("The action cannot be null.")();
             }
             catch (Exception e) when (e is T1 || e is T2)
             {
@@ -201,14 +201,14 @@ namespace KeepCoding
         /// <typeparam name="T2">The second type to catch.</typeparam>
         /// <typeparam name="T3">The third type to catch.</typeparam>
         /// <typeparam name="TResult">The return type.</typeparam>
-        /// <param name="action">The action to try.</param>
+        /// <param name="func">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
-        /// <returns><paramref name="action"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
-        public static Func<TResult> Catch<T1, T2, T3, TResult>(this Func<TResult> action, Func<Exception, TResult> caught) where T1 : Exception where T2 : Exception where T3 : Exception => () =>
+        /// <returns><paramref name="func"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
+        public static Func<TResult> Catch<T1, T2, T3, TResult>(this Func<TResult> func, Func<Exception, TResult> caught) where T1 : Exception where T2 : Exception where T3 : Exception => () =>
         {
             try
             {
-                return action.NullCheck("The action cannot be null.")();
+                return func.NullCheck("The action cannot be null.")();
             }
             catch (Exception e) when (e is T1 || e is T2 || e is T3)
             {
@@ -228,14 +228,14 @@ namespace KeepCoding
         /// <typeparam name="T3">The third type to catch.</typeparam>
         /// <typeparam name="T4">The fourth type to catch.</typeparam>
         /// <typeparam name="TResult">The return type.</typeparam>
-        /// <param name="action">The action to try.</param>
+        /// <param name="func">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
-        /// <returns><paramref name="action"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
-        public static Func<TResult> Catch<T1, T2, T3, T4, TResult>(this Func<TResult> action, Func<Exception, TResult> caught) where T1 : Exception where T2 : Exception where T3 : Exception where T4 : Exception => () =>
+        /// <returns><paramref name="func"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
+        public static Func<TResult> Catch<T1, T2, T3, T4, TResult>(this Func<TResult> func, Func<Exception, TResult> caught) where T1 : Exception where T2 : Exception where T3 : Exception where T4 : Exception => () =>
         {
             try
             {
-                return action.NullCheck("The action cannot be null.")();
+                return func.NullCheck("The action cannot be null.")();
             }
             catch (Exception e) when (e is T1 || e is T2 || e is T3 || e is T4)
             {
