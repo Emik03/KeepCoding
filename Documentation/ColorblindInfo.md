@@ -21,7 +21,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Methods | |
 | :--- | :--- |
-| [Deserialize(string, JsonSerializerSettings)](ColorblindInfo.Deserialize.+QhNzkebVf+Ed0xzieVMkQ.md 'KeepCoding.ColorblindInfo.Deserialize(string, JsonSerializerSettings)') | Deserializes a ColorblindMode.json file.<br/> |
+| [Deserialize(string, JsonSerializerSettings)](ColorblindInfo.Deserialize.+QhNzkebVf+Ed0xzieVMkQ.md 'KeepCoding.ColorblindInfo.Deserialize(string, JsonSerializerSettings)') | Deserializes a ColorblindMode.json file. An [System.IO.IOException](https://docs.microsoft.com/en-us/dotnet/api/System.IO.IOException 'System.IO.IOException') will make it return a new [ColorblindInfo](ColorblindInfo.md 'KeepCoding.ColorblindInfo') instance with no arguments.<br/> |
 | [Equals(object)](ColorblindInfo.Equals.BBUadRh8kcdRKUeyBpD39w.md 'KeepCoding.ColorblindInfo.Equals(object)') | Determines if both objects are equal.<br/> |
 | [GetHashCode()](ColorblindInfo.GetHashCode().md 'KeepCoding.ColorblindInfo.GetHashCode()') | Gets the hash code.<br/> |
 | [ToString()](ColorblindInfo.ToString().md 'KeepCoding.ColorblindInfo.ToString()') | Converts the object to a string.<br/> |

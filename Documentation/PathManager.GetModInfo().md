@@ -10,6 +10,7 @@ public static KeepCoding.ModInfo GetModInfo();
 A [ModInfo](ModInfo.md 'KeepCoding.ModInfo') from the mod caller's modInfo.json file.
 #### Exceptions
 [EmptyIteratorException](EmptyIteratorException.md 'KeepCoding.Internal.EmptyIteratorException')  
-[System.IO.FileNotFoundException](https://docs.microsoft.com/en-us/dotnet/api/System.IO.FileNotFoundException 'System.IO.FileNotFoundException')  
-[System.Collections.Generic.KeyNotFoundException](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.KeyNotFoundException 'System.Collections.Generic.KeyNotFoundException')  
+[Newtonsoft.Json.JsonException](https://docs.microsoft.com/en-us/dotnet/api/Newtonsoft.Json.JsonException 'Newtonsoft.Json.JsonException')  
 [NullIteratorException](NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  
+### Remarks
+Default: A new instance of [ModInfo](ModInfo.md 'KeepCoding.ModInfo') with  values.  

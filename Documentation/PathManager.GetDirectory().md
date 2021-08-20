@@ -10,6 +10,6 @@ public static string GetDirectory();
 The directory to the mod caller.
 #### Exceptions
 [EmptyIteratorException](EmptyIteratorException.md 'KeepCoding.Internal.EmptyIteratorException')  
-[System.IO.FileNotFoundException](https://docs.microsoft.com/en-us/dotnet/api/System.IO.FileNotFoundException 'System.IO.FileNotFoundException')  
-[System.Collections.Generic.KeyNotFoundException](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.KeyNotFoundException 'System.Collections.Generic.KeyNotFoundException')  
 [NullIteratorException](NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  
+### Remarks
+Default: An empty [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String').  

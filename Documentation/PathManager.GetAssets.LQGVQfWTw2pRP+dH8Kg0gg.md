@@ -25,6 +25,5 @@ The mod assembly's name.
 The assets retrieved from [assembly](PathManager.GetAssets.LQGVQfWTw2pRP+dH8Kg0gg.md#KeepCoding.PathManager.GetAssets.T.(string.string).assembly 'KeepCoding.PathManager.GetAssets&lt;T&gt;(string, string).assembly').
 #### Exceptions
 [EmptyIteratorException](EmptyIteratorException.md 'KeepCoding.Internal.EmptyIteratorException')  
-[System.IO.FileNotFoundException](https://docs.microsoft.com/en-us/dotnet/api/System.IO.FileNotFoundException 'System.IO.FileNotFoundException')  
-[System.Collections.Generic.KeyNotFoundException](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.KeyNotFoundException 'System.Collections.Generic.KeyNotFoundException')  
 [NullIteratorException](NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  
+[System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException')  

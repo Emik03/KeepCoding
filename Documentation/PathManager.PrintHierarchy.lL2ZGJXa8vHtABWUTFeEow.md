@@ -18,3 +18,5 @@ The amount of spaces used for indenting children of game objects.
 `depth` [System.UInt16](https://docs.microsoft.com/en-us/dotnet/api/System.UInt16 'System.UInt16')  
 The level of depth which determines level of indentation. Leave this variable as 0.
   
+#### Exceptions
+[UnityEngine.MissingComponentException](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MissingComponentException 'UnityEngine.MissingComponentException')  

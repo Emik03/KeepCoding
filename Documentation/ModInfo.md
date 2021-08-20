@@ -20,7 +20,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Methods | |
 | :--- | :--- |
-| [Deserialize(string, JsonSerializerSettings)](ModInfo.Deserialize.iLomEbg0vXYDgT7i1vCH.Q.md 'KeepCoding.ModInfo.Deserialize(string, JsonSerializerSettings)') | Deserializes a modInfo.json file.<br/> |
+| [Deserialize(string, JsonSerializerSettings)](ModInfo.Deserialize.iLomEbg0vXYDgT7i1vCH.Q.md 'KeepCoding.ModInfo.Deserialize(string, JsonSerializerSettings)') | Deserializes a modInfo.json file. An [System.IO.IOException](https://docs.microsoft.com/en-us/dotnet/api/System.IO.IOException 'System.IO.IOException') will make it return a new [ColorblindInfo](ColorblindInfo.md 'KeepCoding.ColorblindInfo') instance with no arguments.<br/> |
 | [Equals(object)](ModInfo.Equals.VmqNgo3G7LzdjS2MD8geZg.md 'KeepCoding.ModInfo.Equals(object)') | Determines if both objects are equal.<br/> |
 | [GetHashCode()](ModInfo.GetHashCode().md 'KeepCoding.ModInfo.GetHashCode()') | Gets the hash code.<br/> |
 | [ToString()](ModInfo.ToString().md 'KeepCoding.ModInfo.ToString()') | Converts the object to a string.<br/> |

@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## PathManager Class
-Allows loading external information stored on the module.   
+Allows loading external information stored on the module. Default values are returned either when run on the editor or when an [System.IO.IOException](https://docs.microsoft.com/en-us/dotnet/api/System.IO.IOException 'System.IO.IOException') and similar occur. The default values are specified in the remarks of each method.  
 ```csharp
 public static class PathManager
 ```
@@ -24,8 +24,8 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 | [GetDirectory(string)](PathManager.GetDirectory.PxCKkzQ.eQgFtLQeot8Ppw.md 'KeepCoding.PathManager.GetDirectory(string)') | Finds the directory of the specified mod's assembly name.<br/> |
 | [GetModInfo()](PathManager.GetModInfo().md 'KeepCoding.PathManager.GetModInfo()') | Deserializes the modInfo.json of the mod caller.<br/> |
 | [GetModInfo(string)](PathManager.GetModInfo.yasiGDRIL0pHGpi56k7gSg.md 'KeepCoding.PathManager.GetModInfo(string)') | Deserializes the modInfo.json of a specified mod's assembly name.<br/> |
-| [GetPath(string)](PathManager.GetPath.g+hbdyae81kNmq6jUuelvg.md 'KeepCoding.PathManager.GetPath(string)') | Finds the path of a given file within the mod caller.<br/> |
-| [GetPath(string, string)](PathManager.GetPath.tUZslFgv6LjckNCrHHOckg.md 'KeepCoding.PathManager.GetPath(string, string)') | Finds the path of a given file within a specified mod's assembly name.<br/> |
+| [GetPath(string)](PathManager.GetPath.g+hbdyae81kNmq6jUuelvg.md 'KeepCoding.PathManager.GetPath(string)') | Finds the path of a given file within the mod caller. You need to specify the extensions of the file too, otherwise the file cannot be found.<br/> |
+| [GetPath(string, string)](PathManager.GetPath.tUZslFgv6LjckNCrHHOckg.md 'KeepCoding.PathManager.GetPath(string, string)') | Finds the path of a given file within a specified mod's assembly name. You need to specify the extensions of the file too, otherwise the file cannot be found.<br/> |
 | [LoadLibrary(string)](PathManager.LoadLibrary.fO88Irs5UI7ouBdWtnYpQA.md 'KeepCoding.PathManager.LoadLibrary(string)') | Loads a library from the directory of the mod caller.<br/> |
 | [LoadLibrary(string, string)](PathManager.LoadLibrary.A3UAFyv.TBm8PGx1od8xCQ.md 'KeepCoding.PathManager.LoadLibrary(string, string)') | Loads a library from the directory of the specified mod's assembly name.<br/> |
 | [PrintHierarchy(GameObject, ushort, ushort)](PathManager.PrintHierarchy.lL2ZGJXa8vHtABWUTFeEow.md 'KeepCoding.PathManager.PrintHierarchy(GameObject, ushort, ushort)') | Prints the hierarchy from the game object specified.<br/> |

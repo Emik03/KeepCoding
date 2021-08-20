@@ -24,7 +24,7 @@
 | [ModInfo](ModInfo.md 'KeepCoding.ModInfo') | Contains information about the mod's info, this class can be used to deserialize every mod's "modInfo.json".<br/> |
 | [ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer') | Container for both solvable and needy modules.<br/> |
 | [ModuleScript](ModuleScript.md 'KeepCoding.ModuleScript') | Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes.<br/> |
-| [PathManager](PathManager.md 'KeepCoding.PathManager') | Allows loading external information stored on the module. <br/> |
+| [PathManager](PathManager.md 'KeepCoding.PathManager') | Allows loading external information stored on the module. Default values are returned either when run on the editor or when an [System.IO.IOException](https://docs.microsoft.com/en-us/dotnet/api/System.IO.IOException 'System.IO.IOException') and similar occur. The default values are specified in the remarks of each method.<br/> |
 | [Profiler](Profiler.md 'KeepCoding.Profiler') | Times your code and runs a method after [Dispose()](Profiler.Dispose().md 'KeepCoding.Profiler.Dispose()') runs.<br/> |
 | [Routine](Routine.md 'KeepCoding.Routine') | Advanced coroutine handler.<br/> |
 | [Routine&lt;T&gt;](Routine.T..md 'KeepCoding.Routine&lt;T&gt;') | Advanced coroutine handler. <br/> |
