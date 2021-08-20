@@ -245,7 +245,7 @@ namespace KeepCoding
         /// <exception cref="InvalidOperationException"></exception>
         /// <param name="sound">The variable to grab the property from.</param>
         /// <returns><paramref name="sound"/>'s <see cref="Game"/>.</returns>
-        public static explicit operator SoundEffect(Sound sound) => sound.Game.Value;
+        public static explicit operator SoundEffect(Sound sound) => sound?.Game ?? throw new InvalidOperationException($"You cannot cast a null value of {nameof(Sound)} or {nameof(Game)} into a non-nullable {nameof(SoundEffect)}.");
 
         /// <summary>
         /// An instance of Sound where <see cref="Custom"/> is defined.
