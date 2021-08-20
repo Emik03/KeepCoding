@@ -17,11 +17,9 @@ public sealed class AudioScript : CacheableBehaviour
     /// Setting this value to true will make the volume relative to <see cref="MusicVolume"/>, and <see cref="SFXVolume"/> otherwise.
     /// </summary>
     [SerializeField]
-#pragma warning disable IDE0044 // Add readonly modifier
-#pragma warning disable 0649
+#pragma warning disable 649, IDE0044 // Add readonly modifier
     private bool _isSFX;
-#pragma warning restore 0649
-#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning restore 649, IDE0044 // Add readonly modifier
 
     /// <summary>
     /// The <see cref="Array"/> of clips it can play from.
