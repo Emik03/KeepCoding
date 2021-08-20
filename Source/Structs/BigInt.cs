@@ -733,7 +733,7 @@ namespace KeepCoding
         /// <summary>
         /// Hash code function.
         /// </summary>
-        public override int GetHashCode() => _values == null ? _sign : unchecked((int)_values[0] + MostSignificantBit);
+        public override int GetHashCode() => _values is null ? _sign : unchecked((int)_values[0] + MostSignificantBit);
 
         /// <summary>
         /// Override; see base.
