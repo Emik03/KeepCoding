@@ -779,7 +779,7 @@ namespace KeepCoding
         /// Gets the game's internal bomb component, not to be mistaken with <see cref="KMBomb"/>. To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to Bomb or <see cref="MonoBehaviour"/> type to restore its functionality.
         /// </summary>
         /// <remarks>
-        /// Default: <see langword="null"/>.
+        /// Default: An encapsulated method that takes a <see cref="GameObject"/> and always returns <see langword="null"/>.
         /// </remarks>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
@@ -799,7 +799,7 @@ namespace KeepCoding
         /// Gets the game's internal timer component. To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to TimerComponent or <see cref="MonoBehaviour"/> type to restore its functionality.
         /// </summary>
         /// <remarks>
-        /// Default: <see langword="null"/>.
+        /// Default: An encapsulated method that takes a <see cref="GameObject"/> and always returns <see langword="null"/>.
         /// </remarks>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
@@ -819,7 +819,7 @@ namespace KeepCoding
         /// Gets all of the vanilla modules from the bomb supplied, including needies. To prevent a reference to the game, the type is boxed in an <see cref="object"/> <see cref="Array"/>. You can cast it to BombComponent type to restore its functionality.
         /// </summary>
         /// <remarks>
-        /// Default: An empty <see cref="object"/> <see cref="Array"/>.
+        /// Default: An encapsulated method that takes a <see cref="GameObject"/> and always returns an empty <see cref="object"/> <see cref="Array"/>.
         /// </remarks>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
