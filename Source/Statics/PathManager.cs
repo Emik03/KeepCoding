@@ -218,7 +218,7 @@ namespace KeepCoding
                 return path;
             }
 
-            path = SuppressIO(() => Directory.GetFiles(file, GetDirectory(assembly)).FirstOrDefault());
+            path = SuppressIO(() => Directory.GetFiles(GetDirectory(assembly), file).FirstOrDefault());
 
             Self($"The file {file} from {assembly} has been found. Location: {path}");
 
@@ -342,7 +342,7 @@ namespace KeepCoding
                     s_modDirectories.Add(mod.Value.ModID, mod.Key);
         }
 
-        private static void CopyLibrary(in string libraryFileName, in string path)
+        private static void CopyLibrary(in string file, in string path)
         {
             const string Target = "dlls";
 
@@ -356,7 +356,7 @@ namespace KeepCoding
             switch (platform)
             {
                 case WindowsPlayer:
-                    File.Copy(@$"{path}\{Target}\{architecture}\{FileFormat(libraryFileName, FileExtensionWindows)}", @$"{dataPath}\Mono\{FileFormat(libraryFileName, FileExtensionWindows)}", true);
+                    File.Copy(@$"{path}\{Target}\{architecture}\{FileFormat(file, FileExtensionWindows)}", @$"{dataPath}\Mono\{FileFormat(file, FileExtensionWindows)}", true);
                     break;
 
                 case OSXPlayer:
@@ -365,18 +365,18 @@ namespace KeepCoding
                     if (!Directory.Exists(dest))
                         Directory.CreateDirectory(dest);
 
-                    File.Copy(CombineMultiple(path, Target, FileFormat(libraryFileName, FileExtensionMacOS)), Path.Combine(dest, FileFormat(libraryFileName, FileExtensionMacOS)), true);
+                    File.Copy(CombineMultiple(path, Target, FileFormat(file, FileExtensionMacOS)), Path.Combine(dest, FileFormat(file, FileExtensionMacOS)), true);
                     break;
 
                 case LinuxPlayer:
-                    File.Copy(CombineMultiple(path, Target, FileFormat(libraryFileName, FileExtensionLinux)), CombineMultiple(dataPath, "Mono", architecture, FileFormat(libraryFileName, FileExtensionLinux)), true);
+                    File.Copy(CombineMultiple(path, Target, FileFormat(file, FileExtensionLinux)), CombineMultiple(dataPath, "Mono", architecture, FileFormat(file, FileExtensionLinux)), true);
                     break;
 
                 default: throw new PlatformNotSupportedException($"The platform \"{platform}\" is unsupported. The operating systems supported are Windows, Mac, and Linux.");
             }
         }
 
-        private static string FileFormat(in string fileName, in string fileExtension) => $"{fileName}.{fileExtension}";
+        private static string FileFormat(in string name, in string extension) => $"{name}.{extension}";
 
         private static IEnumerator LoadAssets<TAsset>(string file, string assembly) where TAsset : Object
         {
