@@ -8,5 +8,6 @@ public string Version { get; }
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 #### Exceptions
-[System.OperationCanceledException](https://docs.microsoft.com/en-us/dotnet/api/System.OperationCanceledException 'System.OperationCanceledException')  
-[System.IO.FileNotFoundException](https://docs.microsoft.com/en-us/dotnet/api/System.IO.FileNotFoundException 'System.IO.FileNotFoundException')  
+[EmptyIteratorException](EmptyIteratorException.md 'KeepCoding.Internal.EmptyIteratorException')  
+[JsonException](https://docs.microsoft.com/en-us/dotnet/api/JsonException 'JsonException')  
+[NullIteratorException](NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  
