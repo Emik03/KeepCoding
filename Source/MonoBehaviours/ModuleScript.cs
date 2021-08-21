@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using KeepCoding.Internal;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -112,7 +113,7 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="JsonException"></exception>
         /// <exception cref="NullIteratorException"></exception>
-        public string Version => PathManager.GetModInfo().Version;
+        public string Version => PathManager.GetModInfo(Name).Version;
 
         /// <summary>
         /// Contains colorblind information.
