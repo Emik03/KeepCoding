@@ -109,9 +109,10 @@ namespace KeepCoding
         /// <summary>
         /// The version number of the entire mod.
         /// </summary>
-        /// <exception cref="OperationCanceledException"></exception>
-        /// <exception cref="FileNotFoundException"></exception>
-        public string Version => IsEditor ? "Can't get Version Number in Editor" : PathManager.GetModInfo(Type.NameOfAssembly()).Version;
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <exception cref="JsonException"></exception>
+        /// <exception cref="NullIteratorException"></exception>
+        public string Version => PathManager.GetModInfo().Version;
 
         /// <summary>
         /// Contains colorblind information.
@@ -153,6 +154,9 @@ namespace KeepCoding
         internal bool IsColorblindSupported => Type.ImplementsMethod(nameof(OnColorblindChanged), DeclaredOnly | Instance | Public);
 
         internal static bool IsOutdated { get; private set; }
+
+        private string Name => _name ??= Type.NameOfAssembly();
+        private string _name;
 
         private Type Type => _type ??= GetType();
         private Type _type;
@@ -371,7 +375,7 @@ namespace KeepCoding
 
             sounds = sounds.Where(s =>
             {
-                if (s.Custom is null || IsGroupInfo($"{PathManager.GetModInfo(Type.NameOfAssembly()).Id}_{s.Custom}"))
+                if (s.Custom is null || IsGroupInfo($"{Name}_{s.Custom}"))
                     s.Reference = s.Method(Get<KMAudio>())(transform, loop);
 
                 else
