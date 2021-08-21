@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 using static System.IO.File;
 using static System.IO.Path;
 using static System.Reflection.Assembly;
+using static System.Text.Encoding;
 using static System.Uri;
 using static KeepCoding.Logger;
 using static KeepCoding.ModuleScript;
@@ -83,7 +84,7 @@ namespace KeepCoding.Internal
 
                 Self($"Installing the latest {extension} file...");
 
-                WriteAllText(Combine(SelfPath, $"KeepCoding {tagName}.{extension}"), web.downloadHandler.text);
+                WriteAllBytes(Combine(SelfPath, $"KeepCoding {tagName}.{extension}"), UTF8.GetBytes(web.downloadHandler.text));
             }
         }
     }
