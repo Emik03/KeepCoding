@@ -33,11 +33,13 @@
     <DocumentationFile>C:\Users\Emik\source\repos\KeepCodingAndNobodyExplodes\KeepCodingAndNobodyExplodes.xml</DocumentationFile>
     <Optimize>false</Optimize>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <NoWarn>1701;1702;8002</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>C:\Users\Emik\source\repos\KeepCoding\Documentation\KeepCoding.xml</DocumentationFile>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <NoWarn>1701;1702;8002</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
