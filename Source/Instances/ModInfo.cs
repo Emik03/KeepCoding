@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using static System.IO.File;
 using static KeepCoding.PathManager;
 using static Newtonsoft.Json.JsonConvert;
+using static UnityEngine.Application;
 
 namespace KeepCoding
 {
@@ -13,7 +14,7 @@ namespace KeepCoding
     /// </summary>
     public sealed class ModInfo
     {
-        internal ModInfo(string version) => Version = version;
+        internal ModInfo() => Version = $"Can't get Version Number in {(isEditor ? "Editor" : "Game")}";
 
         /// <summary>
         /// Contains the author of the mod.
@@ -91,6 +92,6 @@ namespace KeepCoding
         /// <param name="path">The path of the file to deserialize.</param>
         /// <param name="settings">The settings for the serialization.</param>
         /// <returns><paramref name="path"/> deserialized as <see cref="ModInfo"/>.</returns>
-        public static ModInfo Deserialize(string path, JsonSerializerSettings settings = null) => SuppressIO(() => DeserializeObject<ModInfo>(ReadAllText(path.NullCheck("A \"null\" path cannot be searched.")), settings), new ModInfo("Can't get Version Number in Game"));
+        public static ModInfo Deserialize(string path, JsonSerializerSettings settings = null) => SuppressIO(() => DeserializeObject<ModInfo>(ReadAllText(path.NullCheck("A \"null\" path cannot be searched.")), settings), new ModInfo());
     }
 }

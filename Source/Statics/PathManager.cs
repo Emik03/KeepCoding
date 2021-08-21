@@ -272,7 +272,7 @@ namespace KeepCoding
             {
                 Self($"The path finder located a file that does not exist, therefore a new instance of {nameof(ModInfo)} will be returned.");
 
-                return new ModInfo("Can't get Version Number in Game");
+                return new ModInfo();
             }
 
             Self($"Deserializing \"{file}\"...");
