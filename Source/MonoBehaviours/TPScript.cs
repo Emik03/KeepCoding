@@ -10,7 +10,7 @@ using static System.Text.RegularExpressions.RegexOptions;
 namespace KeepCoding
 {
     /// <summary>
-    /// Base class for TwitchPlays support for solvable and needy modded modules in Keep Talking and Nobody Explodes. 
+    /// Base class for TwitchPlays support for solvable and needy modded modules in Keep Talking and Nobody Explodes.
     /// </summary>
     [RequireComponent(typeof(ModuleScript))]
     public abstract class TPScript<TModule> : CacheableBehaviour, ITP where TModule : ModuleScript
