@@ -23,7 +23,7 @@ namespace KeepCoding.Internal
     [CanEditMultipleObjects, CustomEditor(typeof(ModuleScript), true)]
     public sealed class ModuleScriptEditor : Editor
     {
-        private static string SelfPath => GetDirectoryName(UnescapeDataString(new UriBuilder(GetExecutingAssembly().CodeBase).Path));
+        private static string SelfPath => UnescapeDataString(new UriBuilder(GetExecutingAssembly().CodeBase).Path);
 
         /// <summary>
         /// Creates the colorblind button.
@@ -84,7 +84,7 @@ namespace KeepCoding.Internal
 
                 Self($"Installing the latest {extension} file...");
 
-                WriteAllBytes(Combine(SelfPath, $"KeepCoding {tagName}.{extension}"), UTF8.GetBytes(web.downloadHandler.text));
+                WriteAllBytes(SelfPath, web.downloadHandler.data);
             }
         }
     }
