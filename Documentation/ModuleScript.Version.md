@@ -9,5 +9,5 @@ public string Version { get; }
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 #### Exceptions
 [EmptyIteratorException](EmptyIteratorException.md 'KeepCoding.Internal.EmptyIteratorException')  
-[JsonException](https://docs.microsoft.com/en-us/dotnet/api/JsonException 'JsonException')  
+[Newtonsoft.Json.JsonException](https://docs.microsoft.com/en-us/dotnet/api/Newtonsoft.Json.JsonException 'Newtonsoft.Json.JsonException')  
 [NullIteratorException](NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  
