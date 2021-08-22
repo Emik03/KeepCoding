@@ -18,7 +18,7 @@
 	<Copyright>Emik</Copyright>
 	<RunPostBuildEvent>Always</RunPostBuildEvent>
 	<AssemblyVersion>9.0.3</AssemblyVersion>
-	<FileVersion>9.0.2</FileVersion>
+	<FileVersion>9.0.3</FileVersion>
 	<Version>9.0.3</Version>
 	<PackageId>KeepCoding</PackageId>
 	<SignAssembly>true</SignAssembly>
