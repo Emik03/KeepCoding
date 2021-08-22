@@ -377,14 +377,14 @@ namespace KeepCoding
 
         private static string FileFormat(in string name, in string extension) => $"{name}.{extension}";
 
-        private static IEnumerator LoadAssets<TAsset>(string file, string assembly) where TAsset : Object
+        private static IEnumerator LoadAssets<T>(string file, string assembly) where T : Object
         {
             file.NullOrEmptyCheck("You cannot load a video from a nonexistent file.");
 
             if (!file.Contains('.'))
                 file += ".bundle";
 
-            Self($"Loading type \"{typeof(TAsset).Name}\" from \"{file}\" which exists in \"{assembly}\".");
+            Self($"Loading type \"{typeof(T).Name}\" from \"{file}\" which exists in \"{assembly}\".");
 
             AssetBundleCreateRequest request = LoadFromFileAsync(GetPath(file, assembly));
 
@@ -392,9 +392,12 @@ namespace KeepCoding
 
             AssetBundle mainBundle = request.assetBundle.NullCheck("The bundle was null.");
 
-            IEnumerable<TAsset> assets = mainBundle.LoadAllAssets<TAsset>().OrderBy(o => o.name).NullOrEmptyCheck($"There are no assets of type \"{typeof(TAsset).Name}\".");
+            T[] assets = mainBundle
+                .LoadAllAssets<T>()
+                .OrderBy(o => o.name).NullOrEmptyCheck($"There are no assets of type \"{typeof(T).Name}\".")
+                .ToArray();
 
-            Self($"{assets.Count()} assets of type \"{typeof(TAsset).Name}\" have been loaded into memory!");
+            Self($"{assets.Length} assets of type \"{typeof(T).Name}\" have been loaded into memory!");
 
             yield return assets;
         }
