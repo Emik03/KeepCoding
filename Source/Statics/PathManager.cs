@@ -25,8 +25,6 @@ using Object = UnityEngine.Object;
 
 namespace KeepCoding
 {
-    extern alias core;
-
     /// <summary>
     /// Allows loading external information stored on the module. Default values are returned either when run on the editor or when an <see cref="IOException"/> and similar occur. The default values are specified in the remarks of each method.
     /// </summary>

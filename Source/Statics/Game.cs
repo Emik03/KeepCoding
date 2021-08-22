@@ -22,8 +22,6 @@ using KTSceneManager = SceneManager;
 
 namespace KeepCoding
 {
-    extern alias core;
-
     /// <summary>
     /// Allows access into the game's internal code. 
     /// </summary>
