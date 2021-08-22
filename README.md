@@ -30,24 +30,22 @@ In order to compile the DLL yourself, you need a program that can compile C# cla
 git clone https://github.com/Emik03/KeepCoding.git
 ```
 
-2. Open the solution file with your desired IDE, located at the root folder with a ".sln" extension.
+2. Edit the `KeepCoding.csproj.user` file and replace the properties `GameFolder` and `Unity` with the folder directory of Keep Talking and Nobody Explodes, and the root of the Unity folder respectively.
 
-3. Added the missing references. `KMFramework` and `Newtonsoft.Json` should come from the modkit. `Assembly-CSharp` should come from the game. `UnityEditor`, `UnityEngine`, and `UnityEngine.CoreModule` should come from the root folder of the `Managed` folder located within your Unity installation.
+3. Open the solution file with your desired IDE, located at the root folder with a ".sln" extension.
 
 4. Inside the IDE, locate the solution explorer and right click the solution then go into "Properties".
 
-5. Go to "Build" and ensure that the tickbox "XML Documentation File" is checked, with a directory leading to somewhere on your drive, such as the root directory of the repository.
-
-6. Go into "Build Events" and copy the following code block, replacing "X:\My Module Directory\" with the directory leading to your unity project. If multiple projects depends on this repository, you will need to copy-paste these code-blocks for each project you have.
+5. Go into "Build Events" and copy the following code block, replacing "X:\My Module Directory\" with the directory leading to your unity project. If multiple projects depends on this repository, you will need to copy-paste these code-blocks for each project you have. If you use an operating system other than Windows, `xcopy` may have to be replaced with the equivalent of your operating system.
 
 ```cs
 xcopy /y "$(ProjectDir)$(OutDir)KeepCoding.dll" "X:\My Module Directory\Assets\Plugins\Managed"
 xcopy /y "$(ProjectDir)$(OutDir)KeepCoding.xml" "X:\My Module Directory\Assets\Plugins\Managed"
 ```
 
-7. Go to "Signing" and create your own strong name and signature. This ensures that it will not conflict with other versions of this namespace.
+6. Go to "Signing" and create your own strong name and signature. This ensures that it will not conflict with other versions of this namespace.
 
-8. Press the key combination **CTRL+SHIFT+B**, or alternatively go to the dropdown located at the top named "Build" and press "Build Solution". Assuming no build errors occur, you can go back to Unity, which will start reloading.
+7. Press the key combination **CTRL+B**, or alternatively go to the dropdown located at the top named "Build" and press "Build Solution". Assuming no build errors occur, you can go back to Unity, which will start reloading.
 
 ### Credit
 ---
