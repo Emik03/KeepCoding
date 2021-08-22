@@ -5,9 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 using static System.IO.File;
-using static System.IO.Path;
 using static System.Reflection.Assembly;
-using static System.Text.Encoding;
 using static System.Uri;
 using static KeepCoding.Logger;
 using static KeepCoding.ModuleScript;
@@ -67,7 +65,7 @@ namespace KeepCoding.Internal
                 yield return InstallLatest(tagName, "xml");
                 yield return InstallLatest(tagName, "dll");
 
-                Self($"Process complete. Please delete the old versions located in {SelfPath}.");
+                Self($"Process complete. Your Unity should now start reloading...");
             }
         }
 
