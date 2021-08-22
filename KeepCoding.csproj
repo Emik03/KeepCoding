@@ -29,52 +29,56 @@
 	<AnalysisLevel>preview</AnalysisLevel>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <GameFolder Condition="'$(GameFolder)' == ''">D:\Steam\steamapps\common\Keep Talking and Nobody Explodes\</GameFolder>
+    <Unity Condition="'$(Unity)' == ''">C:\Program Files\Editor\</Unity>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\Emik\source\repos\KeepCodingAndNobodyExplodes\KeepCodingAndNobodyExplodes.xml</DocumentationFile>
+    <DocumentationFile>$(ProjectDir)KeepCoding.xml</DocumentationFile>
     <Optimize>false</Optimize>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <NoWarn>1701;1702;8002</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>C:\Users\Emik\source\repos\KeepCoding\Documentation\KeepCoding.xml</DocumentationFile>
+    <DocumentationFile>$(ProjectDir)\Documentation\KeepCoding.xml</DocumentationFile>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <NoWarn>1701;1702;8002</NoWarn>
   </PropertyGroup>
-
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>D:\Steam\steamapps\common\Keep Talking and Nobody Explodes\ktane_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>$(GameFolder)\ktane_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>false</Private>
       <Aliases></Aliases>
     </Reference>
     <Reference Include="KMFramework">
-      <HintPath>D:\ktanemodkit-master\Assets\Plugins\Managed\KMFramework.dll</HintPath>
+      <HintPath>$(GameFolder)\ktane_Data\Managed\KMFramework.dll</HintPath>
       <Private>false</Private>
       <Aliases></Aliases>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>D:\ktanemodkit-master\Assets\Plugins\Managed\Newtonsoft.Json.dll</HintPath>
+      <HintPath>$(GameFolder)\ktane_Data\Managed\Newtonsoft.Json.dll</HintPath>
       <Private>false</Private>
       <Aliases></Aliases>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>..\..\..\..\..\Program Files\Editor\Data\Managed\UnityEditor.dll</HintPath>
+      <HintPath>$(Unity)\Data\Managed\UnityEditor.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\..\Program Files\Editor\Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>$(Unity)\Data\Managed\UnityEngine.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\..\..\Program Files\Editor\Data\Managed\UnityEngine\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>$(Unity)\Data\Managed\UnityEngine\UnityEngine.CoreModule.dll</HintPath>
       <Aliases>core</Aliases>
       <Private>false</Private>
     </Reference>
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\Downloads\LICENSE.md">
+    <None Include="$(ProjectDir)\LICENSE.md">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
@@ -119,7 +123,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCoding.dll&quot;  &quot;D:\Emik's Modules\Assets\Plugins\Managed&quot;&#xD;&#xA;xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCoding.xml&quot; &quot;D:\Emik's Modules\Assets\Plugins\Managed&quot;&#xD;&#xA;xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCoding.dll&quot;  &quot;D:\AlphaModules\Assets\Plugins\Managed&quot;&#xD;&#xA;xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCoding.xml&quot; &quot;D:\AlphaModules\Assets\Plugins\Managed&quot;&#xD;&#xA;" />
+    <Exec Command="xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCoding.dll&quot; &quot;D:\EmikModules\Assets\Plugins\Managed\&quot;&#xD;&#xA;xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCoding.xml&quot; &quot;D:\EmikModules\Assets\Plugins\Managed\&quot;&#xD;&#xA;xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCoding.dll&quot; &quot;D:\AlphaModules\Assets\Plugins\Managed\&quot;&#xD;&#xA;xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCoding.xml&quot; &quot;D:\AlphaModules\Assets\Plugins\Managed\&quot;" />
 	<GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
       <Output TaskParameter="Assemblies" ItemName="Targets" />
     </GetAssemblyIdentity>

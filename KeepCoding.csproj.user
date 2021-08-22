@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
+    <GameFolder>D:\Steam\steamapps\common\Keep Talking and Nobody Explodes\</GameFolder>
+    <Unity>C:\Program Files\Editor\</Unity>
+  </PropertyGroup>
+  <PropertyGroup>
     <ShowAllFiles>true</ShowAllFiles>
   </PropertyGroup>
 </Project>
