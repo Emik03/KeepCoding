@@ -831,8 +831,8 @@ namespace KeepCoding
 
         private static Func<KMBomb, object[]> VanillasInner => bomb => bomb.GetComponentsInChildren(typeof(BombComponent))
             .Where(c => !(c.GetComponent<KMBombModule>() || c.GetComponent<KMNeedyModule>()))
-            .ToArray()
-            .ConvertAll(c => (object)c);
+            .Cast<object>()
+            .ToArray();
 
         private static Func<KMBomb, object[]> VanillasRewrittenInner => throw s_notDone;
 
