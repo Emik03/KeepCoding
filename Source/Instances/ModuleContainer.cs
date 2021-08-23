@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using KeepCoding.Internal;
 using UnityEngine;
+using static KeepCoding.Game;
+using static KeepCoding.Game.References;
 using static UnityEngine.Application;
 
 namespace KeepCoding
@@ -33,7 +35,7 @@ namespace KeepCoding
         /// <param name="component">The component to get the modules from.</param>
         public ModuleContainer(Component component)
         {
-            if (!isEditor)
+            if (Reference is Ktane)
                 ExtractBombComponent(component);
 
             _bombModule = component.GetComponent<KMBombModule>();

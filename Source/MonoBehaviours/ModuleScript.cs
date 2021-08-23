@@ -13,8 +13,10 @@ using UnityEngine.Networking;
 using static System.Delegate;
 using static System.Linq.Enumerable;
 using static System.Reflection.BindingFlags;
+using static KeepCoding.Game;
 using static KeepCoding.Game.KTInputManager;
 using static KeepCoding.Game.MasterAudio;
+using static KeepCoding.Game.References;
 using static KeepCoding.Logger;
 using static KMAudio;
 using static KMSoundOverride;
@@ -302,7 +304,7 @@ namespace KeepCoding
                 return;
 
             if (_hasException)
-                Game.AddStrikes(gameObject, -_strikes, false);
+                AddStrikes(gameObject, -_strikes, false);
 
             LogMultiple(logs);
 
@@ -518,7 +520,7 @@ namespace KeepCoding
             var passEvent = (PassEvent)CreateDelegate(typeof(PassEvent), this, passMethod);
             var strikeEvent = (StrikeEvent)CreateDelegate(typeof(StrikeEvent), this, strikeMethod);
 
-            foreach (object vanilla in Game.Vanillas(Bomb))
+            foreach (object vanilla in Vanillas(Bomb))
             {
                 var bomb = (BombComponent)vanilla;
 
@@ -557,7 +559,7 @@ namespace KeepCoding
 
         private void TimerTickInner()
         {
-            var timer = (TimerComponent)Game.Timer(gameObject);
+            var timer = (TimerComponent)Timer(gameObject);
 
             timer.TimerTick += (elapsed, remaining) =>
             {
@@ -646,18 +648,18 @@ namespace KeepCoding
 
             HookModules(isHookingPass, isHookingStrike);
 
-            if (IsEditor)
+            if (Reference is Ktane)
             {
                 if (isHookingTimer)
-                    StartCoroutine(EditorTimerTick());
+                    TimerTickInner();
+
+                HookVanillas(isHookingPass, isHookingStrike);
 
                 yield break;
             }
 
             if (isHookingTimer)
-                TimerTickInner();
-
-            HookVanillas(isHookingPass, isHookingStrike);
+                StartCoroutine(EditorTimerTick());
         }
 
         private IEnumerator WaitForSolve()
