@@ -17,9 +17,9 @@
 	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	<Copyright>Emik</Copyright>
 	<RunPostBuildEvent>Always</RunPostBuildEvent>
-	<AssemblyVersion>9.0.3</AssemblyVersion>
-	<FileVersion>9.0.3</FileVersion>
-	<Version>9.0.3</Version>
+	<AssemblyVersion>9.0.3.1</AssemblyVersion>
+	<FileVersion>9.0.3.1</FileVersion>
+	<Version>9.0.3.1</Version>
 	<PackageId>KeepCoding</PackageId>
 	<SignAssembly>true</SignAssembly>
 	<DelaySign>false</DelaySign>
@@ -62,6 +62,10 @@
       <HintPath>$(GameFolder)\ktane_Data\Managed\Newtonsoft.Json.dll</HintPath>
       <Private>false</Private>
       <Aliases></Aliases>
+    </Reference>
+    <Reference Include="RewrittenReferences">
+      <HintPath>References\RewrittenReferences.dll</HintPath>
+      <CopyLocal>False</CopyLocal>
     </Reference>
     <Reference Include="UnityEditor">
       <HintPath>$(Unity)\Data\Managed\UnityEditor.dll</HintPath>

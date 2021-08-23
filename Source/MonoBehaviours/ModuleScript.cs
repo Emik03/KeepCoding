@@ -375,7 +375,7 @@ namespace KeepCoding
 
             sounds = sounds.Where(s =>
             {
-                if (s.Custom is null || IsGroupInfo($"{Name}_{s.Custom}"))
+                if (s.Custom is null || IsGroupInfo(Name, s.Custom))
                     s.Reference = s.Method(Get<KMAudio>())(transform, loop);
 
                 else

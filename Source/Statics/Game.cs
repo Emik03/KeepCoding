@@ -5,7 +5,9 @@ using System.Linq;
 using System.Reflection;
 using System.Security;
 using KeepCoding.Internal;
+using Rewritten;
 using UnityEngine;
+using UnityEngine.Networking.Types;
 using static System.Reflection.Assembly;
 using static KeepCoding.ComponentPool;
 using static KeepCoding.Logger;
@@ -30,8 +32,6 @@ namespace KeepCoding
     /// </remarks>
     public static class Game
     {
-        private static readonly NotSupportedException s_notDone = new NotSupportedException("The library that is required for this action hasn't been released yet.");
-
         private static readonly UnrecognizedValueException s_badValue = new UnrecognizedValueException($"The value of {nameof(Reference)} ({Reference}) is not a valid library! This normally shouldn't happen, so please leave submit a bug report in the event that you do see this exception message thrown!");
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace KeepCoding
 
             private static ControlType CurrentControlTypeInner => (ControlType)global::KTInputManager.Instance.CurrentControlType;
 
-            private static ControlType CurrentControlTypeRewrittenInner => throw s_notDone;
+            private static ControlType CurrentControlTypeRewrittenInner => (ControlType)RewrittenReferences.CurrentControlType;
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace KeepCoding
             /// </remarks>
             /// <exception cref="NotSupportedException"></exception>
             /// <exception cref="UnrecognizedValueException"></exception>
-            public static Predicate<string> IsGroupInfo => s => GroupInfo(s) is { };
+            public static Func<string, string, bool> IsGroupInfo => (source, sound) => GroupInfo(source, sound) is { };
 
             /// <summary>
             /// Gets the group info of a given string. To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to AudioGroupInfo type to restore its functionality.
@@ -93,17 +93,17 @@ namespace KeepCoding
             /// </remarks>
             /// <exception cref="NotSupportedException"></exception>
             /// <exception cref="UnrecognizedValueException"></exception>
-            public static Func<string, object> GroupInfo => Reference switch
+            public static Func<string, string, object> GroupInfo => Reference switch
             {
-                References.None => s => s,
+                References.None => (source, sound) => source,
                 References.Ktane => GroupInfoInner,
                 References.KtaneRewritten => GroupInfoRewrittenInner,
                 _ => throw s_badValue
             };
 
-            private static Func<string, object> GroupInfoInner => KTMasterAudio.GetGroupInfo;
+            private static Func<string, string, object> GroupInfoInner => (source, sound) => KTMasterAudio.GetGroupInfo($"{source}_{sound}");
 
-            private static Func<string, object> GroupInfoRewrittenInner => throw s_notDone;
+            private static Func<string, string, object> GroupInfoRewrittenInner => RewrittenReferences.GetGroupInfo;
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace KeepCoding
 
             private static bool IsPacingEventsInner => KTSceneManager.Instance.GameplayState.Mission.PacingEventsEnabled;
 
-            private static bool IsPacingEventsRewrittenInner => throw s_notDone;
+            private static bool IsPacingEventsRewrittenInner => RewrittenReferences.IsPacingEventsEnabled;
 
             /// <summary>
             /// The description as it appears in the bomb binder.
@@ -149,7 +149,7 @@ namespace KeepCoding
 
             private static string DescriptionInner => GetLocalizedString(KTSceneManager.Instance.GameplayState.Mission.DescriptionTerm);
 
-            private static string DescriptionRewrittenInner => throw s_notDone;
+            private static string DescriptionRewrittenInner => RewrittenReferences.MissionDescription;
 
             /// <summary>
             /// The mission name as it appears in the bomb binder.
@@ -169,7 +169,7 @@ namespace KeepCoding
 
             private static string DisplayNameInner => GetLocalizedString(KTSceneManager.Instance.GameplayState.Mission.DisplayNameTerm);
 
-            private static string DisplayNameRewrittenInner => throw s_notDone;
+            private static string DisplayNameRewrittenInner => RewrittenReferences.MissionDisplayName;
 
             /// <summary>
             /// The ID of the mission.
@@ -189,7 +189,7 @@ namespace KeepCoding
 
             private static string IDInner => KTSceneManager.Instance.GameplayState.Mission.ID;
 
-            private static string IDRewrittenInner => throw s_notDone;
+            private static string IDRewrittenInner => RewrittenReferences.MissionID;
 
             /// <summary>
             /// Gets the generator setting of the mission.
@@ -207,40 +207,39 @@ namespace KeepCoding
                 _ => throw s_badValue
             };
 
-            private static GeneratorSetting GeneratorSettingInner
+            private static GeneratorSetting GeneratorSettingInner => ToGeneratorSetting(KTSceneManager.Instance.GameplayState.Mission.GeneratorSetting);
+
+            private static GeneratorSetting GeneratorSettingRewrittenInner => ToGeneratorSetting(RewrittenReferences.MissionGeneratorSetting);
+
+            private static Func<object, GeneratorSetting> ToGeneratorSetting => obj =>
             {
-                get
+                var setting = (KTGeneratorSetting)obj;
+
+                var list = new List<ComponentPool>();
+
+                foreach (KTComponentPool pool in setting.ComponentPools)
                 {
-                    KTGeneratorSetting setting = KTSceneManager.Instance.GameplayState.Mission.GeneratorSetting;
+                    var types = new List<ComponentTypeEnum>();
 
-                    var list = new List<ComponentPool>();
+                    foreach (KTComponentTypeEnum type in pool.ComponentTypes)
+                        types.Add((ComponentTypeEnum)type);
 
-                    foreach (KTComponentPool pool in setting.ComponentPools)
-                    {
-                        var types = new List<ComponentTypeEnum>();
-
-                        foreach (KTComponentTypeEnum type in pool.ComponentTypes)
-                            types.Add((ComponentTypeEnum)type);
-
-                        list.Add(new ComponentPool(
-                            pool.Count,
-                            (ComponentSource)pool.AllowedSources,
-                            (SpecialComponentTypeEnum)pool.SpecialComponentType,
-                            pool.ModTypes,
-                            types));
-                    }
-
-                    return new GeneratorSetting(
-                        setting.FrontFaceOnly,
-                        setting.OptionalWidgetCount,
-                        setting.NumStrikes,
-                        setting.TimeBeforeNeedyActivation,
-                        setting.TimeLimit,
-                        list);
+                    list.Add(new ComponentPool(
+                        pool.Count,
+                        (ComponentSource)pool.AllowedSources,
+                        (SpecialComponentTypeEnum)pool.SpecialComponentType,
+                        pool.ModTypes,
+                        types));
                 }
-            }
 
-            private static GeneratorSetting GeneratorSettingRewrittenInner => throw s_notDone;
+                return new GeneratorSetting(
+                    setting.FrontFaceOnly,
+                    setting.OptionalWidgetCount,
+                    setting.NumStrikes,
+                    setting.TimeBeforeNeedyActivation,
+                    setting.TimeLimit,
+                    list);
+            };
         }
 
         /// <summary>
@@ -266,7 +265,7 @@ namespace KeepCoding
 
             private static Func<List<string>> GetDisabledModPathsInner => KTModManager.Instance.GetDisabledModPaths;
 
-            private static Func<List<string>> GetDisabledModPathsRewrittenInner => throw s_notDone;
+            private static Func<List<string>> GetDisabledModPathsRewrittenInner => RewrittenReferences.GetDisabledModPaths;
 
             /// <summary>
             /// Gets all of the mod paths within the <see cref="ModSourceEnum"/> constraint.
@@ -286,7 +285,7 @@ namespace KeepCoding
 
             private static Func<ModSourceEnum, List<string>> GetAllModPathsFromSourceInner => source => KTModManager.Instance.GetAllModPathsFromSource((KTModSourceEnum)source);
 
-            private static Func<ModSourceEnum, List<string>> GetAllModPathsFromSourceRewrittenInner => throw s_notDone;
+            private static Func<ModSourceEnum, List<string>> GetAllModPathsFromSourceRewrittenInner => source => RewrittenReferences.GetAllModPathsFromSource((Rewritten.ModSourceEnum)source);
 
             /// <summary>
             /// Gets all of the enabled mod paths within the <see cref="ModSourceEnum"/> constraint.
@@ -306,7 +305,7 @@ namespace KeepCoding
 
             private static Func<ModSourceEnum, List<string>> GetEnabledModPathsInner => source => KTModManager.Instance.GetEnabledModPaths((KTModSourceEnum)source);
 
-            private static Func<ModSourceEnum, List<string>> GetEnabledModPathsRewrittenInner => throw s_notDone;
+            private static Func<ModSourceEnum, List<string>> GetEnabledModPathsRewrittenInner => source => RewrittenReferences.GetEnabledModPaths((Rewritten.ModSourceEnum)source);
         }
 
         /// <summary>
@@ -332,7 +331,7 @@ namespace KeepCoding
 
             private static bool InvertTiltControlsInner => KTPlayerSettingsManager.Instance.PlayerSettings.InvertTiltControls;
 
-            private static bool InvertTiltControlsRewrittenInner => throw s_notDone;
+            private static bool InvertTiltControlsRewrittenInner => RewrittenReferences.InvertTiltControls;
 
             /// <summary>
             /// Determines if the option to lock the mouse to the window is enabled.
@@ -352,7 +351,7 @@ namespace KeepCoding
 
             private static bool LockMouseToWindowInner => KTPlayerSettingsManager.Instance.PlayerSettings.LockMouseToWindow;
 
-            private static bool LockMouseToWindowRewrittenInner => throw s_notDone;
+            private static bool LockMouseToWindowRewrittenInner => RewrittenReferences.LockMouseToWindow;
 
             /// <summary>
             /// Determines if the option to show the leaderboards from the pamphlet.
@@ -372,7 +371,7 @@ namespace KeepCoding
 
             private static bool ShowLeaderBoardsInner => KTPlayerSettingsManager.Instance.PlayerSettings.ShowLeaderBoards;
 
-            private static bool ShowLeaderBoardsRewrittenInner => throw s_notDone;
+            private static bool ShowLeaderBoardsRewrittenInner => RewrittenReferences.ShowLeaderboards;
 
             /// <summary>
             /// Determines if the option to show the rotation of the User Interface is enabled.
@@ -392,7 +391,7 @@ namespace KeepCoding
 
             private static bool ShowRotationUIInner => KTPlayerSettingsManager.Instance.PlayerSettings.ShowRotationUI;
 
-            private static bool ShowRotationUIRewrittenInner => throw s_notDone;
+            private static bool ShowRotationUIRewrittenInner => RewrittenReferences.ShowRotationUI;
 
             /// <summary>
             /// Determines if the option to show scanlines is enabled.
@@ -412,7 +411,7 @@ namespace KeepCoding
 
             private static bool ShowScanlineInner => KTPlayerSettingsManager.Instance.PlayerSettings.ShowScanline;
 
-            private static bool ShowScanlineRewrittenInner => throw s_notDone;
+            private static bool ShowScanlineRewrittenInner => RewrittenReferences.ShowScanline;
 
             /// <summary>
             /// Determines if the option to skip the title screen is enabled.
@@ -432,7 +431,7 @@ namespace KeepCoding
 
             private static bool SkipTitleScreenInner => KTPlayerSettingsManager.Instance.PlayerSettings.SkipTitleScreen;
 
-            private static bool SkipTitleScreenRewrittenInner => throw s_notDone;
+            private static bool SkipTitleScreenRewrittenInner => RewrittenReferences.SkipTitleScreen;
 
             /// <summary>
             /// Determines if the VR or regular controllers vibrate.
@@ -452,7 +451,7 @@ namespace KeepCoding
 
             private static bool RumbleEnabledInner => KTPlayerSettingsManager.Instance.PlayerSettings.RumbleEnabled;
 
-            private static bool RumbleEnabledRewrittenInner => throw s_notDone;
+            private static bool RumbleEnabledRewrittenInner => RewrittenReferences.RumbleEnabled;
 
             /// <summary>
             /// Determines if the touchpad controls are inverted.
@@ -472,7 +471,7 @@ namespace KeepCoding
 
             private static bool TouchpadInvertInner => KTPlayerSettingsManager.Instance.PlayerSettings.TouchpadInvert;
 
-            private static bool TouchpadInvertRewrittenInner => throw s_notDone;
+            private static bool TouchpadInvertRewrittenInner => RewrittenReferences.TouchpadInvert;
 
             /// <summary>
             /// Determines if the option to always use mods is enabled.
@@ -492,7 +491,7 @@ namespace KeepCoding
 
             private static bool UseModsAlwaysInner => KTPlayerSettingsManager.Instance.PlayerSettings.UseModsAlways;
 
-            private static bool UseModsAlwaysRewrittenInner => throw s_notDone;
+            private static bool UseModsAlwaysRewrittenInner => RewrittenReferences.UseModsAlways;
 
             /// <summary>
             /// Determines if the option to use parallel/simultaneous mod loading is enabled.
@@ -512,7 +511,7 @@ namespace KeepCoding
 
             private static bool UseParallelModLoadingInner => KTPlayerSettingsManager.Instance.PlayerSettings.UseParallelModLoading;
 
-            private static bool UseParallelModLoadingRewrittenInner => throw s_notDone;
+            private static bool UseParallelModLoadingRewrittenInner => RewrittenReferences.UseParallelModLoading;
 
             /// <summary>
             /// Determines if VR mode is requested.
@@ -532,7 +531,7 @@ namespace KeepCoding
 
             private static bool VRModeRequestedInner => KTPlayerSettingsManager.Instance.PlayerSettings.VRModeRequested;
 
-            private static bool VRModeRequestedRewrittenInner => throw s_notDone;
+            private static bool VRModeRequestedRewrittenInner => RewrittenReferences.VRModeRequested;
 
             /// <summary>
             /// The intensity of anti-aliasing currently on the game. Ranges 0 to 8.
@@ -552,7 +551,7 @@ namespace KeepCoding
 
             private static int AntiAliasingInner => KTPlayerSettingsManager.Instance.PlayerSettings.AntiAliasing;
 
-            private static int AntiAliasingRewrittenInner => throw s_notDone;
+            private static int AntiAliasingRewrittenInner => RewrittenReferences.AntiAliasing;
 
             /// <summary>
             /// The current music volume from the dossier menu. Ranges 0 to 100.
@@ -572,7 +571,7 @@ namespace KeepCoding
 
             private static int MusicVolumeInner => KTPlayerSettingsManager.Instance.PlayerSettings.MusicVolume;
 
-            private static int MusicVolumeRewrittenInner => throw s_notDone;
+            private static int MusicVolumeRewrittenInner => RewrittenReferences.MusicVolume;
 
             /// <summary>
             /// The current sound effects volume from the dosssier menu. Ranges 0 to 100.
@@ -592,7 +591,7 @@ namespace KeepCoding
 
             private static int SFXVolumeInner => KTPlayerSettingsManager.Instance.PlayerSettings.SFXVolume;
 
-            private static int SFXVolumeRewrittenInner => throw s_notDone;
+            private static int SFXVolumeRewrittenInner => RewrittenReferences.SFXVolume;
 
             /// <summary>
             /// Determines if VSync is on or off.
@@ -612,7 +611,7 @@ namespace KeepCoding
 
             private static int VSyncInner => KTPlayerSettingsManager.Instance.PlayerSettings.VSync;
 
-            private static int VSyncRewrittenInner => throw s_notDone;
+            private static int VSyncRewrittenInner => RewrittenReferences.VSync;
 
             /// <summary>
             /// The current language code.
@@ -632,7 +631,7 @@ namespace KeepCoding
 
             private static string LanguageCodeInner => KTPlayerSettingsManager.Instance.PlayerSettings.LanguageCode;
 
-            private static string LanguageCodeRewrittenInner => throw s_notDone;
+            private static string LanguageCodeRewrittenInner => RewrittenReferences.LanguageCode;
         }
 
         /// <summary>
@@ -738,7 +737,7 @@ namespace KeepCoding
             StrikesInner(bomb, bomb.NumStrikes + amount, checkIfExploded);
         };
 
-        private static Action<GameObject, int, bool> AddStrikesRewrittenInner => throw s_notDone;
+        private static Action<GameObject, int, bool> AddStrikesRewrittenInner => RewrittenReferences.AddStrikes;
 
         /// <summary>
         /// Sets an amount of strikes on the bomb.
@@ -762,7 +761,7 @@ namespace KeepCoding
             StrikesInner(bomb, amount, checkIfExploded);
         };
 
-        private static Action<GameObject, int, bool> SetStrikesRewrittenInner => throw s_notDone;
+        private static Action<GameObject, int, bool> SetStrikesRewrittenInner => RewrittenReferences.SetStrikes;
 
         private static Action<object, int, bool> StrikesInner => (obj, amount, checkIfExploded) =>
         {
@@ -791,7 +790,7 @@ namespace KeepCoding
 
         private static Func<GameObject, object> BombInner => gameObject => gameObject.GetComponentInParent(typeof(Bomb));
 
-        private static Func<GameObject, object> BombRewrittenInner => throw s_notDone;
+        private static Func<GameObject, object> BombRewrittenInner => g => RewrittenReferences.GetBomb(g);
 
         /// <summary>
         /// Gets the game's internal timer component. To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to TimerComponent or <see cref="MonoBehaviour"/> type to restore its functionality.
@@ -811,7 +810,7 @@ namespace KeepCoding
 
         private static Func<GameObject, object> TimerInner => gameObject => ((Bomb)Bomb(gameObject)).GetTimer();
 
-        private static Func<GameObject, object> TimerRewrittenInner => throw s_notDone;
+        private static Func<GameObject, object> TimerRewrittenInner => RewrittenReferences.GetTimer;
 
         /// <summary>
         /// Gets all of the vanilla modules from the bomb supplied, including needies. To prevent a reference to the game, the type is boxed in an <see cref="object"/> <see cref="Array"/>. You can cast it to BombComponent type to restore its functionality.
@@ -834,7 +833,7 @@ namespace KeepCoding
             .Cast<object>()
             .ToArray();
 
-        private static Func<KMBomb, object[]> VanillasRewrittenInner => throw s_notDone;
+        private static Func<KMBomb, object[]> VanillasRewrittenInner => RewrittenReferences.GetVanillas;
 
         /// <summary>
         /// Determines what reference this library should use for the current class. This value can only be modified by the libraries featured in <see cref="References"/>, a <see cref="SecurityException"/> is thrown when this is attempted regardless.
