@@ -207,39 +207,71 @@ namespace KeepCoding
                 _ => throw s_badValue
             };
 
-            private static GeneratorSetting GeneratorSettingInner => ToGeneratorSetting(KTSceneManager.Instance.GameplayState.Mission.GeneratorSetting);
-
-            private static GeneratorSetting GeneratorSettingRewrittenInner => ToGeneratorSetting(RewrittenReferences.MissionGeneratorSetting);
-
-            private static Func<object, GeneratorSetting> ToGeneratorSetting => obj =>
+            private static GeneratorSetting GeneratorSettingInner
             {
-                var setting = (KTGeneratorSetting)obj;
-
-                var list = new List<ComponentPool>();
-
-                foreach (KTComponentPool pool in setting.ComponentPools)
+                get
                 {
-                    var types = new List<ComponentTypeEnum>();
+                    KTGeneratorSetting setting = KTSceneManager.Instance.GameplayState.Mission.GeneratorSetting;
 
-                    foreach (KTComponentTypeEnum type in pool.ComponentTypes)
-                        types.Add((ComponentTypeEnum)type);
+                    var list = new List<ComponentPool>();
 
-                    list.Add(new ComponentPool(
-                        pool.Count,
-                        (ComponentSource)pool.AllowedSources,
-                        (SpecialComponentTypeEnum)pool.SpecialComponentType,
-                        pool.ModTypes,
-                        types));
+                    foreach (KTComponentPool pool in setting.ComponentPools)
+                    {
+                        var types = new List<ComponentTypeEnum>();
+
+                        foreach (KTComponentTypeEnum type in pool.ComponentTypes)
+                            types.Add((ComponentTypeEnum)type);
+
+                        list.Add(new ComponentPool(
+                            pool.Count,
+                            (ComponentSource)pool.AllowedSources,
+                            (SpecialComponentTypeEnum)pool.SpecialComponentType,
+                            pool.ModTypes,
+                            types));
+                    }
+
+                    return new GeneratorSetting(
+                        setting.FrontFaceOnly,
+                        setting.OptionalWidgetCount,
+                        setting.NumStrikes,
+                        setting.TimeBeforeNeedyActivation,
+                        setting.TimeLimit,
+                        list);
                 }
+            }
 
-                return new GeneratorSetting(
-                    setting.FrontFaceOnly,
-                    setting.OptionalWidgetCount,
-                    setting.NumStrikes,
-                    setting.TimeBeforeNeedyActivation,
-                    setting.TimeLimit,
-                    list);
-            };
+            private static GeneratorSetting GeneratorSettingRewrittenInner
+            {
+                get
+                {
+                    KMGeneratorSetting setting = RewrittenReferences.MissionGeneratorSetting;
+
+                    var list = new List<ComponentPool>();
+
+                    foreach (KMComponentPool pool in setting.ComponentPools)
+                    {
+                        var types = new List<ComponentTypeEnum>();
+
+                        foreach (KTComponentTypeEnum type in pool.ComponentTypes)
+                            types.Add((ComponentTypeEnum)type);
+
+                        list.Add(new ComponentPool(
+                            pool.Count,
+                            (ComponentSource)pool.AllowedSources,
+                            (SpecialComponentTypeEnum)pool.SpecialComponentType,
+                            pool.ModTypes,
+                            types));
+                    }
+
+                    return new GeneratorSetting(
+                        setting.FrontFaceOnly,
+                        setting.OptionalWidgetCount,
+                        setting.NumStrikes,
+                        setting.TimeBeforeNeedyActivation,
+                        setting.TimeLimit,
+                        list);
+                }
+            }
         }
 
         /// <summary>
@@ -723,6 +755,7 @@ namespace KeepCoding
         /// </remarks>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
+        [CLSCompliant(false)]
         public static Action<GameObject, int, bool> AddStrikes => Reference switch
         {
             References.None => (gameObject, amount, checkIfExploded) => Self($"Adding the bomb's strike count with {amount}."),
@@ -747,6 +780,7 @@ namespace KeepCoding
         /// </remarks>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
+        [CLSCompliant(false)]
         public static Action<GameObject, int, bool> SetStrikes => Reference switch
         {
             References.None => (gameObject, amount, checkIfExploded) => Self($"Setting the bomb's strike count to {amount}."),
@@ -780,6 +814,7 @@ namespace KeepCoding
         /// </remarks>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
+        [CLSCompliant(false)]
         public static Func<GameObject, object> Bomb => Reference switch
         {
             References.None => gameObject => null,
@@ -790,7 +825,7 @@ namespace KeepCoding
 
         private static Func<GameObject, object> BombInner => gameObject => gameObject.GetComponentInParent(typeof(Bomb));
 
-        private static Func<GameObject, object> BombRewrittenInner => g => RewrittenReferences.GetBomb(g);
+        private static Func<GameObject, object> BombRewrittenInner => RewrittenReferences.GetBomb;
 
         /// <summary>
         /// Gets the game's internal timer component. To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to TimerComponent or <see cref="MonoBehaviour"/> type to restore its functionality.
@@ -800,6 +835,7 @@ namespace KeepCoding
         /// </remarks>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
+        [CLSCompliant(false)]
         public static Func<GameObject, object> Timer => Reference switch
         {
             References.None => gameObject => null,
@@ -820,6 +856,7 @@ namespace KeepCoding
         /// </remarks>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
+        [CLSCompliant(false)]
         public static Func<KMBomb, object[]> Vanillas => Reference switch
         {
             References.None => gameObject => new object[0],
