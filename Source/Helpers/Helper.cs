@@ -276,7 +276,7 @@ namespace KeepCoding
         /// <param name="weighting">The odds of the boolean being true.</param>
         /// <returns>An array of random booleans of length <paramref name="length"/>, with probability based off of <paramref name="weighting"/>.</returns>
         /// <returns></returns>
-        public static bool[] RandomBooleans(this int length, float weighting = 0.5f) => Range(0, length).Select(i => RandomBoolean(weighting)).ToArray();
+        public static bool[] RandomBooleans(this int length, float weighting = 0.5f) => Range(length).Select(i => RandomBoolean(weighting)).ToArray();
 
         /// <summary>
         /// Converts a character to a number.
@@ -366,7 +366,7 @@ namespace KeepCoding
         /// <param name="min">The minimum value for each index. (inclusive)</param>
         /// <param name="max">The maximum value for each index. (exclusive)</param>
         /// <returns>Random integer array of length <paramref name="length"/> between <paramref name="min"/> and <paramref name="max"/>.</returns>
-        public static int[] Ranges(this int length, int min, int max) => Range(0, length).Select(i => URandom.Range(min, max)).ToArray();
+        public static int[] Ranges(this int length, int min, int max) => Range(length).Select(i => URandom.Range(min, max)).ToArray();
 
         /// <summary>
         /// Generates a random set of integers.
@@ -377,7 +377,7 @@ namespace KeepCoding
         /// <param name="length">The length of the array.</param>
         /// <param name="range">The minimum (inclusive) and maximum (exclusive) values.</param>
         /// <returns>Random integer array of length <paramref name="length"/> between <paramref name="range"/>'s values.</returns>
-        public static int[] Ranges(this int length, Tuple<int, int> range) => Range(0, length).Select(i => URandom.Range(range.Item1, range.Item2)).ToArray();
+        public static int[] Ranges(this int length, Tuple<int, int> range) => Range(length).Select(i => URandom.Range(range.Item1, range.Item2)).ToArray();
 
         /// <summary>
         /// Parses each element of an array into a number. If it succeeds it returns the integer array, if it fails then it returns null.
@@ -453,7 +453,7 @@ namespace KeepCoding
         /// <param name="min">The minimum value for each index. (inclusive)</param>
         /// <param name="max">The maximum value for each index. (inclusive)</param>
         /// <returns>Random float array of length <paramref name="length"/> between <paramref name="min"/> and <paramref name="max"/>.</returns>
-        public static float[] Ranges(this int length, float min, float max) => Range(0, length).Select(i => URandom.Range(min, max)).ToArray();
+        public static float[] Ranges(this int length, float min, float max) => Enumerable.Range(0, length).Select(i => URandom.Range(min, max)).ToArray();
 
         /// <summary>
         /// Generates a random set of integers.
@@ -464,7 +464,7 @@ namespace KeepCoding
         /// <param name="length">The length of the array.</param>
         /// <param name="range">The minimum (inclusive) and maximum (exclusive) values.</param>
         /// <returns>Random integer array of length <paramref name="length"/> between <paramref name="range"/>'s values.</returns>
-        public static float[] Ranges(this int length, Tuple<float, float> range) => Range(0, length).Select(i => URandom.Range(range.Item1, range.Item2)).ToArray();
+        public static float[] Ranges(this int length, Tuple<float, float> range) => Enumerable.Range(0, length).Select(i => URandom.Range(range.Item1, range.Item2)).ToArray();
 
         /// <summary>
         /// Converts any base number to any base.
@@ -733,6 +733,20 @@ namespace KeepCoding
         }
 
         /// <summary>
+        /// Creates an <see cref="IEnumerable{T}"/> spanning from 0 to the number specified - 1.
+        /// </summary>
+        /// <param name="count">The length of the <see cref="IEnumerable"/>.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> from 0 to <paramref name="count"/> - 1.</returns>
+        public static IEnumerable<int> Range(this int count) => Enumerable.Range(0, count);
+
+        /// <summary>
+        /// Gets all fields and properties of the item using reflection.
+        /// </summary>
+        /// <param name="source">The item to get all fields and properties.</param>
+        /// <returns>All fields and properties of <paramref name="source"/>.</returns>
+        public static IEnumerable<string> ReflectAll<T>(this T source) => source?.GetType().GetFields(Flags).Select(f => $"\n{f} (Field): {f?.GetValue(source).Stringify()}").Concat(source?.GetType().GetProperties(Flags).Select(p => $"\n{p} (Property): {p?.GetValue(source, null).Stringify()}"));
+
+        /// <summary>
         /// Converts an <see cref="IEnumerator"/> to an <see cref="IEnumerable"/>.
         /// </summary>
         /// <exception cref="NullIteratorException"></exception>
@@ -764,13 +778,6 @@ namespace KeepCoding
         /// <param name="indices">The indices to exclude from <paramref name="source"/>.</param>
         /// <returns><paramref name="source"/>, but without the element indexing <paramref name="indices"/>.</returns>
         public static IEnumerable<T> Exclude<T>(this IEnumerable<T> source, params int[] indices) => source.Where((_, i) => !indices.Contains(i));
-
-        /// <summary>
-        /// Gets all fields and properties of the item using reflection.
-        /// </summary>
-        /// <param name="source">The item to get all fields and properties.</param>
-        /// <returns>All fields and properties of <paramref name="source"/>.</returns>
-        public static IEnumerable<string> ReflectAll<T>(this T source) => source?.GetType().GetFields(Flags).Select(f => $"\n{f} (Field): {f?.GetValue(source).Stringify()}").Concat(source?.GetType().GetProperties(Flags).Select(p => $"\n{p} (Property): {p?.GetValue(source, null).Stringify()}"));
 
         /// <summary>
         /// Removes the elements whose index does not match any of the indices.
@@ -845,6 +852,46 @@ namespace KeepCoding
 
                 buffer[j] = buffer[i];
             }
+        }
+
+        /// <summary>
+        /// Creates an <see cref="IEnumerable{T}"/> where each element is the return of a <see cref="Func{TResult}"/>.
+        /// </summary>
+        /// <exception cref="NegativeNumberException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <typeparam name="T">The type of the <see cref="Func{TResult}"/> as well as the return.</typeparam>
+        /// <param name="times">The amount of times to run the method.</param>
+        /// <param name="func">The encapsulated method to return for each value.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> of length <paramref name="times"/> where each element is the return of <paramref name="func"/>.</returns>
+        public static IEnumerable<T> Repeat<T>(this int times, Func<T> func)
+        {
+            func.NullCheck("The function cannot be null.");
+
+            if (times < 0)
+                throw new NegativeNumberException("The number cannot be negative.");
+
+            for (int i = 0; i < times; i++)
+                yield return func();
+        }
+
+        /// <summary>
+        /// Creates an <see cref="IEnumerable{T}"/> where each element gets passed in an <see cref="int"/> in <see cref="Func{T, TResult}"/> and returns <typeparamref name="T"/>.
+        /// </summary>
+        /// <exception cref="NegativeNumberException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <typeparam name="T">The type of the <see cref="Func{TResult}"/> as well as the return.</typeparam>
+        /// <param name="times">The amount of times to run the method.</param>
+        /// <param name="func">The encapsulated method to return for each value, passing in the index of the for-loop.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> of length <paramref name="times"/> where each element is the return of <paramref name="func"/> after the index is passed in.</returns>
+        public static IEnumerable<T> Repeat<T>(this int times, Func<int, T> func)
+        {
+            func.NullCheck("The function cannot be null.");
+
+            if (times < 0)
+                throw new NegativeNumberException("The number cannot be negative.");
+
+            for (int i = 0; i < times; i++)
+                yield return func(i);
         }
 
         /// <summary>
