@@ -24,6 +24,17 @@ namespace KeepCoding
         public static T As<T>(this object obj) where T : class => obj as T;
 
         /// <summary>
+        /// The <see langword="as"/> operator explicitly converts the result of an expression to a given reference or nullable value type. If the conversion is not possible, the <see langword="as"/> operator returns <see langword="null"/>. Unlike a cast expression, the <see langword="as"/> operator never throws an exception.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/type-testing-and-cast#as-operator"/>
+        /// </remarks>
+        /// <typeparam name="T">The type to cast the object into.</typeparam>
+        /// <param name="obj">The object to cast into.</param>
+        /// <returns><paramref name="obj"/> <see langword="as"/> <typeparamref name="T"/></returns>
+        public static T? AsStruct<T>(this object obj) where T : struct => obj as T?;
+
+        /// <summary>
         /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
         /// </summary>
         /// <remarks>
