@@ -18,7 +18,7 @@ namespace KeepCoding.Internal
     /// <summary>
     /// Custom inspector for <see cref="ModuleScript"/>. 
     /// </summary>
-    [CanEditMultipleObjects, CustomEditor(typeof(ModuleScript), true)]
+    [CanEditMultipleObjects, CLSCompliant(false), CustomEditor(typeof(ModuleScript), true)]
     public sealed class ModuleScriptEditor : Editor
     {
         private static string SelfPath => UnescapeDataString(new UriBuilder(GetExecutingAssembly().CodeBase).Path);

@@ -1,4 +1,5 @@
-﻿using KeepCoding.Internal;
+﻿using System;
+using KeepCoding.Internal;
 using UnityEngine;
 
 namespace KeepCoding
@@ -6,6 +7,7 @@ namespace KeepCoding
     /// <summary>
     /// An interface to implement log methods. Make each method return the same method in your <see cref="Logger"/> instance.  
     /// </summary>
+    [CLSCompliant(false)]
     public interface ILog
     {
         /// <summary>
@@ -14,6 +16,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="message">The message to log.</param>
         /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
+        [CLSCompliant(false)]
         public void Log<T>(T message, LogType logType = LogType.Log);
 
         /// <summary>

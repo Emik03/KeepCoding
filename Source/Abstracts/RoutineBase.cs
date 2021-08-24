@@ -138,6 +138,7 @@ namespace KeepCoding.Internal
         /// <param name="index">The index to index into <see cref="Coroutines"/>.</param>
         /// <exception cref="IndexOutOfRangeException">The parameter <paramref name="index"/> is out of range from <see cref="Coroutines"/>.</exception>
         /// <returns>The coroutine from <see cref="Coroutines"/>.</returns>
+        [CLSCompliant(false)]
         public Coroutine this[int index] => Coroutines[index];
 
         /// <summary>
@@ -303,6 +304,7 @@ namespace KeepCoding.Internal
         /// </code>
         /// </example>
         /// <seealso cref="Routine"/>
+        [CLSCompliant(false)]
         public List<Coroutine> Coroutines { get; private protected set; } = new List<Coroutine>();
 
         /// <summary>

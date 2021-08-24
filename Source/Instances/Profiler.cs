@@ -32,6 +32,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="action">The action to run when disposed.</param>
         /// <param name="type">The type of logging to perform.</param>
+        [CLSCompliant(false)]
         public Profiler(Action<string, LogType> action, LogType type = Log) : this() => _action = (s, _) => action?.Invoke(s, type);
 
         /// <summary>

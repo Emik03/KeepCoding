@@ -68,11 +68,11 @@ namespace KeepCoding
 
             EqualityComparer<TBy> default_ = EqualityComparer<TBy>.Default;
 
-            Func<T, T, bool> cmp = comparison == null
+            Func<T, T, bool> cmp = comparison is null
                 ? new Func<T, T, bool>((T a, T b) => default_.Equals(selector(a), selector(b)))
                 : new Func<T, T, bool>((T a, T b) => comparison(selector(a), selector(b)));
 
-            Func<T, int> ghc = getHashCode == null
+            Func<T, int> ghc = getHashCode is null
                 ? new Func<T, int>((T a) => default_.GetHashCode(selector(a)))
                 : new Func<T, int>((T a) => getHashCode(selector(a)));
 

@@ -22,12 +22,14 @@ namespace KeepCoding
         /// An instance of Sound where <see cref="Custom"/> is defined.
         /// </summary>
         /// <param name="sound">The sound to insert.</param>
+        [CLSCompliant(false)]
         public Sound(AudioClip sound) => Custom = sound.NullCheck("The AudioClip provided is null!").name;
 
         /// <summary>
         /// An instance of sound where <see cref="Game"/> is defined.
         /// </summary>
         /// <param name="sound">The sound to insert.</param>
+        [CLSCompliant(false)]
         public Sound(SoundEffect sound) => Game = sound;
 
         /// <summary>
@@ -38,11 +40,13 @@ namespace KeepCoding
         /// <summary>
         /// The in-game sound.
         /// </summary>
+        [CLSCompliant(false)]
         public SoundEffect? Game { get; }
 
         /// <summary>
         /// The audio reference that is playing the sound.
         /// </summary>
+        [CLSCompliant(false)]
         public KMAudioRef Reference { get; internal set; }
 
         /// <summary>
@@ -237,6 +241,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="sound">The variable to grab the property from.</param>
         /// <returns><paramref name="sound"/>'s <see cref="Game"/>.</returns>
+        [CLSCompliant(false)]
         public static explicit operator SoundEffect?(Sound sound) => sound.Game;
 
         /// <summary>
@@ -245,6 +250,7 @@ namespace KeepCoding
         /// <exception cref="InvalidOperationException"></exception>
         /// <param name="sound">The variable to grab the property from.</param>
         /// <returns><paramref name="sound"/>'s <see cref="Game"/>.</returns>
+        [CLSCompliant(false)]
         public static explicit operator SoundEffect(Sound sound) => sound?.Game ?? throw new InvalidOperationException($"You cannot cast a null value of {nameof(Sound)} or {nameof(Game)} into a non-nullable {nameof(SoundEffect)}.");
 
         /// <summary>
@@ -259,6 +265,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="sound">The sound to insert.</param>
         /// <returns><see cref="Sound"/> with argument <paramref name="sound"/>.</returns>
+        [CLSCompliant(false)]
         public static implicit operator Sound(AudioClip sound) => new Sound(sound);
 
         /// <summary>
@@ -266,6 +273,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="sound">The sound to insert.</param>
         /// <returns><see cref="Sound"/> with argument <paramref name="sound"/>.</returns>
+        [CLSCompliant(false)]
         public static implicit operator Sound(SoundEffect sound) => new Sound(sound);
 
         /// <summary>
@@ -311,6 +319,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="audio">The instance of <see cref="KMAudio"/> to play from.</param>
         /// <returns>A method that when called, will play the sound and return the <see cref="KMAudioRef"/> instance.</returns>
+        [CLSCompliant(false)]
         public Func<Transform, bool, KMAudioRef> Method(KMAudio audio) =>
             Custom is { } ? ((t, b) => KeyHelper.Catch<NullReferenceException, KMAudioRef>(() => audio.HandlePlaySoundAtTransformWithRef?.Invoke(Custom, t, b), null)()) :
             Game is { } ? (Func<Transform, bool, KMAudioRef>)((t, b) => b ? throw new ArgumentException("The game doesn't support looping in-game sounds.") : KeyHelper.Catch<NullReferenceException, KMAudioRef>(() => audio.HandlePlayGameSoundAtTransformWithRef?.Invoke(Game.Value, t), null)()) :

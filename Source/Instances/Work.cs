@@ -23,7 +23,7 @@ namespace KeepCoding
         /// <param name="work">The method to call when thread starts.</param>
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
-        public Work(Action work, bool allowSimultaneousActive, uint maximumThreadsActive)
+        public Work(Action work, bool allowSimultaneousActive, int maximumThreadsActive)
             : base(allowSimultaneousActive, maximumThreadsActive)
             => Thread = new Thread(() =>
             {
@@ -71,7 +71,7 @@ namespace KeepCoding
         /// <param name="work">The method to call when thread starts.</param>
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
-        public Work(Func<T> work, bool allowSimultaneousActive, uint maximumThreadsActive)
+        public Work(Func<T> work, bool allowSimultaneousActive, int maximumThreadsActive)
             : base(allowSimultaneousActive, maximumThreadsActive)
             => Thread = new Thread(() =>
             {
@@ -124,7 +124,7 @@ namespace KeepCoding
         /// <param name="work">The method to call when thread starts.</param>
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
-        public Work(Func<T, TResult> work, bool allowSimultaneousActive, uint maximumThreadsActive)
+        public Work(Func<T, TResult> work, bool allowSimultaneousActive, int maximumThreadsActive)
             : base(allowSimultaneousActive, maximumThreadsActive) => _work = work;
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace KeepCoding
         /// <param name="work">The method to call when thread starts.</param>
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
-        public Work(Func<T1, T2, TResult> work, bool allowSimultaneousActive, uint maximumThreadsActive)
+        public Work(Func<T1, T2, TResult> work, bool allowSimultaneousActive, int maximumThreadsActive)
             : base(allowSimultaneousActive, maximumThreadsActive) => _work = work;
 
         /// <summary>
@@ -236,7 +236,7 @@ namespace KeepCoding
         /// <param name="work">The method to call when thread starts.</param>
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
-        public Work(Func<T1, T2, T3, TResult> work, bool allowSimultaneousActive, uint maximumThreadsActive)
+        public Work(Func<T1, T2, T3, TResult> work, bool allowSimultaneousActive, int maximumThreadsActive)
             : base(allowSimultaneousActive, maximumThreadsActive) => _work = work;
 
         /// <summary>
@@ -292,7 +292,7 @@ namespace KeepCoding
         /// <param name="work">The method to call when thread starts.</param>
         /// <param name="allowSimultaneousActive">Whether it should allow multiple of itself to be running at once.</param>
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
-        public Work(Func<T1, T2, T3, T4, TResult> work, bool allowSimultaneousActive, uint maximumThreadsActive)
+        public Work(Func<T1, T2, T3, T4, TResult> work, bool allowSimultaneousActive, int maximumThreadsActive)
             : base(allowSimultaneousActive, maximumThreadsActive) => _work = work;
 
         /// <summary>

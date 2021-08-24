@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Linq;
 using UnityEditor;
 using static UnityEngine.GUILayout;
@@ -9,7 +10,7 @@ namespace KeepCoding.Internal
     /// <summary>
     /// Custom inspector for <see cref="TPScript{TModule}"/>. 
     /// </summary>
-    [CanEditMultipleObjects, CustomEditor(typeof(TPScript<>), true)]
+    [CanEditMultipleObjects, CLSCompliant(false), CustomEditor(typeof(TPScript<>), true)]
     public sealed class TPScriptEditor : Editor
     {
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace KeepCoding
@@ -6,6 +7,7 @@ namespace KeepCoding
     /// <summary>
     /// Interface for Twitch Plays support. 
     /// </summary>
+    [CLSCompliant(false)]
     public interface ITP
     {
         /// <summary>

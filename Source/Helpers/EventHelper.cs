@@ -24,6 +24,7 @@ namespace KeepCoding
         /// <param name="bombInfo">The bomb info instance to assign events to.</param>
         /// <param name="onBombExploded">Called when the bomb explodes.</param>
         /// <param name="onBombSolved">Called when the bomb is defused.</param>
+        [CLSCompliant(false)]
         public static KMBombInfo Assign(this KMBombInfo bombInfo, Action onBombExploded = null, Action onBombSolved = null)
         {
             AssertDefault(bombInfo);
@@ -44,6 +45,7 @@ namespace KeepCoding
         /// <param name="onActivate">Called when the lights turn on.</param>
         /// <param name="onPass">Called when the module is solved.</param>
         /// <param name="onStrike">Called when the module strikes.</param>
+        [CLSCompliant(false)]
         public static KMBombModule Assign(this KMBombModule bombModule, Action onActivate = null, Action onPass = null, Action onStrike = null)
         {
             AssertDefault(bombModule);
@@ -66,6 +68,7 @@ namespace KeepCoding
         /// <param name="onStateChange">Called when the state of the game changes.</param>
         /// <param name="onAlarmClockChange">Called when the alarm clock changes state, and passes in whether it's on or off.</param>
         /// <param name="onLightsChange">Called when the lights change state, and passes in whether it's on or off.</param>
+        [CLSCompliant(false)]
         public static KMGameInfo Assign(this KMGameInfo gameInfo, Action<State> onStateChange = null, Action<bool> onAlarmClockChange = null, Action<bool> onLightsChange = null)
         {
             AssertDefault(gameInfo);
@@ -90,6 +93,7 @@ namespace KeepCoding
         /// <param name="onPass">Called when the needy is solved.</param>
         /// <param name="onStrike">Called when the needy strikes.</param>
         /// <param name="onTimerExpired">Called when the timer runs out of time.</param>
+        [CLSCompliant(false)]
         public static KMNeedyModule Assign(this KMNeedyModule needyModule, Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null)
         {
             AssertDefault(needyModule);
@@ -126,6 +130,7 @@ namespace KeepCoding
         /// <param name="onRight">Called when the right controller stick is pulled while selected.</param>
         /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
         /// <param name="onUpdateChildren">Called when the selectable updates its children.</param>
+        [CLSCompliant(false)]
         public static KMSelectable Assign(this KMSelectable selectable, bool? overrideReturn = null, Action onCancel = null, Action onDefocus = null, Action onDeselect = null, Action onFocus = null, Action onHighlight = null, Action onHighlightEnded = null, Action onInteract = null, Action onInteractEnded = null, Action<float> onInteractionPunch = null, Action onLeft = null, Action onRight = null, Action onSelect = null, Action<KMSelectable> onUpdateChildren = null)
         {
             AssertDefault(selectable);
@@ -173,6 +178,7 @@ namespace KeepCoding
         /// <param name="onRight">Called when the right controller stick is pulled while selected.</param>
         /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
         /// <param name="onUpdateChildren">Called when the selectable updates its children.</param>
+        [CLSCompliant(false)]
         public static KMSelectable[] Assign(this KMSelectable[] selectable, bool? overrideReturn = null, Action<int> onCancel = null, Action<int> onDefocus = null, Action<int> onDeselect = null, Action<int> onFocus = null, Action<int> onHighlight = null, Action<int> onHighlightEnded = null, Action<int> onInteract = null, Action<int> onInteractEnded = null, Action<int, float> onInteractionPunch = null, Action<int> onLeft = null, Action<int> onRight = null, Action<int> onSelect = null, Action<int, KMSelectable> onUpdateChildren = null) =>
             selectable.NullOrEmptyCheck("The array is not populated. Please check your public fields in Unity.").ToArray().Call((s, i) => s.Assign(
                 overrideReturn,
@@ -214,6 +220,7 @@ namespace KeepCoding
         /// <param name="onRight">Called when the right controller stick is pulled while selected.</param>
         /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
         /// <param name="onUpdateChildren">Called when the selectable updates its children.</param>
+        [CLSCompliant(false)]
         public static KMSelectable[] Assign(this KMSelectable[] selectable, bool? overrideReturn = null, Action<KMSelectable> onCancel = null, Action<KMSelectable> onDefocus = null, Action<KMSelectable> onDeselect = null, Action<KMSelectable> onFocus = null, Action<KMSelectable> onHighlight = null, Action<KMSelectable> onHighlightEnded = null, Action<KMSelectable> onInteract = null, Action<KMSelectable> onInteractEnded = null, Action<KMSelectable, float> onInteractionPunch = null, Action<KMSelectable> onLeft = null, Action<KMSelectable> onRight = null, Action<KMSelectable> onSelect = null, Action<KMSelectable, KMSelectable> onUpdateChildren = null) =>
             selectable.NullOrEmptyCheck("The array is not populated. Please check your public fields in Unity.").ToArray().ForEach(s => s.Assign(
                 overrideReturn,
@@ -235,6 +242,7 @@ namespace KeepCoding
         /// Stops all sounds for the entire <see cref="KMAudioRef"/> <see cref="Array"/>.
         /// </summary>
         /// <param name="audioRefs">The <see cref="KMAudioRef"/> <see cref="Array"/> to mute all sounds from, using <see cref="KMAudioRef.StopSound"/>.</param>
+        [CLSCompliant(false)]
         public static KMAudioRef[] StopSound(this KMAudioRef[] audioRefs) => audioRefs.ForEach(a => a.StopSound());
 
         /// <summary>

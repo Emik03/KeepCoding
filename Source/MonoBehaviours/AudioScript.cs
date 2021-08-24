@@ -9,6 +9,7 @@ using static KeepCoding.Game.PlayerSettings;
 /// <summary>
 /// Encapsulates an <see cref="AudioSource"/> and scales it with the game's volume using <see cref="SFXVolume"/> and <see cref="MusicVolume"/>.
 /// </summary>
+[CLSCompliant(false)]
 #pragma warning disable CA1050 // Declare types in namespaces
 public sealed class AudioScript : CacheableBehaviour
 #pragma warning restore CA1050 // Declare types in namespaces

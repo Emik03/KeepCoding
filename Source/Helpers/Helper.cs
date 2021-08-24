@@ -63,6 +63,7 @@ namespace KeepCoding
         /// <param name="obj">The game object to search with.</param>
         /// <param name="component">The variable to store the component in.</param>
         /// <returns>True if a component has been found of type <typeparamref name="T"/> from <paramref name="obj"/>.</returns>
+        [CLSCompliant(false)]
         public static bool HasComponent<T>(this GameObject obj, out T component) where T : Component => (component = obj.GetComponent<T>()) is T;
 
         /// <summary>
@@ -186,6 +187,7 @@ namespace KeepCoding
         /// <param name="min">The minimum value required to return <see langword="true"/>.</param>
         /// <param name="max">The maximum value required to return <see langword="true"/>.</param>
         /// <returns>True if <paramref name="comparison"/> is more than or equal <paramref name="min"/> and less than or equal <paramref name="max"/>.</returns>
+        [CLSCompliant(false)]
         public static bool IsBetween(this uint comparison, uint min, uint max) => comparison >= min && comparison <= max;
 
         /// <summary>
@@ -194,6 +196,7 @@ namespace KeepCoding
         /// <param name="comparison">The number to use as comparison.</param>
         /// <param name="range">The minimum and maximum value required to return <see langword="true"/>.</param>
         /// <returns>True if <paramref name="comparison"/> is more than or equal <see cref="Tuple{T}.Item1"/> and less than or equal <see cref="Tuple{T1, T2}.Item2"/>.</returns>
+        [CLSCompliant(false)]
         public static bool IsBetween(this uint comparison, Tuple<uint, uint> range) => comparison >= range.Item1 && comparison <= range.Item2;
 
         /// <summary>
@@ -203,6 +206,7 @@ namespace KeepCoding
         /// <param name="min">The minimum value required to return <see langword="true"/>.</param>
         /// <param name="max">The maximum value required to return <see langword="true"/>.</param>
         /// <returns>True if <paramref name="comparison"/> is more than or equal <paramref name="min"/> and less than or equal <paramref name="max"/>.</returns>
+        [CLSCompliant(false)]
         public static bool IsBetween(this ulong comparison, ulong min, ulong max) => comparison >= min && comparison <= max;
 
         /// <summary>
@@ -211,6 +215,7 @@ namespace KeepCoding
         /// <param name="comparison">The number to use as comparison.</param>
         /// <param name="range">The minimum and maximum value required to return <see langword="true"/>.</param>
         /// <returns>True if <paramref name="comparison"/> is more than or equal <see cref="Tuple{T}.Item1"/> and less than or equal <see cref="Tuple{T1, T2}.Item2"/>.</returns>
+        [CLSCompliant(false)]
         public static bool IsBetween(this ulong comparison, Tuple<ulong, ulong> range) => comparison >= range.Item1 && comparison <= range.Item2;
 
         /// <summary>
@@ -254,6 +259,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="kmSelectable">This is required to check the children field.</param>
         /// <returns>True if <see cref="KMSelectable.Children"/> is empty.</returns>
+        [CLSCompliant(false)]
         public static bool IsParent(this KMSelectable kmSelectable) => !kmSelectable.Children.IsNullOrEmpty();
 
         /// <summary>
@@ -332,8 +338,8 @@ namespace KeepCoding
         /// Counts the number of members in an enum.
         /// </summary>
         /// <typeparam name="T">The enum to check the length for.</typeparam>
-        /// <returns>The number of members in <typeparamref name="T"/>.</returns>
-        public static int MemberCount<T>() where T : struct, Enum, IConvertible => Enum.GetNames(typeof(T)).Length;
+        /// <returns>The number of members in <typeparamref name="T"/>.</returns> 
+        public static int MemberCount<T>() where T : struct, Enum => Enum.GetNames(typeof(T)).Length;
 
         /// <summary>
         /// Calculates the rem-euclid modulo, which allows negative numbers to be properly calculated.
@@ -521,12 +527,17 @@ namespace KeepCoding
         /// <remarks>
         /// This can be useful to prevent a <see cref="TextMesh"/> from going outside its boundaries. A monospaced font is recommended in this case.
         /// </remarks>
+        /// <exception cref="FormatException"></exception>
+        /// <exception cref="NegativeNumberException"></exception>
         /// <param name="condition">The string to insert line breaks with.</param>
         /// <param name="maxLineLength">The maximum number of characters in one line.</param>
         /// <returns><paramref name="condition"/> with a line break every <paramref name="maxLineLength"/> or less characters.</returns>
-        public static string InsertNewlines(this string condition, ushort maxLineLength)
+        public static string InsertNewlines(this string condition, int maxLineLength)
         {
-            if (maxLineLength == 0)
+            if (maxLineLength < 0)
+                throw new NegativeNumberException($"{nameof(maxLineLength)} must be a positive integer.");
+
+            if (maxLineLength is 0)
                 throw new FormatException($"{nameof(maxLineLength)} cannot be 0 because that would insert infinite linebreaks for each character.");
 
             condition = condition.NullCheck("Line breaks cannot be inserted in a null string.").Replace('\n', ' ');
@@ -689,6 +700,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="logType">The type of method to get.</param>
         /// <returns>The log method representing the enum <paramref name="logType"/>.</returns>
+        [CLSCompliant(false)]
         public static Action<object> Method(this LogType logType) => logType switch
         {
             LogType.Error => LogError,
@@ -705,6 +717,7 @@ namespace KeepCoding
         /// <param name="monoBehaviour">The <see cref="MonoBehaviour"/> instance needed to stop coroutines.</param>
         /// <param name="coroutines">The <see cref="Coroutine"/>s to stop.</param>
         /// <returns>The array of <see cref="Coroutine"/>s given.</returns>
+        [CLSCompliant(false)]
         public static Coroutine[] Stop(this MonoBehaviour monoBehaviour, params Coroutine[] coroutines) => coroutines?.ForEach(c =>
         {
             if (c is { })
@@ -964,6 +977,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="bombInfo">The instance of <see cref="KMBombInfo"/> needed to get the modules.</param>
         /// <returns>A list of unsolved module names.</returns>
+        [CLSCompliant(false)]
         public static List<string> GetUnsolvedModuleIDs(this KMBombInfo bombInfo)
         {
             List<string> modules = bombInfo.GetSolvableModuleIDs();
@@ -976,6 +990,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="bombInfo">The instance of <see cref="KMBombInfo"/> needed to get the modules.</param>
         /// <returns>A list of unsolved modules.</returns>
+        [CLSCompliant(false)]
         public static List<string> GetUnsolvedModuleNames(this KMBombInfo bombInfo)
         {
             List<string> modules = bombInfo.GetSolvableModuleNames();
@@ -1044,6 +1059,7 @@ namespace KeepCoding
         /// <param name="obj">The <see cref="Object"/> to do a null check on.</param>
         /// <param name="message">The message of the exception.</param>
         /// <returns>The component <paramref name="obj"/>.</returns>
+        [CLSCompliant(false)]
         public static T Assert<T>(this T obj, string message = "While asserting for null, the variable ended up null.") where T : Object => obj ? obj : throw new MissingComponentException(message);
 
         /// <summary>
@@ -1069,6 +1085,7 @@ namespace KeepCoding
         /// <param name="item">The item to log</param>
         /// <param name="logType">The type of logging.</param>
         /// <returns>The item <paramref name="item"/>.</returns>
+        [CLSCompliant(false)]
         public static T Call<T>(this T item, LogType logType = LogType.Log) => item.Call(t => logType.Method()(t.Stringify()));
 
         /// <summary>

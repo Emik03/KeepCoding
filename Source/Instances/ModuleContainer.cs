@@ -4,7 +4,6 @@ using KeepCoding.Internal;
 using UnityEngine;
 using static KeepCoding.Game;
 using static KeepCoding.Game.References;
-using static UnityEngine.Application;
 
 namespace KeepCoding
 {
@@ -33,6 +32,7 @@ namespace KeepCoding
         /// Encapsulates either a solvable or needy module. Uses <see cref="Component.GetComponent{T}"/>.
         /// </summary>
         /// <param name="component">The component to get the modules from.</param>
+        [CLSCompliant(false)]
         public ModuleContainer(Component component)
         {
             if (Reference is Ktane)
@@ -46,12 +46,14 @@ namespace KeepCoding
         /// Encapsulates a solvable module.
         /// </summary>
         /// <param name="solvable">The instance of a normal module.</param>
+        [CLSCompliant(false)]
         public ModuleContainer(KMBombModule solvable) : this(solvable, null) { }
 
         /// <summary>
         /// Encapsulates a needy module.
         /// </summary>
         /// <param name="needy">The instance of a needy module.</param>
+        [CLSCompliant(false)]
         public ModuleContainer(KMNeedyModule needy) : this(null, needy) { }
 
         /// <summary>
@@ -60,6 +62,7 @@ namespace KeepCoding
         /// <exception cref="ConstructorArgumentException"></exception>
         /// <param name="solvable">The instance of a normal module.</param>
         /// <param name="needy">The instance of a needy module.</param>
+        [CLSCompliant(false)]
         public ModuleContainer(KMBombModule solvable, KMNeedyModule needy)
         {
             if ((bool)solvable == needy)
@@ -149,17 +152,20 @@ namespace KeepCoding
         /// Returns <see cref="KMBombModule"/>, or if null, throws a <see cref="NullReferenceException"/>.
         /// </summary>
         /// <exception cref="NullReferenceException"></exception>
+        [CLSCompliant(false)]
         public KMBombModule Solvable => _bombModule.NullCheck("KMBombModule is null, yet you are trying to access it.");
 
         /// <summary>
         /// Returns <see cref="KMNeedyModule"/>, or if null, throws a <see cref="NullReferenceException"/>.
         /// </summary>
         /// <exception cref="NullReferenceException"></exception>
+        [CLSCompliant(false)]
         public KMNeedyModule Needy => _needyModule.NullCheck("KMNeedyModule is null, yet you are trying to access it.");
 
         /// <summary>
         /// Returns <see cref="KMBombModule"/>, or if null, <see cref="KMNeedyModule"/>.
         /// </summary>
+        [CLSCompliant(false)]
         public MonoBehaviour Module => _bombModule ?? (MonoBehaviour)_needyModule;
 
         /// <summary>
@@ -167,6 +173,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="solvable">The solvable module to create a new <see cref="ModuleContainer"/> of.</param>
         /// <returns>A <see cref="ModuleContainer"/> with parameter <paramref name="solvable"/>.</returns>
+        [CLSCompliant(false)]
         public static implicit operator ModuleContainer(KMBombModule solvable) => new ModuleContainer(solvable: solvable);
 
         /// <summary>
@@ -174,6 +181,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="needy">The needy module to create a new <see cref="ModuleContainer"/> of.</param>
         /// <returns>A <see cref="ModuleContainer"/> with parameter <paramref name="needy"/>.</returns>
+        [CLSCompliant(false)]
         public static implicit operator ModuleContainer(KMNeedyModule needy) => new ModuleContainer(needy: needy);
 
         /// <summary>
@@ -181,6 +189,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="container">The <see cref="ModuleContainer"/> to get the <see cref="KMBombModule"/> from.</param>
         /// <returns>A <see cref="KMBombModule"/> from <see cref="Solvable"/>.</returns>
+        [CLSCompliant(false)]
         public static explicit operator KMBombModule(ModuleContainer container) => container.Solvable;
 
         /// <summary>
@@ -188,6 +197,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="container">The <see cref="ModuleContainer"/> to get the <see cref="KMNeedyModule"/> from.</param>
         /// <returns>A <see cref="KMBombModule"/> from <see cref="Needy"/>.</returns>
+        [CLSCompliant(false)]
         public static explicit operator KMNeedyModule(ModuleContainer container) => container.Needy;
 
         /// <summary>

@@ -104,6 +104,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="message">The message to log.</param>
         /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
+        [CLSCompliant(false)]
         public void Log<T>(T message, LogType logType = LogType.Log) => logType.Method()(_format.Form($"{Name}{(_showId ? $" #{Id}" : "")}", message.Combine()));
 
         /// <summary>

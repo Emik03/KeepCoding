@@ -15,6 +15,7 @@ namespace KeepCoding.Internal
     /// <summary>
     /// Editor-only behaviour that gets values from <see cref="Component"/>s in real-time.
     /// </summary>
+    [CLSCompliant(false)]
     public sealed class ReflectionScript : MonoBehaviour, ILog
     {
         private class NullableObject

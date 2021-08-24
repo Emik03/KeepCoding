@@ -15,6 +15,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="enumerator">The enumerator to call when initiated.</param>
         /// <param name="monoBehaviour">The MonoBehaviour to reference when calling the method.</param>
+        [CLSCompliant(false)]
         public Routine(Func<IEnumerator> enumerator, MonoBehaviour monoBehaviour) : base(monoBehaviour) => _enumerator = enumerator;
 
         /// <summary>
@@ -95,6 +96,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="enumerator">The enumerator to call when initiated.</param>
         /// <param name="monoBehaviour">The MonoBehaviour to reference when calling the method.</param>
+        [CLSCompliant(false)]
         public Routine(Func<T, IEnumerator> enumerator, MonoBehaviour monoBehaviour) : base(monoBehaviour) => _enumerator = enumerator;
 
         /// <summary>
@@ -179,6 +181,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="enumerator">The enumerator to call when initiated.</param>
         /// <param name="monoBehaviour">The MonoBehaviour to reference when calling the method.</param>
+        [CLSCompliant(false)]
         public Routine(Func<T1, T2, IEnumerator> enumerator, MonoBehaviour monoBehaviour) : base(monoBehaviour) => _enumerator = enumerator;
 
         /// <summary>
@@ -267,6 +270,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="enumerator">The enumerator to call when initiated.</param>
         /// <param name="monoBehaviour">The MonoBehaviour to reference when calling the method.</param>
+        [CLSCompliant(false)]
         public Routine(Func<T1, T2, T3, IEnumerator> enumerator, MonoBehaviour monoBehaviour) : base(monoBehaviour) => _enumerator = enumerator;
 
         /// <summary>
@@ -359,6 +363,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="enumerator">The enumerator to call when initiated.</param>
         /// <param name="monoBehaviour">The MonoBehaviour to reference when calling the method.</param>
+        [CLSCompliant(false)]
         public Routine(Func<T1, T2, T3, T4, IEnumerator> enumerator, MonoBehaviour monoBehaviour) : base(monoBehaviour) => _enumerator = enumerator;
 
         /// <summary>

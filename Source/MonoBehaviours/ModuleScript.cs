@@ -27,6 +27,7 @@ namespace KeepCoding
     /// <summary>
     /// Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes.
     /// </summary>
+    [CLSCompliant(false)]
     public abstract class ModuleScript : CacheableBehaviour, IDump, ILog
     {
         private bool _hasException;

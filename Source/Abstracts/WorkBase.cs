@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Threading;
 using UnityEngine;
 
@@ -9,11 +10,11 @@ namespace KeepCoding.Internal
     /// </summary>
     public abstract class WorkBase
     {
-        private readonly uint _maximumThreadsActive;
+        private readonly int _maximumThreadsActive;
 
-        internal WorkBase() : this(true, 1) { }
+        private protected WorkBase() : this(true, 1) { }
 
-        internal WorkBase(in bool allowSimultaneousActive, in uint maximumThreadsActive)
+        private protected WorkBase(in bool allowSimultaneousActive, in int maximumThreadsActive)
         {
             AllowSimultaneousActive = allowSimultaneousActive;
             _maximumThreadsActive = maximumThreadsActive;
@@ -32,7 +33,7 @@ namespace KeepCoding.Internal
         /// <summary>
         /// Counts the number of threads currently active within this class, and all of its overloads.
         /// </summary>
-        public static uint ThreadsActive { get; private protected set; }
+        public static int ThreadsActive { get; private protected set; }
 
         /// <summary>
         /// The thread of the class.
