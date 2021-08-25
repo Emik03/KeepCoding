@@ -427,6 +427,18 @@ namespace KeepCoding
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement"/>
         /// </remarks>
         /// <exception cref="NullReferenceException"></exception>
+        /// <param name="iterator">The collection of items to go through one-by-one.</param>
+        /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
+        /// <returns><paramref name="iterator"/></returns>
+        public static IEnumerable ForEach(this IEnumerable iterator, Action<object, int> action) => ForEach(iterator.NullCheck("The iterator cannot be null.").Cast<object>(), action);
+
+        /// <summary>
+        /// The <see langword="foreach"/> statement executes a statement or a block of statements for each element in an instance of the type that implements the <see cref="IEnumerable"/> or <see cref="IEnumerable{T}"/> interface.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T">The type of iterator.</typeparam>
         /// <param name="iterator">The collection of items to go through one-by-one.</param>
         /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
@@ -437,6 +449,29 @@ namespace KeepCoding
 
             foreach (T item in iterator)
                 action(item);
+
+            return iterator;
+        }
+
+        /// <summary>
+        /// The <see langword="foreach"/> statement executes a statement or a block of statements for each element in an instance of the type that implements the <see cref="IEnumerable"/> or <see cref="IEnumerable{T}"/> interface.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <typeparam name="T">The type of iterator.</typeparam>
+        /// <param name="iterator">The collection of items to go through one-by-one.</param>
+        /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
+        /// <returns><paramref name="iterator"/></returns>
+        public static IEnumerable<T> ForEach<T>(this IEnumerable<T> iterator, Action<T, int> action)
+        {
+            action.NullCheck("The action cannot be null.");
+
+            int i = 0;
+
+            foreach (T item in iterator)
+                action(item, checked(i++));
 
             return iterator;
         }
@@ -460,11 +495,36 @@ namespace KeepCoding
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement"/>
         /// </remarks>
         /// <exception cref="NullReferenceException"></exception>
+        /// <param name="iterator">The collection of items to go through one-by-one.</param>
+        /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
+        /// <returns><paramref name="iterator"/></returns>
+        public static IEnumerable ForEach(this IEnumerator iterator, Action<object, int> action) => ForEach(iterator.AsEnumerable(), action);
+
+        /// <summary>
+        /// The <see langword="foreach"/> statement executes a statement or a block of statements for each element in an instance of the type that implements the <see cref="IEnumerable"/> or <see cref="IEnumerable{T}"/> interface.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T">The type of iterator.</typeparam>
         /// <param name="iterator">The collection of items to go through one-by-one.</param>
         /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
         /// <returns><paramref name="iterator"/></returns>
         public static IEnumerable<T> ForEach<T>(this IEnumerator<T> iterator, Action<T> action) => ForEach(iterator.AsEnumerable(), action);
+
+        /// <summary>
+        /// The <see langword="foreach"/> statement executes a statement or a block of statements for each element in an instance of the type that implements the <see cref="IEnumerable"/> or <see cref="IEnumerable{T}"/> interface.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <typeparam name="T">The type of iterator.</typeparam>
+        /// <param name="iterator">The collection of items to go through one-by-one.</param>
+        /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
+        /// <returns><paramref name="iterator"/></returns>
+        public static IEnumerable<T> ForEach<T>(this IEnumerator<T> iterator, Action<T, int> action) => ForEach(iterator.AsEnumerable(), action);
 
         /// <summary>
         /// An <see langword="if"/> statement identifies which statement to run based on the value of a Boolean expression.
