@@ -32,7 +32,7 @@
   <PropertyGroup>
     <GameFolder Condition="'$(GameFolder)' == ''">D:\Steam\steamapps\common\Keep Talking and Nobody Explodes\</GameFolder>
     <Unity Condition="'$(Unity)' == ''">C:\Program Files\Editor\</Unity>
-    <Nullable>warnings</Nullable>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
