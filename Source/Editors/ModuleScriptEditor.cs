@@ -51,39 +51,39 @@ namespace KeepCoding.Internal
 
         private static IEnumerator GetLatest()
         {
-            using (UnityWebRequest latest = PathManager.LatestGitHub)
-            {
-                yield return latest.SendWebRequest();
+            using UnityWebRequest latest = PathManager.LatestGitHub;
 
-                if (AssertNetwork(latest, "The library was unable to get the version number"))
-                    yield break;
+            yield return latest.SendWebRequest();
 
-                string tagName = JObject.Parse(latest.downloadHandler.text).GetValue("tag_name").ToObject<string>();
+            if (AssertNetwork(latest, "The library was unable to get the version number"))
+                yield break;
 
-                Self($"The latest version ({tagName}) was successfully fetched, downloading files...");
+            string tagName = JObject.Parse(latest.downloadHandler.text).GetValue("tag_name").ToObject<string>();
 
-                yield return InstallLatest(tagName, "xml");
-                yield return InstallLatest(tagName, "dll");
+            Self($"The latest version ({tagName}) was successfully fetched, downloading files...");
 
-                Self($"Process complete. Your Unity should now start reloading...");
-            }
+            yield return InstallLatest(tagName, "xml");
+            yield return InstallLatest(tagName, "dll");
+
+            Self($"Process complete. Your Unity should now start reloading...");
+
         }
 
         private static IEnumerator InstallLatest(string tagName, string extension)
         {
-            using (UnityWebRequest web = Get($"https://github.com/Emik03/KeepCoding/releases/download/{tagName}/KeepCoding.{extension}"))
-            {
-                Self($"Downloading the latest {extension} file...");
+            using UnityWebRequest web = Get($"https://github.com/Emik03/KeepCoding/releases/download/{tagName}/KeepCoding.{extension}");
 
-                yield return web.SendWebRequest();
+            Self($"Downloading the latest {extension} file...");
 
-                if (AssertNetwork(web, $"The library was unable to get the {extension} file from latest"))
-                    yield break;
+            yield return web.SendWebRequest();
 
-                Self($"Installing the latest {extension} file...");
+            if (AssertNetwork(web, $"The library was unable to get the {extension} file from latest"))
+                yield break;
 
-                WriteAllBytes(SelfPath, web.downloadHandler.data);
-            }
+            Self($"Installing the latest {extension} file...");
+
+            WriteAllBytes(SelfPath, web.downloadHandler.data);
+
         }
     }
 }
