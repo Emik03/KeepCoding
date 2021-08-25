@@ -6,7 +6,7 @@ namespace KeepCoding.Internal
     /// An exception thrown when the constructor throws an exception due to a bad argument.
     /// </summary>
     [Serializable]
-    public sealed class ConstructorArgumentException : Exception
+    public sealed class ConstructorArgumentException : KeepCodingException
     {
         /// <summary>
         /// An exception thrown when the constructor throws an exception due to a bad argument.

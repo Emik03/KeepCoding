@@ -6,7 +6,7 @@ namespace KeepCoding.Internal
     /// An exception thrown when the number is unexpectedly negative.
     /// </summary>
     [Serializable]
-    public sealed class NegativeNumberException : Exception
+    public sealed class NegativeNumberException : KeepCodingException
     {
         /// <summary>
         /// An exception thrown when the number is unexpectedly negative.

@@ -6,7 +6,7 @@ namespace KeepCoding.Internal
     /// An exception thrown when the iterator is empty.
     /// </summary>
     [Serializable]
-    public sealed class EmptyIteratorException : Exception
+    public sealed class EmptyIteratorException : KeepCodingException
     {
         /// <summary>
         /// An exception thrown when the iterator is empty.

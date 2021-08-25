@@ -6,7 +6,7 @@ namespace KeepCoding.Internal
     /// An exception thrown when the iterator is null.
     /// </summary>
     [Serializable]
-    public sealed class NullIteratorException : Exception
+    public sealed class NullIteratorException : KeepCodingException
     {
         /// <summary>
         /// An exception thrown when the iterator is null.

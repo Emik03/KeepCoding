@@ -6,7 +6,7 @@ namespace KeepCoding.Internal
     /// An exception thrown for when the type isn't handled.
     /// </summary>
     [Serializable]
-    public sealed class UnrecognizedTypeException : Exception
+    public sealed class UnrecognizedTypeException : KeepCodingException
     {
         /// <summary>
         /// An exception thrown for when the type isn't handled.
