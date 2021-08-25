@@ -810,14 +810,14 @@ namespace KeepCoding
         /// Gets the game's internal bomb component, not to be mistaken with <see cref="KMBomb"/>. To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to Bomb or <see cref="MonoBehaviour"/> type to restore its functionality.
         /// </summary>
         /// <remarks>
-        /// Default: An encapsulated method that takes a <see cref="GameObject"/> and always returns <see langword="null"/>.
+        /// Default: An encapsulated method that takes a <see cref="GameObject"/> and always returns the argument passed in.
         /// </remarks>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
         [CLSCompliant(false)]
         public static Func<GameObject, object> Bomb => Reference switch
         {
-            References.None => gameObject => null,
+            References.None => gameObject => gameObject,
             References.Ktane => BombInner,
             References.KtaneRewritten => BombRewrittenInner,
             _ => throw s_badValue
@@ -831,14 +831,14 @@ namespace KeepCoding
         /// Gets the game's internal timer component. To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to TimerComponent or <see cref="MonoBehaviour"/> type to restore its functionality.
         /// </summary>
         /// <remarks>
-        /// Default: An encapsulated method that takes a <see cref="GameObject"/> and always returns <see langword="null"/>.
+        /// Default: An encapsulated method that takes a <see cref="GameObject"/> and always returns the argument passed in.
         /// </remarks>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
         [CLSCompliant(false)]
         public static Func<GameObject, object> Timer => Reference switch
         {
-            References.None => gameObject => null,
+            References.None => gameObject => gameObject,
             References.Ktane => TimerInner,
             References.KtaneRewritten => TimerRewrittenInner,
             _ => throw s_badValue
