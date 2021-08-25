@@ -21,9 +21,9 @@ namespace KeepCoding
         /// Creates a <see cref="ColorblindInfo"/> while read/writing the file.
         /// </summary>
         /// <param name="moduleId">The module's id to grab information from.</param>
-        public ColorblindInfo(string moduleId = null)
+        public ColorblindInfo(string? moduleId = null)
         {
-            if (isEditor)
+            if (isEditor || moduleId is null)
                 return;
 
             if (!Exists(File))
@@ -113,7 +113,7 @@ namespace KeepCoding
         /// <param name="path">The path of the file to deserialize.</param>
         /// <param name="settings">The settings for the serialization.</param>
         /// <returns><paramref name="path"/> deserialized as <see cref="ColorblindInfo"/>.</returns>
-        public static ColorblindInfo Deserialize(string path, JsonSerializerSettings settings = null) => SuppressIO(() => DeserializeObject<ColorblindInfo>(ReadAllText(path.NullCheck("A \"null\" path cannot be searched.")), settings), new ColorblindInfo());
+        public static ColorblindInfo Deserialize(string path, JsonSerializerSettings? settings = null) => SuppressIO(() => DeserializeObject<ColorblindInfo>(ReadAllText(path.NullCheck("A \"null\" path cannot be searched.")), settings), new ColorblindInfo(null));
 
         private static void Error(string moduleId, Exception e) => new Logger("Colorblind Mode", false).Log(@$"Error in ""{moduleId ?? Helper.Null}"": {e.Message} ({e.GetType().FullName}){e.StackTrace}");
 

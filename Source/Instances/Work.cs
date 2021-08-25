@@ -82,7 +82,7 @@ namespace KeepCoding
         /// <summary>
         /// The returned value of the thread.
         /// </summary>
-        public T Result { get; private set; }
+        public T Result { get; private set; } = default!;
 
         /// <summary>
         /// Starts a new thread, and waits until it is finished before halting.
@@ -130,7 +130,7 @@ namespace KeepCoding
         /// <summary>
         /// The returned value of the thread.
         /// </summary>
-        public TResult Result { get; private set; }
+        public TResult Result { get; private set; } = default!;
 
         /// <summary>
         /// Starts a new thread, and waits until it is finished before halting.
@@ -186,7 +186,7 @@ namespace KeepCoding
         /// <summary>
         /// The returned value of the thread.
         /// </summary>
-        public TResult Result { get; private set; }
+        public TResult Result { get; private set; } = default!;
 
         /// <summary>
         /// Starts a new thread, and waits until it is finished before halting.
@@ -242,7 +242,7 @@ namespace KeepCoding
         /// <summary>
         /// The returned value of the thread.
         /// </summary>
-        public TResult Result { get; private set; }
+        public TResult Result { get; private set; } = default!;
 
         /// <summary>
         /// Starts a new thread, and waits until it is finished before halting.
@@ -298,7 +298,7 @@ namespace KeepCoding
         /// <summary>
         /// The returned value of the thread.
         /// </summary>
-        public TResult Result { get; private set; }
+        public TResult Result { get; private set; } = default!;
 
         /// <summary>
         /// Starts a new thread, and waits until it is finished before halting.

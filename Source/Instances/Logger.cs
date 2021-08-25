@@ -31,9 +31,9 @@ namespace KeepCoding
         /// <param name="name">The name of the value.</param>
         /// <param name="showId">Determines whether to show the unique identifier when logging.</param>
         /// <param name="showInLfa">Determines whether to format such that the Logfile Analyzer would use.</param>
-        public Logger(string name, bool showId = false, bool showInLfa = true)
+        public Logger(string? name, bool showId = false, bool showInLfa = true)
         {
-            Name = name.NullCheck("The name cannot be null!");
+            Name = name.NullCheck("The name cannot be null!")!;
 
             if (Name == s_selfName)
                 throw new FormatException($"The name {s_selfName} is reserved for the library.");
@@ -52,7 +52,7 @@ namespace KeepCoding
         /// <param name="type">The name of the value, using <see cref="MemberInfo.Name"/>.</param>
         /// <param name="showId">Determines whether to show the unique identifier when logging.</param>
         /// <param name="showInLfa">Determines whether to format such that the Logfile Analyzer would use.</param>
-        public Logger(Type type, bool showId = false, bool showInLfa = true) : this(type?.Name, showId, showInLfa) { }
+        public Logger(Type? type, bool showId = false, bool showInLfa = true) : this(type?.Name, showId, showInLfa) { }
 
         /// <summary>
         /// The unique identifier of the current name.

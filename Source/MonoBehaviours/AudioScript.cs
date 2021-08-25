@@ -26,15 +26,15 @@ public sealed class AudioScript : CacheableBehaviour
     /// The <see cref="Array"/> of clips it can play from.
     /// </summary>
     [SerializeField]
-    private AudioClip[] _audioClips;
+    private AudioClip[] _audioClips = new AudioClip[0];
 
     /// <summary>
     /// The audio source field.
     /// </summary>
     [SerializeField]
-    private AudioSource _audioSource;
+    private AudioSource _audioSource = default!;
 
-    private Routine<float, float> _fade;
+    private Routine<float, float> _fade = default!;
 
     /// <summary>
     /// Determines if the <see cref="AudioSource"/> is muted.

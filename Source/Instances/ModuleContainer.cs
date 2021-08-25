@@ -14,11 +14,11 @@ namespace KeepCoding
     {
         private bool _isNeedy, _requiresTimerVisibility;
 
-        private string _id, _name;
+        private string? _id, _name;
 
-        private readonly KMBombModule _bombModule;
+        private readonly KMBombModule? _bombModule;
 
-        private readonly KMNeedyModule _needyModule;
+        private readonly KMNeedyModule? _needyModule;
 
         private static readonly UnrecognizedTypeException s_unassignedException = new UnrecognizedTypeException($"{nameof(Module)} is neither a {nameof(KMBombModule)} or a {nameof(KMNeedyModule)}.");
 
@@ -26,6 +26,7 @@ namespace KeepCoding
         /// Encapsulates either a solvable or needy module. Uses <see cref="CacheableBehaviour.Get{T}(bool)"/>.
         /// </summary>
         /// <param name="behaviour">The component to get the modules from.</param>
+        [CLSCompliant(false)]
         public ModuleContainer(CacheableBehaviour behaviour) : this(behaviour.Get<KMBombModule>(allowNull: true), behaviour.Get<KMNeedyModule>(allowNull: true)) { }
 
         /// <summary>
@@ -63,7 +64,7 @@ namespace KeepCoding
         /// <param name="solvable">The instance of a normal module.</param>
         /// <param name="needy">The instance of a needy module.</param>
         [CLSCompliant(false)]
-        public ModuleContainer(KMBombModule solvable, KMNeedyModule needy)
+        public ModuleContainer(KMBombModule? solvable, KMNeedyModule? needy)
         {
             if ((bool)solvable == needy)
                 throw new ConstructorArgumentException(solvable ? "Both KMBombModule and KMNeedyModule are assigned, which will mean that it is unable to return both when calling a function that returns a single MonoBehaviour." : "Both KMBombModule and KMNeedyModule is null, and since this data type is immutable after the constructor, it is unable to return anything.");
@@ -101,7 +102,7 @@ namespace KeepCoding
         {
             KMBombModule bombModule => bombModule.ModuleType,
             KMNeedyModule needyModule => needyModule.ModuleType,
-            _ => _id,
+            _ => _id ?? throw s_unassignedException,
         };
 
         /// <summary>
@@ -112,7 +113,7 @@ namespace KeepCoding
         {
             KMBombModule bombModule => bombModule.ModuleDisplayName,
             KMNeedyModule needyModule => needyModule.ModuleDisplayName,
-            _ => _name,
+            _ => _name ?? throw s_unassignedException,
         };
 
         /// <summary>
@@ -153,20 +154,20 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="NullReferenceException"></exception>
         [CLSCompliant(false)]
-        public KMBombModule Solvable => _bombModule.NullCheck("KMBombModule is null, yet you are trying to access it.");
+        public KMBombModule Solvable => _bombModule.NullCheck("KMBombModule is null, yet you are trying to access it.")!;
 
         /// <summary>
         /// Returns <see cref="KMNeedyModule"/>, or if null, throws a <see cref="NullReferenceException"/>.
         /// </summary>
         /// <exception cref="NullReferenceException"></exception>
         [CLSCompliant(false)]
-        public KMNeedyModule Needy => _needyModule.NullCheck("KMNeedyModule is null, yet you are trying to access it.");
+        public KMNeedyModule Needy => _needyModule.NullCheck("KMNeedyModule is null, yet you are trying to access it.")!;
 
         /// <summary>
         /// Returns <see cref="KMBombModule"/>, or if null, <see cref="KMNeedyModule"/>.
         /// </summary>
         [CLSCompliant(false)]
-        public MonoBehaviour Module => _bombModule ?? (MonoBehaviour)_needyModule;
+        public MonoBehaviour Module => _bombModule ?? _needyModule as MonoBehaviour ?? throw s_unassignedException;
 
         /// <summary>
         /// Creates a new instance of <see cref="ModuleContainer"/> where <see cref="Solvable"/> is defined.
@@ -209,7 +210,7 @@ namespace KeepCoding
         /// <param name="onPass">Called when the needy is solved.</param>
         /// <param name="onStrike">Called when the needy strikes.</param>
         /// <param name="onTimerExpired">Called when the timer runs out of time.</param>
-        public void Assign(Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null)
+        public void Assign(Action? onActivate = null, Action? onNeedyActivation = null, Action? onNeedyDeactivation = null, Action? onPass = null, Action? onStrike = null, Action? onTimerExpired = null)
         {
             switch (Module)
             {
@@ -238,7 +239,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="other">The comparison.</param>
         /// <returns>True if both contain the same instance of <see cref="KMBombModule"/>, <c>null</c>, <see cref="KMNeedyModule"/></returns>
-        public bool Equals(ModuleContainer other) => other is null ? this is null : Module == other.Module;
+        public bool Equals(ModuleContainer? other) => other is { } && Module == other.Module;
 
         /// <summary>
         /// Gets the current hash code.

@@ -7,18 +7,18 @@ namespace KeepCoding
     /// Encapsulates an <see cref="IEqualityComparer{T}"/> that uses an equality comparison function provided as a delegate.
     /// </summary>
     /// <typeparam name="T">The type of elements to be compared for equality.</typeparam>
-    public sealed class CustomEqualityComparer<T> : IEqualityComparer<T>
+    public sealed class CustomEqualityComparer<T> : IEqualityComparer<T> where T : notnull
     {
         private readonly Func<T, T, bool> _comparison;
 
-        private readonly Func<T, int> _getHashCode;
+        private readonly Func<T, int>? _getHashCode;
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="comparison">Provides the comparison function for this equality comparer.</param>
         /// <param name="getHashCode">Provides the hash function for this equality comparer.</param>
-        public CustomEqualityComparer(Func<T, T, bool> comparison, Func<T, int> getHashCode)
+        public CustomEqualityComparer(Func<T, T, bool> comparison, Func<T, int>? getHashCode)
         {
             _comparison = comparison;
             _getHashCode = getHashCode;
@@ -43,7 +43,7 @@ namespace KeepCoding
         /// <remarks>
         /// This method implements <see cref="IEqualityComparer&lt;T&gt;.GetHashCode(T)"/>.
         /// </remarks>
-        public int GetHashCode(T obj) => _getHashCode == null ? obj.GetHashCode() : _getHashCode(obj);
+        public int GetHashCode(T obj) => _getHashCode is null ? obj.GetHashCode() : _getHashCode(obj);
 
         /// <summary>
         /// Creates and returns an equality comparer that compares the equality of objects by comparing the equality of
@@ -61,7 +61,7 @@ namespace KeepCoding
         /// <param name="selector">Function selecting the actual value to be compared.</param>
         /// <param name="comparison">Function used to compare values for equality. If null, will use IEquatable if implemented, or the object's Equals override.</param>
         /// <param name="getHashCode">Function used to compute hash codes. If null, will use IEquatable if implemented, or the object's GetHashCode override.</param>
-        public static CustomEqualityComparer<T> By<TBy>(Func<T, TBy> selector, Func<TBy, TBy, bool> comparison = null, Func<TBy, int> getHashCode = null)
+        public static CustomEqualityComparer<T> By<TBy>(Func<T, TBy> selector, Func<TBy, TBy, bool>? comparison = null, Func<TBy, int>? getHashCode = null)
         {
             if (selector is null)
                 throw new ArgumentNullException(nameof(selector));

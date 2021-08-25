@@ -56,7 +56,11 @@ namespace KeepCoding
         /// <summary>
         /// Creates a profiler that will not run any actions.
         /// </summary>
-        public Profiler() => _stopwatch = StartNew();
+        public Profiler()
+        {
+            _action = (_, unused) => { };
+            _stopwatch = StartNew();
+        }
 
         /// <summary>
         /// The current amount of time that has been elapsed since the creation of this <see cref="Profiler"/>.
@@ -69,8 +73,8 @@ namespace KeepCoding
         public void Dispose()
         {
             TimeSpan elapsed = Stop();
-
-            _action?.Invoke($"{new StackTrace().GetFrame(1).GetMethod().Name}: {elapsed}", elapsed);
+            _action($"{new StackTrace().GetFrame(1).GetMethod().Name}: {elapsed}", elapsed);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -83,5 +87,10 @@ namespace KeepCoding
 
             return Elapsed;
         }
+
+        /// <summary>
+        /// Stops the timer and runs the action.
+        /// </summary>
+        ~Profiler() => Dispose();
     }
 }

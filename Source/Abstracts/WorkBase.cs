@@ -18,6 +18,8 @@ namespace KeepCoding.Internal
         {
             AllowSimultaneousActive = allowSimultaneousActive;
             _maximumThreadsActive = maximumThreadsActive;
+
+            Thread ??= new Thread(() => { });
         }
 
         /// <summary>

@@ -230,8 +230,8 @@ namespace KeepCoding
         /// Determines if the item is an iterator type.
         /// </summary>
         /// <param name="item">The item to check the type for.</param>
-        /// <returns><paramref name="item"/> is either <see cref="string"/>, <see cref="IEnumerable"/>, or <see cref="IEnumerator"/>.</returns>
-        public static bool IsIterator<T>(this T item) => item is string || item is IEnumerable || item is IEnumerator;
+        /// <returns><paramref name="item"/> is either <see cref="IEnumerable"/>, or <see cref="IEnumerator"/>.</returns>
+        public static bool IsIterator<T>(this T item) => item is IEnumerable || item is IEnumerator;
 
         /// <summary>
         /// Determines if the string is null or empty.
@@ -1150,7 +1150,18 @@ namespace KeepCoding
         /// <param name="item">The parameter to check null for.</param>
         /// <param name="message">The optional message to throw if null.</param>
         /// <returns><paramref name="item"/></returns>
-        public static T NullCheck<T>(this T item, string message = "While asserting for null, the variable ended up null.") => item is null ? throw GetNullException(item)(message) : item;
+        public static T NullCheck<T>(this T? item, string message = "While asserting for null, the variable ended up null.") where T : class => item is null ? throw GetNullException(item)(message) : item;
+
+        /// <summary>
+        /// Throws a <see cref="NullReferenceException"/> or <see cref="NullIteratorException"/> if the parameter provided is null.
+        /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="item">The parameter to check null for.</param>
+        /// <param name="message">The optional message to throw if null.</param>
+        /// <returns><paramref name="item"/></returns>
+        public static T NullCheck<T>(this T? item, string message = "While asserting for null, the variable ended up null.") where T : struct => item is null ? throw GetNullException(item)(message) : item.Value;
 
         /// <summary>
         /// Invokes a method of <typeparamref name="T"/> to <typeparamref name="TResult"/> and then returns the argument provided.
@@ -1247,12 +1258,10 @@ namespace KeepCoding
         /// <returns>An <see cref="IEnumerable{T}"/> that contains merged elements of two input sequences.</returns>
         public static IEnumerable<TResult> Zip<T1, T2, TResult>(this IEnumerable<T1> first, IEnumerable<T2> second, Func<T1, T2, TResult> selector)
         {
-            first.NullCheck("The first enumerator cannot be null!");
-            second.NullCheck("The second enumerator cannot be null!");
             selector.NullCheck("The selector cannot be null!");
 
-            IEnumerator<T1> e1 = first.GetEnumerator();
-            IEnumerator<T2> e2 = second.GetEnumerator();
+            IEnumerator<T1> e1 = first.NullCheck("The first enumerator cannot be null!").GetEnumerator();
+            IEnumerator<T2> e2 = second.NullCheck("The second enumerator cannot be null!").GetEnumerator();
 
             while (e1.MoveNext() & e2.MoveNext())
                 yield return selector(e1.Current, e2.Current);

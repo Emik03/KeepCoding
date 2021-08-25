@@ -279,7 +279,7 @@ namespace KeepCoding
         /// <param name="showId">Determines whether to show the unique identifier when logging.</param>
         /// <param name="showInLfa">Determines whether the formatting should be compliant with the Logfile Analyzer.</param>
         /// <returns>A new <see cref="Logger"/> containing the arguments specified.</returns>
-        public static Logger ToLogger<T>(this T _, string name = null, bool showId = false, bool showInLfa = true) => new Logger(name ?? typeof(T).Name, showId, showInLfa);
+        public static Logger ToLogger<T>(this T _, string? name = null, bool showId = false, bool showInLfa = true) => new Logger(name ?? typeof(T).Name, showId, showInLfa);
 
         /// <summary>
         /// Converts arguments to a new <see cref="Routine"/>.

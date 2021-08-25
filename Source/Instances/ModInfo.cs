@@ -14,7 +14,11 @@ namespace KeepCoding
     /// </summary>
     public sealed class ModInfo
     {
-        internal ModInfo() => Version = $"Can't get Version Number in {(isEditor ? "Editor" : "Game")}";
+        internal ModInfo()
+        {
+            Author = Description = Id = Title = UnityVersion = "";
+            Version = $"Can't get Version Number in {(isEditor ? "Editor" : "Game")}";
+        }
 
         /// <summary>
         /// Contains the author of the mod.
@@ -92,6 +96,6 @@ namespace KeepCoding
         /// <param name="path">The path of the file to deserialize.</param>
         /// <param name="settings">The settings for the serialization.</param>
         /// <returns><paramref name="path"/> deserialized as <see cref="ModInfo"/>.</returns>
-        public static ModInfo Deserialize(string path, JsonSerializerSettings settings = null) => SuppressIO(() => DeserializeObject<ModInfo>(ReadAllText(path.NullCheck("A \"null\" path cannot be searched.")), settings), new ModInfo());
+        public static ModInfo Deserialize(string path, JsonSerializerSettings? settings = null) => SuppressIO(() => DeserializeObject<ModInfo>(ReadAllText(path.NullCheck("A \"null\" path cannot be searched.")), settings), new ModInfo());
     }
 }

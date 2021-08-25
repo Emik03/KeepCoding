@@ -21,7 +21,7 @@ namespace KeepCoding
         /// <typeparam name="T">The type to cast the object into.</typeparam>
         /// <param name="obj">The object to cast into.</param>
         /// <returns><paramref name="obj"/> <see langword="as"/> <typeparamref name="T"/></returns>
-        public static T As<T>(this object obj) where T : class => obj as T;
+        public static T? As<T>(this object obj) where T : class => obj as T;
 
         /// <summary>
         /// The <see langword="as"/> operator explicitly converts the result of an expression to a given reference or nullable value type. If the conversion is not possible, the <see langword="as"/> operator returns <see langword="null"/>. Unlike a cast expression, the <see langword="as"/> operator never throws an exception.
@@ -46,7 +46,7 @@ namespace KeepCoding
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <param name="final">The action to run on either clause.</param>
         /// <returns><paramref name="action"/> with <paramref name="caught"/> if <typeparamref name="T"/> is caught.</returns>
-        public static Action Catch<T>(this Action action, Action<T> caught = null, Action final = null) where T : Exception => () =>
+        public static Action Catch<T>(this Action action, Action<T>? caught = null, Action? final = null) where T : Exception => () =>
         {
             try
             {
@@ -75,7 +75,7 @@ namespace KeepCoding
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <param name="final">The action to run on either clause.</param>
         /// <returns><paramref name="action"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
-        public static Action Catch<T1, T2>(this Action action, Action<Exception> caught = null, Action final = null) where T1 : Exception where T2 : Exception => () =>
+        public static Action Catch<T1, T2>(this Action action, Action<Exception>? caught = null, Action? final = null) where T1 : Exception where T2 : Exception => () =>
         {
             try
             {
@@ -105,7 +105,7 @@ namespace KeepCoding
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <param name="final">The action to run on either clause.</param>
         /// <returns><paramref name="action"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
-        public static Action Catch<T1, T2, T3>(this Action action, Action<Exception> caught = null, Action final = null) where T1 : Exception where T2 : Exception where T3 : Exception => () =>
+        public static Action Catch<T1, T2, T3>(this Action action, Action<Exception>? caught = null, Action? final = null) where T1 : Exception where T2 : Exception where T3 : Exception => () =>
         {
             try
             {
@@ -136,7 +136,7 @@ namespace KeepCoding
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <param name="final">The action to run on either clause.</param>
         /// <returns><paramref name="action"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
-        public static Action Catch<T1, T2, T3, T4>(this Action action, Action<Exception> caught = null, Action final = null) where T1 : Exception where T2 : Exception where T3 : Exception where T4 : Exception => () =>
+        public static Action Catch<T1, T2, T3, T4>(this Action action, Action<Exception>? caught = null, Action? final = null) where T1 : Exception where T2 : Exception where T3 : Exception where T4 : Exception => () =>
         {
             try
             {
@@ -341,7 +341,7 @@ namespace KeepCoding
         /// <param name="condition">The condition for whether the loop should continue.</param>
         /// <param name="loop">The action to run after <paramref name="action"/>.</param>
         /// <returns><paramref name="item"/></returns>
-        public static T For<T>(this T item, Action<T> action, Predicate<T> condition = null, Func<T, T> loop = null)
+        public static T For<T>(this T item, Action<T> action, Predicate<T>? condition = null, Func<T, T>? loop = null)
         {
             action.NullCheck("The action cannot be null.");
 
@@ -391,7 +391,7 @@ namespace KeepCoding
         /// <param name="condition">The condition for whether the loop should continue.</param>
         /// <param name="loop">The action to run after <paramref name="func"/>.</param>
         /// <returns>All instances that <paramref name="func"/> used in an <see cref="IEnumerable{T}"/>.</returns>
-        public static IEnumerable<T> For<T>(this T item, Func<T, T> func, Predicate<T> condition = null, Func<T, T> loop = null)
+        public static IEnumerable<T> For<T>(this T item, Func<T, T> func, Predicate<T>? condition = null, Func<T, T>? loop = null)
         {
             var output = new List<T>();
 
@@ -537,7 +537,7 @@ namespace KeepCoding
         /// <param name="action">The action to run when <paramref name="condition"/> is <see langword="true"/>.</param>
         /// <param name="otherwise">The action to run when <paramref name="condition"/> is <see langword="false"/>.</param>
         /// <returns><paramref name="condition"/></returns>
-        public static bool If(this bool condition, Action action, Action otherwise = null)
+        public static bool If(this bool condition, Action action, Action? otherwise = null)
         {
             action.NullCheck("The action cannot be null.");
 
@@ -582,7 +582,7 @@ namespace KeepCoding
         /// <param name="obj">The object to cast.</param>
         /// <param name="item">The object casted into the type.</param>
         /// <returns><paramref name="obj"/> <see langword="is"/> <typeparamref name="T"/> <paramref name="item"/></returns>
-        public static bool Is<T>(this object obj, out T item) where T : class => (item = obj as T) is T;
+        public static bool Is<T>(this object obj, out T? item) where T : class => (item = obj as T) is T;
 
         /// <summary>
         /// The <see langword="is"/> operator checks if the result of an expression is compatible with a given type.
@@ -595,7 +595,7 @@ namespace KeepCoding
         /// <param name="action">The action to run when <paramref name="obj"/> is <typeparamref name="T"/>.</param>
         /// <param name="otherwise">The action to run when <paramref name="obj"/> is not <typeparamref name="T"/>.</param>
         /// <returns><paramref name="obj"/> <see langword="is"/> <typeparamref name="T"/> item</returns>
-        public static bool Is<T>(this object obj, Action<T> action, Action otherwise = null) where T : class
+        public static bool Is<T>(this object obj, Action<T> action, Action? otherwise = null) where T : class
         {
             action.NullCheck("The action cannot be null!");
 
@@ -619,7 +619,7 @@ namespace KeepCoding
         /// <typeparam name="T">The type of item to lock.</typeparam>
         /// <param name="item">The item to lock.</param>
         /// <param name="action">The action to run while the item is locked.</param>
-        public static T Lock<T>(this T item, Action<T> action)
+        public static T Lock<T>(this T item, Action<T> action) where T : notnull
         {
             lock (item)
                 action.NullCheck("The action cannot be null.")(item);
@@ -637,7 +637,7 @@ namespace KeepCoding
         /// <param name="item">The item to lock.</param>
         /// <param name="func">The function to run while the item is locked.</param>
         /// <returns>The output of <paramref name="func"/>.</returns>
-        public static T Lock<T>(this T item, Func<T, T> func)
+        public static T Lock<T>(this T item, Func<T, T> func) where T : notnull
         {
             lock (item)
                 return func.NullCheck("The action cannot be null.")(item);
@@ -660,7 +660,7 @@ namespace KeepCoding
             }
             catch (InvalidCastException)
             {
-                return expression.Compile()().ToString() ?? "<unknown>";
+                return expression.Compile()()?.ToString() ?? "<unknown>";
             }
         }
 

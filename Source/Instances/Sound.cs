@@ -35,7 +35,7 @@ namespace KeepCoding
         /// <summary>
         /// The custom sound, written out by name.
         /// </summary>
-        public string Custom { get; }
+        public string? Custom { get; }
 
         /// <summary>
         /// The in-game sound.
@@ -47,7 +47,7 @@ namespace KeepCoding
         /// The audio reference that is playing the sound.
         /// </summary>
         [CLSCompliant(false)]
-        public KMAudioRef Reference { get; internal set; }
+        public KMAudioRef? Reference { get; internal set; }
 
         /// <summary>
         /// Plays when the alarm clock goes off. This sound loops.
@@ -234,7 +234,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="sound">The variable to grab the property from.</param>
         /// <returns><paramref name="sound"/>'s <see cref="Custom"/>.</returns>
-        public static explicit operator string(Sound sound) => sound.Custom;
+        public static explicit operator string?(Sound sound) => sound.Custom;
 
         /// <summary>
         /// Returns <see cref="Game"/> for the current variable.
@@ -279,7 +279,7 @@ namespace KeepCoding
         /// <summary>
         /// Stops the <see cref="Reference"/>'s sound.
         /// </summary>
-        public void StopSound() => Reference.StopSound();
+        public void StopSound() => Reference?.StopSound();
 
         /// <summary>
         /// Determines if both <see cref="Sound"/> variables are equal.
@@ -293,7 +293,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="other">The comparison.</param>
         /// <returns>True if <see cref="Custom"/>, <see cref="Reference"/>, and <see cref="Game"/> are equal.</returns>
-        public bool Equals(Sound other) => other is { } && Reference == other.Reference && Game == other.Game && Custom == other.Custom;
+        public bool Equals(Sound? other) => other is { } && Reference == other.Reference && Game == other.Game && Custom == other.Custom;
 
         /// <summary>
         /// Gets the current hash code.
@@ -302,8 +302,8 @@ namespace KeepCoding
         public override int GetHashCode()
         {
             int hashCode = -675929889;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Custom);
-            hashCode = hashCode * -1521134295 + EqualityComparer<KMAudioRef>.Default.GetHashCode(Reference);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string?>.Default.GetHashCode(Custom);
+            hashCode = hashCode * -1521134295 + EqualityComparer<KMAudioRef?>.Default.GetHashCode(Reference);
             hashCode = hashCode * -1521134295 + Game.GetHashCode();
             return hashCode;
         }
@@ -312,7 +312,7 @@ namespace KeepCoding
         /// Converts the current sound to a string, returning the current sound.
         /// </summary>
         /// <returns><see cref="Game"/>, or if null, <see cref="Custom"/>.</returns>
-        public override string ToString() => Game.ToString() ?? Custom;
+        public override string ToString() => Game.ToString() ?? Custom ?? "";
 
         /// <summary>
         /// Gets the corresponding sound method matching the arguments of this instance of <see cref="Sound"/>.
@@ -320,9 +320,9 @@ namespace KeepCoding
         /// <param name="audio">The instance of <see cref="KMAudio"/> to play from.</param>
         /// <returns>A method that when called, will play the sound and return the <see cref="KMAudioRef"/> instance.</returns>
         [CLSCompliant(false)]
-        public Func<Transform, bool, KMAudioRef> Method(KMAudio audio) =>
-            Custom is { } ? ((t, b) => KeyHelper.Catch<NullReferenceException, KMAudioRef>(() => audio.HandlePlaySoundAtTransformWithRef?.Invoke(Custom, t, b), null)()) :
-            Game is { } ? (Func<Transform, bool, KMAudioRef>)((t, b) => b ? throw new ArgumentException("The game doesn't support looping in-game sounds.") : KeyHelper.Catch<NullReferenceException, KMAudioRef>(() => audio.HandlePlayGameSoundAtTransformWithRef?.Invoke(Game.Value, t), null)()) :
+        public Func<Transform, bool, KMAudioRef?> Method(KMAudio audio) =>
+            Custom is { } ? ((t, b) => KeyHelper.Catch<NullReferenceException, KMAudioRef?>(() => audio.HandlePlaySoundAtTransformWithRef?.Invoke(Custom, t, b), e => null)()) :
+            Game is { } ? (Func<Transform, bool, KMAudioRef?>)((t, b) => b ? throw new ArgumentException("The game doesn't support looping in-game sounds.") : KeyHelper.Catch<NullReferenceException, KMAudioRef?>(() => audio.HandlePlayGameSoundAtTransformWithRef?.Invoke(Game.Value, t), e => null)()) :
             throw new UnrecognizedValueException($"{this}'s properties {nameof(Custom)} and {nameof(Game)} are both null!");
     }
 }
