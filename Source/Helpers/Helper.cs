@@ -110,7 +110,7 @@ namespace KeepCoding
         /// <param name="item">The type of the initial item to compare.</param>
         /// <param name="comparisons">The <see cref="Array"/> of items to compare to.</param>
         /// <returns><see langword="true"/> if all items in <paramref name="comparisons"/> is equal to <paramref name="item"/>.</returns>
-        public static bool IsAll<T>(this T item, params T[] comparisons) => comparisons.All(t => t.Equals(item));
+        public static bool IsAll<T>(this T item, params T[] comparisons) => comparisons.All(t => t is null ? item is null : t.Equals(item));
 
         /// <summary>
         /// Determines whether the number is equal or in-between 2 values.
@@ -394,7 +394,7 @@ namespace KeepCoding
         /// <param name="minLength">The minimum acceptable length of the array. (inclusive)</param>
         /// <param name="maxLength">The maximum acceptable length of the array. (inclusive)</param>
         /// <returns>The array as integers, or null if it fails.</returns>
-        public static int[] ToNumbers<T>(this T[] ts, int? min = null, int? max = null, int? minLength = null, int? maxLength = null) => (minLength is null || minLength.Value <= ts.Length) && (maxLength is null || maxLength.Value >= ts.Length) && ts.All(t => TryParse(t.ToString(), out int i) && (min is null || min.Value <= i) && (max is null || max.Value >= i)) ? ts.Select(t => int.Parse(t.ToString())).ToArray() : null;
+        public static int[]? ToNumbers<T>(this T[] ts, int? min = null, int? max = null, int? minLength = null, int? maxLength = null) where T : notnull => (minLength is null || minLength.Value <= ts.Length) && (maxLength is null || maxLength.Value >= ts.Length) && ts.All(t => TryParse(t.ToString(), out int i) && (min is null || min.Value <= i) && (max is null || max.Value >= i)) ? ts.Select(t => Parse(t.ToString())).ToArray() : null;
 
         /// <summary>
         /// Converts any base number to any base-10.
@@ -502,7 +502,7 @@ namespace KeepCoding
             string s => s,
             IEnumerable enumerable => Join(delimiter, enumerable.Cast<object>().Select(o => Combine(o, delimiter)).ToArray()),
             IEnumerator enumerator => Combine(AsEnumerable(enumerator)),
-            _ => source.ToString()
+            _ => source?.ToString() ?? ""
         };
 
         /// <summary>
@@ -617,7 +617,7 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         /// <param name="source">The string to check for null and empty.</param>
         /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
-        public static string NullOrEmptyCheck(this string source, string message = null) => string.Concat(source.AsEnumerable().NullOrEmptyCheck(message));
+        public static string NullOrEmptyCheck(this string source, string? message = null) => Concat(source.AsEnumerable().NullOrEmptyCheck(message));
 
         /// <summary>
         /// Reverses a string.
@@ -645,7 +645,7 @@ namespace KeepCoding
         /// <param name="source">The item to represent as a <see cref="string"/></param>
         /// <param name="format">Determines how it is formatted.</param>
         /// <returns><paramref name="source"/> as a <see cref="string"/>.</returns>
-        public static string Stringify<T>(this T source, StringifyFormat format = null)
+        public static string Stringify<T>(this T source, StringifyFormat? format = null)
         {
             static string Recursion(IEnumerable enumerable, string join, StringifyFormat format) => Join(join, enumerable
                 .Cast<object>()
@@ -718,7 +718,7 @@ namespace KeepCoding
         /// <param name="coroutines">The <see cref="Coroutine"/>s to stop.</param>
         /// <returns>The array of <see cref="Coroutine"/>s given.</returns>
         [CLSCompliant(false)]
-        public static Coroutine[] Stop(this MonoBehaviour monoBehaviour, params Coroutine[] coroutines) => coroutines?.ForEach(c =>
+        public static Coroutine[]? Stop(this MonoBehaviour monoBehaviour, params Coroutine[] coroutines) => coroutines?.ForEach(c =>
         {
             if (c is { })
                 monoBehaviour.StopCoroutine(c);
@@ -757,7 +757,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="source">The item to get all fields and properties.</param>
         /// <returns>All fields and properties of <paramref name="source"/>.</returns>
-        public static IEnumerable<string> ReflectAll<T>(this T source) => source?.GetType().GetFields(Flags).Select(f => $"\n{f} (Field): {f?.GetValue(source).Stringify()}").Concat(source?.GetType().GetProperties(Flags).Select(p => $"\n{p} (Property): {p?.GetValue(source, null).Stringify()}"));
+        public static IEnumerable<string> ReflectAll<T>(this T source) => source?.GetType().GetFields(Flags).Select(f => $"\n{f} (Field): {f?.GetValue(source).Stringify()}").Concat(source?.GetType().GetProperties(Flags).Select(p => $"\n{p} (Property): {p?.GetValue(source, null).Stringify()}")) ?? Empty<string>();
 
         /// <summary>
         /// Converts an <see cref="IEnumerator"/> to an <see cref="IEnumerable"/>.
@@ -816,7 +816,7 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         /// <param name="source">The <see cref="Array"/> to check for null and empty.</param>
         /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
-        public static IEnumerable<T> NullOrEmptyCheck<T>(this IEnumerable<T> source, string message = null) => source.NullCheck(message ?? $"While asserting for null or empty, the variable ended up being null.").Any() ? source : throw new EmptyIteratorException(message ?? $"While asserting for null or empty, the variable ended up being empty.");
+        public static IEnumerable<T> NullOrEmptyCheck<T>(this IEnumerable<T> source, string? message = null) => source.NullCheck(message ?? $"While asserting for null or empty, the variable ended up being null.").Any() ? source : throw new EmptyIteratorException(message ?? $"While asserting for null or empty, the variable ended up being empty.");
 
         /// <summary>
         /// Prepends the element provided to the <see cref="IEnumerable{T}"/>.
@@ -946,7 +946,7 @@ namespace KeepCoding
         /// <param name="source">The <see cref="IEnumerator"/> to flatten.</param>
         /// <param name="except">If <see langword="true"/>, <see cref="Flatten(IEnumerator, Predicate{IEnumerator})"/> gets called recursively and each item from that output gets returned individually, otherwise the item is simply returned.</param>
         /// <returns><paramref name="source"/> where <see langword="yield"/> <see langword="return"/> <see cref="IEnumerator"/>s gets replaced with the output of those calls.</returns>
-        public static IEnumerator Flatten(this IEnumerator source, Predicate<IEnumerator> except = null)
+        public static IEnumerator Flatten(this IEnumerator source, Predicate<IEnumerator>? except = null)
         {
             while (source.MoveNext())
             {
@@ -970,7 +970,7 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         /// <param name="source">The string to check for null and empty.</param>
         /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
-        public static IEnumerator<T> NullOrEmptyCheck<T>(this IEnumerator<T> source, string message = null) => (IEnumerator<T>)source.AsEnumerable().NullOrEmptyCheck(message);
+        public static IEnumerator<T> NullOrEmptyCheck<T>(this IEnumerator<T> source, string? message = null) => (IEnumerator<T>)source.AsEnumerable().NullOrEmptyCheck(message);
 
         /// <summary>
         /// Gives list of module names that are unsolved.
@@ -1172,7 +1172,7 @@ namespace KeepCoding
         /// <param name="array">The array to be appended with.</param>
         /// <param name="item">The element to append to the <paramref name="array"/>.</param>
         /// <returns><paramref name="array"/>, but with an added <paramref name="item"/> as the last index.</returns>
-        public static T[] Append<T>(this T[] array, T item) => (T[])array.Resize(array.Length + 1).Set(item, array.Length);
+        public static T[] Append<T>(this T[] array, T item) where T : notnull => (T[])array.Resize(array.Length + 1).Set(item, array.Length);
 
         /// <summary>
         /// Invokes a method of <typeparamref name="T"/> and then returns the argument provided.
@@ -1209,7 +1209,7 @@ namespace KeepCoding
         /// <param name="array">The array to be appended with.</param>
         /// <param name="item">The element to append to the <paramref name="array"/>.</param>
         /// <returns><paramref name="array"/>, but with an added <paramref name="item"/> as the first index.</returns>
-        public static T[] Prepend<T>(this T[] array, T item) => (T[])array.Resize(array.Length + 1).Copy(0, array, 1, array.Length).Set(item, 0);
+        public static T[] Prepend<T>(this T[] array, T item) where T : notnull => (T[])array.Resize(array.Length + 1).Copy(0, array, 1, array.Length).Set(item, 0);
 
         /// <summary>
         /// Invokes a method of <typeparamref name="T"/> to <typeparamref name="TResult"/> and then returns the argument provided.
