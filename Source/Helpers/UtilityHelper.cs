@@ -2261,7 +2261,7 @@ namespace KeepCoding
         ///     An optional function to determine equality of items.</param>
         /// <returns>
         ///     A collection containing each sequence of consecutive equal elements.</returns>
-        public static IEnumerable<ConsecutiveGroup<TItem, TItem>> GroupConsecutive<TItem>(this IEnumerable<TItem> source, Func<TItem, TItem, bool> itemEquality) => GroupConsecutiveBy(source, x => x, new CustomEqualityComparer<TItem>(itemEquality));
+        public static IEnumerable<ConsecutiveGroup<TItem, TItem>> GroupConsecutive<TItem>(this IEnumerable<TItem> source, Func<TItem, TItem, bool> itemEquality) where TItem : notnull => GroupConsecutiveBy(source, x => x, new CustomEqualityComparer<TItem>(itemEquality));
 
         /// <summary>
         ///     Accumulates consecutive equal elements.</summary>

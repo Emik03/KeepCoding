@@ -18,7 +18,7 @@ namespace KeepCoding
         private int _sign;
 
         // If the number fits into a single Int32, this is null.
-        private readonly uint[] _values;
+        private readonly uint[]? _values;
 
         private static readonly int[] s_powersOfTen = { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000 };
 
@@ -30,6 +30,7 @@ namespace KeepCoding
         /// <summary>
         /// Constructs a <see cref="BigInt"/> from a 32-bit signed integer.
         /// </summary>
+        [CLSCompliant(false)]
         public BigInt(uint value)
         {
             if (value <= int.MaxValue)
@@ -62,6 +63,7 @@ namespace KeepCoding
         /// <summary>
         /// Constructs a <see cref="BigInt"/> from a 64-bit unsigned integer.
         /// </summary>
+        [CLSCompliant(false)]
         public BigInt(ulong value)
         {
             if (value <= int.MaxValue)
@@ -75,7 +77,7 @@ namespace KeepCoding
             _sign = 0;
         }
 
-        private BigInt(uint[] value, int sign)
+        private BigInt(uint[]? value, int sign)
         {
             if (value is null)
                 goto defaultCase;
@@ -278,6 +280,7 @@ namespace KeepCoding
         /// <summary>
         /// Constructs a <see cref="BigInt"/> from an 8-bit signed integer.
         /// </summary>
+        [CLSCompliant(false)]
         public static implicit operator BigInt(sbyte value) => new BigInt(null, value);
 
         /// <summary>
@@ -288,6 +291,7 @@ namespace KeepCoding
         /// <summary>
         /// Constructs a <see cref="BigInt"/> from a 16-bit signed integer.
         /// </summary>
+        [CLSCompliant(false)]
         public static implicit operator BigInt(ushort value) => new BigInt(null, value);
 
         /// <summary>
@@ -303,6 +307,7 @@ namespace KeepCoding
         /// <summary>
         /// Constructs a <see cref="BigInt"/> from a 32-bit unsigned integer.
         /// </summary>
+        [CLSCompliant(false)]
         public static implicit operator BigInt(uint value) => new BigInt(value);
 
         /// <summary>
@@ -313,6 +318,7 @@ namespace KeepCoding
         /// <summary>
         /// Constructs a <see cref="BigInt"/> from a 64-bit unsigned integer.
         /// </summary>
+        [CLSCompliant(false)]
         public static implicit operator BigInt(ulong value) => new BigInt(value);
 
         /// <summary>
@@ -528,7 +534,7 @@ namespace KeepCoding
             int len = Max(one._values is null ? 1 : one._values.Length, two._values is null ? 1 : two._values.Length),
                 sign = (one._sign >> 31) ^ (two._sign >> 31);
 
-            uint[] nv = null;
+            uint[]? nv = null;
             uint v;
 
             for (int i = len - 1; i >= 1; i--)
@@ -925,7 +931,7 @@ namespace KeepCoding
             int curShift = msb1 - msb2;
 
             // Will contain the quotient at the end.
-            uint[] quo = null;
+            uint[]? quo = null;
 
             while (curShift >= 0)
             {

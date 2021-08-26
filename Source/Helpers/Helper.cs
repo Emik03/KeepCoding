@@ -1060,7 +1060,7 @@ namespace KeepCoding
         /// <param name="message">The message of the exception.</param>
         /// <returns>The component <paramref name="obj"/>.</returns>
         [CLSCompliant(false)]
-        public static T Assert<T>(this T obj, string message = "While asserting for null, the variable ended up null.") where T : Object => obj ? obj : throw new MissingComponentException(message);
+        public static T Assert<T>(this T? obj, string message = "While asserting for null, the variable ended up null.") where T : Object => obj ? obj! : throw new MissingComponentException(message);
 
         /// <summary>
         /// Invokes a method of <typeparamref name="T"/> and then returns the argument provided.

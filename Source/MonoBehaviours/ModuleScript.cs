@@ -36,11 +36,11 @@ namespace KeepCoding
 
         private int _strikes;
 
-        private Action _activate;
+        private Action _activate = default!;
 
-        private static Dictionary<string, Dictionary<string, object>[]> s_database;
+        private static Dictionary<string, Dictionary<string, object?>[]> s_database = new Dictionary<string, Dictionary<string, object?>[]>();
 
-        private Logger _logger;
+        private Logger _logger = default!;
 
         /// <summary>
         /// Determines whether the module has been struck. <see cref="TPScript{TModule}.OnInteractSequence(KMSelectable[], float, int[])"/> will set this to <see langword="false"/> when a command is interrupted.
@@ -97,7 +97,7 @@ namespace KeepCoding
         /// The Unique Id for the module of this type.
         /// </summary>
         public int Id => _logger.Id;
-        private int ModuleId => Id;
+        private int ModuleId => _logger.Id;
 
         /// <summary>
         /// The last Id instantiation for the module of this type.
@@ -120,7 +120,7 @@ namespace KeepCoding
         /// <summary>
         /// Contains colorblind information.
         /// </summary>
-        public ColorblindInfo Colorblind;
+        public ColorblindInfo Colorblind = default!;
 
         /// <summary>
         /// Gets the Twitch Plays <see cref="Component"/> attached to this <see cref="GameObject"/>.
@@ -129,7 +129,7 @@ namespace KeepCoding
         /// Due to type ambiguity, a non-generic interface is returned.
         /// </remarks>
         public ITP TP => _tp ??= GetComponent<ITP>();
-        private ITP _tp;
+        private ITP? _tp;
 
         /// <summary>
         /// The bomb that this module is in.
@@ -137,17 +137,17 @@ namespace KeepCoding
         /// <remarks>
         /// Note that this variable is not available on <see cref="Awake"/> or <see cref="OnAwake"/>. A small amount of time is needed for this property to be set.
         /// </remarks>
-        public KMBomb Bomb { get; private set; }
+        public KMBomb Bomb { get; private set; } = default!;
 
         /// <summary>
         /// Contains either <see cref="KMBombModule"/> or <see cref="KMNeedyModule"/>, and allows for running commands through context.
         /// </summary>
-        public ModuleContainer Module { get; private set; }
+        public ModuleContainer Module { get; private set; } = default!;
 
         /// <summary>
         /// Contains every modded module in <see cref="Bomb"/>, separated by type.
         /// </summary>
-        public ModuleContainer[] Modules { get; private set; }
+        public ModuleContainer[] Modules { get; private set; } = default!;
 
         /// <summary>
         /// Contains an instance for every <see cref="Sound"/> played by this module using <see cref="PlaySound(Transform, bool, Sound[])"/> or any of its overloads.
@@ -159,10 +159,10 @@ namespace KeepCoding
         internal static bool IsOutdated { get; private set; }
 
         private string Name => _name ??= Type.NameOfAssembly();
-        private string _name;
+        private string? _name;
 
         private Type Type => _type ??= GetType();
-        private Type _type;
+        private Type? _type;
 
         /// <summary>
         /// Assigns events specified into <see cref="Module"/>. Reassigning them will replace their values.
@@ -176,7 +176,7 @@ namespace KeepCoding
         /// <param name="onPass">Called when the needy is solved.</param>
         /// <param name="onStrike">Called when the needy strikes.</param>
         /// <param name="onTimerExpired">Called when the timer runs out of time.</param>
-        public void Assign(Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null) => Module.Assign(_activate.Combine(onActivate), onNeedyActivation.Combine(() =>
+        public void Assign(Action? onActivate = null, Action? onNeedyActivation = null, Action? onNeedyDeactivation = null, Action? onPass = null, Action? onStrike = null, Action? onTimerExpired = null) => Module.Assign(onActivate.Combine(_activate), onNeedyActivation.Combine(() =>
         {
             OnNeedyActivate();
             IsNeedyActive = true;
@@ -342,11 +342,11 @@ namespace KeepCoding
         public void Write<T>(string key, T value)
         {
             if (!s_database.ContainsKey(Module.Id))
-                s_database.Add(Module.Id, new Dictionary<string, object>[] { });
+                s_database.Add(Module.Id, new Dictionary<string, object?>[] { });
 
             int index = LastId - Id;
 
-            (index - s_database[Module.Id].Length + 1).For(_ => s_database[Module.Id].Append(new Dictionary<string, object>()));
+            (index - s_database[Module.Id].Length + 1).For(_ => s_database[Module.Id].Append(new Dictionary<string, object?>()));
 
             if (!s_database[Module.Id][index].ContainsKey(key))
                 s_database[Module.Id][index].Add(key, null);
@@ -431,12 +431,12 @@ namespace KeepCoding
         /// <param name="key">The key of the variable, a lot like a variable name.</param>
         /// <param name="allowDefault">Whether it should throw an exception if no value is found, or provide the default value instead.</param>
         /// <returns>Every instance of the value from the every instance of the module specified.</returns>
-        public static T[] Read<T>(string module, string key, bool allowDefault = false) =>
+        public static T[] Read<T>(string module, string key, bool allowDefault = false) where T : class =>
             !s_database.ContainsKey(module) && !IsEditor ? throw new KeyNotFoundException($"The module {module} does not have an entry!") : s_database[module].ConvertAll(d => !d.ContainsKey(key)
-                ? allowDefault || IsEditor ? default(T) : throw new KeyNotFoundException($"The key {key} could not be found in the module {module}!")
+                ? allowDefault || IsEditor ? default(T)! : throw new KeyNotFoundException($"The key {key} could not be found in the module {module}!")
                 : d[key] is T t
                 ? t
-                : throw new UnrecognizedTypeException($"The data type {typeof(T).Name} was expected, but received {d[key].GetType()} from module {module} with key {key}!"));
+                : throw new UnrecognizedTypeException($"The data type {typeof(T).Name} was expected, but received {d[key]?.GetType().Name ?? "null"} from module {module} with key {key}!"));
 
         /// <summary>
         /// Sets up base functionality for the module. If you declare this method yourself, make sure to call <c>base.Awake()</c> to ensure that the module initializes correctly, or use <see cref="OnAwake"/> instead.
@@ -454,9 +454,9 @@ namespace KeepCoding
 
             logMessageReceived += OnException;
 
-            _logger = new Logger(Module.Name, true);
+            s_database = new Dictionary<string, Dictionary<string, object?>[]>();
 
-            s_database = new Dictionary<string, Dictionary<string, object>[]>();
+            _logger = new Logger(Module.Name, true);
 
             Self($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
             Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");

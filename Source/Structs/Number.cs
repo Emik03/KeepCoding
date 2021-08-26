@@ -16,6 +16,7 @@ namespace KeepCoding
         /// Creates a <see cref="Number"/> with the inner type <see cref="sbyte"/>.
         /// </summary>
         /// <param name="value">The inner value stored.</param>
+        [CLSCompliant(false)]
         public Number(sbyte value) => _value = value;
 
         /// <summary>
@@ -34,6 +35,7 @@ namespace KeepCoding
         /// Creates a <see cref="Number"/> with the inner type <see cref="ushort"/>.
         /// </summary>
         /// <param name="value">The inner value stored.</param>
+        [CLSCompliant(false)]
         public Number(ushort value) => _value = value;
 
         /// <summary>
@@ -46,6 +48,7 @@ namespace KeepCoding
         /// Creates a <see cref="Number"/> with the inner type <see cref="uint"/>.
         /// </summary>
         /// <param name="value">The inner value stored.</param>
+        [CLSCompliant(false)]
         public Number(uint value) => _value = value;
 
         /// <summary>
@@ -58,6 +61,7 @@ namespace KeepCoding
         /// Creates a <see cref="Number"/> with the inner type <see cref="ulong"/>.
         /// </summary>
         /// <param name="value">The inner value stored.</param>
+        [CLSCompliant(false)]
         public Number(ulong value) => _value = value;
 
         /// <summary>
@@ -630,6 +634,7 @@ namespace KeepCoding
         /// True if the number is strictly larger than zero, otherwise false.
         /// </remarks>
         /// <param name="number">The number to cast.</param>
+        [CLSCompliant(false)]
         public static explicit operator bool(Number number) => number > 0;
 
         /// <summary>
@@ -639,6 +644,7 @@ namespace KeepCoding
         /// Calling this will assume that the value is in inclusively between <see cref="sbyte.MinValue"/> and <see cref="sbyte.MaxValue"/>.
         /// </remarks>
         /// <param name="number">The number to cast.</param>
+        [CLSCompliant(false)]
         public static implicit operator sbyte(Number number) => ToSByte(number._value);
 
         /// <summary>
@@ -666,6 +672,7 @@ namespace KeepCoding
         /// Calling this will assume that the value is in inclusively between <see cref="ushort.MinValue"/> and <see cref="ushort.MaxValue"/>.
         /// </remarks>
         /// <param name="number">The number to cast.</param>
+        [CLSCompliant(false)]
         public static implicit operator ushort(Number number) => ToUInt16(number._value);
 
         /// <summary>
@@ -684,6 +691,7 @@ namespace KeepCoding
         /// Calling this will assume that the value is in inclusively between <see cref="uint.MinValue"/> and <see cref="uint.MaxValue"/>.
         /// </remarks>
         /// <param name="number">The number to cast.</param>
+        [CLSCompliant(false)]
         public static implicit operator uint(Number number) => ToUInt32(number._value);
 
         /// <summary>
@@ -702,6 +710,7 @@ namespace KeepCoding
         /// Calling this will assume that the value is in inclusively between <see cref="ulong.MinValue"/> and <see cref="ulong.MaxValue"/>.
         /// </remarks>
         /// <param name="number">The number to cast.</param>
+        [CLSCompliant(false)]
         public static implicit operator ulong(Number number) => ToUInt64(number._value);
 
         /// <summary>
@@ -726,6 +735,7 @@ namespace KeepCoding
         /// Implicitly converts the value to a <see cref="Number"/>.
         /// </summary>
         /// <param name="value">The value to use in the constructor.</param>
+        [CLSCompliant(false)]
         public static implicit operator Number(sbyte value) => new Number(value);
 
         /// <summary>
@@ -744,6 +754,7 @@ namespace KeepCoding
         /// Implicitly converts the value to a <see cref="Number"/>.
         /// </summary>
         /// <param name="value">The value to use in the constructor.</param>
+        [CLSCompliant(false)]
         public static implicit operator Number(ushort value) => new Number(value);
 
         /// <summary>
@@ -756,6 +767,7 @@ namespace KeepCoding
         /// Implicitly converts the value to a <see cref="Number"/>.
         /// </summary>
         /// <param name="value">The value to use in the constructor.</param>
+        [CLSCompliant(false)]
         public static implicit operator Number(uint value) => new Number(value);
 
         /// <summary>
@@ -768,6 +780,7 @@ namespace KeepCoding
         /// Implicitly converts the value to a <see cref="Number"/>.
         /// </summary>
         /// <param name="value">The value to use in the constructor.</param>
+        [CLSCompliant(false)]
         public static implicit operator Number(ulong value) => new Number(value);
 
         /// <summary>
@@ -973,7 +986,7 @@ namespace KeepCoding
         /// <param name="format">The <see cref="string"/> format of the <see cref="string"/>.</param>
         /// <param name="provider">The <see cref="IFormatProvider"/> format of the <see cref="string"/>.</param>
         /// <returns>The value as <see cref="string"/>.</returns>
-        public string ToString(string format, IFormatProvider provider) => ToString(format, GetInstance(provider));
+        public string ToString(string? format, IFormatProvider provider) => ToString(format, GetInstance(provider));
 
         /// <summary>
         /// Converts the value to a <see cref="string"/>.
@@ -981,7 +994,7 @@ namespace KeepCoding
         /// <param name="format">The <see cref="string"/> format of the <see cref="string"/>.</param>
         /// <param name="info">The <see cref="NumberFormatInfo"/> format of the <see cref="string"/>.</param>
         /// <returns>The value as <see cref="string"/>.</returns>
-        public string ToString(string format, NumberFormatInfo info) => Do(
+        public string ToString(string? format, NumberFormatInfo info) => Do(
             sb => sb.ToString(format, info),
             b => b.ToString(format, info),
             s => s.ToString(format, info),
@@ -1014,9 +1027,9 @@ namespace KeepCoding
         /// <summary>
         /// Calculates the rem-euclid modulo, which allows negative numbers to be properly calculated.
         /// </summary>
-        /// <param name="other">The right-hand side operator.</param>
-        /// <returns>Itself mod <paramref name="other"/>.</returns>
-        public Number Modulo(Number other) => (this % other + other) % other;
+        /// <param name="modulo">The right-hand side operator.</param>
+        /// <returns>Itself mod <paramref name="modulo"/>.</returns>
+        public Number Modulo(Number modulo) => (this %= modulo) < 0 == modulo > 0 ? this + modulo : this;
 
         /// <summary>
         /// Creates a new <see cref="Number"/> with the inner type being the type specified.
@@ -1027,7 +1040,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedTypeException"></exception>
         /// <typeparam name="T">The inner type of the <see cref="Number"/>.</typeparam>
         /// <returns>A <see cref="Number"/> with inner <typeparamref name="T"/>.</returns>
-        public static Number New<T>(T _ = default) => Type.GetTypeCode(typeof(T)) switch
+        public static Number New<T>(T _ = default) where T : struct => Type.GetTypeCode(typeof(T)) switch
         {
             TypeCode.SByte => new Number(new sbyte()),
             TypeCode.Byte => new Number(new byte()),
@@ -1091,7 +1104,7 @@ namespace KeepCoding
         /// Casts the <see cref="Number"/> into the numeric type. Unlike implicit casting, the value will trim the bytes that cannot occupy the new datatype, such as a number being too large or decimals.
         /// </summary>
         /// <returns>Itself as <typeparamref name="T"/>.</returns>
-        public T Cast<T>()
+        public T Cast<T>() where T : struct
         {
             Number number = this;
 
@@ -1131,7 +1144,7 @@ namespace KeepCoding
 
         private static UnrecognizedTypeException WrongType<T>(T value) => throw new UnrecognizedTypeException($"The value {value} has the type {typeof(T)} which in this case is not valid.");
 
-        private T Do<T>(in Func<sbyte, T> doSb, in Func<byte, T> doB, in Func<short, T> doS, in Func<ushort, T> doUs, in Func<int, T> doI, in Func<uint, T> doUi, in Func<long, T> doL, in Func<ulong, T> doUl, in Func<float, T> doF, in Func<double, T> doD, in Func<decimal, T> doDe) => _value switch
+        private T Do<T>(in Func<sbyte, T>? doSb, in Func<byte, T>? doB, in Func<short, T>? doS, in Func<ushort, T>? doUs, in Func<int, T>? doI, in Func<uint, T>? doUi, in Func<long, T>? doL, in Func<ulong, T>? doUl, in Func<float, T>? doF, in Func<double, T>? doD, in Func<decimal, T>? doDe) => _value switch
         {
             sbyte sb => Run(sb, doSb),
             byte b => Run(b, doB),
@@ -1147,22 +1160,24 @@ namespace KeepCoding
             _ => throw WrongType(_value)
         };
 
-        private T Do<T>(in Number other, in Func<sbyte, sbyte, T> doSb, in Func<byte, byte, T> doB, in Func<short, short, T> doS, in Func<ushort, ushort, T> doUs, in Func<int, int, T> doI, in Func<uint, uint, T> doUi, in Func<long, long, T> doL, in Func<ulong, ulong, T> doUl, in Func<float, float, T> doF, in Func<double, double, T> doD, in Func<decimal, decimal, T> doDe) => (TypeCode)Max((int)GetTypeCode(), (int)other.GetTypeCode()) switch
+        private Number Do<T>(in Number other, in Func<sbyte, sbyte, Number>? doSb, in Func<byte, byte, Number>? doB, in Func<short, short, Number>? doS, in Func<ushort, ushort, Number>? doUs, in Func<int, int, Number>? doI, in Func<uint, uint, Number>? doUi, in Func<long, long, Number>? doL, in Func<ulong, ulong, Number>? doUl, in Func<float, float, Number>? doF, in Func<double, double, Number>? doD, in Func<decimal, decimal, Number>? doDe) => (TypeCode)Max((int)GetTypeCode(), (int)other.GetTypeCode()) switch
         {
-            TypeCode.SByte => doSb(this, other),
-            TypeCode.Byte => doB(this, other),
-            TypeCode.Int16 => doS(this, other),
-            TypeCode.UInt16 => doUs(this, other),
-            TypeCode.Int32 => doI(this, other),
-            TypeCode.UInt32 => doUi(this, other),
-            TypeCode.Int64 => doL(this, other),
-            TypeCode.UInt64 => doUl(this, other),
-            TypeCode.Single => doF(this, other),
-            TypeCode.Double => doD(this, other),
-            TypeCode.Decimal => doDe(this, other),
+            TypeCode.SByte => Do(other, doSb),
+            TypeCode.Byte => Do(other, doB),
+            TypeCode.Int16 => Do(other, doS),
+            TypeCode.UInt16 => Do(other, doUs),
+            TypeCode.Int32 => Do(other, doI),
+            TypeCode.UInt32 => Do(other, doUi),
+            TypeCode.Int64 => Do(other, doL),
+            TypeCode.UInt64 => Do(other, doUl),
+            TypeCode.Single => Do(other, doF),
+            TypeCode.Double => Do(other, doD),
+            TypeCode.Decimal => Do(other, doDe),
             _ => throw WrongType(GetTypeCode() < other.GetTypeCode() ? this : other)
         };
 
-        private static TResult Run<T, TResult>(in T value, in Func<T, TResult> func) => func is { } ? func(value) : throw WrongType(value);
+        private Number Do<T>(in Number other, in Func<T, T, Number>? func) where T : struct => func is { } ? func((this as T?)!.Value, (other as T?)!.Value) : throw WrongType(GetTypeCode() < other.GetTypeCode() ? this : other);
+
+        private static TResult Run<T, TResult>(in T value, in Func<T, TResult>? func) => func is { } ? func(value) : throw WrongType(value);
     }
 }

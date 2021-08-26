@@ -44,8 +44,7 @@ namespace KeepCoding
         /// <summary>
         /// Gets this library's <see cref="AssemblyName"/>.
         /// </summary>
-        public static AssemblyName AssemblyName => s_assemblyName ??= GetExecutingAssembly().GetName();
-        private static AssemblyName s_assemblyName;
+        public static AssemblyName AssemblyName { get; } = GetExecutingAssembly().GetName();
 
         /// <summary>
         /// Gets this library's version number. Currently used by <see cref="ModuleScript"/> to log the version number of this library.
@@ -93,7 +92,7 @@ namespace KeepCoding
         /// Prints a hierarchy of all game objects.
         /// </summary>
         /// <param name="indent">The amount of spaces used for indenting children of game objects.</param>
-        public static void PrintHierarchy(ushort indent = 4) => FindObjectsOfType<GameObject>().Where(g => !g.transform.parent).ToArray().ForEach(g => PrintHierarchy(g, indent));
+        public static void PrintHierarchy(int indent = 4) => FindObjectsOfType<GameObject>().Where(g => !g.transform.parent).ToArray().ForEach(g => PrintHierarchy(g, indent));
 
         /// <summary>
         /// Prints the hierarchy from the game object specified.
@@ -102,15 +101,16 @@ namespace KeepCoding
         /// <param name="obj">The game object to search the hierarchy.</param>
         /// <param name="indent">The amount of spaces used for indenting children of game objects.</param>
         /// <param name="depth">The level of depth which determines level of indentation. Leave this variable as 0.</param>
-        public static void PrintHierarchy(GameObject obj, ushort indent = 4, ushort depth = 0)
+        [CLSCompliant(false)]
+        public static void PrintHierarchy(GameObject? obj, int indent = 4, ushort depth = 0)
         {
             string space = new string(Repeat(' ', indent * depth).ToArray());
 
             Log($"{space}{obj.Assert("The game object cannot be null.").name}");
-            LogWarning($"{space}{obj.GetComponents<Component>().Stringify()}");
+            LogWarning($"{space}{obj!.GetComponents<Component>().Stringify()}");
 
             foreach (Transform child in obj.transform)
-                PrintHierarchy(child.gameObject, (ushort)(depth + 1), indent);
+                PrintHierarchy(child.gameObject, indent, (ushort)(depth + 1));
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace KeepCoding
                 return path;
             }
 
-            path = SuppressIO(() => Directory.GetFiles(GetDirectory(assembly), file).FirstOrDefault());
+            path = SuppressIO(() => Directory.GetFiles(GetDirectory(assembly), file).FirstOrDefault(), "");
 
             Self($"The file {file} from {assembly} has been found. Location: {path}");
 
@@ -288,6 +288,7 @@ namespace KeepCoding
         /// <typeparam name="T">The type of asset to retrieve.</typeparam>
         /// <param name="file">The name of the bundle file to grab the assets from.</param>
         /// <returns>A <see cref="Work{T}"/> instance that can retrieve the assets from the mod caller.</returns>
+        [CLSCompliant(false)]
         public static Work<T[]> GetAssetsAsync<T>(string file) where T : Object => new Work<T[]>(() => GetAssets<T>(file));
 
         /// <summary>
@@ -297,6 +298,7 @@ namespace KeepCoding
         /// <param name="file">The name of the bundle file to grab the assets from.</param>
         /// <param name="assembly">The mod assembly's name.</param>
         /// <returns>A <see cref="Work{T}"/> instance that can retrieve the assets from <paramref name="assembly"/>.</returns>
+        [CLSCompliant(false)]
         public static Work<T[]> GetAssetsAsync<T>(string file, string assembly) where T : Object => new Work<T[]>(() => GetAssets<T>(file, assembly));
 
         /// <summary>
@@ -308,6 +310,7 @@ namespace KeepCoding
         /// <typeparam name="T">The type of asset to retrieve.</typeparam>
         /// <param name="file">The name of the bundle file to grab the assets from.</param>
         /// <returns>The assets retrieved from the mod caller.</returns>
+        [CLSCompliant(false)]
         public static T[] GetAssets<T>(string file) where T : Object => GetAssets<T>(file, Caller);
 
         /// <summary>
@@ -320,15 +323,16 @@ namespace KeepCoding
         /// <param name="file">The name of the bundle file to grab the assets from.</param>
         /// <param name="assembly">The mod assembly's name.</param>
         /// <returns>The assets retrieved from <paramref name="assembly"/>.</returns>
+        [CLSCompliant(false)]
         public static T[] GetAssets<T>(string file, string assembly) where T : Object => LoadAssets<T>(file, assembly).AsEnumerable().OfType<T[]>().First();
 
-        internal static void SuppressIO(Action func, Action<Exception> caught = null) => func.Catch<IOException, NotSupportedException, UnauthorizedAccessException>(e =>
+        internal static void SuppressIO(Action func, Action<Exception>? caught = null) => func.Catch<IOException, NotSupportedException, UnauthorizedAccessException>(e =>
         {
             Self($"Caught error of type {e.GetType()}: {e}");
             caught?.Invoke(e);
         });
 
-        internal static T SuppressIO<T>(Func<T> func, T caught = default) => func.Catch<IOException, NotSupportedException, UnauthorizedAccessException, T>(e =>
+        internal static T SuppressIO<T>(Func<T> func, T caught) => func.Catch<IOException, NotSupportedException, UnauthorizedAccessException, T>(e =>
         {
             Self($"Caught error of type {e.GetType()}, returning new instance of {typeof(T).Name}: {e}");
             return caught;
