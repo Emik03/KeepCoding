@@ -621,7 +621,7 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         /// <param name="source">The string to check for null and empty.</param>
         /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
-        public static string NullOrEmptyCheck(this string source, string? message = null) => Concat(source.AsEnumerable().NullOrEmptyCheck(message));
+        public static string NullOrEmptyCheck(this string source, string? message = null) => source.NullCheck(message ?? $"While asserting for null or empty, the variable ended up being null.").Length is 0 ? throw new EmptyIteratorException(message ?? $"While asserting for null or empty, the variable ended up being empty.") : source;
 
         /// <summary>
         /// Reverses a string.
@@ -814,15 +814,6 @@ namespace KeepCoding
         public static IEnumerable<T> Indistinct<T>(this IEnumerable<T> source) => source.GroupBy(x => x).Where(g => g.Count() > 1).Select(y => y.Key);
 
         /// <summary>
-        /// Throws an exception if the <see cref="IEnumerable{T}"/> is null or empty.
-        /// </summary>
-        /// <exception cref="NullIteratorException"></exception>
-        /// <exception cref="EmptyIteratorException"></exception>
-        /// <param name="source">The <see cref="Array"/> to check for null and empty.</param>
-        /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
-        public static IEnumerable<T> NullOrEmptyCheck<T>(this IEnumerable<T> source, string? message = null) => source.NullCheck(message ?? $"While asserting for null or empty, the variable ended up being null.").Any() ? source : throw new EmptyIteratorException(message ?? $"While asserting for null or empty, the variable ended up being empty.");
-
-        /// <summary>
         /// Prepends the element provided to the <see cref="IEnumerable{T}"/>.
         /// </summary>
         /// <typeparam name="T">The datatype of both the <see cref="IEnumerable{T}"/>.</typeparam>
@@ -945,6 +936,38 @@ namespace KeepCoding
         public static IEnumerable<IEnumerable<T>> SplitEvery<T>(this IEnumerable<T> source, int length) => length > 0 ? source.NullCheck("The source cannot be null.").Select((item, inx) => new { item, inx }).GroupBy(x => x.inx / length).Select(g => g.Select(x => x.item)) : throw new ArgumentException($"The variable {nameof(length)} must be a positive number.");
 
         /// <summary>
+        /// Produces a sequence of tuples with elements from the two specified sequences.
+        /// </summary>
+        /// <typeparam name="T1">The type of the elements of the first input sequence.</typeparam>
+        /// <typeparam name="T2">The type of the elements of the second input sequence.</typeparam>
+        /// <param name="first">The first sequence to merge.</param>
+        /// <param name="second">The second sequence to merge.</param>
+        /// <returns>A sequence of tuples with elements taken from the first and second sequences, in that order.</returns>
+        public static IEnumerable<Tuple<T1, T2>> Zip<T1, T2>(this IEnumerable<T1> first, IEnumerable<T2> second) => Zip(first, second, (a, b) => a.ToTuple(b));
+
+        /// <summary>
+        /// Applies a specified function to the corresponding elements of two sequences, producing a sequence of the results.
+        /// </summary>
+        /// <typeparam name="T1">The type of the elements of the first input sequence.</typeparam>
+        /// <typeparam name="T2">The type of the elements of the second input sequence.</typeparam>
+        /// <typeparam name="TResult">The type of the elements of the result sequence.</typeparam>
+        /// <param name="first">The first sequence to merge.</param>
+        /// <param name="second">The second sequence to merge.</param>
+        /// <param name="selector">A function that specifies how to merge the elements from the two sequences.</param>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <returns>An <see cref="IEnumerable{T}"/> that contains merged elements of two input sequences.</returns>
+        public static IEnumerable<TResult> Zip<T1, T2, TResult>(this IEnumerable<T1> first, IEnumerable<T2> second, Func<T1, T2, TResult> selector)
+        {
+            selector.NullCheck("The selector cannot be null!");
+
+            IEnumerator<T1> e1 = first.NullCheck("The first enumerator cannot be null!").GetEnumerator();
+            IEnumerator<T2> e2 = second.NullCheck("The second enumerator cannot be null!").GetEnumerator();
+
+            while (e1.MoveNext() & e2.MoveNext())
+                yield return selector(e1.Current, e2.Current);
+        }
+
+        /// <summary>
         /// Flattens an <see cref="IEnumerator"/> such that nested <see cref="IEnumerator"/> calls get replaced with the output of those calls.
         /// </summary>
         /// <param name="source">The <see cref="IEnumerator"/> to flatten.</param>
@@ -966,15 +989,6 @@ namespace KeepCoding
                     yield return result.Current;
             }
         }
-
-        /// <summary>
-        /// Throws an exception if the <see cref="IEnumerator{T}"/> is null or empty.
-        /// </summary>
-        /// <exception cref="NullIteratorException"></exception>
-        /// <exception cref="EmptyIteratorException"></exception>
-        /// <param name="source">The string to check for null and empty.</param>
-        /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
-        public static IEnumerator<T> NullOrEmptyCheck<T>(this IEnumerator<T> source, string? message = null) => (IEnumerator<T>)source.AsEnumerable().NullOrEmptyCheck(message);
 
         /// <summary>
         /// Gives list of module names that are unsolved.
@@ -1009,9 +1023,27 @@ namespace KeepCoding
         /// <typeparam name="T">The type of the list.</typeparam>
         /// <param name="source">The list to reverse.</param>
         /// <returns><paramref name="source"/> with the elements reversed.</returns>
-        public static List<T> Rev<T>(this List<T> source)
+        public static List<T> Rev<T>(this List<T> source) => source.NullCheck("The source cannot be null.").Rev(0, source.Count);
+
+        /// <summary>
+        /// Reverses part of the list and returns the new list.
+        /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <typeparam name="T">The type of the list.</typeparam>
+        /// <param name="source">The list to reverse.</param>
+        /// <param name="index">The index to start from.</param>
+        /// <param name="count">The amount of elements to reverse.</param>
+        /// <returns><paramref name="source"/> with the elements reversed specified by <paramref name="index"/> and <paramref name="count"/>.</returns>
+        public static List<T> Rev<T>(this List<T> source, int index, int count)
         {
-            source.NullCheck("The source cannot be null.").Reverse();
+            if (index < 0 || count < 0)
+                throw new NegativeNumberException("Either arguments cannot be less than zero.");
+
+            if (source.Count - index < count)
+                throw new ArgumentOutOfRangeException($"The length of the list {source.Count} is not large enough to flip the {count} indices starting from {index}");
+
+            source.NullCheck("The source cannot be null.").Reverse(index, count);
+
             return source;
         }
 
@@ -1038,19 +1070,19 @@ namespace KeepCoding
         /// <param name="source">The collection to split.</param>
         /// <param name="predicate">The method that decides where the item ends up.</param>
         /// <returns>A <see cref="Tuple{T1, T2}"/> consisting of items from <paramref name="source"/> where <see cref="Tuple{T}.Item1"/> contains items that returned true in <paramref name="predicate"/>, and <see cref="Tuple{T1, T2}.Item2"/> otherwise.</returns>
-        public static Tuple<IEnumerable<T>, IEnumerable<T>> SplitBy<T>(this IEnumerable<T> source, Predicate<T> predicate)
+        public static Tuple<List<T>, List<T>> SplitBy<T>(this IEnumerable<T> source, Predicate<T> predicate)
         {
             source.NullCheck("The enumerator cannot be null");
 
-            IEnumerable<T> t = Empty<T>();
-            IEnumerable<T> f = Empty<T>();
+            List<T> t = new List<T>(),
+                f = new List<T>();
 
             foreach (T item in source)
             {
                 if (predicate(item))
-                    t = t.Append(item);
+                    t.Add(item);
                 else
-                    f = f.Append(item);
+                    f.Add(item);
             }
 
             return t.ToTuple(f);
@@ -1156,7 +1188,7 @@ namespace KeepCoding
         /// <param name="item">The parameter to check null for.</param>
         /// <param name="message">The optional message to throw if null.</param>
         /// <returns><paramref name="item"/></returns>
-        public static T NullCheck<T>(this T? item, string message = "While asserting for null, the variable ended up null.") where T : class => item is null ? throw GetNullException(item)(message) : item;
+        public static T NullCheck<T>(this T item, string message = "While asserting for null, the variable ended up null.") => item is null ? throw GetNullException(item)(message) : item;
 
         /// <summary>
         /// Throws a <see cref="NullReferenceException"/> or <see cref="NullIteratorException"/> if the parameter provided is null.
@@ -1168,6 +1200,28 @@ namespace KeepCoding
         /// <param name="message">The optional message to throw if null.</param>
         /// <returns><paramref name="item"/></returns>
         public static T NullCheck<T>(this T? item, string message = "While asserting for null, the variable ended up null.") where T : struct => item is null ? throw GetNullException(item)(message) : item.Value;
+
+        /// <summary>
+        /// Throws an exception if the <see cref="IEnumerable{T}"/> is null or empty.
+        /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <param name="source">The <see cref="Array"/> to check for null and empty.</param>
+        /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
+#nullable disable
+        public static T NullOrEmptyCheck<T>(this T source, string message = null) where T : IEnumerable => source.NullCheck(message ?? $"While asserting for null or empty, the variable ended up being null.").GetEnumerator().MoveNext() ? source : throw new EmptyIteratorException(message ?? $"While asserting for null or empty, the variable ended up being empty.");
+#nullable restore
+
+        /// <summary>
+        /// Throws an exception if the <see cref="IEnumerable{T}"/> is null or empty.
+        /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <exception cref="EmptyIteratorException"></exception>
+        /// <param name="source">The <see cref="Array"/> to check for null and empty.</param>
+        /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
+#nullable disable
+        public static T NullOrEmptyCheck<T>(this T? source, string message = null) where T : struct, IEnumerable => source.NullCheck(message ?? $"While asserting for null or empty, the variable ended up being null.").GetEnumerator().MoveNext() ? source.Value : throw new EmptyIteratorException(message ?? $"While asserting for null or empty, the variable ended up being empty.");
+#nullable restore
 
         /// <summary>
         /// Invokes a method of <typeparamref name="T"/> to <typeparamref name="TResult"/> and then returns the argument provided.
@@ -1244,37 +1298,5 @@ namespace KeepCoding
         /// <param name="func">The function to apply <paramref name="items"/> to.</param>
         /// <returns>The item <paramref name="items"/> after <paramref name="func"/>.</returns>
         public static TResult[] Apply<T, TResult>(this T[] items, Func<T, int, TResult> func) => items.Select((i, n) => func(i, n)).ToArray();
-
-        /// <summary>
-        /// Produces a sequence of tuples with elements from the two specified sequences.
-        /// </summary>
-        /// <typeparam name="T1">The type of the elements of the first input sequence.</typeparam>
-        /// <typeparam name="T2">The type of the elements of the second input sequence.</typeparam>
-        /// <param name="first">The first sequence to merge.</param>
-        /// <param name="second">The second sequence to merge.</param>
-        /// <returns>A sequence of tuples with elements taken from the first and second sequences, in that order.</returns>
-        public static IEnumerable<Tuple<T1, T2>> Zip<T1, T2>(this IEnumerable<T1> first, IEnumerable<T2> second) => Zip(first, second, (a, b) => a.ToTuple(b));
-
-        /// <summary>
-        /// Applies a specified function to the corresponding elements of two sequences, producing a sequence of the results.
-        /// </summary>
-        /// <typeparam name="T1">The type of the elements of the first input sequence.</typeparam>
-        /// <typeparam name="T2">The type of the elements of the second input sequence.</typeparam>
-        /// <typeparam name="TResult">The type of the elements of the result sequence.</typeparam>
-        /// <param name="first">The first sequence to merge.</param>
-        /// <param name="second">The second sequence to merge.</param>
-        /// <param name="selector">A function that specifies how to merge the elements from the two sequences.</param>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <returns>An <see cref="IEnumerable{T}"/> that contains merged elements of two input sequences.</returns>
-        public static IEnumerable<TResult> Zip<T1, T2, TResult>(this IEnumerable<T1> first, IEnumerable<T2> second, Func<T1, T2, TResult> selector)
-        {
-            selector.NullCheck("The selector cannot be null!");
-
-            IEnumerator<T1> e1 = first.NullCheck("The first enumerator cannot be null!").GetEnumerator();
-            IEnumerator<T2> e2 = second.NullCheck("The second enumerator cannot be null!").GetEnumerator();
-
-            while (e1.MoveNext() & e2.MoveNext())
-                yield return selector(e1.Current, e2.Current);
-        }
     }
 }
