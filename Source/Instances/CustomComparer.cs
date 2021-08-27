@@ -30,7 +30,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="selector">Function selecting the actual value to be compared.</param>
         /// <param name="comparer">Comparer to use for comparing the results of the selector function. If null, the default comparer is used; this comparer will use the IComparable interface if implemented.</param>
-        public static CustomComparer<T> By<TBy>(Func<T, TBy> selector, IComparer<TBy>? comparer = null)
+        public static CustomComparer<T> By<TBy>(Func<T, TBy> selector, IComparer<TBy> comparer = null)
         {
             if (selector is null)
                 throw new ArgumentNullException(nameof(selector));
@@ -70,7 +70,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="selector">Function selecting the actual value to be compared.</param>
         /// <param name="comparer">Comparer to use for comparing the results of the selector function. If null, the default comparer is used; this comparer will use the IComparable interface if implemented.</param>
-        public CustomComparer<T> ThenBy<TBy>(Func<T, TBy> selector, IComparer<TBy>? comparer = null)
+        public CustomComparer<T> ThenBy<TBy>(Func<T, TBy> selector, IComparer<TBy> comparer = null)
         {
             if (selector is null)
                 throw new ArgumentNullException(nameof(selector));

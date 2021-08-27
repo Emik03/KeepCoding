@@ -38,7 +38,7 @@ namespace KeepCoding
 
         private Action _activate = default!;
 
-        private static Dictionary<string, Dictionary<string, object?>[]> s_database = new Dictionary<string, Dictionary<string, object?>[]>();
+        private static Dictionary<string, Dictionary<string, object>[]> s_database = new Dictionary<string, Dictionary<string, object>[]>();
 
         private Logger _logger = default!;
 
@@ -129,7 +129,7 @@ namespace KeepCoding
         /// Due to type ambiguity, a non-generic interface is returned.
         /// </remarks>
         public ITP TP => _tp ??= GetComponent<ITP>();
-        private ITP? _tp;
+        private ITP _tp;
 
         /// <summary>
         /// The bomb that this module is in.
@@ -159,10 +159,10 @@ namespace KeepCoding
         internal static bool IsOutdated { get; private set; }
 
         private string Name => _name ??= Type.NameOfAssembly();
-        private string? _name;
+        private string _name;
 
         private Type Type => _type ??= GetType();
-        private Type? _type;
+        private Type _type;
 
         /// <summary>
         /// Assigns events specified into <see cref="Module"/>. Reassigning them will replace their values.
@@ -176,7 +176,7 @@ namespace KeepCoding
         /// <param name="onPass">Called when the needy is solved.</param>
         /// <param name="onStrike">Called when the needy strikes.</param>
         /// <param name="onTimerExpired">Called when the timer runs out of time.</param>
-        public void Assign(Action? onActivate = null, Action? onNeedyActivation = null, Action? onNeedyDeactivation = null, Action? onPass = null, Action? onStrike = null, Action? onTimerExpired = null) => Module.Assign(onActivate.Combine(_activate), onNeedyActivation.Combine(() =>
+        public void Assign(Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null) => Module.Assign(onActivate.Combine(_activate), onNeedyActivation.Combine(() =>
         {
             OnNeedyActivate();
             IsNeedyActive = true;
@@ -342,11 +342,11 @@ namespace KeepCoding
         public void Write<T>(string key, T value)
         {
             if (!s_database.ContainsKey(Module.Id))
-                s_database.Add(Module.Id, new Dictionary<string, object?>[] { });
+                s_database.Add(Module.Id, new Dictionary<string, object>[] { });
 
             int index = LastId - Id;
 
-            (index - s_database[Module.Id].Length + 1).For(_ => s_database[Module.Id].Append(new Dictionary<string, object?>()));
+            (index - s_database[Module.Id].Length + 1).For(_ => s_database[Module.Id].Append(new Dictionary<string, object>()));
 
             if (!s_database[Module.Id][index].ContainsKey(key))
                 s_database[Module.Id][index].Add(key, null);
@@ -454,7 +454,7 @@ namespace KeepCoding
 
             logMessageReceived += OnException;
 
-            s_database = new Dictionary<string, Dictionary<string, object?>[]>();
+            s_database = new Dictionary<string, Dictionary<string, object>[]>();
 
             _logger = new Logger(Module.Name, true);
 

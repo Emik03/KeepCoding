@@ -102,7 +102,7 @@ namespace KeepCoding
         /// <param name="indent">The amount of spaces used for indenting children of game objects.</param>
         /// <param name="depth">The level of depth which determines level of indentation. Leave this variable as 0.</param>
         [CLSCompliant(false)]
-        public static void PrintHierarchy(GameObject? obj, int indent = 4, ushort depth = 0)
+        public static void PrintHierarchy(GameObject obj, int indent = 4, ushort depth = 0)
         {
             string space = new string(Repeat(' ', indent * depth).ToArray());
 
@@ -326,7 +326,7 @@ namespace KeepCoding
         [CLSCompliant(false)]
         public static T[] GetAssets<T>(string file, string assembly) where T : Object => LoadAssets<T>(file, assembly).AsEnumerable().OfType<T[]>().First();
 
-        internal static void SuppressIO(Action func, Action<Exception>? caught = null) => func.Catch<IOException, NotSupportedException, UnauthorizedAccessException>(e =>
+        internal static void SuppressIO(Action func, Action<Exception> caught = null) => func.Catch<IOException, NotSupportedException, UnauthorizedAccessException>(e =>
         {
             Self($"Caught error of type {e.GetType()}: {e}");
             caught?.Invoke(e);
@@ -382,6 +382,7 @@ namespace KeepCoding
         private static string FileFormat(in string name, in string extension) => $"{name}.{extension}";
 
         private static IEnumerator LoadAssets<T>(string file, string assembly) where T : Object
+#nullable restore
         {
             file.NullOrEmptyCheck("You cannot load a video from a nonexistent file.");
 

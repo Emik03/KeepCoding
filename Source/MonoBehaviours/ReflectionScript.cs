@@ -49,14 +49,14 @@ namespace KeepCoding.Internal
 #pragma warning restore 649, IDE0044 // Add readonly modifier
 
         [SerializeField]
-        private string?[]? _values;
+        private string[] _values;
 
         [SerializeField]
-        private Object?[]? _components;
+        private Object[] _components;
 
         private IEnumerable<object> _current = Empty<object>();
 
-        private List<Tuple<Component, NullableObject?>> _members = Empty;
+        private List<Tuple<Component, NullableObject>> _members = Empty;
 
         private readonly Logger _logger = new Logger(nameof(ReflectionScript), true, false);
 
@@ -71,7 +71,7 @@ namespace KeepCoding.Internal
             _ => throw new NotImplementedException(),
         };
 
-        private static List<Tuple<Component, NullableObject?>> Empty => Empty<Tuple<Component, NullableObject?>>().ToList();
+        private static List<Tuple<Component, NullableObject>> Empty => Empty<Tuple<Component, NullableObject>>().ToList();
 
         /// <summary>
         /// Logs message, but formats it to be compliant with the Logfile Analyzer.
@@ -100,7 +100,7 @@ namespace KeepCoding.Internal
             if (_variable is null)
                 return;
 
-            _members = Empty<Tuple<Component, NullableObject?>>().ToList();
+            _members = Empty<Tuple<Component, NullableObject>>().ToList();
 
             foreach (Component component in Components)
             {
@@ -148,7 +148,7 @@ namespace KeepCoding.Internal
                 _logger.Log($"{gameObject.name}, {_variable}\n{Join(", ", _values)}");
         }
 
-        private static NullableObject? GetDeepValue(in object instance, in string[] names)
+        private static NullableObject GetDeepValue(in object instance, in string[] names)
         {
             var current = new NullableObject(instance);
 
@@ -157,9 +157,9 @@ namespace KeepCoding.Internal
                 if (current is null)
                     return null;
 
-                Type? type = current._value?.GetType();
+                Type type = current._value?.GetType();
 
-                NullableObject?[] vs = new[]
+                NullableObject[] vs = new[]
                 {
                     GetField(type, name, current._value),
                     GetProperty(type, name, current._value),
@@ -171,18 +171,18 @@ namespace KeepCoding.Internal
             return current;
         }
 
-        private static NullableObject? GetField(in Type? type, in string name, in object? instance)
+        private static NullableObject GetField(in Type type, in string name, in object instance)
         {
-            FieldInfo? field = type?.GetField(name, Flags);
+            FieldInfo field = type.GetField(name, Flags);
 
             return field is null ? null
                 : new NullableObject(field.IsStatic ? field.GetValue(null)
                 : field.GetValue(instance));
         }
 
-        private static NullableObject? GetProperty(in Type? type, in string name, in object? instance)
+        private static NullableObject GetProperty(in Type type, in string name, in object instance)
         {
-            PropertyInfo? property = type?.GetProperty(name, Flags);
+            PropertyInfo property = type.GetProperty(name, Flags);
 
             return property is null ? null
                 : new NullableObject(property.GetAccessors(false).Any(x => x.IsStatic) ? property.GetValue(null, null)

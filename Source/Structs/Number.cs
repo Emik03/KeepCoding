@@ -986,7 +986,7 @@ namespace KeepCoding
         /// <param name="format">The <see cref="string"/> format of the <see cref="string"/>.</param>
         /// <param name="provider">The <see cref="IFormatProvider"/> format of the <see cref="string"/>.</param>
         /// <returns>The value as <see cref="string"/>.</returns>
-        public string ToString(string? format, IFormatProvider provider) => ToString(format, GetInstance(provider));
+        public string ToString(string format, IFormatProvider provider) => ToString(format, GetInstance(provider));
 
         /// <summary>
         /// Converts the value to a <see cref="string"/>.
@@ -994,7 +994,7 @@ namespace KeepCoding
         /// <param name="format">The <see cref="string"/> format of the <see cref="string"/>.</param>
         /// <param name="info">The <see cref="NumberFormatInfo"/> format of the <see cref="string"/>.</param>
         /// <returns>The value as <see cref="string"/>.</returns>
-        public string ToString(string? format, NumberFormatInfo info) => Do(
+        public string ToString(string format, NumberFormatInfo info) => Do(
             sb => sb.ToString(format, info),
             b => b.ToString(format, info),
             s => s.ToString(format, info),
@@ -1144,7 +1144,7 @@ namespace KeepCoding
 
         private static UnrecognizedTypeException WrongType<T>(T value) => throw new UnrecognizedTypeException($"The value {value} has the type {typeof(T)} which in this case is not valid.");
 
-        private T Do<T>(in Func<sbyte, T>? doSb, in Func<byte, T>? doB, in Func<short, T>? doS, in Func<ushort, T>? doUs, in Func<int, T>? doI, in Func<uint, T>? doUi, in Func<long, T>? doL, in Func<ulong, T>? doUl, in Func<float, T>? doF, in Func<double, T>? doD, in Func<decimal, T>? doDe) => _value switch
+        private T Do<T>(in Func<sbyte, T> doSb, in Func<byte, T> doB, in Func<short, T> doS, in Func<ushort, T> doUs, in Func<int, T> doI, in Func<uint, T> doUi, in Func<long, T> doL, in Func<ulong, T> doUl, in Func<float, T> doF, in Func<double, T> doD, in Func<decimal, T> doDe) => _value switch
         {
             sbyte sb => Run(sb, doSb),
             byte b => Run(b, doB),
@@ -1160,7 +1160,7 @@ namespace KeepCoding
             _ => throw WrongType(_value)
         };
 
-        private Number Do<T>(in Number other, in Func<sbyte, sbyte, Number>? doSb, in Func<byte, byte, Number>? doB, in Func<short, short, Number>? doS, in Func<ushort, ushort, Number>? doUs, in Func<int, int, Number>? doI, in Func<uint, uint, Number>? doUi, in Func<long, long, Number>? doL, in Func<ulong, ulong, Number>? doUl, in Func<float, float, Number>? doF, in Func<double, double, Number>? doD, in Func<decimal, decimal, Number>? doDe) => (TypeCode)Max((int)GetTypeCode(), (int)other.GetTypeCode()) switch
+        private Number Do<T>(in Number other, in Func<sbyte, sbyte, Number> doSb, in Func<byte, byte, Number> doB, in Func<short, short, Number> doS, in Func<ushort, ushort, Number> doUs, in Func<int, int, Number> doI, in Func<uint, uint, Number> doUi, in Func<long, long, Number> doL, in Func<ulong, ulong, Number> doUl, in Func<float, float, Number> doF, in Func<double, double, Number> doD, in Func<decimal, decimal, Number> doDe) => (TypeCode)Max((int)GetTypeCode(), (int)other.GetTypeCode()) switch
         {
             TypeCode.SByte => Do(other, doSb),
             TypeCode.Byte => Do(other, doB),
@@ -1176,8 +1176,8 @@ namespace KeepCoding
             _ => throw WrongType(GetTypeCode() < other.GetTypeCode() ? this : other)
         };
 
-        private Number Do<T>(in Number other, in Func<T, T, Number>? func) where T : struct => func is { } ? func((this as T?)!.Value, (other as T?)!.Value) : throw WrongType(GetTypeCode() < other.GetTypeCode() ? this : other);
+        private Number Do<T>(in Number other, in Func<T, T, Number> func) where T : struct => func is { } ? func((this as T?)!.Value, (other as T?)!.Value) : throw WrongType(GetTypeCode() < other.GetTypeCode() ? this : other);
 
-        private static TResult Run<T, TResult>(in T value, in Func<T, TResult>? func) => func is { } ? func(value) : throw WrongType(value);
+        private static TResult Run<T, TResult>(in T value, in Func<T, TResult> func) => func is { } ? func(value) : throw WrongType(value);
     }
 }

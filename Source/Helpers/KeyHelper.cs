@@ -105,7 +105,7 @@ namespace KeepCoding
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <param name="final">The action to run on either clause.</param>
         /// <returns><paramref name="action"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
-        public static Action Catch<T1, T2, T3>(this Action action, Action<Exception>? caught = null, Action? final = null) where T1 : Exception where T2 : Exception where T3 : Exception => () =>
+        public static Action Catch<T1, T2, T3>(this Action action, Action<Exception> caught = null, Action final = null) where T1 : Exception where T2 : Exception where T3 : Exception => () =>
         {
             try
             {
@@ -341,7 +341,7 @@ namespace KeepCoding
         /// <param name="condition">The condition for whether the loop should continue.</param>
         /// <param name="loop">The action to run after <paramref name="action"/>.</param>
         /// <returns><paramref name="item"/></returns>
-        public static T For<T>(this T item, Action<T> action, Predicate<T>? condition = null, Func<T, T>? loop = null)
+        public static T For<T>(this T item, Action<T> action, Predicate<T> condition = null, Func<T, T> loop = null)
         {
             action.NullCheck("The action cannot be null.");
 
@@ -391,7 +391,7 @@ namespace KeepCoding
         /// <param name="condition">The condition for whether the loop should continue.</param>
         /// <param name="loop">The action to run after <paramref name="func"/>.</param>
         /// <returns>All instances that <paramref name="func"/> used in an <see cref="IEnumerable{T}"/>.</returns>
-        public static IEnumerable<T> For<T>(this T item, Func<T, T> func, Predicate<T>? condition = null, Func<T, T>? loop = null)
+        public static IEnumerable<T> For<T>(this T item, Func<T, T> func, Predicate<T> condition = null, Func<T, T> loop = null)
         {
             var output = new List<T>();
 
@@ -537,7 +537,7 @@ namespace KeepCoding
         /// <param name="action">The action to run when <paramref name="condition"/> is <see langword="true"/>.</param>
         /// <param name="otherwise">The action to run when <paramref name="condition"/> is <see langword="false"/>.</param>
         /// <returns><paramref name="condition"/></returns>
-        public static bool If(this bool condition, Action action, Action? otherwise = null)
+        public static bool If(this bool condition, Action action, Action otherwise = null)
         {
             action.NullCheck("The action cannot be null.");
 
@@ -595,7 +595,7 @@ namespace KeepCoding
         /// <param name="action">The action to run when <paramref name="obj"/> is <typeparamref name="T"/>.</param>
         /// <param name="otherwise">The action to run when <paramref name="obj"/> is not <typeparamref name="T"/>.</param>
         /// <returns><paramref name="obj"/> <see langword="is"/> <typeparamref name="T"/> item</returns>
-        public static bool Is<T>(this object obj, Action<T> action, Action? otherwise = null) where T : class
+        public static bool Is<T>(this object obj, Action<T> action, Action otherwise = null) where T : class
         {
             action.NullCheck("The action cannot be null!");
 

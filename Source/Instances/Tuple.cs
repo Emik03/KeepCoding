@@ -26,7 +26,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedTypeException"></exception>
         /// <param name="i">The index to use.</param>
         /// <returns>The item indexed into.</returns>
-        public new object? this[byte i]
+        public new object this[byte i]
         {
             get => i == UpperBound ? Item1 : base[i];
             set
@@ -41,7 +41,7 @@ namespace KeepCoding
         /// <summary>
         /// All of the tuple's items as an array, ordered by item number.
         /// </summary>
-        public override object?[] Items => new object?[] { Item1 };
+        public override object[] Items => new object[] { Item1 };
 
         /// <summary>
         /// The first item of the tuple.
@@ -79,7 +79,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedTypeException"></exception>
         /// <param name="i">The index to use.</param>
         /// <returns>The item indexed into.</returns>
-        public new object? this[byte i]
+        public new object this[byte i]
         {
             get => i == UpperBound ? Item2 : base[i];
             set
@@ -94,7 +94,7 @@ namespace KeepCoding
         /// <summary>
         /// All of the tuple's items as an array, ordered by item number.
         /// </summary>
-        public override object?[] Items => new object?[] { Item1, Item2 };
+        public override object[] Items => new object[] { Item1, Item2 };
 
         /// <summary>
         /// The second item of the tuple.
@@ -138,7 +138,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedTypeException"></exception>
         /// <param name="i">The index to use.</param>
         /// <returns>The item indexed into.</returns>
-        public new object? this[byte i]
+        public new object this[byte i]
         {
             get => i == UpperBound ? Item3 : base[i];
             set
@@ -153,7 +153,7 @@ namespace KeepCoding
         /// <summary>
         /// All of the tuple's items as an array, ordered by item number.
         /// </summary>
-        public override object?[] Items => new object?[] { Item1, Item2, Item3 };
+        public override object[] Items => new object[] { Item1, Item2, Item3 };
 
         /// <summary>
         /// The third item of the tuple.
@@ -199,7 +199,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedTypeException"></exception>
         /// <param name="i">The index to use.</param>
         /// <returns>The item indexed into.</returns>
-        public new object? this[byte i]
+        public new object this[byte i]
         {
             get => i == UpperBound ? Item4 : base[i];
             set
@@ -214,7 +214,7 @@ namespace KeepCoding
         /// <summary>
         /// All of the tuple's items as an array, ordered by item number.
         /// </summary>
-        public override object?[] Items => new object?[] { Item1, Item2, Item3, Item4 };
+        public override object[] Items => new object[] { Item1, Item2, Item3, Item4 };
 
         /// <summary>
         /// The fourth item of the tuple.

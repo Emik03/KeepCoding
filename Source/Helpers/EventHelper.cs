@@ -26,7 +26,7 @@ namespace KeepCoding
         /// <param name="onBombExploded">Called when the bomb explodes.</param>
         /// <param name="onBombSolved">Called when the bomb is defused.</param>
         [CLSCompliant(false)]
-        public static KMBombInfo Assign(this KMBombInfo bombInfo, Action? onBombExploded = null, Action? onBombSolved = null)
+        public static KMBombInfo Assign(this KMBombInfo bombInfo, Action onBombExploded = null, Action onBombSolved = null)
         {
             AssertDefault(bombInfo);
 
@@ -47,7 +47,7 @@ namespace KeepCoding
         /// <param name="onPass">Called when the module is solved.</param>
         /// <param name="onStrike">Called when the module strikes.</param>
         [CLSCompliant(false)]
-        public static KMBombModule Assign(this KMBombModule bombModule, Action? onActivate = null, Action? onPass = null, Action? onStrike = null)
+        public static KMBombModule Assign(this KMBombModule bombModule, Action onActivate = null, Action onPass = null, Action onStrike = null)
         {
             AssertDefault(bombModule);
 
@@ -70,7 +70,7 @@ namespace KeepCoding
         /// <param name="onAlarmClockChange">Called when the alarm clock changes state, and passes in whether it's on or off.</param>
         /// <param name="onLightsChange">Called when the lights change state, and passes in whether it's on or off.</param>
         [CLSCompliant(false)]
-        public static KMGameInfo Assign(this KMGameInfo gameInfo, Action<State>? onStateChange = null, Action<bool>? onAlarmClockChange = null, Action<bool>? onLightsChange = null)
+        public static KMGameInfo Assign(this KMGameInfo gameInfo, Action<State> onStateChange = null, Action<bool> onAlarmClockChange = null, Action<bool> onLightsChange = null)
         {
             AssertDefault(gameInfo);
 
@@ -95,7 +95,7 @@ namespace KeepCoding
         /// <param name="onStrike">Called when the needy strikes.</param>
         /// <param name="onTimerExpired">Called when the timer runs out of time.</param>
         [CLSCompliant(false)]
-        public static KMNeedyModule Assign(this KMNeedyModule needyModule, Action? onActivate = null, Action? onNeedyActivation = null, Action? onNeedyDeactivation = null, Action? onPass = null, Action? onStrike = null, Action? onTimerExpired = null)
+        public static KMNeedyModule Assign(this KMNeedyModule needyModule, Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null)
         {
             AssertDefault(needyModule);
 
@@ -132,7 +132,7 @@ namespace KeepCoding
         /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
         /// <param name="onUpdateChildren">Called when the selectable updates its children.</param>
         [CLSCompliant(false)]
-        public static KMSelectable Assign(this KMSelectable selectable, bool? overrideReturn = null, Action? onCancel = null, Action? onDefocus = null, Action? onDeselect = null, Action? onFocus = null, Action? onHighlight = null, Action? onHighlightEnded = null, Action? onInteract = null, Action? onInteractEnded = null, Action<float>? onInteractionPunch = null, Action? onLeft = null, Action? onRight = null, Action? onSelect = null, Action<KMSelectable>? onUpdateChildren = null)
+        public static KMSelectable Assign(this KMSelectable selectable, bool? overrideReturn = null, Action onCancel = null, Action onDefocus = null, Action onDeselect = null, Action onFocus = null, Action onHighlight = null, Action onHighlightEnded = null, Action onInteract = null, Action onInteractEnded = null, Action<float> onInteractionPunch = null, Action onLeft = null, Action onRight = null, Action onSelect = null, Action<KMSelectable> onUpdateChildren = null)
         {
             AssertDefault(selectable);
 
@@ -180,7 +180,7 @@ namespace KeepCoding
         /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
         /// <param name="onUpdateChildren">Called when the selectable updates its children.</param>
         [CLSCompliant(false)]
-        public static KMSelectable[] Assign(this KMSelectable[] selectables, bool? overrideReturn = null, Action<int>? onCancel = null, Action<int>? onDefocus = null, Action<int>? onDeselect = null, Action<int>? onFocus = null, Action<int>? onHighlight = null, Action<int>? onHighlightEnded = null, Action<int>? onInteract = null, Action<int>? onInteractEnded = null, Action<int, float>? onInteractionPunch = null, Action<int>? onLeft = null, Action<int>? onRight = null, Action<int>? onSelect = null, Action<int, KMSelectable>? onUpdateChildren = null) =>
+        public static KMSelectable[] Assign(this KMSelectable[] selectables, bool? overrideReturn = null, Action<int> onCancel = null, Action<int> onDefocus = null, Action<int> onDeselect = null, Action<int> onFocus = null, Action<int> onHighlight = null, Action<int> onHighlightEnded = null, Action<int> onInteract = null, Action<int> onInteractEnded = null, Action<int, float> onInteractionPunch = null, Action<int> onLeft = null, Action<int> onRight = null, Action<int> onSelect = null, Action<int, KMSelectable> onUpdateChildren = null) =>
             selectables.Assign(overrideReturn, onCancel, onDefocus, onDeselect, onFocus, onHighlight, onHighlightEnded, onInteract, onInteractEnded, onInteractionPunch, onLeft, onRight, onSelect, onUpdateChildren);
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace KeepCoding
         /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
         /// <param name="onUpdateChildren">Called when the selectable updates its children.</param>
         [CLSCompliant(false)]
-        public static KMSelectable[] Assign(this KMSelectable[] selectables, bool? overrideReturn = null, Action<KMSelectable>? onCancel = null, Action<KMSelectable>? onDefocus = null, Action<KMSelectable>? onDeselect = null, Action<KMSelectable>? onFocus = null, Action<KMSelectable>? onHighlight = null, Action<KMSelectable>? onHighlightEnded = null, Action<KMSelectable>? onInteract = null, Action<KMSelectable>? onInteractEnded = null, Action<KMSelectable, float>? onInteractionPunch = null, Action<KMSelectable>? onLeft = null, Action<KMSelectable>? onRight = null, Action<KMSelectable>? onSelect = null, Action<KMSelectable, KMSelectable>? onUpdateChildren = null) =>
+        public static KMSelectable[] Assign(this KMSelectable[] selectables, bool? overrideReturn = null, Action<KMSelectable> onCancel = null, Action<KMSelectable> onDefocus = null, Action<KMSelectable> onDeselect = null, Action<KMSelectable> onFocus = null, Action<KMSelectable> onHighlight = null, Action<KMSelectable> onHighlightEnded = null, Action<KMSelectable> onInteract = null, Action<KMSelectable> onInteractEnded = null, Action<KMSelectable, float> onInteractionPunch = null, Action<KMSelectable> onLeft = null, Action<KMSelectable> onRight = null, Action<KMSelectable> onSelect = null, Action<KMSelectable, KMSelectable> onUpdateChildren = null) =>
                 selectables.Assign(overrideReturn, onCancel, onDefocus, onDeselect, onFocus, onHighlight, onHighlightEnded, onInteract, onInteractEnded, onInteractionPunch, onLeft, onRight, onSelect, onUpdateChildren);
 
         /// <summary>
@@ -236,7 +236,7 @@ namespace KeepCoding
         /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
         /// <param name="onUpdateChildren">Called when the selectable updates its children.</param>
         [CLSCompliant(false)]
-        public static List<KMSelectable> Assign(this List<KMSelectable> selectables, bool? overrideReturn = null, Action<int>? onCancel = null, Action<int>? onDefocus = null, Action<int>? onDeselect = null, Action<int>? onFocus = null, Action<int>? onHighlight = null, Action<int>? onHighlightEnded = null, Action<int>? onInteract = null, Action<int>? onInteractEnded = null, Action<int, float>? onInteractionPunch = null, Action<int>? onLeft = null, Action<int>? onRight = null, Action<int>? onSelect = null, Action<int, KMSelectable>? onUpdateChildren = null) =>
+        public static List<KMSelectable> Assign(this List<KMSelectable> selectables, bool? overrideReturn = null, Action<int> onCancel = null, Action<int> onDefocus = null, Action<int> onDeselect = null, Action<int> onFocus = null, Action<int> onHighlight = null, Action<int> onHighlightEnded = null, Action<int> onInteract = null, Action<int> onInteractEnded = null, Action<int, float> onInteractionPunch = null, Action<int> onLeft = null, Action<int> onRight = null, Action<int> onSelect = null, Action<int, KMSelectable> onUpdateChildren = null) =>
             selectables.Assign(overrideReturn, onCancel, onDefocus, onDeselect, onFocus, onHighlight, onHighlightEnded, onInteract, onInteractEnded, onInteractionPunch, onLeft, onRight, onSelect, onUpdateChildren);
 
         /// <summary>
@@ -264,7 +264,7 @@ namespace KeepCoding
         /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
         /// <param name="onUpdateChildren">Called when the selectable updates its children.</param>
         [CLSCompliant(false)]
-        public static List<KMSelectable> Assign(this List<KMSelectable> selectables, bool? overrideReturn = null, Action<KMSelectable>? onCancel = null, Action<KMSelectable>? onDefocus = null, Action<KMSelectable>? onDeselect = null, Action<KMSelectable>? onFocus = null, Action<KMSelectable>? onHighlight = null, Action<KMSelectable>? onHighlightEnded = null, Action<KMSelectable>? onInteract = null, Action<KMSelectable>? onInteractEnded = null, Action<KMSelectable, float>? onInteractionPunch = null, Action<KMSelectable>? onLeft = null, Action<KMSelectable>? onRight = null, Action<KMSelectable>? onSelect = null, Action<KMSelectable, KMSelectable>? onUpdateChildren = null) =>
+        public static List<KMSelectable> Assign(this List<KMSelectable> selectables, bool? overrideReturn = null, Action<KMSelectable> onCancel = null, Action<KMSelectable> onDefocus = null, Action<KMSelectable> onDeselect = null, Action<KMSelectable> onFocus = null, Action<KMSelectable> onHighlight = null, Action<KMSelectable> onHighlightEnded = null, Action<KMSelectable> onInteract = null, Action<KMSelectable> onInteractEnded = null, Action<KMSelectable, float> onInteractionPunch = null, Action<KMSelectable> onLeft = null, Action<KMSelectable> onRight = null, Action<KMSelectable> onSelect = null, Action<KMSelectable, KMSelectable> onUpdateChildren = null) =>
                 selectables.Assign(overrideReturn, onCancel, onDefocus, onDeselect, onFocus, onHighlight, onHighlightEnded, onInteract, onInteractEnded, onInteractionPunch, onLeft, onRight, onSelect, onUpdateChildren);
 
         /// <summary>
@@ -292,7 +292,7 @@ namespace KeepCoding
         /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
         /// <param name="onUpdateChildren">Called when the selectable updates its children.</param>
         [CLSCompliant(false)]
-        public static IEnumerable<KMSelectable> Assign(this IEnumerable<KMSelectable> selectables, bool? overrideReturn = null, Action<int>? onCancel = null, Action<int>? onDefocus = null, Action<int>? onDeselect = null, Action<int>? onFocus = null, Action<int>? onHighlight = null, Action<int>? onHighlightEnded = null, Action<int>? onInteract = null, Action<int>? onInteractEnded = null, Action<int, float>? onInteractionPunch = null, Action<int>? onLeft = null, Action<int>? onRight = null, Action<int>? onSelect = null, Action<int, KMSelectable>? onUpdateChildren = null) =>
+        public static IEnumerable<KMSelectable> Assign(this IEnumerable<KMSelectable> selectables, bool? overrideReturn = null, Action<int> onCancel = null, Action<int> onDefocus = null, Action<int> onDeselect = null, Action<int> onFocus = null, Action<int> onHighlight = null, Action<int> onHighlightEnded = null, Action<int> onInteract = null, Action<int> onInteractEnded = null, Action<int, float> onInteractionPunch = null, Action<int> onLeft = null, Action<int> onRight = null, Action<int> onSelect = null, Action<int, KMSelectable> onUpdateChildren = null) =>
             selectables.NullOrEmptyCheck("The array is not populated. Please check your public fields in Unity.").ForEach((s, i) => s.Assign(
                 overrideReturn,
                 ToAction(onCancel, i),
@@ -334,7 +334,7 @@ namespace KeepCoding
         /// <param name="onSelect">Called whenever the selectable becomes the current selectable.</param>
         /// <param name="onUpdateChildren">Called when the selectable updates its children.</param>
         [CLSCompliant(false)]
-        public static IEnumerable<KMSelectable> Assign(this IEnumerable<KMSelectable> selectables, bool? overrideReturn = null, Action<KMSelectable>? onCancel = null, Action<KMSelectable>? onDefocus = null, Action<KMSelectable>? onDeselect = null, Action<KMSelectable>? onFocus = null, Action<KMSelectable>? onHighlight = null, Action<KMSelectable>? onHighlightEnded = null, Action<KMSelectable>? onInteract = null, Action<KMSelectable>? onInteractEnded = null, Action<KMSelectable, float>? onInteractionPunch = null, Action<KMSelectable>? onLeft = null, Action<KMSelectable>? onRight = null, Action<KMSelectable>? onSelect = null, Action<KMSelectable, KMSelectable>? onUpdateChildren = null) =>
+        public static IEnumerable<KMSelectable> Assign(this IEnumerable<KMSelectable> selectables, bool? overrideReturn = null, Action<KMSelectable> onCancel = null, Action<KMSelectable> onDefocus = null, Action<KMSelectable> onDeselect = null, Action<KMSelectable> onFocus = null, Action<KMSelectable> onHighlight = null, Action<KMSelectable> onHighlightEnded = null, Action<KMSelectable> onInteract = null, Action<KMSelectable> onInteractEnded = null, Action<KMSelectable, float> onInteractionPunch = null, Action<KMSelectable> onLeft = null, Action<KMSelectable> onRight = null, Action<KMSelectable> onSelect = null, Action<KMSelectable, KMSelectable> onUpdateChildren = null) =>
             selectables.NullOrEmptyCheck("The array is not populated. Please check your public fields in Unity.").ToArray().ForEach(s => s.Assign(
                 overrideReturn,
                 ToAction(onCancel, s),
@@ -370,7 +370,7 @@ namespace KeepCoding
         /// <param name="self">The action to modify.</param>
         /// <param name="others">The actions to combine with <paramref name="self"/>.</param>
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
-        public static Action? Combine(this Action? self, params Action[] others)
+        public static Action Combine(this Action self, params Action[] others)
         {
             if (self is null)
                 self = others.FirstValue();
@@ -388,7 +388,7 @@ namespace KeepCoding
         /// <param name="self">The action to modify.</param>
         /// <param name="others">The actions to combine with <paramref name="self"/>.</param>
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
-        public static Action<T>? Combine<T>(this Action<T>? self, params Action<T>[] others)
+        public static Action<T> Combine<T>(this Action<T> self, params Action<T>[] others)
         {
             if (self is null)
                 self = others.FirstValue();
@@ -406,7 +406,7 @@ namespace KeepCoding
         /// <param name="self">The action to modify.</param>
         /// <param name="others">The actions to combine with <paramref name="self"/>.</param>
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
-        public static Action<T1, T2>? Combine<T1, T2>(this Action<T1, T2>? self, params Action<T1, T2>[] others)
+        public static Action<T1, T2> Combine<T1, T2>(this Action<T1, T2> self, params Action<T1, T2>[] others)
         {
             if (self is null)
                 self = others.FirstValue();
@@ -424,7 +424,7 @@ namespace KeepCoding
         /// <param name="self">The action to modify.</param>
         /// <param name="others">The actions to combine with <paramref name="self"/>.</param>
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
-        public static Action<T1, T2, T3>? Combine<T1, T2, T3>(this Action<T1, T2, T3>? self, params Action<T1, T2, T3>[] others)
+        public static Action<T1, T2, T3> Combine<T1, T2, T3>(this Action<T1, T2, T3> self, params Action<T1, T2, T3>[] others)
         {
             if (self is null)
                 self = others.FirstValue();
@@ -442,7 +442,7 @@ namespace KeepCoding
         /// <param name="self">The action to modify.</param>
         /// <param name="others">The actions to combine with <paramref name="self"/>.</param>
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
-        public static Action<T1, T2, T3, T4>? Combine<T1, T2, T3, T4>(this Action<T1, T2, T3, T4>? self, params Action<T1, T2, T3, T4>[] others)
+        public static Action<T1, T2, T3, T4> Combine<T1, T2, T3, T4>(this Action<T1, T2, T3, T4> self, params Action<T1, T2, T3, T4>[] others)
         {
             if (self is null)
                 self = others.FirstValue();
@@ -498,7 +498,7 @@ namespace KeepCoding
         /// <param name="self">The function to modify.</param>
         /// <param name="others">The functions to combine with <paramref name="self"/>.</param>
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
-        public static Func<TResult>? Combine<TResult>(this Func<TResult>? self, params Func<TResult>[] others)
+        public static Func<TResult> Combine<TResult>(this Func<TResult> self, params Func<TResult>[] others)
         {
             if (self is null)
                 self = others.FirstValue();
@@ -516,7 +516,7 @@ namespace KeepCoding
         /// <param name="self">The function to modify.</param>
         /// <param name="others">The functions to combine with <paramref name="self"/>.</param>
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
-        public static Func<T, TResult>? Combine<T, TResult>(this Func<T, TResult>? self, params Func<T, TResult>[] others)
+        public static Func<T, TResult> Combine<T, TResult>(this Func<T, TResult> self, params Func<T, TResult>[] others)
         {
             if (self is null)
                 self = others.FirstValue();
@@ -534,7 +534,7 @@ namespace KeepCoding
         /// <param name="self">The function to modify.</param>
         /// <param name="others">The functions to combine with <paramref name="self"/>.</param>
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
-        public static Func<T1, T2, TResult>? Combine<T1, T2, TResult>(this Func<T1, T2, TResult>? self, params Func<T1, T2, TResult>[] others)
+        public static Func<T1, T2, TResult> Combine<T1, T2, TResult>(this Func<T1, T2, TResult> self, params Func<T1, T2, TResult>[] others)
         {
             if (self is null)
                 self = others.FirstValue();
@@ -552,7 +552,7 @@ namespace KeepCoding
         /// <param name="self">The function to modify.</param>
         /// <param name="others">The functions to combine with <paramref name="self"/>.</param>
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
-        public static Func<T1, T2, T3, TResult>? Combine<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult>? self, params Func<T1, T2, T3, TResult>[] others)
+        public static Func<T1, T2, T3, TResult> Combine<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> self, params Func<T1, T2, T3, TResult>[] others)
         {
             if (self is null)
                 self = others.FirstValue();
@@ -570,7 +570,7 @@ namespace KeepCoding
         /// <param name="self">The function to modify.</param>
         /// <param name="others">The functions to combine with <paramref name="self"/>.</param>
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
-        public static Func<T1, T2, T3, T4, TResult>? Combine<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, TResult>? self, params Func<T1, T2, T3, T4, TResult>[] others)
+        public static Func<T1, T2, T3, T4, TResult> Combine<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, TResult> self, params Func<T1, T2, T3, T4, TResult>[] others)
         {
             if (self is null)
                 self = others.FirstValue();
@@ -584,19 +584,19 @@ namespace KeepCoding
 
         private static void AssertDefault<T>(in T t) where T : Object => t.Assert($"The {typeof(T).Name} is null. You cannot assign events to a {typeof(T).Name} without a reference to a {typeof(T).Name}.");
 
-        private static Action? ToAction(Action<int>? action, int i) => action is null ? (Action?)null : () => action(i);
+        private static Action ToAction(Action<int> action, int i) => action is null ? (Action)null : () => action(i);
 
-        private static Action? ToAction(Action<KMSelectable>? action, KMSelectable s) => action is null ? (Action?)null : () => action(s);
+        private static Action ToAction(Action<KMSelectable> action, KMSelectable s) => action is null ? (Action)null : () => action(s);
 
-        private static Action<float>? ToAction(Action<int, float>? action, int i) => action is null ? (Action<float>?)null : f => action(i, f);
+        private static Action<float> ToAction(Action<int, float> action, int i) => action is null ? (Action<float>)null : f => action(i, f);
 
-        private static Action<float>? ToAction(Action<KMSelectable, float>? action, KMSelectable s) => action is null ? (Action<float>?)null : f => action(s, f);
+        private static Action<float> ToAction(Action<KMSelectable, float> action, KMSelectable s) => action is null ? (Action<float>)null : f => action(s, f);
 
-        private static Action<KMSelectable>? ToAction(Action<int, KMSelectable>? action, int i) => action is null ? (Action<KMSelectable>?)null : s => action(i, s);
+        private static Action<KMSelectable> ToAction(Action<int, KMSelectable> action, int i) => action is null ? (Action<KMSelectable>)null : s => action(i, s);
 
-        private static Action<KMSelectable>? ToAction(Action<KMSelectable, KMSelectable>? action, KMSelectable s) => action is null ? (Action<KMSelectable>?)null : t => action(s, t);
+        private static Action<KMSelectable> ToAction(Action<KMSelectable, KMSelectable> action, KMSelectable s) => action is null ? (Action<KMSelectable>)null : t => action(s, t);
 
-        private static Func<bool>? ToFunc(Action? action, bool b) => action is null ? (Func<bool>?)null : () =>
+        private static Func<bool> ToFunc(Action action, bool b) => action is null ? (Func<bool>)null : () =>
         {
             action();
             return b;

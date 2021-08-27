@@ -217,7 +217,7 @@ namespace KeepCoding
         ///     Optional equality comparer.</param>
         /// <returns>
         ///     True if the current array contains the specified subarray at the specified index; false otherwise.</returns>
-        public static bool SubarrayEquals<T>(this T[] sourceArray, int sourceStartIndex, T[] otherArray, IEqualityComparer<T>? comparer = null) => otherArray is null
+        public static bool SubarrayEquals<T>(this T[] sourceArray, int sourceStartIndex, T[] otherArray, IEqualityComparer<T> comparer = null) => otherArray is null
                 ? throw new ArgumentNullException(nameof(otherArray))
                 : SubarrayEquals(sourceArray, sourceStartIndex, otherArray, 0, otherArray.Length, comparer);
 
@@ -237,7 +237,7 @@ namespace KeepCoding
         ///     Optional equality comparer.</param>
         /// <returns>
         ///     True if the two arrays contain the same subarrays at the specified indexes; false otherwise.</returns>
-        public static bool SubarrayEquals<T>(this T[] sourceArray, int sourceStartIndex, T[] otherArray, int otherStartIndex, int length, IEqualityComparer<T>? comparer = null)
+        public static bool SubarrayEquals<T>(this T[] sourceArray, int sourceStartIndex, T[] otherArray, int otherStartIndex, int length, IEqualityComparer<T> comparer = null)
         {
             if (sourceArray is null)
                 throw new ArgumentNullException(nameof(sourceArray));
@@ -277,7 +277,7 @@ namespace KeepCoding
         ///     Optional equality comparer.</param>
         /// <returns>
         ///     The index of the first match, or -1 if no match is found.</returns>
-        public static int IndexOfSubarray<T>(this T[] sourceArray, T[] findWhat, IEqualityComparer<T>? comparer = null)
+        public static int IndexOfSubarray<T>(this T[] sourceArray, T[] findWhat, IEqualityComparer<T> comparer = null)
         {
             if (sourceArray is null)
                 throw new ArgumentNullException(nameof(sourceArray));
@@ -311,7 +311,7 @@ namespace KeepCoding
         ///     Optional equality comparer.</param>
         /// <returns>
         ///     The index of the first match, or -1 if no match is found.</returns>
-        public static int IndexOfSubarray<T>(this T[] sourceArray, T[] findWhat, int startIndex, int? sourceLength = null, IEqualityComparer<T>? comparer = null)
+        public static int IndexOfSubarray<T>(this T[] sourceArray, T[] findWhat, int startIndex, int? sourceLength = null, IEqualityComparer<T> comparer = null)
         {
             if (sourceArray is null)
                 throw new ArgumentNullException(nameof(sourceArray));
@@ -692,7 +692,7 @@ namespace KeepCoding
         ///     Value to add to the inner Dictionary.</param>
         /// <param name="comparer">
         ///     Optional equality comparer to pass into the inner dictionary if a new one is created.</param>
-        public static void AddSafe<K1, K2, V>(this IDictionary<K1, Dictionary<K2, V>> dic, K1 key1, K2 key2, V value, IEqualityComparer<K2>? comparer = null)
+        public static void AddSafe<K1, K2, V>(this IDictionary<K1, Dictionary<K2, V>> dic, K1 key1, K2 key2, V value, IEqualityComparer<K2> comparer = null)
         {
             if (dic is null)
                 throw new ArgumentNullException(nameof(dic));
@@ -1447,7 +1447,7 @@ namespace KeepCoding
         ///     Returns the index of the first element in this <paramref name="source"/> that is equal to the specified
         ///     <paramref name="element"/> as determined by the specified <paramref name="comparer"/>. If no such elements are
         ///     found, returns <c>-1</c>.</summary>
-        public static int IndexOf<T>(this IEnumerable<T> source, T element, IEqualityComparer<T>? comparer = null)
+        public static int IndexOf<T>(this IEnumerable<T> source, T element, IEqualityComparer<T> comparer = null)
         {
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
@@ -1682,7 +1682,7 @@ namespace KeepCoding
         ///     a default value if the collection is empty.</summary>
         public static T MinElementOrDefault<T, TValue>(this IEnumerable<T> source, Func<T, TValue> valueSelector, T defaultValue = default) where TValue : IComparable<TValue>
         {
-            Tuple<int, T>? tup = MinMaxElement(source, valueSelector, min: true, doThrow: false);
+            Tuple<int, T> tup = MinMaxElement(source, valueSelector, min: true, doThrow: false);
             return tup is null ? defaultValue : tup.Item2;
         }
 
@@ -1698,7 +1698,7 @@ namespace KeepCoding
         ///     default value if the collection is empty.</summary>
         public static T MaxElementOrDefault<T, TValue>(this IEnumerable<T> source, Func<T, TValue> valueSelector, T defaultValue = default) where TValue : IComparable<TValue>
         {
-            Tuple<int, T>? tup = MinMaxElement(source, valueSelector, min: false, doThrow: false);
+            Tuple<int, T> tup = MinMaxElement(source, valueSelector, min: false, doThrow: false);
             return tup is null ? defaultValue : tup.Item2;
         }
 
@@ -1742,7 +1742,7 @@ namespace KeepCoding
             {
                 if (!enumerator.MoveNext())
                 {
-                    return doThrow ? throw new InvalidOperationException("source contains no elements.") : (Tuple<int, T>?)null;
+                    return doThrow ? throw new InvalidOperationException("source contains no elements.") : (Tuple<int, T>)null;
                 }
 
                 T minMaxElem = enumerator.Current;
@@ -1941,7 +1941,7 @@ namespace KeepCoding
         ///     An equality comparer to compare the first-level keys.</param>
         /// <param name="comparer2">
         ///     An equality comparer to compare the second-level keys.</param>
-        public static Dictionary<TKey1, Dictionary<TKey2, TSource>> ToDictionary2<TSource, TKey1, TKey2>(this IEnumerable<TSource> source, Func<TSource, TKey1> key1Selector, Func<TSource, TKey2> key2Selector, IEqualityComparer<TKey1>? comparer1 = null, IEqualityComparer<TKey2>? comparer2 = null)
+        public static Dictionary<TKey1, Dictionary<TKey2, TSource>> ToDictionary2<TSource, TKey1, TKey2>(this IEnumerable<TSource> source, Func<TSource, TKey1> key1Selector, Func<TSource, TKey2> key2Selector, IEqualityComparer<TKey1> comparer1 = null, IEqualityComparer<TKey2> comparer2 = null)
         {
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
@@ -1982,7 +1982,7 @@ namespace KeepCoding
         ///     An equality comparer to compare the first-level keys.</param>
         /// <param name="comparer2">
         ///     An equality comparer to compare the second-level keys.</param>
-        public static Dictionary<TKey1, Dictionary<TKey2, TValue>> ToDictionary2<TSource, TKey1, TKey2, TValue>(this IEnumerable<TSource> source, Func<TSource, TKey1> key1Selector, Func<TSource, TKey2> key2Selector, Func<TSource, TValue> elementSelector, IEqualityComparer<TKey1>? comparer1 = null, IEqualityComparer<TKey2>? comparer2 = null)
+        public static Dictionary<TKey1, Dictionary<TKey2, TValue>> ToDictionary2<TSource, TKey1, TKey2, TValue>(this IEnumerable<TSource> source, Func<TSource, TKey1> key1Selector, Func<TSource, TKey2> key2Selector, Func<TSource, TValue> elementSelector, IEqualityComparer<TKey1> comparer1 = null, IEqualityComparer<TKey2> comparer2 = null)
         {
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
@@ -2103,7 +2103,7 @@ namespace KeepCoding
         ///         
         ///         // Returns "[Paris], [London] and [Tokyo]"
         ///         (new[] { "Paris", "London", "Tokyo" }).JoinString(", ", "[", "]", " and ");</code></example>
-        public static string JoinString<T>(this IEnumerable<T> values, string? separator = null, string? prefix = null, string? suffix = null, string? lastSeparator = null)
+        public static string JoinString<T>(this IEnumerable<T> values, string separator = null, string prefix = null, string suffix = null, string lastSeparator = null)
         {
             if (values is null)
                 throw new ArgumentNullException(nameof(values));
@@ -2273,7 +2273,7 @@ namespace KeepCoding
         ///     An optional equality comparer to determine item equality by.</param>
         /// <returns>
         ///     A collection containing each sequence of consecutive equal elements.</returns>
-        public static IEnumerable<ConsecutiveGroup<TItem, TItem>> GroupConsecutive<TItem>(this IEnumerable<TItem> source, IEqualityComparer<TItem>? itemComparer = null) => GroupConsecutiveBy(source, x => x, itemComparer);
+        public static IEnumerable<ConsecutiveGroup<TItem, TItem>> GroupConsecutive<TItem>(this IEnumerable<TItem> source, IEqualityComparer<TItem> itemComparer = null) => GroupConsecutiveBy(source, x => x, itemComparer);
 
         /// <summary>
         ///     Accumulates consecutive elements that are equal when processed by a selector.</summary>
@@ -2289,7 +2289,7 @@ namespace KeepCoding
         ///     An optional equality comparer for the keys returned by <paramref name="selector"/>.</param>
         /// <returns>
         ///     A collection containing each sequence of consecutive equal elements.</returns>
-        public static IEnumerable<ConsecutiveGroup<TItem, TKey>> GroupConsecutiveBy<TItem, TKey>(this IEnumerable<TItem> source, Func<TItem, TKey> selector, IEqualityComparer<TKey>? keyComparer = null)
+        public static IEnumerable<ConsecutiveGroup<TItem, TKey>> GroupConsecutiveBy<TItem, TKey>(this IEnumerable<TItem> source, Func<TItem, TKey> selector, IEqualityComparer<TKey> keyComparer = null)
         {
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
@@ -2358,7 +2358,7 @@ namespace KeepCoding
         /// <returns>
         ///     Of all elements that occur the most number of times, the one whose last instance occurs soonest in the
         ///     sequence.</returns>
-        public static T MaxCountElement<T>(this IEnumerable<T> source, IEqualityComparer<T>? comparer = null) => MaxCountElement(source, out _, comparer);
+        public static T MaxCountElement<T>(this IEnumerable<T> source, IEqualityComparer<T> comparer = null) => MaxCountElement(source, out _, comparer);
 
         /// <summary>
         ///     Determines which element occurs the most often in the specified input sequence, and how often.</summary>
@@ -2373,7 +2373,7 @@ namespace KeepCoding
         /// <returns>
         ///     Of all elements that occur the most number of times, the one whose last instance occurs soonest in the
         ///     sequence.</returns>
-        public static T MaxCountElement<T>(this IEnumerable<T> source, out int count, IEqualityComparer<T>? comparer = null)
+        public static T MaxCountElement<T>(this IEnumerable<T> source, out int count, IEqualityComparer<T> comparer = null)
         {
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
@@ -2531,7 +2531,7 @@ namespace KeepCoding
         /// <param name="ignoreDuplicateKeys">
         ///     If <c>true</c>, duplicate keys are ignored and only their first occurrence added to the dictionary. Otherwise,
         ///     a duplicate key causes an exception.</param>
-        public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> source, IEqualityComparer<TKey>? comparer = null, bool ignoreDuplicateKeys = false)
+        public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> source, IEqualityComparer<TKey> comparer = null, bool ignoreDuplicateKeys = false)
         {
             if (!ignoreDuplicateKeys)
                 return source.ToDictionary(kvp => kvp.Key, kvp => kvp.Value, comparer ?? EqualityComparer<TKey>.Default);
@@ -2745,8 +2745,8 @@ namespace KeepCoding
                 if (!(words is ""))
                     words += " and";
 
-                string?[] unitsMap = new[] { null, "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen" };
-                string?[] tensMap = new[] { null, "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety" };
+                string[] unitsMap = new[] { null, "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen" };
+                string[] tensMap = new[] { null, "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety" };
 
                 if (number < 20)
                     words += " " + unitsMap[number];
@@ -2773,7 +2773,7 @@ namespace KeepCoding
         ///     Receives an array containing the generic type parameters of the generic type.</param>
         /// <returns>
         ///     <c>true</c> if the current type is, derives from or implements the specified generic type.</returns>
-        public static bool TryGetGenericParameters(this Type type, Type typeToFind, out Type[]? typeParameters)
+        public static bool TryGetGenericParameters(this Type type, Type typeToFind, out Type[] typeParameters)
         {
             typeParameters = null;
 
@@ -2877,12 +2877,12 @@ namespace KeepCoding
         ///     <c>null</c>, while for value types, it is the default value (e.g. <c>false</c>, <c>0</c>, etc.).</summary>
         /// <param name="type">
         ///     The type to retrieve the default value for.</param>
-        public static object? GetDefaultValue(this Type type) => type.IsValueType ? Activator.CreateInstance(type) : null;
+        public static object GetDefaultValue(this Type type) => type.IsValueType ? Activator.CreateInstance(type) : null;
 
         /// <summary>Contains the set of characters that are used in base64-url encoding.</summary>
         public const string CharsBase64Url = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 
-        private static int[]? s_invBase64Url;
+        private static int[] s_invBase64Url;
 
         /// <summary>
         ///     Concatenates the specified number of repetitions of the current string.</summary>
@@ -2949,7 +2949,7 @@ namespace KeepCoding
                 return s_urlAllowedBytesCache;
             }
         }
-        private static byte[]? s_urlAllowedBytesCache;
+        private static byte[] s_urlAllowedBytesCache;
 
         /// <summary>
         ///     Escapes all necessary characters in the specified string so as to make it usable safely in a URL.</summary>
@@ -3035,7 +3035,7 @@ namespace KeepCoding
                 return s_filenameDisallowedCharactersCache;
             }
         }
-        private static char[]? s_filenameDisallowedCharactersCache;
+        private static char[] s_filenameDisallowedCharactersCache;
 
         /// <summary>
         ///     Escapes all characters in this string which cannot form part of a valid filename on at least one supported

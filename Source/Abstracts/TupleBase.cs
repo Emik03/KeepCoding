@@ -95,7 +95,7 @@ namespace KeepCoding.Internal
         /// <param name="index">The index to pass into <see cref="Items"/>.</param>
         /// <exception cref="IndexOutOfRangeException">The parameter <paramref name="index"/> is out of range because there are no items in this tuple type.</exception>
         /// <returns><see cref="IndexOutOfRangeException"/>, ignoring <paramref name="index"/>.</returns>
-        public object? this[byte index] { get => throw IndexOutOfRange(index); set => throw IndexOutOfRange(index); }
+        public object this[byte index] { get => throw IndexOutOfRange(index); set => throw IndexOutOfRange(index); }
 
         /// <summary>
         /// Determines the amount of items in the tuple type.
@@ -216,7 +216,7 @@ namespace KeepCoding.Internal
         /// </code>
         /// </example>
         /// <seealso cref="Logger.Log{T}(T, object[])"/>
-        public abstract object?[] Items { get; }
+        public abstract object[] Items { get; }
 
         /// <summary>
         /// Overrides comparison by checking for individual item equality rather than itself.
@@ -287,7 +287,7 @@ namespace KeepCoding.Internal
         /// </example>
         /// <param name="other">The <see cref="TupleBase"/> to compare itself to.</param>
         /// <returns><see langword="true"/> if both of them have the same items, or are both <see langword="null"/>.</returns>
-        public bool Equals(TupleBase? other) => other is { } && Items.SequenceEqual(other.Items);
+        public bool Equals(TupleBase other) => other is { } && Items.SequenceEqual(other.Items);
 
         /// <summary>
         /// Gets the hash code of <see cref="Items"/>.
@@ -381,7 +381,7 @@ namespace KeepCoding.Internal
         /// </example>
         public IEnumerator GetEnumerator() => Items.GetEnumerator();
 
-        private protected static T Cast<T>(in object? value, in int index) => value is T t ? t : throw UnrecognizedType(value, typeof(T), index);
+        private protected static T Cast<T>(in object value, in int index) => value is T t ? t : throw UnrecognizedType(value, typeof(T), index);
 
         private IndexOutOfRangeException IndexOutOfRange(in int i) => new IndexOutOfRangeException($"The index {i} was out of range from the tuple of length {Items.Length}.");
 
