@@ -60,7 +60,9 @@ namespace KeepCoding.Internal
 
         private readonly Logger _logger = new Logger(nameof(ReflectionScript), true, false);
 
+#nullable disable
         private const BindingFlags Flags = Instance | Static | Public | NonPublic | FlattenHierarchy;
+#nullable restore
 
         private Component[] Components => _method switch
         {
@@ -129,7 +131,7 @@ namespace KeepCoding.Internal
         {
             IEnumerable<object> objects = _members.Select(o => o.Item2!._value);
 
-            Tuple<IEnumerable<object>, IEnumerable<object>> split = objects.SplitBy(o => o is Object);
+            Tuple<List<object>, List<object>> split = objects.SplitBy(o => o is Object);
 
             _components = split.Item1
                 .ToArray()

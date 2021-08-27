@@ -108,6 +108,7 @@ namespace KeepCoding
         public TModule Module => _module ??= GetComponent<TModule>() ?? throw new MissingComponentException("TPScript cannot find your ModuleScript. Make sure that both script files are in the same game object!");
         private TModule _module = default!;
 
+#nullable disable
         /// <summary>
         /// Yield return this to indicate automatically solving the module, as if it threw an exception while solving.
         /// </summary>
@@ -172,6 +173,7 @@ namespace KeepCoding
         /// Yield return this to indicate playing the waiting music if a command will take long to finish.
         /// </summary>
         protected const string WaitingMusic = "waiting music";
+#nullable restore
 
         /// <summary>
         /// When the module runs into an exception or the module is forced to be solved, it calls this method.

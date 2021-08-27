@@ -21,7 +21,7 @@ namespace KeepCoding
         /// <typeparam name="T">The type to cast the object into.</typeparam>
         /// <param name="obj">The object to cast into.</param>
         /// <returns><paramref name="obj"/> <see langword="as"/> <typeparamref name="T"/></returns>
-        public static T? As<T>(this object obj) where T : class => obj as T;
+        public static T As<T>(this object obj) where T : class => obj as T;
 
         /// <summary>
         /// The <see langword="as"/> operator explicitly converts the result of an expression to a given reference or nullable value type. If the conversion is not possible, the <see langword="as"/> operator returns <see langword="null"/>. Unlike a cast expression, the <see langword="as"/> operator never throws an exception.
@@ -598,7 +598,7 @@ namespace KeepCoding
         /// <param name="obj">The object to cast.</param>
         /// <param name="item">The object casted into the type.</param>
         /// <returns><paramref name="obj"/> <see langword="is"/> <typeparamref name="T"/> <paramref name="item"/></returns>
-        public static bool Is<T>(this object obj, out T? item) where T : class => (item = obj as T) is T;
+        public static bool Is<T>(this object obj, out T item) where T : class => (item = obj as T) is T;
 
         /// <summary>
         /// The <see langword="is"/> operator checks if the result of an expression is compatible with a given type.

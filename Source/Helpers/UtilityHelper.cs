@@ -2900,7 +2900,9 @@ namespace KeepCoding
         public static object? GetDefaultValue(this Type type) => type.IsValueType ? Activator.CreateInstance(type) : null;
 
         /// <summary>Contains the set of characters that are used in base64-url encoding.</summary>
+#nullable disable
         public const string CharsBase64Url = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+#nullable restore
 
         private static int[]? s_invBase64Url;
 

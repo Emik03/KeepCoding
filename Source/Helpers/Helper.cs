@@ -26,6 +26,7 @@ namespace KeepCoding
     /// </summary>
     public static class Helper
     {
+#nullable disable
         /// <summary>
         /// The entire English alphabet in Uppercase. From A-Z.
         /// </summary>
@@ -45,13 +46,16 @@ namespace KeepCoding
         /// The entire decimal series, also known as base-10. From 0-9.
         /// </summary>
         public const string Decimal = "0123456789";
+#nullable restore
 
         /// <summary>
         /// Contains the most commonly used flags, use this as a "catch-all" expression.
         /// </summary>
         public const BindingFlags Flags = DeclaredOnly | Instance | Static | Public | NonPublic;
 
+#nullable disable
         internal const string Null = "null";
+#nullable restore
 
         /// <summary>
         /// Determines if the current game object has a component of a specific type.

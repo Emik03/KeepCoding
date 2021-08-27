@@ -6,7 +6,6 @@ using UnityEngine;
 using static System.Byte;
 using static System.Globalization.NumberStyles;
 
-#nullable disable
 namespace KeepCoding
 {
     /// <summary>
