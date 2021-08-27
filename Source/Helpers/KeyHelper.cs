@@ -46,9 +46,7 @@ namespace KeepCoding
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <param name="final">The action to run on either clause.</param>
         /// <returns><paramref name="action"/> with <paramref name="caught"/> if <typeparamref name="T"/> is caught.</returns>
-#nullable disable
         public static Action Catch<T>(this Action action, Action<T> caught = null, Action final = null) where T : Exception => () =>
-#nullable restore
         {
             try
             {
@@ -77,9 +75,7 @@ namespace KeepCoding
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <param name="final">The action to run on either clause.</param>
         /// <returns><paramref name="action"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
-#nullable disable
         public static Action Catch<T1, T2>(this Action action, Action<Exception> caught = null, Action final = null) where T1 : Exception where T2 : Exception => () =>
-#nullable restore
         {
             try
             {
@@ -109,9 +105,7 @@ namespace KeepCoding
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <param name="final">The action to run on either clause.</param>
         /// <returns><paramref name="action"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
-#nullable disable
         public static Action Catch<T1, T2, T3>(this Action action, Action<Exception>? caught = null, Action? final = null) where T1 : Exception where T2 : Exception where T3 : Exception => () =>
-#nullable restore
         {
             try
             {
@@ -142,9 +136,7 @@ namespace KeepCoding
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <param name="final">The action to run on either clause.</param>
         /// <returns><paramref name="action"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
-#nullable disable
         public static Action Catch<T1, T2, T3, T4>(this Action action, Action<Exception> caught = null, Action final = null) where T1 : Exception where T2 : Exception where T3 : Exception where T4 : Exception => () =>
-#nullable restore
         {
             try
             {
@@ -172,9 +164,7 @@ namespace KeepCoding
         /// <param name="func">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <returns><paramref name="func"/> with <paramref name="caught"/> if <typeparamref name="T"/> is caught.</returns>
-#nullable disable
         public static Func<TResult> Catch<T, TResult>(this Func<TResult> func, Func<T, TResult> caught) where T : Exception => () =>
-#nullable restore
         {
             try
             {
@@ -199,9 +189,7 @@ namespace KeepCoding
         /// <param name="func">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <returns><paramref name="func"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
-#nullable disable
         public static Func<TResult> Catch<T1, T2, TResult>(this Func<TResult> func, Func<Exception, TResult> caught) where T1 : Exception where T2 : Exception => () =>
-#nullable restore
         {
             try
             {
@@ -227,9 +215,7 @@ namespace KeepCoding
         /// <param name="func">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <returns><paramref name="func"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
-#nullable disable
         public static Func<TResult> Catch<T1, T2, T3, TResult>(this Func<TResult> func, Func<Exception, TResult> caught) where T1 : Exception where T2 : Exception where T3 : Exception => () =>
-#nullable restore
         {
             try
             {
@@ -256,9 +242,7 @@ namespace KeepCoding
         /// <param name="func">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <returns><paramref name="func"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
-#nullable disable
         public static Func<TResult> Catch<T1, T2, T3, T4, TResult>(this Func<TResult> func, Func<Exception, TResult> caught) where T1 : Exception where T2 : Exception where T3 : Exception where T4 : Exception => () =>
-#nullable restore
         {
             try
             {
@@ -718,9 +702,7 @@ namespace KeepCoding
         /// <param name="item">The item to use.</param>
         /// <param name="action">The action to use <paramref name="item"/> on.</param>
         /// <returns><paramref name="item"/></returns>
-#nullable disable
         public static T Using<T>(this T item, Action<T> action) where T : IDisposable
-#nullable restore
         {
             using (item)
                 action.NullCheck("The action cannot be null.")(item);
@@ -738,9 +720,7 @@ namespace KeepCoding
         /// <param name="item">The item to use.</param>
         /// <param name="func">The function to use <paramref name="item"/> on.</param>
         /// <returns>The output of <paramref name="func"/>.</returns>
-#nullable disable
         public static T Using<T>(this T item, Func<T, T> func) where T : IDisposable
-#nullable restore
         {
             using (item)
                 return func.NullCheck("The action cannot be null.")(item);

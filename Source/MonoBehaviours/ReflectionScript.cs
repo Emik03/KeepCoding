@@ -60,9 +60,7 @@ namespace KeepCoding.Internal
 
         private readonly Logger _logger = new Logger(nameof(ReflectionScript), true, false);
 
-#nullable disable
         private const BindingFlags Flags = Instance | Static | Public | NonPublic | FlattenHierarchy;
-#nullable restore
 
         private Component[] Components => _method switch
         {

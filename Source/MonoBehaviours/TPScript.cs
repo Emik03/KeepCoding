@@ -13,9 +13,7 @@ namespace KeepCoding
     /// Base class for TwitchPlays support for solvable and needy modded modules in Keep Talking and Nobody Explodes.
     /// </summary>
     [CLSCompliant(false), RequireComponent(typeof(ModuleScript))]
-#nullable disable
     public abstract class TPScript<TModule> : CacheableBehaviour, ITP where TModule : ModuleScript
-#nullable restore
     {
         /// <summary>
         /// Determines if it should cancel command processing. If this returns <see langword="true"/>, then stop processing the command, clean up, then do a <c><see langword="yield"/> <see langword="return"/> <see cref="Cancelled"/>;</c> to acknowledge the cancel.
@@ -108,7 +106,6 @@ namespace KeepCoding
         public TModule Module => _module ??= GetComponent<TModule>() ?? throw new MissingComponentException("TPScript cannot find your ModuleScript. Make sure that both script files are in the same game object!");
         private TModule _module = default!;
 
-#nullable disable
         /// <summary>
         /// Yield return this to indicate automatically solving the module, as if it threw an exception while solving.
         /// </summary>
@@ -173,7 +170,6 @@ namespace KeepCoding
         /// Yield return this to indicate playing the waiting music if a command will take long to finish.
         /// </summary>
         protected const string WaitingMusic = "waiting music";
-#nullable restore
 
         /// <summary>
         /// When the module runs into an exception or the module is forced to be solved, it calls this method.

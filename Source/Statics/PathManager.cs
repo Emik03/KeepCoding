@@ -30,13 +30,11 @@ namespace KeepCoding
     /// </summary>
     public static class PathManager
     {
-#nullable disable
         private const string
             FileExtensionBundle = "bundle",
             FileExtensionLinux = "so",
             FileExtensionMacOS = "dylib",
             FileExtensionWindows = "dll";
-#nullable restore
 
         private static readonly Dictionary<string, string> s_filePaths = new Dictionary<string, string>(),
             s_modDirectories = new Dictionary<string, string>();
@@ -291,9 +289,7 @@ namespace KeepCoding
         /// <param name="file">The name of the bundle file to grab the assets from.</param>
         /// <returns>A <see cref="Work{T}"/> instance that can retrieve the assets from the mod caller.</returns>
         [CLSCompliant(false)]
-#nullable disable
         public static Work<T[]> GetAssetsAsync<T>(string file) where T : Object => new Work<T[]>(() => GetAssets<T>(file));
-#nullable restore
 
         /// <summary>
         /// Retrieves assets of a specific type from a different bundle file.
@@ -303,9 +299,7 @@ namespace KeepCoding
         /// <param name="assembly">The mod assembly's name.</param>
         /// <returns>A <see cref="Work{T}"/> instance that can retrieve the assets from <paramref name="assembly"/>.</returns>
         [CLSCompliant(false)]
-#nullable disable
         public static Work<T[]> GetAssetsAsync<T>(string file, string assembly) where T : Object => new Work<T[]>(() => GetAssets<T>(file, assembly));
-#nullable restore
 
         /// <summary>
         /// Retrieves assets of a specific type from a bundle file within the mod caller.
@@ -317,9 +311,7 @@ namespace KeepCoding
         /// <param name="file">The name of the bundle file to grab the assets from.</param>
         /// <returns>The assets retrieved from the mod caller.</returns>
         [CLSCompliant(false)]
-#nullable disable
         public static T[] GetAssets<T>(string file) where T : Object => GetAssets<T>(file, Caller);
-#nullable restore
 
         /// <summary>
         /// Retrieves assets of a specific type from a bundle file within a specified mod's assembly name.
@@ -332,9 +324,7 @@ namespace KeepCoding
         /// <param name="assembly">The mod assembly's name.</param>
         /// <returns>The assets retrieved from <paramref name="assembly"/>.</returns>
         [CLSCompliant(false)]
-#nullable disable
         public static T[] GetAssets<T>(string file, string assembly) where T : Object => LoadAssets<T>(file, assembly).AsEnumerable().OfType<T[]>().First();
-#nullable restore
 
         internal static void SuppressIO(Action func, Action<Exception>? caught = null) => func.Catch<IOException, NotSupportedException, UnauthorizedAccessException>(e =>
         {
@@ -357,9 +347,7 @@ namespace KeepCoding
 
         private static void CopyLibrary(in string file, in string path)
         {
-#nullable disable
             const string Target = "dlls";
-#nullable restore
 
             string architecture = Size switch
             {
@@ -393,9 +381,7 @@ namespace KeepCoding
 
         private static string FileFormat(in string name, in string extension) => $"{name}.{extension}";
 
-#nullable disable
         private static IEnumerator LoadAssets<T>(string file, string assembly) where T : Object
-#nullable restore
         {
             file.NullOrEmptyCheck("You cannot load a video from a nonexistent file.");
 

@@ -26,7 +26,6 @@ namespace KeepCoding
     /// </summary>
     public static class Helper
     {
-#nullable disable
         /// <summary>
         /// The entire English alphabet in Uppercase. From A-Z.
         /// </summary>
@@ -46,16 +45,13 @@ namespace KeepCoding
         /// The entire decimal series, also known as base-10. From 0-9.
         /// </summary>
         public const string Decimal = "0123456789";
-#nullable restore
 
         /// <summary>
         /// Contains the most commonly used flags, use this as a "catch-all" expression.
         /// </summary>
         public const BindingFlags Flags = DeclaredOnly | Instance | Static | Public | NonPublic;
 
-#nullable disable
         internal const string Null = "null";
-#nullable restore
 
         /// <summary>
         /// Determines if the current game object has a component of a specific type.
@@ -68,9 +64,7 @@ namespace KeepCoding
         /// <param name="component">The variable to store the component in.</param>
         /// <returns>True if a component has been found of type <typeparamref name="T"/> from <paramref name="obj"/>.</returns>
         [CLSCompliant(false)]
-#nullable disable
         public static bool HasComponent<T>(this GameObject obj, out T component) where T : Component => (component = obj.GetComponent<T>()) is T;
-#nullable restore
 
         /// <summary>
         /// Determines if a <see langword="class"/> implements a given method.
@@ -345,9 +339,7 @@ namespace KeepCoding
         /// </summary>
         /// <typeparam name="T">The enum to check the length for.</typeparam>
         /// <returns>The number of members in <typeparamref name="T"/>.</returns>
-#nullable disable
         public static int MemberCount<T>() where T : struct, Enum => Enum.GetNames(typeof(T)).Length;
-#nullable restore
 
         /// <summary>
         /// Calculates the rem-euclid modulo, which allows negative numbers to be properly calculated.
@@ -1100,9 +1092,7 @@ namespace KeepCoding
         /// <param name="message">The message of the exception.</param>
         /// <returns>The component <paramref name="obj"/>.</returns>
         [CLSCompliant(false)]
-#nullable disable
         public static T Assert<T>(this T obj, string message = "While asserting for null, the variable ended up null.") where T : Object => obj ? obj : throw new MissingComponentException(message);
-#nullable restore
 
         /// <summary>
         /// Invokes a method of <typeparamref name="T"/> and then returns the argument provided.
@@ -1212,9 +1202,7 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         /// <param name="source">The <see cref="Array"/> to check for null and empty.</param>
         /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
-#nullable disable
         public static T NullOrEmptyCheck<T>(this T source, string message = null) where T : IEnumerable => source.NullCheck(message ?? $"While asserting for null or empty, the variable ended up being null.").GetEnumerator().MoveNext() ? source : throw new EmptyIteratorException(message ?? $"While asserting for null or empty, the variable ended up being empty.");
-#nullable restore
 
         /// <summary>
         /// Throws an exception if the <see cref="IEnumerable{T}"/> is null or empty.
@@ -1223,9 +1211,7 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         /// <param name="source">The <see cref="Array"/> to check for null and empty.</param>
         /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
-#nullable disable
         public static T NullOrEmptyCheck<T>(this T? source, string message = null) where T : struct, IEnumerable => source.NullCheck(message ?? $"While asserting for null or empty, the variable ended up being null.").GetEnumerator().MoveNext() ? source.Value : throw new EmptyIteratorException(message ?? $"While asserting for null or empty, the variable ended up being empty.");
-#nullable restore
 
         /// <summary>
         /// Invokes a method of <typeparamref name="T"/> to <typeparamref name="TResult"/> and then returns the argument provided.
@@ -1267,9 +1253,7 @@ namespace KeepCoding
         /// </summary>
         /// <typeparam name="T">The type of <see cref="Enum"/>.</typeparam>
         /// <returns>An <see cref="Array"/> of <typeparamref name="T"/> containing all the values of that enum.</returns>
-#nullable disable
         public static T[] GetValues<T>() where T : struct, Enum => (T[])Enum.GetValues(typeof(T));
-#nullable restore
 
         /// <summary>
         /// Gets all the values of an <see cref="Enum"/> as an <see cref="Array"/>.
@@ -1277,9 +1261,7 @@ namespace KeepCoding
         /// <typeparam name="T">The type of <see cref="Enum"/>.</typeparam>
         /// <param name="_">A discard value, which can implicitly let the method know the type.</param>
         /// <returns>An <see cref="Array"/> of <typeparamref name="T"/> containing all the values of that enum.</returns>
-#nullable disable
         public static T[] GetValues<T>(this T _) where T : struct, Enum => GetValues<T>();
-#nullable restore
 
         /// <summary>
         /// Prepends the element provided to the array.

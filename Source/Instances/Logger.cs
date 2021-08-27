@@ -64,9 +64,7 @@ namespace KeepCoding
         /// </summary>
         public string Name { get; }
 
-#nullable disable
         private const string VariableTemplate = "\n\n[{0}] {1}\n({2})\n{3}";
-#nullable restore
 
         /// <summary>
         /// Dumps all information that it can find of the type using reflection. This should only be used to debug.
