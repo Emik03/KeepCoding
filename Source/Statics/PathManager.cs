@@ -30,11 +30,13 @@ namespace KeepCoding
     /// </summary>
     public static class PathManager
     {
+#nullable disable
         private const string
             FileExtensionBundle = "bundle",
             FileExtensionLinux = "so",
             FileExtensionMacOS = "dylib",
             FileExtensionWindows = "dll";
+#nullable restore
 
         private static readonly Dictionary<string, string> s_filePaths = new Dictionary<string, string>(),
             s_modDirectories = new Dictionary<string, string>();
@@ -355,7 +357,9 @@ namespace KeepCoding
 
         private static void CopyLibrary(in string file, in string path)
         {
+#nullable disable
             const string Target = "dlls";
+#nullable restore
 
             string architecture = Size switch
             {
@@ -408,7 +412,8 @@ namespace KeepCoding
 
             T[] assets = mainBundle
                 .LoadAllAssets<T>()
-                .OrderBy(o => o.name).NullOrEmptyCheck($"There are no assets of type \"{typeof(T).Name}\".")
+                .OrderBy(o => o.name)
+                .NullOrEmptyCheck($"There are no assets of type \"{typeof(T).Name}\".")
                 .ToArray();
 
             Self($"{assets.Length} assets of type \"{typeof(T).Name}\" have been loaded into memory!");
