@@ -464,7 +464,9 @@ namespace KeepCoding
         /// <param name="dele">The <see cref="Delegate"/> to add.</param>
         /// <param name="mutator">The variable that transmutates and adds <paramref name="dele"/> onto itself.</param>
         /// <returns><paramref name="mutator"/> with the value <paramref name="dele"/>, or itself if <paramref name="dele"/> is null.</returns>
+#nullable disable
         public static Delegate Set<T>(this Delegate dele, ref T mutator) where T : Delegate
+#nullable restore
         {
             if (dele.Cast<T>() is T t)
                 mutator = t;
@@ -483,7 +485,9 @@ namespace KeepCoding
         /// <typeparam name="T">The type to cast the delegate into.</typeparam>
         /// <param name="dele">The delegate to cast.</param>
         /// <returns><paramref name="dele"/> as <typeparamref name="T"/>.</returns>
-        public static T? Cast<T>(this Delegate dele) where T : Delegate => dele is null ? null : (dele as MulticastDelegate)?.GetInvocationList() is Delegate[] multicast ? Multicast<T>(dele, multicast) : dele.CreateDelegate<T>();
+#nullable disable
+        public static T Cast<T>(this Delegate dele) where T : Delegate => dele is null ? null : (dele as MulticastDelegate)?.GetInvocationList() is Delegate[] multicast ? Multicast<T>(dele, multicast) : dele.CreateDelegate<T>();
+#nullable restore
 
         /// <summary>
         /// Creates a delegate of the specified type.
@@ -491,7 +495,9 @@ namespace KeepCoding
         /// <typeparam name="T">The type of delegate to create.</typeparam>
         /// <param name="dele">The delegate to reference from.</param>
         /// <returns>A delegate of type <typeparamref name="T"/> using <paramref name="dele"/>'s target and method.</returns>
+#nullable disable
         public static T CreateDelegate<T>(this Delegate dele) where T : Delegate => (T)Delegate.CreateDelegate(typeof(T), dele.Target, dele.Method, true);
+#nullable restore
 
         /// <summary>
         /// Combines actions together, only if these functions are not <see langword="null"/>.
@@ -583,7 +589,9 @@ namespace KeepCoding
             return self;
         }
 
+#nullable disable
         private static void AssertDefault<T>(in T t) where T : Object => t.Assert($"The {typeof(T).Name} is null. You cannot assign events to a {typeof(T).Name} without a reference to a {typeof(T).Name}.");
+#nullable restore
 
         private static Action? ToAction(Action<int>? action, int i) => action is null ? (Action?)null : () => action(i);
 
@@ -603,7 +611,9 @@ namespace KeepCoding
             return b;
         };
 
-        private static T? Multicast<T>(in Delegate dele, Delegate[] multicast) where T : Delegate => multicast.Length switch
+#nullable disable
+        private static T Multicast<T>(in Delegate dele, Delegate[] multicast) where T : Delegate => multicast.Length switch
+#nullable restore
         {
             0 => null,
             1 => multicast[0] == dele ? dele.CreateDelegate<T>() : multicast[0].Cast<T>(),

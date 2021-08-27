@@ -503,8 +503,9 @@ namespace KeepCoding
         /// <summary>
         ///     Compares two dictionaries for equality, member-wise. Two dictionaries are equal if they contain all the same
         ///     key-value pairs.</summary>
-        public static bool DictionaryEqual<TK, TV>(this IDictionary<TK, TV> dictA, IDictionary<TK, TV> dictB)
-            where TV : IEquatable<TV>
+#nullable disable
+        public static bool DictionaryEqual<TK, TV>(this IDictionary<TK, TV> dictA, IDictionary<TK, TV> dictB) where TV : IEquatable<TV>
+#nullable restore
         {
             if (dictA is null)
                 throw new ArgumentNullException(nameof(dictA));
@@ -1676,12 +1677,16 @@ namespace KeepCoding
         ///     Returns the first element from the input sequence for which the value selector returns the smallest value.</summary>
         /// <exception cref="InvalidOperationException">
         ///     The input collection is empty.</exception>
+#nullable disable
         public static T MinElement<T, TValue>(this IEnumerable<T> source, Func<T, TValue> valueSelector) where TValue : IComparable<TValue> => MinMaxElement(source, valueSelector, min: true, doThrow: true)!.Item2;
+#nullable restore
 
         /// <summary>
         ///     Returns the first element from the input sequence for which the value selector returns the smallest value, or
         ///     a default value if the collection is empty.</summary>
-        public static T MinElementOrDefault<T, TValue>(this IEnumerable<T> source, Func<T, TValue> valueSelector, T defaultValue = default!) where TValue : IComparable<TValue>
+#nullable disable
+        public static T MinElementOrDefault<T, TValue>(this IEnumerable<T> source, Func<T, TValue> valueSelector, T defaultValue = default) where TValue : IComparable<TValue>
+#nullable restore
         {
             Tuple<int, T>? tup = MinMaxElement(source, valueSelector, min: true, doThrow: false);
             return tup is null ? defaultValue : tup.Item2;
@@ -1691,12 +1696,17 @@ namespace KeepCoding
         ///     Returns the first element from the input sequence for which the value selector returns the largest value.</summary>
         /// <exception cref="InvalidOperationException">
         ///     The input collection is empty.</exception>
-        public static T MaxElement<T, TValue>(this IEnumerable<T> source, Func<T, TValue> valueSelector) where TValue : IComparable<TValue> => MinMaxElement(source, valueSelector, min: false, doThrow: true)!.Item2;
+#nullable disable
+        public static T MaxElement<T, TValue>(this IEnumerable<T> source, Func<T, TValue> valueSelector) where TValue : IComparable<TValue> =>
+#nullable restore
+            MinMaxElement(source, valueSelector, min: false, doThrow: true)!.Item2;
 
         /// <summary>
         ///     Returns the first element from the input sequence for which the value selector returns the largest value, or a
         ///     default value if the collection is empty.</summary>
-        public static T MaxElementOrDefault<T, TValue>(this IEnumerable<T> source, Func<T, TValue> valueSelector, T defaultValue = default!) where TValue : IComparable<TValue>
+#nullable disable
+        public static T MaxElementOrDefault<T, TValue>(this IEnumerable<T> source, Func<T, TValue> valueSelector, T defaultValue = default) where TValue : IComparable<TValue>
+#nullable restore
         {
             Tuple<int, T>? tup = MinMaxElement(source, valueSelector, min: false, doThrow: false);
             return tup is null ? defaultValue : tup.Item2;
@@ -1707,13 +1717,17 @@ namespace KeepCoding
         ///     smallest value.</summary>
         /// <exception cref="InvalidOperationException">
         ///     The input collection is empty.</exception>
+#nullable disable
         public static int MinIndex<T, TValue>(this IEnumerable<T> source, Func<T, TValue> valueSelector) where TValue : IComparable<TValue> =>
+#nullable restore
             MinMaxElement(source, valueSelector, min: true, doThrow: true)!.Item1;
 
         /// <summary>
         ///     Returns the index of the first element from the input sequence for which the value selector returns the
         ///     smallest value, or <c>null</c> if the collection is empty.</summary>
+#nullable disable
         public static int? MinIndexOrNull<T, TValue>(this IEnumerable<T> source, Func<T, TValue> valueSelector) where TValue : IComparable<TValue> =>
+#nullable restore
             MinMaxElement(source, valueSelector, min: true, doThrow: false)?.Item1;
 
         /// <summary>
@@ -1721,16 +1735,22 @@ namespace KeepCoding
         ///     largest value.</summary>
         /// <exception cref="InvalidOperationException">
         ///     The input collection is empty.</exception>
+#nullable disable
         public static int MaxIndex<T, TValue>(this IEnumerable<T> source, Func<T, TValue> valueSelector) where TValue : IComparable<TValue> =>
+#nullable restore
             MinMaxElement(source, valueSelector, min: false, doThrow: true)!.Item1;
 
         /// <summary>
         ///     Returns the index of the first element from the input sequence for which the value selector returns the
         ///     largest value, or a default value if the collection is empty.</summary>
+#nullable disable
         public static int? MaxIndexOrNull<T, TValue>(this IEnumerable<T> source, Func<T, TValue> valueSelector) where TValue : IComparable<TValue> =>
+#nullable restore
             MinMaxElement(source, valueSelector, min: false, doThrow: false)?.Item1;
 
-        private static Tuple<int, T>? MinMaxElement<T, TValue>(IEnumerable<T> source, Func<T, TValue> valueSelector, bool min, bool doThrow) where TValue : IComparable<TValue>
+#nullable disable
+        private static Tuple<int, T> MinMaxElement<T, TValue>(IEnumerable<T> source, Func<T, TValue> valueSelector, bool min, bool doThrow) where TValue : IComparable<TValue>
+#nullable restore
         {
             if (source is null)
                 throw new ArgumentNullException(nameof(source));

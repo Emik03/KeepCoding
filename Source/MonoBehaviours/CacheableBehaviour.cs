@@ -134,7 +134,9 @@ namespace KeepCoding
         /// <param name="func">The expensive function to call, only if it hasn't ever been called by this method on the current instance before.</param>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
         /// <returns>The components specified by <typeparamref name="T"/>.</returns>
+#nullable disable
         public T Cache<T>(Func<T> func, bool allowNull = false) where T : Component => Cache(() => new[] { func() }, allowNull).FirstOrDefault();
+#nullable restore
 
         /// <summary>
         /// Similar to <see cref="Object.FindObjectsOfType{T}"/>, however it caches the result in a dictionary, and will return the cached result if called again.
@@ -143,7 +145,9 @@ namespace KeepCoding
         /// <typeparam name="T">The type of component to search for.</typeparam>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
         /// <returns>The component specified by <typeparamref name="T"/>.</returns>
+#nullable disable
         public T Find<T>(bool allowNull = false) where T : Component => Cache(FindObjectOfType<T>, allowNull);
+#nullable restore
 
         /// <summary>
         /// Similar to <see cref="Component.GetComponent{T}()"/>, however it caches the result in a dictionary, and will return the cached result if called again.
@@ -152,7 +156,9 @@ namespace KeepCoding
         /// <typeparam name="T">The type of component to search for.</typeparam>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
         /// <returns>The component specified by <typeparamref name="T"/>.</returns>
+#nullable disable
         public T Get<T>(bool allowNull = false) where T : Component => Cache(GetComponent<T>, allowNull);
+#nullable restore
 
         /// <summary>
         /// Similar to <see cref="Component.GetComponentInChildren{T}()"/>, however it caches the result in a dictionary, and will return the cached result if called again.
@@ -161,7 +167,9 @@ namespace KeepCoding
         /// <typeparam name="T">The type of component to search for.</typeparam>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
         /// <returns>The component specified by <typeparamref name="T"/>.</returns>
+#nullable disable
         public T GetChild<T>(bool allowNull = false) where T : Component => Cache(GetComponentInChildren<T>, allowNull);
+#nullable restore
 
         /// <summary>
         /// Similar to <see cref="Component.GetComponentInParent{T}()"/>, however it caches the result in a dictionary, and will return the cached result if called again.
@@ -170,7 +178,9 @@ namespace KeepCoding
         /// <typeparam name="T">The type of component to search for.</typeparam>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
         /// <returns>The component specified by <typeparamref name="T"/>.</returns>
+#nullable disable
         public T GetParent<T>(bool allowNull = false) where T : Component => Cache(GetComponentInParent<T>, allowNull);
+#nullable restore
 
         /// <summary>
         /// Caches the result of a function call that returns a component array in a dictionary, and will return the cached result if called again. Use this to alleviate expensive function calls.
@@ -180,7 +190,9 @@ namespace KeepCoding
         /// <param name="func">The expensive function to call, only if it hasn't ever been called by this method on the current instance before.</param>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
         /// <returns>The components specified by <typeparamref name="T"/>.</returns>
+#nullable disable
         public T[] Cache<T>(Func<T[]> func, bool allowNull = false) where T : Component
+#nullable restore
         {
             if (!_components.ContainsKey(typeof(T)))
                 _components.Add(typeof(T), func().NullCheck("The method cannot be null."));
@@ -197,7 +209,9 @@ namespace KeepCoding
         /// <param name="parameter">The argument to put in the expensive method call.</param>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
         /// <returns>The components specified by <typeparamref name="T"/>.</returns>
+#nullable disable
         public T[] Cache<T>(Func<bool, T[]> func, bool parameter = false, bool allowNull = false) where T : Component
+#nullable restore
         {
             if (!_components.ContainsKey(typeof(T)))
                 _components.Add(typeof(T), func(parameter).NullCheck("The method cannot be null."));
@@ -212,7 +226,9 @@ namespace KeepCoding
         /// <typeparam name="T">The type of component to search for.</typeparam>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
         /// <returns>The component specified by <typeparamref name="T"/>.</returns>
+#nullable disable
         public T[] Finds<T>(bool allowNull = false) where T : Component => Cache(FindObjectsOfType<T>, allowNull);
+#nullable restore
 
         /// <summary>
         /// Similar to <see cref="GameObject.GetComponents{T}()"/>, however it caches the result in a dictionary, and will return the cached result if called again.
@@ -221,7 +237,9 @@ namespace KeepCoding
         /// <typeparam name="T">The type of component to search for.</typeparam>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
         /// <returns>The component specified by <typeparamref name="T"/>.</returns>
+#nullable disable
         public T[] Gets<T>(bool allowNull = false) where T : Component => Cache(GetComponents<T>, allowNull);
+#nullable restore
 
         /// <summary>
         /// Similar to <see cref="GameObject.GetComponentsInChildren{T}(bool)"/>, however it caches the result in a dictionary, and will return the cached result if called again.
@@ -231,7 +249,9 @@ namespace KeepCoding
         /// <typeparam name="T">The type of component to search for.</typeparam>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
         /// <returns>The component specified by <typeparamref name="T"/>.</returns>
+#nullable disable
         public T[] GetChildren<T>(bool includeInactive = false, bool allowNull = false) where T : Component => Cache(GetComponentsInChildren<T>, includeInactive, allowNull);
+#nullable restore
 
         /// <summary>
         /// Similar to <see cref="GameObject.GetComponentsInParent{T}(bool)"/>, however it caches the result in a dictionary, and will return the cached result if called again.
@@ -241,6 +261,8 @@ namespace KeepCoding
         /// <param name="includeInactive">Whether it should include inactive components.</param>
         /// <param name="allowNull">Whether it should throw an exception if it sees <see langword="null"/>, if not it will return the default value. (Likely <see langword="null"/>)</param>
         /// <returns>The component specified by <typeparamref name="T"/>.</returns>
+#nullable disable
         public T[] GetParents<T>(bool includeInactive = false, bool allowNull = false) where T : Component => Cache(GetComponentsInParent<T>, includeInactive, allowNull);
+#nullable restore
     }
 }

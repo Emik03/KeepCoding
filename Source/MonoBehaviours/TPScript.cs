@@ -13,7 +13,9 @@ namespace KeepCoding
     /// Base class for TwitchPlays support for solvable and needy modded modules in Keep Talking and Nobody Explodes.
     /// </summary>
     [CLSCompliant(false), RequireComponent(typeof(ModuleScript))]
+#nullable disable
     public abstract class TPScript<TModule> : CacheableBehaviour, ITP where TModule : ModuleScript
+#nullable restore
     {
         /// <summary>
         /// Determines if it should cancel command processing. If this returns <see langword="true"/>, then stop processing the command, clean up, then do a <c><see langword="yield"/> <see langword="return"/> <see cref="Cancelled"/>;</c> to acknowledge the cancel.
@@ -76,7 +78,7 @@ namespace KeepCoding
         public string Help { get => TwitchHelpMessage; set => TwitchHelpMessage = value; }
         [SerializeField]
 #pragma warning disable IDE1006 // Naming Styles
-        private string TwitchHelpMessage;
+        private string TwitchHelpMessage = default!;
 #pragma warning restore IDE1006 // Naming Styles
 
         /// <summary>
@@ -85,7 +87,7 @@ namespace KeepCoding
         public string Manual { get => TwitchManualCode; set => TwitchManualCode = value; }
         [SerializeField]
 #pragma warning disable IDE1006 // Naming Styles
-        private string TwitchManualCode;
+        private string TwitchManualCode = default!;
 #pragma warning restore IDE1006 // Naming Styles
 
         /// <summary>
@@ -97,14 +99,14 @@ namespace KeepCoding
         public List<KMBombModule> Abandons { get => TwitchAbandonModule; set => TwitchAbandonModule = value; }
         [SerializeField]
 #pragma warning disable IDE1006 // Naming Styles
-        private List<KMBombModule> TwitchAbandonModule;
+        private List<KMBombModule> TwitchAbandonModule = default!;
 #pragma warning restore IDE1006 // Naming Styles
 
         /// <summary>
         /// The instance of the module.
         /// </summary>
         public TModule Module => _module ??= GetComponent<TModule>() ?? throw new MissingComponentException("TPScript cannot find your ModuleScript. Make sure that both script files are in the same game object!");
-        private TModule _module;
+        private TModule _module = default!;
 
         /// <summary>
         /// Yield return this to indicate automatically solving the module, as if it threw an exception while solving.
@@ -213,7 +215,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="message">The message to send.</param>
         /// <returns>A formatted string for Twitch Plays.</returns>
-        protected static string TryCancel(string message = null) => Combine("trycancel", message);
+        protected static string TryCancel(string? message = null) => Combine("trycancel", message);
 
         /// <summary>
         /// Yield return this to cause Twitch Plays to wait for the given time, and any time during the entire duration, the command may cancel. Like "trycancel", you won't be able to clean up if you cancel this way. Also like "trycancel", <paramref name="message"/> is optional.
@@ -221,7 +223,7 @@ namespace KeepCoding
         /// <param name="time">The amount of time to wait.</param>
         /// <param name="message">The message to send.</param>
         /// <returns>A formatted string for Twitch Plays.</returns>
-        protected static string TryWaitCancel(float time, string message = null) => Combine("trywaitcancel", time, message);
+        protected static string TryWaitCancel(float time, string? message = null) => Combine("trywaitcancel", time, message);
 
         /// <summary>
         /// Yield return this to send a chat directly to twitch chat.
@@ -251,14 +253,14 @@ namespace KeepCoding
         /// <param name="time">The amount of time before the bomb blows up.</param>
         /// <param name="message">The message to send.</param>
         /// <returns>A formatted string for Twitch Plays.</returns>
-        protected static string Detonate(float? time = null, string message = null) => Combine("detonate", time, message);
+        protected static string Detonate(float? time = null, string? message = null) => Combine("detonate", time, message);
 
         /// <summary>
         /// Yield return this to try advancing the clock to the specified time. You must put the full time you wish to skip to, and this time either needs to be less than the current time, if in normal/time mode, or greater than the current time, if in zen mode. Example, if you wanted to set the clock to 5:24, then you do "skiptime 324" or "skiptime 5:24". You can target partway through the seconds, such as "skiptime 45.28", which would then set the clock to 45.28, provided that time has NOT gone by already. You must also set <see cref="IsTimeSkippable"/> to <see langword="true"/>, for this function to work.
         /// </summary>
         /// <param name="seconds">The time to skip to in seconds.</param>
         /// <returns>A formatted string for Twitch Plays.</returns>
-        protected static string SkipTime(string seconds = null) => Combine("skiptime", seconds);
+        protected static string SkipTime(string? seconds = null) => Combine("skiptime", seconds);
 
         /// <summary>
         /// Yield return this to award the user that sent the command points directly, this is currently used for mods like Souvenir to give points to users that answered the questions equally.
@@ -285,7 +287,7 @@ namespace KeepCoding
         /// <param name="then">The output to return if <paramref name="condition"/> is <see langword="true"/>.</param>
         /// <param name="otherwise">The output to return if <paramref name="condition"/> is false.</param>
         /// <returns><paramref name="then"/> or <paramref name="otherwise"/>, depending on <paramref name="condition"/>.</returns>
-        protected static object Evaluate<T>(bool condition, T then, object otherwise = null) => condition ? then : otherwise;
+        protected static object? Evaluate<T>(bool condition, T then, object? otherwise = null) => condition ? then : otherwise;
 
         /// <summary>
         /// Presses a sequence of buttons in order of <paramref name="selectables"/>, waiting <paramref name="wait"/> seconds in-between each, and interrupting as soon as <see cref="ModuleScript.HasStruck"/> is <see langword="true"/>.
@@ -363,7 +365,7 @@ namespace KeepCoding
 
         private static bool IsExcludedType<T>(T item) => item is IEnumerable<char> || item is KMSelectable[];
 
-        private static string Combine(in string main, params object[] toAppend) => main + toAppend.ConvertAll(o => $" {o}");
+        private static string Combine(in string main, params object?[] toAppend) => main + toAppend.ConvertAll(o => $" {o}");
 
         private IEnumerator ToggleColorblind()
         {
