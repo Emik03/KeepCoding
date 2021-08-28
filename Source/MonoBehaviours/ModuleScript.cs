@@ -37,11 +37,7 @@ namespace KeepCoding
 
         private int _strikes;
 
-        private Action _activate = default!;
-
         private static Dictionary<string, Dictionary<string, object>[]> s_database = new Dictionary<string, Dictionary<string, object>[]>();
-
-        private Logger _logger = default!;
 
         /// <summary>
         /// Determines whether the module has been struck. <see cref="TPScript{TModule}.OnInteractSequence(KMSelectable[], float, int[])"/> will set this to <see langword="false"/> when a command is interrupted.
@@ -59,7 +55,7 @@ namespace KeepCoding
         /// <exception cref="MissingMethodException"></exception>
         public bool IsColorblind
         {
-            get => IsColorblindSupported ? Colorblind.IsModuleEnabled : throw new MissingMethodException($"Colorblind is not implemented for this module! You need to override {nameof(OnColorblindChanged)} if you want to implement colorblind support!");
+            get => IsColorblindSupported ? (Colorblind?.IsModuleEnabled ?? false) : throw new MissingMethodException($"Colorblind is not implemented for this module! You need to override {nameof(OnColorblindChanged)} if you want to implement colorblind support!");
             set
             {
                 if (IsColorblind != value)
@@ -81,7 +77,7 @@ namespace KeepCoding
         /// Determines whether the needy is active.
         /// </summary>
         /// <exception cref="MissingComponentException"></exception>
-        public bool IsNeedyActive { get => Module.Module is KMNeedyModule ? _isNeedyActive : throw new MissingComponentException($"A {nameof(KMNeedyModule)} must be attached in order to access this property!"); private set => _isNeedyActive = value; }
+        public bool IsNeedyActive { get => Module.Module is KMNeedyModule ? _isNeedyActive : throw new MissingComponentException($"A {nameof(KMNeedyModule)} must be attached in order to access this property."); private set => _isNeedyActive = value; }
         private bool _isNeedyActive;
 
         /// <summary>
@@ -97,8 +93,8 @@ namespace KeepCoding
         /// <summary>
         /// The Unique Id for the module of this type.
         /// </summary>
-        public int Id => _logger.Id;
-        private int ModuleId => _logger.Id;
+        public int Id => Logger.Id;
+        private int ModuleId => Logger.Id;
 
         /// <summary>
         /// The last Id instantiation for the module of this type.
@@ -116,7 +112,7 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="JsonException"></exception>
         /// <exception cref="NullIteratorException"></exception>
-        public string Version => PathManager.GetModInfo(Name).Version;
+        public string Version => PathManager.GetModInfo(Name).Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.");
 
         /// <summary>
         /// The ignored modules of this module from the Boss Module Manager.
@@ -125,15 +121,10 @@ namespace KeepCoding
         private string[] _ignoredModules;
 
         /// <summary>
-        /// The pseudo-random number generator whose number generations are based on the current Rule Seed.
+        /// Contains colorblind information. This property will return <see langword="null"/> in the event that <see cref="OnColorblindChanged(bool)"/> isn't implemented.
         /// </summary>
-        public MonoRandom RuleSeed => _ruleSeed ??= new MonoRandom(GetRuleSeedId());
-        private MonoRandom _ruleSeed;
-
-        /// <summary>
-        /// Contains colorblind information.
-        /// </summary>
-        public ColorblindInfo Colorblind = default!;
+        public ColorblindInfo Colorblind => _colorblind ??= (IsColorblindSupported ? new ColorblindInfo(Module.Id) : null);
+        private ColorblindInfo _colorblind;
 
         /// <summary>
         /// Gets the Twitch Plays <see cref="Component"/> attached to this <see cref="GameObject"/>.
@@ -150,17 +141,24 @@ namespace KeepCoding
         /// <remarks>
         /// Note that this variable is not available on <see cref="Awake"/> or <see cref="OnAwake"/>. A small amount of time is needed for this property to be set.
         /// </remarks>
-        public KMBomb Bomb { get; private set; } = default!;
+        public KMBomb Bomb { get; private set; }
 
         /// <summary>
         /// Contains either <see cref="KMBombModule"/> or <see cref="KMNeedyModule"/>, and allows for running commands through context.
         /// </summary>
-        public ModuleContainer Module { get; private set; } = default!;
+        public ModuleContainer Module => _module ??= new ModuleContainer(this);
+        private ModuleContainer _module;
 
         /// <summary>
         /// Contains every modded module in <see cref="Bomb"/>, separated by type.
         /// </summary>
-        public ModuleContainer[] Modules { get; private set; } = default!;
+        public ModuleContainer[] Modules { get; private set; }
+
+        /// <summary>
+        /// The pseudo-random number generator whose number generations are based on the current Rule Seed.
+        /// </summary>
+        public MonoRandom RuleSeed => _ruleSeed ??= new MonoRandom(GetRuleSeedId());
+        private MonoRandom _ruleSeed;
 
         /// <summary>
         /// Contains an instance for every <see cref="Sound"/> played by this module using <see cref="PlaySound(Transform, bool, Sound[])"/> or any of its overloads.
@@ -173,6 +171,108 @@ namespace KeepCoding
 
         private string Name => _name ??= Type.NameOfAssembly();
         private string _name;
+
+        private IEnumerator CheckForUpdates
+        {
+            get
+            {
+                if (!IsEditor || s_hasCheckedVersion)
+                    yield break;
+
+                s_hasCheckedVersion = true;
+
+                using (UnityWebRequest latest = PathManager.LatestGitHub)
+                {
+                    yield return latest.SendWebRequest();
+
+                    if (latest.isNetworkError || latest.isHttpError)
+                    {
+                        Self($"The library was unable to get the version number: {latest.error}", LogType.Warning);
+                        yield break;
+                    }
+
+                    string tagName = JObject.Parse(latest.downloadHandler.text).GetValue("tag_name").ToObject<string>();
+
+                    if (tagName.ToVersion() <= PathManager.Version)
+                        yield break;
+
+                    IsOutdated = true;
+
+                    Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please press the update button on any {PathManager.AssemblyName.Name}-based {nameof(GameObject)} or download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
+                }
+            }
+        }
+
+        private IEnumerator EditorTimerTick
+        {
+            get
+            {
+                if (!GetComponent<KMBombInfo>())
+                {
+                    Self($"Adding a {nameof(KMBombInfo)} component automatically only to capture timer ticks in the Editor.");
+                    gameObject.AddComponent<KMBombInfo>();
+                }
+
+                KMBombInfo bombInfo = Get<KMBombInfo>();
+
+                while (true)
+                {
+                    if (TimeLeft != (int)bombInfo.GetTime())
+                    {
+                        TimeLeft = (int)bombInfo.GetTime();
+                        OnTimerTick();
+                    }
+
+                    yield return null;
+                }
+            }
+        }
+
+        private IEnumerator WaitForBomb
+        {
+            get
+            {
+                yield return null;
+
+                Bomb = GetParent<KMBomb>();
+
+                const BindingFlags Flags = DeclaredOnly | Instance | Public;
+
+                bool isHookingPass = Type.ImplementsMethod(nameof(OnModuleSolved), Flags),
+                    isHookingStrike = Type.ImplementsMethod(nameof(OnModuleStrike), Flags),
+                    isHookingTimer = Type.ImplementsMethod(nameof(OnTimerTick), Flags);
+
+                HookModules(isHookingPass, isHookingStrike);
+
+                if (Reference is Ktane)
+                {
+                    if (isHookingTimer)
+                        TimerTickInner();
+
+                    HookVanillas(isHookingPass, isHookingStrike);
+
+                    yield break;
+                }
+
+                if (isHookingTimer)
+                    StartCoroutine(EditorTimerTick);
+            }
+        }
+
+        private IEnumerator WaitForSolve
+        {
+            get
+            {
+                yield return new WaitWhile(() => Get<KMBombModule>(allowNull: true)?.OnPass is null && Get<KMNeedyModule>(allowNull: true)?.OnPass is null);
+
+                Solve();
+
+                yield return TP?.ForceSolve();
+            }
+        }
+
+        private Logger Logger => _logger ??= new Logger(Module.Name, true);
+        private Logger _logger;
 
         private Type Type => _type ??= GetType();
         private Type _type;
@@ -189,7 +289,11 @@ namespace KeepCoding
         /// <param name="onPass">Called when the needy is solved.</param>
         /// <param name="onStrike">Called when the needy strikes.</param>
         /// <param name="onTimerExpired">Called when the timer runs out of time.</param>
-        public void Assign(Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null) => Module.Assign(onActivate.Combine(_activate), onNeedyActivation.Combine(() =>
+        public void Assign(Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null) => Module.Assign(onActivate.Combine(() =>
+        {
+            IsActive = true;
+            OnActivate();
+        }), onNeedyActivation.Combine(() =>
         {
             OnNeedyActivate();
             IsNeedyActive = true;
@@ -223,20 +327,20 @@ namespace KeepCoding
         /// </summary>
         /// <param name="obj">The object to reflect on.</param>
         /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
-        public void Dump<T>(T obj, bool getVariables = false) => _logger.Dump(obj, getVariables);
+        public void Dump<T>(T obj, bool getVariables = false) => Logger.Dump(obj, getVariables);
 
         /// <summary>
         /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
         /// </summary>
         /// <param name="getVariables">Whether it should search recursively for the elements within the elements.</param>
         /// <param name="logs">All of the variables to throughly log.</param>
-        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => _logger.Dump(getVariables, logs);
+        public void Dump(bool getVariables, params Expression<Func<object>>[] logs) => Logger.Dump(getVariables, logs);
 
         /// <summary>
         /// Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.
         /// </summary>
         /// <param name="logs">All of the variables to throughly log.</param>
-        public void Dump(params Expression<Func<object>>[] logs) => _logger.Dump(logs);
+        public void Dump(params Expression<Func<object>>[] logs) => Logger.Dump(logs);
 
         /// <summary>
         /// Logs message, but formats it to be compliant with the Logfile Analyzer.
@@ -244,7 +348,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="message">The message to log.</param>
         /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
-        public void Log<T>(T message, LogType logType = LogType.Log) => _logger.Log(message, logType);
+        public void Log<T>(T message, LogType logType = LogType.Log) => Logger.Log(message, logType);
 
         /// <summary>
         /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
@@ -252,13 +356,13 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="message">The message to log.</param>
         /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
-        public void Log<T>(T message, params object[] args) => _logger.Log(message, args);
+        public void Log<T>(T message, params object[] args) => Logger.Log(message, args);
 
         /// <summary>
         /// Logs multiple entries to the console.
         /// </summary>
         /// <param name="logs">The array of logs to individual output into the console.</param>
-        public void LogMultiple(params string[] logs) => _logger.LogMultiple(logs);
+        public void LogMultiple(params string[] logs) => Logger.LogMultiple(logs);
 
         /// <summary>
         /// Called when the module instantiates, well before the lights turn on.
@@ -404,9 +508,9 @@ namespace KeepCoding
         {
             if (isEditor)
                 return new string[0];
-            
+
             var managerObject = GameObject.Find("BossModuleManager");
-            
+
             var logger = new Logger("KMBossModule");
 
             if (managerObject is null)
@@ -517,29 +621,18 @@ namespace KeepCoding
         /// </summary>
         protected void Awake()
         {
-            (Module = new ModuleContainer(this)).Assign(onActivate: _activate = () =>
-            {
-                IsActive = true;
-                OnActivate();
-            });
-
-            if (IsColorblindSupported)
-                Colorblind = new ColorblindInfo(Module.Id);
-
             logMessageReceived += OnException;
 
             s_database = new Dictionary<string, Dictionary<string, object>[]>();
 
-            _logger = new Logger(Module.Name, true);
-
             Self($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
-            Log($"Version: [{Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.")}]");
+            Log($"Version: [{Version}]");
 
             Assign();
             OnAwake();
 
-            StartCoroutine(CheckForUpdates());
-            StartCoroutine(WaitForBomb());
+            StartCoroutine(CheckForUpdates);
+            StartCoroutine(WaitForBomb);
         }
 
         /// <summary>
@@ -611,11 +704,11 @@ namespace KeepCoding
         {
             void ForceSolve()
             {
-                StartCoroutine(WaitForSolve());
+                StartCoroutine(WaitForSolve);
                 Get<KMSelectable>().OnInteract = null;
             }
 
-            if (type != LogType.Exception || !IsLogFromThis(stackTrace))
+            if (type != LogType.Exception || stackTrace.Split('\n').All(s => !s.StartsWith(Type.Name)))
                 return;
 
             logMessageReceived -= OnException;
@@ -643,8 +736,6 @@ namespace KeepCoding
             };
         }
 
-        private bool IsLogFromThis(in string stackTrace) => stackTrace.Split('\n').Any(s => Regex.IsMatch(s, $@"^{Type.Name}"));
-
         private bool VanillaSolve(MonoBehaviour c)
         {
             OnModuleSolved(new ModuleContainer(c));
@@ -655,95 +746,6 @@ namespace KeepCoding
         {
             OnModuleStrike(new ModuleContainer(c));
             return false;
-        }
-
-        private static uint VersionToNumber(in string s) => uint.Parse(s.Replace(".", "").PadRight(9, '0'));
-
-        private IEnumerator CheckForUpdates()
-        {
-            if (!IsEditor || s_hasCheckedVersion)
-                yield break;
-
-            s_hasCheckedVersion = true;
-
-            using (UnityWebRequest latest = PathManager.LatestGitHub)
-            {
-                yield return latest.SendWebRequest();
-
-                if (latest.isNetworkError || latest.isHttpError)
-                {
-                    Self($"The library was unable to get the version number: {latest.error}", LogType.Warning);
-                    yield break;
-                }
-
-                string tagName = JObject.Parse(latest.downloadHandler.text).GetValue("tag_name").ToObject<string>();
-
-                if (tagName.ToVersion() <= PathManager.Version)
-                    yield break;
-
-                IsOutdated = true;
-
-                Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please press the update button on any {PathManager.AssemblyName.Name}-based {nameof(GameObject)} or download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
-            }
-        }
-
-        private IEnumerator EditorTimerTick()
-        {
-            if (!GetComponent<KMBombInfo>())
-            {
-                Self($"Adding a {nameof(KMBombInfo)} component automatically only to capture timer ticks in the Editor.");
-                gameObject.AddComponent<KMBombInfo>();
-            }
-
-            KMBombInfo bombInfo = Get<KMBombInfo>();
-
-            while (true)
-            {
-                if (TimeLeft != (int)bombInfo.GetTime())
-                {
-                    TimeLeft = (int)bombInfo.GetTime();
-                    OnTimerTick();
-                }
-
-                yield return null;
-            }
-        }
-
-        private IEnumerator WaitForBomb()
-        {
-            yield return null;
-
-            Bomb = GetParent<KMBomb>();
-
-            const BindingFlags Flags = DeclaredOnly | Instance | Public;
-
-            bool isHookingPass = Type.ImplementsMethod(nameof(OnModuleSolved), Flags),
-                isHookingStrike = Type.ImplementsMethod(nameof(OnModuleStrike), Flags),
-                isHookingTimer = Type.ImplementsMethod(nameof(OnTimerTick), Flags);
-
-            HookModules(isHookingPass, isHookingStrike);
-
-            if (Reference is Ktane)
-            {
-                if (isHookingTimer)
-                    TimerTickInner();
-
-                HookVanillas(isHookingPass, isHookingStrike);
-
-                yield break;
-            }
-
-            if (isHookingTimer)
-                StartCoroutine(EditorTimerTick());
-        }
-
-        private IEnumerator WaitForSolve()
-        {
-            yield return new WaitWhile(() => Get<KMBombModule>(allowNull: true)?.OnPass is null && Get<KMNeedyModule>(allowNull: true)?.OnPass is null);
-
-            Solve();
-
-            yield return TP?.ForceSolve();
         }
     }
 }
