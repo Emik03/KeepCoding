@@ -172,102 +172,31 @@ namespace KeepCoding
         private string Name => _name ??= Type.NameOfAssembly();
         private string _name;
 
-        private IEnumerator CheckForUpdates
+        private IEnumerator GetCheckForUpdates()
         {
-            get
+            if (!IsEditor || s_hasCheckedVersion)
+                yield break;
+
+            s_hasCheckedVersion = true;
+
+            using (UnityWebRequest latest = PathManager.LatestGitHub)
             {
-                if (!IsEditor || s_hasCheckedVersion)
-                    yield break;
+                yield return latest.SendWebRequest();
 
-                s_hasCheckedVersion = true;
-
-                using (UnityWebRequest latest = PathManager.LatestGitHub)
+                if (latest.isNetworkError || latest.isHttpError)
                 {
-                    yield return latest.SendWebRequest();
-
-                    if (latest.isNetworkError || latest.isHttpError)
-                    {
-                        Self($"The library was unable to get the version number: {latest.error}", LogType.Warning);
-                        yield break;
-                    }
-
-                    string tagName = JObject.Parse(latest.downloadHandler.text).GetValue("tag_name").ToObject<string>();
-
-                    if (tagName.ToVersion() <= PathManager.Version)
-                        yield break;
-
-                    IsOutdated = true;
-
-                    Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please press the update button on any {PathManager.AssemblyName.Name}-based {nameof(GameObject)} or download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
-                }
-            }
-        }
-
-        private IEnumerator EditorTimerTick
-        {
-            get
-            {
-                if (!GetComponent<KMBombInfo>())
-                {
-                    Self($"Adding a {nameof(KMBombInfo)} component automatically only to capture timer ticks in the Editor.");
-                    gameObject.AddComponent<KMBombInfo>();
-                }
-
-                KMBombInfo bombInfo = Get<KMBombInfo>();
-
-                while (true)
-                {
-                    if (TimeLeft != (int)bombInfo.GetTime())
-                    {
-                        TimeLeft = (int)bombInfo.GetTime();
-                        OnTimerTick();
-                    }
-
-                    yield return null;
-                }
-            }
-        }
-
-        private IEnumerator WaitForBomb
-        {
-            get
-            {
-                yield return null;
-
-                Bomb = GetParent<KMBomb>();
-
-                const BindingFlags Flags = DeclaredOnly | Instance | Public;
-
-                bool isHookingPass = Type.ImplementsMethod(nameof(OnModuleSolved), Flags),
-                    isHookingStrike = Type.ImplementsMethod(nameof(OnModuleStrike), Flags),
-                    isHookingTimer = Type.ImplementsMethod(nameof(OnTimerTick), Flags);
-
-                HookModules(isHookingPass, isHookingStrike);
-
-                if (Reference is Ktane)
-                {
-                    if (isHookingTimer)
-                        TimerTickInner();
-
-                    HookVanillas(isHookingPass, isHookingStrike);
-
+                    Self($"The library was unable to get the version number: {latest.error}", LogType.Warning);
                     yield break;
                 }
 
-                if (isHookingTimer)
-                    StartCoroutine(EditorTimerTick);
-            }
-        }
+                string tagName = JObject.Parse(latest.downloadHandler.text).GetValue("tag_name").ToObject<string>();
 
-        private IEnumerator WaitForSolve
-        {
-            get
-            {
-                yield return new WaitWhile(() => Get<KMBombModule>(allowNull: true)?.OnPass is null && Get<KMNeedyModule>(allowNull: true)?.OnPass is null);
+                if (tagName.ToVersion() <= PathManager.Version)
+                    yield break;
 
-                Solve();
+                IsOutdated = true;
 
-                yield return TP?.ForceSolve();
+                Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please press the update button on any {PathManager.AssemblyName.Name}-based {nameof(GameObject)} or download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
             }
         }
 
@@ -631,8 +560,8 @@ namespace KeepCoding
             Assign();
             OnAwake();
 
-            StartCoroutine(CheckForUpdates);
-            StartCoroutine(WaitForBomb);
+            StartCoroutine(GetCheckForUpdates());
+            StartCoroutine(GetWaitForBomb());
         }
 
         /// <summary>
@@ -704,7 +633,7 @@ namespace KeepCoding
         {
             void ForceSolve()
             {
-                StartCoroutine(WaitForSolve);
+                StartCoroutine(GetWaitForSolve());
                 Get<KMSelectable>().OnInteract = null;
             }
 
@@ -746,6 +675,65 @@ namespace KeepCoding
         {
             OnModuleStrike(new ModuleContainer(c));
             return false;
+        }
+
+        private IEnumerator GetEditorTimerTick()
+        {
+            if (!GetComponent<KMBombInfo>())
+            {
+                Self($"Adding a {nameof(KMBombInfo)} component automatically only to capture timer ticks in the Editor.");
+                gameObject.AddComponent<KMBombInfo>();
+            }
+
+            KMBombInfo bombInfo = Get<KMBombInfo>();
+
+            while (true)
+            {
+                if (TimeLeft != (int)bombInfo.GetTime())
+                {
+                    TimeLeft = (int)bombInfo.GetTime();
+                    OnTimerTick();
+                }
+
+                yield return null;
+            }
+        }
+
+        private IEnumerator GetWaitForBomb()
+        {
+            yield return null;
+
+            Bomb = GetParent<KMBomb>();
+
+            const BindingFlags Flags = DeclaredOnly | Instance | Public;
+
+            bool isHookingPass = Type.ImplementsMethod(nameof(OnModuleSolved), Flags),
+                isHookingStrike = Type.ImplementsMethod(nameof(OnModuleStrike), Flags),
+                isHookingTimer = Type.ImplementsMethod(nameof(OnTimerTick), Flags);
+
+            HookModules(isHookingPass, isHookingStrike);
+
+            if (Reference is Ktane)
+            {
+                if (isHookingTimer)
+                    TimerTickInner();
+
+                HookVanillas(isHookingPass, isHookingStrike);
+
+                yield break;
+            }
+
+            if (isHookingTimer)
+                StartCoroutine(GetEditorTimerTick());
+        }
+
+        private IEnumerator GetWaitForSolve()
+        {
+            yield return new WaitWhile(() => Get<KMBombModule>(allowNull: true)?.OnPass is null && Get<KMNeedyModule>(allowNull: true)?.OnPass is null);
+
+            Solve();
+
+            yield return TP?.ForceSolve();
         }
     }
 }
