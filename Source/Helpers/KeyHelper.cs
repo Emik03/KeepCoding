@@ -20,7 +20,7 @@ namespace KeepCoding
         /// </remarks>
         /// <typeparam name="T">The type to cast the object into.</typeparam>
         /// <param name="obj">The object to cast into.</param>
-        /// <returns><paramref name="obj"/> <see langword="as"/> <typeparamref name="T"/></returns>
+        /// <returns><c><paramref name="obj"/> <see langword="as"/> <typeparamref name="T"/></c></returns>
         public static T As<T>(this object obj) where T : class => obj as T;
 
         /// <summary>
@@ -31,8 +31,46 @@ namespace KeepCoding
         /// </remarks>
         /// <typeparam name="T">The type to cast the object into.</typeparam>
         /// <param name="obj">The object to cast into.</param>
-        /// <returns><paramref name="obj"/> <see langword="as"/> <typeparamref name="T"/></returns>
-        public static T? AsStruct<T>(this object obj) where T : struct => obj as T?;
+        /// <returns><c><paramref name="obj"/> <see langword="as"/> <typeparamref name="T"/></c></returns>
+        public static T? AsValue<T>(this object obj) where T : struct => obj as T?;
+
+        /// <summary>
+        /// A cast expression of the form <c>(<typeparamref name="T"/>)<typeparamref name="E"/></c> performs an explicit conversion of the result of expression <c><typeparamref name="E"/></c> to type <c><typeparamref name="T"/></c>. If no explicit conversion exists from the type of <c><typeparamref name="E"/></c> to type <c><typeparamref name="T"/></c>, a compile-time error occurs. At run time, an explicit conversion might not succeed and a cast expression might throw an exception.
+        /// </summary>
+        /// <exception cref="InvalidCastException"></exception>
+        /// <typeparam name="E">The initial type.</typeparam>
+        /// <typeparam name="T">The type to convert to.</typeparam>
+        /// <param name="item">The item to cast.</param>
+        /// <returns><c>(<typeparamref name="T"/>)<paramref name="item"/></c></returns>
+        public static T Cast<E, T>(this E item) where T : E => (T)item;
+
+        /// <summary>
+        /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/try-catch"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <param name="action">The action to try.</param>
+        /// <param name="when">The condition for catching the exception.</param>
+        /// <param name="caught">The action to run when an exception is caught.</param>
+        /// <param name="final">The action to run on either clause.</param>
+        /// <returns><paramref name="action"/> with <paramref name="caught"/> if an <see cref="Exception"/> caught passed in <paramref name="when"/> returns <see langword="true"/>.</returns>
+        public static Action Catch(this Action action, Predicate<Exception> when, Action<Exception> caught = null, Action final = null) => () =>
+        {
+            try
+            {
+                action.NullCheck("The action cannot be null.")();
+            }
+            catch (Exception e) when (when(e))
+            {
+                caught?.Invoke(e);
+            }
+            finally
+            {
+                final?.Invoke();
+            }
+        };
 
         /// <summary>
         /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
@@ -149,6 +187,30 @@ namespace KeepCoding
             finally
             {
                 final?.Invoke();
+            }
+        };
+
+        /// <summary>
+        /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/try-catch"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <typeparam name="T">The return type.</typeparam>
+        /// <param name="func">The action to try.</param>
+        /// <param name="when">The condition for catching the exception.</param>
+        /// <param name="caught">The action to run when an exception is caught.</param>
+        /// <returns><paramref name="func"/> with <paramref name="caught"/> if an <see cref="Exception"/> caught passed in <paramref name="when"/> returns <see langword="true"/>.</returns>
+        public static Func<T> Catch<T>(this Func<T> func, Predicate<Exception> when, Func<Exception, T> caught) => () =>
+        {
+            try
+            {
+                return func.NullCheck("The action cannot be null.")();
+            }
+            catch (Exception e) when (when(e))
+            {
+                return caught.NullCheck("The caught cannot be null.")(e);
             }
         };
 
@@ -278,8 +340,16 @@ namespace KeepCoding
         /// </remarks>
         /// <exception cref="NullReferenceException"></exception>
         /// <param name="func">The function to run inside a <see langword="checked"/> block.</param>
-        /// <returns>The output of <paramref name="func"/>.</returns>
+        /// <returns><c><see langword="checked"/>(<paramref name="func"/>())</c></returns>
         public static T Checked<T>(this Func<T> func) => checked(func.NullCheck("The action cannot be null.")());
+
+        /// <summary>
+        /// A default value expression produces the default value of a type.
+        /// </summary>
+        /// <typeparam name="T">The type to return a default value.</typeparam>
+        /// <param name="_">The discard.</param>
+        /// <returns><c><see langword="default"/>(<typeparamref name="T"/>)</c></returns>
+        public static T Default<T>(this T _) => default;
 
         /// <summary>
         /// The <see langword="do"/> statement executes a statement or a block of statements while a specified Boolean expression evaluates to <see langword="true"/>. Because that expression is evaluated after each execution of the loop, a <see langword="do"/> loop executes one or more times. This differs from a <see langword="while"/> loop, which executes zero or more times.
@@ -534,15 +604,15 @@ namespace KeepCoding
         /// </remarks>
         /// <exception cref="NullReferenceException"></exception>
         /// <param name="condition">The condition to check.</param>
-        /// <param name="action">The action to run when <paramref name="condition"/> is <see langword="true"/>.</param>
+        /// <param name="consequent">The action to run when <paramref name="condition"/> is <see langword="true"/>.</param>
         /// <param name="otherwise">The action to run when <paramref name="condition"/> is <see langword="false"/>.</param>
         /// <returns><paramref name="condition"/></returns>
-        public static bool If(this bool condition, Action action, Action otherwise = null)
+        public static bool If(this bool condition, Action consequent, Action otherwise = null)
         {
-            action.NullCheck("The action cannot be null.");
+            consequent.NullCheck("The action cannot be null.");
 
             if (condition)
-                action();
+                consequent();
             else
                 otherwise?.Invoke();
 
@@ -557,9 +627,46 @@ namespace KeepCoding
         /// </remarks>
         /// <exception cref="NullReferenceException"></exception>
         /// <param name="condition">The condition to check.</param>
-        /// <param name="action">The action to run when <paramref name="condition"/> is <see langword="true"/>.</param>
-        /// <param name="otherwise">The action to run when <paramref name="condition"/> is <see langword="false"/>.</param>
-        public static T If<T>(this bool condition, Func<T> action, Func<T> otherwise) => condition ? action.NullCheck("The action cannot be null.")() : otherwise.NullCheck("The otherwise cannot be null.")();
+        /// <param name="consequent">The action to run when <paramref name="condition"/> is <see langword="true"/>.</param>
+        /// <param name="alternative">The action to run when <paramref name="condition"/> is <see langword="false"/>.</param>
+        /// <returns><c><paramref name="condition"/> ? <paramref name="consequent"/>() : <paramref name="alternative"/>()</c></returns>
+        public static T If<T>(this bool condition, Func<T> consequent, Func<T> alternative) => condition ? consequent.NullCheck("The action cannot be null.")() : alternative.NullCheck("The otherwise cannot be null.")();
+
+        /// <summary>
+        /// The conditional operator <c>?:</c>, also known as the ternary conditional operator, evaluates a Boolean expression and returns the result of one of the two expressions, depending on whether the Boolean expression evaluates to <see langword="true"/> or <see langword="false"/>.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/if-else"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <param name="condition">The condition to check.</param>
+        /// <param name="consequent">The action to run when <paramref name="condition"/> is <see langword="true"/>.</param>
+        /// <param name="alternative">The action to run when <paramref name="condition"/> is <see langword="false"/>.</param>
+        /// <returns><c><paramref name="condition"/> ? <paramref name="consequent"/> : <paramref name="alternative"/></c></returns>
+        public static T If<T>(this bool condition, T consequent, T alternative) => condition ? consequent : alternative;
+
+        /// <summary>
+        /// The conditional operator <c>?:</c>, also known as the ternary conditional operator, evaluates a Boolean expression and returns the result of one of the two expressions, depending on whether the Boolean expression evaluates to <see langword="true"/> or <see langword="false"/>.
+        /// </summary>
+        /// <typeparam name="T1">The type for the return if <paramref name="condition"/> is <see langword="true"/>.</typeparam>
+        /// <typeparam name="T2">The type for the return if <paramref name="condition"/> is <see langword="false"/>.</typeparam>
+        /// <param name="condition">The <see cref="bool"/> to either return <paramref name="consequent"/> or <paramref name="alternative"/>.</param>
+        /// <param name="consequent">The item to return if <paramref name="condition"/> is <see langword="true"/>.</param>
+        /// <param name="alternative">The item to return if <paramref name="condition"/> is <see langword="false"/>.</param>
+        /// <returns><c><paramref name="condition"/> ? <paramref name="consequent"/> : <paramref name="alternative"/></c></returns>
+        public static object If<T1, T2>(this bool condition, T1 consequent, T2 alternative) => condition ? (object)consequent : alternative;
+
+        /// <summary>
+        /// The conditional operator <c>?:</c>, also known as the ternary conditional operator, evaluates a Boolean expression and returns the result of one of the two expressions, depending on whether the Boolean expression evaluates to <see langword="true"/> or <see langword="false"/>.
+        /// </summary>
+        /// <typeparam name="T1">The type for the return if <paramref name="condition"/> is <see langword="true"/>.</typeparam>
+        /// <typeparam name="T2">The type for the return if <paramref name="condition"/> is <see langword="false"/>.</typeparam>
+        /// <typeparam name="TResult">The return type that is shared for both <typeparamref name="T1"/> and <typeparamref name="T2"/>.</typeparam>
+        /// <param name="condition">The <see cref="bool"/> to either return <paramref name="consequent"/> or <paramref name="alternative"/>.</param>
+        /// <param name="consequent">The item to return if <paramref name="condition"/> is <see langword="true"/>.</param>
+        /// <param name="alternative">The item to return if <paramref name="condition"/> is <see langword="false"/>.</param>
+        /// <returns><c><paramref name="condition"/> ? <paramref name="consequent"/> : <paramref name="alternative"/></c></returns>
+        public static TResult If<T1, T2, TResult>(this bool condition, T1 consequent, T2 alternative) where TResult : T1, T2 => condition ? (TResult)consequent : (TResult)alternative;
 
         /// <summary>
         /// The <see langword="is"/> operator checks if the result of an expression is compatible with a given type.
@@ -569,7 +676,7 @@ namespace KeepCoding
         /// </remarks>
         /// <typeparam name="T">The type to cast into.</typeparam>
         /// <param name="obj">The object to cast.</param>
-        /// <returns><paramref name="obj"/> <see langword="is"/> <typeparamref name="T"/></returns>
+        /// <returns><c><paramref name="obj"/> <see langword="is"/> <typeparamref name="T"/></c></returns>
         public static bool Is<T>(this object obj) => obj is T;
 
         /// <summary>
@@ -581,7 +688,7 @@ namespace KeepCoding
         /// <typeparam name="T">The type to cast into.</typeparam>
         /// <param name="obj">The object to cast.</param>
         /// <param name="item">The object casted into the type.</param>
-        /// <returns><paramref name="obj"/> <see langword="is"/> <typeparamref name="T"/> <paramref name="item"/></returns>
+        /// <returns><c><paramref name="obj"/> <see langword="is"/> <typeparamref name="T"/> <paramref name="item"/></c></returns>
         public static bool Is<T>(this object obj, out T item) where T : class => (item = obj as T) is T;
 
         /// <summary>
@@ -594,7 +701,7 @@ namespace KeepCoding
         /// <param name="obj">The object to cast.</param>
         /// <param name="action">The action to run when <paramref name="obj"/> is <typeparamref name="T"/>.</param>
         /// <param name="otherwise">The action to run when <paramref name="obj"/> is not <typeparamref name="T"/>.</param>
-        /// <returns><paramref name="obj"/> <see langword="is"/> <typeparamref name="T"/> item</returns>
+        /// <returns><c><paramref name="obj"/> <see langword="is"/> <typeparamref name="T"/> item</c></returns>
         public static bool Is<T>(this object obj, Action<T> action, Action otherwise = null) where T : class
         {
             action.NullCheck("The action cannot be null!");
@@ -619,6 +726,7 @@ namespace KeepCoding
         /// <typeparam name="T">The type of item to lock.</typeparam>
         /// <param name="item">The item to lock.</param>
         /// <param name="action">The action to run while the item is locked.</param>
+        /// <returns><c><see langword="lock"/> (<paramref name="item"/>) <paramref name="action"/>(<paramref name="item"/>) <see langword="return"/> <paramref name="item"/></c></returns>
         public static T Lock<T>(this T item, Action<T> action) where T : notnull
         {
             lock (item)
@@ -636,7 +744,7 @@ namespace KeepCoding
         /// <typeparam name="T">The type of item to lock.</typeparam>
         /// <param name="item">The item to lock.</param>
         /// <param name="func">The function to run while the item is locked.</param>
-        /// <returns>The output of <paramref name="func"/>.</returns>
+        /// <returns><c><see langword="lock"/> (<paramref name="item"/>) <see langword="return"/> <paramref name="func"/>(<paramref name="item"/>)</c></returns>
         public static T Lock<T>(this T item, Func<T, T> func) where T : notnull
         {
             lock (item)
@@ -651,7 +759,7 @@ namespace KeepCoding
         /// </remarks>
         /// <typeparam name="T">The type of item.</typeparam>
         /// <param name="expression">The expression to get the name from.</param>
-        /// <returns>The name of the expression.</returns>
+        /// <returns>The name of the variable inside <paramref name="expression"/>.</returns>
         public static string NameOf<T>(this Expression<Func<T>> expression)
         {
             try
@@ -663,6 +771,21 @@ namespace KeepCoding
                 return expression.Compile()()?.ToString() ?? "<unknown>";
             }
         }
+
+        /// <summary>
+        /// The <see langword="new"/> operator creates a new instance of a type.
+        /// </summary>
+        /// <typeparam name="T">The type of the retrurn.</typeparam>
+        /// <returns><c><see langword="new"/> <typeparamref name="T"/>()</c></returns>
+        public static T New<T>(this T a) where T : new() => new T();
+
+        /// <summary>
+        /// The <see langword="typeof"/> operator obtains the <see cref="Type"/> instance for a type.
+        /// </summary>
+        /// <typeparam name="T">The type of the item.</typeparam>
+        /// <param name="item">The item to get the <see cref="Type"/> of.</param>
+        /// <returns><c><see langword="typeof"/>(<typeparamref name="T"/>)</c></returns>
+        public static Type TypeOf<T>(this T item) => typeof(T);
 
         /// <summary>
         /// The <see langword="unchecked"/> keyword is used to suppress overflow-checking for integral-type arithmetic operations and conversions.
@@ -688,7 +811,7 @@ namespace KeepCoding
         /// </remarks>
         /// <exception cref="NullReferenceException"></exception>
         /// <param name="func">The function to ignore overflow-checking.</param>
-        /// <returns>The output of <paramref name="func"/>.</returns>
+        /// <returns><c><see langword="unchecked"/>(<paramref name="func"/>())</c></returns>
         public static T Unchecked<T>(this Func<T> func) => unchecked(func.NullCheck("The action cannot be null.")());
 
         /// <summary>
@@ -701,7 +824,7 @@ namespace KeepCoding
         /// <typeparam name="T">The type of <see cref="IDisposable"/>.</typeparam>
         /// <param name="item">The item to use.</param>
         /// <param name="action">The action to use <paramref name="item"/> on.</param>
-        /// <returns><paramref name="item"/></returns>
+        /// <returns><c><see langword="using"/> (<paramref name="item"/>) <paramref name="action"/>(<paramref name="item"/>)</c></returns>
         public static T Using<T>(this T item, Action<T> action) where T : IDisposable
         {
             using (item)
@@ -719,7 +842,7 @@ namespace KeepCoding
         /// <typeparam name="T">The type of <see cref="IDisposable"/>.</typeparam>
         /// <param name="item">The item to use.</param>
         /// <param name="func">The function to use <paramref name="item"/> on.</param>
-        /// <returns>The output of <paramref name="func"/>.</returns>
+        /// <returns><c><see langword="using"/> (<paramref name="item"/>) <see langword="return"/> <paramref name="func"/>(<paramref name="item"/>)</c></returns>
         public static T Using<T>(this T item, Func<T, T> func) where T : IDisposable
         {
             using (item)
@@ -772,7 +895,7 @@ namespace KeepCoding
         /// </summary>
         /// <typeparam name="T">Type of the object.</typeparam>
         /// <param name="item">The instance that will be wrapped.</param>
-        /// <returns>An <see cref="IEnumerable{T}"/> consisting of a single item.</returns>
+        /// <returns><c><see langword="yield"/> <see langword="return"/> <paramref name="item"/></c></returns>
         public static IEnumerable<T> Yield<T>(this T item)
         {
             yield return item;
