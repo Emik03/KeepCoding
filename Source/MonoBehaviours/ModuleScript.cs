@@ -172,34 +172,6 @@ namespace KeepCoding
         private string Name => _name ??= Type.NameOfAssembly();
         private string _name;
 
-        private IEnumerator GetCheckForUpdates()
-        {
-            if (!IsEditor || s_hasCheckedVersion)
-                yield break;
-
-            s_hasCheckedVersion = true;
-
-            using (UnityWebRequest latest = PathManager.LatestGitHub)
-            {
-                yield return latest.SendWebRequest();
-
-                if (latest.isNetworkError || latest.isHttpError)
-                {
-                    Self($"The library was unable to get the version number: {latest.error}", LogType.Warning);
-                    yield break;
-                }
-
-                string tagName = JObject.Parse(latest.downloadHandler.text).GetValue("tag_name").ToObject<string>();
-
-                if (tagName.ToVersion() <= PathManager.Version)
-                    yield break;
-
-                IsOutdated = true;
-
-                Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please press the update button on any {PathManager.AssemblyName.Name}-based {nameof(GameObject)} or download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
-            }
-        }
-
         private Logger Logger => _logger ??= new Logger(Module.Name, true);
         private Logger _logger;
 
@@ -560,8 +532,8 @@ namespace KeepCoding
             Assign();
             OnAwake();
 
-            StartCoroutine(GetCheckForUpdates());
-            StartCoroutine(GetWaitForBomb());
+            StartCoroutine(CheckForUpdates());
+            StartCoroutine(WaitForBomb());
         }
 
         /// <summary>
@@ -633,7 +605,7 @@ namespace KeepCoding
         {
             void ForceSolve()
             {
-                StartCoroutine(GetWaitForSolve());
+                StartCoroutine(WaitForSolve());
                 Get<KMSelectable>().OnInteract = null;
             }
 
@@ -677,7 +649,35 @@ namespace KeepCoding
             return false;
         }
 
-        private IEnumerator GetEditorTimerTick()
+        private IEnumerator CheckForUpdates()
+        {
+            if (!IsEditor || s_hasCheckedVersion)
+                yield break;
+
+            s_hasCheckedVersion = true;
+
+            using (UnityWebRequest latest = PathManager.LatestGitHub)
+            {
+                yield return latest.SendWebRequest();
+
+                if (latest.isNetworkError || latest.isHttpError)
+                {
+                    Self($"The library was unable to get the version number: {latest.error}", LogType.Warning);
+                    yield break;
+                }
+
+                string tagName = JObject.Parse(latest.downloadHandler.text).GetValue("tag_name").ToObject<string>();
+
+                if (tagName.ToVersion() <= PathManager.Version)
+                    yield break;
+
+                IsOutdated = true;
+
+                Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please press the update button on any {PathManager.AssemblyName.Name}-based {nameof(GameObject)} or download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
+            }
+        }
+
+        private IEnumerator EditorTimerTick()
         {
             if (!GetComponent<KMBombInfo>())
             {
@@ -699,7 +699,7 @@ namespace KeepCoding
             }
         }
 
-        private IEnumerator GetWaitForBomb()
+        private IEnumerator WaitForBomb()
         {
             yield return null;
 
@@ -724,10 +724,10 @@ namespace KeepCoding
             }
 
             if (isHookingTimer)
-                StartCoroutine(GetEditorTimerTick());
+                StartCoroutine(EditorTimerTick());
         }
 
-        private IEnumerator GetWaitForSolve()
+        private IEnumerator WaitForSolve()
         {
             yield return new WaitWhile(() => Get<KMBombModule>(allowNull: true)?.OnPass is null && Get<KMNeedyModule>(allowNull: true)?.OnPass is null);
 
