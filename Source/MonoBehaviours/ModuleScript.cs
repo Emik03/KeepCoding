@@ -13,6 +13,7 @@ using UnityEngine.Networking;
 using static System.Delegate;
 using static System.Linq.Enumerable;
 using static System.Reflection.BindingFlags;
+using static System.String;
 using static KeepCoding.Game;
 using static KeepCoding.Game.KTInputManager;
 using static KeepCoding.Game.MasterAudio;
@@ -89,9 +90,9 @@ namespace KeepCoding
         public bool IsSolved { get; private set; }
 
         /// <summary>
-        /// Determines whether the game is being played in Virtual Reality. In the Editor, it always returns false.
+        /// Determines whether the game is being played with motion virtual reality. In the Editor, it always returns false.
         /// </summary>
-        public static bool IsVR => IsCurrentControlTypeVR;
+        public static bool IsVR => CurrentControlType is ControlType.Motion;
 
         /// <summary>
         /// The Unique Id for the module of this type.
@@ -116,6 +117,12 @@ namespace KeepCoding
         /// <exception cref="JsonException"></exception>
         /// <exception cref="NullIteratorException"></exception>
         public string Version => PathManager.GetModInfo(Name).Version;
+
+        /// <summary>
+        /// The ignored modules of this module from the Boss Module Manager.
+        /// </summary>
+        public string[] IgnoredModules => _ignoredModules ??= GetIgnoredModules(Module.Name);
+        private string[] _ignoredModules;
 
         /// <summary>
         /// Contains colorblind information.
@@ -355,6 +362,42 @@ namespace KeepCoding
 
             if (IsEditor)
                 Self($"Added \"{value}\" to {nameof(s_database)}: [{nameof(Module.Id)}, {Module.Id}: [{nameof(index)}, {index}: {value}]]");
+        }
+
+        /// <summary>
+        /// Retrieves the ignore list from the Boss Module Manager mod used primarily by boss modules.
+        /// </summary>
+        /// <param name="moduleName">The name of the module to retrieve from.</param>
+        /// <returns>If successful, the boss module's ignore list, otherwise a new empty string array.</returns>
+        public string[] GetIgnoredModules(string moduleName)
+        {
+            if (isEditor)
+                return new string[0];
+            
+            var managerObject = GameObject.Find("BossModuleManager");
+            
+            var logger = new Logger("KMBossModule");
+
+            if (managerObject is null)
+            {
+                logger.Log("Boss Module Manager is not installed.");
+                return new string[0];
+            }
+
+            IDictionary<string, object> dictionary = managerObject.GetComponent<IDictionary<string, object>>();
+
+            const string Key = "GetIgnoredModules";
+
+            if (dictionary is null || !dictionary.ContainsKey(Key))
+            {
+                logger.Log($"Boss Module Manager does not have a list on record for “{Module.Name}”.");
+                return new string[0];
+            }
+
+            string[] list = ((Func<string, string[]>)dictionary[Key])(moduleName);
+
+            logger.Log($"Boss Module Manager returned list for “{moduleName}”: {(list is null ? Helper.Null : Join(", ", list))}");
+            return list ?? new string[0];
         }
 
         /// <summary>
