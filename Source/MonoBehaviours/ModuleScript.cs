@@ -125,6 +125,12 @@ namespace KeepCoding
         private string[] _ignoredModules;
 
         /// <summary>
+        /// The pseudo-random number generator whose number generations are based on the current Rule Seed.
+        /// </summary>
+        public MonoRandom RuleSeed => _ruleSeed ??= new MonoRandom(GetRuleSeedId());
+        private MonoRandom _ruleSeed;
+
+        /// <summary>
         /// Contains colorblind information.
         /// </summary>
         public ColorblindInfo Colorblind = default!;
@@ -362,6 +368,31 @@ namespace KeepCoding
 
             if (IsEditor)
                 Self($"Added \"{value}\" to {nameof(s_database)}: [{nameof(Module.Id)}, {Module.Id}: [{nameof(index)}, {index}: {value}]]");
+        }
+
+        /// <summary>
+        /// Gets the rule seed number.
+        /// </summary>
+        /// <returns>The rule seed number, by default 1.</returns>
+        public int GetRuleSeedId()
+        {
+            if (isEditor)
+                return 1;
+
+            var ruleSeedObject = GameObject.Find("RuleSeedModifierProperties");
+
+            if (ruleSeedObject is null)
+                return 1;
+
+            IDictionary<string, object> ruleSeedDictionary = ruleSeedObject.GetComponent<IDictionary<string, object>>();
+
+            if (!ruleSeedDictionary.ContainsKey("RuleSeed"))
+                return 1;
+
+            if (ruleSeedDictionary.ContainsKey("AddSupportedModule"))
+                ruleSeedDictionary["AddSupportedModule"] = Module.Id;
+
+            return (ruleSeedDictionary["RuleSeed"] as int?) ?? 1;
         }
 
         /// <summary>
