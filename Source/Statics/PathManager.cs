@@ -39,6 +39,8 @@ namespace KeepCoding
         private static readonly Dictionary<string, string> s_filePaths = new Dictionary<string, string>(),
             s_modDirectories = new Dictionary<string, string>();
 
+        private static readonly Dictionary<string, Object[]> s_objects = new Dictionary<string, Object[]>();
+
         private static readonly Dictionary<string, ModInfo> s_modInfos = new Dictionary<string, ModInfo>();
 
         /// <summary>
@@ -324,7 +326,7 @@ namespace KeepCoding
         /// <param name="assembly">The mod assembly's name.</param>
         /// <returns>The assets retrieved from <paramref name="assembly"/>.</returns>
         [CLSCompliant(false)]
-        public static T[] GetAssets<T>(string file, string assembly) where T : Object => LoadAssets<T>(file, assembly).AsEnumerable().OfType<T[]>().First();
+        public static T[] GetAssets<T>(string file, string assembly) where T : Object => LoadAssets<T>(file, assembly).OfType<T[]>().First();
 
         internal static void SuppressIO(Action func, Action<Exception> caught = null) => func.Catch<IOException, NotSupportedException, UnauthorizedAccessException>(e =>
         {
@@ -381,29 +383,45 @@ namespace KeepCoding
 
         private static string FileFormat(in string name, in string extension) => $"{name}.{extension}";
 
-        private static IEnumerator LoadAssets<T>(string file, string assembly) where T : Object
-#nullable restore
+        private static IEnumerable LoadAssets<T>(string file, string assembly) where T : Object
         {
-            file.NullOrEmptyCheck("You cannot load a video from a nonexistent file.");
-
-            if (!file.Contains('.'))
+            if (!file.NullOrEmptyCheck("You cannot retrieve a path if the file name is null or empty.").Contains('.'))
                 file += ".bundle";
 
+            string key = $"{assembly.NullOrEmptyCheck("You cannot retrieve a path if the mod assembly is null or empty.")}_{file}";
+
+            if (s_objects.TryGetValue(key, out Object[] objs))
+            {
+                yield return objs.ConvertAll(o => (T)o);
+                yield break;
+            }
+
+            if (isEditor)
+            {
+                s_objects.Add(assembly, objs = new Object[0]);
+
+                Self($"This method is being run on the Editor, therefore an empty array of {nameof(Object)} will be returned.");
+
+                yield return objs.ConvertAll(o => (T)o);
+                yield break;
+            }
+            
             Self($"Loading type \"{typeof(T).Name}\" from \"{file}\" which exists in \"{assembly}\".");
 
             AssetBundleCreateRequest request = LoadFromFileAsync(GetPath(file, assembly));
 
             yield return request;
 
-            AssetBundle mainBundle = request.assetBundle.NullCheck("The bundle was null.");
-
-            T[] assets = mainBundle
+            T[] assets = request
+                .assetBundle
+                .NullCheck("The bundle was null.")
                 .LoadAllAssets<T>()
-                .OrderBy(o => o.name)
                 .NullOrEmptyCheck($"There are no assets of type \"{typeof(T).Name}\".")
-                .ToArray();
+                .Sort((x, y) => x.name.CompareTo(y.name));
 
             Self($"{assets.Length} assets of type \"{typeof(T).Name}\" have been loaded into memory!");
+
+            s_objects.Add(assembly, assets);
 
             yield return assets;
         }
