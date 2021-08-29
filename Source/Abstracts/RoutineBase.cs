@@ -83,7 +83,7 @@ namespace KeepCoding.Internal
     /// <seealso cref="Routine"/>
     /// <seealso cref="Tuple{T1, T2}"/>
     /// <seealso cref="TypeHelper.ToTuple{T1, T2}(T1, T2)"/>
-    public abstract class RoutineBase : IEnumerable, IEnumerable<Coroutine>
+    public abstract class RoutineBase : IEnumerable<Coroutine>
     {
         private readonly MonoBehaviour _monoBehaviour;
 
