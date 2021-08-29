@@ -119,7 +119,7 @@ namespace KeepCoding
         /// Logs multiple entries to the console.
         /// </summary>
         /// <param name="logs">The array of logs to individual output into the console.</param>
-        public void LogMultiple(params string[] logs) => logs?.ForEach(s => Log(s));
+        public void LogMultiple(params string[] logs) => logs?.ForEach<string>(s => Log(s));
 
         /// <summary>
         /// Determines if both objects are equal.
