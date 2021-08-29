@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using KeepCoding.Internal;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using UnityEngine;
 using static System.IO.Path;
@@ -80,7 +81,7 @@ namespace KeepCoding
         /// Reads the settings from the settings file.
         /// If the settings couldn't be read, the default settings will be returned.
         /// </summary>
-        public TDeserialize Read() => SuppressIO(() =>
+        public TDeserialize Read(JsonSerializerSettings settings = null) => SuppressIO(() =>
         {
             HasReadSucceeded = false;
 
@@ -89,7 +90,7 @@ namespace KeepCoding
                 if (!File.Exists(_settingsPath))
                     File.WriteAllText(_settingsPath, SerializeSettings(new TDeserialize()));
 
-                TDeserialize deserialized = DeserializeObject<TDeserialize>(File.ReadAllText(_settingsPath));
+                TDeserialize deserialized = DeserializeObject<TDeserialize>(File.ReadAllText(_settingsPath), settings);
 
                 if (deserialized is null)
                     deserialized = new TDeserialize();
