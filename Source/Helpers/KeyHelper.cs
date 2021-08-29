@@ -388,6 +388,26 @@ namespace KeepCoding
         /// <param name="length">The length to reach to in the for loop.</param>
         /// <param name="action">The action for each loop.</param>
         /// <returns><paramref name="length"/></returns>
+        public static int For(this int length, Action action)
+        {
+            action.NullCheck("The action cannot be null.");
+
+            for (int i = 0; i < length; i++)
+                action();
+
+            return length;
+        }
+
+        /// <summary>
+        /// The <see langword="for"/> statement executes a statement or a block of statements while a specified Boolean expression evaluates to <see langword="true"/>.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-for-statement"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <param name="length">The length to reach to in the for loop.</param>
+        /// <param name="action">The action for each loop.</param>
+        /// <returns><paramref name="length"/></returns>
         public static int For(this int length, Action<int> action)
         {
             action.NullCheck("The action cannot be null.");
@@ -405,25 +425,15 @@ namespace KeepCoding
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-for-statement"/>
         /// </remarks>
         /// <exception cref="NullReferenceException"></exception>
-        /// <typeparam name="T">The type of the declaring variable.</typeparam>
-        /// <param name="item">The item to read and write on.</param>
-        /// <param name="action">The action for each loop.</param>
-        /// <param name="condition">The condition for whether the loop should continue.</param>
-        /// <param name="loop">The action to run after <paramref name="action"/>.</param>
-        /// <returns><paramref name="item"/></returns>
-        public static T For<T>(this T item, Action<T> action, Predicate<T> condition = null, Func<T, T> loop = null)
+        /// <param name="length">The length to reach to in the for loop.</param>
+        /// <param name="func">The function for each loop.</param>
+        /// <returns>All instances that <paramref name="func"/> used in an <see cref="IEnumerable{T}"/>.</returns>
+        public static IEnumerable<T> For<T>(this int length, Func<T> func)
         {
-            action.NullCheck("The action cannot be null.");
+            func.NullCheck("The action cannot be null.");
 
-            for (; condition?.Invoke(item) ?? true;)
-            {
-                action(item);
-
-                if (loop is { })
-                    item = loop(item);
-            }
-
-            return item;
+            for (int i = 0; i < length; i++)
+                yield return func();
         }
 
         /// <summary>
@@ -438,44 +448,10 @@ namespace KeepCoding
         /// <returns>All instances that <paramref name="func"/> used in an <see cref="IEnumerable{T}"/>.</returns>
         public static IEnumerable<T> For<T>(this int length, Func<int, T> func)
         {
-            var output = new List<T>();
-
             func.NullCheck("The action cannot be null.");
 
             for (int i = 0; i < length; i++)
-                output.Add(func(i));
-
-            return output;
-        }
-
-        /// <summary>
-        /// The <see langword="for"/> statement executes a statement or a block of statements while a specified Boolean expression evaluates to <see langword="true"/>.
-        /// </summary>
-        /// <remarks>
-        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-for-statement"/>
-        /// </remarks>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <typeparam name="T">The type of the declaring variable.</typeparam>
-        /// <param name="item">The item to read and write on.</param>
-        /// <param name="func">The function for each loop.</param>
-        /// <param name="condition">The condition for whether the loop should continue.</param>
-        /// <param name="loop">The action to run after <paramref name="func"/>.</param>
-        /// <returns>All instances that <paramref name="func"/> used in an <see cref="IEnumerable{T}"/>.</returns>
-        public static IEnumerable<T> For<T>(this T item, Func<T, T> func, Predicate<T> condition = null, Func<T, T> loop = null)
-        {
-            var output = new List<T>();
-
-            func.NullCheck("The action cannot be null.");
-
-            for (; condition?.Invoke(item) ?? true;)
-            {
-                output.Add(func(item));
-
-                if (loop is { })
-                    item = loop(item);
-            }
-
-            return output;
+                yield return func(i);
         }
 
         /// <summary>
@@ -743,6 +719,7 @@ namespace KeepCoding
         {
             lock (item)
                 action.NullCheck("The action cannot be null.")(item);
+
             return item;
         }
 
@@ -787,17 +764,18 @@ namespace KeepCoding
         /// <summary>
         /// The <see langword="new"/> operator creates a new instance of a type.
         /// </summary>
-        /// <typeparam name="T">The type of the retrurn.</typeparam>
+        /// <typeparam name="T">The type of the return.</typeparam>
+        /// <param name="_">The discard to get the constructor of.</param>
         /// <returns><c><see langword="new"/> <typeparamref name="T"/>()</c></returns>
-        public static T New<T>(this T a) where T : new() => new T();
+        public static T New<T>(this T _) where T : new() => new T();
 
         /// <summary>
         /// The <see langword="typeof"/> operator obtains the <see cref="Type"/> instance for a type.
         /// </summary>
         /// <typeparam name="T">The type of the item.</typeparam>
-        /// <param name="item">The item to get the <see cref="Type"/> of.</param>
+        /// <param name="_">The discard to get the <see cref="Type"/> of.</param>
         /// <returns><c><see langword="typeof"/>(<typeparamref name="T"/>)</c></returns>
-        public static Type TypeOf<T>(this T item) => typeof(T);
+        public static Type TypeOf<T>(this T _) => typeof(T);
 
         /// <summary>
         /// The <see langword="unchecked"/> keyword is used to suppress overflow-checking for integral-type arithmetic operations and conversions.
@@ -841,6 +819,7 @@ namespace KeepCoding
         {
             using (item)
                 action.NullCheck("The action cannot be null.")(item);
+
             return item;
         }
 
@@ -891,15 +870,11 @@ namespace KeepCoding
         /// <returns>All instances that <paramref name="func"/> used in an <see cref="IEnumerable{T}"/>.</returns>
         public static IEnumerable<T> While<T>(this Func<T> func, Func<bool> condition)
         {
-            var output = new List<T>();
-
             func.NullCheck("The action cannot be null.");
             condition.NullCheck("The condition cannot be null.");
 
             while (condition())
-                output.Add(func());
-
-            return output;
+                yield return func();
         }
 
         /// <summary>
