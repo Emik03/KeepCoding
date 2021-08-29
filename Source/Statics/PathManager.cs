@@ -385,7 +385,7 @@ namespace KeepCoding
 
         private static IEnumerable LoadAssets<T>(string file, string assembly) where T : Object
         {
-            if (!file.NullOrEmptyCheck("You cannot retrieve a path if the file name is null or empty.").Contains('.'))
+            if (!file.NullOrEmptyCheck("You cannot retrieve a path if the file name is null or empty.").Contains("."))
                 file += ".bundle";
 
             string key = $"{assembly.NullOrEmptyCheck("You cannot retrieve a path if the mod assembly is null or empty.")}_{file}";
