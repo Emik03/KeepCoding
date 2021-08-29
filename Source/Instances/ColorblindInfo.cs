@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using KeepCoding.Internal;
 using Newtonsoft.Json;
+using UnityEngine;
 using static System.IO.File;
 using static KeepCoding.PathManager;
 using static Newtonsoft.Json.Formatting;
@@ -15,8 +16,10 @@ namespace KeepCoding
     /// <summary>
     /// Contains information about the colorblind mod's info, this class can be used to deserialize "ColorblindMode.json".
     /// </summary>
-    public sealed class ColorblindInfo
+    public sealed class ColorblindInfo : ILog
     {
+        private static readonly Logger s_logger = new Logger("Colorblind Mode");
+
         /// <summary>
         /// Creates a <see cref="ColorblindInfo"/> while read/writing the file.
         /// </summary>
@@ -81,6 +84,29 @@ namespace KeepCoding
         public Dictionary<string, bool?> Modules { get; private set; } = new Dictionary<string, bool?>();
 
         /// <summary>
+        /// Logs message, but formats it to be compliant with the Logfile Analyzer.
+        /// </summary>
+        /// <exception cref="UnrecognizedValueException"></exception>
+        /// <param name="message">The message to log.</param>
+        /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
+        [CLSCompliant(false)]
+        public void Log<T>(T message, LogType logType = LogType.Log) => s_logger.Log(message, logType);
+
+        /// <summary>
+        /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
+        /// </summary>
+        /// <exception cref="UnrecognizedValueException"></exception>
+        /// <param name="message">The message to log.</param>
+        /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
+        public void Log<T>(T message, params object[] args) => s_logger.Log(message, args);
+
+        /// <summary>
+        /// Logs multiple entries to the console.
+        /// </summary>
+        /// <param name="logs">The array of logs to individual output into the console.</param>
+        public void LogMultiple(params string[] logs) => s_logger.LogMultiple(logs);
+
+        /// <summary>
         /// Determines if both objects are equal.
         /// </summary>
         /// <param name="obj">The comparison.</param>
@@ -115,7 +141,7 @@ namespace KeepCoding
         /// <returns><paramref name="path"/> deserialized as <see cref="ColorblindInfo"/>.</returns>
         public static ColorblindInfo Deserialize(string path, JsonSerializerSettings settings = null) => SuppressIO(() => DeserializeObject<ColorblindInfo>(ReadAllText(path.NullCheck("A \"null\" path cannot be searched.")), settings), new ColorblindInfo(null));
 
-        private static void Error(string moduleId, Exception e) => new Logger("Colorblind Mode", false).Log(@$"Error in ""{moduleId ?? Helper.Null}"": {e.Message} ({e.GetType().FullName}){e.StackTrace}");
+        private void Error(string moduleId, Exception e) => Log($"Error in \"{moduleId ?? Helper.Null}\": {e.Message} ({e.GetType().FullName}){e.StackTrace}");
 
         private void Write(string moduleId) => SuppressIO(() => WriteAllText(File, SerializeObject(this, Indented)), e => Error(moduleId, e));
     }
