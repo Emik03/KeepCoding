@@ -1661,7 +1661,7 @@ namespace KeepCoding
 
             foreach (T elem in source)
             {
-                if (!haveBest || (min ? cmp.Compare(elem, curBest!) < 0 : cmp.Compare(elem, curBest!) > 0))
+                if (!haveBest || (min ? cmp.Compare(elem, curBest) < 0 : cmp.Compare(elem, curBest) > 0))
                 {
                     curBest = elem;
                     haveBest = true;
@@ -1675,7 +1675,7 @@ namespace KeepCoding
         ///     Returns the first element from the input sequence for which the value selector returns the smallest value.</summary>
         /// <exception cref="InvalidOperationException">
         ///     The input collection is empty.</exception>
-        public static T MinElement<T, TValue>(this IEnumerable<T> source, Func<T, TValue> valueSelector) where TValue : IComparable<TValue> => MinMaxElement(source, valueSelector, min: true, doThrow: true)!.Item2;
+        public static T MinElement<T, TValue>(this IEnumerable<T> source, Func<T, TValue> valueSelector) where TValue : IComparable<TValue> => MinMaxElement(source, valueSelector, min: true, doThrow: true).Item2;
 
         /// <summary>
         ///     Returns the first element from the input sequence for which the value selector returns the smallest value, or
@@ -2310,9 +2310,9 @@ namespace KeepCoding
 
                     if (!any)
                         any = true;
-                    else if (keyComparer is { } ? !keyComparer.Equals(prevKey!, key) : !Equals(prevKey, key))
+                    else if (keyComparer is { } ? !keyComparer.Equals(prevKey, key) : !Equals(prevKey, key))
                     {
-                        yield return new ConsecutiveGroup<TItem, TKey>(index - currentList.Count, currentList, prevKey!);
+                        yield return new ConsecutiveGroup<TItem, TKey>(index - currentList.Count, currentList, prevKey);
                         currentList = new List<TItem>();
                     }
 
@@ -2323,7 +2323,7 @@ namespace KeepCoding
                 }
 
                 if (any)
-                    yield return new ConsecutiveGroup<TItem, TKey>(index - currentList.Count, currentList, prevKey!);
+                    yield return new ConsecutiveGroup<TItem, TKey>(index - currentList.Count, currentList, prevKey);
             }
 
             return GroupConsecutiveIterator();
