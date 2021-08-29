@@ -55,7 +55,7 @@ namespace KeepCoding
         /// <exception cref="MissingMethodException"></exception>
         public bool IsColorblind
         {
-            get => IsColorblindSupported ? (Colorblind?.IsModuleEnabled ?? false) : throw new MissingMethodException($"Colorblind is not implemented for this module! You need to override {nameof(OnColorblindChanged)} if you want to implement colorblind support!");
+            get => IsColorblindSupported ? (Colorblind?.IsModuleEnabled ?? false) : throw new MissingMethodException($"Colorblind is not implemented for this module. You need to override {nameof(OnColorblindChanged)} if you want to implement colorblind support.");
             set
             {
                 if (IsColorblind != value)
@@ -112,7 +112,7 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="JsonException"></exception>
         /// <exception cref="NullIteratorException"></exception>
-        public string Version => PathManager.GetModInfo(Name).Version.NullOrEmptyCheck("The version number is empty! To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.");
+        public string Version => PathManager.GetModInfo(Name).Version.NullOrEmptyCheck("The version number is empty. To fix this, go to Keep Talking ModKit -> Configure Mod, then fill in the version number.");
 
         /// <summary>
         /// The ignored modules of this module from the Boss Module Manager.
@@ -453,7 +453,7 @@ namespace KeepCoding
             sounds.NullOrEmptyCheck($"{nameof(sounds)} is null or empty.");
 
             if (Gets<KMAudio>().Length != 1)
-                throw Gets<KMAudio>().IsNullOrEmpty() ? (Exception)new MissingComponentException($"A sound cannot be played when there is no {nameof(KMAudio)} component!") : new InvalidOperationException($"There is more than one {nameof(KMAudio)} component! This is considered a mistake because the game will only add the sounds to one of the {nameof(KMAudio)} components, which gives no certainty on the {nameof(KMAudio)} having sounds assigned!");
+                throw Gets<KMAudio>().IsNullOrEmpty() ? (Exception)new MissingComponentException($"A sound cannot be played when there is no {nameof(KMAudio)} component.") : new InvalidOperationException($"There is more than one {nameof(KMAudio)} component. This is considered a mistake because the game will only add the sounds to one of the {nameof(KMAudio)} components, which gives no certainty on the {nameof(KMAudio)} having sounds assigned.");
 
             sounds = sounds.Where(s =>
             {
@@ -461,7 +461,7 @@ namespace KeepCoding
                     s.Reference = s.Method(Get<KMAudio>())(transform, loop);
 
                 else
-                    Log($"The sound \"{s.Custom}\" was attempted to be played but there is no corresponding {nameof(AudioClip)} found in the bundle! Check for misspellings, ensure that there is a singular {nameof(KMAudio)} component, and make sure the audio clip being played has a mod.bundle tag.", LogType.Error);
+                    Log($"The sound \"{s.Custom}\" was attempted to be played but there is no corresponding {nameof(AudioClip)} found in the bundle. Check for misspellings, ensure that there is a singular {nameof(KMAudio)} component, and make sure the audio clip being played has a mod.bundle tag.", LogType.Error);
 
                 return s.Reference is { };
             }).ToArray();
@@ -511,11 +511,11 @@ namespace KeepCoding
         /// <param name="allowDefault">Whether it should throw an exception if no value is found, or provide the default value instead.</param>
         /// <returns>Every instance of the value from the every instance of the module specified.</returns>
         public static T[] Read<T>(string module, string key, bool allowDefault = false) where T : class =>
-            !s_database.ContainsKey(module) && !IsEditor ? throw new KeyNotFoundException($"The module {module} does not have an entry!") : s_database[module].ConvertAll(d => !d.ContainsKey(key)
-                ? allowDefault || IsEditor ? default(T)! : throw new KeyNotFoundException($"The key {key} could not be found in the module {module}!")
+            !s_database.ContainsKey(module) && !IsEditor ? throw new KeyNotFoundException($"The module {module} does not have an entry.") : s_database[module].ConvertAll(d => !d.ContainsKey(key)
+                ? allowDefault || IsEditor ? default(T) : throw new KeyNotFoundException($"The key {key} could not be found in the module {module}.")
                 : d[key] is T t
                 ? t
-                : throw new UnrecognizedTypeException($"The data type {typeof(T).Name} was expected, but received {d[key]?.GetType().Name ?? "null"} from module {module} with key {key}!"));
+                : throw new UnrecognizedTypeException($"The data type {typeof(T).Name} was expected, but received {d[key]?.GetType().Name ?? "null"} from module {module} with key {key}."));
 
         /// <summary>
         /// Sets up base functionality for the module. If you declare this method yourself, make sure to call <c>base.Awake()</c> to ensure that the module initializes correctly, or use <see cref="OnAwake"/> instead.
@@ -673,7 +673,7 @@ namespace KeepCoding
 
                 IsOutdated = true;
 
-                Self($"The library is out of date! Latest Version: {tagName}, Local Version: {PathManager.Version}. Please press the update button on any {PathManager.AssemblyName.Name}-based {nameof(GameObject)} or download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
+                Self($"The library is out of date. Latest Version: {tagName}, Local Version: {PathManager.Version}. Please press the update button on any {PathManager.AssemblyName.Name}-based {nameof(GameObject)} or download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
             }
         }
 

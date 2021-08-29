@@ -17,7 +17,7 @@ namespace KeepCoding
         /// <summary>
         /// Creates a singleton tuple of default values.
         /// </summary>
-        public Tuple() : this(default!) { }
+        public Tuple() : this(default) { }
 
         /// <summary>
         /// Indexable tuple. Be careful when using this as the compiler will not notice if you are using the wrong type.
@@ -70,7 +70,7 @@ namespace KeepCoding
         /// <summary>
         /// Creates a singleton tuple of default values.
         /// </summary>
-        public Tuple() : this(default!, default!) { }
+        public Tuple() : this(default, default) { }
 
         /// <summary>
         /// Indexable tuple. Be careful when using this as the compiler will not notice if you are using the wrong type.
@@ -129,7 +129,7 @@ namespace KeepCoding
         /// <summary>
         /// Creates a singleton tuple of default values.
         /// </summary>
-        public Tuple() : this(default!, default!, default!) { }
+        public Tuple() : this(default, default, default) { }
 
         /// <summary>
         /// Indexable tuple. Be careful when using this as the compiler will not notice if you are using the wrong type.
@@ -190,7 +190,7 @@ namespace KeepCoding
         /// <summary>
         /// Creates a singleton tuple of default values.
         /// </summary>
-        public Tuple() : this(default!, default!, default!, default!) { }
+        public Tuple() : this(default, default, default, default) { }
 
         /// <summary>
         /// Indexable tuple. Be careful when using this as the compiler will not notice if you are using the wrong type.

@@ -495,7 +495,7 @@ namespace KeepCoding
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
 
-            value = default!;
+            value = default;
 
             return source.TryGetValue(key1, out Dictionary<TKey2, TValue> dic) && dic.TryGetValue(key2, out value);
         }
@@ -1061,7 +1061,7 @@ namespace KeepCoding
                 int CompareForStableSort(T elem1, int elem1Index, T elem2, int elem2Index)
                 {
                     int r = comparer.Compare(elem1, elem2);
-                    return !(r is 0) ? r : elem1Index.CompareTo(elem2Index);
+                    return r is 0 ? elem1Index.CompareTo(elem2Index) : r;
                 }
 
                 while (left < right)
@@ -1478,7 +1478,7 @@ namespace KeepCoding
         ///     A default value to return in case the sequence is empty.</param>
         /// <returns>
         ///     The minimum value in the sequence, or the specified default value if the sequence is empty.</returns>
-        public static TSource MinOrDefault<TSource>(this IEnumerable<TSource> source, TSource @default = default!)
+        public static TSource MinOrDefault<TSource>(this IEnumerable<TSource> source, TSource @default = default)
         {
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
@@ -1503,7 +1503,7 @@ namespace KeepCoding
         ///     A default value to return in case the sequence is empty.</param>
         /// <returns>
         ///     The minimum value in the sequence, or the specified default value if the sequence is empty.</returns>
-        public static TResult MinOrDefault<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector, TResult @default = default!)
+        public static TResult MinOrDefault<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector, TResult @default = default)
         {
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
@@ -1526,7 +1526,7 @@ namespace KeepCoding
         ///     A default value to return in case the sequence is empty.</param>
         /// <returns>
         ///     The maximum value in the sequence, or the specified default value if the sequence is empty.</returns>
-        public static TSource MaxOrDefault<TSource>(this IEnumerable<TSource> source, TSource @default = default!)
+        public static TSource MaxOrDefault<TSource>(this IEnumerable<TSource> source, TSource @default = default)
         {
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
@@ -1551,7 +1551,7 @@ namespace KeepCoding
         ///     A default value to return in case the sequence is empty.</param>
         /// <returns>
         ///     The maximum value in the sequence, or the specified default value if the sequence is empty.</returns>
-        public static TResult MaxOrDefault<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector, TResult @default = default!)
+        public static TResult MaxOrDefault<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector, TResult @default = default)
         {
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
@@ -1668,7 +1668,7 @@ namespace KeepCoding
                 }
             }
 
-            return curBest!.ToTuple(haveBest);
+            return curBest.ToTuple(haveBest);
         }
 
         /// <summary>
@@ -1691,7 +1691,7 @@ namespace KeepCoding
         /// <exception cref="InvalidOperationException">
         ///     The input collection is empty.</exception>
         public static T MaxElement<T, TValue>(this IEnumerable<T> source, Func<T, TValue> valueSelector) where TValue : IComparable<TValue> =>
-            MinMaxElement(source, valueSelector, min: false, doThrow: true)!.Item2;
+            MinMaxElement(source, valueSelector, min: false, doThrow: true).Item2;
 
         /// <summary>
         ///     Returns the first element from the input sequence for which the value selector returns the largest value, or a
@@ -1708,7 +1708,7 @@ namespace KeepCoding
         /// <exception cref="InvalidOperationException">
         ///     The input collection is empty.</exception>
         public static int MinIndex<T, TValue>(this IEnumerable<T> source, Func<T, TValue> valueSelector) where TValue : IComparable<TValue> =>
-            MinMaxElement(source, valueSelector, min: true, doThrow: true)!.Item1;
+            MinMaxElement(source, valueSelector, min: true, doThrow: true).Item1;
 
         /// <summary>
         ///     Returns the index of the first element from the input sequence for which the value selector returns the
@@ -1722,7 +1722,7 @@ namespace KeepCoding
         /// <exception cref="InvalidOperationException">
         ///     The input collection is empty.</exception>
         public static int MaxIndex<T, TValue>(this IEnumerable<T> source, Func<T, TValue> valueSelector) where TValue : IComparable<TValue> =>
-            MinMaxElement(source, valueSelector, min: false, doThrow: true)!.Item1;
+            MinMaxElement(source, valueSelector, min: false, doThrow: true).Item1;
 
         /// <summary>
         ///     Returns the index of the first element from the input sequence for which the value selector returns the

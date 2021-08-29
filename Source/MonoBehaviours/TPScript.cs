@@ -76,7 +76,7 @@ namespace KeepCoding
         public string Help { get => TwitchHelpMessage; set => TwitchHelpMessage = value; }
         [SerializeField]
 #pragma warning disable IDE1006 // Naming Styles
-        private string TwitchHelpMessage = default!;
+        private string TwitchHelpMessage;
 #pragma warning restore IDE1006 // Naming Styles
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace KeepCoding
         public string Manual { get => TwitchManualCode; set => TwitchManualCode = value; }
         [SerializeField]
 #pragma warning disable IDE1006 // Naming Styles
-        private string TwitchManualCode = default!;
+        private string TwitchManualCode;
 #pragma warning restore IDE1006 // Naming Styles
 
         /// <summary>
@@ -97,14 +97,14 @@ namespace KeepCoding
         public List<KMBombModule> Abandons { get => TwitchAbandonModule; set => TwitchAbandonModule = value; }
         [SerializeField]
 #pragma warning disable IDE1006 // Naming Styles
-        private List<KMBombModule> TwitchAbandonModule = default!;
+        private List<KMBombModule> TwitchAbandonModule;
 #pragma warning restore IDE1006 // Naming Styles
 
         /// <summary>
         /// The instance of the module.
         /// </summary>
-        public TModule Module => _module ??= GetComponent<TModule>() ?? throw new MissingComponentException("TPScript cannot find your ModuleScript. Make sure that both script files are in the same game object!");
-        private TModule _module = default!;
+        public TModule Module => _module ??= GetComponent<TModule>() ?? throw new MissingComponentException("TPScript cannot find your ModuleScript. Make sure that both script files are in the same game object.");
+        private TModule _module;
 
         /// <summary>
         /// Yield return this to indicate automatically solving the module, as if it threw an exception while solving.
@@ -325,7 +325,7 @@ namespace KeepCoding
 
             yield return indices.All(i => i.IsBetween(0, selectables.GetUpperBound()))
                 ? OnInteractSequence(indices.ConvertAll(i => selectables[i]), wait)
-                : throw new IndexOutOfRangeException("The indices are out of range!");
+                : throw new IndexOutOfRangeException("The indices are out of range.");
         }
 
         /// <summary>

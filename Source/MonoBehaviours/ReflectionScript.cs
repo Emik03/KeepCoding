@@ -40,12 +40,12 @@ namespace KeepCoding.Internal
 
         [SerializeField]
 #pragma warning disable 649, IDE0044 // Add readonly modifier
-        private Methods _method = default!;
+        private Methods _method;
 #pragma warning restore 649, IDE0044 // Add readonly modifier
 
         [SerializeField]
 #pragma warning disable 649, IDE0044 // Add readonly modifier
-        private string _variable = default!;
+        private string _variable;
 #pragma warning restore 649, IDE0044 // Add readonly modifier
 
         [SerializeField]
@@ -121,13 +121,13 @@ namespace KeepCoding.Internal
             if (isEditor)
                 return;
 
-            Self($"A {nameof(ReflectionScript)} showed up in-game! Automatically deleting component...");
+            Self($"A {nameof(ReflectionScript)} showed up in-game. Automatically deleting component...");
             Destroy(this);
         }
 
         private void FixedUpdate()
         {
-            IEnumerable<object> objects = _members.Select(o => o.Item2!._value);
+            IEnumerable<object> objects = _members.Select(o => o.Item2._value);
 
             Tuple<List<object>, List<object>> split = objects.SplitBy(o => o is Object);
 
@@ -165,7 +165,7 @@ namespace KeepCoding.Internal
                     GetProperty(type, name, current._value),
                 };
 
-                current = vs.All(o => o is null) ? null : new NullableObject(vs.First(o => o is { })!._value);
+                current = vs.All(o => o is null) ? null : new NullableObject(vs.First(o => o is { })._value);
             }
 
             return current;

@@ -704,7 +704,7 @@ namespace KeepCoding
         /// <returns><c><paramref name="obj"/> <see langword="is"/> <typeparamref name="T"/> item</c></returns>
         public static bool Is<T>(this object obj, Action<T> action, Action otherwise = null) where T : class
         {
-            action.NullCheck("The action cannot be null!");
+            action.NullCheck("The action cannot be null.");
 
             if (obj is T t)
             {

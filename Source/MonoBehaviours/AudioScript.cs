@@ -32,9 +32,9 @@ public sealed class AudioScript : CacheableBehaviour
     /// The audio source field.
     /// </summary>
     [SerializeField]
-    private AudioSource _audioSource = default!;
+    private AudioSource _audioSource;
 
-    private Routine<float, float> _fade = default!;
+    private Routine<float, float> _fade;
 
     /// <summary>
     /// Determines if the <see cref="AudioSource"/> is muted.

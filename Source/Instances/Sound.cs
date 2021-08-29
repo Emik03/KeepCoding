@@ -16,14 +16,14 @@ namespace KeepCoding
         /// An instance of Sound where <see cref="Custom"/> is defined.
         /// </summary>
         /// <param name="sound">The sound to insert.</param>
-        public Sound(string sound) => Custom = sound.NullCheck("The string provided is null!");
+        public Sound(string sound) => Custom = sound.NullCheck("The string provided is null.");
 
         /// <summary>
         /// An instance of Sound where <see cref="Custom"/> is defined.
         /// </summary>
         /// <param name="sound">The sound to insert.</param>
         [CLSCompliant(false)]
-        public Sound(AudioClip sound) => Custom = sound.NullCheck("The AudioClip provided is null!").name;
+        public Sound(AudioClip sound) => Custom = sound.NullCheck("The AudioClip provided is null.").name;
 
         /// <summary>
         /// An instance of sound where <see cref="Game"/> is defined.
@@ -323,6 +323,6 @@ namespace KeepCoding
         public Func<Transform, bool, KMAudioRef> Method(KMAudio audio) =>
             Custom is { } ? ((t, b) => KeyHelper.Catch<NullReferenceException, KMAudioRef>(() => audio.HandlePlaySoundAtTransformWithRef?.Invoke(Custom, t, b), e => null)()) :
             Game is { } ? (Func<Transform, bool, KMAudioRef>)((t, b) => b ? throw new ArgumentException("The game doesn't support looping in-game sounds.") : KeyHelper.Catch<NullReferenceException, KMAudioRef>(() => audio.HandlePlayGameSoundAtTransformWithRef?.Invoke(Game.Value, t), e => null)()) :
-            throw new UnrecognizedValueException($"{this}'s properties {nameof(Custom)} and {nameof(Game)} are both null!");
+            throw new UnrecognizedValueException($"{this}'s properties {nameof(Custom)} and {nameof(Game)} are both null.");
     }
 }

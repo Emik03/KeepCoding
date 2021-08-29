@@ -154,14 +154,14 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="NullReferenceException"></exception>
         [CLSCompliant(false)]
-        public KMBombModule Solvable => _bombModule.NullCheck("KMBombModule is null, yet you are trying to access it.")!;
+        public KMBombModule Solvable => _bombModule.NullCheck("KMBombModule is null, yet you are trying to access it.");
 
         /// <summary>
         /// Returns <see cref="KMNeedyModule"/>, or if null, throws a <see cref="NullReferenceException"/>.
         /// </summary>
         /// <exception cref="NullReferenceException"></exception>
         [CLSCompliant(false)]
-        public KMNeedyModule Needy => _needyModule.NullCheck("KMNeedyModule is null, yet you are trying to access it.")!;
+        public KMNeedyModule Needy => _needyModule.NullCheck("KMNeedyModule is null, yet you are trying to access it.");
 
         /// <summary>
         /// Returns <see cref="KMBombModule"/>, or if null, <see cref="KMNeedyModule"/>.

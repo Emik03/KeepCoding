@@ -33,7 +33,7 @@ namespace KeepCoding
         /// <param name="showInLfa">Determines whether to format such that the Logfile Analyzer would use.</param>
         public Logger(string name, bool showId = false, bool showInLfa = true)
         {
-            Name = name.NullCheck("The name cannot be null!")!;
+            Name = name.NullCheck("The name cannot be null.");
 
             if (Name == s_selfName)
                 throw new FormatException($"The name {s_selfName} is reserved for the library.");

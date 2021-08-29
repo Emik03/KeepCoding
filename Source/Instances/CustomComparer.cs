@@ -81,7 +81,7 @@ namespace KeepCoding
             return new CustomComparer<T>((a, b) =>
             {
                 int result = Compare(a, b);
-                return result != 0 ? result : comparer.Compare(selector(a), selector(b));
+                return result is 0 ? comparer.Compare(selector(a), selector(b)) : result;
             });
         }
 
@@ -93,7 +93,7 @@ namespace KeepCoding
         public CustomComparer<T> ThenBy<TBy>(Func<T, TBy> selector, Comparison<TBy> comparison) => selector is null ? throw new ArgumentNullException(nameof(selector)) : new CustomComparer<T>((a, b) =>
         {
             int result = Compare(a, b);
-            return !(result is 0) ? result : comparison(selector(a), selector(b));
+            return result is 0 ? comparison(selector(a), selector(b)) : result;
         });
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace KeepCoding
             return new CustomComparer<T>((a, b) =>
             {
                 int result = Compare(a, b);
-                return result != 0 ? result : comparer.Compare(selector(a), selector(b));
+                return result is 0 ? comparer.Compare(selector(a), selector(b)) : result;
             });
         }
     }

@@ -852,7 +852,7 @@ namespace KeepCoding
             {
                 int j = randomizer(i, buffer.Count);
 
-                yield return j.IsBetween(0, buffer.GetUpperBound()) ? buffer[j] : throw new IndexOutOfRangeException($"The method provided returned a number that was out of range! Range: 0-{buffer.GetUpperBound()}, returned value: {j}.");
+                yield return j.IsBetween(0, buffer.GetUpperBound()) ? buffer[j] : throw new IndexOutOfRangeException($"The method provided returned a number that was out of range. Range: 0-{buffer.GetUpperBound()}, returned value: {j}.");
 
                 buffer[j] = buffer[i];
             }
@@ -954,10 +954,10 @@ namespace KeepCoding
         /// <returns>An <see cref="IEnumerable{T}"/> that contains merged elements of two input sequences.</returns>
         public static IEnumerable<TResult> Zip<T1, T2, TResult>(this IEnumerable<T1> first, IEnumerable<T2> second, Func<T1, T2, TResult> selector)
         {
-            selector.NullCheck("The selector cannot be null!");
+            selector.NullCheck("The selector cannot be null.");
 
-            IEnumerator<T1> e1 = first.NullCheck("The first enumerator cannot be null!").GetEnumerator();
-            IEnumerator<T2> e2 = second.NullCheck("The second enumerator cannot be null!").GetEnumerator();
+            IEnumerator<T1> e1 = first.NullCheck("The first enumerator cannot be null.").GetEnumerator();
+            IEnumerator<T2> e2 = second.NullCheck("The second enumerator cannot be null.").GetEnumerator();
 
             while (e1.MoveNext() & e2.MoveNext())
                 yield return selector(e1.Current, e2.Current);
@@ -1057,7 +1057,7 @@ namespace KeepCoding
         /// <typeparam name="T">The type of <paramref name="source"/> and <see langword="return"/>.</typeparam>
         /// <param name="source">The collection to turn into a <see cref="ReadOnlyCollection{T}"/>.</param>
         /// <returns>A <see cref="ReadOnlyCollection{T}"/> with values of <paramref name="source"/>.</returns>
-        public static ReadOnlyCollection<T> ToReadOnly<T>(this IEnumerable<T> source) => source.NullCheck("The source cannot be null!").ToList().AsReadOnly();
+        public static ReadOnlyCollection<T> ToReadOnly<T>(this IEnumerable<T> source) => source.NullCheck("The source cannot be null.").ToList().AsReadOnly();
 
         /// <summary>
         /// Splits an <see cref="IEnumerable"/> in two based on a method provided.
