@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using KeepCoding.Internal;
 using Newtonsoft.Json;
-using UnityEngine;
-using static System.IO.File;
-using static KeepCoding.PathManager;
-using static Newtonsoft.Json.Formatting;
-using static Newtonsoft.Json.JsonConvert;
 using static UnityEngine.Application;
 
 namespace KeepCoding
@@ -16,44 +10,38 @@ namespace KeepCoding
     /// <summary>
     /// Contains information about the colorblind mod's info, this class can be used to deserialize "ColorblindMode.json".
     /// </summary>
-    public sealed class ColorblindInfo : ILog
+    public sealed class ColorblindInfo : ModConfig<ColorblindInfo>
     {
-        private static readonly Logger s_logger = new Logger("Colorblind Mode");
+        /// <summary>
+        /// Creates a <see cref="ColorblindInfo"/> without read/writing the file.
+        /// </summary>
+        public ColorblindInfo() : base("Colorblind") { }
 
         /// <summary>
         /// Creates a <see cref="ColorblindInfo"/> while read/writing the file.
         /// </summary>
         /// <param name="moduleId">The module's id to grab information from.</param>
-        public ColorblindInfo(string moduleId = null)
+        public ColorblindInfo(string moduleId = null) : this()
         {
             if (isEditor || moduleId is null)
                 return;
 
-            if (!Exists(File))
-            {
-                Write(moduleId);
-                return;
-            }
+            ColorblindInfo info = Read();
 
-            SuppressIO(() =>
-            {
-                ColorblindInfo info = Deserialize(File);
-
-                IsEnabled = info.IsEnabled;
-                Modules = info.Modules;
-            }, e => Error(moduleId, e));
+            IsEnabled = info.IsEnabled;
+            Modules = info.Modules;
 
             if (!Modules.TryGetValue(moduleId, out bool? isEnabled))
                 Modules[moduleId] = null;
 
-            Write(moduleId);
+            Write(this);
 
             IsModuleEnabled = isEnabled ?? IsEnabled;
         }
 
         [JsonConstructor]
 #pragma warning disable IDE0051 // Remove unused private members
-        private ColorblindInfo(bool isEnabled, Dictionary<string, bool?> modules)
+        private ColorblindInfo(bool isEnabled, Dictionary<string, bool?> modules) : this()
 #pragma warning restore IDE0051 // Remove unused private members
         {
             IsEnabled = isEnabled;
@@ -73,38 +61,10 @@ namespace KeepCoding
         public bool IsModuleEnabled { get; set; }
 
         /// <summary>
-        /// The directory of the mod settings file.
-        /// </summary>
-        public static string File { get; } = CombineMultiple(persistentDataPath, "Modsettings", "ColorblindMode.json");
-
-        /// <summary>
         /// Contains module ids and their colorblind states.
         /// </summary>
         [JsonProperty("EnabledModules")]
         public Dictionary<string, bool?> Modules { get; private set; } = new Dictionary<string, bool?>();
-
-        /// <summary>
-        /// Logs message, but formats it to be compliant with the Logfile Analyzer.
-        /// </summary>
-        /// <exception cref="UnrecognizedValueException"></exception>
-        /// <param name="message">The message to log.</param>
-        /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
-        [CLSCompliant(false)]
-        public void Log<T>(T message, LogType logType = LogType.Log) => s_logger.Log(message, logType);
-
-        /// <summary>
-        /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
-        /// </summary>
-        /// <exception cref="UnrecognizedValueException"></exception>
-        /// <param name="message">The message to log.</param>
-        /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
-        public void Log<T>(T message, params object[] args) => s_logger.Log(message, args);
-
-        /// <summary>
-        /// Logs multiple entries to the console.
-        /// </summary>
-        /// <param name="logs">The array of logs to individual output into the console.</param>
-        public void LogMultiple(params string[] logs) => s_logger.LogMultiple(logs);
 
         /// <summary>
         /// Determines if both objects are equal.
@@ -130,19 +90,5 @@ namespace KeepCoding
         /// </summary>
         /// <returns><see cref="Modules"/> unwrapped with <see cref="Helper.Stringify{T}(T, StringifyFormat)"/>.</returns>
         public override string ToString() => Modules.Stringify();
-
-        /// <summary>
-        /// Deserializes a ColorblindMode.json file. An <see cref="IOException"/> will make it return a new <see cref="ColorblindInfo"/> instance with no arguments.
-        /// </summary>
-        /// <exception cref="JsonException"></exception>
-        /// <exception cref="NullIteratorException"></exception>
-        /// <param name="path">The path of the file to deserialize.</param>
-        /// <param name="settings">The settings for the serialization.</param>
-        /// <returns><paramref name="path"/> deserialized as <see cref="ColorblindInfo"/>.</returns>
-        public static ColorblindInfo Deserialize(string path, JsonSerializerSettings settings = null) => SuppressIO(() => DeserializeObject<ColorblindInfo>(ReadAllText(path.NullCheck("A \"null\" path cannot be searched.")), settings), new ColorblindInfo(null));
-
-        private void Error(string moduleId, Exception e) => Log($"Error in \"{moduleId ?? Helper.Null}\": {e.Message} ({e.GetType().FullName}){e.StackTrace}");
-
-        private void Write(string moduleId) => SuppressIO(() => WriteAllText(File, SerializeObject(this, Indented)), e => Error(moduleId, e));
     }
 }
