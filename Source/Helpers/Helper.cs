@@ -1211,7 +1211,7 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         /// <param name="source">The <see cref="Array"/> to check for null and empty.</param>
         /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
-        public static T NullOrEmptyCheck<T>(this T? source, string message = null) where T : struct, IEnumerable => source.NullCheck(message ?? $"While asserting for null or empty, the variable ended up being null.").GetEnumerator().MoveNext() ? source.Value : throw new EmptyIteratorException(message ?? $"While asserting for null or empty, the variable ended up being empty.");
+        public static T NullOrEmptyCheck<T>(this T? source, string message = null) where T : struct, IEnumerable => source.NullCheck(message ?? $"While asserting for null or empty, the variable ended up being null.").GetEnumerator().MoveNext() ? source!.Value : throw new EmptyIteratorException(message ?? $"While asserting for null or empty, the variable ended up being empty.");
 
         /// <summary>
         /// Invokes a method of <typeparamref name="T"/> to <typeparamref name="TResult"/> and then returns the argument provided.
