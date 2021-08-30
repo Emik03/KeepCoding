@@ -3,7 +3,8 @@
 ## Helper.Append&lt;T&gt;(T[], T) Method
 Appends the element provided to the array.  
 ```csharp
-public static T[] Append<T>(this T[] array, T item);
+public static T[] Append<T>(this T[] array, T item)
+    where T : notnull;
 ```
 #### Type parameters
 <a name='KeepCoding.Helper.Append.T.(T...T).T'></a>

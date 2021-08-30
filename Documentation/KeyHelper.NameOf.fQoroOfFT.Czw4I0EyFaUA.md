@@ -17,7 +17,7 @@ The expression to get the name from.
   
 #### Returns
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
-The name of the expression.
+The name of the variable inside [expression](KeyHelper.NameOf.fQoroOfFT.Czw4I0EyFaUA.md#KeepCoding.KeyHelper.NameOf.T.(System.Linq.Expressions.Expression.System.Func.T..).expression 'KeepCoding.KeyHelper.NameOf&lt;T&gt;(System.Linq.Expressions.Expression&lt;System.Func&lt;T&gt;&gt;).expression').
 ### Remarks
 #### See Also
 - [https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/nameof](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/nameof 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/nameof')

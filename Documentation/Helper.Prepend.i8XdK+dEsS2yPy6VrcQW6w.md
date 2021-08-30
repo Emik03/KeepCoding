@@ -3,7 +3,8 @@
 ## Helper.Prepend&lt;T&gt;(T[], T) Method
 Prepends the element provided to the array.  
 ```csharp
-public static T[] Prepend<T>(this T[] array, T item);
+public static T[] Prepend<T>(this T[] array, T item)
+    where T : notnull;
 ```
 #### Type parameters
 <a name='KeepCoding.Helper.Prepend.T.(T...T).T'></a>

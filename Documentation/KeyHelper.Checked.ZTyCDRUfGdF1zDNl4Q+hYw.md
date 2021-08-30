@@ -16,7 +16,7 @@ The function to run inside a [checked](https://docs.microsoft.com/en-us/dotnet/c
   
 #### Returns
 [T](KeyHelper.Checked.ZTyCDRUfGdF1zDNl4Q+hYw.md#KeepCoding.KeyHelper.Checked.T.(System.Func.T.).T 'KeepCoding.KeyHelper.Checked&lt;T&gt;(System.Func&lt;T&gt;).T')  
-The output of [func](KeyHelper.Checked.ZTyCDRUfGdF1zDNl4Q+hYw.md#KeepCoding.KeyHelper.Checked.T.(System.Func.T.).func 'KeepCoding.KeyHelper.Checked&lt;T&gt;(System.Func&lt;T&gt;).func').
+`(())`
 #### Exceptions
 [System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException')  
 ### Remarks

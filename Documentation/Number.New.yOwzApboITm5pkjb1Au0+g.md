@@ -3,7 +3,8 @@
 ## Number.New&lt;T&gt;(T) Method
 Creates a new [Number](Number.md 'KeepCoding.Number') with the inner type being the type specified.  
 ```csharp
-public static KeepCoding.Number New<T>(T _=default(T));
+public static KeepCoding.Number New<T>(T _=default(T))
+    where T : struct;
 ```
 #### Type parameters
 <a name='KeepCoding.Number.New.T.(T).T'></a>

@@ -22,7 +22,7 @@ The action to use [item](KeyHelper.Using.rA5ovekbp4qEojtc2N2APQ.md#KeepCoding.Ke
   
 #### Returns
 [T](KeyHelper.Using.rA5ovekbp4qEojtc2N2APQ.md#KeepCoding.KeyHelper.Using.T.(T.System.Action.T.).T 'KeepCoding.KeyHelper.Using&lt;T&gt;(T, System.Action&lt;T&gt;).T')  
-[item](KeyHelper.Using.rA5ovekbp4qEojtc2N2APQ.md#KeepCoding.KeyHelper.Using.T.(T.System.Action.T.).item 'KeepCoding.KeyHelper.Using&lt;T&gt;(T, System.Action&lt;T&gt;).item')
+` () ()`
 #### Exceptions
 [System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException')  
 ### Remarks

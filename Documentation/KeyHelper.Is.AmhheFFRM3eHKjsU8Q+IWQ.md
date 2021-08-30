@@ -22,7 +22,7 @@ The object casted into the type.
   
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
-[obj](KeyHelper.Is.AmhheFFRM3eHKjsU8Q+IWQ.md#KeepCoding.KeyHelper.Is.T.(object.T).obj 'KeepCoding.KeyHelper.Is&lt;T&gt;(object, T).obj')[is](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/is 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/is')[T](KeyHelper.Is.AmhheFFRM3eHKjsU8Q+IWQ.md#KeepCoding.KeyHelper.Is.T.(object.T).T 'KeepCoding.KeyHelper.Is&lt;T&gt;(object, T).T')[item](KeyHelper.Is.AmhheFFRM3eHKjsU8Q+IWQ.md#KeepCoding.KeyHelper.Is.T.(object.T).item 'KeepCoding.KeyHelper.Is&lt;T&gt;(object, T).item')
+``
 ### Remarks
 #### See Also
 - [https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/is](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/is 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/is')

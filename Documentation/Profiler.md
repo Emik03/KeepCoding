@@ -27,5 +27,6 @@ Implements [System.IDisposable](https://docs.microsoft.com/en-us/dotnet/api/Syst
 
 | Methods | |
 | :--- | :--- |
+| [~Profiler()](Profiler.~Profiler().md 'KeepCoding.Profiler.~Profiler()') | Stops the timer and runs the action.<br/> |
 | [Dispose()](Profiler.Dispose().md 'KeepCoding.Profiler.Dispose()') | Stops the timer and runs the action.<br/> |
 | [Stop()](Profiler.Stop().md 'KeepCoding.Profiler.Stop()') | Stops the timer and returns the time elapsed.<br/> |

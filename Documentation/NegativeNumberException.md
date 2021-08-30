@@ -3,10 +3,10 @@
 ## NegativeNumberException Class
 An exception thrown when the number is unexpectedly negative.  
 ```csharp
-public sealed class NegativeNumberException : System.Exception
+public sealed class NegativeNumberException : KeepCoding.Internal.KeepCodingException
 ```
 
-Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [System.Exception](https://docs.microsoft.com/en-us/dotnet/api/System.Exception 'System.Exception') &#129106; NegativeNumberException  
+Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [System.Exception](https://docs.microsoft.com/en-us/dotnet/api/System.Exception 'System.Exception') &#129106; [KeepCodingException](KeepCodingException.md 'KeepCoding.Internal.KeepCodingException') &#129106; NegativeNumberException  
 
 | Constructors | |
 | :--- | :--- |

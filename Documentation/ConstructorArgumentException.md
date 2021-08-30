@@ -3,10 +3,10 @@
 ## ConstructorArgumentException Class
 An exception thrown when the constructor throws an exception due to a bad argument.  
 ```csharp
-public sealed class ConstructorArgumentException : System.Exception
+public sealed class ConstructorArgumentException : KeepCoding.Internal.KeepCodingException
 ```
 
-Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [System.Exception](https://docs.microsoft.com/en-us/dotnet/api/System.Exception 'System.Exception') &#129106; ConstructorArgumentException  
+Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [System.Exception](https://docs.microsoft.com/en-us/dotnet/api/System.Exception 'System.Exception') &#129106; [KeepCodingException](KeepCodingException.md 'KeepCoding.Internal.KeepCodingException') &#129106; ConstructorArgumentException  
 
 | Constructors | |
 | :--- | :--- |

@@ -17,7 +17,7 @@ The object to cast.
   
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
-[obj](KeyHelper.Is.6msvpk+ae7DiFnRv5c.g.w.md#KeepCoding.KeyHelper.Is.T.(object).obj 'KeepCoding.KeyHelper.Is&lt;T&gt;(object).obj')[is](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/is 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/is')[T](KeyHelper.Is.6msvpk+ae7DiFnRv5c.g.w.md#KeepCoding.KeyHelper.Is.T.(object).T 'KeepCoding.KeyHelper.Is&lt;T&gt;(object).T')
+``
 ### Remarks
 #### See Also
 - [https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/is](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/is 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/is')

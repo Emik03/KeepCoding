@@ -18,7 +18,7 @@ The object to cast into.
   
 #### Returns
 [T](KeyHelper.As.y9UYP1eMHEdhlkfiRCk8rA.md#KeepCoding.KeyHelper.As.T.(object).T 'KeepCoding.KeyHelper.As&lt;T&gt;(object).T')  
-[obj](KeyHelper.As.y9UYP1eMHEdhlkfiRCk8rA.md#KeepCoding.KeyHelper.As.T.(object).obj 'KeepCoding.KeyHelper.As&lt;T&gt;(object).obj')[as](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/as 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/as')[T](KeyHelper.As.y9UYP1eMHEdhlkfiRCk8rA.md#KeepCoding.KeyHelper.As.T.(object).T 'KeepCoding.KeyHelper.As&lt;T&gt;(object).T')
+``
 ### Remarks
 #### See Also
 - [https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/type-testing-and-cast#as-operator](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/type-testing-and-cast#as-operator 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/type-testing-and-cast#as-operator')

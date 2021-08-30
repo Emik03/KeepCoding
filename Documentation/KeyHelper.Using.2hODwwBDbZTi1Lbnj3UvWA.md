@@ -22,7 +22,7 @@ The function to use [item](KeyHelper.Using.2hODwwBDbZTi1Lbnj3UvWA.md#KeepCoding.
   
 #### Returns
 [T](KeyHelper.Using.2hODwwBDbZTi1Lbnj3UvWA.md#KeepCoding.KeyHelper.Using.T.(T.System.Func.T.T.).T 'KeepCoding.KeyHelper.Using&lt;T&gt;(T, System.Func&lt;T,T&gt;).T')  
-The output of [func](KeyHelper.Using.2hODwwBDbZTi1Lbnj3UvWA.md#KeepCoding.KeyHelper.Using.T.(T.System.Func.T.T.).func 'KeepCoding.KeyHelper.Using&lt;T&gt;(T, System.Func&lt;T,T&gt;).func').
+` () ()`
 #### Exceptions
 [System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException')  
 ### Remarks

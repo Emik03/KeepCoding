@@ -16,7 +16,7 @@ The function to ignore overflow-checking.
   
 #### Returns
 [T](KeyHelper.Unchecked.De6aO.WFEe8kqptXkZ9AOg.md#KeepCoding.KeyHelper.Unchecked.T.(System.Func.T.).T 'KeepCoding.KeyHelper.Unchecked&lt;T&gt;(System.Func&lt;T&gt;).T')  
-The output of [func](KeyHelper.Unchecked.De6aO.WFEe8kqptXkZ9AOg.md#KeepCoding.KeyHelper.Unchecked.T.(System.Func.T.).func 'KeepCoding.KeyHelper.Unchecked&lt;T&gt;(System.Func&lt;T&gt;).func').
+`(())`
 #### Exceptions
 [System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException')  
 ### Remarks

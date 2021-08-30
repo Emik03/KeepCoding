@@ -4,7 +4,7 @@
 Counts the number of members in an enum.  
 ```csharp
 public static int MemberCount<T>()
-    where T : struct, System.Enum, System.IConvertible;
+    where T : struct, System.Enum;
 ```
 #### Type parameters
 <a name='KeepCoding.Helper.MemberCount.T.().T'></a>

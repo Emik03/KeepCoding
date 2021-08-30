@@ -1,5 +1,5 @@
 #### [KeepCoding](index.md 'index')
-### [](.md '').[AudioScript](AudioScript.md 'AudioScript')
+### [KeepCoding](KeepCoding.md 'KeepCoding').[AudioScript](AudioScript.md 'KeepCoding.AudioScript')
 ## AudioScript._isSFX Field
 Setting this value to true will make the volume relative to [MusicVolume](Game.PlayerSettings.MusicVolume.md 'KeepCoding.Game.PlayerSettings.MusicVolume'), and [SFXVolume](Game.PlayerSettings.SFXVolume.md 'KeepCoding.Game.PlayerSettings.SFXVolume') otherwise.  
 ```csharp

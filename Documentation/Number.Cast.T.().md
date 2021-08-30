@@ -3,7 +3,8 @@
 ## Number.Cast&lt;T&gt;() Method
 Casts the [Number](Number.md 'KeepCoding.Number') into the numeric type. Unlike implicit casting, the value will trim the bytes that cannot occupy the new datatype, such as a number being too large or decimals.  
 ```csharp
-public T Cast<T>();
+public T Cast<T>()
+    where T : struct;
 ```
 #### Type parameters
 <a name='KeepCoding.Number.Cast.T.().T'></a>

@@ -3,10 +3,10 @@
 ## UnrecognizedValueException Class
 An exception thrown for when the value isn't handled.  
 ```csharp
-public sealed class UnrecognizedValueException : System.Exception
+public sealed class UnrecognizedValueException : KeepCoding.Internal.KeepCodingException
 ```
 
-Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [System.Exception](https://docs.microsoft.com/en-us/dotnet/api/System.Exception 'System.Exception') &#129106; UnrecognizedValueException  
+Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [System.Exception](https://docs.microsoft.com/en-us/dotnet/api/System.Exception 'System.Exception') &#129106; [KeepCodingException](KeepCodingException.md 'KeepCoding.Internal.KeepCodingException') &#129106; UnrecognizedValueException  
 
 | Constructors | |
 | :--- | :--- |

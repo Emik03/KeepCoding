@@ -3,7 +3,7 @@
 ## QuotientRemainder.Remainder Property
 The remainder (result of the modulo).  
 ```csharp
-public KeepCoding.BigInt Remainder { get; }
+public readonly KeepCoding.BigInt Remainder { get; }
 ```
 #### Property Value
 [BigInt](BigInt.md 'KeepCoding.BigInt')

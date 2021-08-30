@@ -4,8 +4,8 @@
 Provides the base [class](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/class') for the multiple routine types.  
 ```csharp
 public abstract class RoutineBase :
-System.Collections.IEnumerable,
-System.Collections.Generic.IEnumerable<Coroutine>
+System.Collections.Generic.IEnumerable<Coroutine>,
+System.Collections.IEnumerable
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; RoutineBase  
@@ -17,7 +17,7 @@ Derived
 &#8627; [Routine&lt;T1,T2,T3&gt;](Routine.T1.T2.T3..md 'KeepCoding.Routine&lt;T1,T2,T3&gt;')  
 &#8627; [Routine&lt;T1,T2,T3,T4&gt;](Routine.T1.T2.T3.T4..md 'KeepCoding.Routine&lt;T1,T2,T3,T4&gt;')  
 
-Implements [System.Collections.IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerable 'System.Collections.IEnumerable'), [System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[UnityEngine.Coroutine](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Coroutine 'UnityEngine.Coroutine')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')  
+Implements [System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[UnityEngine.Coroutine](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Coroutine 'UnityEngine.Coroutine')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1'), [System.Collections.IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerable 'System.Collections.IEnumerable')  
 ### Example
 The following example illustrates a method for returning a [Tuple&lt;T1,T2&gt;](Tuple.T1.T2..md 'KeepCoding.Tuple&lt;T1,T2&gt;') of the first and last coroutines, using [ToTuple&lt;T1,T2&gt;(T1, T2)](TypeHelper.ToTuple.LI2EmOv9CB.9ftgGskWBBQ.md 'KeepCoding.TypeHelper.ToTuple&lt;T1,T2&gt;(T1, T2)') as shorthand for constructing the tuple. This method needs a [RoutineBase](RoutineBase.md 'KeepCoding.Internal.RoutineBase') with at least 1 coroutine, so an exception is raised if [Count](RoutineBase.Count.md 'KeepCoding.Internal.RoutineBase.Count') is 0.  
 ```csharp

@@ -26,7 +26,7 @@ The action to run when [obj](KeyHelper.Is.9jftaMIgOLtwRoX6Bz.S8Q.md#KeepCoding.K
   
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
-[obj](KeyHelper.Is.9jftaMIgOLtwRoX6Bz.S8Q.md#KeepCoding.KeyHelper.Is.T.(object.System.Action.T..System.Action).obj 'KeepCoding.KeyHelper.Is&lt;T&gt;(object, System.Action&lt;T&gt;, System.Action).obj')[is](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/is 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/is')[T](KeyHelper.Is.9jftaMIgOLtwRoX6Bz.S8Q.md#KeepCoding.KeyHelper.Is.T.(object.System.Action.T..System.Action).T 'KeepCoding.KeyHelper.Is&lt;T&gt;(object, System.Action&lt;T&gt;, System.Action).T') item
+` item`
 ### Remarks
 #### See Also
 - [https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/is](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/is 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/is')

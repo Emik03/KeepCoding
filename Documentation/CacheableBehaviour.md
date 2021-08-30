@@ -9,7 +9,7 @@ public abstract class CacheableBehaviour
 Inheritance [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') &#129106; CacheableBehaviour  
 
 Derived  
-&#8627; [AudioScript](AudioScript.md 'AudioScript')  
+&#8627; [AudioScript](AudioScript.md 'KeepCoding.AudioScript')  
 &#8627; [ModuleScript](ModuleScript.md 'KeepCoding.ModuleScript')  
 &#8627; [TPScript&lt;TModule&gt;](TPScript.TModule..md 'KeepCoding.TPScript&lt;TModule&gt;')  
 

@@ -27,7 +27,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 | Constructors | |
 | :--- | :--- |
 | [Work(Func&lt;T1,T2,T3,T4,TResult&gt;)](Work.T1.T2.T3.T4.TResult...ctor.tyMNA4wesOIJ8a0x+vcLtQ.md 'KeepCoding.Work&lt;T1,T2,T3,T4,TResult&gt;.Work(System.Func&lt;T1,T2,T3,T4,TResult&gt;)') | Stores the method so that it can later be called when a new thread starts. Multiple simultaneous threads are allowed, but are queued and limited to one at-a-time.<br/> |
-| [Work(Func&lt;T1,T2,T3,T4,TResult&gt;, bool, uint)](Work.T1.T2.T3.T4.TResult...ctor..oe1W2menJ7I+4n8UyuatQ.md 'KeepCoding.Work&lt;T1,T2,T3,T4,TResult&gt;.Work(System.Func&lt;T1,T2,T3,T4,TResult&gt;, bool, uint)') | Stores the method so that it can later be called when a new thread starts.<br/> |
+| [Work(Func&lt;T1,T2,T3,T4,TResult&gt;, bool, int)](Work.T1.T2.T3.T4.TResult...ctor.EU1gSiYk.nOoWDQb.cVnnw.md 'KeepCoding.Work&lt;T1,T2,T3,T4,TResult&gt;.Work(System.Func&lt;T1,T2,T3,T4,TResult&gt;, bool, int)') | Stores the method so that it can later be called when a new thread starts.<br/> |
 
 | Properties | |
 | :--- | :--- |

@@ -16,4 +16,4 @@ The item to check the type for.
   
 #### Returns
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')  
-[item](Helper.IsIterator.xZ4Kyz9.+3sAfFhiU+7j3w.md#KeepCoding.Helper.IsIterator.T.(T).item 'KeepCoding.Helper.IsIterator&lt;T&gt;(T).item') is either [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String'), [System.Collections.IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerable 'System.Collections.IEnumerable'), or [System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerator 'System.Collections.IEnumerator').
+[item](Helper.IsIterator.xZ4Kyz9.+3sAfFhiU+7j3w.md#KeepCoding.Helper.IsIterator.T.(T).item 'KeepCoding.Helper.IsIterator&lt;T&gt;(T).item') is either [System.Collections.IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerable 'System.Collections.IEnumerable'), or [System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerator 'System.Collections.IEnumerator').

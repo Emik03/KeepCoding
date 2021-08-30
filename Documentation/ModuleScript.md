@@ -12,25 +12,24 @@ Inheritance [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/
 
 Implements [IDump](IDump.md 'KeepCoding.IDump'), [ILog](ILog.md 'KeepCoding.ILog')  
 
-| Fields | |
-| :--- | :--- |
-| [Colorblind](ModuleScript.Colorblind.md 'KeepCoding.ModuleScript.Colorblind') | Contains colorblind information.<br/> |
-
 | Properties | |
 | :--- | :--- |
 | [Bomb](ModuleScript.Bomb.md 'KeepCoding.ModuleScript.Bomb') | The bomb that this module is in.<br/> |
+| [Colorblind](ModuleScript.Colorblind.md 'KeepCoding.ModuleScript.Colorblind') | Contains colorblind information. This property will return [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null') in the event that [OnColorblindChanged(bool)](ModuleScript.OnColorblindChanged.v.B8pFA9oBJ43uADUD5ZpQ.md 'KeepCoding.ModuleScript.OnColorblindChanged(bool)') isn't implemented.<br/> |
 | [HasStruck](ModuleScript.HasStruck.md 'KeepCoding.ModuleScript.HasStruck') | Determines whether the module has been struck. [OnInteractSequence(KMSelectable[], float, int[])](TPScript.TModule..OnInteractSequence.BDCqLwYKYl5pAjSBekGAmQ.md 'KeepCoding.TPScript&lt;TModule&gt;.OnInteractSequence(KMSelectable[], float, int[])') will set this to [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool') when a command is interrupted.<br/> |
 | [Id](ModuleScript.Id.md 'KeepCoding.ModuleScript.Id') | The Unique Id for the module of this type.<br/> |
+| [IgnoredModules](ModuleScript.IgnoredModules.md 'KeepCoding.ModuleScript.IgnoredModules') | The ignored modules of this module from the Boss Module Manager.<br/> |
 | [IsActive](ModuleScript.IsActive.md 'KeepCoding.ModuleScript.IsActive') | Determines whether the bomb is currently active, and the timer is ticking.<br/> |
 | [IsColorblind](ModuleScript.IsColorblind.md 'KeepCoding.ModuleScript.IsColorblind') | Determines whether the module's colorblind mode is enabled.<br/> |
 | [IsEditor](ModuleScript.IsEditor.md 'KeepCoding.ModuleScript.IsEditor') | Determines whether the application is running from inside unity.<br/> |
 | [IsLastInstantiated](ModuleScript.IsLastInstantiated.md 'KeepCoding.ModuleScript.IsLastInstantiated') | Determines whether this module is the last instantiated instance.<br/> |
 | [IsNeedyActive](ModuleScript.IsNeedyActive.md 'KeepCoding.ModuleScript.IsNeedyActive') | Determines whether the needy is active.<br/> |
 | [IsSolved](ModuleScript.IsSolved.md 'KeepCoding.ModuleScript.IsSolved') | Determines whether the module has been solved.<br/> |
-| [IsVR](ModuleScript.IsVR.md 'KeepCoding.ModuleScript.IsVR') | Determines whether the game is being played in Virtual Reality. In the Editor, it always returns false.<br/> |
+| [IsVR](ModuleScript.IsVR.md 'KeepCoding.ModuleScript.IsVR') | Determines whether the game is being played with motion virtual reality. In the Editor, it always returns false.<br/> |
 | [LastId](ModuleScript.LastId.md 'KeepCoding.ModuleScript.LastId') | The last Id instantiation for the module of this type.<br/> |
 | [Module](ModuleScript.Module.md 'KeepCoding.ModuleScript.Module') | Contains either [KMBombModule](https://docs.microsoft.com/en-us/dotnet/api/KMBombModule 'KMBombModule') or [KMNeedyModule](https://docs.microsoft.com/en-us/dotnet/api/KMNeedyModule 'KMNeedyModule'), and allows for running commands through context.<br/> |
 | [Modules](ModuleScript.Modules.md 'KeepCoding.ModuleScript.Modules') | Contains every modded module in [Bomb](ModuleScript.Bomb.md 'KeepCoding.ModuleScript.Bomb'), separated by type.<br/> |
+| [RuleSeed](ModuleScript.RuleSeed.md 'KeepCoding.ModuleScript.RuleSeed') | The pseudo-random number generator whose number generations are based on the current Rule Seed.<br/> |
 | [Sounds](ModuleScript.Sounds.md 'KeepCoding.ModuleScript.Sounds') | Contains an instance for every [Sound](Sound.md 'KeepCoding.Sound') played by this module using [PlaySound(Transform, bool, Sound[])](ModuleScript.PlaySound.Eo7fMZRxz07dxI+QmUMs9w.md 'KeepCoding.ModuleScript.PlaySound(Transform, bool, KeepCoding.Sound[])') or any of its overloads.<br/> |
 | [TimeLeft](ModuleScript.TimeLeft.md 'KeepCoding.ModuleScript.TimeLeft') | The amount of time left on the bomb, in seconds, rounded down.<br/> |
 | [TP](ModuleScript.TP.md 'KeepCoding.ModuleScript.TP') | Gets the Twitch Plays [UnityEngine.Component](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Component 'UnityEngine.Component') attached to this [UnityEngine.GameObject](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.GameObject 'UnityEngine.GameObject').<br/> |
@@ -44,6 +43,8 @@ Implements [IDump](IDump.md 'KeepCoding.IDump'), [ILog](ILog.md 'KeepCoding.ILog
 | [Dump&lt;T&gt;(T, bool)](ModuleScript.Dump.rPFgKMTJ6Yx29zwCI4Mh5Q.md 'KeepCoding.ModuleScript.Dump&lt;T&gt;(T, bool)') | Dumps all information that it can find of the type using reflection. This should only be used to debug.<br/> |
 | [Dump(bool, Expression&lt;Func&lt;object&gt;&gt;[])](ModuleScript.Dump.s7HN7dAEk6hZXpJGQ6UR2w.md 'KeepCoding.ModuleScript.Dump(bool, System.Linq.Expressions.Expression&lt;System.Func&lt;object&gt;&gt;[])') | Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.<br/> |
 | [Dump(Expression&lt;Func&lt;object&gt;&gt;[])](ModuleScript.Dump.u7AJX2Z70L44FZHpKBTmxw.md 'KeepCoding.ModuleScript.Dump(System.Linq.Expressions.Expression&lt;System.Func&lt;object&gt;&gt;[])') | Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.<br/> |
+| [GetIgnoredModules(string)](ModuleScript.GetIgnoredModules.zUIy+bTAgmYAHrE1BZmr1g.md 'KeepCoding.ModuleScript.GetIgnoredModules(string)') | Retrieves the ignore list from the Boss Module Manager mod used primarily by boss modules.<br/> |
+| [GetRuleSeedId()](ModuleScript.GetRuleSeedId().md 'KeepCoding.ModuleScript.GetRuleSeedId()') | Gets the rule seed number.<br/> |
 | [Log&lt;T&gt;(T, LogType)](ModuleScript.Log.p+nIKGfe9rpfPEgPOFv8OA.md 'KeepCoding.ModuleScript.Log&lt;T&gt;(T, LogType)') | Logs message, but formats it to be compliant with the Logfile Analyzer.<br/> |
 | [Log&lt;T&gt;(T, object[])](ModuleScript.Log.j.XfWH0BSgC6a6A+Y3WL8g.md 'KeepCoding.ModuleScript.Log&lt;T&gt;(T, object[])') | Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.<br/> |
 | [LogMultiple(string[])](ModuleScript.LogMultiple.+yq7ctJoFJgYL.6.OkqGfA.md 'KeepCoding.ModuleScript.LogMultiple(string[])') | Logs multiple entries to the console.<br/> |

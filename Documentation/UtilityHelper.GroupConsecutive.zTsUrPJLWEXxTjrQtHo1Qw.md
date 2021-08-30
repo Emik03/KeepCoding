@@ -3,7 +3,8 @@
 ## UtilityHelper.GroupConsecutive&lt;TItem&gt;(IEnumerable&lt;TItem&gt;, Func&lt;TItem,TItem,bool&gt;) Method
 Accumulates consecutive equal elements.
 ```csharp
-public static System.Collections.Generic.IEnumerable<KeepCoding.ConsecutiveGroup<TItem,TItem>> GroupConsecutive<TItem>(this System.Collections.Generic.IEnumerable<TItem> source, System.Func<TItem,TItem,bool> itemEquality);
+public static System.Collections.Generic.IEnumerable<KeepCoding.ConsecutiveGroup<TItem,TItem>> GroupConsecutive<TItem>(this System.Collections.Generic.IEnumerable<TItem> source, System.Func<TItem,TItem,bool> itemEquality)
+    where TItem : notnull;
 ```
 #### Type parameters
 <a name='KeepCoding.UtilityHelper.GroupConsecutive.TItem.(System.Collections.Generic.IEnumerable.TItem..System.Func.TItem.TItem.bool.).TItem'></a>

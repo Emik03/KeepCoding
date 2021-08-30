@@ -11,7 +11,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 | Constructors | |
 | :--- | :--- |
 | [Work(Action)](Work..ctor.3Ex8PcsQ4pGvalkF8Yab6Q.md 'KeepCoding.Work.Work(System.Action)') | Stores the method so that it can later be called when a new thread starts. Multiple simultaneous threads are allowed, but are queued and limited to one at-a-time.<br/> |
-| [Work(Action, bool, uint)](Work..ctor.tnhidf+Y8CDeKLDkdBlyKg.md 'KeepCoding.Work.Work(System.Action, bool, uint)') | Stores the method so that it can later be called when a new thread starts.<br/> |
+| [Work(Action, bool, int)](Work..ctor.5xVfdGTv+y8BF+BNPWFs8Q.md 'KeepCoding.Work.Work(System.Action, bool, int)') | Stores the method so that it can later be called when a new thread starts.<br/> |
 
 | Methods | |
 | :--- | :--- |

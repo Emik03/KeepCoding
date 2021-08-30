@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
-### [](.md '').[AudioScript](AudioScript.md 'AudioScript')
+### [KeepCoding](KeepCoding.md 'KeepCoding').[AudioScript](AudioScript.md 'KeepCoding.AudioScript')
 ## AudioScript.IsMuted Property
-Determines if the [AudioSource](AudioScript.AudioSource.md 'global::AudioScript.AudioSource') is muted.  
+Determines if the [AudioSource](AudioScript.AudioSource.md 'KeepCoding.AudioScript.AudioSource') is muted.  
 ```csharp
 public bool IsMuted { get; set; }
 ```

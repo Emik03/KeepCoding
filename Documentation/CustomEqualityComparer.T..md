@@ -5,6 +5,7 @@ Encapsulates an [System.Collections.Generic.IEqualityComparer&lt;&gt;](https://d
 ```csharp
 public sealed class CustomEqualityComparer<T> :
 System.Collections.Generic.IEqualityComparer<T>
+    where T : notnull
 ```
 #### Type parameters
 <a name='KeepCoding.CustomEqualityComparer.T..T'></a>

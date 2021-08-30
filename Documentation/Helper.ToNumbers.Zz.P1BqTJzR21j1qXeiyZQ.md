@@ -3,7 +3,8 @@
 ## Helper.ToNumbers&lt;T&gt;(T[], Nullable&lt;int&gt;, Nullable&lt;int&gt;, Nullable&lt;int&gt;, Nullable&lt;int&gt;) Method
 Parses each element of an array into a number. If it succeeds it returns the integer array, if it fails then it returns null.  
 ```csharp
-public static int[] ToNumbers<T>(this T[] ts, System.Nullable<int> min=null, System.Nullable<int> max=null, System.Nullable<int> minLength=null, System.Nullable<int> maxLength=null);
+public static int[] ToNumbers<T>(this T[] ts, System.Nullable<int> min=null, System.Nullable<int> max=null, System.Nullable<int> minLength=null, System.Nullable<int> maxLength=null)
+    where T : notnull;
 ```
 #### Type parameters
 <a name='KeepCoding.Helper.ToNumbers.T.(T...System.Nullable.int..System.Nullable.int..System.Nullable.int..System.Nullable.int.).T'></a>

@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
-### [](.md '').[AudioScript](AudioScript.md 'AudioScript')
+### [KeepCoding](KeepCoding.md 'KeepCoding').[AudioScript](AudioScript.md 'KeepCoding.AudioScript')
 ## AudioScript.Relative Property
-The volume the [AudioSource](AudioScript.AudioSource.md 'global::AudioScript.AudioSource') is playing at, determined by [Volume](AudioScript.Volume.md 'global::AudioScript.Volume') and [Game](AudioScript.Game.md 'global::AudioScript.Game').  
+The volume the [AudioSource](AudioScript.AudioSource.md 'KeepCoding.AudioScript.AudioSource') is playing at, determined by [Volume](AudioScript.Volume.md 'KeepCoding.AudioScript.Volume') and [Game](AudioScript.Game.md 'KeepCoding.AudioScript.Game').  
 ```csharp
 public float Relative { get; }
 ```

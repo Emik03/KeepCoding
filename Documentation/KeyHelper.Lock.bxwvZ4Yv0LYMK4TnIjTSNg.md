@@ -3,7 +3,8 @@
 ## KeyHelper.Lock&lt;T&gt;(T, Action&lt;T&gt;) Method
 The [lock](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/lock 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/lock') statement acquires the mutual-exclusion lock for a given object, executes a statement block, and then releases the lock. While a lock is held, the thread that holds the lock can again acquire and release the lock. Any other thread is blocked from acquiring the lock and waits until the lock is released.  
 ```csharp
-public static T Lock<T>(this T item, System.Action<T> action);
+public static T Lock<T>(this T item, System.Action<T> action)
+    where T : notnull;
 ```
 #### Type parameters
 <a name='KeepCoding.KeyHelper.Lock.T.(T.System.Action.T.).T'></a>
@@ -21,6 +22,7 @@ The action to run while the item is locked.
   
 #### Returns
 [T](KeyHelper.Lock.bxwvZ4Yv0LYMK4TnIjTSNg.md#KeepCoding.KeyHelper.Lock.T.(T.System.Action.T.).T 'KeepCoding.KeyHelper.Lock&lt;T&gt;(T, System.Action&lt;T&gt;).T')  
+` () () `
 #### Exceptions
 [System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException')  
 ### Remarks

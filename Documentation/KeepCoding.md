@@ -4,6 +4,7 @@
 | Classes | |
 | :--- | :--- |
 | [ArrayHelper](ArrayHelper.md 'KeepCoding.ArrayHelper') | Extension methods surrounding [System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array') static methods to make code a bit shorter.<br/> |
+| [AudioScript](AudioScript.md 'KeepCoding.AudioScript') | Encapsulates an [AudioSource](AudioScript.AudioSource.md 'KeepCoding.AudioScript.AudioSource') and scales it with the game's volume using [SFXVolume](Game.PlayerSettings.SFXVolume.md 'KeepCoding.Game.PlayerSettings.SFXVolume') and [MusicVolume](Game.PlayerSettings.MusicVolume.md 'KeepCoding.Game.PlayerSettings.MusicVolume').<br/> |
 | [CacheableBehaviour](CacheableBehaviour.md 'KeepCoding.CacheableBehaviour') | A [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') with additional caching capabilities. <br/> |
 | [ColorblindInfo](ColorblindInfo.md 'KeepCoding.ColorblindInfo') | Contains information about the colorblind mod's info, this class can be used to deserialize "ColorblindMode.json".<br/> |
 | [ComponentPool](ComponentPool.md 'KeepCoding.ComponentPool') | A ComponentPool is a collection of Module Types. The generator will pick [Count](ComponentPool.Count.md 'KeepCoding.ComponentPool.Count') times from this list and instantiate a component of the chosen type.<br/> |
@@ -21,9 +22,11 @@
 | [Helper](Helper.md 'KeepCoding.Helper') | General extension class covering both KMFramework and native datatypes.<br/> |
 | [KeyHelper](KeyHelper.md 'KeepCoding.KeyHelper') | Inline methods for when typically key words are used.<br/> |
 | [Logger](Logger.md 'KeepCoding.Logger') | A class to allow logging with a specific format.<br/> |
+| [ModConfig&lt;TDeserialize&gt;](ModConfig.TDeserialize..md 'KeepCoding.ModConfig&lt;TDeserialize&gt;') | Meant for information that needs to be deserialized within the mod settings folder by samfundev.<br/> |
 | [ModInfo](ModInfo.md 'KeepCoding.ModInfo') | Contains information about the mod's info, this class can be used to deserialize every mod's "modInfo.json".<br/> |
 | [ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer') | Container for both solvable and needy modules.<br/> |
 | [ModuleScript](ModuleScript.md 'KeepCoding.ModuleScript') | Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes.<br/> |
+| [MonoRandom](MonoRandom.md 'KeepCoding.MonoRandom') | A pseudo-random number generator that is primarily used to get multiple platforms to share the same random number generator.<br/> |
 | [PathManager](PathManager.md 'KeepCoding.PathManager') | Allows loading external information stored on the module. Default values are returned either when run on the editor or when an [System.IO.IOException](https://docs.microsoft.com/en-us/dotnet/api/System.IO.IOException 'System.IO.IOException') and similar occur. The default values are specified in the remarks of each method.<br/> |
 | [Profiler](Profiler.md 'KeepCoding.Profiler') | Times your code and runs a method after [Dispose()](Profiler.Dispose().md 'KeepCoding.Profiler.Dispose()') runs.<br/> |
 | [Routine](Routine.md 'KeepCoding.Routine') | Advanced coroutine handler.<br/> |

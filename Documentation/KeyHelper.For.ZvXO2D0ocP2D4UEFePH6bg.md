@@ -1,0 +1,24 @@
+#### [KeepCoding](index.md 'index')
+### [KeepCoding](KeepCoding.md 'KeepCoding').[KeyHelper](KeyHelper.md 'KeepCoding.KeyHelper')
+## KeyHelper.For(int, Action) Method
+The [for](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/for 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/for') statement executes a statement or a block of statements while a specified Boolean expression evaluates to [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool').  
+```csharp
+public static int For(this int length, System.Action action);
+```
+#### Parameters
+<a name='KeepCoding.KeyHelper.For(int.System.Action).length'></a>
+`length` [System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')  
+The length to reach to in the for loop.
+  
+<a name='KeepCoding.KeyHelper.For(int.System.Action).action'></a>
+`action` [System.Action](https://docs.microsoft.com/en-us/dotnet/api/System.Action 'System.Action')  
+The action for each loop.
+  
+#### Returns
+[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')  
+[length](KeyHelper.For.ZvXO2D0ocP2D4UEFePH6bg.md#KeepCoding.KeyHelper.For(int.System.Action).length 'KeepCoding.KeyHelper.For(int, System.Action).length')
+#### Exceptions
+[System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException')  
+### Remarks
+#### See Also
+- [https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-for-statement](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-for-statement 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-for-statement')

@@ -1,5 +1,5 @@
 #### [KeepCoding](index.md 'index')
-### [](.md '').[AudioScript](AudioScript.md 'AudioScript')
+### [KeepCoding](KeepCoding.md 'KeepCoding').[AudioScript](AudioScript.md 'KeepCoding.AudioScript')
 ## AudioScript.IsPlaying Property
 Determines if the audio source is currently playing.  
 ```csharp

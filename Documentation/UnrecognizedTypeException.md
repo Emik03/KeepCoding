@@ -3,10 +3,10 @@
 ## UnrecognizedTypeException Class
 An exception thrown for when the type isn't handled.  
 ```csharp
-public sealed class UnrecognizedTypeException : System.Exception
+public sealed class UnrecognizedTypeException : KeepCoding.Internal.KeepCodingException
 ```
 
-Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [System.Exception](https://docs.microsoft.com/en-us/dotnet/api/System.Exception 'System.Exception') &#129106; UnrecognizedTypeException  
+Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [System.Exception](https://docs.microsoft.com/en-us/dotnet/api/System.Exception 'System.Exception') &#129106; [KeepCodingException](KeepCodingException.md 'KeepCoding.Internal.KeepCodingException') &#129106; UnrecognizedTypeException  
 
 | Constructors | |
 | :--- | :--- |

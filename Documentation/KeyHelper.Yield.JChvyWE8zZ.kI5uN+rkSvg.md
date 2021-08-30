@@ -17,4 +17,7 @@ The instance that will be wrapped.
   
 #### Returns
 [System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[T](KeyHelper.Yield.JChvyWE8zZ.kI5uN+rkSvg.md#KeepCoding.KeyHelper.Yield.T.(T).T 'KeepCoding.KeyHelper.Yield&lt;T&gt;(T).T')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')  
-An [System.Collections.Generic.IEnumerable&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1') consisting of a single item.
+``
+### Remarks
+#### See Also
+- [https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/yield](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/yield 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/yield')

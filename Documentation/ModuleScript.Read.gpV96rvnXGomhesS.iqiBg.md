@@ -3,7 +3,8 @@
 ## ModuleScript.Read&lt;T&gt;(string, string, bool) Method
 Allows you to read a module's data that uses [Write&lt;T&gt;(string, T)](ModuleScript.Write.MUlE8lXsuyARXkdh4ORgbw.md 'KeepCoding.ModuleScript.Write&lt;T&gt;(string, T)'), even from a different assembly.  
 ```csharp
-public static T[] Read<T>(string module, string key, bool allowDefault=false);
+public static T[] Read<T>(string module, string key, bool allowDefault=false)
+    where T : class;
 ```
 #### Type parameters
 <a name='KeepCoding.ModuleScript.Read.T.(string.string.bool).T'></a>
