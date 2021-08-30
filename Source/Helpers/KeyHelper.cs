@@ -37,6 +37,9 @@ namespace KeepCoding
         /// <summary>
         /// A cast expression of the form <c>(<typeparamref name="T"/>)<typeparamref name="E"/></c> performs an explicit conversion of the result of expression <c><typeparamref name="E"/></c> to type <c><typeparamref name="T"/></c>. If no explicit conversion exists from the type of <c><typeparamref name="E"/></c> to type <c><typeparamref name="T"/></c>, a compile-time error occurs. At run time, an explicit conversion might not succeed and a cast expression might throw an exception.
         /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/type-testing-and-cast#cast-expression"/>
+        /// </remarks>
         /// <exception cref="InvalidCastException"></exception>
         /// <typeparam name="E">The initial type.</typeparam>
         /// <typeparam name="T">The type to convert to.</typeparam>
@@ -344,8 +347,37 @@ namespace KeepCoding
         public static T Checked<T>(this Func<T> func) => checked(func.NullCheck("The action cannot be null.")());
 
         /// <summary>
+        /// A null-conditional operator applies a member access, <c>?.</c>, or element access, <c>?[]</c>, operation to its operand only if that operand evaluates to non-null; otherwise, it returns <see langword="null"/>. That is, if <c>a</c> evaluates to <see langword="null"/>, the result of <c>a?.x</c> or <c>a?[x]</c> is <see langword="null"/>, If <c>a</c> evaluates to non-null, the result of <c>a?.x</c> or <c>a?[x]</c> is the same as the result of <c>a.x</c> or <c>a[x]</c>, respectively.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/member-access-operators#null-conditional-operators--and-"/>
+        /// </remarks>
+        /// <typeparam name="T">The type of the item that may be <see langword="null"/></typeparam>
+        /// <typeparam name="TResult">The result of the evaluation.</typeparam>
+        /// <param name="item">The item that may be <see langword="null"/>.</param>
+        /// <param name="func">The return if <paramref name="item"/> isn't <see langword="null"/>.</param>
+        /// <returns><c><paramref name="item"/>?.<paramref name="func"/></c></returns>
+        public static TResult Conditional<T, TResult>(this T item, Func<T, TResult> func) where T : class => item is null ? default : func(item);
+
+        /// <summary>
+        /// A null-conditional operator applies a member access, <c>?.</c>, or element access, <c>?[]</c>, operation to its operand only if that operand evaluates to non-null; otherwise, it returns <see langword="null"/>. That is, if <c>a</c> evaluates to <see langword="null"/>, the result of <c>a?.x</c> or <c>a?[x]</c> is <see langword="null"/>, If <c>a</c> evaluates to non-null, the result of <c>a?.x</c> or <c>a?[x]</c> is the same as the result of <c>a.x</c> or <c>a[x]</c>, respectively.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/member-access-operators#null-conditional-operators--and-"/>
+        /// </remarks>
+        /// <typeparam name="T">The type of the item that may be <see langword="null"/></typeparam>
+        /// <typeparam name="TResult">The result of the evaluation.</typeparam>
+        /// <param name="item">The item that may be <see langword="null"/>.</param>
+        /// <param name="func">The return if <paramref name="item"/> isn't <see langword="null"/>.</param>
+        /// <returns><c><paramref name="item"/>?.<paramref name="func"/></c></returns>
+        public static TResult Conditional<T, TResult>(this T? item, Func<T, TResult> func) where T : struct => item is null ? default : func(item.Value);
+
+        /// <summary>
         /// A default value expression produces the default value of a type.
         /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/default"/>
+        /// </remarks>
         /// <typeparam name="T">The type to return a default value.</typeparam>
         /// <param name="_">The discard.</param>
         /// <returns><c><see langword="default"/>(<typeparamref name="T"/>)</c></returns>
@@ -636,6 +668,9 @@ namespace KeepCoding
         /// <summary>
         /// The conditional operator <c>?:</c>, also known as the ternary conditional operator, evaluates a Boolean expression and returns the result of one of the two expressions, depending on whether the Boolean expression evaluates to <see langword="true"/> or <see langword="false"/>.
         /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/conditional-operator"/>
+        /// </remarks>
         /// <typeparam name="T1">The type for the return if <paramref name="condition"/> is <see langword="true"/>.</typeparam>
         /// <typeparam name="T2">The type for the return if <paramref name="condition"/> is <see langword="false"/>.</typeparam>
         /// <param name="condition">The <see cref="bool"/> to either return <paramref name="consequent"/> or <paramref name="alternative"/>.</param>
@@ -647,6 +682,9 @@ namespace KeepCoding
         /// <summary>
         /// The conditional operator <c>?:</c>, also known as the ternary conditional operator, evaluates a Boolean expression and returns the result of one of the two expressions, depending on whether the Boolean expression evaluates to <see langword="true"/> or <see langword="false"/>.
         /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/conditional-operator"/>
+        /// </remarks>
         /// <typeparam name="T1">The type for the return if <paramref name="condition"/> is <see langword="true"/>.</typeparam>
         /// <typeparam name="T2">The type for the return if <paramref name="condition"/> is <see langword="false"/>.</typeparam>
         /// <typeparam name="TResult">The return type that is shared for both <typeparamref name="T1"/> and <typeparamref name="T2"/>.</typeparam>
@@ -678,6 +716,39 @@ namespace KeepCoding
         /// <param name="item">The object casted into the type.</param>
         /// <returns><c><paramref name="obj"/> <see langword="is"/> <typeparamref name="T"/> <paramref name="item"/></c></returns>
         public static bool Is<T>(this object obj, out T item) where T : class => (item = obj as T) is T;
+
+        /// <summary>
+        /// The <see langword="is"/> operator checks if the result of an expression is compatible with a given type.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/is"/>
+        /// </remarks>
+        /// <typeparam name="T">The type to cast into.</typeparam>
+        /// <param name="obj">The object to cast.</param>
+        /// <param name="item">The object casted into the type.</param>
+        /// <returns><c><paramref name="obj"/> <see langword="is"/> <typeparamref name="T"/> <paramref name="item"/></c></returns>
+        public static bool Is<T>(this object obj, out T? item) where T : struct => (item = obj as T?) is T?;
+
+        /// <summary>
+        /// The <see langword="is"/> operator checks if the result of an expression is compatible with a given type.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/is"/>
+        /// </remarks>
+        /// <typeparam name="T">The type to cast into.</typeparam>
+        /// <param name="obj">The object to cast.</param>
+        /// <param name="func">The object casted into the type.</param>
+        /// <returns><c><paramref name="obj"/> <see langword="is"/> <typeparamref name="T"/> <paramref name="func"/></c></returns>
+        public static bool Is<T>(this object obj, Action<T> func)
+        {
+            if (obj is T t)
+            {
+                func(t);
+                return true;
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// The <see langword="is"/> operator checks if the result of an expression is compatible with a given type.
@@ -764,14 +835,68 @@ namespace KeepCoding
         /// <summary>
         /// The <see langword="new"/> operator creates a new instance of a type.
         /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/new-operator"/>
+        /// </remarks>
         /// <typeparam name="T">The type of the return.</typeparam>
         /// <param name="_">The discard to get the constructor of.</param>
         /// <returns><c><see langword="new"/> <typeparamref name="T"/>()</c></returns>
         public static T New<T>(this T _) where T : new() => new T();
 
         /// <summary>
+        /// The null-coalescing operator <c>??</c> returns the value of its left-hand operand if it isn't <see langword="null"/>; otherwise, it evaluates the right-hand operand and returns its result.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/null-coalescing-operator"/>
+        /// </remarks>
+        /// <typeparam name="T">The type of the item and return.</typeparam>
+        /// <param name="item">The item to check <see langword="null"/> for.</param>
+        /// <param name="alternative">The variable to <see langword="return"/> if <paramref name="item"/> is <see langword="null"/>.</param>
+        /// <returns><c><paramref name="item"/> ?? <paramref name="alternative"/></c></returns>
+        public static T Or<T>(this T item, T alternative) => item ?? alternative;
+
+        /// <summary>
+        /// The null-coalescing operator <c>??=</c> returns the value of its right-hand operand if it isn't <see langword="null"/>; otherwise, it evaluates the left-hand operand, sets it to the right-hand operand, and returns its result.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/null-coalescing-operator"/>
+        /// </remarks>
+        /// <typeparam name="T">The type of the item and return.</typeparam>
+        /// <param name="alternative">The variable to set and <see langword="return"/> if <paramref name="alternative"/> is <see langword="null"/>.</param>
+        /// <param name="item">The item to check <see langword="null"/> for.</param>
+        /// <returns><c><paramref name="alternative"/> ??= <paramref name="item"/></c></returns>
+        public static T Or<T>(this T alternative, ref T item) => item ??= alternative;
+
+        /// <summary>
+        /// The null-coalescing operator <c>??</c> returns the value of its left-hand operand if it isn't <see langword="null"/>; otherwise, it evaluates the right-hand operand and returns its result. The <c>??</c> operator doesn't evaluate its right-hand operand if the left-hand operand evaluates to non-null.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/null-coalescing-operator"/>
+        /// </remarks>
+        /// <typeparam name="T">The type of the item and return.</typeparam>
+        /// <param name="item">The item to check <see langword="null"/> for.</param>
+        /// <param name="alternative">The variable to <see langword="return"/> if <paramref name="item"/> is <see langword="null"/>.</param>
+        /// <returns><c><paramref name="item"/> ?? <paramref name="alternative"/></c></returns>
+        public static T Or<T>(this T item, Func<T> alternative) => item ?? alternative();
+
+        /// <summary>
+        /// The null-coalescing operator <c>??=</c> returns the value of its right-hand operand if it isn't <see langword="null"/>; otherwise, it evaluates the left-hand operand, sets it to the right-hand operand, and returns its result. The <c>??=</c> operator doesn't evaluate its right-hand operand if the left-hand operand evaluates to non-null.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/null-coalescing-operator"/>
+        /// </remarks>
+        /// <typeparam name="T">The type of the item and return.</typeparam>
+        /// <param name="alternative">The variable to set and <see langword="return"/> if <paramref name="alternative"/> is <see langword="null"/>.</param>
+        /// <param name="item">The item to check <see langword="null"/> for.</param>
+        /// <returns><c><paramref name="alternative"/> ??= <paramref name="alternative"/></c></returns>
+        public static T Or<T>(this Func<T> alternative, ref T item) => item ??= alternative();
+
+        /// <summary>
         /// The <see langword="typeof"/> operator obtains the <see cref="Type"/> instance for a type.
         /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/type-testing-and-cast#typeof-operator"/>
+        /// </remarks>
         /// <typeparam name="T">The type of the item.</typeparam>
         /// <param name="_">The discard to get the <see cref="Type"/> of.</param>
         /// <returns><c><see langword="typeof"/>(<typeparamref name="T"/>)</c></returns>
@@ -880,6 +1005,9 @@ namespace KeepCoding
         /// <summary>
         /// Wraps this object instance into an <see cref="IEnumerable{T}"/> consisting of a single item.
         /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/yield"/>
+        /// </remarks>
         /// <typeparam name="T">Type of the object.</typeparam>
         /// <param name="item">The instance that will be wrapped.</param>
         /// <returns><c><see langword="yield"/> <see langword="return"/> <paramref name="item"/></c></returns>
