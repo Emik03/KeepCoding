@@ -20,7 +20,10 @@ Inheritance [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/
 
 | Methods | |
 | :--- | :--- |
+| [Awake()](AudioScript.Awake().md 'KeepCoding.AudioScript.Awake()') | Sets up base functionality for the audio. If you declare this method yourself, make sure to call `base.Awake()` to ensure that this component initializes correctly, or use [OnAwake()](AudioScript.OnAwake().md 'KeepCoding.AudioScript.OnAwake()') instead.<br/> |
 | [Fade(float, float)](AudioScript.Fade.WC9X5nEr7j1Gp0ESMFUtgA.md 'KeepCoding.AudioScript.Fade(float, float)') | Fades the audio source to a specific volume from a specified duration of time linearly.<br/> |
+| [OnAwake()](AudioScript.OnAwake().md 'KeepCoding.AudioScript.OnAwake()') | Called when the module instantiates, well before the lights turn on.<br/> |
+| [OnUpdate()](AudioScript.OnUpdate().md 'KeepCoding.AudioScript.OnUpdate()') | Called on every frame. Frame-rate might vary depending on setup, so make sure to use [UnityEngine.Time.deltaTime](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Time.deltaTime 'UnityEngine.Time.deltaTime') or similar for time-sensitive applications.<br/> |
 | [Pause()](AudioScript.Pause().md 'KeepCoding.AudioScript.Pause()') | Pauses playing the clip.<br/> |
 | [Play(AudioClip, bool, byte, float, float, float, float)](AudioScript.Play.truQh4xxa0+U54BHyBx6eg.md 'KeepCoding.AudioScript.Play(AudioClip, bool, byte, float, float, float, float)') | Plays a sound, with optional parameters.<br/> |
 | [Play(string, bool, byte, float, float, float, float)](AudioScript.Play.G.mi16CZqzruAO0q01QfyA.md 'KeepCoding.AudioScript.Play(string, bool, byte, float, float, float, float)') | Plays a sound, with optional parameters.<br/> |
@@ -28,6 +31,7 @@ Inheritance [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/
 | [PlayStackable(string, bool, byte, float, float, float)](AudioScript.PlayStackable.5wMOmTveFdtv7+F9UuDjPg.md 'KeepCoding.AudioScript.PlayStackable(string, bool, byte, float, float, float)') | Plays a sound, with optional parameters.<br/> |
 | [Stop()](AudioScript.Stop().md 'KeepCoding.AudioScript.Stop()') | Stops playing the clip.<br/> |
 | [Unpause()](AudioScript.Unpause().md 'KeepCoding.AudioScript.Unpause()') | Unpauses the paused playback of this [AudioSource](AudioScript.AudioSource.md 'KeepCoding.AudioScript.AudioSource').<br/> |
+| [Update()](AudioScript.Update().md 'KeepCoding.AudioScript.Update()') | Updates the volume of [AudioSource](AudioScript.AudioSource.md 'KeepCoding.AudioScript.AudioSource'). If you declare this method yourself, make sure to call `base.Update()` to ensure that this component retains functionality, or use [OnUpdate()](AudioScript.OnUpdate().md 'KeepCoding.AudioScript.OnUpdate()') instead.<br/> |
 
 | Operators | |
 | :--- | :--- |
