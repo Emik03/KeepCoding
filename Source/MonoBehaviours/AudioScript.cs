@@ -14,23 +14,14 @@ namespace KeepCoding
     [CLSCompliant(false)]
     public abstract class AudioScript : CacheableBehaviour
     {
-        /// <summary>
-        /// Setting this value to true will make the volume relative to <see cref="MusicVolume"/>, and <see cref="SFXVolume"/> otherwise.
-        /// </summary>
         [SerializeField]
 #pragma warning disable 649, IDE0044 // Add readonly modifier
         private bool _isSFX;
 #pragma warning restore 649, IDE0044 // Add readonly modifier
 
-        /// <summary>
-        /// The <see cref="Array"/> of clips it can play from.
-        /// </summary>
         [SerializeField]
         private AudioClip[] _audioClips = new AudioClip[0];
 
-        /// <summary>
-        /// The audio source field.
-        /// </summary>
         [SerializeField]
         private AudioSource _audioSource;
 

@@ -8,12 +8,6 @@ public abstract class AudioScript : KeepCoding.CacheableBehaviour
 
 Inheritance [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') &#129106; [CacheableBehaviour](CacheableBehaviour.md 'KeepCoding.CacheableBehaviour') &#129106; AudioScript  
 
-| Fields | |
-| :--- | :--- |
-| [_audioClips](AudioScript._audioClips.md 'KeepCoding.AudioScript._audioClips') | The [System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array') of clips it can play from.<br/> |
-| [_audioSource](AudioScript._audioSource.md 'KeepCoding.AudioScript._audioSource') | The audio source field.<br/> |
-| [_isSFX](AudioScript._isSFX.md 'KeepCoding.AudioScript._isSFX') | Setting this value to true will make the volume relative to [MusicVolume](Game.PlayerSettings.MusicVolume.md 'KeepCoding.Game.PlayerSettings.MusicVolume'), and [SFXVolume](Game.PlayerSettings.SFXVolume.md 'KeepCoding.Game.PlayerSettings.SFXVolume') otherwise.<br/> |
-
 | Properties | |
 | :--- | :--- |
 | [AudioClips](AudioScript.AudioClips.md 'KeepCoding.AudioScript.AudioClips') | The audio clips used by the [UnityEngine.AudioSource](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.AudioSource 'UnityEngine.AudioSource')s.<br/> |
