@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## Number Struct
-Class meant to encapsulate a primitive numeric value.  
+Encapsulates a primitive numeric value.  
 ```csharp
 public struct Number :
 System.IComparable,

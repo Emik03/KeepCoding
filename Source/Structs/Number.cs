@@ -8,7 +8,7 @@ using static System.Math;
 namespace KeepCoding
 {
     /// <summary>
-    /// Class meant to encapsulate a primitive numeric value.
+    /// Encapsulates a primitive numeric value.
     /// </summary>
     public struct Number : IComparable, IFormattable, IComparable<Number>, IEquatable<Number>, IComparable<ValueType>, IEquatable<ValueType>
     {
