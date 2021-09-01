@@ -192,8 +192,8 @@ namespace KeepCoding
         /// <param name="onTimerExpired">Called when the timer runs out of time.</param>
         public void Assign(Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null) => Module.Assign(onActivate.Combine(() =>
         {
-            IsActive = true;
             OnActivate();
+            IsActive = true;
         }), onNeedyActivation.Combine(() =>
         {
             OnNeedyActivate();
