@@ -1,6 +1,6 @@
 #### [KeepCoding](index.md 'index')
-### [KeepCoding](KeepCoding.md 'KeepCoding').[ModConfig&lt;TDeserialize&gt;](ModConfig.TDeserialize..md 'KeepCoding.ModConfig&lt;TDeserialize&gt;')
-## ModConfig&lt;TDeserialize&gt;.HasReadSucceeded Property
+### [KeepCoding](KeepCoding.md 'KeepCoding').[ModConfig&lt;TSerialize&gt;](ModConfig.TSerialize..md 'KeepCoding.ModConfig&lt;TSerialize&gt;')
+## ModConfig&lt;TSerialize&gt;.HasReadSucceeded Property
 Whether or not there has been a successful read of the settings file.  
 ```csharp
 public bool HasReadSucceeded { get; set; }

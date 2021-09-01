@@ -6,7 +6,7 @@ Contains information about the colorblind mod's info, this class can be used to 
 public sealed class ColorblindInfo : KeepCoding.ModConfig<KeepCoding.ColorblindInfo>
 ```
 
-Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [KeepCoding.ModConfig&lt;](ModConfig.TDeserialize..md 'KeepCoding.ModConfig&lt;TDeserialize&gt;')[ColorblindInfo](ColorblindInfo.md 'KeepCoding.ColorblindInfo')[&gt;](ModConfig.TDeserialize..md 'KeepCoding.ModConfig&lt;TDeserialize&gt;') &#129106; ColorblindInfo  
+Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [KeepCoding.ModConfig&lt;](ModConfig.TSerialize..md 'KeepCoding.ModConfig&lt;TSerialize&gt;')[ColorblindInfo](ColorblindInfo.md 'KeepCoding.ColorblindInfo')[&gt;](ModConfig.TSerialize..md 'KeepCoding.ModConfig&lt;TSerialize&gt;') &#129106; ColorblindInfo  
 
 | Constructors | |
 | :--- | :--- |

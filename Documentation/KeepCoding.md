@@ -22,7 +22,7 @@
 | [Helper](Helper.md 'KeepCoding.Helper') | General extension class covering both KMFramework and native datatypes.<br/> |
 | [KeyHelper](KeyHelper.md 'KeepCoding.KeyHelper') | Inline methods for when typically key words are used.<br/> |
 | [Logger](Logger.md 'KeepCoding.Logger') | A class to allow logging with a specific format.<br/> |
-| [ModConfig&lt;TDeserialize&gt;](ModConfig.TDeserialize..md 'KeepCoding.ModConfig&lt;TDeserialize&gt;') | Meant for information that needs to be deserialized within the mod settings folder by samfundev.<br/> |
+| [ModConfig&lt;TSerialize&gt;](ModConfig.TSerialize..md 'KeepCoding.ModConfig&lt;TSerialize&gt;') | Meant for information that needs to be deserialized within the mod settings folder, by samfundev.<br/> |
 | [ModInfo](ModInfo.md 'KeepCoding.ModInfo') | Contains information about the mod's info, this class can be used to deserialize every mod's "modInfo.json".<br/> |
 | [ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer') | Container for both solvable and needy modules.<br/> |
 | [ModuleScript](ModuleScript.md 'KeepCoding.ModuleScript') | Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes.<br/> |
