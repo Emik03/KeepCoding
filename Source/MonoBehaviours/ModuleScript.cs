@@ -655,25 +655,24 @@ namespace KeepCoding
 
             s_hasCheckedVersion = true;
 
-            using (UnityWebRequest latest = PathManager.LatestGitHub)
+            using UnityWebRequest latest = PathManager.LatestGitHub;
+
+            yield return latest.SendWebRequest();
+
+            if (latest.isNetworkError || latest.isHttpError)
             {
-                yield return latest.SendWebRequest();
-
-                if (latest.isNetworkError || latest.isHttpError)
-                {
-                    Self($"The library was unable to get the version number: {latest.error}", LogType.Warning);
-                    yield break;
-                }
-
-                string tagName = JObject.Parse(latest.downloadHandler.text).GetValue("tag_name").ToObject<string>();
-
-                if (tagName.ToVersion() <= PathManager.Version)
-                    yield break;
-
-                IsOutdated = true;
-
-                Self($"The library is out of date. Latest Version: {tagName}, Local Version: {PathManager.Version}. Please press the update button on any {PathManager.AssemblyName.Name}-based {nameof(GameObject)} or download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
+                Self($"The library was unable to get the version number: {latest.error}", LogType.Warning);
+                yield break;
             }
+
+            string tagName = JObject.Parse(latest.downloadHandler.text).GetValue("tag_name").ToObject<string>();
+
+            if (tagName.ToVersion() <= PathManager.Version)
+                yield break;
+
+            IsOutdated = true;
+
+            Self($"The library is out of date. Latest Version: {tagName}, Local Version: {PathManager.Version}. Please press the update button on any {PathManager.AssemblyName.Name}-based {nameof(GameObject)} or download the latest version here: https://github.com/Emik03/KeepCoding/releases/latest", LogType.Warning);
         }
 
         private IEnumerator EditorTimerTick()
