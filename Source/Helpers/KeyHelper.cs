@@ -937,6 +937,25 @@ namespace KeepCoding
         /// </remarks>
         /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T">The type of <see cref="IDisposable"/>.</typeparam>
+        /// <param name="action">The action to use a new instance of <typeparamref name="T"/> on.</param>
+        /// <returns><c><see langword="using"/> <see langword="var"/> item = <see langword="new"/> <typeparamref name="T"/>(); <paramref name="action"/>(item)</c></returns>
+        public static T Using<T>(this Action<T> action) where T : IDisposable, new()
+        {
+            using var item = new T();
+
+            action.NullCheck("The action cannot be null.")(item);
+
+            return item;
+        }
+
+        /// <summary>
+        /// Provides a convenient syntax that ensures the correct use of <see cref="IDisposable"/> objects.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-statement"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <typeparam name="T">The type of <see cref="IDisposable"/>.</typeparam>
         /// <param name="item">The item to use.</param>
         /// <param name="action">The action to use <paramref name="item"/> on.</param>
         /// <returns><c><see langword="using"/> (<paramref name="item"/>) <paramref name="action"/>(<paramref name="item"/>)</c></returns>
@@ -946,6 +965,22 @@ namespace KeepCoding
                 action.NullCheck("The action cannot be null.")(item);
 
             return item;
+        }
+
+        /// <summary>
+        /// Provides a convenient syntax that ensures the correct use of <see cref="IDisposable"/> objects.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-statement"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <typeparam name="T">The type of <see cref="IDisposable"/>.</typeparam>
+        /// <param name="func">The function to use a new instance of <typeparamref name="T"/> on.</param>
+        /// <returns><c><see langword="using"/> <see langword="var"/> item = <see langword="new"/> <typeparamref name="T"/>(); <see langword="return"/> <paramref name="func"/>(item)</c></returns>
+        public static T Using<T>(this Func<T, T> func) where T : IDisposable, new()
+        {
+            using var item = new T();
+            return func.NullCheck("The action cannot be null.")(item);
         }
 
         /// <summary>
