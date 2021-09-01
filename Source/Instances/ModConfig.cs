@@ -3,25 +3,29 @@ using System.IO;
 using KeepCoding.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using static System.IO.Path;
 using static KeepCoding.PathManager;
 using static Newtonsoft.Json.Formatting;
 using static Newtonsoft.Json.JsonConvert;
+using static Newtonsoft.Json.Linq.JObject;
 using static UnityEngine.Application;
 
 namespace KeepCoding
 {
     /// <summary>
-    /// Meant for information that needs to be deserialized within the mod settings folder by samfundev.
+    /// Meant for information that needs to be deserialized within the mod settings folder, by samfundev.
     /// </summary>
     /// <remarks>
     /// <see href="https://github.com/Qkrisi/ktanemodkit/blob/master/Assets/Scripts/ModConfig.cs"/>
     /// </remarks>
-    /// <typeparam name="TDeserialize">The type to deserialize the file.</typeparam>
-    public class ModConfig<TDeserialize> : ILog where TDeserialize : new()
+    /// <typeparam name="TSerialize">The type to serialize and deserialize the file.</typeparam>
+    public class ModConfig<TSerialize> : ILog where TSerialize : new()
     {
         private readonly string _settingsPath;
+
+        private static readonly string s_settingsFolder;
 
         private static readonly object s_settingsFileLock = new object();
 
@@ -31,17 +35,23 @@ namespace KeepCoding
         /// Creates a new <see cref="ModConfig{T}"/> with the target file name and an optional event of when the file is read.
         /// </summary>
         /// <param name="fileName">The file name to get.</param>
-        public ModConfig(string fileName)
+        /// <param name="mergeSettings">The way that the default value and the file merge.</param>
+        public ModConfig(string fileName, JsonMergeSettings mergeSettings = null)
         {
-            string settingsFolder = Combine(persistentDataPath, "Modsettings");
-
-            if (isEditor && !Directory.Exists(settingsFolder))
-                Directory.CreateDirectory(settingsFolder);
-
             if (!fileName.Contains("."))
                 fileName += ".json";
 
-            _settingsPath = Combine(settingsFolder, fileName);
+            _settingsPath = Combine(s_settingsFolder, fileName);
+
+            Merge(default, mergeSettings ?? new JsonMergeSettings());
+        }
+
+        static ModConfig()
+        {
+            s_settingsFolder = Combine(persistentDataPath, "Modsettings");
+
+            if (!isEditor && !Directory.Exists(s_settingsFolder))
+                Directory.CreateDirectory(s_settingsFolder);
         }
 
         /// <summary>
@@ -75,37 +85,57 @@ namespace KeepCoding
         /// <summary>
         /// Serializes settings the same way it's written to the file. Supports settings that use enums.
         /// </summary>
-        public static string SerializeSettings(TDeserialize settings) => SerializeObject(settings, Indented, new StringEnumConverter());
+        public static string SerializeSettings(TSerialize settings) => SerializeObject(settings, Indented, new StringEnumConverter());
 
         /// <summary>
-        /// Reads the settings from the settings file.
-        /// If the settings couldn't be read, the default settings will be returned.
+        /// Reads, merges, and writes the settings to the settings file. To protect the user settings, this does nothing if the read isn't successful.
         /// </summary>
-        public TDeserialize Read(JsonSerializerSettings settings = null) => SuppressIO(() =>
+        /// <param name="value">The value to merge the file with.</param>
+        /// <param name="mergeSettings">The way that <paramref name="value"/> and the file merge.</param>
+        public void Merge(TSerialize value, JsonMergeSettings mergeSettings)
+        {
+            JObject original = Parse(ToString());
+
+            original.Merge(Parse(SerializeSettings(value)));
+
+            Write(original.ToString());
+        }
+
+        /// <summary>
+        /// Reads the settings from the settings file. If the settings couldn't be read, the default settings will be returned.
+        /// </summary>
+        /// <param name="settings">The settings for serializing the json file.</param>
+        public TSerialize Read(JsonSerializerSettings settings = null) => SuppressIO(() =>
         {
             HasReadSucceeded = false;
 
             lock (s_settingsFileLock)
             {
                 if (!File.Exists(_settingsPath))
-                    File.WriteAllText(_settingsPath, SerializeSettings(new TDeserialize()));
+                    File.WriteAllText(_settingsPath, SerializeSettings(new TSerialize()));
 
-                TDeserialize deserialized = DeserializeObject<TDeserialize>(File.ReadAllText(_settingsPath), settings);
+                TSerialize deserialized = DeserializeObject<TSerialize>(File.ReadAllText(_settingsPath), settings);
 
                 if (deserialized is null)
-                    deserialized = new TDeserialize();
+                    deserialized = new TSerialize();
 
                 HasReadSucceeded = true;
 
                 return deserialized;
             }
-        }, new TDeserialize());
+        }, new TSerialize());
 
         /// <summary>
-        /// Writes the settings to the settings file.
-        /// To protect the user settings, this does nothing if the last read wasn't successful.
+        /// Writes the settings to the settings file. To protect the user settings, this does nothing if the last read wasn't successful.
         /// </summary>
-        public void Write(TDeserialize value)
+        /// <param name="value">The value to overwrite the settings file with.</param>
+        public void Write(TSerialize value) => Write(SerializeSettings(value));
+
+        /// <summary>
+        /// Writes the string to the settings file. To protect the user settings, this does nothing if the last read wasn't successful.
+        /// </summary>
+        /// <param name="value"></param>
+        public void Write(string value)
         {
             if (!HasReadSucceeded)
                 return;
@@ -113,12 +143,12 @@ namespace KeepCoding
             SuppressIO(() =>
             {
                 lock (s_settingsFileLock)
-                    File.WriteAllText(_settingsPath, SerializeSettings(value));
+                    File.WriteAllText(_settingsPath, value);
             });
         }
 
         /// <summary>
-        /// Deserializes, then reserializes the file according to <see cref="SerializeSettings(TDeserialize)"/>.
+        /// Deserializes, then reserializes the file according to <see cref="SerializeSettings(TSerialize)"/>.
         /// </summary>
         /// <returns>A string representation of the value from <see cref="Read"/>.</returns>
         public override string ToString() => SerializeSettings(Read());
