@@ -35,15 +35,15 @@ namespace KeepCoding
         /// Creates a new <see cref="ModConfig{T}"/> with the target file name and an optional event of when the file is read.
         /// </summary>
         /// <param name="fileName">The file name to get.</param>
-        /// <param name="mergeSettings">The way that the default value and the file merge.</param>
-        public ModConfig(string fileName, JsonMergeSettings mergeSettings = null)
+        /// <param name="settings">The way that the default value and the file merge.</param>
+        public ModConfig(string fileName, JsonMergeSettings settings = null)
         {
             if (!fileName.Contains("."))
                 fileName += ".json";
 
             _settingsPath = Combine(s_settingsFolder, fileName);
 
-            Merge(default, mergeSettings ?? new JsonMergeSettings());
+            Merge(default, settings ?? new JsonMergeSettings());
         }
 
         static ModConfig()
@@ -89,12 +89,12 @@ namespace KeepCoding
         /// Reads, merges, and writes the settings to the settings file. To protect the user settings, this does nothing if the read isn't successful.
         /// </summary>
         /// <param name="value">The value to merge the file with.</param>
-        /// <param name="mergeSettings">The way that <paramref name="value"/> and the file merge.</param>
-        public void Merge(TSerialize value, JsonMergeSettings mergeSettings)
+        /// <param name="settings">The way that <paramref name="value"/> and the file merge.</param>
+        public void Merge(TSerialize value, JsonMergeSettings settings = null)
         {
             JObject original = Parse(ToString());
-
-            original.Merge(Parse(SerializeSettings(value)));
+            
+            original.Merge(Parse(SerializeSettings(value)), settings ?? new JsonMergeSettings());
 
             Write(original.ToString());
         }
