@@ -34,10 +34,14 @@ namespace KeepCoding
         /// <summary>
         /// Creates a new <see cref="ModConfig{T}"/> with the target file name and an optional event of when the file is read.
         /// </summary>
+        /// <exception cref="ConstructorArgumentException"></exception>
         /// <param name="fileName">The file name to get.</param>
         /// <param name="settings">The way that the default value and the file merge.</param>
         public ModConfig(string fileName, JsonMergeSettings settings = null)
         {
+            if (fileName is null)
+                throw new ConstructorArgumentException("The file name cannot be null.");
+
             if (!fileName.Contains("."))
                 fileName += ".json";
 
@@ -83,18 +87,20 @@ namespace KeepCoding
         /// <summary>
         /// Serializes settings the same way it's written to the file. Supports settings that use enums.
         /// </summary>
-        public static string SerializeSettings(TSerialize settings) => SerializeObject(settings, Indented, new StringEnumConverter());
+        /// <exception cref="NullReferenceException"></exception>
+        public static string SerializeSettings(TSerialize value) => SerializeObject(value.NullCheck("The value cannot be null."), Indented, new StringEnumConverter());
 
         /// <summary>
         /// Reads, merges, and writes the settings to the settings file. To protect the user settings, this does nothing if the read isn't successful.
         /// </summary>
+        /// <exception cref="NullReferenceException"></exception>
         /// <param name="value">The value to merge the file with.</param>
         /// <param name="settings">The way that <paramref name="value"/> and the file merge.</param>
         public void Merge(TSerialize value, JsonMergeSettings settings = null)
         {
             JObject original = Parse(ToString());
             
-            original.Merge(Parse(SerializeSettings(value)), settings ?? new JsonMergeSettings());
+            original.Merge(Parse(SerializeSettings(value.NullCheck("The value cannot be null."))), settings ?? new JsonMergeSettings());
 
             Write(original.ToString());
         }
@@ -131,19 +137,21 @@ namespace KeepCoding
         /// <summary>
         /// Writes the settings to the settings file. To protect the user settings, this does nothing if the last read wasn't successful.
         /// </summary>
+        /// <exception cref="NullReferenceException"></exception>
         /// <param name="value">The value to overwrite the settings file with.</param>
-        public void Write(TSerialize value) => Write(SerializeSettings(value));
+        public void Write(TSerialize value) => Write(SerializeSettings(value.NullCheck("The value cannot be null.")));
 
         /// <summary>
         /// Writes the string to the settings file. To protect the user settings, this does nothing if the last read wasn't successful.
         /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
         /// <param name="value"></param>
         public void Write(string value)
         {
             if (!HasReadSucceeded)
                 return;
 
-            Log($"Writing to file \"{s_settingsFileLock}\" the following contents: {value}");
+            Log($"Writing to file \"{s_settingsFileLock}\" the following contents: {value.NullCheck("The value cannot be null.")}");
 
             SuppressIO(() =>
             {
