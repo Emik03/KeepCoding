@@ -280,12 +280,12 @@ namespace KeepCoding
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
         public static Action Combine(this Action self, params Action[] others)
         {
-            if (self is null)
-                self = others.FirstValue();
-
             foreach (Action other in others)
                 if (other is { })
-                    self += other;
+                    if (self is null)
+                        self = other;
+                    else
+                        self += other;
 
             return self;
         }
@@ -298,12 +298,12 @@ namespace KeepCoding
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
         public static Action<T> Combine<T>(this Action<T> self, params Action<T>[] others)
         {
-            if (self is null)
-                self = others.FirstValue();
-
             foreach (Action<T> other in others)
                 if (other is { })
-                    self += other;
+                    if (self is null)
+                        self = other;
+                    else
+                        self += other;
 
             return self;
         }
@@ -316,12 +316,12 @@ namespace KeepCoding
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
         public static Action<T1, T2> Combine<T1, T2>(this Action<T1, T2> self, params Action<T1, T2>[] others)
         {
-            if (self is null)
-                self = others.FirstValue();
-
             foreach (Action<T1, T2> other in others)
                 if (other is { })
-                    self += other;
+                    if (self is null)
+                        self = other;
+                    else
+                        self += other;
 
             return self;
         }
@@ -334,12 +334,12 @@ namespace KeepCoding
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
         public static Action<T1, T2, T3> Combine<T1, T2, T3>(this Action<T1, T2, T3> self, params Action<T1, T2, T3>[] others)
         {
-            if (self is null)
-                self = others.FirstValue();
-
             foreach (Action<T1, T2, T3> other in others)
                 if (other is { })
-                    self += other;
+                    if (self is null)
+                        self = other;
+                    else
+                        self += other;
 
             return self;
         }
@@ -352,12 +352,12 @@ namespace KeepCoding
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
         public static Action<T1, T2, T3, T4> Combine<T1, T2, T3, T4>(this Action<T1, T2, T3, T4> self, params Action<T1, T2, T3, T4>[] others)
         {
-            if (self is null)
-                self = others.FirstValue();
-
             foreach (Action<T1, T2, T3, T4> other in others)
                 if (other is { })
-                    self += other;
+                    if (self is null)
+                        self = other;
+                    else
+                        self += other;
 
             return self;
         }
@@ -408,12 +408,12 @@ namespace KeepCoding
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
         public static Func<TResult> Combine<TResult>(this Func<TResult> self, params Func<TResult>[] others)
         {
-            if (self is null)
-                self = others.FirstValue();
-
             foreach (Func<TResult> other in others)
                 if (other is { })
-                    self += other;
+                    if (self is null)
+                        self = other;
+                    else
+                        self += other;
 
             return self;
         }
@@ -426,12 +426,12 @@ namespace KeepCoding
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
         public static Func<T, TResult> Combine<T, TResult>(this Func<T, TResult> self, params Func<T, TResult>[] others)
         {
-            if (self is null)
-                self = others.FirstValue();
-
             foreach (Func<T, TResult> other in others)
                 if (other is { })
-                    self += other;
+                    if (self is null)
+                        self = other;
+                    else
+                        self += other;
 
             return self;
         }
@@ -444,12 +444,12 @@ namespace KeepCoding
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
         public static Func<T1, T2, TResult> Combine<T1, T2, TResult>(this Func<T1, T2, TResult> self, params Func<T1, T2, TResult>[] others)
         {
-            if (self is null)
-                self = others.FirstValue();
-
             foreach (Func<T1, T2, TResult> other in others)
                 if (other is { })
-                    self += other;
+                    if (self is null)
+                        self = other;
+                    else
+                        self += other;
 
             return self;
         }
@@ -462,12 +462,12 @@ namespace KeepCoding
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
         public static Func<T1, T2, T3, TResult> Combine<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> self, params Func<T1, T2, T3, TResult>[] others)
         {
-            if (self is null)
-                self = others.FirstValue();
-
             foreach (Func<T1, T2, T3, TResult> other in others)
                 if (other is { })
-                    self += other;
+                    if (self is null)
+                        self = other;
+                    else
+                        self += other;
 
             return self;
         }
@@ -480,12 +480,12 @@ namespace KeepCoding
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
         public static Func<T1, T2, T3, T4, TResult> Combine<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, TResult> self, params Func<T1, T2, T3, T4, TResult>[] others)
         {
-            if (self is null)
-                self = others.FirstValue();
-
             foreach (Func<T1, T2, T3, T4, TResult> other in others)
                 if (other is { })
-                    self += other;
+                    if (self is null)
+                        self = other;
+                    else
+                        self += other;
 
             return self;
         }
