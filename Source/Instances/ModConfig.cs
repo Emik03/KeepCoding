@@ -25,11 +25,11 @@ namespace KeepCoding
     {
         private readonly string _settingsPath;
 
-        private static readonly string s_settingsFolder;
+        private static readonly string s_settingsFolder = Combine(persistentDataPath, "Modsettings");
 
         private static readonly object s_settingsFileLock = new object();
 
-        private static readonly Logger s_logger = new Logger(typeof(ModConfig<>));
+        private readonly Logger _logger = new Logger($"{typeof(ModConfig<>).Name} ({typeof(TSerialize).Name})");
 
         /// <summary>
         /// Creates a new <see cref="ModConfig{T}"/> with the target file name and an optional event of when the file is read.
@@ -48,10 +48,8 @@ namespace KeepCoding
 
         static ModConfig()
         {
-            s_settingsFolder = Combine(persistentDataPath, "Modsettings");
-
             if (!isEditor && !Directory.Exists(s_settingsFolder))
-                Directory.CreateDirectory(s_settingsFolder);
+                SuppressIO(() => Directory.CreateDirectory(s_settingsFolder));
         }
 
         /// <summary>
@@ -66,7 +64,7 @@ namespace KeepCoding
         /// <param name="message">The message to log.</param>
         /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
         [CLSCompliant(false)]
-        public void Log<T>(T message, LogType logType = LogType.Log) => s_logger.Log(message, logType);
+        public void Log<T>(T message, LogType logType = LogType.Log) => _logger.Log(message, logType);
 
         /// <summary>
         /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
@@ -74,13 +72,13 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="message">The message to log.</param>
         /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
-        public void Log<T>(T message, params object[] args) => s_logger.Log(message, args);
+        public void Log<T>(T message, params object[] args) => _logger.Log(message, args);
 
         /// <summary>
         /// Logs multiple entries to the console.
         /// </summary>
         /// <param name="logs">The array of logs to individual output into the console.</param>
-        public void LogMultiple(params string[] logs) => s_logger.LogMultiple(logs);
+        public void LogMultiple(params string[] logs) => _logger.LogMultiple(logs);
 
         /// <summary>
         /// Serializes settings the same way it's written to the file. Supports settings that use enums.
@@ -117,9 +115,14 @@ namespace KeepCoding
                 TSerialize deserialized = DeserializeObject<TSerialize>(File.ReadAllText(_settingsPath), settings);
 
                 if (deserialized is null)
+                {
+                    Log("Reading and deserializing the file ended up as null, creating default value...");
                     deserialized = new TSerialize();
+                }
 
                 HasReadSucceeded = true;
+
+                Log($"Read was successful: {deserialized}");
 
                 return deserialized;
             }
@@ -139,6 +142,8 @@ namespace KeepCoding
         {
             if (!HasReadSucceeded)
                 return;
+
+            Log($"Writing to file \"{s_settingsFileLock}\" the following contents: {value}");
 
             SuppressIO(() =>
             {
