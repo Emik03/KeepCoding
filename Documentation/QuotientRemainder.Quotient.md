@@ -3,7 +3,7 @@
 ## QuotientRemainder.Quotient Property
 The quotient (result of the integer division).  
 ```csharp
-public readonly KeepCoding.BigInt Quotient { get; }
+public KeepCoding.BigInt Quotient { get; }
 ```
 #### Property Value
 [BigInt](BigInt.md 'KeepCoding.BigInt')

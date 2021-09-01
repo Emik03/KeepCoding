@@ -3,7 +3,7 @@
 ## Number Struct
 Encapsulates a primitive numeric value.  
 ```csharp
-public struct Number :
+public readonly struct Number :
 System.IComparable,
 System.IFormattable,
 System.IComparable<KeepCoding.Number>,

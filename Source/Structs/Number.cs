@@ -10,7 +10,7 @@ namespace KeepCoding
     /// <summary>
     /// Encapsulates a primitive numeric value.
     /// </summary>
-    public struct Number : IComparable, IFormattable, IComparable<Number>, IEquatable<Number>, IComparable<ValueType>, IEquatable<ValueType>
+    public readonly struct Number : IComparable, IFormattable, IComparable<Number>, IEquatable<Number>, IComparable<ValueType>, IEquatable<ValueType>
     {
         /// <summary>
         /// Creates a <see cref="Number"/> with the inner type <see cref="sbyte"/>.
@@ -1029,7 +1029,11 @@ namespace KeepCoding
         /// </summary>
         /// <param name="modulo">The right-hand side operator.</param>
         /// <returns>Itself mod <paramref name="modulo"/>.</returns>
-        public Number Modulo(Number modulo) => (this %= modulo) < 0 == modulo > 0 ? this + modulo : this;
+        public Number Modulo(Number modulo)
+        {
+            Number output = this % modulo;
+            return output < 0 == modulo > 0 ? output + modulo : output;
+        }
 
         /// <summary>
         /// Creates a new <see cref="Number"/> with the inner type being the type specified.

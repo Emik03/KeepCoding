@@ -6,7 +6,7 @@
     /// <remarks>
     /// This struct has been written by Timwi. <see href="https://github.com/Timwi/"/>
     /// </remarks>
-    public struct QuotientRemainder
+    public readonly struct QuotientRemainder
     {
         /// <summary>
         /// Constructor.

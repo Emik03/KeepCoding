@@ -3,7 +3,7 @@
 ## QuotientRemainder Struct
 Encapsulates the two-valued result of a division/modulo operation ([DivideModulo(BigInt)](BigInt.DivideModulo.hKNytB2JMgJyLX17vZnr3Q.md 'KeepCoding.BigInt.DivideModulo(KeepCoding.BigInt)')).  
 ```csharp
-public struct QuotientRemainder
+public readonly struct QuotientRemainder
 ```
 ### Remarks
 This struct has been written by Timwi. [https://github.com/Timwi/](https://github.com/Timwi/ 'https://github.com/Timwi/')
