@@ -21,9 +21,9 @@ namespace KeepCoding
         /// Creates a <see cref="ColorblindInfo"/> while read/writing the file.
         /// </summary>
         /// <param name="moduleId">The module's id to grab information from.</param>
-        public ColorblindInfo(string moduleId = null) : this()
+        public ColorblindInfo(string moduleId) : this()
         {
-            if (isEditor || moduleId is null)
+            if (isEditor)
                 return;
 
             ColorblindInfo info = Read();
@@ -31,7 +31,7 @@ namespace KeepCoding
             IsEnabled = info.IsEnabled;
             Modules = info.Modules;
 
-            if (!Modules.TryGetValue(moduleId, out bool? isEnabled))
+            if (!Modules.TryGetValue(moduleId.NullCheck("The module id cannot be null."), out bool? isEnabled))
                 Modules[moduleId] = null;
 
             Write(this);
