@@ -56,9 +56,9 @@ namespace KeepCoding
         /// </remarks>
         public static Version Version => AssemblyName.Version;
 
-        internal static UnityWebRequest LatestGitHub => Get("https://api.github.com/repos/Emik03/KeepCoding/releases/latest");
+        internal static string Caller => new StackFrame(2).GetMethod().ReflectedType.Assembly.GetName().Name;
 
-        private static string Caller => new StackFrame(2).GetMethod().ReflectedType.Assembly.GetName().Name;
+        internal static UnityWebRequest LatestGitHub => Get("https://api.github.com/repos/Emik03/KeepCoding/releases/latest");
 
         /// <summary>
         /// Loads a library from the directory of the mod caller.

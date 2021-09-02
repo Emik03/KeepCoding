@@ -35,6 +35,13 @@ namespace KeepCoding
         /// Creates a new <see cref="ModConfig{T}"/> with the target file name and an optional event of when the file is read.
         /// </summary>
         /// <exception cref="ConstructorArgumentException"></exception>
+        /// <param name="settings">The way that the default value and the file merge.</param>
+        public ModConfig(JsonMergeSettings settings = null) : this($"{Caller}-settings", settings) { }
+
+        /// <summary>
+        /// Creates a new <see cref="ModConfig{T}"/> with the target file name and an optional event of when the file is read.
+        /// </summary>
+        /// <exception cref="ConstructorArgumentException"></exception>
         /// <param name="fileName">The file name to get.</param>
         /// <param name="settings">The way that the default value and the file merge.</param>
         public ModConfig(string fileName, JsonMergeSettings settings = null)
