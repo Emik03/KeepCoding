@@ -92,12 +92,6 @@ namespace KeepCoding
         public void LogMultiple(params string[] logs) => _logger.LogMultiple(logs);
 
         /// <summary>
-        /// Serializes settings the same way it's written to the file. Supports settings that use enums.
-        /// </summary>
-        /// <exception cref="NullReferenceException"></exception>
-        public static string SerializeSettings(TSerialize value) => SerializeObject(value.NullCheck("The value cannot be null."), Indented, new StringEnumConverter());
-
-        /// <summary>
         /// Reads, merges, and writes the settings to the settings file. To protect the user settings, this does nothing if the read isn't successful.
         /// </summary>
         /// <exception cref="NullReferenceException"></exception>
@@ -111,6 +105,44 @@ namespace KeepCoding
 
             Write(original.ToString());
         }
+
+        /// <summary>
+        /// Writes the settings to the settings file. To protect the user settings, this does nothing if the last read wasn't successful.
+        /// </summary>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <param name="value">The value to overwrite the settings file with.</param>
+        public void Write(TSerialize value) => Write(SerializeSettings(value.NullCheck("The value cannot be null.")));
+
+        /// <summary>
+        /// Writes the string to the settings file. To protect the user settings, this does nothing if the last read wasn't successful.
+        /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <param name="value"></param>
+        public void Write(string value)
+        {
+            if (!HasReadSucceeded)
+                return;
+
+            Log($"Writing to file \"{s_settingsFileLock}\" the following contents: {value.NullCheck("The value cannot be null.")}");
+
+            SuppressIO(() =>
+            {
+                lock (s_settingsFileLock)
+                    File.WriteAllText(_settingsPath, value);
+            });
+        }
+
+        /// <summary>
+        /// Serializes settings the same way it's written to the file. Supports settings that use enums.
+        /// </summary>
+        /// <exception cref="NullReferenceException"></exception>
+        public static string SerializeSettings(TSerialize value) => SerializeObject(value.NullCheck("The value cannot be null."), Indented, new StringEnumConverter());
+
+        /// <summary>
+        /// Deserializes, then reserializes the file according to <see cref="SerializeSettings(TSerialize)"/>.
+        /// </summary>
+        /// <returns>A string representation of the value from <see cref="Read"/>.</returns>
+        public override string ToString() => SerializeSettings(Read());
 
         /// <summary>
         /// Reads the settings from the settings file. If the settings couldn't be read, the default settings will be returned.
@@ -140,37 +172,5 @@ namespace KeepCoding
                 return deserialized;
             }
         }, new TSerialize());
-
-        /// <summary>
-        /// Writes the settings to the settings file. To protect the user settings, this does nothing if the last read wasn't successful.
-        /// </summary>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <param name="value">The value to overwrite the settings file with.</param>
-        public void Write(TSerialize value) => Write(SerializeSettings(value.NullCheck("The value cannot be null.")));
-
-        /// <summary>
-        /// Writes the string to the settings file. To protect the user settings, this does nothing if the last read wasn't successful.
-        /// </summary>
-        /// <exception cref="NullIteratorException"></exception>
-        /// <param name="value"></param>
-        public void Write(string value)
-        {
-            if (!HasReadSucceeded)
-                return;
-
-            Log($"Writing to file \"{s_settingsFileLock}\" the following contents: {value.NullCheck("The value cannot be null.")}");
-
-            SuppressIO(() =>
-            {
-                lock (s_settingsFileLock)
-                    File.WriteAllText(_settingsPath, value);
-            });
-        }
-
-        /// <summary>
-        /// Deserializes, then reserializes the file according to <see cref="SerializeSettings(TSerialize)"/>.
-        /// </summary>
-        /// <returns>A string representation of the value from <see cref="Read"/>.</returns>
-        public override string ToString() => SerializeSettings(Read());
     }
 }
