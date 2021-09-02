@@ -15,7 +15,7 @@ namespace KeepCoding
         /// <summary>
         /// Creates a <see cref="ColorblindInfo"/> without read/writing the file.
         /// </summary>
-        public ColorblindInfo() : base("Colorblind") { }
+        public ColorblindInfo() : base("ColorblindMode") { }
 
         /// <summary>
         /// Creates a <see cref="ColorblindInfo"/> while read/writing the file.
