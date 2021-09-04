@@ -15,9 +15,7 @@ namespace KeepCoding
     public abstract class AudioScript : CacheableBehaviour
     {
         [SerializeField]
-#pragma warning disable 649, IDE0044 // Add readonly modifier
         private bool _isSFX;
-#pragma warning restore 649, IDE0044 // Add readonly modifier
 
         [SerializeField]
         private AudioClip[] _audioClips = new AudioClip[0];
@@ -36,6 +34,11 @@ namespace KeepCoding
         /// Determines if the audio source is currently playing.
         /// </summary>
         public bool IsPlaying => _audioSource.isPlaying;
+
+        /// <summary>
+        /// Determines if <see cref="AudioSource.volume"/> in <see cref="AudioSource"/> is scaled using <see cref="SFXVolume"/> when <see langword="true"/> and <see cref="MusicVolume"/> when <see langword="false"/>.
+        /// </summary>
+        public bool IsSFX { get => _isSFX; set => _isSFX = value; }
 
         /// <summary>
         /// The current volume of the game. Ranges 0 to 100. In the Editor this value will always return 100.
