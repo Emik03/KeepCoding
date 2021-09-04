@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Threading;
 using UnityEngine;
+using static UnityEngine.Application;
 
 namespace KeepCoding.Internal
 {
@@ -66,5 +67,13 @@ namespace KeepCoding.Internal
         /// </summary>
         /// <returns><see cref="WaitWhile"/> until <see cref="IsRunning"/> is no longer true.</returns>
         private protected IEnumerator WaitForOwnThread() => new WaitWhile(() => IsRunning);
+
+        /// <summary>
+        /// This aborts the thread. It's to prevent the Editor from freezing from unloading the thread while it is in use, and potentially prevent issues in-game from similar actions.
+        /// </summary>
+        ~WorkBase()
+        {
+            Thread.Abort();
+        }
     }
 }
