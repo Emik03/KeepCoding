@@ -555,6 +555,29 @@ namespace KeepCoding
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement"/>
         /// </remarks>
         /// <exception cref="NullReferenceException"></exception>
+        /// <typeparam name="TDictionary">The type of iterator.</typeparam>
+        /// <typeparam name="TKey">The type of each key in the iterator.</typeparam>
+        /// <typeparam name="TValue">The type of each value in the iterator.</typeparam>
+        /// <param name="iterator">The collection of items to go through one-by-one.</param>
+        /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
+        /// <returns><paramref name="iterator"/></returns>
+        public static TDictionary ForEach<TDictionary, TKey, TValue>(this TDictionary iterator, Action<TKey, TValue> action) where TDictionary : IDictionary<TKey, TValue>
+        {
+            action.NullCheck("The action cannot be null.");
+
+            foreach (KeyValuePair<TKey, TValue> item in iterator)
+                action(item.Key, item.Value);
+
+            return iterator;
+        }
+
+        /// <summary>
+        /// The <see langword="foreach"/> statement executes a statement or a block of statements for each element in an instance of the type that implements the <see cref="IEnumerable"/> or <see cref="IEnumerable{T}"/> interface.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="T">The type of iterator.</typeparam>
         /// <param name="iterator">The collection of items to go through one-by-one.</param>
         /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
@@ -612,6 +635,31 @@ namespace KeepCoding
 
             foreach (TCurrent item in iterator)
                 action(item, checked(i++));
+
+            return iterator;
+        }
+
+        /// <summary>
+        /// The <see langword="foreach"/> statement executes a statement or a block of statements for each element in an instance of the type that implements the <see cref="IEnumerable"/> or <see cref="IEnumerable{T}"/> interface.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <typeparam name="TDictionary">The type of iterator.</typeparam>
+        /// <typeparam name="TKey">The type of each key in the iterator.</typeparam>
+        /// <typeparam name="TValue">The type of each value in the iterator.</typeparam>
+        /// <param name="iterator">The collection of items to go through one-by-one.</param>
+        /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
+        /// <returns><paramref name="iterator"/></returns>
+        public static TDictionary ForEach<TDictionary, TKey, TValue>(this TDictionary iterator, Action<TKey, TValue, int> action) where TDictionary : IDictionary<TKey, TValue>
+        {
+            action.NullCheck("The action cannot be null.");
+
+            int i = 0;
+
+            foreach (KeyValuePair<TKey, TValue> item in iterator)
+                action(item.Key, item.Value, checked(i++));
 
             return iterator;
         }
