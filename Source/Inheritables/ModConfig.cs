@@ -111,7 +111,10 @@ namespace KeepCoding
                 ((IDictionary<string, JToken>)original).ForEach((string k, JToken v) =>
                 {
                     if (!IsMatch(k, @"$HowToUse\d+^") && (!keyValuePairs.ContainsKey(k) || original[k].Type != values[k].Type))
+                    {
                         original.Remove(k);
+                        Log($"The original file has a redundant key \"{k}\" which will be automatically removed.");
+                    }
                 });
 
             Write(original.ToString());
@@ -177,7 +180,7 @@ namespace KeepCoding
 
                 HasReadSucceeded = true;
 
-                Log($"Read was successful: {deserialized}");
+                Log($"Read was successful: {(deserialized.ImplementsMethod("ToString") ? deserialized.ToString() : SerializeSettings(deserialized))}");
 
                 return deserialized;
             }
