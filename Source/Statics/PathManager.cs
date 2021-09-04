@@ -405,7 +405,7 @@ namespace KeepCoding
                 yield return objs.ConvertAll(o => (T)o);
                 yield break;
             }
-            
+
             Self($"Loading type \"{typeof(T).Name}\" from \"{file}\" which exists in \"{assembly}\".");
 
             AssetBundleCreateRequest request = LoadFromFileAsync(GetPath(file, assembly));
