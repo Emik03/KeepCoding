@@ -7,4 +7,4 @@ public override string ToString();
 ```
 #### Returns
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
-A string representation of the value from [Read(JsonSerializerSettings)](ModConfig.TSerialize..Read.LspGKuFe8hhaxQYlY+PWsQ.md 'KeepCoding.ModConfig&lt;TSerialize&gt;.Read(JsonSerializerSettings)').
+A string representation of the value from [Read()](ModConfig.TSerialize..Read().md 'KeepCoding.ModConfig&lt;TSerialize&gt;.Read()').

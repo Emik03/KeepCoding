@@ -8,6 +8,7 @@ public void Write(string value);
 #### Parameters
 <a name='KeepCoding.ModConfig.TSerialize..Write(string).value'></a>
 `value` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
+The contents to write.
   
 #### Exceptions
 [NullIteratorException](NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  

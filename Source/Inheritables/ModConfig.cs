@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using KeepCoding.Internal;
 using Newtonsoft.Json;
@@ -6,6 +7,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using static System.IO.Path;
+using static System.Text.RegularExpressions.Regex;
 using static KeepCoding.PathManager;
 using static Newtonsoft.Json.Formatting;
 using static Newtonsoft.Json.JsonConvert;
@@ -29,32 +31,30 @@ namespace KeepCoding
 
         private static readonly object s_settingsFileLock = new object();
 
-        private readonly Logger _logger = new Logger($"{typeof(ModConfig<>).Name} ({typeof(TSerialize).Name})");
+        private readonly Logger _logger = new Logger($"ModConfig ({typeof(TSerialize).Name})");
 
         /// <summary>
         /// Creates a new <see cref="ModConfig{T}"/> with the target file name and an optional event of when the file is read.
         /// </summary>
         /// <exception cref="ConstructorArgumentException"></exception>
-        /// <param name="settings">The way that the default value and the file merge.</param>
-        public ModConfig(JsonMergeSettings settings = null) : this($"{Caller}-settings", settings) { }
+        public ModConfig() : this($"{Caller}-settings") { }
 
         /// <summary>
         /// Creates a new <see cref="ModConfig{T}"/> with the target file name and an optional event of when the file is read.
         /// </summary>
         /// <exception cref="ConstructorArgumentException"></exception>
         /// <param name="fileName">The file name to get.</param>
-        /// <param name="settings">The way that the default value and the file merge.</param>
-        public ModConfig(string fileName, JsonMergeSettings settings = null)
+        public ModConfig(string fileName)
         {
             if (fileName is null)
-                throw new ConstructorArgumentException("The file name cannot be null.");
+                return;
 
             if (!fileName.Contains("."))
-                fileName += ".json";
+                fileName += File.Exists($"{Combine(s_settingsFolder, fileName)}.txt") ? ".txt" : ".json";
 
             _settingsPath = Combine(s_settingsFolder, fileName);
 
-            Merge(default, settings ?? new JsonMergeSettings());
+            Merge(new TSerialize());
         }
 
         static ModConfig()
@@ -66,6 +66,7 @@ namespace KeepCoding
         /// <summary>
         /// Whether or not there has been a successful read of the settings file.
         /// </summary>
+        [JsonIgnore]
         public bool HasReadSucceeded { get; private set; }
 
         /// <summary>
@@ -96,12 +97,22 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="NullReferenceException"></exception>
         /// <param name="value">The value to merge the file with.</param>
-        /// <param name="settings">The way that <paramref name="value"/> and the file merge.</param>
-        public void Merge(TSerialize value, JsonMergeSettings settings = null)
+        /// <param name="isDiscarding">Determines whether it should remove values from the original file that isn't contained within the type, or has the incorrect type.</param>
+        public void Merge(TSerialize value, bool isDiscarding = false)
         {
-            JObject original = Parse(ToString());
-            
-            original.Merge(Parse(SerializeSettings(value.NullCheck("The value cannot be null."))), settings ?? new JsonMergeSettings());
+            JObject original = Parse(ToString()),
+                values = Parse(SuppressIO<string>(() => File.ReadAllText(_settingsPath), ""));
+
+            original.Merge(values, new JsonMergeSettings());
+
+            IDictionary<string, JToken> keyValuePairs = values;
+
+            if (isDiscarding)
+                ((IDictionary<string, JToken>)original).ForEach((string k, JToken v) =>
+                {
+                    if (!IsMatch(k, @"$HowToUse\d+^") && (!keyValuePairs.ContainsKey(k) || original[k].Type != values[k].Type))
+                        original.Remove(k);
+                });
 
             Write(original.ToString());
         }
@@ -117,13 +128,13 @@ namespace KeepCoding
         /// Writes the string to the settings file. To protect the user settings, this does nothing if the last read wasn't successful.
         /// </summary>
         /// <exception cref="NullIteratorException"></exception>
-        /// <param name="value"></param>
+        /// <param name="value">The contents to write.</param>
         public void Write(string value)
         {
             if (!HasReadSucceeded)
                 return;
 
-            Log($"Writing to file \"{s_settingsFileLock}\" the following contents: {value.NullCheck("The value cannot be null.")}");
+            Log($"Writing to file \"{_settingsPath}\" the following contents: {value.NullCheck("The value cannot be null.")}");
 
             SuppressIO(() =>
             {
@@ -147,8 +158,7 @@ namespace KeepCoding
         /// <summary>
         /// Reads the settings from the settings file. If the settings couldn't be read, the default settings will be returned.
         /// </summary>
-        /// <param name="settings">The settings for serializing the json file.</param>
-        public TSerialize Read(JsonSerializerSettings settings = null) => SuppressIO(() =>
+        public TSerialize Read() => SuppressIO(() =>
         {
             HasReadSucceeded = false;
 
@@ -157,7 +167,7 @@ namespace KeepCoding
                 if (!File.Exists(_settingsPath))
                     File.WriteAllText(_settingsPath, SerializeSettings(new TSerialize()));
 
-                TSerialize deserialized = DeserializeObject<TSerialize>(File.ReadAllText(_settingsPath), settings);
+                TSerialize deserialized = DeserializeObject<TSerialize>(File.ReadAllText(_settingsPath), new JsonSerializerSettings());
 
                 if (deserialized is null)
                 {
