@@ -7,7 +7,6 @@ using System.Security;
 using KeepCoding.Internal;
 using Rewritten;
 using UnityEngine;
-using static System.Reflection.Assembly;
 using static KeepCoding.ComponentPool;
 using static KeepCoding.Logger;
 using static Localization;
@@ -879,21 +878,11 @@ namespace KeepCoding
         public static References Reference
         {
             get => s_references;
-            set
-            {
-                Assembly source = new StackFrame(1).GetMethod().ReflectedType.Assembly;
-
-                string[] trustedSources = new[]
-                {
-                    "Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
-                };
-
-                s_references = trustedSources.Contains(source.FullName)
+            set => s_references = new StackFrame(1).GetMethod().ReflectedType.Assembly.FullName is "Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
                     ? Helper.GetValues<References>().Any(r => r == value)
                     ? value.Call(r => Self($"Changing {nameof(Reference)} to be \"{value}\" from previous \"{Reference}\"."))
                     : throw new ArgumentException($"The value \"{value}\" is not valid!")
-                    : throw new SecurityException($"The library \"{source.GetName().Name}\" does not have permission to edit this value!");
-            }
+                    : throw new SecurityException($"The library \"{new StackFrame(1).GetMethod().ReflectedType.Assembly.GetName().Name}\" does not have permission to edit this value!");
         }
 
         private static References s_references = isEditor ? References.None : References.Ktane;
