@@ -332,7 +332,7 @@ namespace KeepCoding
         {
             Self($"Caught error of type {e.GetType()}: {e}");
             caught?.Invoke(e);
-        });
+        })();
 
         internal static T SuppressIO<T>(Func<T> func, T caught) => func.Catch<IOException, NotSupportedException, UnauthorizedAccessException, T>(e =>
         {
