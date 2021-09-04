@@ -9,9 +9,10 @@ using static System.Reflection.Assembly;
 using static System.Uri;
 using static KeepCoding.Logger;
 using static KeepCoding.ModuleScript;
-using static UnityEditor.EditorApplication;
 using static UnityEngine.GUILayout;
 using static UnityEngine.Networking.UnityWebRequest;
+using static UnityEditor.EditorApplication;
+using static UnityEditor.EditorGUILayout;
 
 namespace KeepCoding.Internal
 {
@@ -31,6 +32,8 @@ namespace KeepCoding.Internal
             DrawDefaultInspector();
 
             var module = (ModuleScript)target;
+
+            module.Seed = IntField("Rule Seed", module.Seed);
 
             if (isPlaying && module.IsColorblindSupported)
                 module.IsColorblind = Toggle(module.IsColorblind, "Enable colorblind");

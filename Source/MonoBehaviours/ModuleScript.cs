@@ -168,6 +168,8 @@ namespace KeepCoding
 
         internal static bool IsOutdated { get; private set; }
 
+        internal int Seed { get; set; } = 1;
+
         private string Name => _name ??= Type.NameOfAssembly();
         private string _name;
 
@@ -381,17 +383,17 @@ namespace KeepCoding
         public int GetRuleSeedId()
         {
             if (isEditor)
-                return 1;
+                return Seed;
 
             var ruleSeedObject = GameObject.Find("RuleSeedModifierProperties");
 
             if (ruleSeedObject is null)
-                return 1;
+                return Seed;
 
             IDictionary<string, object> ruleSeedDictionary = ruleSeedObject.GetComponent<IDictionary<string, object>>();
 
             if (!ruleSeedDictionary.ContainsKey("RuleSeed"))
-                return 1;
+                return Seed;
 
             if (ruleSeedDictionary.ContainsKey("AddSupportedModule"))
                 ruleSeedDictionary["AddSupportedModule"] = Module.Id;
