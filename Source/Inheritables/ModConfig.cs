@@ -31,7 +31,7 @@ namespace KeepCoding
 
         private static readonly object s_settingsFileLock = new object();
 
-        private readonly Logger _logger = new Logger($"ModConfig ({typeof(TSerialize).Name})");
+        private readonly Logger _logger = new Logger($"ModConfig ({typeof(TSerialize).Assembly.GetName().Name}.{typeof(TSerialize).Name})");
 
         /// <summary>
         /// Creates a new <see cref="ModConfig{T}"/> with the target file name and an optional event of when the file is read.
