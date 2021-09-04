@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Threading;
 using UnityEngine;
-using static UnityEngine.Application;
 
 namespace KeepCoding.Internal
 {
