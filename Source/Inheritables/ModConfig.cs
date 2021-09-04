@@ -59,7 +59,7 @@ namespace KeepCoding
 
         static ModConfig()
         {
-            if (!isEditor && !Directory.Exists(s_settingsFolder))
+            if (!Directory.Exists(s_settingsFolder))
                 SuppressIO(() => Directory.CreateDirectory(s_settingsFolder));
         }
 
