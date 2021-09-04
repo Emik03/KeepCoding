@@ -885,11 +885,10 @@ namespace KeepCoding
 
                 string[] trustedSources = new[]
                 {
-                    GetExecutingAssembly().FullName,
-                    "Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+                    "Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
                 };
 
-                s_references = !isEditor && trustedSources.Contains(source.FullName)
+                s_references = trustedSources.Contains(source.FullName)
                     ? Helper.GetValues<References>().Any(r => r == value)
                     ? value.Call(r => Self($"Changing {nameof(Reference)} to be \"{value}\" from previous \"{Reference}\"."))
                     : throw new ArgumentException($"The value \"{value}\" is not valid!")
