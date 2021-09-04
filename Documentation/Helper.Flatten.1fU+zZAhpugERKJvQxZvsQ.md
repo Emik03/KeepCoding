@@ -12,7 +12,7 @@ The [System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api
   
 <a name='KeepCoding.Helper.Flatten(System.Collections.IEnumerator.System.Predicate.System.Collections.IEnumerator.).except'></a>
 `except` [System.Predicate&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Predicate-1 'System.Predicate`1')[System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerator 'System.Collections.IEnumerator')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Predicate-1 'System.Predicate`1')  
-If [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool'), [Flatten(IEnumerator, Predicate&lt;IEnumerator&gt;)](Helper.Flatten.1fU+zZAhpugERKJvQxZvsQ.md 'KeepCoding.Helper.Flatten(System.Collections.IEnumerator, System.Predicate&lt;System.Collections.IEnumerator&gt;)') gets called recursively and each item from that output gets returned individually, otherwise the item is simply returned.
+If [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool'), [Flatten(IEnumerator, Predicate&lt;IEnumerator&gt;)](Helper.Flatten.1fU+zZAhpugERKJvQxZvsQ.md 'KeepCoding.Helper.Flatten(System.Collections.IEnumerator, System.Predicate&lt;System.Collections.IEnumerator&gt;)') gets called recursively and each item from that output gets returned individually, otherwise the item is simply returned.
   
 #### Returns
 [System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerator 'System.Collections.IEnumerator')  
