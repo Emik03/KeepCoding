@@ -34,6 +34,11 @@ namespace KeepCoding
 
         private static bool s_hasCheckedVersion;
 
+        [SerializeField]
+#pragma warning disable 649, IDE0044 // Add readonly modifier
+        private int _ruleSeedId = 1;
+#pragma warning restore 649, IDE0044 // Add readonly modifier
+
         private int _strikes;
 
         private static Dictionary<string, Dictionary<string, object>[]> s_database = new Dictionary<string, Dictionary<string, object>[]>();
@@ -167,8 +172,6 @@ namespace KeepCoding
         internal bool IsColorblindSupported => Type.ImplementsMethod(nameof(OnColorblindChanged), DeclaredOnly | Instance | Public);
 
         internal static bool IsOutdated { get; private set; }
-
-        internal int Seed { get; set; } = 1;
 
         private string Name => _name ??= Type.NameOfAssembly();
         private string _name;
@@ -382,23 +385,22 @@ namespace KeepCoding
         /// <returns>The rule seed number, by default 1.</returns>
         public int GetRuleSeedId()
         {
-            if (isEditor)
-                return Seed;
+            int standard = isEditor ? _ruleSeedId : 1;
 
             var ruleSeedObject = GameObject.Find("RuleSeedModifierProperties");
 
             if (ruleSeedObject is null)
-                return Seed;
+                return standard;
 
             IDictionary<string, object> ruleSeedDictionary = ruleSeedObject.GetComponent<IDictionary<string, object>>();
 
             if (!ruleSeedDictionary.ContainsKey("RuleSeed"))
-                return Seed;
+                return standard;
 
             if (ruleSeedDictionary.ContainsKey("AddSupportedModule"))
                 ruleSeedDictionary["AddSupportedModule"] = Module.Id;
 
-            return (ruleSeedDictionary["RuleSeed"] as int?) ?? 1;
+            return (ruleSeedDictionary["RuleSeed"] as int?) ?? standard;
         }
 
         /// <summary>
