@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using KeepCoding.Internal;
 using Newtonsoft.Json;
 using static UnityEngine.Application;
 
@@ -15,13 +13,13 @@ namespace KeepCoding
         /// <summary>
         /// Creates a <see cref="ColorblindInfo"/> without read/writing the file.
         /// </summary>
-        public ColorblindInfo() : base("ColorblindMode") { }
+        public ColorblindInfo() : base(null) { }
 
         /// <summary>
         /// Creates a <see cref="ColorblindInfo"/> while read/writing the file.
         /// </summary>
         /// <param name="moduleId">The module's id to grab information from.</param>
-        public ColorblindInfo(string moduleId) : this()
+        public ColorblindInfo(string moduleId) : base("ColorblindMode")
         {
             if (isEditor)
                 return;

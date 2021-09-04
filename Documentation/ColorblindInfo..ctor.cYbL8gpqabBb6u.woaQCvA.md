@@ -3,7 +3,7 @@
 ## ColorblindInfo.ColorblindInfo(string) Constructor
 Creates a [ColorblindInfo](ColorblindInfo.md 'KeepCoding.ColorblindInfo') while read/writing the file.  
 ```csharp
-public ColorblindInfo(string moduleId=null);
+public ColorblindInfo(string moduleId);
 ```
 #### Parameters
 <a name='KeepCoding.ColorblindInfo.ColorblindInfo(string).moduleId'></a>
