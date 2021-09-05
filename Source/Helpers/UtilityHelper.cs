@@ -2656,7 +2656,7 @@ namespace KeepCoding
         public static int ClipMin(this int value, int minimumValue) => value <= minimumValue ? minimumValue : value;
 
         /// <summary>Clips this value so that it is no greater than the maximum value specified.</summary>
-        public static int ClipMax(this int value, int maxnimumValue) => value >= maxnimumValue ? maxnimumValue : value;
+        public static int ClipMax(this int value, int maximumValue) => value >= maximumValue ? maximumValue : value;
 
         /// <summary>
         ///     Clips this value to the range defined by <paramref name="minimumValue"/> and <paramref name="maximumValue"/>.
@@ -2670,7 +2670,7 @@ namespace KeepCoding
         public static float ClipMin(this float value, float minimumValue) => value <= minimumValue ? minimumValue : value;
 
         /// <summary>Clips this value so that it is no greater than the maximum value specified.</summary>
-        public static float ClipMax(this float value, float maxnimumValue) => value >= maxnimumValue ? maxnimumValue : value;
+        public static float ClipMax(this float value, float maximumValue) => value >= maximumValue ? maximumValue : value;
 
         /// <summary>
         ///     Clips this value to the range defined by <paramref name="minimumValue"/> and <paramref name="maximumValue"/>.
@@ -2684,7 +2684,7 @@ namespace KeepCoding
         public static double ClipMin(this double value, double minimumValue) => value <= minimumValue ? minimumValue : value;
 
         /// <summary>Clips this value so that it is no greater than the maximum value specified.</summary>
-        public static double ClipMax(this double value, double maxnimumValue) => value >= maxnimumValue ? maxnimumValue : value;
+        public static double ClipMax(this double value, double maximumValue) => value >= maximumValue ? maximumValue : value;
 
         /// <summary>
         ///     Clips this value to the range defined by <paramref name="minimumValue"/> and <paramref name="maximumValue"/>.
@@ -2698,7 +2698,7 @@ namespace KeepCoding
         public static decimal ClipMin(this decimal value, decimal minimumValue) => value <= minimumValue ? minimumValue : value;
 
         /// <summary>Clips this value so that it is no greater than the maximum value specified.</summary>
-        public static decimal ClipMax(this decimal value, decimal maxnimumValue) => value >= maxnimumValue ? maxnimumValue : value;
+        public static decimal ClipMax(this decimal value, decimal maximumValue) => value >= maximumValue ? maximumValue : value;
 
         /// <summary>Attempts to parse this string as an int, returning null if the parse fails.</summary>
         public static int? TryParseAsInt(this string value) => int.TryParse(value, out int result) ? result : (int?)null;
