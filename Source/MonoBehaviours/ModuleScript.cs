@@ -81,7 +81,7 @@ namespace KeepCoding
         /// Determines whether the needy is active.
         /// </summary>
         /// <exception cref="MissingComponentException"></exception>
-        public bool IsNeedyActive { get => Module.Module is KMNeedyModule ? _isNeedyActive : throw new MissingComponentException($"A {nameof(KMNeedyModule)} must be attached in order to access this property."); private set => _isNeedyActive = value; }
+        public bool IsNeedyActive => Module.Module is KMNeedyModule ? _isNeedyActive : throw new MissingComponentException($"A {nameof(KMNeedyModule)} must be attached in order to access this property.");
         private bool _isNeedyActive;
 
         /// <summary>
@@ -201,15 +201,15 @@ namespace KeepCoding
         }), onNeedyActivation.Combine(() =>
         {
             OnNeedyActivate();
-            IsNeedyActive = true;
+            _isNeedyActive = true;
         }), onNeedyDeactivation.Combine(() =>
         {
             OnNeedyDeactivate();
-            IsNeedyActive = false;
+            _isNeedyActive = false;
         }), onPass, onStrike, onTimerExpired.Combine(() =>
         {
             OnNeedyDeactivate();
-            IsNeedyActive = false;
+            _isNeedyActive = false;
         }));
 
         /// <summary>
