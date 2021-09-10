@@ -738,9 +738,6 @@ namespace KeepCoding
             /// <summary>
             /// Implies that the library from TheDarkSid3r's Keep Talking and Nobody Explodes Rewritten be used, and its values are returned.
             /// </summary>
-            /// <remarks>
-            /// As of right now, this value is unused as the library is yet to be finished. This value will become usable at a later date.
-            /// </remarks>
             KtaneRewritten
         }
 
