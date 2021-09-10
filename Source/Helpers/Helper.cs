@@ -339,7 +339,7 @@ namespace KeepCoding
         /// </summary>
         /// <typeparam name="T">The enum to check the length for.</typeparam>
         /// <returns>The number of members in <typeparamref name="T"/>.</returns>
-        public static int MemberCount<T>() where T : struct, Enum => Enum.GetNames(typeof(T)).Length;
+        public static int MemberCount<T>() where T : struct, Enum => Enum.GetValues(typeof(T)).Length;
 
         /// <summary>
         /// Calculates the rem-euclid modulo, which allows negative numbers to be properly calculated.
