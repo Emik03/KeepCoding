@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using UnityEditor;
+using static UnityEditor.EditorApplication;
 using static UnityEngine.GUILayout;
 using static UnityEngine.LogType;
 
@@ -43,6 +44,9 @@ namespace KeepCoding.Internal
 
         private static IEnumerator VerifySolve(CacheableBehaviour obj)
         {
+            if (!isPlaying)
+                yield break;
+
             var tp = (ITP)obj;
             ModuleScript module = obj.Get<ModuleScript>();
 
