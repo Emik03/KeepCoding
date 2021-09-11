@@ -3,7 +3,7 @@
 ## ModuleScript.IsNeedyActive Property
 Determines whether the needy is active.  
 ```csharp
-public bool IsNeedyActive { get; set; }
+public bool IsNeedyActive { get; }
 ```
 #### Property Value
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
