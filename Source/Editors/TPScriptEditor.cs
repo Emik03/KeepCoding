@@ -44,11 +44,14 @@ namespace KeepCoding.Internal
 
         private static IEnumerator VerifySolve(CacheableBehaviour obj)
         {
-            if (!isPlaying)
-                yield break;
-
             var tp = (ITP)obj;
             ModuleScript module = obj.Get<ModuleScript>();
+
+            if (!isPlaying)
+            {
+                module.Log("The autosolver cannot run outside of play mode.", Warning);
+                yield break;
+            }
 
             yield return tp.ForceSolve();
 
