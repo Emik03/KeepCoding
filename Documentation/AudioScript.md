@@ -3,10 +3,14 @@
 ## AudioScript Class
 Encapsulates an [AudioSource](AudioScript.AudioSource.md 'KeepCoding.AudioScript.AudioSource') and scales it with the game's volume using [SFXVolume](Game.PlayerSettings.SFXVolume.md 'KeepCoding.Game.PlayerSettings.SFXVolume') and [MusicVolume](Game.PlayerSettings.MusicVolume.md 'KeepCoding.Game.PlayerSettings.MusicVolume').  
 ```csharp
-public abstract class AudioScript : KeepCoding.CacheableBehaviour
+public abstract class AudioScript : KeepCoding.CacheableBehaviour,
+KeepCoding.IAwake,
+KeepCoding.IUpdate
 ```
 
 Inheritance [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') &#129106; [CacheableBehaviour](CacheableBehaviour.md 'KeepCoding.CacheableBehaviour') &#129106; AudioScript  
+
+Implements [IAwake](IAwake.md 'KeepCoding.IAwake'), [IUpdate](IUpdate.md 'KeepCoding.IUpdate')  
 
 | Properties | |
 | :--- | :--- |

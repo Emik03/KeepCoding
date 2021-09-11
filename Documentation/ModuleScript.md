@@ -4,13 +4,14 @@
 Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes.  
 ```csharp
 public abstract class ModuleScript : KeepCoding.CacheableBehaviour,
+KeepCoding.IAwake,
 KeepCoding.IDump,
 KeepCoding.ILog
 ```
 
 Inheritance [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') &#129106; [CacheableBehaviour](CacheableBehaviour.md 'KeepCoding.CacheableBehaviour') &#129106; ModuleScript  
 
-Implements [IDump](IDump.md 'KeepCoding.IDump'), [ILog](ILog.md 'KeepCoding.ILog')  
+Implements [IAwake](IAwake.md 'KeepCoding.IAwake'), [IDump](IDump.md 'KeepCoding.IDump'), [ILog](ILog.md 'KeepCoding.ILog')  
 
 | Properties | |
 | :--- | :--- |

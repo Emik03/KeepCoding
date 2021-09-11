@@ -16,7 +16,7 @@ namespace KeepCoding.Internal
     /// Editor-only behaviour that gets values from <see cref="Component"/>s in real-time.
     /// </summary>
     [CLSCompliant(false)]
-    public sealed class ReflectionScript : MonoBehaviour, ILog
+    public sealed class ReflectionScript : MonoBehaviour, IStart, ILog, IFixedUpdate
     {
         private class NullableObject
         {
@@ -116,7 +116,10 @@ namespace KeepCoding.Internal
             }
         }
 
-        private void Start()
+        /// <summary>
+        /// Deletes itself if being ran in-game.
+        /// </summary>
+        public void Start()
         {
             if (isEditor)
                 return;
@@ -125,7 +128,10 @@ namespace KeepCoding.Internal
             Destroy(this);
         }
 
-        private void FixedUpdate()
+        /// <summary>
+        /// Reflects and gets the values of the specified variables.
+        /// </summary>
+        public void FixedUpdate()
         {
             IEnumerable<object> objects = _members.Select(o => o.Item2._value);
 

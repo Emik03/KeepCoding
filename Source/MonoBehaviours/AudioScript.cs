@@ -12,7 +12,7 @@ namespace KeepCoding
     /// Encapsulates an <see cref="AudioSource"/> and scales it with the game's volume using <see cref="SFXVolume"/> and <see cref="MusicVolume"/>.
     /// </summary>
     [CLSCompliant(false)]
-    public abstract class AudioScript : CacheableBehaviour
+    public abstract class AudioScript : CacheableBehaviour, IAwake, IUpdate
     {
         [SerializeField]
         private bool _isSFX;
@@ -178,7 +178,7 @@ namespace KeepCoding
         /// <summary>
         /// Sets up base functionality for the audio. If you declare this method yourself, make sure to call <c>base.Awake()</c> to ensure that this component initializes correctly, or use <see cref="OnAwake"/> instead.
         /// </summary>
-        protected void Awake()
+        public void Awake()
         {
             _fade = this.ToRoutine((Func<float, float, IEnumerator>)TweenFade);
 
@@ -191,7 +191,7 @@ namespace KeepCoding
         /// <summary>
         /// Updates the volume of <see cref="AudioSource"/>. If you declare this method yourself, make sure to call <c>base.Update()</c> to ensure that this component retains functionality, or use <see cref="OnUpdate"/> instead.
         /// </summary>
-        protected void Update()
+        public void Update()
         {
             AudioSource.volume = Relative;
             OnUpdate();

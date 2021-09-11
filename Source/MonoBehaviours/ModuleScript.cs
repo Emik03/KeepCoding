@@ -28,7 +28,7 @@ namespace KeepCoding
     /// Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes.
     /// </summary>
     [CLSCompliant(false)]
-    public abstract class ModuleScript : CacheableBehaviour, IDump, ILog
+    public abstract class ModuleScript : CacheableBehaviour, IAwake, IDump, ILog
     {
         private bool _hasException;
 
@@ -523,7 +523,7 @@ namespace KeepCoding
         /// <summary>
         /// Sets up base functionality for the module. If you declare this method yourself, make sure to call <c>base.Awake()</c> to ensure that the module initializes correctly, or use <see cref="OnAwake"/> instead.
         /// </summary>
-        protected void Awake()
+        public void Awake()
         {
             logMessageReceived += OnException;
 
