@@ -58,9 +58,15 @@
 
 | Interfaces | |
 | :--- | :--- |
+| [IAwake](IAwake.md 'KeepCoding.IAwake') | [Awake()](IAwake.Awake().md 'KeepCoding.IAwake.Awake()') is called when the script instance is being loaded.<br/>             |
 | [IDump](IDump.md 'KeepCoding.IDump') | An interface to implement dump methods. Make each method return the same method in your [Logger](Logger.md 'KeepCoding.Logger') instance. <br/> |
+| [IFixedUpdate](IFixedUpdate.md 'KeepCoding.IFixedUpdate') | Frame-rate independent [FixedUpdate()](IFixedUpdate.FixedUpdate().md 'KeepCoding.IFixedUpdate.FixedUpdate()') message for physics calculations.<br/> |
+| [ILateUpdate](ILateUpdate.md 'KeepCoding.ILateUpdate') | [LateUpdate()](ILateUpdate.LateUpdate().md 'KeepCoding.ILateUpdate.LateUpdate()') is called every frame, if the [UnityEngine.Behaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Behaviour 'UnityEngine.Behaviour') is enabled.<br/>             |
 | [ILog](ILog.md 'KeepCoding.ILog') | An interface to implement log methods. Make each method return the same method in your [Logger](Logger.md 'KeepCoding.Logger') instance.  <br/> |
+| [IReset](IReset.md 'KeepCoding.IReset') | Reset to default values.<br/> |
+| [IStart](IStart.md 'KeepCoding.IStart') | [Start()](IStart.Start().md 'KeepCoding.IStart.Start()') is called on the frame when a script is enabled just before any of the [Update()](IUpdate.Update().md 'KeepCoding.IUpdate.Update()') methods is called the first time.<br/>             |
 | [ITP](ITP.md 'KeepCoding.ITP') | Interface for Twitch Plays support. <br/> |
+| [IUpdate](IUpdate.md 'KeepCoding.IUpdate') | [Update()](IUpdate.Update().md 'KeepCoding.IUpdate.Update()') is called every frame, if the [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') is enabled.<br/>             |
 
 | Enums | |
 | :--- | :--- |
