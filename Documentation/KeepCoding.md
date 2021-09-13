@@ -53,6 +53,7 @@
 | Structs | |
 | :--- | :--- |
 | [BigInt](BigInt.md 'KeepCoding.BigInt') | Encapsulates an arbitrary-size integer.<br/> |
+| [HashCode](HashCode.md 'KeepCoding.HashCode') | Combines the hash code for multiple values into a single hash code. xxHash32 is used for the hash code. [https://github.com/Cyan4973/xxHash](https://github.com/Cyan4973/xxHash 'https://github.com/Cyan4973/xxHash') |
 | [Number](Number.md 'KeepCoding.Number') | Encapsulates a primitive numeric value.<br/> |
 | [QuotientRemainder](QuotientRemainder.md 'KeepCoding.QuotientRemainder') | Encapsulates the two-valued result of a division/modulo operation ([DivideModulo(BigInt)](BigInt.DivideModulo.hKNytB2JMgJyLX17vZnr3Q.md 'KeepCoding.BigInt.DivideModulo(KeepCoding.BigInt)')).<br/> |
 
