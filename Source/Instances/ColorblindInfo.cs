@@ -75,13 +75,7 @@ namespace KeepCoding
         /// Gets the hash code.
         /// </summary>
         /// <returns>The hash code.</returns>
-        public override int GetHashCode()
-        {
-            int hashCode = 1258913641;
-            hashCode = hashCode * -1521134295 + IsEnabled.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<Dictionary<string, bool?>>.Default.GetHashCode(Modules);
-            return hashCode;
-        }
+        public override int GetHashCode() => HashCode.Combine(IsEnabled, Modules);
 
         /// <summary>
         /// Converts the object to a string.
