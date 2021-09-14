@@ -671,7 +671,7 @@ namespace KeepCoding
 
                 decimal de => de.ToString(format.DecimalFormat),
 
-                TupleBase tuple => $"{format.TupleStart}{Recursion(tuple.Items, format.TupleSeparator, format)}{format.TupleEnd}",
+                Tuple tuple => $"{format.TupleStart}{Recursion(tuple.Items, format.TupleSeparator, format)}{format.TupleEnd}",
 
                 IDictionary dictionary => $"{format.DictionaryStart}{Join(format.DictionarySeparator, AsEnumerable(dictionary.GetEnumerator()).Cast<object>().Select(o => $"{Stringify(((DictionaryEntry)o).Key)}{format.KeyValuePairSeparator}{Stringify(((DictionaryEntry)o).Value)}").ToArray())}{format.DictionaryEnd}",
 

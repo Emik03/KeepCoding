@@ -16,7 +16,7 @@ namespace KeepCoding
         public string ArrayEnd { get; set; } = "]";
 
         /// <summary>
-        /// Indicates how <see cref="TupleBase"/> should start with.
+        /// Indicates how <see cref="Tuple"/> should start with.
         /// </summary>
         public string ArraySeparator { get; set; } = ", ";
 
@@ -36,7 +36,7 @@ namespace KeepCoding
         public string DictionaryEnd { get; set; } = " }";
 
         /// <summary>
-        /// Indicates how <see cref="TupleBase"/> should start with.
+        /// Indicates how <see cref="Tuple"/> should start with.
         /// </summary>
         public string DictionarySeparator { get; set; } = ", ";
 
@@ -71,17 +71,17 @@ namespace KeepCoding
         public string TrueArg { get; set; } = "true";
 
         /// <summary>
-        /// Indicates how <see cref="TupleBase"/> should end with.
+        /// Indicates how <see cref="Tuple"/> should end with.
         /// </summary>
         public string TupleEnd { get; set; } = ")";
 
         /// <summary>
-        /// Indicates how <see cref="TupleBase"/> should start with.
+        /// Indicates how <see cref="Tuple"/> should start with.
         /// </summary>
         public string TupleSeparator { get; set; } = ", ";
 
         /// <summary>
-        /// Indicates how <see cref="TupleBase"/> should start with.
+        /// Indicates how <see cref="Tuple"/> should start with.
         /// </summary>
         public string TupleStart { get; set; } = "(";
 

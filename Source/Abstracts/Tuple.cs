@@ -9,10 +9,10 @@ namespace KeepCoding.Internal
     /// Provides the base <see langword="class"/> for the multiple tuple types.
     /// </summary>
     /// <remarks>
-    /// <see cref="TupleBase"/> provides the general functionality that different types of tuples share in common with. As each different type of tuple gives different amounts of generics, this base <see langword="class"/> is therefore non-generic and provides every method that doesn't require it. This can therefore be used as a way of passing in an ambiguous type of tuple.
+    /// <see cref="Tuple"/> provides the general functionality that different types of tuples share in common with. As each different type of tuple gives different amounts of generics, this base <see langword="class"/> is therefore non-generic and provides every method that doesn't require it. This can therefore be used as a way of passing in an ambiguous type of tuple.
     /// </remarks>
     /// <example>
-    /// The following example illustrates a method for returning the last item of any tuple that uses <see cref="TupleBase"/>.
+    /// The following example illustrates a method for returning the last item of any tuple that uses <see cref="Tuple"/>.
     /// <code>using KeepCoding.Internal;
     /// 
     /// public static class Extensions
@@ -43,7 +43,7 @@ namespace KeepCoding.Internal
     /// </code>
     /// </example>
     /// <seealso cref="TypeHelper.ToTuple{T1, T2}(T1, T2)"/>
-    public abstract class TupleBase : IEnumerable, IEquatable<TupleBase>
+    public abstract class Tuple : IEnumerable, IEquatable<Tuple>
     {
         /// <summary>
         /// Passes an index into the tuple, where items are considered ordered and part of an array.
@@ -52,7 +52,7 @@ namespace KeepCoding.Internal
         /// <see cref="Items"/> with the index specified.
         /// </value>
         /// <remarks>
-        /// A <see cref="TupleBase"/> will always throw an <see cref="IndexOutOfRangeException"/> regardless if the getter or setter is called as it contains no items to index into. The purpose of this indexer is to provide all derived classes the same <see cref="IndexOutOfRangeException"/> message. As there is type ambiguity between multiple generics, the <see langword="return"/> type has to be <see cref="object"/> as any value is passed into each item.
+        /// A <see cref="Tuple"/> will always throw an <see cref="IndexOutOfRangeException"/> regardless if the getter or setter is called as it contains no items to index into. The purpose of this indexer is to provide all derived classes the same <see cref="IndexOutOfRangeException"/> message. As there is type ambiguity between multiple generics, the <see langword="return"/> type has to be <see cref="object"/> as any value is passed into each item.
         /// </remarks>
         /// <example>
         /// The following example illustrates how an <see cref="IndexOutOfRangeException"/> will always be thrown no matter what index is passed in.
@@ -222,36 +222,36 @@ namespace KeepCoding.Internal
         /// Overrides comparison by checking for individual item equality rather than itself.
         /// </summary>
         /// <remarks>
-        /// For more details about comparison, look at <see cref="Equals(TupleBase)"/>.
+        /// For more details about comparison, look at <see cref="Equals(Tuple)"/>.
         /// </remarks>
-        /// <param name="left">The left-hand side <see cref="TupleBase"/> comparison to compare to.</param>
-        /// <param name="right">The right-hand side <see cref="TupleBase"/> comparison to compare to.</param>
+        /// <param name="left">The left-hand side <see cref="Tuple"/> comparison to compare to.</param>
+        /// <param name="right">The right-hand side <see cref="Tuple"/> comparison to compare to.</param>
         /// <returns><see langword="true"/> if all items in the tuple equal the other items of the same index.</returns>
-        public static bool operator ==(TupleBase left, TupleBase right) => left.Equals(right);
+        public static bool operator ==(Tuple left, Tuple right) => left.Equals(right);
 
         /// <summary>
         /// Overrides comparison by checking for individual item equality rather than itself.
         /// </summary>
         /// <remarks>
-        /// For more details about comparison, look at <see cref="Equals(TupleBase)"/>.
+        /// For more details about comparison, look at <see cref="Equals(Tuple)"/>.
         /// </remarks>
-        /// <param name="left">The left-hand side <see cref="TupleBase"/> comparison to compare to.</param>
-        /// <param name="right">The right-hand side <see cref="TupleBase"/> comparison to compare to.</param>
+        /// <param name="left">The left-hand side <see cref="Tuple"/> comparison to compare to.</param>
+        /// <param name="right">The right-hand side <see cref="Tuple"/> comparison to compare to.</param>
         /// <returns><see langword="true"/> if any item in the tuple does not equal the other item of the same index.</returns>
-        public static bool operator !=(TupleBase left, TupleBase right) => !(left == right);
+        public static bool operator !=(Tuple left, Tuple right) => !(left == right);
 
         /// <summary>
-        /// Compares itself and another object attempted to casted as <see cref="TupleBase"/> to determine if they contain the same values.
+        /// Compares itself and another object attempted to casted as <see cref="Tuple"/> to determine if they contain the same values.
         /// </summary>
         /// <remarks>
-        /// For more details about comparison, look at <see cref="Equals(TupleBase)"/>.
+        /// For more details about comparison, look at <see cref="Equals(Tuple)"/>.
         /// </remarks>
         /// <param name="obj">The <see cref="object"/> to compare to.</param>
         /// <returns><see langword="true"/> if all items in the tuple equal the other items of the same index.</returns>
-        public override bool Equals(object obj) => Equals(obj as TupleBase);
+        public override bool Equals(object obj) => Equals(obj as Tuple);
 
         /// <summary>
-        /// Compares itself and another <see cref="TupleBase"/> to determine if they contain the same values.
+        /// Compares itself and another <see cref="Tuple"/> to determine if they contain the same values.
         /// </summary>
         /// <remarks>
         /// The comparison is done by taking both of their <see cref="Items"/> values and comparing them with <see cref="Enumerable.SequenceEqual{TSource}(IEnumerable{TSource}, IEnumerable{TSource})"/>. Note that if the tuples are different sizes, this will automatically return <see langword="true"/>. For more information, <see cref="object.Equals(object)"/>.
@@ -285,9 +285,9 @@ namespace KeepCoding.Internal
         /// [Foo #1] False
         /// </code>
         /// </example>
-        /// <param name="other">The <see cref="TupleBase"/> to compare itself to.</param>
+        /// <param name="other">The <see cref="Tuple"/> to compare itself to.</param>
         /// <returns><see langword="true"/> if both of them have the same items, or are both <see langword="null"/>.</returns>
-        public bool Equals(TupleBase other) => other is { } && Items.SequenceEqual(other.Items);
+        public bool Equals(Tuple other) => other is { } && Items.SequenceEqual(other.Items);
 
         /// <summary>
         /// Gets the hash code of <see cref="Items"/>.
