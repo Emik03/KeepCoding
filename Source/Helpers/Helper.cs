@@ -355,12 +355,13 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="NullIteratorException"></exception>
         /// <exception cref="NullReferenceException"></exception>
-        /// <typeparam name="T">Type of the key of the dictionary.</typeparam>
+        /// <typeparam name="TKey">Type of the key of the dictionary.</typeparam>
+        /// <typeparam name="TValue">Type of the value of the dictionary.</typeparam>
         /// <param name="source">Dictionary to operate on.</param>
         /// <param name="key">Key at which the list is located in the dictionary.</param>
         /// <param name="func">The function that returns the new value.</param>
         /// <returns>The new value at the specified key.</returns>
-        public static int SetOrReplace<T>(this IDictionary<T, int> source, T key, Func<int, int> func) => key is null ? throw new NullReferenceException("The key cannot be null.") : source.NullCheck("The dictionary cannot be null.")[key] = func(source.ContainsKey(key) ? source[key] : default);
+        public static TValue SetOrReplace<TKey, TValue>(this IDictionary<TKey, TValue> source, TKey key, Func<TValue, TValue> func) => key is null ? throw new NullReferenceException("The key cannot be null.") : source.NullCheck("The dictionary cannot be null.")[key] = func(source.ContainsKey(key) ? source[key] : default);
 
         /// <summary>
         /// Generates a random set of integers.
