@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using JetBrains.Annotations;
 using KeepCoding.Internal;
 using UnityEngine;
 using static System.String;
@@ -15,13 +16,28 @@ namespace KeepCoding
     /// </summary>
     public sealed class Logger : IDump, ILog
     {
-        internal static readonly Dictionary<string, int> s_ids = new Dictionary<string, int>();
+        internal static readonly Dictionary<LogName, LogId> s_ids = new Dictionary<LogName, LogId>();
 
         private readonly bool _showId, _showInLfa;
 
         private readonly string _format;
 
         private static readonly string s_selfName = PathManager.AssemblyName.Name;
+
+        public class LogDictionary : Record<Dictionary<LogName, LogId>, LogDictionary>
+        {
+            public static implicit operator LogDictionary(Dictionary<LogName, LogId> value) => From(value);
+        }
+
+        public class LogId : Record<int, LogId>
+        {
+            public static implicit operator LogId(int value) => From(value);
+        }
+
+        public class LogName : Record<string, LogName>
+        {
+            public static implicit operator LogName(string value) => From(value);
+        }
 
         /// <summary>
         /// The string constructor. The string determines the name.
@@ -31,7 +47,7 @@ namespace KeepCoding
         /// <param name="name">The name of the value.</param>
         /// <param name="showId">Determines whether to show the unique identifier when logging.</param>
         /// <param name="showInLfa">Determines whether to format such that the Logfile Analyzer would use.</param>
-        public Logger(string name, bool showId = false, bool showInLfa = true)
+        public Logger(LogName name, bool showId = false, bool showInLfa = true)
         {
             Name = name.NullCheck("The name cannot be null.");
 
@@ -57,12 +73,12 @@ namespace KeepCoding
         /// <summary>
         /// The unique identifier of the current name.
         /// </summary>
-        public int Id { get; }
+        public LogId Id { get; }
 
         /// <summary>
         /// The name of the logger.
         /// </summary>
-        public string Name { get; }
+        public LogName Name { get; }
 
         private const string VariableTemplate = "\n\n[{0}] {1}\n({2})\n{3}";
 
