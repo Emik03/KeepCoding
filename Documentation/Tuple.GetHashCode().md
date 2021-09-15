@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
-### [KeepCoding.Internal](KeepCoding.Internal.md 'KeepCoding.Internal').[TupleBase](TupleBase.md 'KeepCoding.Internal.TupleBase')
-## TupleBase.GetHashCode() Method
-Gets the hash code of [Items](TupleBase.Items.md 'KeepCoding.Internal.TupleBase.Items').  
+### [KeepCoding.Internal](KeepCoding.Internal.md 'KeepCoding.Internal').[Tuple](Tuple.md 'KeepCoding.Internal.Tuple')
+## Tuple.GetHashCode() Method
+Gets the hash code of [Items](Tuple.Items.md 'KeepCoding.Internal.Tuple.Items').  
 ```csharp
 public override int GetHashCode();
 ```
@@ -32,4 +32,4 @@ This is the output from the console.
 ### Remarks
 Hash codes are a way of quickly asserting equality. It converts all of the given relevant variables into hash codes and combines into a number that makes it unlikely for two different types to have the same hash code. That being said, it is still possible for the hash codes to be identical but not for the same values to have different hash codes, which is why it only should be used as the first step in determining equality and confirming by making the final comparisons to those with equal hash codes. For more information, see [System.Object.GetHashCode](https://docs.microsoft.com/en-us/dotnet/api/System.Object.GetHashCode 'System.Object.GetHashCode').  
 #### See Also
-- [Items](TupleBase.Items.md 'KeepCoding.Internal.TupleBase.Items')
+- [Items](Tuple.Items.md 'KeepCoding.Internal.Tuple.Items')

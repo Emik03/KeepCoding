@@ -3,14 +3,14 @@
 ## Tuple&lt;T&gt; Class
 A basic tuple data type for C# 4.  
 ```csharp
-public class Tuple<T> : KeepCoding.Internal.TupleBase
+public class Tuple<T> : KeepCoding.Internal.Tuple
 ```
 #### Type parameters
 <a name='KeepCoding.Tuple.T..T'></a>
 `T`  
   
 
-Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [TupleBase](TupleBase.md 'KeepCoding.Internal.TupleBase') &#129106; Tuple&lt;T&gt;  
+Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Tuple](Tuple.md 'KeepCoding.Internal.Tuple') &#129106; Tuple&lt;T&gt;  
 
 Derived  
 &#8627; [Tuple&lt;T1,T2&gt;](Tuple.T1.T2..md 'KeepCoding.Tuple&lt;T1,T2&gt;')  

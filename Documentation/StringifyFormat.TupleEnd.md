@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[StringifyFormat](StringifyFormat.md 'KeepCoding.StringifyFormat')
 ## StringifyFormat.TupleEnd Property
-Indicates how [TupleBase](TupleBase.md 'KeepCoding.Internal.TupleBase') should end with.  
+Indicates how [Tuple](Tuple.md 'KeepCoding.Internal.Tuple') should end with.  
 ```csharp
 public string TupleEnd { get; set; }
 ```

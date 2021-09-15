@@ -1,13 +1,13 @@
 #### [KeepCoding](index.md 'index')
-### [KeepCoding.Internal](KeepCoding.Internal.md 'KeepCoding.Internal').[TupleBase](TupleBase.md 'KeepCoding.Internal.TupleBase')
-## TupleBase.UpperBound Property
+### [KeepCoding.Internal](KeepCoding.Internal.md 'KeepCoding.Internal').[Tuple](Tuple.md 'KeepCoding.Internal.Tuple')
+## Tuple.UpperBound Property
 Determines the upperbound of the amount of the length.  
 ```csharp
 public byte UpperBound { get; }
 ```
 #### Property Value
 [System.Byte](https://docs.microsoft.com/en-us/dotnet/api/System.Byte 'System.Byte')
-[Length](TupleBase.Length.md 'KeepCoding.Internal.TupleBase.Length') - 1.  
+[Length](Tuple.Length.md 'KeepCoding.Internal.Tuple.Length') - 1.  
             
 #### Exceptions
 [System.InvalidOperationException](https://docs.microsoft.com/en-us/dotnet/api/System.InvalidOperationException 'System.InvalidOperationException')  
@@ -50,8 +50,8 @@ This is the output from the console.
 [Foo #1] 9  
 ```
 ### Remarks
-This can be used for indexing [Items](TupleBase.Items.md 'KeepCoding.Internal.TupleBase.Items') or the indexer [this[byte]](TupleBase.Item.xD9oSgxwMFO7sQCYiZEn.g.md 'KeepCoding.Internal.TupleBase.this[byte]'), getting the last item of the tuple. Calling [UpperBound](TupleBase.UpperBound.md 'KeepCoding.Internal.TupleBase.UpperBound') assumes that there is at least 1 generic in this type.  
+This can be used for indexing [Items](Tuple.Items.md 'KeepCoding.Internal.Tuple.Items') or the indexer [this[byte]](Tuple.Item.VXJ58El9nJ4r0Zn7YdkEyA.md 'KeepCoding.Internal.Tuple.this[byte]'), getting the last item of the tuple. Calling [UpperBound](Tuple.UpperBound.md 'KeepCoding.Internal.Tuple.UpperBound') assumes that there is at least 1 generic in this type.  
 #### See Also
-- [this[byte]](TupleBase.Item.xD9oSgxwMFO7sQCYiZEn.g.md 'KeepCoding.Internal.TupleBase.this[byte]')
-- [Length](TupleBase.Length.md 'KeepCoding.Internal.TupleBase.Length')
-- [Items](TupleBase.Items.md 'KeepCoding.Internal.TupleBase.Items')
+- [this[byte]](Tuple.Item.VXJ58El9nJ4r0Zn7YdkEyA.md 'KeepCoding.Internal.Tuple.this[byte]')
+- [Length](Tuple.Length.md 'KeepCoding.Internal.Tuple.Length')
+- [Items](Tuple.Items.md 'KeepCoding.Internal.Tuple.Items')

@@ -126,9 +126,9 @@ namespace KeepCoding
         public static bool operator !=(StrictRecord<T, TThis> a, StrictRecord<T, TThis> b) => !(a == b);
 
         /// <summary>
-        /// Encapsulates <paramref name="a"/> into a <see langword="new"/> instance of <see cref="Record{TValue, TThis}"/>.
+        /// Encapsulates <paramref name="a"/> into a <see langword="new"/> instance of <see cref="StrictRecord{TValue, TThis}"/>.
         /// </summary>
-        /// <param name="a">The <typeparamref name="T"/> to pass into the <see cref="Record{TValue, TThis}"/>.</param>
+        /// <param name="a">The <typeparamref name="T"/> to pass into the <see cref="StrictRecord{TValue, TThis}"/>.</param>
         public static implicit operator StrictRecord<T, TThis>(T a) => From(a);
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace KeepCoding
         /// <summary>
         /// Creates a <see langword="new"/> instance of <see cref="StrictRecord{TValue, TThis}"/> from the specified <typeparamref name="TThis"/>.
         /// </summary>
-        /// <param name="item">The item to make a <see langword="new"/> instance of <see cref="Record{TValue, TThis}"/> from.</param>
+        /// <param name="item">The item to make a <see langword="new"/> instance of <see cref="StrictRecord{TValue, TThis}"/> from.</param>
         /// <returns>A new instance of <see cref="StrictRecord{TValue, TThis}"/> with the inner <see cref="Value"/> set to <paramref name="item"/>.</returns>
         public static TThis From(T item)
         {

@@ -16,7 +16,7 @@ public class Tuple<T1,T2,T3> : KeepCoding.Tuple<T1, T2>
 `T3`  
   
 
-Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [TupleBase](TupleBase.md 'KeepCoding.Internal.TupleBase') &#129106; [KeepCoding.Tuple&lt;](Tuple.T..md 'KeepCoding.Tuple&lt;T&gt;')[T1](Tuple.T1.T2.T3..md#KeepCoding.Tuple.T1.T2.T3..T1 'KeepCoding.Tuple&lt;T1,T2,T3&gt;.T1')[&gt;](Tuple.T..md 'KeepCoding.Tuple&lt;T&gt;') &#129106; [KeepCoding.Tuple&lt;](Tuple.T1.T2..md 'KeepCoding.Tuple&lt;T1,T2&gt;')[T1](Tuple.T1.T2.T3..md#KeepCoding.Tuple.T1.T2.T3..T1 'KeepCoding.Tuple&lt;T1,T2,T3&gt;.T1')[,](Tuple.T1.T2..md 'KeepCoding.Tuple&lt;T1,T2&gt;')[T2](Tuple.T1.T2.T3..md#KeepCoding.Tuple.T1.T2.T3..T2 'KeepCoding.Tuple&lt;T1,T2,T3&gt;.T2')[&gt;](Tuple.T1.T2..md 'KeepCoding.Tuple&lt;T1,T2&gt;') &#129106; Tuple&lt;T1,T2,T3&gt;  
+Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [Tuple](Tuple.md 'KeepCoding.Internal.Tuple') &#129106; [KeepCoding.Tuple&lt;](Tuple.T..md 'KeepCoding.Tuple&lt;T&gt;')[T1](Tuple.T1.T2.T3..md#KeepCoding.Tuple.T1.T2.T3..T1 'KeepCoding.Tuple&lt;T1,T2,T3&gt;.T1')[&gt;](Tuple.T..md 'KeepCoding.Tuple&lt;T&gt;') &#129106; [KeepCoding.Tuple&lt;](Tuple.T1.T2..md 'KeepCoding.Tuple&lt;T1,T2&gt;')[T1](Tuple.T1.T2.T3..md#KeepCoding.Tuple.T1.T2.T3..T1 'KeepCoding.Tuple&lt;T1,T2,T3&gt;.T1')[,](Tuple.T1.T2..md 'KeepCoding.Tuple&lt;T1,T2&gt;')[T2](Tuple.T1.T2.T3..md#KeepCoding.Tuple.T1.T2.T3..T2 'KeepCoding.Tuple&lt;T1,T2,T3&gt;.T2')[&gt;](Tuple.T1.T2..md 'KeepCoding.Tuple&lt;T1,T2&gt;') &#129106; Tuple&lt;T1,T2,T3&gt;  
 
 Derived  
 &#8627; [Tuple&lt;T1,T2,T3,T4&gt;](Tuple.T1.T2.T3.T4..md 'KeepCoding.Tuple&lt;T1,T2,T3,T4&gt;')  
