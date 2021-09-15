@@ -16,28 +16,13 @@ namespace KeepCoding
     /// </summary>
     public sealed class Logger : IDump, ILog
     {
-        internal static readonly Dictionary<LogName, LogId> s_ids = new Dictionary<LogName, LogId>();
+        internal static readonly Dictionary<string, int> s_ids = new Dictionary<string, int>();
 
         private readonly bool _showId, _showInLfa;
 
         private readonly string _format;
 
         private static readonly string s_selfName = PathManager.AssemblyName.Name;
-
-        public class LogDictionary : Record<Dictionary<LogName, LogId>, LogDictionary>
-        {
-            public static implicit operator LogDictionary(Dictionary<LogName, LogId> value) => From(value);
-        }
-
-        public class LogId : Record<int, LogId>
-        {
-            public static implicit operator LogId(int value) => From(value);
-        }
-
-        public class LogName : Record<string, LogName>
-        {
-            public static implicit operator LogName(string value) => From(value);
-        }
 
         /// <summary>
         /// The string constructor. The string determines the name.
@@ -47,7 +32,7 @@ namespace KeepCoding
         /// <param name="name">The name of the value.</param>
         /// <param name="showId">Determines whether to show the unique identifier when logging.</param>
         /// <param name="showInLfa">Determines whether to format such that the Logfile Analyzer would use.</param>
-        public Logger(LogName name, bool showId = false, bool showInLfa = true)
+        public Logger(string name, bool showId = false, bool showInLfa = true)
         {
             Name = name.NullCheck("The name cannot be null.");
 
@@ -73,12 +58,12 @@ namespace KeepCoding
         /// <summary>
         /// The unique identifier of the current name.
         /// </summary>
-        public LogId Id { get; }
+        public int Id { get; }
 
         /// <summary>
         /// The name of the logger.
         /// </summary>
-        public LogName Name { get; }
+        public string Name { get; }
 
         private const string VariableTemplate = "\n\n[{0}] {1}\n({2})\n{3}";
 
@@ -150,13 +135,7 @@ namespace KeepCoding
         /// Gets the hash code of the object.
         /// </summary>
         /// <returns>The hash code.</returns>
-        public override int GetHashCode()
-        {
-            int hashCode = -1919740922;
-            hashCode = hashCode * -1521134295 + Id.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
-            return hashCode;
-        }
+        public override int GetHashCode() => HashCode.Combine(Id, Name);
 
         internal static void Self(in string message, in LogType logType = LogType.Log) => logType.Method()("[{0}] {1}".Form(s_selfName, message));
     }
