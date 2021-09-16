@@ -68,6 +68,7 @@
 | [ILog](ILog.md 'KeepCoding.ILog') | An interface to implement log methods. Make each method return the same method in your [Logger](Logger.md 'KeepCoding.Logger') instance.  <br/> |
 | [IReset](IReset.md 'KeepCoding.IReset') | Reset to default values.<br/> |
 | [IStart](IStart.md 'KeepCoding.IStart') | [Start()](IStart.Start().md 'KeepCoding.IStart.Start()') is called on the frame when a script is enabled just before any of the [Update()](IUpdate.Update().md 'KeepCoding.IUpdate.Update()') methods is called the first time.<br/>             |
+| [IStartCoroutine](IStartCoroutine.md 'KeepCoding.IStartCoroutine') | [Start()](IStartCoroutine.Start().md 'KeepCoding.IStartCoroutine.Start()') is called on the frame when a script is enabled just before any of the [Update()](IUpdate.Update().md 'KeepCoding.IUpdate.Update()') methods is called the first time.<br/>             |
 | [ITP](ITP.md 'KeepCoding.ITP') | Interface for Twitch Plays support. <br/> |
 | [IUpdate](IUpdate.md 'KeepCoding.IUpdate') | [Update()](IUpdate.Update().md 'KeepCoding.IUpdate.Update()') is called every frame, if the [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') is enabled.<br/>             |
 
