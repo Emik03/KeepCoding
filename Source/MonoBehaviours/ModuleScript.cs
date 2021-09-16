@@ -36,7 +36,7 @@ namespace KeepCoding
 
         [SerializeField]
 #pragma warning disable 649, IDE0044 // Add readonly modifier
-        private int _ruleSeedId = 1;
+        private int _editorRuleSeed = 1;
 #pragma warning restore 649, IDE0044 // Add readonly modifier
 
         private int _strikes;
@@ -109,6 +109,13 @@ namespace KeepCoding
         /// The amount of time left on the bomb, in seconds, rounded down.
         /// </summary>
         public int TimeLeft { get; private set; }
+
+        /// <summary>
+        /// Gets the rule seed number.
+        /// </summary>
+        /// <returns>The rule seed number, by default 1.</returns>
+        public int RuleSeedId => _ruleSeedId ??= GetRuleSeedId();
+        private int? _ruleSeedId;
 
         /// <summary>
         /// The version number of the entire mod.
@@ -380,30 +387,6 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// Gets the rule seed number.
-        /// </summary>
-        /// <returns>The rule seed number, by default 1.</returns>
-        public int GetRuleSeedId()
-        {
-            int standard = isEditor ? _ruleSeedId : 1;
-
-            var ruleSeedObject = GameObject.Find("RuleSeedModifierProperties");
-
-            if (ruleSeedObject is null)
-                return standard;
-
-            IDictionary<string, object> ruleSeedDictionary = ruleSeedObject.GetComponent<IDictionary<string, object>>();
-
-            if (!ruleSeedDictionary.ContainsKey("RuleSeed"))
-                return standard;
-
-            if (ruleSeedDictionary.ContainsKey("AddSupportedModule"))
-                ruleSeedDictionary["AddSupportedModule"] = Module.Id;
-
-            return (ruleSeedDictionary["RuleSeed"] as int?) ?? standard;
-        }
-
-        /// <summary>
         /// Retrieves the ignore list from the Boss Module Manager mod used primarily by boss modules.
         /// </summary>
         /// <param name="moduleName">The name of the module to retrieve from.</param>
@@ -650,6 +633,26 @@ namespace KeepCoding
         {
             OnModuleStrike(new ModuleContainer(c));
             return false;
+        }
+
+        private int GetRuleSeedId()
+        {
+            int standard = isEditor ? _editorRuleSeed : 1;
+
+            var ruleSeedObject = GameObject.Find("RuleSeedModifierProperties");
+
+            if (ruleSeedObject is null)
+                return standard;
+
+            IDictionary<string, object> ruleSeedDictionary = ruleSeedObject.GetComponent<IDictionary<string, object>>();
+
+            if (!ruleSeedDictionary.ContainsKey("RuleSeed"))
+                return standard;
+
+            if (ruleSeedDictionary.ContainsKey("AddSupportedModule"))
+                ruleSeedDictionary["AddSupportedModule"] = Module.Id;
+
+            return (ruleSeedDictionary["RuleSeed"] as int?) ?? standard;
         }
 
         private IEnumerator CheckForUpdates()
