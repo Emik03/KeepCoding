@@ -41,7 +41,7 @@ namespace KeepCoding
 
         private int _strikes;
 
-        private static Dictionary<string, Dictionary<string, object>[]> s_database = new Dictionary<string, Dictionary<string, object>[]>();
+        private static readonly Dictionary<string, Dictionary<string, object>[]> s_database = new Dictionary<string, Dictionary<string, object>[]>();
 
         /// <summary>
         /// Determines whether the module has been struck. <see cref="TPScript{TModule}.OnInteractSequence(KMSelectable[], float, int[])"/> will set this to <see langword="false"/> when a command is interrupted.
@@ -510,7 +510,7 @@ namespace KeepCoding
         {
             logMessageReceived += OnException;
 
-            s_database = new Dictionary<string, Dictionary<string, object>[]>();
+            s_database.Clear();
 
             Self($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
             Log($"Version: [{Version}]");
