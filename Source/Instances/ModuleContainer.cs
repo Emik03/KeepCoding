@@ -5,6 +5,7 @@ using UnityEngine;
 using static System.Delegate;
 using static KeepCoding.Game;
 using static KeepCoding.HashCode;
+using static NeedyTimer;
 
 namespace KeepCoding
 {
@@ -314,7 +315,7 @@ namespace KeepCoding
             set => OfType(
                 b => throw Missing,
                 n => n.OnTimerExpired = () => value(),
-                () => ((NeedyTimer)NeedyTimer).OnTimerExpire = () => value());
+                () => ((NeedyTimer)NeedyTimer).OnTimerExpire = (NeedyTimerExpireEvent)CreateDelegate(typeof(NeedyTimerExpireEvent), value.Method));
         }
 
         /// <summary>
@@ -328,7 +329,7 @@ namespace KeepCoding
             add => OfType(
                 b => throw Missing,
                 n => n.OnTimerExpired += () => value(),
-                () => ((NeedyTimer)NeedyTimer).OnTimerExpire += () => value());
+                () => ((NeedyTimer)NeedyTimer).OnTimerExpire += (NeedyTimerExpireEvent)CreateDelegate(typeof(NeedyTimerExpireEvent), value.Method));
             remove => throw s_remove;
         }
 
@@ -687,9 +688,10 @@ namespace KeepCoding
                     else
                         throw s_none;
                     break;
-            }
 
-            throw s_none;
+                default:
+                    throw s_none;
+            }
         }
 
         private T OfType<T>(Func<KMBombModule, T> onBombModule, Func<KMNeedyModule, T> onNeedyModule, Func<T> onBombComponent) => Module switch
