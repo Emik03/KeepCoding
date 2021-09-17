@@ -741,6 +741,8 @@ namespace KeepCoding
             KtaneRewritten
         }
 
+        internal static bool IsKtane => Reference is References.Ktane;
+
         /// <summary>
         /// Adds an amount of strikes on the bomb.
         /// </summary>

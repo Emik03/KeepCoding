@@ -43,6 +43,8 @@ namespace KeepCoding
 
         private static readonly Dictionary<string, Dictionary<string, object>[]> s_database = new Dictionary<string, Dictionary<string, object>[]>();
 
+        private static readonly Dictionary<KMBomb, ModuleContainer[]> s_modules = new Dictionary<KMBomb, ModuleContainer[]>();
+
         /// <summary>
         /// Determines whether the module has been struck. <see cref="TPScript{TModule}.OnInteractSequence(KMSelectable[], float, int[])"/> will set this to <see langword="false"/> when a command is interrupted.
         /// </summary>
@@ -718,7 +720,7 @@ namespace KeepCoding
 
             HookModules(isHookingPass, isHookingStrike);
 
-            if (Reference is Ktane)
+            if (IsKtane)
             {
                 if (isHookingTimer)
                     TimerTickInner();
@@ -734,7 +736,7 @@ namespace KeepCoding
 
         private IEnumerator WaitForSolve()
         {
-            yield return new WaitWhile(() => Get<KMBombModule>(allowNull: true)?.OnPass is null && Get<KMNeedyModule>(allowNull: true)?.OnPass is null);
+            yield return new WaitWhile(() => Module.Solve is null);
 
             Solve();
 

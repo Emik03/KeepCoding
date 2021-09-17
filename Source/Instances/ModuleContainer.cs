@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using KeepCoding.Internal;
 using UnityEngine;
+using static System.Delegate;
 using static KeepCoding.Game;
-using static KeepCoding.Game.References;
 
 namespace KeepCoding
 {
@@ -12,15 +13,15 @@ namespace KeepCoding
     /// </summary>
     public sealed class ModuleContainer : IEquatable<ModuleContainer>
     {
-        private bool _isNeedy, _requiresTimerVisibility;
-
-        private string _id, _name;
+        private object _bombComponent;
 
         private readonly KMBombModule _bombModule;
 
         private readonly KMNeedyModule _needyModule;
 
-        private static readonly UnrecognizedTypeException s_unassignedException = new UnrecognizedTypeException($"{nameof(Module)} is neither a {nameof(KMBombModule)} or a {nameof(KMNeedyModule)}.");
+        private static readonly ReadOnlyException s_immutable = new ReadOnlyException("This member is immutable.");
+
+        private static readonly UnrecognizedTypeException s_unassigned = new UnrecognizedTypeException($"{nameof(Module)} is none of {nameof(KMBombModule)}, {nameof(KMNeedyModule)}, or BombComponent.");
 
         /// <summary>
         /// Encapsulates either a solvable or needy module. Uses <see cref="CacheableBehaviour.Get{T}(bool)"/>.
@@ -36,8 +37,8 @@ namespace KeepCoding
         [CLSCompliant(false)]
         public ModuleContainer(Component component)
         {
-            if (Reference is Ktane)
-                ExtractBombComponent(component);
+            if (IsKtane)
+                AssignBombComponent(component);
 
             _bombModule = component.GetComponent<KMBombModule>();
             _needyModule = component.GetComponent<KMNeedyModule>();
@@ -74,80 +75,248 @@ namespace KeepCoding
         }
 
         /// <summary>
+        /// Determines whether this instance contains a modded module.
+        /// </summary>
+        public bool IsModded => !IsVanilla;
+
+        /// <summary>
         /// Determines whether this instance contains a <see cref="Needy"/>.
         /// </summary>
-        public bool IsNeedy => Module switch
-        {
-            KMBombModule _ => false,
-            KMNeedyModule _ => true,
-            _ => _isNeedy,
-        };
+        public bool IsNeedy => OfType(
+            _ => false,
+            _ => true,
+            () => _bombComponent is NeedyComponent);
+
+        /// <summary>
+        /// Determines whether this instance contains a vanilla module.
+        /// </summary>
+        public bool IsVanilla => OfType(
+            _ => false,
+            _ => false,
+            () => true);
 
         /// <summary>
         /// Set to true to only allow this module to be placed on the same face as the timer. Useful when the rules involve the timer in some way (like the Big Button), but should be used sparingly as it limits generation possibilities.
         /// </summary>
         /// <exception cref="UnrecognizedTypeException"></exception>
-        public bool RequiresTimerVisibility => Module switch
+        public bool RequiresTimerVisibility
         {
-            KMBombModule bombModule => bombModule.RequiresTimerVisibility,
-            KMNeedyModule needyModule => needyModule.RequiresTimerVisibility,
-            _ => _requiresTimerVisibility,
-        };
+            get => OfType(
+                b => b.RequiresTimerVisibility,
+                n => n.RequiresTimerVisibility,
+                () => ((BombComponent)_bombComponent).RequiresTimerVisibility);
+            set => OfType(
+                b => b.RequiresTimerVisibility = value,
+                n => n.RequiresTimerVisibility = value,
+                () => ((BombComponent)_bombComponent).RequiresTimerVisibility = value);
+        }
+
+        public bool WarnAtFiveSeconds
+        {
+            get => OfType(
+                b => throw Missing,
+                n => n.WarnAtFiveSeconds,
+                () => _bombComponent is NeedyComponent needy ? true : throw Missing);
+            set => OfType(
+                b => throw Missing,
+                n => n.WarnAtFiveSeconds = value,
+                () => throw s_immutable);
+        }
+
+        public float Time
+        {
+            get => OfType(
+                b => throw Missing,
+                n => n.CountdownTime,
+                () => _bombComponent is NeedyComponent needy ? needy.CountdownTime : throw Missing);
+            set => OfType(
+                b => throw Missing,
+                n => n.CountdownTime = value,
+                () => (_bombComponent is NeedyComponent needy ? needy : throw Missing).CountdownTime = value);
+        }
 
         /// <summary>
         /// The identifier for the module as referenced in missions. e.g. "BigButton" Also known as a "Module ID".
         /// </summary>
         /// <exception cref="UnrecognizedTypeException"></exception>
-        public string Id => Module switch
+        public string Id
         {
-            KMBombModule bombModule => bombModule.ModuleType,
-            KMNeedyModule needyModule => needyModule.ModuleType,
-            _ => _id ?? throw s_unassignedException,
-        };
+            get => OfType(
+                b => b.ModuleType,
+                n => n.ModuleType,
+                () => ((BombComponent)_bombComponent).ComponentType.ToString());
+            set => OfType(
+                b => b.ModuleType = value,
+                n => n.ModuleType = value,
+                () => throw s_immutable);
+        }
 
         /// <summary>
         /// The nice display name shown to players. e.g. "The Button"
         /// </summary>
         /// <exception cref="UnrecognizedTypeException"></exception>
-        public string Name => Module switch
+        public string Name
         {
-            KMBombModule bombModule => bombModule.ModuleDisplayName,
-            KMNeedyModule needyModule => needyModule.ModuleDisplayName,
-            _ => _name ?? throw s_unassignedException,
-        };
+            get => OfType(
+                b => b.ModuleDisplayName,
+                n => n.ModuleDisplayName,
+                () => ((BombComponent)_bombComponent).GetModuleDisplayName());
+            set => OfType(
+                b => b.ModuleDisplayName = value,
+                n => n.ModuleDisplayName = value,
+                () => throw s_immutable);
+        }
+
+        /// <summary>
+        /// Returns BombComponent boxed as <see cref="object"/>, or if <see langword="null"/>, throws a <see cref="NullReferenceException"/>.
+        /// </summary>
+        /// <exception cref="NullReferenceException"></exception>
+        [CLSCompliant(false)]
+        public object Vanilla => _bombComponent.NullCheck("BombComponent is null, yet you are trying to access it.");
+
+        /// <summary>
+        /// Invoked when the lights turn on.
+        /// </summary>
+        public Action Activate
+        {
+            get => OfType<Action>(
+                b => () => b.OnActivate(),
+                n => () => n.OnActivate(),
+                () => ((BombComponent)_bombComponent).Activate);
+            set => OfType(
+                b => b.OnActivate = () => value(),
+                n => n.OnActivate = () => value(),
+                () => throw s_immutable);
+        }
+
+        public Action NeedyActive
+        {
+            get => OfType<Action>(
+                b => throw Missing,
+                n => () => n.OnNeedyActivation(),
+                () => throw Missing);
+            set => OfType(
+                b => throw Missing,
+                n => n.OnNeedyActivation = () => value(),
+                () => throw Missing);
+        }
+
+        public Action NeedyDeactive
+        {
+            get => OfType<Action>(
+                b => throw Missing,
+                n => () => n.OnNeedyDeactivation(),
+                () => throw Missing);
+            set => OfType(
+                b => throw Missing,
+                n => n.OnNeedyDeactivation = () => value(),
+                () => throw Missing);
+        }
+
+        public Action NeedyTimerExpired
+        {
+            get => OfType<Action>(
+                b => throw Missing,
+                n => () => n.OnTimerExpired(),
+                () => _bombComponent is NeedyComponent needy ? (Action)(() => ((NeedyTimer)needy.GetComponentInChildren(typeof(NeedyTimer))).OnTimerExpire()) : throw Missing);
+            set => OfType(
+                b => throw Missing,
+                n => n.OnTimerExpired = () => value(),
+                () => ((NeedyTimer)(_bombComponent is NeedyComponent needy ? needy : throw Missing).GetComponentInChildren(typeof(NeedyTimer))).OnTimerExpire = () => value());
+        }
 
         /// <summary>
         /// Call this when the entire module has been solved.
         /// </summary>
         /// <exception cref="UnrecognizedTypeException"></exception>
-        public Action Solve => Module switch
+        public Action Solve
         {
-            KMBombModule bombModule => bombModule.HandlePass,
-            KMNeedyModule needyModule => needyModule.HandlePass,
-            _ => throw s_unassignedException,
-        };
+            get => OfType<Action>(
+                b => () => b.OnPass(),
+                n => () => n.OnPass(),
+                () => () => ((BombComponent)_bombComponent).OnPass(null));
+            set => OfType(
+                b => b.OnPass = () =>
+                {
+                    value();
+                    return false;
+                },
+                n => n.OnPass = () =>
+                {
+                    value();
+                    return false;
+                },
+                () => ((BombComponent)_bombComponent).OnPass = (PassEvent)CreateDelegate(typeof(PassEvent), this, ((Func<MonoBehaviour, bool>)(m =>
+                {
+                    value();
+                    return false;
+                })).Method));
+        }
 
         /// <summary>
         /// Call this on any mistake that you want to cause a bomb strike.
         /// </summary>
         /// <exception cref="UnrecognizedTypeException"></exception>
-        public Action Strike => Module switch
+        public Action Strike
         {
-            KMBombModule bombModule => bombModule.HandleStrike,
-            KMNeedyModule needyModule => needyModule.HandleStrike,
-            _ => throw s_unassignedException,
-        };
+            get => OfType<Action>(
+                b => () => b.OnStrike(),
+                n => () => n.OnStrike(),
+                () => () => ((BombComponent)_bombComponent).OnStrike(null));
+            set => OfType(
+                b => b.OnStrike = () =>
+                {
+                    value();
+                    return false;
+                },
+                n => n.OnStrike = () =>
+                {
+                    value();
+                    return false;
+                },
+                () => ((BombComponent)_bombComponent).OnStrike = (StrikeEvent)CreateDelegate(typeof(StrikeEvent), this, ((Func<MonoBehaviour, bool>)(m =>
+                {
+                    value();
+                    return false;
+                })).Method));
+        }
 
         /// <summary>
         /// Returns the random seed used to generate the rules for this game. Not currently used.
         /// </summary>
         /// <exception cref="UnrecognizedTypeException"></exception>
-        public Func<int> RuleGeneration => Module switch
+        public Func<int> RuleGeneration => OfType<Func<int>>(b => b.GetRuleGenerationSeed, n => n.GetRuleGenerationSeed, () => throw Missing);
+
+        public Func<float> TimeMutatorGetter
         {
-            KMBombModule bombModule => bombModule.GetRuleGenerationSeed,
-            KMNeedyModule needyModule => needyModule.GetRuleGenerationSeed,
-            _ => throw s_unassignedException,
-        };
+            get => OfType<Func<float>>(
+                b => throw Missing,
+                n => () => n.GetNeedyTimeRemainingHandler(),
+                () => (Func<float>)(() => TimeRemaining))
+        }
+
+        public Tuple<float, float> ResetDelay
+        {
+            get => OfType(
+                b => throw Missing,
+                n => n.ResetDelayMin.ToTuple(n.ResetDelayMax),
+                () => _bombComponent is NeedyComponent needy ? needy.ResetDelayMin.ToTuple(needy.ResetDelayMax) : throw Missing);
+            set => OfType(
+                b => throw Missing,
+                n =>
+                {
+                    n.ResetDelayMin = value.Item1;
+                    n.ResetDelayMax = value.Item2;
+                },
+                () =>
+                {
+                    if (!(_bombComponent is NeedyComponent needy))
+                        throw Missing;
+
+                    needy.ResetDelayMin = value.Item1;
+                    needy.ResetDelayMax = value.Item2;
+                });
+        }
 
         /// <summary>
         /// Returns <see cref="KMBombModule"/>, or if null, throws a <see cref="NullReferenceException"/>.
@@ -164,10 +333,11 @@ namespace KeepCoding
         public KMNeedyModule Needy => _needyModule.NullCheck("KMNeedyModule is null, yet you are trying to access it.");
 
         /// <summary>
-        /// Returns <see cref="KMBombModule"/>, or if null, <see cref="KMNeedyModule"/>.
+        /// Returns <see cref="KMBombModule"/>, or if <see langword="null"/>, <see cref="KMNeedyModule"/>, or if <see langword="null"/>, BombComponent, or if <see langword="null"/>, throws.
         /// </summary>
+        /// <exception cref="UnrecognizedTypeException"></exception>
         [CLSCompliant(false)]
-        public MonoBehaviour Module => _bombModule ?? _needyModule as MonoBehaviour ?? throw s_unassignedException;
+        public MonoBehaviour Module => _bombModule ?? _needyModule ?? _bombComponent as MonoBehaviour ?? throw s_unassigned;
 
         /// <summary>
         /// Creates a new instance of <see cref="ModuleContainer"/> where <see cref="Solvable"/> is defined.
@@ -201,6 +371,8 @@ namespace KeepCoding
         [CLSCompliant(false)]
         public static explicit operator KMNeedyModule(ModuleContainer container) => container.Needy;
 
+        private MissingMethodException Missing => new MissingMethodException($"The current type of the component (\"{Module.GetType().Name}\") lacks this method.");
+
         /// <summary>
         /// Assigns events to a module container, replacing their values.
         /// </summary>
@@ -212,19 +384,8 @@ namespace KeepCoding
         /// <param name="onTimerExpired">Called when the timer runs out of time.</param>
         public void Assign(Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null)
         {
-            switch (Module)
-            {
-                case KMBombModule bombModule:
-                    bombModule.Assign(onActivate, onPass, onStrike);
-                    break;
-
-                case KMNeedyModule needyModule:
-                    needyModule.Assign(onActivate, onNeedyActivation, onNeedyDeactivation, onPass, onStrike, onTimerExpired);
-                    break;
-
-                default:
-                    throw s_unassignedException;
-            }
+            Activate = onActivate;
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -253,15 +414,41 @@ namespace KeepCoding
         /// <returns><see cref="Name"/> and <see cref="Id"/></returns>
         public override string ToString() => $"{Name} ({Id})";
 
-        private void ExtractBombComponent(object obj)
+        private void AssignBombComponent(object component)
         {
-            if (obj is BombComponent b)
-            {
-                _isNeedy = b is NeedyComponent;
-                _requiresTimerVisibility = b.RequiresTimerVisibility;
-                _id = b.ComponentType.ToString();
-                _name = b.GetModuleDisplayName();
-            }
+            if (component is BombComponent)
+                _bombComponent = component;
         }
+
+        private void OfType(Action<KMBombModule> onBombModule, Action<KMNeedyModule> onNeedyModule, Action onBombComponent)
+        {
+            switch (Module)
+            {
+                case KMBombModule bombModule:
+                    onBombModule(bombModule);
+                    break;
+
+                case KMNeedyModule needyModule:
+                    onNeedyModule(needyModule);
+                    break;
+
+                case Component _:
+                    if (IsKtane)
+                        onBombComponent();
+                    else
+                        throw s_unassigned;
+                    break;
+            }
+
+            throw s_unassigned;
+        }
+
+        private T OfType<T>(Func<KMBombModule, T> onBombModule, Func<KMNeedyModule, T> onNeedyModule, Func<T> onBombComponent) => Module switch
+        {
+            KMBombModule bombModule => onBombModule(bombModule),
+            KMNeedyModule needyModule => onNeedyModule(needyModule),
+            Component _ => IsKtane ? onBombComponent() : throw s_unassigned,
+            _ => throw s_unassigned
+        };
     }
 }

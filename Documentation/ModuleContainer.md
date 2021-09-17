@@ -21,9 +21,12 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 
 | Properties | |
 | :--- | :--- |
+| [Activate](ModuleContainer.Activate.md 'KeepCoding.ModuleContainer.Activate') | Invoked when the lights turn on.<br/> |
 | [Id](ModuleContainer.Id.md 'KeepCoding.ModuleContainer.Id') | The identifier for the module as referenced in missions. e.g. "BigButton" Also known as a "Module ID".<br/> |
+| [IsModded](ModuleContainer.IsModded.md 'KeepCoding.ModuleContainer.IsModded') | Determines whether this instance contains a modded module.<br/> |
 | [IsNeedy](ModuleContainer.IsNeedy.md 'KeepCoding.ModuleContainer.IsNeedy') | Determines whether this instance contains a [Needy](ModuleContainer.Needy.md 'KeepCoding.ModuleContainer.Needy').<br/> |
-| [Module](ModuleContainer.Module.md 'KeepCoding.ModuleContainer.Module') | Returns [KMBombModule](https://docs.microsoft.com/en-us/dotnet/api/KMBombModule 'KMBombModule'), or if null, [KMNeedyModule](https://docs.microsoft.com/en-us/dotnet/api/KMNeedyModule 'KMNeedyModule').<br/> |
+| [IsVanilla](ModuleContainer.IsVanilla.md 'KeepCoding.ModuleContainer.IsVanilla') | Determines whether this instance contains a vanilla module.<br/> |
+| [Module](ModuleContainer.Module.md 'KeepCoding.ModuleContainer.Module') | Returns [KMBombModule](https://docs.microsoft.com/en-us/dotnet/api/KMBombModule 'KMBombModule'), or if [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null'), [KMNeedyModule](https://docs.microsoft.com/en-us/dotnet/api/KMNeedyModule 'KMNeedyModule'), or if [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null'), BombComponent, or if [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null'), throws.<br/> |
 | [Name](ModuleContainer.Name.md 'KeepCoding.ModuleContainer.Name') | The nice display name shown to players. e.g. "The Button"<br/> |
 | [Needy](ModuleContainer.Needy.md 'KeepCoding.ModuleContainer.Needy') | Returns [KMNeedyModule](https://docs.microsoft.com/en-us/dotnet/api/KMNeedyModule 'KMNeedyModule'), or if null, throws a [System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException').<br/> |
 | [RequiresTimerVisibility](ModuleContainer.RequiresTimerVisibility.md 'KeepCoding.ModuleContainer.RequiresTimerVisibility') | Set to true to only allow this module to be placed on the same face as the timer. Useful when the rules involve the timer in some way (like the Big Button), but should be used sparingly as it limits generation possibilities.<br/> |
@@ -31,6 +34,7 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 | [Solvable](ModuleContainer.Solvable.md 'KeepCoding.ModuleContainer.Solvable') | Returns [KMBombModule](https://docs.microsoft.com/en-us/dotnet/api/KMBombModule 'KMBombModule'), or if null, throws a [System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException').<br/> |
 | [Solve](ModuleContainer.Solve.md 'KeepCoding.ModuleContainer.Solve') | Call this when the entire module has been solved.<br/> |
 | [Strike](ModuleContainer.Strike.md 'KeepCoding.ModuleContainer.Strike') | Call this on any mistake that you want to cause a bomb strike.<br/> |
+| [Vanilla](ModuleContainer.Vanilla.md 'KeepCoding.ModuleContainer.Vanilla') | Returns BombComponent boxed as [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object'), or if [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null'), throws a [System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException').<br/> |
 
 | Methods | |
 | :--- | :--- |
