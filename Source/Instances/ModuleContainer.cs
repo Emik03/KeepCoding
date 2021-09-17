@@ -442,10 +442,11 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// Modded Needy Only: An encapsulated <see cref="Action{T}"/> that when called, sets the time remaining to the parameter passed in.
+        /// Modded Needy Only: An encapsulated <see cref="Action{T}"/> that when called, sets the time remaining to the parameter passed in. This value is immutable for vanilla modules, and an exception will be thrown when attempted.
         /// </summary>
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
+        /// <exception cref="ReadOnlyException"></exception>
         public Action<float> NeedyTimerSet
         {
             get => OfType<Action<float>>(
@@ -455,21 +456,22 @@ namespace KeepCoding
             set => OfType(
                 b => throw Missing,
                 n => n.SetNeedyTimeRemainingHandler = f => value(f),
-                () => throw Missing);
+                () => throw s_immutable);
         }
 
         /// <summary>
-        /// Adder Modded Needy Only: A more efficient adder for <see cref="NeedyTimerSet"/>.
+        /// Adder Modded Needy Only: A more efficient adder for <see cref="NeedyTimerSet"/>. This value is immutable for vanilla modules, and an exception will be thrown when attempted.
         /// </summary>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
+        /// <exception cref="ReadOnlyException"></exception>
         public event Action<float> NeedyTimerSetAdder
         {
             add => OfType(
                 b => throw Missing,
                 n => n.SetNeedyTimeRemainingHandler = f => value(f),
-                () => throw Missing);
+                () => throw s_immutable);
             remove => throw s_remove;
         }
 
@@ -506,10 +508,11 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// Modded Needy Only: An encapsulated <see cref="Func{T}"/> that when called, gets the time remaining.
+        /// Modded Needy Only: An encapsulated <see cref="Func{T}"/> that when called, gets the time remaining. This value is immutable for vanilla modules, and an exception will be thrown when attempted.
         /// </summary>
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
+        /// <exception cref="ReadOnlyException"></exception>
         public Func<float> NeedyTimerGet
         {
             get => OfType<Func<float>>(
@@ -519,11 +522,11 @@ namespace KeepCoding
             set => OfType(
                 b => throw Missing,
                 n => n.GetNeedyTimeRemainingHandler = () => value(),
-                () => throw Missing);
+                () => throw s_immutable);
         }
 
         /// <summary>
-        /// Adder Modded Needy Only: A more efficient adder for <see cref="NeedyTimerGet"/>.
+        /// Adder Modded Needy Only: A more efficient adder for <see cref="NeedyTimerGet"/>. This value is immutable for vanilla modules, and an exception will be thrown when attempted.
         /// </summary>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="MissingMethodException"></exception>
@@ -533,7 +536,7 @@ namespace KeepCoding
             add => OfType(
                 b => throw Missing,
                 n => n.GetNeedyTimeRemainingHandler += () => value(),
-                () => throw Missing);
+                () => throw s_immutable);
             remove => throw s_remove;
         }
 
@@ -624,7 +627,15 @@ namespace KeepCoding
         public void Assign(Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null)
         {
             Activate = onActivate;
-            throw new NotImplementedException();
+            Solve = onPass;
+            Strike = onStrike;
+
+            if (IsSolvable)
+                return;
+
+            NeedyActivate = onNeedyActivation;
+            NeedyDeactivate = onNeedyDeactivation;
+            NeedyTimerExpired = onTimerExpired;
         }
 
         /// <summary>
@@ -645,7 +656,7 @@ namespace KeepCoding
         /// Gets the current hash code.
         /// </summary>
         /// <returns>The <see cref="Module"/>'s hash code.</returns>
-        public override int GetHashCode() => 1212890949 + EqualityComparer<MonoBehaviour>.Default.GetHashCode(Module);
+        public override int GetHashCode() => HashCode.Combine(Module);
 
         /// <summary>
         /// Gets the <see cref="Name"/> and <see cref="Id"/> of the module.
