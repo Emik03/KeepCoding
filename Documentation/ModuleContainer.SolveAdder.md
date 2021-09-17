@@ -1,12 +1,12 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer')
-## ModuleContainer.Activate Property
-Invoked when the lights turn on. This value is immutable for vanilla modules, and an exception will be thrown when attempted.  
+## ModuleContainer.SolveAdder Event
+Adder Only: A more efficient adder for [Solve](ModuleContainer.Solve.md 'KeepCoding.ModuleContainer.Solve').  
 ```csharp
-public System.Action Activate { get; set; }
+public event SolveAdder;
 ```
-#### Property Value
+#### Event Type
 [System.Action](https://docs.microsoft.com/en-us/dotnet/api/System.Action 'System.Action')
 #### Exceptions
+[System.InvalidOperationException](https://docs.microsoft.com/en-us/dotnet/api/System.InvalidOperationException 'System.InvalidOperationException')  
 [UnityEngine.MissingReferenceException](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MissingReferenceException 'UnityEngine.MissingReferenceException')  
-[System.Data.ReadOnlyException](https://docs.microsoft.com/en-us/dotnet/api/System.Data.ReadOnlyException 'System.Data.ReadOnlyException')  

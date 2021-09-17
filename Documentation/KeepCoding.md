@@ -24,7 +24,7 @@
 | [Logger](Logger.md 'KeepCoding.Logger') | A class to allow logging with a specific format.<br/> |
 | [ModConfig&lt;TSerialize&gt;](ModConfig.TSerialize..md 'KeepCoding.ModConfig&lt;TSerialize&gt;') | Meant for information that needs to be deserialized within the mod settings folder, by samfundev.<br/> |
 | [ModInfo](ModInfo.md 'KeepCoding.ModInfo') | Contains information about the mod's info, this class can be used to deserialize every mod's "modInfo.json".<br/> |
-| [ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer') | Container for both solvable and needy modules.<br/> |
+| [ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer') | Contains and encapsulates both solvable and needy modules, in both modded and vanilla forms.<br/> |
 | [ModuleScript](ModuleScript.md 'KeepCoding.ModuleScript') | Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes.<br/> |
 | [MonoRandom](MonoRandom.md 'KeepCoding.MonoRandom') | A pseudo-random number generator that is primarily used to get multiple platforms to share the same random number generator.<br/> |
 | [PathManager](PathManager.md 'KeepCoding.PathManager') | Allows loading external information stored on the module. Default values are returned either when run on the editor or when an [System.IO.IOException](https://docs.microsoft.com/en-us/dotnet/api/System.IO.IOException 'System.IO.IOException') and similar occur. The default values are specified in the remarks of each method.<br/> |

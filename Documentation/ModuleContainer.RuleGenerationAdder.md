@@ -1,12 +1,13 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer')
-## ModuleContainer.RuleGeneration Property
-Modded Only: Returns the random seed used to generate the rules for this game. Not currently used.  
+## ModuleContainer.RuleGenerationAdder Event
+Adder Modded Only: A more efficient adder for [RuleGeneration](ModuleContainer.RuleGeneration.md 'KeepCoding.ModuleContainer.RuleGeneration').  
 ```csharp
-public System.Func<int> RuleGeneration { get; set; }
+public event RuleGenerationAdder;
 ```
-#### Property Value
+#### Event Type
 [System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-1 'System.Func`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-1 'System.Func`1')
 #### Exceptions
+[System.InvalidOperationException](https://docs.microsoft.com/en-us/dotnet/api/System.InvalidOperationException 'System.InvalidOperationException')  
 [System.MissingMethodException](https://docs.microsoft.com/en-us/dotnet/api/System.MissingMethodException 'System.MissingMethodException')  
 [UnityEngine.MissingReferenceException](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MissingReferenceException 'UnityEngine.MissingReferenceException')  

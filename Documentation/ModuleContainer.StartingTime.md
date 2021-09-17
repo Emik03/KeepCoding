@@ -1,12 +1,12 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer')
-## ModuleContainer.RuleGeneration Property
-Modded Only: Returns the random seed used to generate the rules for this game. Not currently used.  
+## ModuleContainer.StartingTime Property
+Needy Only: The amount of time on the needy timer whenever this module is activated.  
 ```csharp
-public System.Func<int> RuleGeneration { get; set; }
+public float StartingTime { get; set; }
 ```
 #### Property Value
-[System.Func&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-1 'System.Func`1')[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-1 'System.Func`1')
+[System.Single](https://docs.microsoft.com/en-us/dotnet/api/System.Single 'System.Single')
 #### Exceptions
 [System.MissingMethodException](https://docs.microsoft.com/en-us/dotnet/api/System.MissingMethodException 'System.MissingMethodException')  
 [UnityEngine.MissingReferenceException](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MissingReferenceException 'UnityEngine.MissingReferenceException')  

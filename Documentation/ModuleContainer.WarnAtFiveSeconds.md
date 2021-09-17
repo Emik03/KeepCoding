@@ -1,11 +1,12 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer')
-## ModuleContainer.RequiresTimerVisibility Property
-Set to true to only allow this module to be placed on the same face as the timer. Useful when the rules involve the timer in some way (like the Big Button), but should be used sparingly as it limits generation possibilities.  
+## ModuleContainer.WarnAtFiveSeconds Property
+Needy Only: Determines whether [NeedyWarning](Sound.NeedyWarning.md 'KeepCoding.Sound.NeedyWarning') plays when 5 seconds or less remain.  
 ```csharp
-public bool RequiresTimerVisibility { get; set; }
+public bool WarnAtFiveSeconds { get; set; }
 ```
 #### Property Value
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
 #### Exceptions
+[System.MissingMethodException](https://docs.microsoft.com/en-us/dotnet/api/System.MissingMethodException 'System.MissingMethodException')  
 [UnityEngine.MissingReferenceException](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MissingReferenceException 'UnityEngine.MissingReferenceException')  

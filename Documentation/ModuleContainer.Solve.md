@@ -3,9 +3,9 @@
 ## ModuleContainer.Solve Property
 Call this when the entire module has been solved.  
 ```csharp
-public System.Action Solve { get; }
+public System.Action Solve { get; set; }
 ```
 #### Property Value
 [System.Action](https://docs.microsoft.com/en-us/dotnet/api/System.Action 'System.Action')
 #### Exceptions
-[UnrecognizedTypeException](UnrecognizedTypeException.md 'KeepCoding.Internal.UnrecognizedTypeException')  
+[UnityEngine.MissingReferenceException](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MissingReferenceException 'UnityEngine.MissingReferenceException')  
