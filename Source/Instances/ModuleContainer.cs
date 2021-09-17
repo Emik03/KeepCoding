@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using KeepCoding.Internal;
 using UnityEngine;
 using static System.Delegate;
 using static KeepCoding.Game;
+using static KeepCoding.HashCode;
 
 namespace KeepCoding
 {
@@ -202,7 +202,6 @@ namespace KeepCoding
         /// Returns BombComponent boxed as <see cref="object"/>, or if <see langword="null"/>, throws a <see cref="NullReferenceException"/>.
         /// </summary>
         /// <exception cref="NullReferenceException"></exception>
-        [CLSCompliant(false)]
         public object Vanilla => _bombComponent.NullCheck("BombComponent is null, yet you are trying to access it.");
 
         /// <summary>
@@ -656,7 +655,7 @@ namespace KeepCoding
         /// Gets the current hash code.
         /// </summary>
         /// <returns>The <see cref="Module"/>'s hash code.</returns>
-        public override int GetHashCode() => HashCode.Combine(Module);
+        public override int GetHashCode() => Combine(Module);
 
         /// <summary>
         /// Gets the <see cref="Name"/> and <see cref="Id"/> of the module.
