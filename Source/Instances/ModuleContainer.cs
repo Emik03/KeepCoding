@@ -19,6 +19,8 @@ namespace KeepCoding
 
         private readonly KMNeedyModule _needyModule;
 
+        private static readonly InvalidOperationException s_remove = new InvalidOperationException("This event is adder-only.");
+
         private static readonly MissingReferenceException s_none = new MissingReferenceException($"{nameof(Module)} is none of {nameof(KMBombModule)}, {nameof(KMNeedyModule)}, or BombComponent.");
 
         private static readonly ReadOnlyException s_immutable = new ReadOnlyException("This member is immutable.");
@@ -63,7 +65,7 @@ namespace KeepCoding
         public ModuleContainer(KMBombModule solvable, KMNeedyModule needy) : this(solvable, needy, false) { }
 
         /// <summary>
-        /// Encapsulates either a solvable or needy module. If a BombComponent (or derived) is passed in, the vanilla module component will be stored instead. Uses <see cref="Component.GetComponent{T}"/>. An exception is thrown if <see cref="KMBombModule"/> and <see cref="KMNeedyModule"/> are both <see langword="null"/> or both not <see langword="null"/>.
+        /// Encapsulates either a solvable or needy module. If a BombComponent (or derived) is passed in, the vanilla module component will be stored instead. Uses <see cref="Component.GetComponent{T}"/>.
         /// </summary>
         /// <param name="monoBehaviour">The <see cref="MonoBehaviour"/> to get the module from.</param>
         [CLSCompliant(false)]
@@ -223,15 +225,23 @@ namespace KeepCoding
         /// <summary>
         /// Adder Only: A more efficient adder for <see cref="Activate"/>. This value is immutable for vanilla modules, and an exception will be thrown when attempted.
         /// </summary>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="MissingReferenceException"></exception>
+        /// <exception cref="ReadOnlyException"></exception>
         public event Action ActivateAdder
         {
             add => OfType(
                 b => b.OnActivate += () => value(),
                 n => n.OnActivate += () => value(),
                 () => throw s_immutable);
-            remove 
+            remove => throw s_remove;
         }
 
+        /// <summary>
+        /// Modded Needy Only: Invoked when the needy activates.
+        /// </summary>
+        /// <exception cref="MissingMethodException"></exception>
+        /// <exception cref="MissingReferenceException"></exception>
         public Action NeedyActivate
         {
             get => OfType<Action>(
@@ -244,15 +254,26 @@ namespace KeepCoding
                 () => throw Missing);
         }
 
+        /// <summary>
+        /// Adder Modded Needy Only: A more efficient adder for <see cref="NeedyActivate"/>.
+        /// </summary>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="MissingMethodException"></exception>
+        /// <exception cref="MissingReferenceException"></exception>
         public event Action NeedyActivateAdder
         {
             add => OfType(
                 b => throw Missing,
                 n => n.OnNeedyActivation += () => value(),
                 () => throw Missing);
-            remove { }
+            remove => throw s_remove;
         }
 
+        /// <summary>
+        /// Modded Needy Only: Invoked when the needy deactivates.
+        /// </summary>
+        /// <exception cref="MissingMethodException"></exception>
+        /// <exception cref="MissingReferenceException"></exception>
         public Action NeedyDeactivate
         {
             get => OfType<Action>(
@@ -265,15 +286,26 @@ namespace KeepCoding
                 () => throw Missing);
         }
 
+        /// <summary>
+        /// Adder Modded Needy Only: A more efficient adder for <see cref="NeedyDeactivate"/>.
+        /// </summary>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="MissingMethodException"></exception>
+        /// <exception cref="MissingReferenceException"></exception>
         public event Action NeedyDeactivateAdder
         {
             add => OfType(
                 b => throw Missing,
                 n => n.OnNeedyActivation += () => value(),
                 () => throw Missing);
-            remove { }
+            remove => throw s_remove;
         }
 
+        /// <summary>
+        /// Needy Only: Invoked when the needy timer expires.
+        /// </summary>
+        /// <exception cref="MissingMethodException"></exception>
+        /// <exception cref="MissingReferenceException"></exception>
         public Action NeedyTimerExpired
         {
             get => OfType<Action>(
@@ -286,19 +318,25 @@ namespace KeepCoding
                 () => ((NeedyTimer)NeedyTimer).OnTimerExpire = () => value());
         }
 
+        /// <summary>
+        /// Adder Needy Only: A more efficient adder for <see cref="NeedyTimerExpired"/>.
+        /// </summary>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="MissingMethodException"></exception>
+        /// <exception cref="MissingReferenceException"></exception>
         public event Action NeedyTimerExpiredAdder
         {
             add => OfType(
                 b => throw Missing,
                 n => n.OnTimerExpired += () => value(),
                 () => ((NeedyTimer)NeedyTimer).OnTimerExpire += () => value());
-            remove { }
+            remove => throw s_remove;
         }
 
         /// <summary>
         /// Call this when the entire module has been solved.
         /// </summary>
-        /// <exception cref="UnrecognizedTypeException"></exception>
+        /// <exception cref="MissingReferenceException"></exception>
         public Action Solve
         {
             get => OfType<Action>(
@@ -323,6 +361,11 @@ namespace KeepCoding
                 })).Method));
         }
 
+        /// <summary>
+        /// Adder Only: A more efficient adder for <see cref="Solve"/>.
+        /// </summary>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="MissingReferenceException"></exception>
         public event Action SolveAdder
         {
             add => OfType(
@@ -341,13 +384,13 @@ namespace KeepCoding
                     value();
                     return false;
                 })).Method));
-            remove { }
+            remove => throw s_remove;
         }
 
         /// <summary>
         /// Call this on any mistake that you want to cause a bomb strike.
         /// </summary>
-        /// <exception cref="UnrecognizedTypeException"></exception>
+        /// <exception cref="MissingReferenceException"></exception>
         public Action Strike
         {
             get => OfType<Action>(
@@ -372,6 +415,11 @@ namespace KeepCoding
                 })).Method));
         }
 
+        /// <summary>
+        /// Adder Only: A more efficient adder for <see cref="Strike"/>.
+        /// </summary>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="MissingReferenceException"></exception>
         public event Action StrikeAdder
         {
             add => OfType(
@@ -390,9 +438,14 @@ namespace KeepCoding
                     value();
                     return false;
                 })).Method));
-            remove { }
+            remove => throw s_remove;
         }
 
+        /// <summary>
+        /// Modded Needy Only: An encapsulated <see cref="Action{T}"/> that when called, sets the time remaining to the parameter passed in.
+        /// </summary>
+        /// <exception cref="MissingMethodException"></exception>
+        /// <exception cref="MissingReferenceException"></exception>
         public Action<float> NeedyTimerSet
         {
             get => OfType<Action<float>>(
@@ -405,21 +458,58 @@ namespace KeepCoding
                 () => throw Missing);
         }
 
+        /// <summary>
+        /// Adder Modded Needy Only: A more efficient adder for <see cref="NeedyTimerSet"/>.
+        /// </summary>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="MissingMethodException"></exception>
+        /// <exception cref="MissingReferenceException"></exception>
         public event Action<float> NeedyTimerSetAdder
         {
             add => OfType(
                 b => throw Missing,
                 n => n.SetNeedyTimeRemainingHandler = f => value(f),
                 () => throw Missing);
-            remove { }
+            remove => throw s_remove;
         }
 
         /// <summary>
-        /// Returns the random seed used to generate the rules for this game. Not currently used.
+        /// Modded Only: Returns the random seed used to generate the rules for this game. Not currently used.
         /// </summary>
-        /// <exception cref="UnrecognizedTypeException"></exception>
-        public Func<int> RuleGeneration => OfType<Func<int>>(b => b.GetRuleGenerationSeed, n => n.GetRuleGenerationSeed, () => throw Missing);
+        /// <exception cref="MissingMethodException"></exception>
+        /// <exception cref="MissingReferenceException"></exception>
+        public Func<int> RuleGeneration
+        {
+            get => OfType<Func<int>>(
+                b => () => b.GetRuleGenerationSeedHandler(),
+                n => () => n.GetRuleGenerationSeedHandler(),
+                () => throw Missing);
+            set => OfType(
+                b => b.GetRuleGenerationSeedHandler = () => value(),
+                n => n.GetRuleGenerationSeedHandler = () => value(),
+                () => throw Missing);
+        }
 
+        /// <summary>
+        /// Adder Modded Only: A more efficient adder for <see cref="RuleGeneration"/>.
+        /// </summary>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="MissingMethodException"></exception>
+        /// <exception cref="MissingReferenceException"></exception>
+        public event Func<int> RuleGenerationAdder
+        {
+            add => OfType(
+                b => b.GetRuleGenerationSeedHandler += () => value(),
+                n => n.GetRuleGenerationSeedHandler += () => value(),
+                () => throw Missing);
+            remove => throw s_remove;
+        }
+
+        /// <summary>
+        /// Modded Needy Only: An encapsulated <see cref="Func{T}"/> that when called, gets the time remaining.
+        /// </summary>
+        /// <exception cref="MissingMethodException"></exception>
+        /// <exception cref="MissingReferenceException"></exception>
         public Func<float> NeedyTimerGet
         {
             get => OfType<Func<float>>(
@@ -432,15 +522,26 @@ namespace KeepCoding
                 () => throw Missing);
         }
 
+        /// <summary>
+        /// Adder Modded Needy Only: A more efficient adder for <see cref="NeedyTimerGet"/>.
+        /// </summary>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="MissingMethodException"></exception>
+        /// <exception cref="MissingReferenceException"></exception>
         public event Func<float> NeedyTimerGetAdder
         {
             add => OfType(
                 b => throw Missing,
                 n => n.GetNeedyTimeRemainingHandler += () => value(),
                 () => throw Missing);
-            remove { }
+            remove => throw s_remove;
         }
 
+        /// <summary>
+        /// Needy Only: The minimum and maximum delay for the needy to activate. <see cref="Tuple{T}.Item1"/> represents the minimum and <see cref="Tuple{T1, T2}.Item2"/> the maximum.
+        /// </summary>
+        /// <exception cref="MissingMethodException"></exception>
+        /// <exception cref="MissingReferenceException"></exception>
         public Tuple<float, float> ResetDelay
         {
             get => OfType(
@@ -552,13 +653,13 @@ namespace KeepCoding
         /// <returns><see cref="Name"/> and <see cref="Id"/></returns>
         public override string ToString() => $"{Name} ({Id})";
 
-        internal void AssignBombComponent(object component)
+        private void AssignBombComponent(object component)
         {
             if (component is BombComponent)
                 _bombComponent = component;
         }
 
-        internal void OfType(Action<KMBombModule> onBombModule, Action<KMNeedyModule> onNeedyModule, Action onBombComponent)
+        private void OfType(Action<KMBombModule> onBombModule, Action<KMNeedyModule> onNeedyModule, Action onBombComponent)
         {
             switch (Module)
             {
@@ -570,7 +671,7 @@ namespace KeepCoding
                     onNeedyModule(needyModule);
                     break;
 
-                case Component _:
+                case MonoBehaviour _:
                     if (IsKtane)
                         onBombComponent();
                     else
@@ -581,11 +682,11 @@ namespace KeepCoding
             throw s_none;
         }
 
-        internal T OfType<T>(Func<KMBombModule, T> onBombModule, Func<KMNeedyModule, T> onNeedyModule, Func<T> onBombComponent) => Module switch
+        private T OfType<T>(Func<KMBombModule, T> onBombModule, Func<KMNeedyModule, T> onNeedyModule, Func<T> onBombComponent) => Module switch
         {
             KMBombModule bombModule => onBombModule(bombModule),
             KMNeedyModule needyModule => onNeedyModule(needyModule),
-            Component _ => IsKtane ? onBombComponent() : throw s_none,
+            MonoBehaviour _ => IsKtane ? onBombComponent() : throw s_none,
             _ => throw s_none
         };
     }
