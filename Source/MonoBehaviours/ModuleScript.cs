@@ -175,7 +175,7 @@ namespace KeepCoding
         /// <summary>
         /// Contains an instance for every <see cref="Sound"/> played by this module using <see cref="PlaySound(Transform, bool, Sound[])"/> or any of its overloads.
         /// </summary>
-        public Sound[] Sounds { get; private set; } = new Sound[0];
+        public List<Sound> Sounds { get; private set; } = new List<Sound>();
 
         internal bool IsColorblindSupported => _isColorblindSupported ??= Type.ImplementsMethod(nameof(OnColorblindChanged), DeclaredOnly | Instance | Public);
         private bool? _isColorblindSupported;
@@ -457,7 +457,7 @@ namespace KeepCoding
                 return s.Reference is { };
             }).ToArray();
 
-            Sounds = Sounds.Concat(sounds).ToArray();
+            Sounds.AddRange(sounds);
 
             return sounds;
         }
