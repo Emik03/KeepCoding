@@ -13,6 +13,7 @@ using static System.IntPtr;
 using static System.Linq.Enumerable;
 using static System.Reflection.Assembly;
 using static System.Reflection.BindingFlags;
+using static KeepCoding.Game;
 using static KeepCoding.Logger;
 using static KeepCoding.ModInfo;
 using static UnityEngine.Application;
@@ -150,11 +151,11 @@ namespace KeepCoding
 
             Self($"Searching for \"{assembly}\" within the mod dictionary...");
 
-            if (isEditor)
+            if (!IsKtane)
             {
                 s_modDirectories.Add(assembly, path = "");
 
-                Self("This method is being run on the Editor, therefore an empty string will be returned.");
+                Self("This method is being run outside of the Keep Talking and Nobody Explodes executable, therefore an empty string will be returned.");
 
                 return path;
             }
