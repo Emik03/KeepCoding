@@ -504,6 +504,27 @@ namespace KeepCoding
         public Sound[] PlaySound(params Sound[] sounds) => PlaySound(transform, false, sounds);
 
         /// <summary>
+        /// Allows you to get the collection of <see cref="ModuleContainer"/> from a bomb.
+        /// </summary>
+        /// <param name="bomb"></param>
+        /// <returns></returns>
+        public static ReadOnlyCollection<ModuleContainer> ModulesOfBomb(KMBomb bomb)
+        {
+            if (s_modules.ContainsKey(bomb.NullCheck("The bomb cannot be null.")))
+                return s_modules[bomb];
+
+            ReadOnlyCollection<ModuleContainer> modules = HookModules(bomb).ToReadOnly();
+
+            s_modules.ForEach((KMBomb key, ReadOnlyCollection<ModuleContainer> _) =>
+            {
+                if (!key)
+                    s_modules.Remove(key);
+            }).Add(bomb, modules);
+
+            return modules;
+        }
+
+        /// <summary>
         /// Allows you to read a module's data that uses <see cref="Write{T}(string, T)"/>, even from a different assembly.
         /// </summary>
         /// <remarks>
@@ -595,7 +616,7 @@ namespace KeepCoding
                 isHookingStrike = Type.ImplementsMethod(nameof(OnModuleStrike), Flags),
                 isHookingTimer = Type.ImplementsMethod(nameof(OnTimerTick), Flags);
 
-            (Modules = s_modules.ContainsKey(Bomb) ? s_modules[Bomb] : HookModules(Bomb).ToReadOnly()).ForEach(m =>
+            (Modules = ModulesOfBomb(Bomb)).ForEach(m =>
             {
                 if (isHookingPass && m.IsSolvable)
                     m.Solve.Add(() => OnModuleSolved(m));
@@ -603,15 +624,6 @@ namespace KeepCoding
                 if (isHookingStrike)
                     m.Strike.Add(() => OnModuleStrike(m));
             });
-
-            s_modules.ForEach((KMBomb key, ReadOnlyCollection<ModuleContainer> _) =>
-            {
-                if (!key)
-                    s_modules.Remove(key);
-            });
-
-            if (!s_modules.ContainsKey(Bomb))
-                s_modules.Add(Bomb, Modules);
 
             if (!isHookingTimer)
                 return;
