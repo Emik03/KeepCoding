@@ -207,6 +207,9 @@ namespace KeepCoding
         {
             OnActivate();
             IsActive = true;
+
+            if (IsColorblindSupported && IsColorblind)
+                OnColorblindChanged(IsColorblind);
         }), onNeedyActivation.Combine(() =>
         {
             OnNeedyActivate();
