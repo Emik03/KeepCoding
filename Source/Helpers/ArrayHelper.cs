@@ -463,21 +463,6 @@ namespace KeepCoding
         public static int FindLastIndex<T>(this T[] array, int startIndex, int count, Predicate<T> match) => Array.FindLastIndex(array, startIndex, count, match);
 
         /// <summary>
-        /// Performs the specified action on each element of the specified array.
-        /// </summary>
-        /// <remarks><seealso href="https://docs.microsoft.com/en-us/dotnet/api/system.array.foreach?view=net-5.0"/></remarks>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <typeparam name="T">The type of the elements of the array.</typeparam>
-        /// <param name="array">The one-dimensional, zero-based <see cref="Array"/> on whose elements the action is to be performed.</param>
-        /// <param name="action">The <see cref="Action{T}"/> to perform on each element of <paramref name="array"/>.</param>
-        /// <returns><paramref name="array"/></returns>
-        public static T[] ForEach<T>(this T[] array, Action<T> action)
-        {
-            Array.ForEach(array, action);
-            return array;
-        }
-
-        /// <summary>
         /// Searches for the specified object and returns the index of its first occurrence in a one-dimensional array.
         /// </summary>
         /// <remarks><seealso href="https://docs.microsoft.com/en-us/dotnet/api/system.array.indexof?view=net-5.0#System_Array_IndexOf_System_Array_System_Object_"/></remarks>
