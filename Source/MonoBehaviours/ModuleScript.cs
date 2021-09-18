@@ -593,7 +593,10 @@ namespace KeepCoding
             {
                 if (!key)
                     s_modules.Remove(key);
-            }).Add(Bomb, Modules);
+            });
+
+            if (!s_modules.ContainsKey(Bomb))
+                s_modules.Add(Bomb, Modules);
 
             if (!isHookingTimer)
                 return;
