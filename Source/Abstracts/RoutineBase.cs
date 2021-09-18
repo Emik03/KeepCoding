@@ -403,11 +403,11 @@ namespace KeepCoding.Internal
         /// <seealso cref="Routine"/>
         public void StopAll()
         {
-            Coroutines.NullOrEmptyCheck("The list of coroutines is empty.");
+            Coroutines
+                .NullOrEmptyCheck("The list of coroutines is empty.")
+                .ForEach(c => _monoBehaviour.StopCoroutine(c));
 
-            Coroutines.ForEach(c => _monoBehaviour.StopCoroutine(c));
-
-            Coroutines = new List<Coroutine>();
+            Coroutines.Clear();
         }
 
         /// <summary>
