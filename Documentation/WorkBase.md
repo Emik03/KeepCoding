@@ -25,7 +25,6 @@ Derived
 
 | Methods | |
 | :--- | :--- |
-| [~WorkBase()](WorkBase.~WorkBase().md 'KeepCoding.Internal.WorkBase.~WorkBase()') | This aborts the thread. It's to prevent the Editor from freezing from unloading the thread while it is in use, and potentially prevent issues in-game from similar actions.<br/> |
 | [Stop()](WorkBase.Stop().md 'KeepCoding.Internal.WorkBase.Stop()') | Interrupts the thread.<br/> |
 | [WaitForOtherThreads()](WorkBase.WaitForOtherThreads().md 'KeepCoding.Internal.WorkBase.WaitForOtherThreads()') | Waits until it is allowed to run a thread.<br/> |
 | [WaitForOwnThread()](WorkBase.WaitForOwnThread().md 'KeepCoding.Internal.WorkBase.WaitForOwnThread()') | Waits until its own thread is no longer running..<br/> |
