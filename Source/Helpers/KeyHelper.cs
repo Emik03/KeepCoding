@@ -497,12 +497,14 @@ namespace KeepCoding
         /// <param name="iterator">The collection of items to go through one-by-one.</param>
         /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
         /// <returns><paramref name="iterator"/></returns>
-        public static void ForEach<T>(this IEnumerable<T> iterator, Action<T> action)
+        public static IEnumerable<T> ForEach<T>(this IEnumerable<T> iterator, Action<T> action)
         {
             action.NullCheck("The action cannot be null.");
 
             foreach (T item in iterator)
                 action(item);
+
+            return iterator;
         }
 
         /// <summary>
@@ -582,7 +584,7 @@ namespace KeepCoding
         /// <param name="iterator">The collection of items to go through one-by-one.</param>
         /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
         /// <returns><paramref name="iterator"/></returns>
-        public static void ForEach<T>(this IEnumerable<T> iterator, Action<T, int> action)
+        public static IEnumerable<T> ForEach<T>(this IEnumerable<T> iterator, Action<T, int> action)
         {
             action.NullCheck("The action cannot be null.");
 
@@ -590,6 +592,8 @@ namespace KeepCoding
 
             foreach (T item in iterator)
                 action(item, checked(i++));
+
+            return iterator;
         }
 
         /// <summary>
