@@ -3,9 +3,9 @@
 ## ModuleContainer.Strike Property
 Call this on any mistake that you want to cause a bomb strike.  
 ```csharp
-public System.Action Strike { get; set; }
+public KeepCoding.ModuleEvent<System.Action> Strike { get; }
 ```
 #### Property Value
-[System.Action](https://docs.microsoft.com/en-us/dotnet/api/System.Action 'System.Action')
+[KeepCoding.ModuleEvent&lt;](ModuleEvent.T..md 'KeepCoding.ModuleEvent&lt;T&gt;')[System.Action](https://docs.microsoft.com/en-us/dotnet/api/System.Action 'System.Action')[&gt;](ModuleEvent.T..md 'KeepCoding.ModuleEvent&lt;T&gt;')
 #### Exceptions
 [UnityEngine.MissingReferenceException](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MissingReferenceException 'UnityEngine.MissingReferenceException')  

@@ -3,10 +3,10 @@
 ## ModuleContainer.NeedyTimerSet Property
 Modded Needy Only: An encapsulated [System.Action&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Action-1 'System.Action`1') that when called, sets the time remaining to the parameter passed in. This value is immutable for vanilla modules, and an exception will be thrown when attempted.  
 ```csharp
-public System.Action<float> NeedyTimerSet { get; set; }
+public KeepCoding.ModuleEvent<System.Action<float>> NeedyTimerSet { get; }
 ```
 #### Property Value
-[System.Action&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Action-1 'System.Action`1')[System.Single](https://docs.microsoft.com/en-us/dotnet/api/System.Single 'System.Single')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Action-1 'System.Action`1')
+[KeepCoding.ModuleEvent&lt;](ModuleEvent.T..md 'KeepCoding.ModuleEvent&lt;T&gt;')[System.Action&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Action-1 'System.Action`1')[System.Single](https://docs.microsoft.com/en-us/dotnet/api/System.Single 'System.Single')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Action-1 'System.Action`1')[&gt;](ModuleEvent.T..md 'KeepCoding.ModuleEvent&lt;T&gt;')
 #### Exceptions
 [System.MissingMethodException](https://docs.microsoft.com/en-us/dotnet/api/System.MissingMethodException 'System.MissingMethodException')  
 [UnityEngine.MissingReferenceException](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MissingReferenceException 'UnityEngine.MissingReferenceException')  

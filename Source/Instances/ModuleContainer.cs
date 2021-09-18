@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using KeepCoding.Internal;
 using UnityEngine;
 using static System.Delegate;
@@ -210,235 +209,171 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="MissingReferenceException"></exception>
         /// <exception cref="ImmutableException"></exception>
-        public Action Activate
-        {
-            get => OfType<Action>(
-                b => () => b.OnActivate(),
-                n => () => n.OnActivate(),
-                () => ((BombComponent)_bombComponent).Activate);
-            set => OfType(
-                b => b.OnActivate = () => value(),
-                n => n.OnActivate = () => value(),
-                () => throw s_immutable);
-        }
+        public ModuleEvent<Action> Activate => _activate ??= ModuleEvent<Action>.New(AddActivate, GetActivate, SetActivate);
+        private ModuleEvent<Action> _activate;
 
-        /// <summary>
-        /// Adder Only: A more efficient adder for <see cref="Activate"/>. This value is immutable for vanilla modules, and an exception will be thrown when attempted.
-        /// </summary>
-        /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="MissingReferenceException"></exception>
-        /// <exception cref="ImmutableException"></exception>
-        public event Action ActivateAdder
-        {
-            add => OfType(
-                b => b.OnActivate += () => value(),
-                n => n.OnActivate += () => value(),
-                () => throw s_immutable);
-            remove => throw s_remove;
-        }
+        private void AddActivate(Action value) => OfType(
+            b => b.OnActivate += () => value(),
+            n => n.OnActivate += () => value(),
+            () => throw s_immutable);
+
+        private Action GetActivate() => OfType<Action>(
+            b => () => b.OnActivate(),
+            n => () => n.OnActivate(),
+            () => ((BombComponent)_bombComponent).Activate);
+
+        private void SetActivate(Action value) => OfType(
+            b => b.OnActivate = () => value(),
+            n => n.OnActivate = () => value(),
+            () => throw s_immutable);
 
         /// <summary>
         /// Modded Needy Only: Invoked when the needy activates.
         /// </summary>
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
-        public Action NeedyActivate
-        {
-            get => OfType<Action>(
-                b => throw Missing,
-                n => () => n.OnNeedyActivation(),
-                () => throw Missing);
-            set => OfType(
-                b => throw Missing,
-                n => n.OnNeedyActivation = () => value(),
-                () => throw Missing);
-        }
+        public ModuleEvent<Action> NeedyActivate => _needyActivate ??= ModuleEvent<Action>.New(AddNeedyActivate, GetNeedyActivate, SetNeedyActivate);
+        private ModuleEvent<Action> _needyActivate;
 
-        /// <summary>
-        /// Adder Modded Needy Only: A more efficient adder for <see cref="NeedyActivate"/>.
-        /// </summary>
-        /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="MissingMethodException"></exception>
-        /// <exception cref="MissingReferenceException"></exception>
-        public event Action NeedyActivateAdder
-        {
-            add => OfType(
-                b => throw Missing,
-                n => n.OnNeedyActivation += () => value(),
-                () => throw Missing);
-            remove => throw s_remove;
-        }
+        private Action GetNeedyActivate() => OfType<Action>(
+            b => throw Missing,
+            n => () => n.OnNeedyActivation(),
+            () => throw Missing);
+
+        private void SetNeedyActivate(Action value) => OfType(
+            b => throw Missing,
+            n => n.OnNeedyActivation = () => value(),
+            () => throw Missing);
+
+        private void AddNeedyActivate(Action value) => OfType(
+            b => throw Missing,
+            n => n.OnNeedyActivation += () => value(),
+            () => throw Missing);
 
         /// <summary>
         /// Modded Needy Only: Invoked when the needy deactivates.
         /// </summary>
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
-        public Action NeedyDeactivate
-        {
-            get => OfType<Action>(
-                b => throw Missing,
-                n => () => n.OnNeedyDeactivation(),
-                () => throw Missing);
-            set => OfType(
-                b => throw Missing,
-                n => n.OnNeedyDeactivation = () => value(),
-                () => throw Missing);
-        }
+        public ModuleEvent<Action> NeedyDeactivate => _needyDeactivate ??= ModuleEvent<Action>.New(AddNeedyDeactivate, GetNeedyDeactivate, SetNeedyDeactivate);
+        private ModuleEvent<Action> _needyDeactivate;
 
-        /// <summary>
-        /// Adder Modded Needy Only: A more efficient adder for <see cref="NeedyDeactivate"/>.
-        /// </summary>
-        /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="MissingMethodException"></exception>
-        /// <exception cref="MissingReferenceException"></exception>
-        public event Action NeedyDeactivateAdder
-        {
-            add => OfType(
-                b => throw Missing,
-                n => n.OnNeedyActivation += () => value(),
-                () => throw Missing);
-            remove => throw s_remove;
-        }
+        private void AddNeedyDeactivate(Action value) => OfType(
+            b => throw Missing,
+            n => n.OnNeedyActivation += () => value(),
+            () => throw Missing);
+
+        private Action GetNeedyDeactivate() => OfType<Action>(
+            b => throw Missing,
+            n => () => n.OnNeedyDeactivation(),
+            () => throw Missing);
+
+        private void SetNeedyDeactivate(Action value) => OfType(
+            b => throw Missing,
+            n => n.OnNeedyDeactivation = () => value(),
+            () => throw Missing);
 
         /// <summary>
         /// Needy Only: Invoked when the needy timer expires.
         /// </summary>
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
-        public Action NeedyTimerExpired
-        {
-            get => OfType<Action>(
-                b => throw Missing,
-                n => () => n.OnTimerExpired(),
-                () => _bombComponent is NeedyComponent needy ? (Action)(() => ((NeedyTimer)NeedyTimer).OnTimerExpire()) : throw Missing);
-            set => OfType(
-                b => throw Missing,
-                n => n.OnTimerExpired = () => value(),
-                () => ((NeedyTimer)NeedyTimer).OnTimerExpire = (NeedyTimerExpireEvent)CreateDelegate(typeof(NeedyTimerExpireEvent), value.Method));
-        }
+        public ModuleEvent<Action> NeedyTimerExpired => _needyTimerExpired ??= ModuleEvent<Action>.New(AddNeedyTimerExpired, GetNeedyTimerExpired, SetNeedyTimerExpired);
+        private ModuleEvent<Action> _needyTimerExpired;
 
-        /// <summary>
-        /// Adder Needy Only: A more efficient adder for <see cref="NeedyTimerExpired"/>.
-        /// </summary>
-        /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="MissingMethodException"></exception>
-        /// <exception cref="MissingReferenceException"></exception>
-        public event Action NeedyTimerExpiredAdder
-        {
-            add => OfType(
-                b => throw Missing,
-                n => n.OnTimerExpired += () => value(),
-                () => ((NeedyTimer)NeedyTimer).OnTimerExpire += (NeedyTimerExpireEvent)CreateDelegate(typeof(NeedyTimerExpireEvent), value.Method));
-            remove => throw s_remove;
-        }
+        private void AddNeedyTimerExpired(Action value) => OfType(
+            b => throw Missing,
+            n => n.OnTimerExpired += () => value(),
+            () => ((NeedyTimer)NeedyTimer).OnTimerExpire += (NeedyTimerExpireEvent)CreateDelegate(typeof(NeedyTimerExpireEvent), value.Method));
+
+        private Action GetNeedyTimerExpired() => OfType<Action>(
+            b => throw Missing,
+            n => () => n.OnTimerExpired(),
+            () => _bombComponent is NeedyComponent needy ? (Action)(() => ((NeedyTimer)NeedyTimer).OnTimerExpire()) : throw Missing);
+
+        private void SetNeedyTimerExpired(Action value) => OfType(
+            b => throw Missing,
+            n => n.OnTimerExpired = () => value(),
+            () => ((NeedyTimer)NeedyTimer).OnTimerExpire = (NeedyTimerExpireEvent)CreateDelegate(typeof(NeedyTimerExpireEvent), value.Method));
 
         /// <summary>
         /// Call this when the entire module has been solved.
         /// </summary>
         /// <exception cref="MissingReferenceException"></exception>
-        public Action Solve
+        public ModuleEvent<Action> Solve => _solve ??= ModuleEvent<Action>.New(AddSolve, GetSolve, SetSolve);
+        private ModuleEvent<Action> _solve;
+
+        private void AddSolve(Action value)
         {
-            get => OfType<Action>(
-                b => () => b.OnPass(),
-                n => () => n.OnPass(),
-                () => () => ((BombComponent)_bombComponent).OnPass(null));
-            set => OfType(
-                b => b.OnPass = () =>
-                {
-                    value();
-                    return false;
-                },
-                n => n.OnPass = () =>
-                {
-                    value();
-                    return false;
-                },
-                () => ((BombComponent)_bombComponent).OnPass = (PassEvent)CreateDelegate(typeof(PassEvent), this, ((Func<MonoBehaviour, bool>)(m =>
-                {
-                    value();
-                    return false;
-                })).Method));
+            bool ToHook()
+            {
+                value();
+                return false;
+            }
+
+            OfType(
+                b => b.OnPass += () => ToHook(),
+                n => n.OnPass += () => ToHook(),
+                () => ((BombComponent)_bombComponent).OnPass += (PassEvent)CreateDelegate(typeof(PassEvent), this, ((Func<MonoBehaviour, bool>)(m => ToHook())).Method));
         }
 
-        /// <summary>
-        /// Adder Only: A more efficient adder for <see cref="Solve"/>.
-        /// </summary>
-        /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="MissingReferenceException"></exception>
-        public event Action SolveAdder
+        private Action GetSolve() => OfType<Action>(
+            b => () => b.OnPass(),
+            n => () => n.OnPass(),
+            () => () => ((BombComponent)_bombComponent).OnPass(null));
+
+        private void SetSolve(Action value)
         {
-            add => OfType(
-                b => b.OnPass += () =>
-                {
-                    value();
-                    return false;
-                },
-                n => n.OnPass += () =>
-                {
-                    value();
-                    return false;
-                },
-                () => ((BombComponent)_bombComponent).OnPass += (PassEvent)CreateDelegate(typeof(PassEvent), this, ((Func<MonoBehaviour, bool>)(m =>
-                {
-                    value();
-                    return false;
-                })).Method));
-            remove => throw s_remove;
+            bool Hook()
+            {
+                value();
+                return false;
+            }
+
+            OfType(
+                b => b.OnPass = () => Hook(),
+                n => n.OnPass = () => Hook(),
+                () => ((BombComponent)_bombComponent).OnPass = (PassEvent)CreateDelegate(typeof(PassEvent), this, ((Func<MonoBehaviour, bool>)(m => Hook())).Method));
         }
 
         /// <summary>
         /// Call this on any mistake that you want to cause a bomb strike.
         /// </summary>
         /// <exception cref="MissingReferenceException"></exception>
-        public Action Strike
+        public ModuleEvent<Action> Strike => _strike ??= ModuleEvent<Action>.New(AddStrike, GetStrike, SetStrike);
+        private ModuleEvent<Action> _strike;
+
+        private void AddStrike(Action value)
         {
-            get => OfType<Action>(
-                b => () => b.OnStrike(),
-                n => () => n.OnStrike(),
-                () => () => ((BombComponent)_bombComponent).OnStrike(null));
-            set => OfType(
-                b => b.OnStrike = () =>
-                {
-                    value();
-                    return false;
-                },
-                n => n.OnStrike = () =>
-                {
-                    value();
-                    return false;
-                },
-                () => ((BombComponent)_bombComponent).OnStrike = (StrikeEvent)CreateDelegate(typeof(StrikeEvent), this, ((Func<MonoBehaviour, bool>)(m =>
-                {
-                    value();
-                    return false;
-                })).Method));
+            bool Hook()
+            {
+                value();
+                return false;
+            }
+
+            OfType(
+                b => b.OnStrike += () => Hook(),
+                n => n.OnStrike += () => Hook(),
+                () => ((BombComponent)_bombComponent).OnStrike += (StrikeEvent)CreateDelegate(typeof(StrikeEvent), this, ((Func<MonoBehaviour, bool>)(m => Hook())).Method));
         }
 
-        /// <summary>
-        /// Adder Only: A more efficient adder for <see cref="Strike"/>.
-        /// </summary>
-        /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="MissingReferenceException"></exception>
-        public event Action StrikeAdder
+        private Action GetStrike() => OfType<Action>(
+            b => () => b.OnStrike(),
+            n => () => n.OnStrike(),
+            () => () => ((BombComponent)_bombComponent).OnStrike(null));
+
+        private void SetStrike(Action value)
         {
-            add => OfType(
-                b => b.OnStrike += () =>
-                {
-                    value();
-                    return false;
-                },
-                n => n.OnStrike += () =>
-                {
-                    value();
-                    return false;
-                },
-                () => ((BombComponent)_bombComponent).OnStrike += (StrikeEvent)CreateDelegate(typeof(StrikeEvent), this, ((Func<MonoBehaviour, bool>)(m =>
-                {
-                    value();
-                    return false;
-                })).Method));
-            remove => throw s_remove;
+            bool Hook()
+            {
+                value();
+                return false;
+            }
+
+            OfType(
+                b => b.OnStrike = () => Hook(),
+                n => n.OnStrike = () => Hook(),
+                () => ((BombComponent)_bombComponent).OnStrike = (StrikeEvent)CreateDelegate(typeof(StrikeEvent), this, ((Func<MonoBehaviour, bool>)(m => Hook())).Method));
         }
 
         /// <summary>
@@ -447,65 +382,46 @@ namespace KeepCoding
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
         /// <exception cref="ImmutableException"></exception>
-        public Action<float> NeedyTimerSet
-        {
-            get => OfType<Action<float>>(
-                b => throw Missing,
-                n => f => n.SetNeedyTimeRemainingHandler(f),
-                () => (Action<float>)(f => ((NeedyTimer)NeedyTimer).TimeRemaining = f));
-            set => OfType(
-                b => throw Missing,
-                n => n.SetNeedyTimeRemainingHandler = f => value(f),
-                () => throw s_immutable);
-        }
+        public ModuleEvent<Action<float>> NeedyTimerSet => _needyTimerSet ??= ModuleEvent<Action<float>>.New(AddNeedyTimerSet, GetNeedyTimerSet, SetNeedyTimerSet);
+        private ModuleEvent<Action<float>> _needyTimerSet;
 
-        /// <summary>
-        /// Adder Modded Needy Only: A more efficient adder for <see cref="NeedyTimerSet"/>. This value is immutable for vanilla modules, and an exception will be thrown when attempted.
-        /// </summary>
-        /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="MissingMethodException"></exception>
-        /// <exception cref="MissingReferenceException"></exception>
-        /// <exception cref="ImmutableException"></exception>
-        public event Action<float> NeedyTimerSetAdder
-        {
-            add => OfType(
-                b => throw Missing,
-                n => n.SetNeedyTimeRemainingHandler = f => value(f),
-                () => throw s_immutable);
-            remove => throw s_remove;
-        }
+        private void AddNeedyTimerSet(Action<float> value) => OfType(
+            b => throw Missing,
+            n => n.SetNeedyTimeRemainingHandler = f => value(f),
+            () => throw s_immutable);
+
+        private Action<float> GetNeedyTimerSet() => OfType<Action<float>>(
+            b => throw Missing,
+            n => f => n.SetNeedyTimeRemainingHandler(f),
+            () => (Action<float>)(f => ((NeedyTimer)NeedyTimer).TimeRemaining = f));
+
+        private void SetNeedyTimerSet(Action<float> value) => OfType(
+            b => throw Missing,
+            n => n.SetNeedyTimeRemainingHandler = f => value(f),
+            () => throw s_immutable);
 
         /// <summary>
         /// Modded Only: Returns the random seed used to generate the rules for this game. Not currently used.
         /// </summary>
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
-        public Func<int> RuleGeneration
-        {
-            get => OfType<Func<int>>(
-                b => () => b.GetRuleGenerationSeedHandler(),
-                n => () => n.GetRuleGenerationSeedHandler(),
-                () => throw Missing);
-            set => OfType(
-                b => b.GetRuleGenerationSeedHandler = () => value(),
-                n => n.GetRuleGenerationSeedHandler = () => value(),
-                () => throw Missing);
-        }
+        public ModuleEvent<Func<int>> RuleGeneration => _ruleGeneration ??= ModuleEvent<Func<int>>.New(AddRuleGeneration, GetRuleGeneration, SetRuleGeneration);
+        private ModuleEvent<Func<int>> _ruleGeneration;
 
-        /// <summary>
-        /// Adder Modded Only: A more efficient adder for <see cref="RuleGeneration"/>.
-        /// </summary>
-        /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="MissingMethodException"></exception>
-        /// <exception cref="MissingReferenceException"></exception>
-        public event Func<int> RuleGenerationAdder
-        {
-            add => OfType(
-                b => b.GetRuleGenerationSeedHandler += () => value(),
-                n => n.GetRuleGenerationSeedHandler += () => value(),
-                () => throw Missing);
-            remove => throw s_remove;
-        }
+        private void AddRuleGeneration(Func<int> value) => OfType(
+            b => b.GetRuleGenerationSeedHandler += () => value(),
+            n => n.GetRuleGenerationSeedHandler += () => value(),
+            () => throw Missing);
+
+        private Func<int> GetRuleGeneration() => OfType<Func<int>>(
+            b => () => b.GetRuleGenerationSeedHandler(),
+            n => () => n.GetRuleGenerationSeedHandler(),
+            () => throw Missing);
+
+        private void SetRuleGeneration(Func<int> value) => OfType(
+            b => b.GetRuleGenerationSeedHandler = () => value(),
+            n => n.GetRuleGenerationSeedHandler = () => value(),
+            () => throw Missing);
 
         /// <summary>
         /// Modded Needy Only: An encapsulated <see cref="Func{T}"/> that when called, gets the time remaining. This value is immutable for vanilla modules, and an exception will be thrown when attempted.
@@ -513,32 +429,23 @@ namespace KeepCoding
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
         /// <exception cref="ImmutableException"></exception>
-        public Func<float> NeedyTimerGet
-        {
-            get => OfType<Func<float>>(
-                b => throw Missing,
-                n => () => n.GetNeedyTimeRemainingHandler(),
-                () => (Func<float>)(() => ((NeedyTimer)NeedyTimer).TimeRemaining));
-            set => OfType(
-                b => throw Missing,
-                n => n.GetNeedyTimeRemainingHandler = () => value(),
-                () => throw s_immutable);
-        }
+        public ModuleEvent<Func<float>> NeedyTimerGet => _needyTimerGet ??= ModuleEvent<Func<float>>.New(AddNeedyTimerGet, GetNeedyTimerGet, SetNeedyTimerGet);
+        private ModuleEvent<Func<float>> _needyTimerGet;
 
-        /// <summary>
-        /// Adder Modded Needy Only: A more efficient adder for <see cref="NeedyTimerGet"/>. This value is immutable for vanilla modules, and an exception will be thrown when attempted.
-        /// </summary>
-        /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="MissingMethodException"></exception>
-        /// <exception cref="MissingReferenceException"></exception>
-        public event Func<float> NeedyTimerGetAdder
-        {
-            add => OfType(
-                b => throw Missing,
-                n => n.GetNeedyTimeRemainingHandler += () => value(),
-                () => throw s_immutable);
-            remove => throw s_remove;
-        }
+        private void AddNeedyTimerGet(Func<float> value) => OfType(
+            b => throw Missing,
+            n => n.GetNeedyTimeRemainingHandler += () => value(),
+            () => throw s_immutable);
+
+        private Func<float> GetNeedyTimerGet() => OfType<Func<float>>(
+            b => throw Missing,
+            n => () => n.GetNeedyTimeRemainingHandler(),
+            () => (Func<float>)(() => ((NeedyTimer)NeedyTimer).TimeRemaining));
+
+        private void SetNeedyTimerGet(Func<float> value) => OfType(
+            b => throw Missing,
+            n => n.GetNeedyTimeRemainingHandler = () => value(),
+            () => throw s_immutable);
 
         /// <summary>
         /// Needy Only: The minimum and maximum delay for the needy to activate. <see cref="Tuple{T}.Item1"/> represents the minimum and <see cref="Tuple{T1, T2}.Item2"/> the maximum.
@@ -616,26 +523,42 @@ namespace KeepCoding
         private MissingMethodException Missing => new MissingMethodException($"The current type of the component (\"{Module.GetType().Name}\") lacks this method.");
 
         /// <summary>
-        /// Assigns events to a module container, replacing their values.
+        /// Assigns events to this instance, replacing their existing values.
         /// </summary>
-        /// <param name="onActivate">Called when the lights turn on.</param>
-        /// <param name="onNeedyActivation">Called when the needy activates.</param>
-        /// <param name="onNeedyDeactivation">Called when the needy deactivates.</param>
-        /// <param name="onPass">Called when the needy is solved.</param>
-        /// <param name="onStrike">Called when the needy strikes.</param>
-        /// <param name="onTimerExpired">Called when the timer runs out of time.</param>
-        public void Assign(Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null)
+        /// <param name="activate">Called when the lights turn on.</param>
+        /// <param name="needyActivate">Called when the needy activates.</param>
+        /// <param name="needyDeactivate">Called when the needy deactivates.</param>
+        /// <param name="needyTimerExpired">Called when the timer runs out of time.</param>
+        /// <param name="solve">Called when the needy is solved.</param>
+        /// <param name="strike">Called when the needy strikes.</param>
+        /// <param name="needyTimerSet">Called when <see cref="KMNeedyModule.GetNeedyTimeRemaining"/> is called.</param>
+        /// <param name="ruleGeneration">Called when <see cref="KMBombModule.GetRuleGenerationSeed"/> or <see cref="KMNeedyModule.GetRuleGenerationSeed"/> is called.</param>
+        /// <param name="needyTimerGet">Called when <see cref="KMNeedyModule.SetNeedyTimeRemaining(float)"/> is called.</param>
+        public void Assign(Action activate = null, Action needyActivate = null, Action needyDeactivate = null, Action needyTimerExpired = null, Action solve = null, Action strike = null, Action<float> needyTimerSet = null, Func<int> ruleGeneration = null, Func<float> needyTimerGet = null)
         {
-            Activate = onActivate;
-            Solve = onPass;
-            Strike = onStrike;
+            if (activate is { })
+                Activate.Set(activate);
+            if (solve is { })
+                Solve.Set(solve);
+            if (strike is { })
+                Strike.Set(strike);
+
+            if (needyTimerSet is { })
+                NeedyTimerSet.Set(needyTimerSet);
+            if (ruleGeneration is { })
+                RuleGeneration.Set(ruleGeneration);
+            if (needyTimerGet is { })
+                NeedyTimerGet.Set(needyTimerGet);
 
             if (IsSolvable)
                 return;
 
-            NeedyActivate = onNeedyActivation;
-            NeedyDeactivate = onNeedyDeactivation;
-            NeedyTimerExpired = onTimerExpired;
+            if (needyActivate is { })
+                NeedyActivate.Set(needyActivate);
+            if (needyDeactivate is { })
+                NeedyDeactivate.Set(needyDeactivate);
+            if (needyTimerExpired is { })
+                NeedyTimerExpired.Set(needyTimerExpired);
         }
 
         /// <summary>

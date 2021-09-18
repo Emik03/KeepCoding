@@ -48,23 +48,11 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 
 | Methods | |
 | :--- | :--- |
-| [Assign(Action, Action, Action, Action, Action, Action)](ModuleContainer.Assign.0rTVRq0bU3pohaS2J6QIJw.md 'KeepCoding.ModuleContainer.Assign(System.Action, System.Action, System.Action, System.Action, System.Action, System.Action)') | Assigns events to a module container, replacing their values.<br/> |
+| [Assign(Action, Action, Action, Action, Action, Action, Action&lt;float&gt;, Func&lt;int&gt;, Func&lt;float&gt;)](ModuleContainer.Assign.+fOhd7SXKV521HHZkwA6Kg.md 'KeepCoding.ModuleContainer.Assign(System.Action, System.Action, System.Action, System.Action, System.Action, System.Action, System.Action&lt;float&gt;, System.Func&lt;int&gt;, System.Func&lt;float&gt;)') | Assigns events to this instance, replacing their existing values.<br/> |
 | [Equals(ModuleContainer)](ModuleContainer.Equals.uoK13ULV+B6co9A9YoXBPA.md 'KeepCoding.ModuleContainer.Equals(KeepCoding.ModuleContainer)') | Determines if both [ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer') variables are equal.<br/> |
 | [Equals(object)](ModuleContainer.Equals.RWqyWwX38KKIOcvgyLTWIQ.md 'KeepCoding.ModuleContainer.Equals(object)') | Determines if both [ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer') variables are equal.<br/> |
 | [GetHashCode()](ModuleContainer.GetHashCode().md 'KeepCoding.ModuleContainer.GetHashCode()') | Gets the current hash code.<br/> |
 | [ToString()](ModuleContainer.ToString().md 'KeepCoding.ModuleContainer.ToString()') | Gets the [Name](ModuleContainer.Name.md 'KeepCoding.ModuleContainer.Name') and [Id](ModuleContainer.Id.md 'KeepCoding.ModuleContainer.Id') of the module.<br/> |
-
-| Events | |
-| :--- | :--- |
-| [ActivateAdder](ModuleContainer.ActivateAdder.md 'KeepCoding.ModuleContainer.ActivateAdder') | Adder Only: A more efficient adder for [Activate](ModuleContainer.Activate.md 'KeepCoding.ModuleContainer.Activate'). This value is immutable for vanilla modules, and an exception will be thrown when attempted.<br/> |
-| [NeedyActivateAdder](ModuleContainer.NeedyActivateAdder.md 'KeepCoding.ModuleContainer.NeedyActivateAdder') | Adder Modded Needy Only: A more efficient adder for [NeedyActivate](ModuleContainer.NeedyActivate.md 'KeepCoding.ModuleContainer.NeedyActivate').<br/> |
-| [NeedyDeactivateAdder](ModuleContainer.NeedyDeactivateAdder.md 'KeepCoding.ModuleContainer.NeedyDeactivateAdder') | Adder Modded Needy Only: A more efficient adder for [NeedyDeactivate](ModuleContainer.NeedyDeactivate.md 'KeepCoding.ModuleContainer.NeedyDeactivate').<br/> |
-| [NeedyTimerExpiredAdder](ModuleContainer.NeedyTimerExpiredAdder.md 'KeepCoding.ModuleContainer.NeedyTimerExpiredAdder') | Adder Needy Only: A more efficient adder for [NeedyTimerExpired](ModuleContainer.NeedyTimerExpired.md 'KeepCoding.ModuleContainer.NeedyTimerExpired').<br/> |
-| [NeedyTimerGetAdder](ModuleContainer.NeedyTimerGetAdder.md 'KeepCoding.ModuleContainer.NeedyTimerGetAdder') | Adder Modded Needy Only: A more efficient adder for [NeedyTimerGet](ModuleContainer.NeedyTimerGet.md 'KeepCoding.ModuleContainer.NeedyTimerGet'). This value is immutable for vanilla modules, and an exception will be thrown when attempted.<br/> |
-| [NeedyTimerSetAdder](ModuleContainer.NeedyTimerSetAdder.md 'KeepCoding.ModuleContainer.NeedyTimerSetAdder') | Adder Modded Needy Only: A more efficient adder for [NeedyTimerSet](ModuleContainer.NeedyTimerSet.md 'KeepCoding.ModuleContainer.NeedyTimerSet'). This value is immutable for vanilla modules, and an exception will be thrown when attempted.<br/> |
-| [RuleGenerationAdder](ModuleContainer.RuleGenerationAdder.md 'KeepCoding.ModuleContainer.RuleGenerationAdder') | Adder Modded Only: A more efficient adder for [RuleGeneration](ModuleContainer.RuleGeneration.md 'KeepCoding.ModuleContainer.RuleGeneration').<br/> |
-| [SolveAdder](ModuleContainer.SolveAdder.md 'KeepCoding.ModuleContainer.SolveAdder') | Adder Only: A more efficient adder for [Solve](ModuleContainer.Solve.md 'KeepCoding.ModuleContainer.Solve').<br/> |
-| [StrikeAdder](ModuleContainer.StrikeAdder.md 'KeepCoding.ModuleContainer.StrikeAdder') | Adder Only: A more efficient adder for [Strike](ModuleContainer.Strike.md 'KeepCoding.ModuleContainer.Strike').<br/> |
 
 | Operators | |
 | :--- | :--- |
