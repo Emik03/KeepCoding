@@ -10,14 +10,12 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
-using static System.Delegate;
 using static System.Linq.Enumerable;
 using static System.Reflection.BindingFlags;
 using static System.String;
 using static KeepCoding.Game;
 using static KeepCoding.Game.KTInputManager;
 using static KeepCoding.Game.MasterAudio;
-using static KeepCoding.Game.References;
 using static KeepCoding.Logger;
 using static KMAudio;
 using static KMSoundOverride;
@@ -44,7 +42,7 @@ namespace KeepCoding
 
         private static readonly Dictionary<string, Dictionary<string, object>[]> s_database = new Dictionary<string, Dictionary<string, object>[]>();
 
-        private static readonly Dictionary<KMBomb, ModuleContainer[]> s_modules = new Dictionary<KMBomb, ModuleContainer[]>();
+        private static readonly Dictionary<KMBomb, ReadOnlyCollection<ModuleContainer>> s_modules = new Dictionary<KMBomb, ReadOnlyCollection<ModuleContainer>>();
 
         /// <summary>
         /// Determines whether the module has been struck. <see cref="TPScript{TModule}.OnInteractSequence(KMSelectable[], float, int[])"/> will set this to <see langword="false"/> when a command is interrupted.
@@ -179,7 +177,8 @@ namespace KeepCoding
         /// </summary>
         public Sound[] Sounds { get; private set; } = new Sound[0];
 
-        internal bool IsColorblindSupported => Type.ImplementsMethod(nameof(OnColorblindChanged), DeclaredOnly | Instance | Public);
+        internal bool IsColorblindSupported => _isColorblindSupported ??= Type.ImplementsMethod(nameof(OnColorblindChanged), DeclaredOnly | Instance | Public);
+        private bool? _isColorblindSupported;
 
         internal static bool IsOutdated { get; private set; }
 
@@ -578,14 +577,20 @@ namespace KeepCoding
                 isHookingStrike = Type.ImplementsMethod(nameof(OnModuleStrike), Flags),
                 isHookingTimer = Type.ImplementsMethod(nameof(OnTimerTick), Flags);
 
-            Modules = HookModules(Bomb).ForEach<IEnumerable<ModuleContainer>, ModuleContainer>(m =>
+            (Modules = s_modules.ContainsKey(Bomb) ? s_modules[Bomb] : HookModules(Bomb).ToReadOnly()).ForEach(m =>
             {
                 if (isHookingPass && m.IsSolvable)
                     m.SolveAdder += () => OnModuleSolved(m);
 
                 if (isHookingStrike)
                     m.StrikeAdder += () => OnModuleStrike(m);
-            }).ToReadOnly();
+            });
+
+            s_modules.ForEach((KMBomb key, ReadOnlyCollection<ModuleContainer> _) =>
+            {
+                if (!key)
+                    s_modules.Remove(key);
+            }).Add(Bomb, Modules);
 
             if (!isHookingTimer)
                 return;
