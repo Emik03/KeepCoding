@@ -156,15 +156,15 @@ namespace KeepCoding
         public KMBomb Bomb { get; private set; }
 
         /// <summary>
+        /// Contains an instance for every <see cref="Sound"/> played by this module using <see cref="PlaySound(Transform, bool, Sound[])"/> or any of its overloads.
+        /// </summary>
+        public List<Sound> Sounds { get; private set; } = new List<Sound>();
+
+        /// <summary>
         /// Contains either <see cref="KMBombModule"/> or <see cref="KMNeedyModule"/>, and allows for running commands through context.
         /// </summary>
         public ModuleContainer Module => _module ??= new ModuleContainer(this);
         private ModuleContainer _module;
-
-        /// <summary>
-        /// Contains every modded module in <see cref="Bomb"/>, separated by type.
-        /// </summary>
-        public ReadOnlyCollection<ModuleContainer> Modules { get; private set; }
 
         /// <summary>
         /// The pseudo-random number generator whose number generations are based on the current Rule Seed.
@@ -173,9 +173,9 @@ namespace KeepCoding
         private MonoRandom _ruleSeed;
 
         /// <summary>
-        /// Contains an instance for every <see cref="Sound"/> played by this module using <see cref="PlaySound(Transform, bool, Sound[])"/> or any of its overloads.
+        /// Contains every modded module in <see cref="Bomb"/>, separated by type.
         /// </summary>
-        public List<Sound> Sounds { get; private set; } = new List<Sound>();
+        public ReadOnlyCollection<ModuleContainer> Modules { get; private set; }
 
         internal bool IsColorblindSupported => _isColorblindSupported ??= Type.ImplementsMethod(nameof(OnColorblindChanged), DeclaredOnly | Instance | Public);
         private bool? _isColorblindSupported;
@@ -192,37 +192,37 @@ namespace KeepCoding
         private Type _type;
 
         /// <summary>
-        /// Assigns events specified into <see cref="Module"/>. Reassigning them will replace their values.
+        /// Assigns events to this instance's <see cref="Module"/>, replacing their existing values.
         /// </summary>
-        /// <remarks>
-        /// An event that is null will be skipped. This extension method simplifies all of the KMFramework events into Actions or Functions.
-        /// </remarks>
-        /// <param name="onActivate">Called when the lights turn on.</param>
-        /// <param name="onNeedyActivation">Called when the needy activates.</param>
-        /// <param name="onNeedyDeactivation">Called when the needy deactivates.</param>
-        /// <param name="onPass">Called when the needy is solved.</param>
-        /// <param name="onStrike">Called when the needy strikes.</param>
-        /// <param name="onTimerExpired">Called when the timer runs out of time.</param>
-        public void Assign(Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null) => Module.Assign(onActivate.Combine(() =>
+        /// <param name="activate">Called when the lights turn on.</param>
+        /// <param name="needyActivate">Called when the needy activates.</param>
+        /// <param name="needyDeactivate">Called when the needy deactivates.</param>
+        /// <param name="needyTimerExpired">Called when the timer runs out of time.</param>
+        /// <param name="solve">Called when the needy is solved.</param>
+        /// <param name="strike">Called when the needy strikes.</param>
+        /// <param name="needyTimerSet">Called when <see cref="KMNeedyModule.GetNeedyTimeRemaining"/> is called.</param>
+        /// <param name="ruleGeneration">Called when <see cref="KMBombModule.GetRuleGenerationSeed"/> or <see cref="KMNeedyModule.GetRuleGenerationSeed"/> is called.</param>
+        /// <param name="needyTimerGet">Called when <see cref="KMNeedyModule.SetNeedyTimeRemaining(float)"/> is called.</param>
+        public void Assign(Action activate = null, Action needyActivate = null, Action needyDeactivate = null, Action needyTimerExpired = null, Action solve = null, Action strike = null, Action<float> needyTimerSet = null, Func<int> ruleGeneration = null, Func<float> needyTimerGet = null) => Module.Assign(activate.Combine(() =>
         {
             OnActivate();
             IsActive = true;
 
             if (IsColorblindSupported && IsColorblind)
                 OnColorblindChanged(IsColorblind);
-        }), onNeedyActivation.Combine(() =>
+        }), needyActivate.Combine(() =>
         {
             OnNeedyActivate();
             _isNeedyActive = true;
-        }), onNeedyDeactivation.Combine(() =>
+        }), needyDeactivate.Combine(() =>
         {
             OnNeedyDeactivate();
             _isNeedyActive = false;
-        }), onPass, onStrike, onTimerExpired.Combine(() =>
+        }), needyTimerExpired.Combine(() =>
         {
             OnNeedyDeactivate();
             _isNeedyActive = false;
-        }));
+        }), solve, strike, needyTimerSet, ruleGeneration, needyTimerGet);
 
         /// <summary>
         /// Handles typical button <see cref="KMSelectable.OnInteract"/> behaviour.
@@ -344,7 +344,7 @@ namespace KeepCoding
             LogMultiple(logs);
 
             IsSolved = true;
-            Module.Solve();
+            Module.Solve.Get();
         }
 
         /// <summary>
@@ -361,7 +361,7 @@ namespace KeepCoding
             HasStruck = true;
             _strikes++;
 
-            Module.Strike();
+            Module.Strike.Get();
         }
 
         /// <summary>
@@ -583,10 +583,10 @@ namespace KeepCoding
             (Modules = s_modules.ContainsKey(Bomb) ? s_modules[Bomb] : HookModules(Bomb).ToReadOnly()).ForEach(m =>
             {
                 if (isHookingPass && m.IsSolvable)
-                    m.SolveAdder += () => OnModuleSolved(m);
+                    m.Solve.Add(() => OnModuleSolved(m));
 
                 if (isHookingStrike)
-                    m.StrikeAdder += () => OnModuleStrike(m);
+                    m.Strike.Add(() => OnModuleStrike(m));
             });
 
             s_modules.ForEach((KMBomb key, ReadOnlyCollection<ModuleContainer> _) =>
