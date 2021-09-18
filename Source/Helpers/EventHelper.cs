@@ -264,13 +264,13 @@ namespace KeepCoding
         /// </summary>
         /// <param name="audioRefs">The <see cref="KMAudioRef"/> <see cref="Array"/> to mute all sounds from, using <see cref="KMAudioRef.StopSound"/>.</param>
         [CLSCompliant(false)]
-        public static KMAudioRef[] StopSound(this KMAudioRef[] audioRefs) => audioRefs.ForEach(a => a.StopSound());
+        public static KMAudioRef[] StopSound(this KMAudioRef[] audioRefs) => audioRefs.ForEach(a => a.StopSound()).ToArray();
 
         /// <summary>
         /// Stops all sounds for the entire <see cref="Sound"/> <see cref="Array"/>.
         /// </summary>
         /// <param name="sounds">The <see cref="Sound"/> <see cref="Array"/> to mute all sounds from, using <see cref="KMAudioRef.StopSound"/>.</param>
-        public static Sound[] StopSound(this Sound[] sounds) => sounds.ForEach(s => s.StopSound());
+        public static Sound[] StopSound(this Sound[] sounds) => sounds.ForEach(s => s.StopSound()).ToArray();
 
         /// <summary>
         /// Combines actions together, only if these actions are not <see langword="null"/>.

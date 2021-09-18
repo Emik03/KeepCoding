@@ -723,7 +723,7 @@ namespace KeepCoding
         {
             if (c is { })
                 monoBehaviour.StopCoroutine(c);
-        });
+        }).ToArray();
 
         /// <summary>
         /// Gets the appropriate <see cref="Exception"/> based on the data type.
