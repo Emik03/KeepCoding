@@ -24,7 +24,7 @@ namespace KeepCoding
 
         private static readonly MissingReferenceException s_none = new MissingReferenceException($"{nameof(Module)} is none of {nameof(KMBombModule)}, {nameof(KMNeedyModule)}, or BombComponent.");
 
-        private static readonly ReadOnlyException s_immutable = new ReadOnlyException("This member is immutable.");
+        private static readonly ImmutableException s_immutable = new ImmutableException("This member is immutable.");
 
         /// <summary>
         /// Encapsulates either a modded solvable or modded needy module by using <see cref="CacheableBehaviour.Get{T}(bool)"/>. An exception is thrown if <see cref="KMBombModule"/> and <see cref="KMNeedyModule"/> are both <see langword="null"/> or both not <see langword="null"/>.
@@ -169,7 +169,7 @@ namespace KeepCoding
         /// The identifier for the module as referenced in missions. e.g. "BigButton" Also known as a "Module ID". This value is immutable for vanilla modules, and an exception will be thrown when attempted.
         /// </summary>
         /// <exception cref="MissingReferenceException"></exception>
-        /// <exception cref="ReadOnlyException"></exception>
+        /// <exception cref="ImmutableException"></exception>
         public string Id
         {
             get => OfType(
@@ -186,7 +186,7 @@ namespace KeepCoding
         /// The nice display name shown to players. e.g. "The Button". This value is immutable for vanilla modules, and an exception will be thrown when attempted.
         /// </summary>
         /// <exception cref="MissingReferenceException"></exception>
-        /// <exception cref="ReadOnlyException"></exception>
+        /// <exception cref="ImmutableException"></exception>
         public string Name
         {
             get => OfType(
@@ -209,7 +209,7 @@ namespace KeepCoding
         /// Invoked when the lights turn on. This value is immutable for vanilla modules, and an exception will be thrown when attempted.
         /// </summary>
         /// <exception cref="MissingReferenceException"></exception>
-        /// <exception cref="ReadOnlyException"></exception>
+        /// <exception cref="ImmutableException"></exception>
         public Action Activate
         {
             get => OfType<Action>(
@@ -227,7 +227,7 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
-        /// <exception cref="ReadOnlyException"></exception>
+        /// <exception cref="ImmutableException"></exception>
         public event Action ActivateAdder
         {
             add => OfType(
@@ -446,7 +446,7 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
-        /// <exception cref="ReadOnlyException"></exception>
+        /// <exception cref="ImmutableException"></exception>
         public Action<float> NeedyTimerSet
         {
             get => OfType<Action<float>>(
@@ -465,7 +465,7 @@ namespace KeepCoding
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
-        /// <exception cref="ReadOnlyException"></exception>
+        /// <exception cref="ImmutableException"></exception>
         public event Action<float> NeedyTimerSetAdder
         {
             add => OfType(
@@ -512,7 +512,7 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
-        /// <exception cref="ReadOnlyException"></exception>
+        /// <exception cref="ImmutableException"></exception>
         public Func<float> NeedyTimerGet
         {
             get => OfType<Func<float>>(

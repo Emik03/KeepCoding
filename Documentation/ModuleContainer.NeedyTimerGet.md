@@ -10,4 +10,4 @@ public System.Func<float> NeedyTimerGet { get; set; }
 #### Exceptions
 [System.MissingMethodException](https://docs.microsoft.com/en-us/dotnet/api/System.MissingMethodException 'System.MissingMethodException')  
 [UnityEngine.MissingReferenceException](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MissingReferenceException 'UnityEngine.MissingReferenceException')  
-[System.Data.ReadOnlyException](https://docs.microsoft.com/en-us/dotnet/api/System.Data.ReadOnlyException 'System.Data.ReadOnlyException')  
+[ImmutableException](ImmutableException.md 'KeepCoding.Internal.ImmutableException')  

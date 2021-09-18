@@ -9,4 +9,4 @@ public string Name { get; set; }
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 #### Exceptions
 [UnityEngine.MissingReferenceException](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MissingReferenceException 'UnityEngine.MissingReferenceException')  
-[System.Data.ReadOnlyException](https://docs.microsoft.com/en-us/dotnet/api/System.Data.ReadOnlyException 'System.Data.ReadOnlyException')  
+[ImmutableException](ImmutableException.md 'KeepCoding.Internal.ImmutableException')  

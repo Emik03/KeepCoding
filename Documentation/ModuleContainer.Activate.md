@@ -9,4 +9,4 @@ public System.Action Activate { get; set; }
 [System.Action](https://docs.microsoft.com/en-us/dotnet/api/System.Action 'System.Action')
 #### Exceptions
 [UnityEngine.MissingReferenceException](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MissingReferenceException 'UnityEngine.MissingReferenceException')  
-[System.Data.ReadOnlyException](https://docs.microsoft.com/en-us/dotnet/api/System.Data.ReadOnlyException 'System.Data.ReadOnlyException')  
+[ImmutableException](ImmutableException.md 'KeepCoding.Internal.ImmutableException')  

@@ -11,6 +11,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 Derived  
 &#8627; [ConstructorArgumentException](ConstructorArgumentException.md 'KeepCoding.Internal.ConstructorArgumentException')  
 &#8627; [EmptyIteratorException](EmptyIteratorException.md 'KeepCoding.Internal.EmptyIteratorException')  
+&#8627; [ImmutableException](ImmutableException.md 'KeepCoding.Internal.ImmutableException')  
 &#8627; [NegativeNumberException](NegativeNumberException.md 'KeepCoding.Internal.NegativeNumberException')  
 &#8627; [NullIteratorException](NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  
 &#8627; [UnrecognizedTypeException](UnrecognizedTypeException.md 'KeepCoding.Internal.UnrecognizedTypeException')  

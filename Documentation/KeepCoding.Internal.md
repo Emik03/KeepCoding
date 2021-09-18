@@ -5,6 +5,7 @@
 | :--- | :--- |
 | [ConstructorArgumentException](ConstructorArgumentException.md 'KeepCoding.Internal.ConstructorArgumentException') | An exception thrown when the constructor throws an exception due to a bad argument.<br/> |
 | [EmptyIteratorException](EmptyIteratorException.md 'KeepCoding.Internal.EmptyIteratorException') | An exception thrown when the iterator is empty.<br/> |
+| [ImmutableException](ImmutableException.md 'KeepCoding.Internal.ImmutableException') | An exception thrown when a mutable action is performed on an immutable member.<br/> |
 | [KeepCodingException](KeepCodingException.md 'KeepCoding.Internal.KeepCodingException') | An exception that is declared from the Keep Coding library.<br/> |
 | [ModuleScriptEditor](ModuleScriptEditor.md 'KeepCoding.Internal.ModuleScriptEditor') | Custom inspector for [ModuleScript](ModuleScript.md 'KeepCoding.ModuleScript'). <br/> |
 | [NegativeNumberException](NegativeNumberException.md 'KeepCoding.Internal.NegativeNumberException') | An exception thrown when the number is unexpectedly negative.<br/> |
