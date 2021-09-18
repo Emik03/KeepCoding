@@ -48,6 +48,7 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 
 | Methods | |
 | :--- | :--- |
+| [Append(Action, Action, Action, Action, Action, Action, Action&lt;float&gt;, Func&lt;int&gt;, Func&lt;float&gt;)](ModuleContainer.Append.+qIj6jLqv4aIuSJaQvT6nA.md 'KeepCoding.ModuleContainer.Append(System.Action, System.Action, System.Action, System.Action, System.Action, System.Action, System.Action&lt;float&gt;, System.Func&lt;int&gt;, System.Func&lt;float&gt;)') | Appends events to this instance, preserving their existing values.<br/> |
 | [Assign(Action, Action, Action, Action, Action, Action, Action&lt;float&gt;, Func&lt;int&gt;, Func&lt;float&gt;)](ModuleContainer.Assign.+fOhd7SXKV521HHZkwA6Kg.md 'KeepCoding.ModuleContainer.Assign(System.Action, System.Action, System.Action, System.Action, System.Action, System.Action, System.Action&lt;float&gt;, System.Func&lt;int&gt;, System.Func&lt;float&gt;)') | Assigns events to this instance, replacing their existing values.<br/> |
 | [Equals(ModuleContainer)](ModuleContainer.Equals.uoK13ULV+B6co9A9YoXBPA.md 'KeepCoding.ModuleContainer.Equals(KeepCoding.ModuleContainer)') | Determines if both [ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer') variables are equal.<br/> |
 | [Equals(object)](ModuleContainer.Equals.RWqyWwX38KKIOcvgyLTWIQ.md 'KeepCoding.ModuleContainer.Equals(object)') | Determines if both [ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer') variables are equal.<br/> |

@@ -523,6 +523,44 @@ namespace KeepCoding
         private MissingMethodException Missing => new MissingMethodException($"The current type of the component (\"{Module.GetType().Name}\") lacks this method.");
 
         /// <summary>
+        /// Appends events to this instance, preserving their existing values.
+        /// </summary>
+        /// <param name="activate">Called when the lights turn on.</param>
+        /// <param name="needyActivate">Called when the needy activates.</param>
+        /// <param name="needyDeactivate">Called when the needy deactivates.</param>
+        /// <param name="needyTimerExpired">Called when the timer runs out of time.</param>
+        /// <param name="solve">Called when the needy is solved.</param>
+        /// <param name="strike">Called when the needy strikes.</param>
+        /// <param name="needyTimerSet">Called when <see cref="KMNeedyModule.GetNeedyTimeRemaining"/> is called.</param>
+        /// <param name="ruleGeneration">Called when <see cref="KMBombModule.GetRuleGenerationSeed"/> or <see cref="KMNeedyModule.GetRuleGenerationSeed"/> is called.</param>
+        /// <param name="needyTimerGet">Called when <see cref="KMNeedyModule.SetNeedyTimeRemaining(float)"/> is called.</param>
+        public void Append(Action activate = null, Action needyActivate = null, Action needyDeactivate = null, Action needyTimerExpired = null, Action solve = null, Action strike = null, Action<float> needyTimerSet = null, Func<int> ruleGeneration = null, Func<float> needyTimerGet = null)
+        {
+            if (activate is { })
+                Activate.Add(activate);
+            if (solve is { })
+                Solve.Add(solve);
+            if (strike is { })
+                Strike.Add(strike);
+
+            if (needyTimerSet is { })
+                NeedyTimerSet.Add(needyTimerSet);
+            if (ruleGeneration is { })
+                RuleGeneration.Add(ruleGeneration);
+            if (needyTimerGet is { })
+                NeedyTimerGet.Add(needyTimerGet);
+
+            if (IsSolvable)
+                return;
+
+            if (needyActivate is { })
+                NeedyActivate.Add(needyActivate);
+            if (needyDeactivate is { })
+                NeedyDeactivate.Add(needyDeactivate);
+            if (needyTimerExpired is { })
+                NeedyTimerExpired.Add(needyTimerExpired);
+        }
+        /// <summary>
         /// Assigns events to this instance, replacing their existing values.
         /// </summary>
         /// <param name="activate">Called when the lights turn on.</param>

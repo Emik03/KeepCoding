@@ -192,6 +192,21 @@ namespace KeepCoding
         private Type _type;
 
         /// <summary>
+        /// Appends events to this instance's <see cref="Module"/>, preserving their existing values.
+        /// </summary>
+        /// <param name="activate">Called when the lights turn on.</param>
+        /// <param name="needyActivate">Called when the needy activates.</param>
+        /// <param name="needyDeactivate">Called when the needy deactivates.</param>
+        /// <param name="needyTimerExpired">Called when the timer runs out of time.</param>
+        /// <param name="solve">Called when the needy is solved.</param>
+        /// <param name="strike">Called when the needy strikes.</param>
+        /// <param name="needyTimerSet">Called when <see cref="KMNeedyModule.GetNeedyTimeRemaining"/> is called.</param>
+        /// <param name="ruleGeneration">Called when <see cref="KMBombModule.GetRuleGenerationSeed"/> or <see cref="KMNeedyModule.GetRuleGenerationSeed"/> is called.</param>
+        /// <param name="needyTimerGet">Called when <see cref="KMNeedyModule.SetNeedyTimeRemaining(float)"/> is called.</param>
+        public void Append(Action activate = null, Action needyActivate = null, Action needyDeactivate = null, Action needyTimerExpired = null, Action solve = null, Action strike = null, Action<float> needyTimerSet = null, Func<int> ruleGeneration = null, Func<float> needyTimerGet = null) =>
+            Module.Append(activate, needyActivate, needyDeactivate, needyTimerExpired, solve, strike, needyTimerSet, ruleGeneration, needyTimerGet);
+
+        /// <summary>
         /// Assigns events to this instance's <see cref="Module"/>, replacing their existing values.
         /// </summary>
         /// <param name="activate">Called when the lights turn on.</param>
