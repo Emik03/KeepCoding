@@ -290,7 +290,7 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="source">The character to convert.</param>
         /// <returns><paramref name="source"/> as <see cref="byte"/>.</returns>
-        public static byte ToNumber(this char source) => char.IsDigit(source) ? (byte)char.GetNumericValue(source) : throw new UnrecognizedValueException($"Character must be a number: {source}");
+        public static byte ToNumber(this char source) => char.IsDigit(source) ? (byte)(source - '0') : throw new UnrecognizedValueException($"Character must be a number: {source}");
 
         /// <summary>
         /// Converts a character to lowercase.
