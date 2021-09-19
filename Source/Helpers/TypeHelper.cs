@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using System.Security.Cryptography;
 using KeepCoding.Internal;
 using UnityEngine;
 using static System.Byte;
@@ -341,7 +342,7 @@ namespace KeepCoding
         /// <typeparam name="T2">The second type of the tuple.</typeparam>
         /// <param name="item1">The first argument to pass into the tuple.</param>
         /// <param name="item2">The second argument to pass into the tuple.</param>
-        /// <returns>A new <seealso cref="Tuple{T1, T2}"/> containing <paramref name="item1"/> and <paramref name="item2"/></returns>
+        /// <returns>A new <seealso cref="Tuple{T1, T2}"/> containing <paramref name="item1"/> and <paramref name="item2"/>.</returns>
         public static Tuple<T1, T2> ToTuple<T1, T2>(this T1 item1, T2 item2) => new Tuple<T1, T2>(item1, item2);
 
         /// <summary>
@@ -353,7 +354,7 @@ namespace KeepCoding
         /// <param name="item1">The first argument to pass into the tuple.</param>
         /// <param name="item2">The second argument to pass into the tuple.</param>
         /// <param name="item3">The third argument to pass into the tuple.</param>
-        /// <returns>A new <seealso cref="Tuple{T1, T2, T3}"/> containing <paramref name="item1"/>, <paramref name="item2"/>, and <paramref name="item3"/></returns>
+        /// <returns>A new <seealso cref="Tuple{T1, T2, T3}"/> containing <paramref name="item1"/>, <paramref name="item2"/>, and <paramref name="item3"/>.</returns>
         public static Tuple<T1, T2, T3> ToTuple<T1, T2, T3>(this T1 item1, T2 item2, T3 item3) => new Tuple<T1, T2, T3>(item1, item2, item3);
 
         /// <summary>
@@ -367,8 +368,108 @@ namespace KeepCoding
         /// <param name="item2">The second argument to pass into the tuple.</param>
         /// <param name="item3">The third argument to pass into the tuple.</param>
         /// <param name="item4">The fourth argument to pass into the tuple.</param>
-        /// <returns>A new <seealso cref="Tuple{T1, T2, T3, T4}"/> containing <paramref name="item1"/>, <paramref name="item2"/>, <paramref name="item3"/>, and <paramref name="item4"/></returns>
+        /// <returns>A new <seealso cref="Tuple{T1, T2, T3, T4}"/> containing <paramref name="item1"/>, <paramref name="item2"/>, <paramref name="item3"/>, and <paramref name="item4"/>.</returns>
         public static Tuple<T1, T2, T3, T4> ToTuple<T1, T2, T3, T4>(this T1 item1, T2 item2, T3 item3, T4 item4) => new Tuple<T1, T2, T3, T4>(item1, item2, item3, item4);
+
+        /// <summary>
+        /// Converts arguments to a new <see cref="Tuple{T1, T2, T3, T4, T5}"/>.
+        /// </summary>
+        /// <typeparam name="T1">The first type of the tuple.</typeparam>
+        /// <typeparam name="T2">The second type of the tuple.</typeparam>
+        /// <typeparam name="T3">The third type of the tuple.</typeparam>
+        /// <typeparam name="T4">The fourth type of the tuple.</typeparam>
+        /// <typeparam name="T5">The fifth type of the tuple.</typeparam>
+        /// <param name="item1">The first argument to pass into the tuple.</param>
+        /// <param name="item2">The second argument to pass into the tuple.</param>
+        /// <param name="item3">The third argument to pass into the tuple.</param>
+        /// <param name="item4">The fourth argument to pass into the tuple.</param>
+        /// <param name="item5">The fifth argument to pass into the tuple.</param>
+        /// <returns>A new <seealso cref="Tuple{T1, T2, T3, T4, T5}"/> containing <paramref name="item1"/>, <paramref name="item2"/>, <paramref name="item3"/>, <paramref name="item4"/>, and <paramref name="item5"/>.</returns>
+        public static Tuple<T1, T2, T3, T4, T5> ToTuple<T1, T2, T3, T4, T5>(this T1 item1, T2 item2, T3 item3, T4 item4, T5 item5) => new Tuple<T1, T2, T3, T4, T5>(item1, item2, item3, item4, item5);
+
+        /// <summary>
+        /// Converts arguments to a new <see cref="Tuple{T1, T2, T3, T4, T5, T6}"/>.
+        /// </summary>
+        /// <typeparam name="T1">The first type of the tuple.</typeparam>
+        /// <typeparam name="T2">The second type of the tuple.</typeparam>
+        /// <typeparam name="T3">The third type of the tuple.</typeparam>
+        /// <typeparam name="T4">The fourth type of the tuple.</typeparam>
+        /// <typeparam name="T5">The fifth type of the tuple.</typeparam>
+        /// <typeparam name="T6">The sixth type of the tuple.</typeparam>
+        /// <param name="item1">The first argument to pass into the tuple.</param>
+        /// <param name="item2">The second argument to pass into the tuple.</param>
+        /// <param name="item3">The third argument to pass into the tuple.</param>
+        /// <param name="item4">The fourth argument to pass into the tuple.</param>
+        /// <param name="item5">The fifth argument to pass into the tuple.</param>
+        /// <param name="item6">The sixth argument to pass into the tuple.</param>
+        /// <returns>A new <seealso cref="Tuple{T1, T2, T3, T4, T5, T6}"/> containing <paramref name="item1"/>, <paramref name="item2"/>, <paramref name="item3"/>, <paramref name="item4"/>, <paramref name="item5"/>, and <paramref name="item6"/>.</returns>
+        public static Tuple<T1, T2, T3, T4, T5, T6> ToTuple<T1, T2, T3, T4, T5, T6>(this T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6) => new Tuple<T1, T2, T3, T4, T5, T6>(item1, item2, item3, item4, item5, item6);
+
+        /// <summary>
+        /// Converts arguments to a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7}"/>.
+        /// </summary>
+        /// <typeparam name="T1">The first type of the tuple.</typeparam>
+        /// <typeparam name="T2">The second type of the tuple.</typeparam>
+        /// <typeparam name="T3">The third type of the tuple.</typeparam>
+        /// <typeparam name="T4">The fourth type of the tuple.</typeparam>
+        /// <typeparam name="T5">The fifth type of the tuple.</typeparam>
+        /// <typeparam name="T6">The sixth type of the tuple.</typeparam>
+        /// <typeparam name="T7">The seventh type of the tuple.</typeparam>
+        /// <param name="item1">The first argument to pass into the tuple.</param>
+        /// <param name="item2">The second argument to pass into the tuple.</param>
+        /// <param name="item3">The third argument to pass into the tuple.</param>
+        /// <param name="item4">The fourth argument to pass into the tuple.</param>
+        /// <param name="item5">The fifth argument to pass into the tuple.</param>
+        /// <param name="item6">The sixth argument to pass into the tuple.</param>
+        /// <param name="item7">The seventh argument to pass into the tuple.</param>
+        /// <returns>A new <seealso cref="Tuple{T1, T2, T3, T4, T5, T6, T7}"/> containing <paramref name="item1"/>, <paramref name="item2"/>, <paramref name="item3"/>, <paramref name="item4"/>, <paramref name="item5"/>, <paramref name="item6"/>, and <paramref name="item7"/>.</returns>
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7> ToTuple<T1, T2, T3, T4, T5, T6, T7>(this T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7) => new Tuple<T1, T2, T3, T4, T5, T6, T7>(item1, item2, item3, item4, item5, item6, item7);
+
+        /// <summary>
+        /// Converts arguments to a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8}"/>.
+        /// </summary>
+        /// <typeparam name="T1">The first type of the tuple.</typeparam>
+        /// <typeparam name="T2">The second type of the tuple.</typeparam>
+        /// <typeparam name="T3">The third type of the tuple.</typeparam>
+        /// <typeparam name="T4">The fourth type of the tuple.</typeparam>
+        /// <typeparam name="T5">The fifth type of the tuple.</typeparam>
+        /// <typeparam name="T6">The sixth type of the tuple.</typeparam>
+        /// <typeparam name="T7">The seventh type of the tuple.</typeparam>
+        /// <typeparam name="T8">The eighth type of the tuple.</typeparam>
+        /// <param name="item1">The first argument to pass into the tuple.</param>
+        /// <param name="item2">The second argument to pass into the tuple.</param>
+        /// <param name="item3">The third argument to pass into the tuple.</param>
+        /// <param name="item4">The fourth argument to pass into the tuple.</param>
+        /// <param name="item5">The fifth argument to pass into the tuple.</param>
+        /// <param name="item6">The sixth argument to pass into the tuple.</param>
+        /// <param name="item7">The seventh argument to pass into the tuple.</param>
+        /// <param name="item8">The seventh argument to pass into the tuple.</param>
+        /// <returns>A new <seealso cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8}"/> containing <paramref name="item1"/>, <paramref name="item2"/>, <paramref name="item3"/>, <paramref name="item4"/>, <paramref name="item5"/>, <paramref name="item6"/>, <paramref name="item7"/>, and <paramref name="item8"/>.</returns>
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8> ToTuple<T1, T2, T3, T4, T5, T6, T7, T8>(this T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8) => new Tuple<T1, T2, T3, T4, T5, T6, T7, T8>(item1, item2, item3, item4, item5, item6, item7, item8);
+
+        /// <summary>
+        /// Converts arguments to a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9}"/>.
+        /// </summary>
+        /// <typeparam name="T1">The first type of the tuple.</typeparam>
+        /// <typeparam name="T2">The second type of the tuple.</typeparam>
+        /// <typeparam name="T3">The third type of the tuple.</typeparam>
+        /// <typeparam name="T4">The fourth type of the tuple.</typeparam>
+        /// <typeparam name="T5">The fifth type of the tuple.</typeparam>
+        /// <typeparam name="T6">The sixth type of the tuple.</typeparam>
+        /// <typeparam name="T7">The seventh type of the tuple.</typeparam>
+        /// <typeparam name="T8">The eighth type of the tuple.</typeparam>
+        /// <typeparam name="T9">The eighth type of the tuple.</typeparam>
+        /// <param name="item1">The first argument to pass into the tuple.</param>
+        /// <param name="item2">The second argument to pass into the tuple.</param>
+        /// <param name="item3">The third argument to pass into the tuple.</param>
+        /// <param name="item4">The fourth argument to pass into the tuple.</param>
+        /// <param name="item5">The fifth argument to pass into the tuple.</param>
+        /// <param name="item6">The sixth argument to pass into the tuple.</param>
+        /// <param name="item7">The seventh argument to pass into the tuple.</param>
+        /// <param name="item8">The seventh argument to pass into the tuple.</param>
+        /// <param name="item9">The seventh argument to pass into the tuple.</param>
+        /// <returns>A new <seealso cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9}"/> containing <paramref name="item1"/>, <paramref name="item2"/>, <paramref name="item3"/>, <paramref name="item4"/>, <paramref name="item5"/>, <paramref name="item6"/>, <paramref name="item7"/>, <paramref name="item8"/>, and <paramref name="item9"/>.</returns>
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9> ToTuple<T1, T2, T3, T4, T5, T6, T7, T8, T9>(this T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9) => new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9>(item1, item2, item3, item4, item5, item6, item7, item8, item9);
 
         /// <summary>
         /// Duplicates the vector, and sets the x and y components only if they are specified.
