@@ -209,12 +209,22 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="MissingReferenceException"></exception>
         /// <exception cref="ImmutableException"></exception>
-        public ModuleEvent<Action> Activate => _activate ??= ModuleEvent<Action>.New(AddActivate, GetActivate, SetActivate);
+        public ModuleEvent<Action> Activate => _activate ??= ModuleEvent<Action>.New(AddActivate, GetActivate, SetActivate, SignatureActivate, RemoveActivate);
         private ModuleEvent<Action> _activate;
 
-        private void AddActivate(Action value) => OfType(
-            b => b.OnActivate += () => value(),
-            n => n.OnActivate += () => value(),
+        private void AddActivate(object value) => OfType(
+            b => b.OnActivate += (KMBombModule.KMModuleActivateEvent)value,
+            n => n.OnActivate += (KMNeedyModule.KMModuleActivateEvent)value,
+            () => throw s_immutable);
+
+        private void SetActivate(object value) => OfType(
+            b => b.OnActivate = (KMBombModule.KMModuleActivateEvent)value,
+            n => n.OnActivate = (KMNeedyModule.KMModuleActivateEvent)value,
+            () => throw s_immutable);
+
+        private void RemoveActivate(object value) => OfType(
+            b => b.OnActivate -= (KMBombModule.KMModuleActivateEvent)value,
+            n => n.OnActivate -= (KMNeedyModule.KMModuleActivateEvent)value,
             () => throw s_immutable);
 
         private Action GetActivate() => OfType<Action>(
@@ -222,9 +232,9 @@ namespace KeepCoding
             n => () => n.OnActivate(),
             () => ((BombComponent)_bombComponent).Activate);
 
-        private void SetActivate(Action value) => OfType(
-            b => b.OnActivate = () => value(),
-            n => n.OnActivate = () => value(),
+        private Type SignatureActivate() => OfType(
+            b => typeof(KMBombModule.KMModuleActivateEvent),
+            n => typeof(KMNeedyModule.KMModuleActivateEvent),
             () => throw s_immutable);
 
         /// <summary>
@@ -232,157 +242,171 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
-        public ModuleEvent<Action> NeedyActivate => _needyActivate ??= ModuleEvent<Action>.New(AddNeedyActivate, GetNeedyActivate, SetNeedyActivate);
+        public ModuleEvent<Action> NeedyActivate => _needyActivate ??= ModuleEvent<Action>.New(AddNeedyActivate, GetNeedyActivate, SetNeedyActivate, SignatureNeedyActivate, RemoveNeedyActivate);
         private ModuleEvent<Action> _needyActivate;
 
+        private void AddNeedyActivate(object value) => OfType(
+            null,
+            n => n.OnNeedyActivation += (KMNeedyModule.KMNeedyActivationEvent)value,
+            null);
+
+        private void SetNeedyActivate(object value) => OfType(
+            null,
+            n => n.OnNeedyActivation = (KMNeedyModule.KMNeedyActivationEvent)value,
+            null);
+
+        private void RemoveNeedyActivate(object value) => OfType(
+            null,
+            n => n.OnNeedyActivation -= (KMNeedyModule.KMNeedyActivationEvent)value,
+            null);
+
         private Action GetNeedyActivate() => OfType<Action>(
-            b => throw Missing,
+            null,
             n => () => n.OnNeedyActivation(),
-            () => throw Missing);
+            null);
 
-        private void SetNeedyActivate(Action value) => OfType(
-            b => throw Missing,
-            n => n.OnNeedyActivation = () => value(),
-            () => throw Missing);
-
-        private void AddNeedyActivate(Action value) => OfType(
-            b => throw Missing,
-            n => n.OnNeedyActivation += () => value(),
-            () => throw Missing);
+        private Type SignatureNeedyActivate() => OfType(
+            null,
+            n => typeof(KMNeedyModule.KMNeedyActivationEvent),
+            null);
 
         /// <summary>
         /// Modded Needy Only: Invoked when the needy deactivates.
         /// </summary>
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
-        public ModuleEvent<Action> NeedyDeactivate => _needyDeactivate ??= ModuleEvent<Action>.New(AddNeedyDeactivate, GetNeedyDeactivate, SetNeedyDeactivate);
+        public ModuleEvent<Action> NeedyDeactivate => _needyDeactivate ??= ModuleEvent<Action>.New(AddNeedyDeactivate, GetNeedyDeactivate, SetNeedyDeactivate, SignatureNeedyDeactivate, RemoveNeedyDeactivate);
         private ModuleEvent<Action> _needyDeactivate;
 
-        private void AddNeedyDeactivate(Action value) => OfType(
-            b => throw Missing,
-            n => n.OnNeedyActivation += () => value(),
-            () => throw Missing);
+        private void AddNeedyDeactivate(object value) => OfType(
+            null,
+            n => n.OnNeedyActivation += (KMNeedyModule.KMNeedyActivationEvent)value,
+            null);
+
+        private void SetNeedyDeactivate(object value) => OfType(
+            null,
+            n => n.OnNeedyDeactivation = (KMNeedyModule.KMNeedyDeactivationEvent)value,
+            null);
+
+        private void RemoveNeedyDeactivate(object value) => OfType(
+            null,
+            n => n.OnNeedyDeactivation -= (KMNeedyModule.KMNeedyDeactivationEvent)value,
+            null);
 
         private Action GetNeedyDeactivate() => OfType<Action>(
-            b => throw Missing,
+            null,
             n => () => n.OnNeedyDeactivation(),
-            () => throw Missing);
+            null);
 
-        private void SetNeedyDeactivate(Action value) => OfType(
-            b => throw Missing,
-            n => n.OnNeedyDeactivation = () => value(),
-            () => throw Missing);
+        private Type SignatureNeedyDeactivate() => OfType(
+            null,
+            n => typeof(KMNeedyModule.KMNeedyDeactivationEvent),
+            null);
 
         /// <summary>
         /// Needy Only: Invoked when the needy timer expires.
         /// </summary>
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
-        public ModuleEvent<Action> NeedyTimerExpired => _needyTimerExpired ??= ModuleEvent<Action>.New(AddNeedyTimerExpired, GetNeedyTimerExpired, SetNeedyTimerExpired);
+        public ModuleEvent<Action> NeedyTimerExpired => _needyTimerExpired ??= ModuleEvent<Action>.New(AddNeedyTimerExpired, GetNeedyTimerExpired, SetNeedyTimerExpired, SignatureNeedyTimerExpired, RemoveNeedyTimerExpired);
         private ModuleEvent<Action> _needyTimerExpired;
 
-        private void AddNeedyTimerExpired(Action value) => OfType(
-            b => throw Missing,
-            n => n.OnTimerExpired += () => value(),
-            () => ((NeedyTimer)NeedyTimer).OnTimerExpire += (NeedyTimerExpireEvent)CreateDelegate(typeof(NeedyTimerExpireEvent), value.Target, value.Method));
+        private void AddNeedyTimerExpired(object value) => OfType(
+            null,
+            n => n.OnTimerExpired += (KMNeedyModule.KMTimerExpiredEvent)value,
+            () => ((NeedyTimer)NeedyTimer).OnTimerExpire += (NeedyTimerExpireEvent)value);
+
+        private void SetNeedyTimerExpired(object value) => OfType(
+            null,
+            n => n.OnTimerExpired = (KMNeedyModule.KMTimerExpiredEvent)value,
+            () => ((NeedyTimer)NeedyTimer).OnTimerExpire = (NeedyTimerExpireEvent)value);
+
+        private void RemoveNeedyTimerExpired(object value) => OfType(
+            null,
+            n => n.OnTimerExpired -= (KMNeedyModule.KMTimerExpiredEvent)value,
+            () => ((NeedyTimer)NeedyTimer).OnTimerExpire -= (NeedyTimerExpireEvent)value);
 
         private Action GetNeedyTimerExpired() => OfType<Action>(
-            b => throw Missing,
+            null,
             n => () => n.OnTimerExpired(),
             () => _bombComponent is NeedyComponent needy ? (Action)(() => ((NeedyTimer)NeedyTimer).OnTimerExpire()) : throw Missing);
 
-        private void SetNeedyTimerExpired(Action value) => OfType(
-            b => throw Missing,
-            n => n.OnTimerExpired = () => value(),
-            () => ((NeedyTimer)NeedyTimer).OnTimerExpire = (NeedyTimerExpireEvent)CreateDelegate(typeof(NeedyTimerExpireEvent), value.Target, value.Method));
+        private Type SignatureNeedyTimerExpired() => OfType(
+            null,
+            n => typeof(KMNeedyModule.KMTimerExpiredEvent),
+            () => typeof(NeedyTimerExpireEvent));
 
         /// <summary>
         /// Call this when the entire module has been solved.
         /// </summary>
         /// <exception cref="MissingReferenceException"></exception>
-        public ModuleEvent<Action> Solve => _solve ??= ModuleEvent<Action>.New(AddSolve, GetSolve, SetSolve);
+        public ModuleEvent<Action> Solve => _solve ??= ModuleEvent<Action>.New(AddSolve, GetSolve, SetSolve, SignatureSolve, RemoveSolve, action => (Func<bool>)(() =>
+        {
+            action();
+            return false;
+        }));
         private ModuleEvent<Action> _solve;
 
-        private void AddSolve(Action value)
-        {
-            bool Hook()
-            {
-                value();
-                return false;
-            }
+        private void AddSolve(object value) => OfType(
+            b => b.OnPass += (KMBombModule.KMPassEvent)value,
+            n => n.OnPass += (KMNeedyModule.KMPassEvent)value,
+            () => ((BombComponent)_bombComponent).OnPass += (PassEvent)value);
 
-            Func<MonoBehaviour, bool> hook = _ => Hook();
+        private void SetSolve(object value) => OfType(
+            b => b.OnPass += (KMBombModule.KMPassEvent)value,
+            n => n.OnPass += (KMNeedyModule.KMPassEvent)value,
+            () => ((BombComponent)_bombComponent).OnPass += (PassEvent)value);
 
-            OfType(
-                b => b.OnPass += Hook,
-                n => n.OnPass += Hook,
-                () => ((BombComponent)_bombComponent).OnPass += (PassEvent)CreateDelegate(typeof(PassEvent), hook.Target, hook.Method));
-        }
+        private void RemoveSolve(object value) => OfType(
+            b => b.OnPass -= (KMBombModule.KMPassEvent)value,
+            n => n.OnPass -= (KMNeedyModule.KMPassEvent)value,
+            () => ((BombComponent)_bombComponent).OnPass -= (PassEvent)value);
 
         private Action GetSolve() => OfType<Action>(
             b => () => b.OnPass(),
             n => () => n.OnPass(),
             () => () => ((BombComponent)_bombComponent).OnPass(null));
 
-        private void SetSolve(Action value)
-        {
-            bool Hook()
-            {
-                value();
-                return false;
-            }
-
-            Func<MonoBehaviour, bool> hook = _ => Hook();
-
-            OfType(
-                b => b.OnPass = Hook,
-                n => n.OnPass = Hook,
-                () => ((BombComponent)_bombComponent).OnPass = (PassEvent)CreateDelegate(typeof(PassEvent), hook.Target, hook.Method));
-        }
+        private Type SignatureSolve() => OfType(
+            b => typeof(KMBombModule.KMPassEvent),
+            n => typeof(KMNeedyModule.KMPassEvent),
+            () => typeof(PassEvent));
 
         /// <summary>
         /// Call this on any mistake that you want to cause a bomb strike.
         /// </summary>
         /// <exception cref="MissingReferenceException"></exception>
-        public ModuleEvent<Action> Strike => _strike ??= ModuleEvent<Action>.New(AddStrike, GetStrike, SetStrike);
+        public ModuleEvent<Action> Strike => _strike ??= ModuleEvent<Action>.New(AddStrike, GetStrike, SetStrike, SignatureStrike, RemoveStrike, action => (Func<bool>)(() =>
+        {
+            action();
+            return false;
+        }));
         private ModuleEvent<Action> _strike;
 
-        private void AddStrike(Action value)
-        {
-            bool Hook()
-            {
-                value();
-                return false;
-            }
+        private void AddStrike(object value) => OfType(
+            b => b.OnStrike += (KMBombModule.KMStrikeEvent)value,
+            n => n.OnStrike += (KMNeedyModule.KMStrikeEvent)value,
+            () => ((BombComponent)_bombComponent).OnStrike += (StrikeEvent)value);
 
-            Func<MonoBehaviour, bool> hook = _ => Hook();
+        private void SetStrike(object value) => OfType(
+            b => b.OnStrike = (KMBombModule.KMStrikeEvent)value,
+            n => n.OnStrike = (KMNeedyModule.KMStrikeEvent)value,
+            () => ((BombComponent)_bombComponent).OnStrike = (StrikeEvent)value);
 
-            OfType(
-                b => b.OnStrike += Hook,
-                n => n.OnStrike += Hook,
-                () => ((BombComponent)_bombComponent).OnStrike += (StrikeEvent)CreateDelegate(typeof(StrikeEvent), hook.Target, hook.Method));
-        }
+        private void RemoveStrike(object value) => OfType(
+            b => b.OnStrike -= (KMBombModule.KMStrikeEvent)value,
+            n => n.OnStrike -= (KMNeedyModule.KMStrikeEvent)value,
+            () => ((BombComponent)_bombComponent).OnStrike -= (StrikeEvent)value);
 
         private Action GetStrike() => OfType<Action>(
             b => () => b.OnStrike(),
             n => () => n.OnStrike(),
             () => () => ((BombComponent)_bombComponent).OnStrike(null));
 
-        private void SetStrike(Action value)
-        {
-            bool Hook()
-            {
-                value();
-                return false;
-            }
-
-            Func<MonoBehaviour, bool> hook = _ => Hook();
-
-            OfType(
-                b => b.OnStrike = () => Hook(),
-                n => n.OnStrike = () => Hook(),
-                () => ((BombComponent)_bombComponent).OnStrike = (StrikeEvent)CreateDelegate(typeof(StrikeEvent), hook.Target, hook.Method));
-        }
+        private Type SignatureStrike() => OfType(
+            b => typeof(KMBombModule.KMStrikeEvent),
+            n => typeof(KMNeedyModule.KMStrikeEvent),
+            () => typeof(StrikeEvent));
 
         /// <summary>
         /// Needy Only: An encapsulated <see cref="Action{T}"/> that when called, sets the time remaining to the parameter passed in. This value is immutable for vanilla modules, and an exception will be thrown when attempted.
@@ -390,12 +414,22 @@ namespace KeepCoding
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
         /// <exception cref="ImmutableException"></exception>
-        public ModuleEvent<Action<float>> NeedyTimerSet => _needyTimerSet ??= ModuleEvent<Action<float>>.New(AddNeedyTimerSet, GetNeedyTimerSet, SetNeedyTimerSet);
+        public ModuleEvent<Action<float>> NeedyTimerSet => _needyTimerSet ??= ModuleEvent<Action<float>>.New(AddNeedyTimerSet, GetNeedyTimerSet, SetNeedyTimerSet, SignatureNeedyTimerSet, RemoveNeedyTimerSet);
         private ModuleEvent<Action<float>> _needyTimerSet;
 
-        private void AddNeedyTimerSet(Action<float> value) => OfType(
+        private void AddNeedyTimerSet(object value) => OfType(
             null,
-            n => n.SetNeedyTimeRemainingHandler = f => value(f),
+            n => n.SetNeedyTimeRemainingHandler += (KMNeedyModule.KMSetNeedyTimeRemainingDelegate)value,
+            () => throw s_immutable);
+
+        private void SetNeedyTimerSet(object value) => OfType(
+            null,
+            n => n.SetNeedyTimeRemainingHandler = (KMNeedyModule.KMSetNeedyTimeRemainingDelegate)value,
+            () => throw s_immutable);
+
+        private void RemoveNeedyTimerSet(object value) => OfType(
+            null,
+            n => n.SetNeedyTimeRemainingHandler -= (KMNeedyModule.KMSetNeedyTimeRemainingDelegate)value,
             () => throw s_immutable);
 
         private Action<float> GetNeedyTimerSet() => OfType<Action<float>>(
@@ -403,9 +437,9 @@ namespace KeepCoding
             n => f => n.SetNeedyTimeRemainingHandler(f),
             () => (Action<float>)(f => ((NeedyTimer)NeedyTimer).TimeRemaining = f));
 
-        private void SetNeedyTimerSet(Action<float> value) => OfType(
+        private Type SignatureNeedyTimerSet() => OfType(
             null,
-            n => n.SetNeedyTimeRemainingHandler = f => value(f),
+            n => typeof(KMNeedyModule.KMSetNeedyTimeRemainingDelegate),
             () => throw s_immutable);
 
         /// <summary>
@@ -413,12 +447,22 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
-        public ModuleEvent<Func<int>> RuleGeneration => _ruleGeneration ??= ModuleEvent<Func<int>>.New(AddRuleGeneration, GetRuleGeneration, SetRuleGeneration);
+        public ModuleEvent<Func<int>> RuleGeneration => _ruleGeneration ??= ModuleEvent<Func<int>>.New(AddRuleGeneration, GetRuleGeneration, SetRuleGeneration, SignatureRuleGeneration, RemoveRuleGeneration);
         private ModuleEvent<Func<int>> _ruleGeneration;
 
-        private void AddRuleGeneration(Func<int> value) => OfType(
-            b => b.GetRuleGenerationSeedHandler += () => value(),
-            n => n.GetRuleGenerationSeedHandler += () => value(),
+        private void AddRuleGeneration(object value) => OfType(
+            b => b.GetRuleGenerationSeedHandler += (KMBombModule.KMRuleGenerationSeedDelegate)value,
+            n => n.GetRuleGenerationSeedHandler += (KMNeedyModule.KMRuleGenerationSeedDelegate)value,
+            null);
+
+        private void SetRuleGeneration(object value) => OfType(
+            b => b.GetRuleGenerationSeedHandler = (KMBombModule.KMRuleGenerationSeedDelegate)value,
+            n => n.GetRuleGenerationSeedHandler = (KMNeedyModule.KMRuleGenerationSeedDelegate)value,
+            null);
+
+        private void RemoveRuleGeneration(object value) => OfType(
+            b => b.GetRuleGenerationSeedHandler -= (KMBombModule.KMRuleGenerationSeedDelegate)value,
+            n => n.GetRuleGenerationSeedHandler -= (KMNeedyModule.KMRuleGenerationSeedDelegate)value,
             null);
 
         private Func<int> GetRuleGeneration() => OfType<Func<int>>(
@@ -426,9 +470,9 @@ namespace KeepCoding
             n => () => n.GetRuleGenerationSeedHandler(),
             null);
 
-        private void SetRuleGeneration(Func<int> value) => OfType(
-            b => b.GetRuleGenerationSeedHandler = () => value(),
-            n => n.GetRuleGenerationSeedHandler = () => value(),
+        private Type SignatureRuleGeneration() => OfType(
+            b => typeof(KMBombModule.KMRuleGenerationSeedDelegate),
+            n => typeof(KMNeedyModule.KMRuleGenerationSeedDelegate),
             null);
 
         /// <summary>
@@ -437,12 +481,22 @@ namespace KeepCoding
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
         /// <exception cref="ImmutableException"></exception>
-        public ModuleEvent<Func<float>> NeedyTimerGet => _needyTimerGet ??= ModuleEvent<Func<float>>.New(AddNeedyTimerGet, GetNeedyTimerGet, SetNeedyTimerGet);
+        public ModuleEvent<Func<float>> NeedyTimerGet => _needyTimerGet ??= ModuleEvent<Func<float>>.New(AddNeedyTimerGet, GetNeedyTimerGet, SetNeedyTimerGet, SignatureNeedyTimerGet, RemoveNeedyTimerGet);
         private ModuleEvent<Func<float>> _needyTimerGet;
 
-        private void AddNeedyTimerGet(Func<float> value) => OfType(
+        private void AddNeedyTimerGet(object value) => OfType(
             null,
-            n => n.GetNeedyTimeRemainingHandler += () => value(),
+            n => n.GetNeedyTimeRemainingHandler += (KMNeedyModule.KMGetNeedyTimeRemainingDelegate)value,
+            () => throw s_immutable);
+
+        private void SetNeedyTimerGet(object value) => OfType(
+            null,
+            n => n.GetNeedyTimeRemainingHandler = (KMNeedyModule.KMGetNeedyTimeRemainingDelegate)value,
+            () => throw s_immutable);
+
+        private void RemoveNeedyTimerGet(object value) => OfType(
+            null,
+            n => n.GetNeedyTimeRemainingHandler -= (KMNeedyModule.KMGetNeedyTimeRemainingDelegate)value,
             () => throw s_immutable);
 
         private Func<float> GetNeedyTimerGet() => OfType<Func<float>>(
@@ -450,9 +504,9 @@ namespace KeepCoding
             n => () => n.GetNeedyTimeRemainingHandler(),
             () => (Func<float>)(() => ((NeedyTimer)NeedyTimer).TimeRemaining));
 
-        private void SetNeedyTimerGet(Func<float> value) => OfType(
+        private Type SignatureNeedyTimerGet() => OfType(
             null,
-            n => n.GetNeedyTimeRemainingHandler = () => value(),
+            n => typeof(KMNeedyModule.KMGetNeedyTimeRemainingDelegate),
             () => throw s_immutable);
 
         /// <summary>
