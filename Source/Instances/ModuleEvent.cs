@@ -9,37 +9,80 @@ namespace KeepCoding.Internal
     /// A class that encapsulates an adder, getter, and setter, similar to a property.
     /// </summary>
     /// <typeparam name="T">The type of the inner variable on the getter.</typeparam>
-    public sealed class ModuleEvent<T> : StrictRecord<Tuple<ModuleEvent<T>.Adder, ModuleEvent<T>.Getter, ModuleEvent<T>.Setter, ModuleEvent<T>.Signature, ModuleEvent<T>.Remover, ModuleEvent<T>.ModuleEventDictionary, ModuleEvent<T>.Converter>, ModuleEvent<T>> where T : Delegate
+    public sealed class ModuleEvent<T> where T : Delegate
     {
+        private readonly Adder _add;
+
+        private readonly Converter _convert;
+
+        private readonly EventDictionary _events;
+
+        private readonly Getter _get;
+
+        private readonly Setter _set;
+
+        private readonly Signature _signature;
+
+        private readonly Remover _remove;
+
         /// <summary>
         /// A class that stores a dictionary, restricting what you are able to do.
         /// </summary>
-        public sealed class ModuleEventDictionary : StrictRecord<Dictionary<T, object>, ModuleEventDictionary>
+        public sealed class EventDictionary
         {
+            private readonly Dictionary<T, object> _dictionary;
+
+            /// <summary>
+            /// Creates a new instance of <see cref="EventDictionary"/>, setting the inner dictionary to a new instance.
+            /// </summary>
+            public EventDictionary() => _dictionary = new Dictionary<T, object>();
+
             /// <summary>
             /// Clears the dictionary.
             /// </summary>
-            public void Clear() => Value.Clear();
+            public void Clear() => _dictionary.Clear();
 
             /// <summary>
             /// Gets the value from the specified key. If the key doesn't exist, <see langword="null"/> is returned.
             /// </summary>
             /// <param name="key">The key to use.</param>
             /// <returns>The value from the key, or <see langword="null"/>.</returns>
-            public object Get(T key) => Value.Get(key, null);
+            public object Get(T key) => _dictionary.Get(key, null);
 
             /// <summary>
             /// Removes a key from the dictionary. If the key doesn't exist, nothing happens.
             /// </summary>
             /// <param name="key">The key to use.</param>
-            public void Remove(T key) => Value.Remove(key);
+            public void Remove(T key) => _dictionary.Remove(key);
 
             /// <summary>
             /// Adds a key with a value to the dictionary.
             /// </summary>
             /// <param name="key">The key to add.</param>
             /// <param name="value">The value to add.</param>
-            public void Add(T key, object value) => Value.Add(key, value);
+            public void Add(T key, object value) => _dictionary.Add(key, value);
+        }
+
+        /// <summary>
+        /// Creates a <see langword="new"/> instance of <see cref="ModuleEvent{T}"/> with the underlying type passed in.
+        /// </summary>
+        /// <param name="adder">The encapsulated method that will add an event.</param>
+        /// <param name="getter">The encapsulated method that will get the value.</param>
+        /// <param name="setter">The encapsulated method that will set the value.</param>
+        /// <param name="signature">The encapsulated method that will get the <see cref="Type"/> of the target.</param>
+        /// <param name="remover">The encapsulated method that will remove the value.</param>
+        /// <param name="converter">The encapsulated method that changes the value before used in converting types.</param>
+        public ModuleEvent(Adder adder, Getter getter, Setter setter, Signature signature, Remover remover, Converter converter = null)
+        {
+            const string Reason = "Required parameters cannot be null.";
+
+            _add = adder.NullCheck(Reason);
+            _get = getter.NullCheck(Reason);
+            _set = setter.NullCheck(Reason);
+            _signature = signature.NullCheck(Reason);
+            _remove = remover.NullCheck(Reason);
+            _convert = converter;
+            _events = new EventDictionary();
         }
 
         /// <summary>
@@ -87,8 +130,8 @@ namespace KeepCoding.Internal
 
             object method = Create(value);
 
-            Value.Item6.Add(value, method);
-            Value.Item1(method);
+            _events.Add(value, method);
+            _add(method);
         }
 
         /// <summary>
@@ -99,19 +142,19 @@ namespace KeepCoding.Internal
             if (value is null)
                 return;
 
-            Value.Item6.Clear();
+            _events.Clear();
 
             object method = Create(value);
 
-            Value.Item6.Add(value, method);
-            Value.Item3(method);
+            _events.Add(value, method);
+            _set(method);
         }
 
         /// <summary>
         /// Gets the value of the inner value.
         /// </summary>
         /// <returns></returns>
-        public T Get() => Value.Item2();
+        public T Get() => _get();
 
         /// <summary>
         /// The remover operator.
@@ -122,40 +165,20 @@ namespace KeepCoding.Internal
             if (value is null)
                 return;
 
-            Value.Item6.Remove(value);
-            Value.Item5(Create(value));
+            _remove(_events.Get(value));
+            _events.Remove(value);
         }
-
-        /// <summary>
-        /// Creates a <see langword="new"/> instance of <see cref="ModuleEvent{T}"/> with the underlying type passed in.
-        /// </summary>
-        /// <param name="adder">The encapsulated method that will add an event.</param>
-        /// <param name="getter">The encapsulated method that will get the value.</param>
-        /// <param name="setter">The encapsulated method that will set the value.</param>
-        /// <param name="signature">The encapsulated method that will get the <see cref="Type"/> of the target.</param>
-        /// <param name="remover">The encapsulated method that will remove the value.</param>
-        /// <param name="converter">The encapsulated method that changes the value before used in converting types.</param>
-        /// <returns>A <see langword="new"/> instance of this type, with the inner value based on the parameters passed in.</returns>
-        public static ModuleEvent<T> New(Adder adder, Getter getter, Setter setter, Signature signature, Remover remover, Converter converter = null) => From(adder.ToTuple(getter, setter, signature, remover, ModuleEventDictionary.From(new Dictionary<T, object>()), converter));
 
         /// <summary>
         /// Implicitly uses the getter.
         /// </summary>
-        /// <param name="addGetSet">The instance of this type to convert.</param>
-        public static implicit operator T(ModuleEvent<T> addGetSet) => addGetSet.Value.Item2();
-
-        /// <summary>
-        /// Performs a null check on each entry in the tuple.
-        /// </summary>
-        protected override void Validate() => Value
-            .Items
-            .Take(6)
-            .ForEach(o => o.NullCheck("None of the methods can be null."));
+        /// <param name="moduleEvent">The instance of this type to convert.</param>
+        public static implicit operator T(ModuleEvent<T> moduleEvent) => moduleEvent._get();
 
         private object Create(T value)
         {
-            Delegate dele = Value.Item7 is null ? value : Value.Item7(value);
-            return CreateDelegate(Value.Item4(), dele.Target, dele.Method);
+            Delegate dele = _convert is null ? value : _convert(value);
+            return CreateDelegate(_signature(), dele.Target, dele.Method);
         }
     }
 }

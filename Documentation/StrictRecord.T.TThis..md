@@ -17,10 +17,6 @@ The type that is encapsulating [T](StrictRecord.T.TThis..md#KeepCoding.StrictRec
   
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; StrictRecord&lt;T,TThis&gt;  
-
-Derived  
-&#8627; [ModuleEvent&lt;T&gt;](ModuleEvent.T..md 'KeepCoding.Internal.ModuleEvent&lt;T&gt;')  
-&#8627; [ModuleEventDictionary](ModuleEvent.T..ModuleEventDictionary.md 'KeepCoding.Internal.ModuleEvent&lt;T&gt;.ModuleEventDictionary')  
 ### Remarks
 This class has been mostly taken from mcintyre321's ValueOf type. [https://github.com/mcintyre321/ValueOf](https://github.com/mcintyre321/ValueOf 'https://github.com/mcintyre321/ValueOf')
 

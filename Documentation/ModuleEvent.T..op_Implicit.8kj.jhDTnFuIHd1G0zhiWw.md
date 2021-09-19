@@ -3,11 +3,11 @@
 ## ModuleEvent&lt;T&gt;.implicit operator T(ModuleEvent&lt;T&gt;) Operator
 Implicitly uses the getter.  
 ```csharp
-public static T implicit operator T(KeepCoding.Internal.ModuleEvent<T> addGetSet);
+public static T implicit operator T(KeepCoding.Internal.ModuleEvent<T> moduleEvent);
 ```
 #### Parameters
-<a name='KeepCoding.Internal.ModuleEvent.T..op_ImplicitT(KeepCoding.Internal.ModuleEvent.T.).addGetSet'></a>
-`addGetSet` [KeepCoding.Internal.ModuleEvent&lt;](ModuleEvent.T..md 'KeepCoding.Internal.ModuleEvent&lt;T&gt;')[T](ModuleEvent.T..md#KeepCoding.Internal.ModuleEvent.T..T 'KeepCoding.Internal.ModuleEvent&lt;T&gt;.T')[&gt;](ModuleEvent.T..md 'KeepCoding.Internal.ModuleEvent&lt;T&gt;')  
+<a name='KeepCoding.Internal.ModuleEvent.T..op_ImplicitT(KeepCoding.Internal.ModuleEvent.T.).moduleEvent'></a>
+`moduleEvent` [KeepCoding.Internal.ModuleEvent&lt;](ModuleEvent.T..md 'KeepCoding.Internal.ModuleEvent&lt;T&gt;')[T](ModuleEvent.T..md#KeepCoding.Internal.ModuleEvent.T..T 'KeepCoding.Internal.ModuleEvent&lt;T&gt;.T')[&gt;](ModuleEvent.T..md 'KeepCoding.Internal.ModuleEvent&lt;T&gt;')  
 The instance of this type to convert.
   
 #### Returns

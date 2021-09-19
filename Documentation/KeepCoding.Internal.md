@@ -8,7 +8,7 @@
 | [ImmutableException](ImmutableException.md 'KeepCoding.Internal.ImmutableException') | An exception thrown when a mutable action is performed on an immutable member.<br/> |
 | [KeepCodingException](KeepCodingException.md 'KeepCoding.Internal.KeepCodingException') | An exception that is declared from the Keep Coding library.<br/> |
 | [ModuleEvent&lt;T&gt;](ModuleEvent.T..md 'KeepCoding.Internal.ModuleEvent&lt;T&gt;') | A class that encapsulates an adder, getter, and setter, similar to a property.<br/> |
-| [ModuleEvent&lt;T&gt;.ModuleEventDictionary](ModuleEvent.T..ModuleEventDictionary.md 'KeepCoding.Internal.ModuleEvent&lt;T&gt;.ModuleEventDictionary') | A class that stores a dictionary, restricting what you are able to do.<br/> |
+| [ModuleEvent&lt;T&gt;.EventDictionary](ModuleEvent.T..EventDictionary.md 'KeepCoding.Internal.ModuleEvent&lt;T&gt;.EventDictionary') | A class that stores a dictionary, restricting what you are able to do.<br/> |
 | [ModuleScriptEditor](ModuleScriptEditor.md 'KeepCoding.Internal.ModuleScriptEditor') | Custom inspector for [ModuleScript](ModuleScript.md 'KeepCoding.ModuleScript'). <br/> |
 | [NegativeNumberException](NegativeNumberException.md 'KeepCoding.Internal.NegativeNumberException') | An exception thrown when the number is unexpectedly negative.<br/> |
 | [NullIteratorException](NullIteratorException.md 'KeepCoding.Internal.NullIteratorException') | An exception thrown when the iterator is null.<br/> |
