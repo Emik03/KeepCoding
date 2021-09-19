@@ -81,7 +81,8 @@ namespace KeepCoding.Internal
         /// </summary>
         public void Add(T value)
         {
-            Assert(value);
+            if (value is null)
+                return;
 
             object method = Create(value);
 
@@ -94,7 +95,9 @@ namespace KeepCoding.Internal
         /// </summary>
         public void Set(T value)
         {
-            Assert(value);
+            if (value is null)
+                return;
+
             Value.Item6.Clear();
 
             object method = Create(value);
@@ -115,7 +118,10 @@ namespace KeepCoding.Internal
         /// <param name="value">The value to use.</param>
         public void Remove(T value)
         {
-            Value.Item6.Remove(Assert(value));
+            if (value is null)
+                return;
+
+            Value.Item6.Remove(value);
             Value.Item5(Create(value));
         }
 
@@ -147,7 +153,5 @@ namespace KeepCoding.Internal
             Delegate dele = Value.Item7 is null ? value : Value.Item7(value);
             return CreateDelegate(Value.Item4(), dele.Target, dele.Method);
         }
-
-        private static T Assert(T value) => value is null ? throw new NullReferenceException("The value cannot be null.") : value;
     }
 }
