@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using static System.Delegate;
 
 namespace KeepCoding.Internal
@@ -135,7 +136,7 @@ namespace KeepCoding.Internal
         /// <param name="remover">The encapsulated method that will remove the value.</param>
         /// <param name="converter">The encapsulated method that changes the value before used in converting types.</param>
         /// <returns>A <see langword="new"/> instance of this type, with the inner value based on the parameters passed in.</returns>
-        public static ModuleEvent<T> New(Adder adder, Getter getter, Setter setter, Signature signature, Remover remover, Converter converter = null) => From(adder.ToTuple(getter, setter, signature, remover, new ModuleEventDictionary(), converter));
+        public static ModuleEvent<T> New(Adder adder, Getter getter, Setter setter, Signature signature, Remover remover, Converter converter = null) => From(adder.ToTuple(getter, setter, signature, remover, ModuleEventDictionary.From(new Dictionary<T, object>()), converter));
 
         /// <summary>
         /// Implicitly uses the getter.
@@ -146,7 +147,10 @@ namespace KeepCoding.Internal
         /// <summary>
         /// Performs a null check on each entry in the tuple.
         /// </summary>
-        protected override void Validate() => Value.Items.ForEach(o => o.NullCheck("None of the methods can be null."));
+        protected override void Validate() => Value
+            .Items
+            .Take(6)
+            .ForEach(o => o.NullCheck("None of the methods can be null."));
 
         private object Create(T value)
         {
