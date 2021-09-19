@@ -86,6 +86,14 @@ namespace KeepCoding
         }
 
         /// <summary>
+        /// Determines whether this instance is a non-module, which are <see cref="ComponentPool.ComponentTypeEnum.Empty"/> or <see cref="ComponentPool.ComponentTypeEnum.Timer"/>.
+        /// </summary>
+        public bool IsEmptyOrTimer => OfType(
+            _ => false,
+            _ => false,
+            () => ((BombComponent)_bombComponent).ComponentType is ComponentTypeEnum.Empty || ((BombComponent)_bombComponent).ComponentType is ComponentTypeEnum.Timer);
+
+        /// <summary>
         /// Determines whether this instance contains a modded module.
         /// </summary>
         /// <exception cref="MissingReferenceException"></exception>
@@ -94,10 +102,7 @@ namespace KeepCoding
         /// <summary>
         /// Determines whether this instance isn't a non-module, which are <see cref="ComponentPool.ComponentTypeEnum.Empty"/> or <see cref="ComponentPool.ComponentTypeEnum.Timer"/>.
         /// </summary>
-        public bool IsModule => OfType(
-            _ => true,
-            _ => true,
-            () => !(((BombComponent)_bombComponent).ComponentType is ComponentTypeEnum.Empty || ((BombComponent)_bombComponent).ComponentType is ComponentTypeEnum.Timer));
+        public bool IsModule => !IsEmptyOrTimer;
 
         /// <summary>
         /// Determines whether this instance contains a needy module.
