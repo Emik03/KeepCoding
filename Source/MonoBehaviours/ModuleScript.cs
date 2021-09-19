@@ -42,7 +42,7 @@ namespace KeepCoding
 
         private static readonly Dictionary<string, Dictionary<string, object>[]> s_database = new Dictionary<string, Dictionary<string, object>[]>();
 
-        private static readonly Dictionary<KMBomb, ReadOnlyCollection<ModuleContainer>> s_modules = new Dictionary<KMBomb, ReadOnlyCollection<ModuleContainer>>();
+        private static readonly Dictionary<KMBomb, ReadOnlyCollection<ModuleContainer>> s_allModules = new Dictionary<KMBomb, ReadOnlyCollection<ModuleContainer>>();
 
         /// <summary>
         /// Determines whether the module has been struck. <see cref="TPScript{TModule}.OnInteractSequence(KMSelectable[], float, int[])"/> will set this to <see langword="false"/> when a command is interrupted.
@@ -153,7 +153,8 @@ namespace KeepCoding
         /// <remarks>
         /// Note that this variable is not available on <see cref="Awake"/> or <see cref="OnAwake"/>. A small amount of time is needed for this property to be set.
         /// </remarks>
-        public KMBomb Bomb { get; private set; }
+        public KMBomb Bomb => _bomb ??= GetComponentInParent<KMBomb>();
+        private KMBomb _bomb;
 
         /// <summary>
         /// Contains an instance for every <see cref="Sound"/> played by this module using <see cref="PlaySound(Transform, bool, Sound[])"/> or any of its overloads.
@@ -175,7 +176,8 @@ namespace KeepCoding
         /// <summary>
         /// Contains every modded module in <see cref="Bomb"/>, separated by type.
         /// </summary>
-        public ReadOnlyCollection<ModuleContainer> Modules { get; private set; }
+        public ReadOnlyCollection<ModuleContainer> Modules => _modules ??= ModulesOfBomb(Bomb);
+        private ReadOnlyCollection<ModuleContainer> _modules;
 
         internal bool IsColorblindSupported => _isColorblindSupported ??= Type.ImplementsMethod(nameof(OnColorblindChanged), DeclaredOnly | Instance | Public);
         private bool? _isColorblindSupported;
@@ -504,21 +506,29 @@ namespace KeepCoding
         public Sound[] PlaySound(params Sound[] sounds) => PlaySound(transform, false, sounds);
 
         /// <summary>
-        /// Allows you to get the collection of <see cref="ModuleContainer"/> from a bomb.
+        /// Allows you to get the collection of <see cref="ModuleContainer"/> from a <see cref="KMBomb"/>.
         /// </summary>
-        /// <param name="bomb"></param>
-        /// <returns></returns>
+        /// <param name="bomb">The instance of <see cref="KMBomb"/> that has modules.</param>
+        /// <returns>All modules within <paramref name="bomb"/>.</returns>
         public static ReadOnlyCollection<ModuleContainer> ModulesOfBomb(KMBomb bomb)
         {
-            if (s_modules.ContainsKey(bomb.NullCheck("The bomb cannot be null.")))
-                return s_modules[bomb];
+            if (bomb is null)
+            {
+                if (isEditor)
+                    Self($"{nameof(ModulesOfBomb)} was called with a null {nameof(KMBomb)}, returning null.");
+
+                return null;
+            }
+
+            if (s_allModules.ContainsKey(bomb))
+                return s_allModules[bomb];
 
             ReadOnlyCollection<ModuleContainer> modules = HookModules(bomb).ToReadOnly();
 
-            s_modules.ForEach((KMBomb key, ReadOnlyCollection<ModuleContainer> _) =>
+            s_allModules.ForEach((KMBomb key, ReadOnlyCollection<ModuleContainer> _) =>
             {
                 if (!key)
-                    s_modules.Remove(key);
+                    s_allModules.Remove(key);
             }).Add(bomb, modules);
 
             return modules;
@@ -616,7 +626,7 @@ namespace KeepCoding
                 isHookingStrike = Type.ImplementsMethod(nameof(OnModuleStrike), Flags),
                 isHookingTimer = Type.ImplementsMethod(nameof(OnTimerTick), Flags);
 
-            (Modules = ModulesOfBomb(Bomb)).ForEach(m =>
+            Modules.ForEach(m =>
             {
                 if (isHookingPass && m.IsSolvable)
                     m.Solve.Add(() => OnModuleSolved(m));
@@ -718,8 +728,6 @@ namespace KeepCoding
         private IEnumerator WaitForBomb()
         {
             yield return null;
-
-            Bomb = GetParent<KMBomb>();
 
             UseBomb();
         }

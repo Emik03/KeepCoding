@@ -50,7 +50,7 @@ Implements [IAwake](IAwake.md 'KeepCoding.IAwake'), [IDump](IDump.md 'KeepCoding
 | [Log&lt;T&gt;(T, LogType)](ModuleScript.Log.p+nIKGfe9rpfPEgPOFv8OA.md 'KeepCoding.ModuleScript.Log&lt;T&gt;(T, LogType)') | Logs message, but formats it to be compliant with the Logfile Analyzer.<br/> |
 | [Log&lt;T&gt;(T, object[])](ModuleScript.Log.j.XfWH0BSgC6a6A+Y3WL8g.md 'KeepCoding.ModuleScript.Log&lt;T&gt;(T, object[])') | Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.<br/> |
 | [LogMultiple(string[])](ModuleScript.LogMultiple.+yq7ctJoFJgYL.6.OkqGfA.md 'KeepCoding.ModuleScript.LogMultiple(string[])') | Logs multiple entries to the console.<br/> |
-| [ModulesOfBomb(KMBomb)](ModuleScript.ModulesOfBomb.3ju6QGb1hN6EmBGsUYZDvg.md 'KeepCoding.ModuleScript.ModulesOfBomb(KMBomb)') | Allows you to get the collection of [ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer') from a bomb.<br/> |
+| [ModulesOfBomb(KMBomb)](ModuleScript.ModulesOfBomb.3ju6QGb1hN6EmBGsUYZDvg.md 'KeepCoding.ModuleScript.ModulesOfBomb(KMBomb)') | Allows you to get the collection of [ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer') from a [KMBomb](https://docs.microsoft.com/en-us/dotnet/api/KMBomb 'KMBomb').<br/> |
 | [OnActivate()](ModuleScript.OnActivate().md 'KeepCoding.ModuleScript.OnActivate()') | Called when the lights turn on.<br/> |
 | [OnAwake()](ModuleScript.OnAwake().md 'KeepCoding.ModuleScript.OnAwake()') | Called when the module instantiates, well before the lights turn on.<br/> |
 | [OnColorblindChanged(bool)](ModuleScript.OnColorblindChanged.v.B8pFA9oBJ43uADUD5ZpQ.md 'KeepCoding.ModuleScript.OnColorblindChanged(bool)') | Called when colorblind support needs to be updated for the module.<br/> |
