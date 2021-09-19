@@ -515,27 +515,6 @@ namespace KeepCoding
         /// </remarks>
         /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="TEnumerable">The type of iterator.</typeparam>
-        /// <param name="iterator">The collection of items to go through one-by-one.</param>
-        /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
-        /// <returns><paramref name="iterator"/></returns>
-        public static TEnumerable ForEach<TEnumerable>(this TEnumerable iterator, Action<object> action) where TEnumerable : IEnumerable
-        {
-            action.NullCheck("The action cannot be null.");
-
-            foreach (object item in iterator)
-                action(item);
-
-            return iterator;
-        }
-
-        /// <summary>
-        /// The <see langword="foreach"/> statement executes a statement or a block of statements for each element in an instance of the type that implements the <see cref="IEnumerable"/> or <see cref="IEnumerable{T}"/> interface.
-        /// </summary>
-        /// <remarks>
-        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement"/>
-        /// </remarks>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <typeparam name="TEnumerable">The type of iterator.</typeparam>
         /// <typeparam name="TCurrent">The type of each item in the iterator.</typeparam>
         /// <param name="iterator">The collection of items to go through one-by-one.</param>
         /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
@@ -603,29 +582,6 @@ namespace KeepCoding
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement"/>
         /// </remarks>
         /// <exception cref="NullReferenceException"></exception>
-        /// <typeparam name="TEnumerator">The type of iterator.</typeparam>
-        /// <param name="iterator">The collection of items to go through one-by-one.</param>
-        /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
-        /// <returns><paramref name="iterator"/></returns>
-        public static TEnumerator ForEach<TEnumerator>(this TEnumerator iterator, Action<object, int> action) where TEnumerator : IEnumerable
-        {
-            action.NullCheck("The action cannot be null.");
-
-            int i = 0;
-
-            foreach (object item in iterator)
-                action(item, checked(i++));
-
-            return iterator;
-        }
-
-        /// <summary>
-        /// The <see langword="foreach"/> statement executes a statement or a block of statements for each element in an instance of the type that implements the <see cref="IEnumerable"/> or <see cref="IEnumerable{T}"/> interface.
-        /// </summary>
-        /// <remarks>
-        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement"/>
-        /// </remarks>
-        /// <exception cref="NullReferenceException"></exception>
         /// <typeparam name="TEnumerable">The type of iterator.</typeparam>
         /// <typeparam name="TCurrent">The type of each item in the iterator.</typeparam>
         /// <param name="iterator">The collection of items to go through one-by-one.</param>
@@ -664,6 +620,50 @@ namespace KeepCoding
 
             foreach (KeyValuePair<TKey, TValue> item in iterator)
                 action(item.Key, item.Value, checked(i++));
+
+            return iterator;
+        }
+
+        /// <summary>
+        /// The <see langword="foreach"/> statement executes a statement or a block of statements for each element in an instance of the type that implements the <see cref="IEnumerable"/> or <see cref="IEnumerable{T}"/> interface.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <typeparam name="TEnumerable">The type of iterator.</typeparam>
+        /// <param name="iterator">The collection of items to go through one-by-one.</param>
+        /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
+        /// <returns><paramref name="iterator"/></returns>
+        public static TEnumerable ForEachBoxed<TEnumerable>(this TEnumerable iterator, Action<object> action) where TEnumerable : IEnumerable
+        {
+            action.NullCheck("The action cannot be null.");
+
+            foreach (object item in iterator)
+                action(item);
+
+            return iterator;
+        }
+
+        /// <summary>
+        /// The <see langword="foreach"/> statement executes a statement or a block of statements for each element in an instance of the type that implements the <see cref="IEnumerable"/> or <see cref="IEnumerable{T}"/> interface.
+        /// </summary>
+        /// <remarks>
+        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/statements/iteration-statements#the-foreach-statement"/>
+        /// </remarks>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <typeparam name="TEnumerator">The type of iterator.</typeparam>
+        /// <param name="iterator">The collection of items to go through one-by-one.</param>
+        /// <param name="action">The action to do on each item in <paramref name="iterator"/>.</param>
+        /// <returns><paramref name="iterator"/></returns>
+        public static TEnumerator ForEachBoxed<TEnumerator>(this TEnumerator iterator, Action<object, int> action) where TEnumerator : IEnumerable
+        {
+            action.NullCheck("The action cannot be null.");
+
+            int i = 0;
+
+            foreach (object item in iterator)
+                action(item, checked(i++));
 
             return iterator;
         }
