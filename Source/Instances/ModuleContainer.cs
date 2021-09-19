@@ -331,8 +331,8 @@ namespace KeepCoding
             }
 
             OfType(
-                b => b.OnPass = () => Hook(),
-                n => n.OnPass = () => Hook(),
+                b => b.OnPass = Hook,
+                n => n.OnPass = Hook,
                 () => ((BombComponent)_bombComponent).OnPass = (PassEvent)CreateDelegate(typeof(PassEvent), this, ((Func<MonoBehaviour, bool>)(m => Hook())).Method));
         }
 
@@ -352,8 +352,8 @@ namespace KeepCoding
             }
 
             OfType(
-                b => b.OnStrike += () => Hook(),
-                n => n.OnStrike += () => Hook(),
+                b => b.OnStrike += Hook,
+                n => n.OnStrike += Hook,
                 () => ((BombComponent)_bombComponent).OnStrike += (StrikeEvent)CreateDelegate(typeof(StrikeEvent), this, ((Func<MonoBehaviour, bool>)(m => Hook())).Method));
         }
 
@@ -386,17 +386,17 @@ namespace KeepCoding
         private ModuleEvent<Action<float>> _needyTimerSet;
 
         private void AddNeedyTimerSet(Action<float> value) => OfType(
-            b => throw Missing,
+            null,
             n => n.SetNeedyTimeRemainingHandler = f => value(f),
             () => throw s_immutable);
 
         private Action<float> GetNeedyTimerSet() => OfType<Action<float>>(
-            b => throw Missing,
+            null,
             n => f => n.SetNeedyTimeRemainingHandler(f),
             () => (Action<float>)(f => ((NeedyTimer)NeedyTimer).TimeRemaining = f));
 
         private void SetNeedyTimerSet(Action<float> value) => OfType(
-            b => throw Missing,
+            null,
             n => n.SetNeedyTimeRemainingHandler = f => value(f),
             () => throw s_immutable);
 
@@ -411,17 +411,17 @@ namespace KeepCoding
         private void AddRuleGeneration(Func<int> value) => OfType(
             b => b.GetRuleGenerationSeedHandler += () => value(),
             n => n.GetRuleGenerationSeedHandler += () => value(),
-            () => throw Missing);
+            null);
 
         private Func<int> GetRuleGeneration() => OfType<Func<int>>(
             b => () => b.GetRuleGenerationSeedHandler(),
             n => () => n.GetRuleGenerationSeedHandler(),
-            () => throw Missing);
+            null);
 
         private void SetRuleGeneration(Func<int> value) => OfType(
             b => b.GetRuleGenerationSeedHandler = () => value(),
             n => n.GetRuleGenerationSeedHandler = () => value(),
-            () => throw Missing);
+            null);
 
         /// <summary>
         /// Modded Needy Only: An encapsulated <see cref="Func{T}"/> that when called, gets the time remaining. This value is immutable for vanilla modules, and an exception will be thrown when attempted.
@@ -433,17 +433,17 @@ namespace KeepCoding
         private ModuleEvent<Func<float>> _needyTimerGet;
 
         private void AddNeedyTimerGet(Func<float> value) => OfType(
-            b => throw Missing,
+            null,
             n => n.GetNeedyTimeRemainingHandler += () => value(),
             () => throw s_immutable);
 
         private Func<float> GetNeedyTimerGet() => OfType<Func<float>>(
-            b => throw Missing,
+            null,
             n => () => n.GetNeedyTimeRemainingHandler(),
             () => (Func<float>)(() => ((NeedyTimer)NeedyTimer).TimeRemaining));
 
         private void SetNeedyTimerGet(Func<float> value) => OfType(
-            b => throw Missing,
+            null,
             n => n.GetNeedyTimeRemainingHandler = () => value(),
             () => throw s_immutable);
 
@@ -455,11 +455,11 @@ namespace KeepCoding
         public Tuple<float, float> ResetDelay
         {
             get => OfType(
-                b => throw Missing,
+                null,
                 n => n.ResetDelayMin.ToTuple(n.ResetDelayMax),
                 () => _bombComponent is NeedyComponent needy ? needy.ResetDelayMin.ToTuple(needy.ResetDelayMax) : throw Missing);
             set => OfType(
-                b => throw Missing,
+                null,
                 n => value.Destruct(out n.ResetDelayMin, out n.ResetDelayMax),
                 () => value.Destruct(out (_bombComponent is NeedyComponent needy ? needy : throw Missing).ResetDelayMin, out needy.ResetDelayMax));
         }
@@ -657,9 +657,9 @@ namespace KeepCoding
 
         private T OfType<T>(Func<KMBombModule, T> onBombModule, Func<KMNeedyModule, T> onNeedyModule, Func<T> onBombComponent) => Module switch
         {
-            KMBombModule bombModule => onBombModule(bombModule),
-            KMNeedyModule needyModule => onNeedyModule(needyModule),
-            MonoBehaviour _ => IsKtane ? onBombComponent() : throw s_none,
+            KMBombModule bombModule => (onBombModule ?? throw Missing).Invoke(bombModule),
+            KMNeedyModule needyModule => (onNeedyModule ?? throw Missing)(needyModule),
+            MonoBehaviour _ => IsKtane ? (onBombComponent ?? throw Missing)() : throw s_none,
             _ => throw s_none
         };
     }
