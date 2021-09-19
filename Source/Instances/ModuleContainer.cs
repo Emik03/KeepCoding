@@ -305,16 +305,16 @@ namespace KeepCoding
 
         private void AddSolve(Action value)
         {
-            bool ToHook()
+            bool Hook()
             {
                 value();
                 return false;
             }
 
             OfType(
-                b => b.OnPass += () => ToHook(),
-                n => n.OnPass += () => ToHook(),
-                () => ((BombComponent)_bombComponent).OnPass += (PassEvent)CreateDelegate(typeof(PassEvent), this, ((Func<MonoBehaviour, bool>)(m => ToHook())).Method));
+                b => b.OnPass += Hook,
+                n => n.OnPass += Hook,
+                () => ((BombComponent)_bombComponent).OnPass += (PassEvent)CreateDelegate(typeof(PassEvent), Module, ((Func<MonoBehaviour, bool>)(_ => Hook())).Method));
         }
 
         private Action GetSolve() => OfType<Action>(
@@ -333,7 +333,7 @@ namespace KeepCoding
             OfType(
                 b => b.OnPass = Hook,
                 n => n.OnPass = Hook,
-                () => ((BombComponent)_bombComponent).OnPass = (PassEvent)CreateDelegate(typeof(PassEvent), this, ((Func<MonoBehaviour, bool>)(m => Hook())).Method));
+                () => ((BombComponent)_bombComponent).OnPass = (PassEvent)CreateDelegate(typeof(PassEvent), Module, ((Func<MonoBehaviour, bool>)(_ => Hook())).Method));
         }
 
         /// <summary>
@@ -354,7 +354,7 @@ namespace KeepCoding
             OfType(
                 b => b.OnStrike += Hook,
                 n => n.OnStrike += Hook,
-                () => ((BombComponent)_bombComponent).OnStrike += (StrikeEvent)CreateDelegate(typeof(StrikeEvent), this, ((Func<MonoBehaviour, bool>)(m => Hook())).Method));
+                () => ((BombComponent)_bombComponent).OnStrike += (StrikeEvent)CreateDelegate(typeof(StrikeEvent), Module, ((Func<MonoBehaviour, bool>)(m => Hook())).Method));
         }
 
         private Action GetStrike() => OfType<Action>(
@@ -373,7 +373,7 @@ namespace KeepCoding
             OfType(
                 b => b.OnStrike = () => Hook(),
                 n => n.OnStrike = () => Hook(),
-                () => ((BombComponent)_bombComponent).OnStrike = (StrikeEvent)CreateDelegate(typeof(StrikeEvent), this, ((Func<MonoBehaviour, bool>)(m => Hook())).Method));
+                () => ((BombComponent)_bombComponent).OnStrike = (StrikeEvent)CreateDelegate(typeof(StrikeEvent), Module, ((Func<MonoBehaviour, bool>)(m => Hook())).Method));
         }
 
         /// <summary>
