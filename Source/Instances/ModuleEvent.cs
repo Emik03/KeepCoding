@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using static System.Delegate;
 
 namespace KeepCoding.Internal
@@ -150,7 +149,5 @@ namespace KeepCoding.Internal
         }
 
         private static T Assert(T value) => value is null ? throw new NullReferenceException("The value cannot be null.") : value;
-        private MissingMethodException Missing => new MissingMethodException($"The current type of the component (\"{Module.GetType().Name}\") lacks this method.");
-
     }
 }

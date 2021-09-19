@@ -25,7 +25,6 @@
 | [ModConfig&lt;TSerialize&gt;](ModConfig.TSerialize..md 'KeepCoding.ModConfig&lt;TSerialize&gt;') | Meant for information that needs to be deserialized within the mod settings folder, by samfundev.<br/> |
 | [ModInfo](ModInfo.md 'KeepCoding.ModInfo') | Contains information about the mod's info, this class can be used to deserialize every mod's "modInfo.json".<br/> |
 | [ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer') | Contains and encapsulates both solvable and needy modules, in both modded and vanilla forms.<br/> |
-| [ModuleEvent&lt;T&gt;](ModuleEvent.T..md 'KeepCoding.ModuleEvent&lt;T&gt;') | A class that encapsulates an adder, getter, and setter, similar to a property.<br/> |
 | [ModuleScript](ModuleScript.md 'KeepCoding.ModuleScript') | Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes.<br/> |
 | [MonoRandom](MonoRandom.md 'KeepCoding.MonoRandom') | A pseudo-random number generator that is primarily used to get multiple platforms to share the same random number generator.<br/> |
 | [PathManager](PathManager.md 'KeepCoding.PathManager') | Allows loading external information stored on the module. Default values are returned either when run on the editor or when an [System.IO.IOException](https://docs.microsoft.com/en-us/dotnet/api/System.IO.IOException 'System.IO.IOException') and similar occur. The default values are specified in the remarks of each method.<br/> |
@@ -40,10 +39,15 @@
 | [StrictRecord&lt;T,TThis&gt;](StrictRecord.T.TThis..md 'KeepCoding.StrictRecord&lt;T,TThis&gt;') | Defines a reference type that provides built-in functionality for encapsulating data.<br/> |
 | [StringifyFormat](StringifyFormat.md 'KeepCoding.StringifyFormat') | Specfies a format for [Stringify&lt;T&gt;(T, StringifyFormat)](Helper.Stringify.MMjDPqfcLXL+EYRaH4glrw.md 'KeepCoding.Helper.Stringify&lt;T&gt;(T, KeepCoding.StringifyFormat)').<br/> |
 | [TPScript&lt;TModule&gt;](TPScript.TModule..md 'KeepCoding.TPScript&lt;TModule&gt;') | Base class for TwitchPlays support for solvable and needy modded modules in Keep Talking and Nobody Explodes.<br/> |
-| [Tuple&lt;T&gt;](Tuple.T..md 'KeepCoding.Tuple&lt;T&gt;') | A basic tuple data type for C# 4.<br/> |
-| [Tuple&lt;T1,T2&gt;](Tuple.T1.T2..md 'KeepCoding.Tuple&lt;T1,T2&gt;') | A basic tuple data type for C# 4. <br/> |
-| [Tuple&lt;T1,T2,T3&gt;](Tuple.T1.T2.T3..md 'KeepCoding.Tuple&lt;T1,T2,T3&gt;') | A basic tuple data type for C# 4. <br/> |
-| [Tuple&lt;T1,T2,T3,T4&gt;](Tuple.T1.T2.T3.T4..md 'KeepCoding.Tuple&lt;T1,T2,T3,T4&gt;') | A basic tuple data type for C# 4. <br/> |
+| [Tuple&lt;T&gt;](Tuple.T..md 'KeepCoding.Tuple&lt;T&gt;') | A basic tuple type that encapsulates members as properties.<br/> |
+| [Tuple&lt;T1,T2&gt;](Tuple.T1.T2..md 'KeepCoding.Tuple&lt;T1,T2&gt;') | A basic tuple type that encapsulates members as properties.<br/> |
+| [Tuple&lt;T1,T2,T3&gt;](Tuple.T1.T2.T3..md 'KeepCoding.Tuple&lt;T1,T2,T3&gt;') | A basic tuple type that encapsulates members as properties.<br/> |
+| [Tuple&lt;T1,T2,T3,T4&gt;](Tuple.T1.T2.T3.T4..md 'KeepCoding.Tuple&lt;T1,T2,T3,T4&gt;') | A basic tuple type that encapsulates members as properties.<br/> |
+| [Tuple&lt;T1,T2,T3,T4,T5&gt;](Tuple.T1.T2.T3.T4.T5..md 'KeepCoding.Tuple&lt;T1,T2,T3,T4,T5&gt;') | A basic tuple type that encapsulates members as properties.<br/> |
+| [Tuple&lt;T1,T2,T3,T4,T5,T6&gt;](Tuple.T1.T2.T3.T4.T5.T6..md 'KeepCoding.Tuple&lt;T1,T2,T3,T4,T5,T6&gt;') | A basic tuple type that encapsulates members as properties.<br/> |
+| [Tuple&lt;T1,T2,T3,T4,T5,T6,T7&gt;](Tuple.T1.T2.T3.T4.T5.T6.T7..md 'KeepCoding.Tuple&lt;T1,T2,T3,T4,T5,T6,T7&gt;') | A basic tuple type that encapsulates members as properties.<br/> |
+| [Tuple&lt;T1,T2,T3,T4,T5,T6,T7,T8&gt;](Tuple.T1.T2.T3.T4.T5.T6.T7.T8..md 'KeepCoding.Tuple&lt;T1,T2,T3,T4,T5,T6,T7,T8&gt;') | A basic tuple type that encapsulates members as properties.<br/> |
+| [Tuple&lt;T1,T2,T3,T4,T5,T6,T7,T8,T9&gt;](Tuple.T1.T2.T3.T4.T5.T6.T7.T8.T9..md 'KeepCoding.Tuple&lt;T1,T2,T3,T4,T5,T6,T7,T8,T9&gt;') | A basic tuple type that encapsulates members as properties.<br/> |
 | [TypeHelper](TypeHelper.md 'KeepCoding.TypeHelper') | Extension methods to help you create data types easier.<br/> |
 | [UtilityHelper](UtilityHelper.md 'KeepCoding.UtilityHelper') | Wad of extension methods from RT Util Core.<br/> |
 | [Work](Work.md 'KeepCoding.Work') | Advanced multi-threading handler.<br/> |
@@ -82,9 +86,3 @@
 | [Game.ModSourceEnum](Game.ModSourceEnum.md 'KeepCoding.Game.ModSourceEnum') | Determines how the mod is stored.<br/> |
 | [Game.References](Game.References.md 'KeepCoding.Game.References') | Determines what references are used within this class.<br/> |
 | [UtilityHelper.JsQuotes](UtilityHelper.JsQuotes.md 'KeepCoding.UtilityHelper.JsQuotes') | Selects how the escaped JS string should be put into quotes. |
-
-| Delegates | |
-| :--- | :--- |
-| [ModuleEvent&lt;T&gt;.Adder(T)](ModuleEvent.T..Adder.mC87pGoW7OVK88yenfaDIg.md 'KeepCoding.ModuleEvent&lt;T&gt;.Adder(T)') | Represents an adder operator.<br/> |
-| [ModuleEvent&lt;T&gt;.Getter()](ModuleEvent.T..Getter().md 'KeepCoding.ModuleEvent&lt;T&gt;.Getter()') | Represents a getter operator.<br/> |
-| [ModuleEvent&lt;T&gt;.Setter(T)](ModuleEvent.T..Setter.UlnkLh8H+Jmatb0VSAcVdQ.md 'KeepCoding.ModuleEvent&lt;T&gt;.Setter(T)') | Represents a setter operator.<br/> |

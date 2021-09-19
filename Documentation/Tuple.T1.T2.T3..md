@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## Tuple&lt;T1,T2,T3&gt; Class
-A basic tuple data type for C# 4.   
+A basic tuple type that encapsulates members as properties.  
 ```csharp
 public class Tuple<T1,T2,T3> : KeepCoding.Tuple<T1, T2>
 ```
@@ -23,13 +23,13 @@ Derived
 
 | Constructors | |
 | :--- | :--- |
-| [Tuple()](Tuple.T1.T2.T3..Tuple().md 'KeepCoding.Tuple&lt;T1,T2,T3&gt;.Tuple()') | Creates a singleton tuple of default values.<br/> |
+| [Tuple()](Tuple.T1.T2.T3..Tuple().md 'KeepCoding.Tuple&lt;T1,T2,T3&gt;.Tuple()') | Creates a tuple of size 3 of default values.<br/> |
 | [Tuple(T1, T2, T3)](Tuple.T1.T2.T3...ctor.TbiAUYDIcWW4gci16zi3.Q.md 'KeepCoding.Tuple&lt;T1,T2,T3&gt;.Tuple(T1, T2, T3)') | Creates a tuple of size 3.<br/> |
 
 | Properties | |
 | :--- | :--- |
 | [Item3](Tuple.T1.T2.T3..Item3.md 'KeepCoding.Tuple&lt;T1,T2,T3&gt;.Item3') | The third item of the tuple.<br/> |
-| [Items](Tuple.T1.T2.T3..Items.md 'KeepCoding.Tuple&lt;T1,T2,T3&gt;.Items') | All of the tuple's items as an array, ordered by item number.<br/> |
+| [Items](Tuple.T1.T2.T3..Items.md 'KeepCoding.Tuple&lt;T1,T2,T3&gt;.Items') | All of the tuple's items as an array, ordered by item number, lowest to highest.<br/> |
 | [this[byte]](Tuple.T1.T2.T3..Item.omX9Ud5ahVfT6eApnUby9A.md 'KeepCoding.Tuple&lt;T1,T2,T3&gt;.this[byte]') | Indexable tuple. Be careful when using this as the compiler will not notice if you are using the wrong type.<br/> |
 
 | Methods | |

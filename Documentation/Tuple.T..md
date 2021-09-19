@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## Tuple&lt;T&gt; Class
-A basic tuple data type for C# 4.  
+A basic tuple type that encapsulates members as properties.  
 ```csharp
 public class Tuple<T> : KeepCoding.Internal.Tuple
 ```
@@ -23,7 +23,7 @@ Derived
 | Properties | |
 | :--- | :--- |
 | [Item1](Tuple.T..Item1.md 'KeepCoding.Tuple&lt;T&gt;.Item1') | The first item of the tuple.<br/> |
-| [Items](Tuple.T..Items.md 'KeepCoding.Tuple&lt;T&gt;.Items') | All of the tuple's items as an array, ordered by item number.<br/> |
+| [Items](Tuple.T..Items.md 'KeepCoding.Tuple&lt;T&gt;.Items') | All of the tuple's items as an array, ordered by item number, lowest to highest.<br/> |
 | [this[byte]](Tuple.T..Item.oi5GOCxZadHbjK3qPaMAWQ.md 'KeepCoding.Tuple&lt;T&gt;.this[byte]') | Indexable tuple. Be careful when using this as the compiler will not notice if you are using the wrong type.<br/> |
 
 | Methods | |
