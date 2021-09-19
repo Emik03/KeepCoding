@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer')
 ## ModuleContainer.NeedyTimerGet Property
-Modded Needy Only: An encapsulated [System.Func&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-1 'System.Func`1') that when called, gets the time remaining. This value is immutable for vanilla modules, and an exception will be thrown when attempted.  
+Needy Only: An encapsulated [System.Func&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Func-1 'System.Func`1') that when called, gets the time remaining. This value is immutable for vanilla modules, and an exception will be thrown when attempted.  
 ```csharp
 public KeepCoding.ModuleEvent<System.Func<float>> NeedyTimerGet { get; }
 ```
