@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Scripts.Missions;
 using KeepCoding.Internal;
 using UnityEngine;
 using static System.Delegate;
@@ -91,13 +92,21 @@ namespace KeepCoding
         public bool IsModded => !IsVanilla;
 
         /// <summary>
+        /// Determines whether this instance isn't a non-module, which are <see cref="ComponentPool.ComponentTypeEnum.Empty"/> or <see cref="ComponentPool.ComponentTypeEnum.Timer"/>.
+        /// </summary>
+        public bool IsModule => OfType(
+            _ => true,
+            _ => true,
+            () => !(((BombComponent)_bombComponent).ComponentType is ComponentTypeEnum.Empty || ((BombComponent)_bombComponent).ComponentType is ComponentTypeEnum.Timer));
+
+        /// <summary>
         /// Determines whether this instance contains a needy module.
         /// </summary>
         /// <exception cref="MissingReferenceException"></exception>
         public bool IsNeedy => OfType(
             _ => false,
             _ => true,
-            () => _bombComponent is NeedyComponent);
+            () => IsModule && _bombComponent is NeedyComponent);
 
         /// <summary>
         /// Determines whether this instance contains a vanilla module.
@@ -112,7 +121,7 @@ namespace KeepCoding
         /// Determines whether this instance contains a solvable module.
         /// </summary>
         /// <exception cref="MissingReferenceException"></exception>
-        public bool IsSolvable => !IsNeedy;
+        public bool IsSolvable => IsModule && !IsNeedy;
 
         /// <summary>
         /// Set to true to only allow this module to be placed on the same face as the timer. Useful when the rules involve the timer in some way (like the Big Button), but should be used sparingly as it limits generation possibilities.
@@ -135,14 +144,14 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
-        public bool WarnAtFiveSeconds
+        public bool NeedyWarnAtFiveSeconds
         {
             get => OfType(
-                b => throw Missing,
+                _ => throw Missing,
                 n => n.WarnAtFiveSeconds,
                 () => ((NeedyTimer)NeedyTimer).WarnTime is 5);
             set => OfType(
-                b => throw Missing,
+                _ => throw Missing,
                 n => n.WarnAtFiveSeconds = value,
                 () => ((NeedyTimer)NeedyTimer).WarnTime = value ? 5 : 0);
         }
@@ -152,14 +161,14 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
-        public float StartingTime
+        public float NeedyStartingTime
         {
             get => OfType(
-                b => throw Missing,
+                _ => throw Missing,
                 n => n.CountdownTime,
                 () => _bombComponent is NeedyComponent needy ? needy.CountdownTime : throw Missing);
             set => OfType(
-                b => throw Missing,
+                _ => throw Missing,
                 n => n.CountdownTime = value,
                 () => (_bombComponent is NeedyComponent needy ? needy : throw Missing).CountdownTime = value);
         }
@@ -233,8 +242,8 @@ namespace KeepCoding
             () => ((BombComponent)_bombComponent).Activate);
 
         private Type SignatureActivate() => OfType(
-            b => typeof(KMBombModule.KMModuleActivateEvent),
-            n => typeof(KMNeedyModule.KMModuleActivateEvent),
+            _ => typeof(KMBombModule.KMModuleActivateEvent),
+            _ => typeof(KMNeedyModule.KMModuleActivateEvent),
             () => throw s_immutable);
 
         /// <summary>
@@ -267,7 +276,7 @@ namespace KeepCoding
 
         private Type SignatureNeedyActivate() => OfType(
             null,
-            n => typeof(KMNeedyModule.KMNeedyActivationEvent),
+            _ => typeof(KMNeedyModule.KMNeedyActivationEvent),
             null);
 
         /// <summary>
@@ -280,7 +289,7 @@ namespace KeepCoding
 
         private void AddNeedyDeactivate(object value) => OfType(
             null,
-            n => n.OnNeedyActivation += (KMNeedyModule.KMNeedyActivationEvent)value,
+            n => n.OnNeedyDeactivation += (KMNeedyModule.KMNeedyDeactivationEvent)value,
             null);
 
         private void SetNeedyDeactivate(object value) => OfType(
@@ -300,7 +309,7 @@ namespace KeepCoding
 
         private Type SignatureNeedyDeactivate() => OfType(
             null,
-            n => typeof(KMNeedyModule.KMNeedyDeactivationEvent),
+            _ => typeof(KMNeedyModule.KMNeedyDeactivationEvent),
             null);
 
         /// <summary>
@@ -333,18 +342,14 @@ namespace KeepCoding
 
         private Type SignatureNeedyTimerExpired() => OfType(
             null,
-            n => typeof(KMNeedyModule.KMTimerExpiredEvent),
+            _ => typeof(KMNeedyModule.KMTimerExpiredEvent),
             () => typeof(NeedyTimerExpireEvent));
 
         /// <summary>
         /// Call this when the entire module has been solved.
         /// </summary>
         /// <exception cref="MissingReferenceException"></exception>
-        public ModuleEvent<Action> Solve => _solve ??= new ModuleEvent<Action>(AddSolve, GetSolve, SetSolve, SignatureSolve, RemoveSolve, action => (Func<bool>)(() =>
-        {
-            action();
-            return false;
-        }));
+        public ModuleEvent<Action> Solve => _solve ??= new ModuleEvent<Action>(AddSolve, GetSolve, SetSolve, SignatureSolve, RemoveSolve, Converter);
         private ModuleEvent<Action> _solve;
 
         private void AddSolve(object value) => OfType(
@@ -368,19 +373,15 @@ namespace KeepCoding
             () => () => ((BombComponent)_bombComponent).OnPass(null));
 
         private Type SignatureSolve() => OfType(
-            b => typeof(KMBombModule.KMPassEvent),
-            n => typeof(KMNeedyModule.KMPassEvent),
+            _ => typeof(KMBombModule.KMPassEvent),
+            _ => typeof(KMNeedyModule.KMPassEvent),
             () => typeof(PassEvent));
 
         /// <summary>
         /// Call this on any mistake that you want to cause a bomb strike.
         /// </summary>
         /// <exception cref="MissingReferenceException"></exception>
-        public ModuleEvent<Action> Strike => _strike ??= new ModuleEvent<Action>(AddStrike, GetStrike, SetStrike, SignatureStrike, RemoveStrike, action => (Func<bool>)(() =>
-        {
-            action();
-            return false;
-        }));
+        public ModuleEvent<Action> Strike => _strike ??= new ModuleEvent<Action>(AddStrike, GetStrike, SetStrike, SignatureStrike, RemoveStrike, Converter);
         private ModuleEvent<Action> _strike;
 
         private void AddStrike(object value) => OfType(
@@ -404,8 +405,8 @@ namespace KeepCoding
             () => () => ((BombComponent)_bombComponent).OnStrike(null));
 
         private Type SignatureStrike() => OfType(
-            b => typeof(KMBombModule.KMStrikeEvent),
-            n => typeof(KMNeedyModule.KMStrikeEvent),
+            _ => typeof(KMBombModule.KMStrikeEvent),
+            _ => typeof(KMNeedyModule.KMStrikeEvent),
             () => typeof(StrikeEvent));
 
         /// <summary>
@@ -439,7 +440,7 @@ namespace KeepCoding
 
         private Type SignatureNeedyTimerSet() => OfType(
             null,
-            n => typeof(KMNeedyModule.KMSetNeedyTimeRemainingDelegate),
+            _ => typeof(KMNeedyModule.KMSetNeedyTimeRemainingDelegate),
             () => throw s_immutable);
 
         /// <summary>
@@ -471,8 +472,8 @@ namespace KeepCoding
             null);
 
         private Type SignatureRuleGeneration() => OfType(
-            b => typeof(KMBombModule.KMRuleGenerationSeedDelegate),
-            n => typeof(KMNeedyModule.KMRuleGenerationSeedDelegate),
+            _ => typeof(KMBombModule.KMRuleGenerationSeedDelegate),
+            _ => typeof(KMNeedyModule.KMRuleGenerationSeedDelegate),
             null);
 
         /// <summary>
@@ -506,7 +507,7 @@ namespace KeepCoding
 
         private Type SignatureNeedyTimerGet() => OfType(
             null,
-            n => typeof(KMNeedyModule.KMGetNeedyTimeRemainingDelegate),
+            _ => typeof(KMNeedyModule.KMGetNeedyTimeRemainingDelegate),
             () => throw s_immutable);
 
         /// <summary>
@@ -716,6 +717,23 @@ namespace KeepCoding
                     throw s_none;
             }
         }
+
+        private Delegate Converter(Action action) => OfType<Delegate>(
+            _ => (Func<bool>)(() =>
+            {
+                action();
+                return false;
+            }),
+            _ => (Func<bool>)(() =>
+            {
+                action();
+                return false;
+            }),
+            () => (Func<MonoBehaviour, bool>)(_ =>
+            {
+                action();
+                return false;
+            }));
 
         private T OfType<T>(Func<KMBombModule, T> onBombModule, Func<KMNeedyModule, T> onNeedyModule, Func<T> onBombComponent) => Module switch
         {

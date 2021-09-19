@@ -1,12 +1,12 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer')
-## ModuleContainer.WarnAtFiveSeconds Property
-Needy Only: Determines whether [NeedyWarning](Sound.NeedyWarning.md 'KeepCoding.Sound.NeedyWarning') plays when 5 seconds or less remain.  
+## ModuleContainer.NeedyStartingTime Property
+Needy Only: The amount of time on the needy timer whenever this module is activated.  
 ```csharp
-public bool WarnAtFiveSeconds { get; set; }
+public float NeedyStartingTime { get; set; }
 ```
 #### Property Value
-[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+[System.Single](https://docs.microsoft.com/en-us/dotnet/api/System.Single 'System.Single')
 #### Exceptions
 [System.MissingMethodException](https://docs.microsoft.com/en-us/dotnet/api/System.MissingMethodException 'System.MissingMethodException')  
 [UnityEngine.MissingReferenceException](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MissingReferenceException 'UnityEngine.MissingReferenceException')  
