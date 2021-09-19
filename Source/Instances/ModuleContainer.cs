@@ -284,7 +284,7 @@ namespace KeepCoding
         private void AddNeedyTimerExpired(Action value) => OfType(
             b => throw Missing,
             n => n.OnTimerExpired += () => value(),
-            () => ((NeedyTimer)NeedyTimer).OnTimerExpire += (NeedyTimerExpireEvent)CreateDelegate(typeof(NeedyTimerExpireEvent), value.Method));
+            () => ((NeedyTimer)NeedyTimer).OnTimerExpire += (NeedyTimerExpireEvent)CreateDelegate(typeof(NeedyTimerExpireEvent), value.Target, value.Method));
 
         private Action GetNeedyTimerExpired() => OfType<Action>(
             b => throw Missing,
@@ -294,7 +294,7 @@ namespace KeepCoding
         private void SetNeedyTimerExpired(Action value) => OfType(
             b => throw Missing,
             n => n.OnTimerExpired = () => value(),
-            () => ((NeedyTimer)NeedyTimer).OnTimerExpire = (NeedyTimerExpireEvent)CreateDelegate(typeof(NeedyTimerExpireEvent), value.Method));
+            () => ((NeedyTimer)NeedyTimer).OnTimerExpire = (NeedyTimerExpireEvent)CreateDelegate(typeof(NeedyTimerExpireEvent), value.Target, value.Method));
 
         /// <summary>
         /// Call this when the entire module has been solved.
@@ -311,10 +311,12 @@ namespace KeepCoding
                 return false;
             }
 
+            Func<MonoBehaviour, bool> hook = _ => Hook();
+
             OfType(
                 b => b.OnPass += Hook,
                 n => n.OnPass += Hook,
-                () => ((BombComponent)_bombComponent).OnPass += (PassEvent)CreateDelegate(typeof(PassEvent), Module, ((Func<MonoBehaviour, bool>)(_ => Hook())).Method));
+                () => ((BombComponent)_bombComponent).OnPass += (PassEvent)CreateDelegate(typeof(PassEvent), hook.Target, hook.Method));
         }
 
         private Action GetSolve() => OfType<Action>(
@@ -330,10 +332,12 @@ namespace KeepCoding
                 return false;
             }
 
+            Func<MonoBehaviour, bool> hook = _ => Hook();
+
             OfType(
                 b => b.OnPass = Hook,
                 n => n.OnPass = Hook,
-                () => ((BombComponent)_bombComponent).OnPass = (PassEvent)CreateDelegate(typeof(PassEvent), Module, ((Func<MonoBehaviour, bool>)(_ => Hook())).Method));
+                () => ((BombComponent)_bombComponent).OnPass = (PassEvent)CreateDelegate(typeof(PassEvent), hook.Target, hook.Method));
         }
 
         /// <summary>
@@ -351,10 +355,12 @@ namespace KeepCoding
                 return false;
             }
 
+            Func<MonoBehaviour, bool> hook = _ => Hook();
+
             OfType(
                 b => b.OnStrike += Hook,
                 n => n.OnStrike += Hook,
-                () => ((BombComponent)_bombComponent).OnStrike += (StrikeEvent)CreateDelegate(typeof(StrikeEvent), Module, ((Func<MonoBehaviour, bool>)(m => Hook())).Method));
+                () => ((BombComponent)_bombComponent).OnStrike += (StrikeEvent)CreateDelegate(typeof(StrikeEvent), hook.Target, hook.Method));
         }
 
         private Action GetStrike() => OfType<Action>(
@@ -370,10 +376,12 @@ namespace KeepCoding
                 return false;
             }
 
+            Func<MonoBehaviour, bool> hook = _ => Hook();
+
             OfType(
                 b => b.OnStrike = () => Hook(),
                 n => n.OnStrike = () => Hook(),
-                () => ((BombComponent)_bombComponent).OnStrike = (StrikeEvent)CreateDelegate(typeof(StrikeEvent), Module, ((Func<MonoBehaviour, bool>)(m => Hook())).Method));
+                () => ((BombComponent)_bombComponent).OnStrike = (StrikeEvent)CreateDelegate(typeof(StrikeEvent), hook.Target, hook.Method));
         }
 
         /// <summary>
