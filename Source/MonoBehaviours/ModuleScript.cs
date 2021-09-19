@@ -359,7 +359,7 @@ namespace KeepCoding
             LogMultiple(logs);
 
             IsSolved = true;
-            Module.Solve.Get();
+            Module.Solve.Get()();
         }
 
         /// <summary>
@@ -376,7 +376,7 @@ namespace KeepCoding
             HasStruck = true;
             _strikes++;
 
-            Module.Strike.Get();
+            Module.Strike.Get()();
         }
 
         /// <summary>
