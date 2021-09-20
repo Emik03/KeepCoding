@@ -84,7 +84,6 @@ namespace KeepCoding.Internal
             Self($"Installing the latest {extension} file...");
 
             WriteAllBytes(SelfPath, web.downloadHandler.data);
-
         }
     }
 }
