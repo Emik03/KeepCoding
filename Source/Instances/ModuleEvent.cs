@@ -6,7 +6,7 @@ using static System.Delegate;
 namespace KeepCoding.Internal
 {
     /// <summary>
-    /// A class that encapsulates an adder, getter, and setter, similar to a property.
+    /// A class that encapsulates an adder, getter, remover, and setter, similar to a property.
     /// </summary>
     /// <typeparam name="T">The type of the inner variable on the getter.</typeparam>
     public sealed class ModuleEvent<T> where T : Delegate
@@ -141,9 +141,6 @@ namespace KeepCoding.Internal
         /// </summary>
         public void Set(T value)
         {
-            if (value is null)
-                return;
-
             _events.Clear();
 
             object method = Create(value);
@@ -179,7 +176,11 @@ namespace KeepCoding.Internal
 
         private object Create(T value)
         {
+            if (value is null)
+                return null;
+
             Delegate dele = _convert is null ? value : _convert(value);
+
             return CreateDelegate(_signature(), dele.Target, dele.Method);
         }
     }
