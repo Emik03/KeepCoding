@@ -29,7 +29,7 @@ Implements [IAwake](IAwake.md 'KeepCoding.IAwake'), [IDump](IDump.md 'KeepCoding
 | [IsVR](ModuleScript.IsVR.md 'KeepCoding.ModuleScript.IsVR') | Determines whether the game is being played with motion virtual reality. In the Editor, it always returns false.<br/> |
 | [LastId](ModuleScript.LastId.md 'KeepCoding.ModuleScript.LastId') | The last Id instantiation for the module of this type.<br/> |
 | [Module](ModuleScript.Module.md 'KeepCoding.ModuleScript.Module') | Contains either [KMBombModule](https://docs.microsoft.com/en-us/dotnet/api/KMBombModule 'KMBombModule') or [KMNeedyModule](https://docs.microsoft.com/en-us/dotnet/api/KMNeedyModule 'KMNeedyModule'), and allows for running commands through context.<br/> |
-| [Modules](ModuleScript.Modules.md 'KeepCoding.ModuleScript.Modules') | Contains every modded module in [Bomb](ModuleScript.Bomb.md 'KeepCoding.ModuleScript.Bomb'), separated by type.<br/> |
+| [Modules](ModuleScript.Modules.md 'KeepCoding.ModuleScript.Modules') | Contains every module in the [KMBomb](https://docs.microsoft.com/en-us/dotnet/api/KMBomb 'KMBomb') that this module is in.<br/> |
 | [RuleSeed](ModuleScript.RuleSeed.md 'KeepCoding.ModuleScript.RuleSeed') | The pseudo-random number generator whose number generations are based on the current Rule Seed.<br/> |
 | [RuleSeedId](ModuleScript.RuleSeedId.md 'KeepCoding.ModuleScript.RuleSeedId') | Gets the rule seed number.<br/> |
 | [Sounds](ModuleScript.Sounds.md 'KeepCoding.ModuleScript.Sounds') | Contains an instance for every [Sound](Sound.md 'KeepCoding.Sound') played by this module using [PlaySound(Transform, bool, Sound[])](ModuleScript.PlaySound.Eo7fMZRxz07dxI+QmUMs9w.md 'KeepCoding.ModuleScript.PlaySound(Transform, bool, KeepCoding.Sound[])') or any of its overloads.<br/> |

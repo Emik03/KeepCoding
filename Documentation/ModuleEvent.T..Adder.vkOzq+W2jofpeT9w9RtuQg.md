@@ -12,4 +12,5 @@ public delegate void ModuleEvent<T>.Adder(object value);
 #### Parameters
 <a name='KeepCoding.Internal.ModuleEvent.T..Adder(object).value'></a>
 `value` [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object')  
+The value to use.
   

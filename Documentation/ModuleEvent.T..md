@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding.Internal](KeepCoding.Internal.md 'KeepCoding.Internal')
 ## ModuleEvent&lt;T&gt; Class
-A class that encapsulates an adder, getter, and setter, similar to a property.  
+A class that encapsulates an adder, getter, remover, and setter, similar to a property.  
 ```csharp
 public sealed class ModuleEvent<T>
     where T : System.Delegate
@@ -16,7 +16,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Constructors | |
 | :--- | :--- |
-| [ModuleEvent(Adder, Getter, Setter, Signature, Remover, Converter)](ModuleEvent.T...ctor.6VuKnSRFrK4e5CwYMwM3lg.md 'KeepCoding.Internal.ModuleEvent&lt;T&gt;.ModuleEvent(KeepCoding.Internal.ModuleEvent&lt;T&gt;.Adder, KeepCoding.Internal.ModuleEvent&lt;T&gt;.Getter, KeepCoding.Internal.ModuleEvent&lt;T&gt;.Setter, KeepCoding.Internal.ModuleEvent&lt;T&gt;.Signature, KeepCoding.Internal.ModuleEvent&lt;T&gt;.Remover, KeepCoding.Internal.ModuleEvent&lt;T&gt;.Converter)') | Creates a [new](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/new 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/new') instance of [ModuleEvent&lt;T&gt;](ModuleEvent.T..md 'KeepCoding.Internal.ModuleEvent&lt;T&gt;') with the underlying type passed in.<br/> |
+| [ModuleEvent(Adder, Getter, Remover, Setter, Signature, Converter)](ModuleEvent.T...ctor.C59AcEbVsTDDWX6NrG0qpg.md 'KeepCoding.Internal.ModuleEvent&lt;T&gt;.ModuleEvent(KeepCoding.Internal.ModuleEvent&lt;T&gt;.Adder, KeepCoding.Internal.ModuleEvent&lt;T&gt;.Getter, KeepCoding.Internal.ModuleEvent&lt;T&gt;.Remover, KeepCoding.Internal.ModuleEvent&lt;T&gt;.Setter, KeepCoding.Internal.ModuleEvent&lt;T&gt;.Signature, KeepCoding.Internal.ModuleEvent&lt;T&gt;.Converter)') | Creates a [new](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/new 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/new') instance of [ModuleEvent&lt;T&gt;](ModuleEvent.T..md 'KeepCoding.Internal.ModuleEvent&lt;T&gt;') with the underlying type passed in.<br/> |
 
 | Methods | |
 | :--- | :--- |

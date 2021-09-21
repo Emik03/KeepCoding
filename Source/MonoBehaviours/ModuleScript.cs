@@ -174,8 +174,11 @@ namespace KeepCoding
         private MonoRandom _ruleSeed;
 
         /// <summary>
-        /// Contains every modded module in <see cref="Bomb"/>, separated by type.
+        /// Contains every module in the <see cref="KMBomb"/> that this module is in.
         /// </summary>
+        /// <remarks>
+        /// This collection also includes vanilla modules, including <see cref="ComponentPool.ComponentTypeEnum.Empty"/> components and <see cref="ComponentPool.ComponentTypeEnum.Timer"/>. You can filter the collection with <see cref="ModuleContainer.IsVanilla"/>, <see cref="ModuleContainer.IsModded"/>, <see cref="ModuleContainer.IsSolvable"/>, or <see cref="ModuleContainer.IsNeedy"/>, <see cref="ModuleContainer.IsEmptyOrTimer"/>, or <see cref="ModuleContainer.IsModule"/>.
+        /// </remarks>
         public ReadOnlyCollection<ModuleContainer> Modules => _modules ??= ModulesOfBomb(Bomb);
         private ReadOnlyCollection<ModuleContainer> _modules;
 
@@ -356,7 +359,7 @@ namespace KeepCoding
                 return;
 
             if (_hasException)
-                AddStrikes(gameObject, -_strikes, false);
+                AddStrikes(Bomb, -_strikes, false);
 
             LogMultiple(logs);
 
@@ -508,6 +511,9 @@ namespace KeepCoding
         /// <summary>
         /// Allows you to get the collection of <see cref="ModuleContainer"/> from a <see cref="KMBomb"/>.
         /// </summary>
+        /// <remarks>
+        /// This collection also includes vanilla modules, including <see cref="ComponentPool.ComponentTypeEnum.Empty"/> components and <see cref="ComponentPool.ComponentTypeEnum.Timer"/>. You can filter the collection with <see cref="ModuleContainer.IsVanilla"/>, <see cref="ModuleContainer.IsModded"/>, <see cref="ModuleContainer.IsSolvable"/>, or <see cref="ModuleContainer.IsNeedy"/>, <see cref="ModuleContainer.IsEmptyOrTimer"/>, or <see cref="ModuleContainer.IsModule"/>.
+        /// </remarks>
         /// <param name="bomb">The instance of <see cref="KMBomb"/> that has modules.</param>
         /// <returns>All modules within <paramref name="bomb"/>.</returns>
         public static ReadOnlyCollection<ModuleContainer> ModulesOfBomb(KMBomb bomb)
@@ -609,7 +615,7 @@ namespace KeepCoding
 
         private void TimerTickInner()
         {
-            var timer = (TimerComponent)Timer(gameObject);
+            var timer = (TimerComponent)Timer(Bomb);
 
             timer.TimerTick += (elapsed, remaining) =>
             {
