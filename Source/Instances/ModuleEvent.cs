@@ -19,11 +19,11 @@ namespace KeepCoding.Internal
 
         private readonly Getter _get;
 
+        private readonly Remover _remove;
+
         private readonly Setter _set;
 
         private readonly Signature _signature;
-
-        private readonly Remover _remove;
 
         /// <summary>
         /// A class that stores a dictionary, restricting what you are able to do.
@@ -72,18 +72,24 @@ namespace KeepCoding.Internal
         /// <param name="signature">The encapsulated method that will get the <see cref="Type"/> of the target.</param>
         /// <param name="remover">The encapsulated method that will remove the value.</param>
         /// <param name="converter">The encapsulated method that changes the value before used in converting types.</param>
-        public ModuleEvent(Adder adder, Getter getter, Setter setter, Signature signature, Remover remover, Converter converter = null)
+        public ModuleEvent(Adder adder, Getter getter, Remover remover, Setter setter, Signature signature, Converter converter = null)
         {
             const string Reason = "Required parameters cannot be null.";
 
             _add = adder.NullCheck(Reason);
             _get = getter.NullCheck(Reason);
+            _remove = remover.NullCheck(Reason);
             _set = setter.NullCheck(Reason);
             _signature = signature.NullCheck(Reason);
-            _remove = remover.NullCheck(Reason);
             _convert = converter;
             _events = new EventDictionary();
         }
+
+        /// <summary>
+        /// Represents an adder operator.
+        /// </summary>
+        /// <param name="value">The value to use.</param>
+        public delegate void Adder(object value);
 
         /// <summary>
         /// Represents the remover operator.
@@ -92,13 +98,9 @@ namespace KeepCoding.Internal
         public delegate void Remover(object value);
 
         /// <summary>
-        /// Represents an adder operator.
-        /// </summary>
-        public delegate void Adder(object value);
-
-        /// <summary>
         /// Represents a setter operator.
         /// </summary>
+        /// <param name="value">The value to use.</param>
         public delegate void Setter(object value);
 
         /// <summary>
@@ -153,7 +155,7 @@ namespace KeepCoding.Internal
         /// <summary>
         /// Gets the value of the inner value.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The returned value of the <see cref="Getter"/>.</returns>
         public T Get() => _get();
 
         /// <summary>

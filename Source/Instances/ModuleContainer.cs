@@ -223,7 +223,7 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="MissingReferenceException"></exception>
         /// <exception cref="ImmutableException"></exception>
-        public ModuleEvent<Action> Activate => _activate ??= new ModuleEvent<Action>(AddActivate, GetActivate, SetActivate, SignatureActivate, RemoveActivate);
+        public ModuleEvent<Action> Activate => _activate ??= new ModuleEvent<Action>(AddActivate, GetActivate, RemoveActivate, SetActivate, SignatureActivate);
         private ModuleEvent<Action> _activate;
 
         private void AddActivate(object value) => OfType(
@@ -256,7 +256,7 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
-        public ModuleEvent<Action> NeedyActivate => _needyActivate ??= new ModuleEvent<Action>(AddNeedyActivate, GetNeedyActivate, SetNeedyActivate, SignatureNeedyActivate, RemoveNeedyActivate);
+        public ModuleEvent<Action> NeedyActivate => _needyActivate ??= new ModuleEvent<Action>(AddNeedyActivate, GetNeedyActivate, RemoveNeedyActivate, SetNeedyActivate, SignatureNeedyActivate);
         private ModuleEvent<Action> _needyActivate;
 
         private void AddNeedyActivate(object value) => OfType(
@@ -289,7 +289,7 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
-        public ModuleEvent<Action> NeedyDeactivate => _needyDeactivate ??= new ModuleEvent<Action>(AddNeedyDeactivate, GetNeedyDeactivate, SetNeedyDeactivate, SignatureNeedyDeactivate, RemoveNeedyDeactivate);
+        public ModuleEvent<Action> NeedyDeactivate => _needyDeactivate ??= new ModuleEvent<Action>(AddNeedyDeactivate, GetNeedyDeactivate, RemoveNeedyDeactivate, SetNeedyDeactivate, SignatureNeedyDeactivate);
         private ModuleEvent<Action> _needyDeactivate;
 
         private void AddNeedyDeactivate(object value) => OfType(
@@ -322,7 +322,7 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
-        public ModuleEvent<Action> NeedyTimerExpired => _needyTimerExpired ??= new ModuleEvent<Action>(AddNeedyTimerExpired, GetNeedyTimerExpired, SetNeedyTimerExpired, SignatureNeedyTimerExpired, RemoveNeedyTimerExpired);
+        public ModuleEvent<Action> NeedyTimerExpired => _needyTimerExpired ??= new ModuleEvent<Action>(AddNeedyTimerExpired, GetNeedyTimerExpired, RemoveNeedyTimerExpired, SetNeedyTimerExpired, SignatureNeedyTimerExpired);
         private ModuleEvent<Action> _needyTimerExpired;
 
         private void AddNeedyTimerExpired(object value) => OfType(
@@ -354,7 +354,7 @@ namespace KeepCoding
         /// Call this when the entire module has been solved.
         /// </summary>
         /// <exception cref="MissingReferenceException"></exception>
-        public ModuleEvent<Action> Solve => _solve ??= new ModuleEvent<Action>(AddSolve, GetSolve, SetSolve, SignatureSolve, RemoveSolve, Converter);
+        public ModuleEvent<Action> Solve => _solve ??= new ModuleEvent<Action>(AddSolve, GetSolve, RemoveSolve, SetSolve, SignatureSolve, Converter);
         private ModuleEvent<Action> _solve;
 
         private void AddSolve(object value) => OfType(
@@ -386,7 +386,7 @@ namespace KeepCoding
         /// Call this on any mistake that you want to cause a bomb strike.
         /// </summary>
         /// <exception cref="MissingReferenceException"></exception>
-        public ModuleEvent<Action> Strike => _strike ??= new ModuleEvent<Action>(AddStrike, GetStrike, SetStrike, SignatureStrike, RemoveStrike, Converter);
+        public ModuleEvent<Action> Strike => _strike ??= new ModuleEvent<Action>(AddStrike, GetStrike, RemoveStrike, SetStrike, SignatureStrike, Converter);
         private ModuleEvent<Action> _strike;
 
         private void AddStrike(object value) => OfType(
@@ -420,7 +420,7 @@ namespace KeepCoding
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
         /// <exception cref="ImmutableException"></exception>
-        public ModuleEvent<Action<float>> NeedyTimerSet => _needyTimerSet ??= new ModuleEvent<Action<float>>(AddNeedyTimerSet, GetNeedyTimerSet, SetNeedyTimerSet, SignatureNeedyTimerSet, RemoveNeedyTimerSet);
+        public ModuleEvent<Action<float>> NeedyTimerSet => _needyTimerSet ??= new ModuleEvent<Action<float>>(AddNeedyTimerSet, GetNeedyTimerSet, RemoveNeedyTimerSet, SetNeedyTimerSet, SignatureNeedyTimerSet);
         private ModuleEvent<Action<float>> _needyTimerSet;
 
         private void AddNeedyTimerSet(object value) => OfType(
@@ -453,7 +453,7 @@ namespace KeepCoding
         /// </summary>
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
-        public ModuleEvent<Func<int>> RuleGeneration => _ruleGeneration ??= new ModuleEvent<Func<int>>(AddRuleGeneration, GetRuleGeneration, SetRuleGeneration, SignatureRuleGeneration, RemoveRuleGeneration);
+        public ModuleEvent<Func<int>> RuleGeneration => _ruleGeneration ??= new ModuleEvent<Func<int>>(AddRuleGeneration, GetRuleGeneration, RemoveRuleGeneration, SetRuleGeneration, SignatureRuleGeneration);
         private ModuleEvent<Func<int>> _ruleGeneration;
 
         private void AddRuleGeneration(object value) => OfType(
@@ -487,7 +487,7 @@ namespace KeepCoding
         /// <exception cref="MissingMethodException"></exception>
         /// <exception cref="MissingReferenceException"></exception>
         /// <exception cref="ImmutableException"></exception>
-        public ModuleEvent<Func<float>> NeedyTimerGet => _needyTimerGet ??= new ModuleEvent<Func<float>>(AddNeedyTimerGet, GetNeedyTimerGet, SetNeedyTimerGet, SignatureNeedyTimerGet, RemoveNeedyTimerGet);
+        public ModuleEvent<Func<float>> NeedyTimerGet => _needyTimerGet ??= new ModuleEvent<Func<float>>(AddNeedyTimerGet, GetNeedyTimerGet, RemoveNeedyTimerGet, SetNeedyTimerGet, SignatureNeedyTimerGet);
         private ModuleEvent<Func<float>> _needyTimerGet;
 
         private void AddNeedyTimerGet(object value) => OfType(
