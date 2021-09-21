@@ -80,7 +80,10 @@ namespace KeepCoding
             /// </remarks>
             /// <exception cref="NotSupportedException"></exception>
             /// <exception cref="UnrecognizedValueException"></exception>
-            public static Func<string, string, bool> IsGroupInfo => (source, sound) => GroupInfo(source, sound) is { };
+            /// <param name="source">The source of the sound, which is typically the assembly name which uses the bundle that contains the sound.</param>
+            /// <param name="sound">The name of the sound.</param>
+            /// <returns><see langword="true"/> if <paramref name="source"/> with <paramref name="sound"/> has a group info, otherwise <see langword="false"/>.</returns>
+            public static bool IsGroupInfo(string source, string sound) => GroupInfo(source, sound) is { };
 
             /// <summary>
             /// Gets the group info of a given string. To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to AudioGroupInfo type to restore its functionality.
@@ -90,17 +93,20 @@ namespace KeepCoding
             /// </remarks>
             /// <exception cref="NotSupportedException"></exception>
             /// <exception cref="UnrecognizedValueException"></exception>
-            public static Func<string, string, object> GroupInfo => Reference switch
+            /// <param name="source">The source of the sound, which is typically the assembly name which uses the bundle that contains the sound.</param>
+            /// <param name="sound">The name of the sound.</param>
+            /// <returns>The <see cref="object"/> which contains the GroupInfo of the desired <paramref name="source"/> and <paramref name="sound"/>, or <see langword="null"/> if no such GroupInfo exists.</returns>
+            public static object GroupInfo(string source, string sound) => Reference switch
             {
-                References.None => (source, sound) => source,
-                References.Ktane => GroupInfoInner,
-                References.KtaneRewritten => GroupInfoRewrittenInner,
+                References.None => source,
+                References.Ktane => GroupInfoInner(source, sound),
+                References.KtaneRewritten => GroupInfoRewrittenInner(source, sound),
                 _ => throw s_badValue
             };
 
-            private static Func<string, string, object> GroupInfoInner => (source, sound) => KTMasterAudio.GetGroupInfo($"{source}_{sound}");
+            private static object GroupInfoInner(string source, string sound) => KTMasterAudio.GetGroupInfo($"{source}_{sound}");
 
-            private static Func<string, string, object> GroupInfoRewrittenInner => RewrittenReferences.GetGroupInfo;
+            private static object GroupInfoRewrittenInner(string source, string sonud) => RewrittenReferences.GetGroupInfo(source, sonud);
         }
 
         /// <summary>
@@ -124,7 +130,7 @@ namespace KeepCoding
                 _ => throw s_badValue
             };
 
-            private static bool IsPacingEventsInner => KTSceneManager.Instance.GameplayState.Mission.PacingEventsEnabled;
+            private static bool IsPacingEventsInner { get => KTSceneManager.Instance.GameplayState.Mission.PacingEventsEnabled; set => KTSceneManager.Instance.GameplayState.Mission.PacingEventsEnabled = value; }
 
             private static bool IsPacingEventsRewrittenInner => RewrittenReferences.IsPacingEventsEnabled;
 
@@ -284,17 +290,18 @@ namespace KeepCoding
             /// </remarks>
             /// <exception cref="NotSupportedException"></exception>
             /// <exception cref="UnrecognizedValueException"></exception>
-            public static Func<List<string>> GetDisabledModPaths => Reference switch
+            /// <returns>A <see cref="List{T}"/> of disabled mod paths.</returns>
+            public static List<string> GetDisabledModPaths() => Reference switch
             {
-                References.None => () => new List<string>(),
-                References.Ktane => GetDisabledModPathsInner,
-                References.KtaneRewritten => GetDisabledModPathsRewrittenInner,
+                References.None => new List<string>(),
+                References.Ktane => GetDisabledModPathsInner(),
+                References.KtaneRewritten => GetDisabledModPathsRewrittenInner(),
                 _ => throw s_badValue
             };
 
-            private static Func<List<string>> GetDisabledModPathsInner => KTModManager.Instance.GetDisabledModPaths;
+            private static List<string> GetDisabledModPathsInner() => KTModManager.Instance.GetDisabledModPaths();
 
-            private static Func<List<string>> GetDisabledModPathsRewrittenInner => RewrittenReferences.GetDisabledModPaths;
+            private static List<string> GetDisabledModPathsRewrittenInner() => RewrittenReferences.GetDisabledModPaths();
 
             /// <summary>
             /// Gets all of the mod paths within the <see cref="ModSourceEnum"/> constraint.
@@ -304,17 +311,19 @@ namespace KeepCoding
             /// </remarks>
             /// <exception cref="NotSupportedException"></exception>
             /// <exception cref="UnrecognizedValueException"></exception>
-            public static Func<ModSourceEnum, List<string>> GetAllModPathsFromSource => Reference switch
+            /// <param name="source">The <see cref="ModSourceEnum"/> source that the mod needs to come from to be included in the <see cref="List{T}"/>.</param>
+            /// <returns>A <see cref="List{T}"/> of all mod paths from a given <see cref="ModSourceEnum"/>.</returns>
+            public static List<string> GetAllModPathsFromSource(ModSourceEnum source) => Reference switch
             {
-                References.None => source => new List<string>(),
-                References.Ktane => GetAllModPathsFromSourceInner,
-                References.KtaneRewritten => GetAllModPathsFromSourceRewrittenInner,
+                References.None => new List<string>(),
+                References.Ktane => GetAllModPathsFromSourceInner(source),
+                References.KtaneRewritten => GetAllModPathsFromSourceRewrittenInner(source),
                 _ => throw s_badValue
             };
 
-            private static Func<ModSourceEnum, List<string>> GetAllModPathsFromSourceInner => source => KTModManager.Instance.GetAllModPathsFromSource((KTModSourceEnum)source);
+            private static List<string> GetAllModPathsFromSourceInner(ModSourceEnum source) => KTModManager.Instance.GetAllModPathsFromSource((KTModSourceEnum)source);
 
-            private static Func<ModSourceEnum, List<string>> GetAllModPathsFromSourceRewrittenInner => source => RewrittenReferences.GetAllModPathsFromSource((Rewritten.ModSourceEnum)source);
+            private static List<string> GetAllModPathsFromSourceRewrittenInner(ModSourceEnum source) => RewrittenReferences.GetAllModPathsFromSource((Rewritten.ModSourceEnum)source);
 
             /// <summary>
             /// Gets all of the enabled mod paths within the <see cref="ModSourceEnum"/> constraint.
@@ -324,17 +333,19 @@ namespace KeepCoding
             /// </remarks>
             /// <exception cref="NotSupportedException"></exception>
             /// <exception cref="UnrecognizedValueException"></exception>
-            public static Func<ModSourceEnum, List<string>> GetEnabledModPaths => Reference switch
+            /// <param name="source">The <see cref="ModSourceEnum"/> source that the mod needs to come from to be included in the <see cref="List{T}"/>.</param>
+            /// <returns>A <see cref="List{T}"/> of all enabled mod paths from a given <see cref="ModSourceEnum"/>.</returns>
+            public static List<string> GetEnabledModPaths(ModSourceEnum source) => Reference switch
             {
-                References.None => source => new List<string>(),
-                References.Ktane => GetEnabledModPathsInner,
-                References.KtaneRewritten => GetEnabledModPathsRewrittenInner,
+                References.None => new List<string>(),
+                References.Ktane => GetEnabledModPathsInner(source),
+                References.KtaneRewritten => GetEnabledModPathsRewrittenInner(source),
                 _ => throw s_badValue
             };
 
-            private static Func<ModSourceEnum, List<string>> GetEnabledModPathsInner => source => KTModManager.Instance.GetEnabledModPaths((KTModSourceEnum)source);
+            private static List<string> GetEnabledModPathsInner(ModSourceEnum source) => KTModManager.Instance.GetEnabledModPaths((KTModSourceEnum)source);
 
-            private static Func<ModSourceEnum, List<string>> GetEnabledModPathsRewrittenInner => source => RewrittenReferences.GetEnabledModPaths((Rewritten.ModSourceEnum)source);
+            private static List<string> GetEnabledModPathsRewrittenInner(ModSourceEnum source) => RewrittenReferences.GetEnabledModPaths((Rewritten.ModSourceEnum)source);
         }
 
         /// <summary>
@@ -744,63 +755,90 @@ namespace KeepCoding
         internal static bool IsKtane => Reference is References.Ktane;
 
         /// <summary>
-        /// Adds an amount of strikes on the bomb.
+        /// Adds an amount of strikes on the bomb, and returns the bomb object used, or <see langword="null"/>.
         /// </summary>
         /// <remarks>
         /// Default: Internal Logger method call.
         /// </remarks>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
+        /// <param name="bomb">The <see cref="KMBomb"/> component which is attached to the inner Bomb component.</param>
+        /// <param name="strikeDelta">The amount of strikes to add.</param>
+        /// <param name="allowExplosion">Whether it should check whether the bomb should explode from strikes.</param>
+        /// <returns>The bomb <see cref="object"/> of the bomb used to assign strikes.</returns>
         [CLSCompliant(false)]
-        public static Action<GameObject, int, bool> AddStrikes => Reference switch
+        public static object AddStrikes(KMBomb bomb, int strikeDelta, bool allowExplosion) => Reference switch
         {
-            References.None => (gameObject, amount, checkIfExploded) => Self($"Adding the bomb's strike count with {amount}."),
-            References.Ktane => AddStrikesInner,
-            References.KtaneRewritten => AddStrikesRewrittenInner,
+            References.None => AddStrikesDefault(bomb, strikeDelta),
+            References.Ktane => AddStrikesInner(bomb, strikeDelta, allowExplosion),
+            References.KtaneRewritten => AddStrikesRewrittenInner(bomb, strikeDelta, allowExplosion),
             _ => throw s_badValue
         };
 
-        private static Action<GameObject, int, bool> AddStrikesInner => (gameObject, amount, checkIfExploded) =>
+        private static object AddStrikesDefault(KMBomb bomb, int strikeDelta)
         {
-            var bomb = (Bomb)Bomb(gameObject);
-            StrikesInner(bomb, bomb.NumStrikes + amount, checkIfExploded);
-        };
+            Self($"Adding the bomb's strike count with {strikeDelta}.");
+            return bomb;
+        }
 
-        private static Action<GameObject, int, bool> AddStrikesRewrittenInner => RewrittenReferences.AddStrikes;
+        private static object AddStrikesInner(KMBomb bomb, int strikeDelta, bool allowExplosion)
+        {
+            var inner = (Bomb)(object)bomb.GetComponent(typeof(Bomb));
+            StrikesInner(inner, inner.NumStrikes + strikeDelta, allowExplosion);
+            return inner;
+        }
+
+        private static object AddStrikesRewrittenInner(KMBomb bomb, int strikeDelta, bool allowExplosion)
+        {
+            RewrittenReferences.AddStrikes(bomb, strikeDelta, allowExplosion);
+            return BombRewrittenInner(bomb);
+        }
 
         /// <summary>
-        /// Sets an amount of strikes on the bomb.
+        /// Sets the amount of strikes on the bomb, and returns the bomb object used, or <see langword="null"/>.
         /// </summary>
         /// <remarks>
         /// Default: Internal Logger method call.
         /// </remarks>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
+        /// <param name="bomb">The <see cref="KMBomb"/> component which is attached to the inner Bomb component.</param>
+        /// <param name="newStrikes">The strikes to set.</param>
+        /// <param name="allowExplosion">Whether it should check whether the bomb should explode from strikes.</param>
+        /// <returns>The bomb <see cref="object"/> of the bomb used to assign strikes.</returns>
         [CLSCompliant(false)]
-        public static Action<GameObject, int, bool> SetStrikes => Reference switch
+        public static object SetStrikes(KMBomb bomb, int newStrikes, bool allowExplosion) => Reference switch
         {
-            References.None => (gameObject, amount, checkIfExploded) => Self($"Setting the bomb's strike count to {amount}."),
-            References.Ktane => SetStrikesInner,
-            References.KtaneRewritten => SetStrikesRewrittenInner,
+            References.None => SetStrikesDefault(bomb, newStrikes),
+            References.Ktane => SetStrikesInner(bomb, newStrikes, allowExplosion),
+            References.KtaneRewritten => SetStrikesRewrittenInner(bomb, newStrikes, allowExplosion),
             _ => throw s_badValue
         };
 
-        private static Action<GameObject, int, bool> SetStrikesInner => (gameObject, amount, checkIfExploded) =>
+        private static object SetStrikesDefault(KMBomb bomb, int newStrikes)
         {
-            var bomb = (Bomb)Bomb(gameObject);
-            StrikesInner(bomb, amount, checkIfExploded);
-        };
+            Self($"Setting the bomb's strike count to {newStrikes}.");
+            return bomb;
+        }
 
-        private static Action<GameObject, int, bool> SetStrikesRewrittenInner => RewrittenReferences.SetStrikes;
+        private static object SetStrikesInner(KMBomb bomb, int strikeCount, bool allowExplosion) => StrikesInner(BombInner(bomb), strikeCount, allowExplosion);
 
-        private static Action<object, int, bool> StrikesInner => (obj, amount, checkIfExploded) =>
+        private static object SetStrikesRewrittenInner(KMBomb bomb, int strikeCount, bool allowExplosion)
         {
-            var bomb = (Bomb)obj;
-            bomb.StrikeIndicator.StrikeCount = bomb.NumStrikes = amount;
+            RewrittenReferences.SetStrikes(bomb, strikeCount, allowExplosion);
+            return RewrittenReferences.GetBomb(bomb.gameObject);
+        }
 
-            if (checkIfExploded && bomb.NumStrikes >= bomb.NumStrikesToLose)
-                bomb.Detonate();
-        };
+        private static object StrikesInner(object bomb, int newStrikes, bool allowExplosion)
+        {
+            var inner = (Bomb)bomb;
+            inner.StrikeIndicator.StrikeCount = inner.NumStrikes = newStrikes;
+
+            if (allowExplosion && inner.NumStrikes >= inner.NumStrikesToLose)
+                inner.Detonate();
+
+            return bomb;
+        }
 
         /// <summary>
         /// Gets the game's internal bomb component, not to be mistaken with <see cref="KMBomb"/>. To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to Bomb or <see cref="MonoBehaviour"/> type to restore its functionality.
@@ -810,18 +848,20 @@ namespace KeepCoding
         /// </remarks>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
+        /// <param name="bomb">The <see cref="KMBomb"/> instance that is on the same <see cref="GameObject"/> as the Bomb component.</param>
+        /// <returns>The internal Bomb <see cref="Component"/> that the game uses.</returns>
         [CLSCompliant(false)]
-        public static Func<GameObject, object> Bomb => Reference switch
+        public static object Bomb(KMBomb bomb) => Reference switch
         {
-            References.None => gameObject => gameObject,
-            References.Ktane => BombInner,
-            References.KtaneRewritten => BombRewrittenInner,
+            References.None => bomb,
+            References.Ktane => BombInner(bomb),
+            References.KtaneRewritten => BombRewrittenInner(bomb),
             _ => throw s_badValue
         };
 
-        private static Func<GameObject, object> BombInner => gameObject => gameObject.GetComponentInParent(typeof(Bomb));
+        private static object BombInner(KMBomb bomb) => bomb.GetComponent(typeof(Bomb));
 
-        private static Func<GameObject, object> BombRewrittenInner => RewrittenReferences.GetBomb;
+        private static object BombRewrittenInner(KMBomb bomb) => RewrittenReferences.GetBomb(bomb.gameObject);
 
         /// <summary>
         /// Gets the game's internal timer component. To prevent a reference to the game, the type is boxed in <see cref="object"/>. You can cast it to TimerComponent or <see cref="MonoBehaviour"/> type to restore its functionality.
@@ -831,18 +871,20 @@ namespace KeepCoding
         /// </remarks>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
+        /// <param name="bomb">The <see cref="KMBomb"/> instance that is on the same <see cref="GameObject"/> as the Bomb component, which is needed to access the Timer component.</param>
+        /// <returns>The internal Timer <see cref="Component"/> that the game uses.</returns>
         [CLSCompliant(false)]
-        public static Func<GameObject, object> Timer => Reference switch
+        public static object Timer(KMBomb bomb) => Reference switch
         {
-            References.None => gameObject => gameObject,
-            References.Ktane => TimerInner,
-            References.KtaneRewritten => TimerRewrittenInner,
+            References.None => bomb,
+            References.Ktane => TimerInner(bomb),
+            References.KtaneRewritten => TimerRewrittenInner(bomb),
             _ => throw s_badValue
         };
 
-        private static Func<GameObject, object> TimerInner => gameObject => ((Bomb)Bomb(gameObject)).GetTimer();
+        private static object TimerInner(KMBomb bomb) => ((Bomb)BombInner(bomb)).GetTimer();
 
-        private static Func<GameObject, object> TimerRewrittenInner => RewrittenReferences.GetTimer;
+        private static object TimerRewrittenInner(KMBomb bomb) => RewrittenReferences.GetTimer(bomb.gameObject);
 
         /// <summary>
         /// Gets all of the vanilla modules from the bomb supplied, including needies. To prevent a reference to the game, the type is boxed in an <see cref="object"/> <see cref="Array"/>. You can cast it to BombComponent type to restore its functionality.
@@ -852,21 +894,24 @@ namespace KeepCoding
         /// </remarks>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
+        /// <param name="bomb">The <see cref="KMBomb"/> instance that is the parent <see cref="GameObject"/> to all vanilla modules.</param>
+        /// <returns>All vanilla modules on the current <paramref name="bomb"/>.</returns>
         [CLSCompliant(false)]
-        public static Func<KMBomb, object[]> Vanillas => Reference switch
+        public static object[] Vanillas(KMBomb bomb) => Reference switch
         {
-            References.None => gameObject => new object[0],
-            References.Ktane => VanillasInner,
-            References.KtaneRewritten => VanillasRewrittenInner,
+            References.None => new object[0],
+            References.Ktane => VanillasInner(bomb),
+            References.KtaneRewritten => VanillasRewrittenInner(bomb),
             _ => throw s_badValue
         };
 
-        private static Func<KMBomb, object[]> VanillasInner => bomb => bomb.GetComponentsInChildren(typeof(BombComponent))
+        private static object[] VanillasInner(KMBomb bomb) => bomb
+            .GetComponentsInChildren(typeof(BombComponent))
             .Where(c => !(c.GetComponent<KMBombModule>() || c.GetComponent<KMNeedyModule>()))
             .Cast<object>()
             .ToArray();
 
-        private static Func<KMBomb, object[]> VanillasRewrittenInner => RewrittenReferences.GetVanillas;
+        private static object[] VanillasRewrittenInner(KMBomb bomb) => RewrittenReferences.GetVanillas(bomb);
 
         /// <summary>
         /// Determines what reference this library should use for the current class. This value can only be modified by the libraries featured in <see cref="References"/>, a <see cref="SecurityException"/> is thrown when this is attempted regardless.
