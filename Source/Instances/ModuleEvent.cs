@@ -38,6 +38,13 @@ namespace KeepCoding.Internal
             public EventDictionary() => _dictionary = new Dictionary<T, object>();
 
             /// <summary>
+            /// Adds a key with a value to the dictionary.
+            /// </summary>
+            /// <param name="key">The key to add.</param>
+            /// <param name="value">The value to add.</param>
+            public void Add(T key, object value) => _dictionary.Add(key, value);
+
+            /// <summary>
             /// Clears the dictionary.
             /// </summary>
             public void Clear() => _dictionary.Clear();
@@ -54,13 +61,6 @@ namespace KeepCoding.Internal
             /// </summary>
             /// <param name="key">The key to use.</param>
             public void Remove(T key) => _dictionary.Remove(key);
-
-            /// <summary>
-            /// Adds a key with a value to the dictionary.
-            /// </summary>
-            /// <param name="key">The key to add.</param>
-            /// <param name="value">The value to add.</param>
-            public void Add(T key, object value) => _dictionary.Add(key, value);
         }
 
         /// <summary>
