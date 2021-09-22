@@ -3,7 +3,7 @@
 ## Helper.NullCheck&lt;T&gt;(T, string) Method
 Throws a [System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException') or [NullIteratorException](NullIteratorException.md 'KeepCoding.Internal.NullIteratorException') if the parameter provided is null.  
 ```csharp
-public static T NullCheck<T>(this T item, string message="While asserting for null, the variable ended up null.");
+internal static T NullCheck<T>(this T item, string message="While asserting for null, the variable ended up null.");
 ```
 #### Type parameters
 <a name='KeepCoding.Helper.NullCheck.T.(T.string).T'></a>

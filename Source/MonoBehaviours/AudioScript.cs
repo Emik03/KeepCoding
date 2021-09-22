@@ -83,7 +83,7 @@ namespace KeepCoding
             _previous = StartCoroutine(TweenFade(volume, time));
         }
 
-#if !SIMPLIFIED
+#if !LITE
         /// <summary>
         /// Called when the module instantiates, well before the lights turn on.
         /// </summary>
@@ -190,7 +190,7 @@ namespace KeepCoding
             AudioSource.playOnAwake = false;
             AudioSource.volume = 0;
 
-#if !SIMPLIFIED
+#if !LITE
             OnAwake();
 #endif
         }
@@ -199,13 +199,13 @@ namespace KeepCoding
         /// Updates the volume of <see cref="AudioSource"/>. If you declare this method yourself, make sure to call <c>base.Update()</c> to ensure that this component retains functionality, or use <see cref="OnUpdate"/> instead.
         /// </summary>
         public void Update()
-#if SIMPLIFIED
+#if LITE
             =>
 #else
         {
 #endif
             AudioSource.volume = Relative;
-#if !SIMPLIFIED
+#if !LITE
             OnUpdate();
         }
 #endif

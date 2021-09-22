@@ -9,6 +9,7 @@ public class KeepCodingException : System.Exception
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; [System.Exception](https://docs.microsoft.com/en-us/dotnet/api/System.Exception 'System.Exception') &#129106; KeepCodingException  
 
 Derived  
+&#8627; [AssertionException](AssertionException.md 'KeepCoding.Internal.AssertionException')  
 &#8627; [ConstructorArgumentException](ConstructorArgumentException.md 'KeepCoding.Internal.ConstructorArgumentException')  
 &#8627; [EmptyIteratorException](EmptyIteratorException.md 'KeepCoding.Internal.EmptyIteratorException')  
 &#8627; [ImmutableException](ImmutableException.md 'KeepCoding.Internal.ImmutableException')  

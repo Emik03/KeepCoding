@@ -3,7 +3,7 @@
 ## Helper.BaseToLong(string, string) Method
 Converts any base number to base-10.  
 ```csharp
-public static long BaseToLong(this string value, string baseChars="01");
+public static long BaseToLong(this string value, string baseChars);
 ```
 #### Parameters
 <a name='KeepCoding.Helper.BaseToLong(string.string).value'></a>

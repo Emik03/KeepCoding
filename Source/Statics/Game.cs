@@ -277,7 +277,7 @@ namespace KeepCoding
             }
         }
 
-#if !SIMPLIFIED
+#if !LITE
         /// <summary>
         /// Allows access to methods relating mod paths.
         /// </summary>

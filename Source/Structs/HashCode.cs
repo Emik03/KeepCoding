@@ -1,4 +1,4 @@
-﻿#if !SIMPLIFIED
+﻿#if !LITE
 /*
 
 The xxHash32 implementation is based on the code published by Yann Collet:

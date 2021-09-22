@@ -80,7 +80,7 @@ namespace KeepCoding
         {
             if (!bypassCheck && (bool)solvable == needy)
                 throw new
-#if SIMPLIFIED
+#if LITE
                     KeepCodingException(
 #else
                     ConstructorArgumentException(

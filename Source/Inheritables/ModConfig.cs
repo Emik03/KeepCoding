@@ -86,7 +86,7 @@ namespace KeepCoding
         /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
         public void Log<T>(T message, params object[] args) => _logger.Log(message, args);
 
-#if !SIMPLIFIED
+#if !LITE
         /// <summary>
         /// Logs multiple entries to the console.
         /// </summary>

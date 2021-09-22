@@ -16,7 +16,7 @@ namespace KeepCoding
     /// </summary>
     public static class TypeHelper
     {
-#if !SIMPLIFIED
+#if !LITE
         /// <summary>
         /// Checks if both colors have the same RGBA values.
         /// </summary>
@@ -780,14 +780,14 @@ namespace KeepCoding
         /// </summary>
         /// <param name="s">The string to convert to a version.</param>
         /// <returns>A new <see cref="Version"/> representing the input <paramref name="s"/>.</returns>
-#if SIMPLIFIED
+#if LITE
         internal
 #else
         public
 #endif
             static Version ToVersion(this string s) => new Version(s + (s.Split('.').Length == 1 ? ".0" : ""));
 
-#if !SIMPLIFIED
+#if !LITE
         /// <summary>
         /// Converts argument to a new <see cref="Work"/>
         /// </summary>

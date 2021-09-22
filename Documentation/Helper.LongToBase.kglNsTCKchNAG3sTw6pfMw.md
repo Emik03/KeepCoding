@@ -3,7 +3,7 @@
 ## Helper.LongToBase(long, string) Method
 Converts any base-10 number to any base.  
 ```csharp
-public static string LongToBase(this long value, string baseChars="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
+public static string LongToBase(this long value, string baseChars);
 ```
 #### Parameters
 <a name='KeepCoding.Helper.LongToBase(long.string).value'></a>

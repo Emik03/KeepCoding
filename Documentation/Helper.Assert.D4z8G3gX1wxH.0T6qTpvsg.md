@@ -22,4 +22,4 @@ The message of the exception.
   
 #### Returns
 [T](Helper.Assert.D4z8G3gX1wxH.0T6qTpvsg.md#KeepCoding.Helper.Assert.T.(T.string).T 'KeepCoding.Helper.Assert&lt;T&gt;(T, string).T')  
-The component [obj](Helper.Assert.D4z8G3gX1wxH.0T6qTpvsg.md#KeepCoding.Helper.Assert.T.(T.string).obj 'KeepCoding.Helper.Assert&lt;T&gt;(T, string).obj').
+[obj](Helper.Assert.D4z8G3gX1wxH.0T6qTpvsg.md#KeepCoding.Helper.Assert.T.(T.string).obj 'KeepCoding.Helper.Assert&lt;T&gt;(T, string).obj')

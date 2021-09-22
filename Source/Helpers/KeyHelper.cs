@@ -12,7 +12,7 @@ namespace KeepCoding
     /// </summary>
     public static class KeyHelper
     {
-#if !SIMPLIFIED
+#if !LITE
         /// <summary>
         /// The <see langword="as"/> operator explicitly converts the result of an expression to a given reference or nullable value type. If the conversion is not possible, the <see langword="as"/> operator returns <see langword="null"/>. Unlike a cast expression, the <see langword="as"/> operator never throws an exception.
         /// </summary>
@@ -321,7 +321,7 @@ namespace KeepCoding
             }
         };
 
-#if !SIMPLIFIED
+#if !LITE
         /// <summary>
         /// The <see langword="checked"/> keyword is used to explicitly enable overflow checking for integral-type arithmetic operations and conversions.
         /// </summary>
@@ -672,7 +672,7 @@ namespace KeepCoding
             return iterator;
         }
 
-#if !SIMPLIFIED
+#if !LITE
         /// <summary>
         /// An <see langword="if"/> statement identifies which statement to run based on the value of a Boolean expression.
         /// </summary>

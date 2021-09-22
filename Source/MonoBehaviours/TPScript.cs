@@ -275,7 +275,7 @@ namespace KeepCoding
         /// <returns>A formatted string for Twitch Plays.</returns>
         protected static string AwardPointsOnSolve(int points) => Combine("awardpointsonsolve", points);
 
-#if !SIMPLIFIED
+#if !LITE
         /// <summary>
         /// Works as a ternary operator. Returns <paramref name="then"/> if <paramref name="condition"/> is <see langword="true"/>, otherwise <paramref name="otherwise"/>.
         /// </summary>

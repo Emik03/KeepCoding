@@ -89,7 +89,7 @@ namespace KeepCoding
             Self($"The library has been copied over. They are now ready to be referenced.");
         }
 
-#if !SIMPLIFIED
+#if !LITE
         /// <summary>
         /// Prints a hierarchy of all game objects.
         /// </summary>
@@ -121,7 +121,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="paths">The paths to combine with.</param>
         /// <returns>A single path consisting of the combined path of the array.</returns>
-#if SIMPLIFIED
+#if LITE
         internal
 #else
         public
@@ -290,7 +290,7 @@ namespace KeepCoding
             return info;
         }
 
-#if !SIMPLIFIED
+#if !LITE
         /// <summary>
         /// Retrieves assets of a specific type from a different bundle file.
         /// </summary>

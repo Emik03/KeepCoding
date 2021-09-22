@@ -1,4 +1,4 @@
-﻿#if !SIMPLIFIED
+﻿#if !LITE
 using System;
 using System.Diagnostics;
 using UnityEngine;

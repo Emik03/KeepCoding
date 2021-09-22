@@ -15,7 +15,7 @@ namespace KeepCoding
     /// A class to allow logging with a specific format.
     /// </summary>
     public sealed class Logger :
-#if !SIMPLIFIED
+#if !LITE
         IDump,
 #endif
         ILog
@@ -69,7 +69,7 @@ namespace KeepCoding
         /// </summary>
         public string Name { get; }
 
-#if !SIMPLIFIED
+#if !LITE
         private const string VariableTemplate = "\n\n[{0}] {1}\n({2})\n{3}";
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace KeepCoding
         /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
         public void Log<T>(T message, params object[] args) => Log(Format(message.Combine(), ConvertAll(args, a => a.Combine())));
 
-#if !SIMPLIFIED
+#if !LITE
         /// <summary>
         /// Logs multiple entries to the console.
         /// </summary>

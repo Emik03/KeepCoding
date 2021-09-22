@@ -8,6 +8,7 @@
 	<Description>KeepCoding is a C# class library by Emik (https://github.com/Emik03) meant to help speed up the process of scripting Keep Talking and Nobody Explodes modules by giving better alternatives to common commands, and automating things universal to module-creation. (such as moduleIds, or logging)</Description>
 	<DefaultDocumentationFileNameMode>NameAndMd5Mix</DefaultDocumentationFileNameMode>
 	<DefaultDocumentationInvalidCharReplacement>.</DefaultDocumentationInvalidCharReplacement>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	<PackageReleaseNotes></PackageReleaseNotes>
 	<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 	<PackageProjectUrl>https://github.com/Emik03/KeepCoding</PackageProjectUrl>
@@ -17,9 +18,9 @@
 	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	<Copyright>Emik</Copyright>
 	<RunPostBuildEvent>Always</RunPostBuildEvent>
-	<AssemblyVersion>10.1</AssemblyVersion>
-	<FileVersion>10.1</FileVersion>
-	<Version>10.1</Version>
+	<AssemblyVersion></AssemblyVersion>
+	<FileVersion></FileVersion>
+	<Version></Version>
 	<PackageId>KeepCoding</PackageId>
 	<SignAssembly>true</SignAssembly>
 	<DelaySign>false</DelaySign>
@@ -27,12 +28,14 @@
 	<PackageTags>helper;library;extension;dll;unity;extensions;ktane;keeptalking;ktane-mods;modkit;keeptalkingandnobodyexplodes</PackageTags>
 	<EnableNETAnalyzers>true</EnableNETAnalyzers>
 	<AnalysisLevel>preview</AnalysisLevel>
+	<Configurations>Debug;Release;Lite</Configurations>
   </PropertyGroup>
 
   <PropertyGroup>
     <GameFolder Condition="'$(GameFolder)' == ''">D:\Steam\steamapps\common\Keep Talking and Nobody Explodes\</GameFolder>
     <Unity Condition="'$(Unity)' == ''">C:\Program Files\Editor\</Unity>
     <Nullable>warnings</Nullable>
+    <Company>Emik</Company>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -43,6 +46,12 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>Documentation\KeepCoding.xml</DocumentationFile>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <NoWarn>1701;1702;8002</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Lite|AnyCPU'">
     <DocumentationFile>Documentation\KeepCoding.xml</DocumentationFile>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <NoWarn>1701;1702;8002</NoWarn>

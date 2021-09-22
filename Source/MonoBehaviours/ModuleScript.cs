@@ -28,7 +28,7 @@ namespace KeepCoding
     /// </summary>
     [CLSCompliant(false)]
     public abstract class ModuleScript : CacheableBehaviour, IAwake,
-#if !SIMPLIFIED
+#if !LITE
         IDump,
 #endif
         ILog
@@ -44,7 +44,7 @@ namespace KeepCoding
 
         private int _strikes;
 
-#if !SIMPLIFIED
+#if !LITE
         private static readonly Dictionary<string, Dictionary<string, object>[]> s_database = new Dictionary<string, Dictionary<string, object>[]>();
 #endif
 
@@ -79,7 +79,7 @@ namespace KeepCoding
         /// </summary>
         public static bool IsEditor => isEditor;
 
-#if !SIMPLIFIED
+#if !LITE
         /// <summary>
         /// Determines whether this module is the last instantiated instance.
         /// </summary>
@@ -267,7 +267,7 @@ namespace KeepCoding
             PlaySound(selectable.transform, sounds);
         }
 
-#if !SIMPLIFIED
+#if !LITE
         /// <summary>
         /// Dumps all information that it can find of the type using reflection. This should only be used to debug.
         /// </summary>
@@ -305,7 +305,7 @@ namespace KeepCoding
         /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
         public void Log<T>(T message, params object[] args) => Logger.Log(message, args);
 
-#if !SIMPLIFIED
+#if !LITE
         /// <summary>
         /// Logs multiple entries to the console.
         /// </summary>
@@ -396,7 +396,7 @@ namespace KeepCoding
             Module.Strike.Get()();
         }
 
-#if !SIMPLIFIED
+#if !LITE
         /// <summary>
         /// Sends information to a static variable such that other modules can access it.
         /// </summary>
@@ -554,7 +554,7 @@ namespace KeepCoding
             return modules;
         }
 
-#if !SIMPLIFIED
+#if !LITE
         /// <summary>
         /// Allows you to read a module's data that uses <see cref="Write{T}(string, T)"/>, even from a different assembly.
         /// </summary>
@@ -583,7 +583,7 @@ namespace KeepCoding
         {
             logMessageReceived += OnException;
 
-#if !SIMPLIFIED
+#if !LITE
             s_database.Clear();
 #endif
 
@@ -591,7 +591,7 @@ namespace KeepCoding
             Log($"Version: [{Version}]");
 
             Assign();
-#if !SIMPLIFIED
+#if !LITE
             OnAwake();
 #endif
 

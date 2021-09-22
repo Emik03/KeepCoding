@@ -3,7 +3,7 @@
 ## Helper.Base(string, string, string) Method
 Converts any base number to any base.  
 ```csharp
-public static string Base(this string value, string fromBaseChars="01", string toBaseChars="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
+public static string Base(this string value, string fromBaseChars, string toBaseChars);
 ```
 #### Parameters
 <a name='KeepCoding.Helper.Base(string.string.string).value'></a>

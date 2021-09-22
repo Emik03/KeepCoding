@@ -3,6 +3,7 @@
 
 | Classes | |
 | :--- | :--- |
+| [AssertionException](AssertionException.md 'KeepCoding.Internal.AssertionException') | An exception thrown when an assertion fails.<br/> |
 | [ConstructorArgumentException](ConstructorArgumentException.md 'KeepCoding.Internal.ConstructorArgumentException') | An exception thrown when the constructor throws an exception due to a bad argument.<br/> |
 | [EmptyIteratorException](EmptyIteratorException.md 'KeepCoding.Internal.EmptyIteratorException') | An exception thrown when the iterator is empty.<br/> |
 | [ImmutableException](ImmutableException.md 'KeepCoding.Internal.ImmutableException') | An exception thrown when a mutable action is performed on an immutable member.<br/> |

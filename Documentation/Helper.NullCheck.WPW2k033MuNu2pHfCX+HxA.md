@@ -3,7 +3,7 @@
 ## Helper.NullCheck&lt;T&gt;(Nullable&lt;T&gt;, string) Method
 Throws a [System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException') or [NullIteratorException](NullIteratorException.md 'KeepCoding.Internal.NullIteratorException') if the parameter provided is null.  
 ```csharp
-public static T NullCheck<T>(this System.Nullable<T> item, string message="While asserting for null, the variable ended up null.")
+internal static T NullCheck<T>(this System.Nullable<T> item, string message="While asserting for null, the variable ended up null.")
     where T : struct;
 ```
 #### Type parameters

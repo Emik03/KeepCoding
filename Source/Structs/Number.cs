@@ -1,4 +1,4 @@
-﻿#if !SIMPLIFIED
+﻿#if !LITE
 using System;
 using System.Globalization;
 using KeepCoding.Internal;

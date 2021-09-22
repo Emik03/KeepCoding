@@ -1,4 +1,4 @@
-﻿#if !SIMPLIFIED
+﻿#if !LITE
 namespace KeepCoding
 {
     /// <summary>

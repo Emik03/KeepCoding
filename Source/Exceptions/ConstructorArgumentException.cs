@@ -1,4 +1,4 @@
-﻿#if !SIMPLIFIED
+﻿#if !LITE
 using System;
 
 namespace KeepCoding.Internal

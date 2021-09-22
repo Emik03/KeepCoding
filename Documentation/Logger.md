@@ -27,8 +27,10 @@ Implements [IDump](IDump.md 'KeepCoding.IDump'), [ILog](ILog.md 'KeepCoding.ILog
 | [Dump&lt;T&gt;(T, bool)](Logger.Dump.sOqEkA.6mI90Sls4.uLMZg.md 'KeepCoding.Logger.Dump&lt;T&gt;(T, bool)') | Dumps all information that it can find of the type using reflection. This should only be used to debug.<br/> |
 | [Dump(bool, Expression&lt;Func&lt;object&gt;&gt;[])](Logger.Dump.x+v7FKpxDQQ+5kiNy6jniw.md 'KeepCoding.Logger.Dump(bool, System.Linq.Expressions.Expression&lt;System.Func&lt;object&gt;&gt;[])') | Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.<br/> |
 | [Dump(Expression&lt;Func&lt;object&gt;&gt;[])](Logger.Dump.wYXyhtR7mHSW0mWETmEoGw.md 'KeepCoding.Logger.Dump(System.Linq.Expressions.Expression&lt;System.Func&lt;object&gt;&gt;[])') | Dumps all information about the variables specified. Each element uses the syntax () => varName. This should only be used to debug.<br/> |
+| [Equals(Logger)](Logger.Equals.twyZclKUD90PlafnC.aCgw.md 'KeepCoding.Logger.Equals(KeepCoding.Logger)') | Determines if both [Logger](Logger.md 'KeepCoding.Logger') instances are equal.<br/> |
 | [Equals(object)](Logger.Equals.DVZE2diCamO9YgzkrYBlUQ.md 'KeepCoding.Logger.Equals(object)') | Determines if both objects are equal.<br/> |
 | [GetHashCode()](Logger.GetHashCode().md 'KeepCoding.Logger.GetHashCode()') | Gets the hash code of the object.<br/> |
 | [Log&lt;T&gt;(T, LogType)](Logger.Log.Wz0d+VHTw6EG8JBAiCT3cw.md 'KeepCoding.Logger.Log&lt;T&gt;(T, LogType)') | Logs message, but formats it to be compliant with the Logfile Analyzer.<br/> |
 | [Log&lt;T&gt;(T, object[])](Logger.Log.VQRwxNpiXEL9B9w1CEt5IA.md 'KeepCoding.Logger.Log&lt;T&gt;(T, object[])') | Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.<br/> |
 | [LogMultiple(string[])](Logger.LogMultiple.0zg.BZiTCVeOMMe+ofo+QA.md 'KeepCoding.Logger.LogMultiple(string[])') | Logs multiple entries to the console.<br/> |
+| [ToString()](Logger.ToString().md 'KeepCoding.Logger.ToString()') | A string representation of this [Logger](Logger.md 'KeepCoding.Logger') instance.<br/> |
