@@ -45,11 +45,6 @@ namespace KeepCoding
         private static readonly Dictionary<string, ModInfo> s_modInfos = new Dictionary<string, ModInfo>();
 
         /// <summary>
-        /// Gets this library's <see cref="AssemblyName"/>.
-        /// </summary>
-        public static AssemblyName AssemblyName { get; } = GetExecutingAssembly().GetName();
-
-        /// <summary>
         /// Gets this library's version number. Currently used by <see cref="ModuleScript"/> to log the version number of this library.
         /// </summary>
         /// <remarks>
@@ -58,6 +53,8 @@ namespace KeepCoding
         public static Version Version => AssemblyName.Version;
 
         internal static string Caller => new StackFrame(2).GetMethod().ReflectedType.Assembly.GetName().Name;
+
+        internal static AssemblyName AssemblyName { get; } = GetExecutingAssembly().GetName();
 
         internal static UnityWebRequest LatestGitHub => Get("https://api.github.com/repos/Emik03/KeepCoding/releases/latest");
 
