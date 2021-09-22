@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#if !SIMPLIFIED
+using System.Collections;
 using System.Collections.Generic;
 
 namespace KeepCoding
@@ -48,3 +49,4 @@ namespace KeepCoding
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
+#endif

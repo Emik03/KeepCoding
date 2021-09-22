@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !SIMPLIFIED
+using System;
 using System.Collections.Generic;
 
 namespace KeepCoding
@@ -116,3 +117,4 @@ namespace KeepCoding
         }
     }
 }
+#endif

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !SIMPLIFIED
+using System;
 using System.Linq.Expressions;
 
 namespace KeepCoding
@@ -29,3 +30,4 @@ namespace KeepCoding
         public void Dump(params Expression<Func<object>>[] logs);
     }
 }
+#endif

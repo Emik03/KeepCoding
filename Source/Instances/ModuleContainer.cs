@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using Assets.Scripts.Missions;
 using KeepCoding.Internal;
 using UnityEngine;
 using static System.Delegate;
 using static KeepCoding.Game;
-using static KeepCoding.HashCode;
 using static NeedyTimer;
 
 namespace KeepCoding
@@ -516,23 +516,6 @@ namespace KeepCoding
             () => throw s_immutable);
 
         /// <summary>
-        /// Needy Only: The minimum and maximum delay for the needy to activate. <see cref="Tuple{T}.Item1"/> represents the minimum and <see cref="Tuple{T1, T2}.Item2"/> the maximum.
-        /// </summary>
-        /// <exception cref="MissingMethodException"></exception>
-        /// <exception cref="MissingReferenceException"></exception>
-        public Tuple<float, float> ResetDelay
-        {
-            get => OfType(
-                null,
-                n => n.ResetDelayMin.ToTuple(n.ResetDelayMax),
-                () => _bombComponent is NeedyComponent needy ? needy.ResetDelayMin.ToTuple(needy.ResetDelayMax) : throw Missing);
-            set => OfType(
-                null,
-                n => value.Destruct(out n.ResetDelayMin, out n.ResetDelayMax),
-                () => value.Destruct(out (_bombComponent is NeedyComponent needy ? needy : throw Missing).ResetDelayMin, out needy.ResetDelayMax));
-        }
-
-        /// <summary>
         /// Returns <see cref="KMBombModule"/>, or if null, throws a <see cref="NullReferenceException"/>.
         /// </summary>
         /// <exception cref="NullReferenceException"></exception>
@@ -685,7 +668,7 @@ namespace KeepCoding
         /// Gets the current hash code.
         /// </summary>
         /// <returns>The <see cref="Module"/>'s hash code.</returns>
-        public override int GetHashCode() => Combine(Module);
+        public override int GetHashCode() => 1212890949 + EqualityComparer<MonoBehaviour>.Default.GetHashCode(Module);
 
         /// <summary>
         /// Gets the <see cref="Name"/> and <see cref="Id"/> of the module.

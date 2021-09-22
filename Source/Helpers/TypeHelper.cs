@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Security.Cryptography;
 using KeepCoding.Internal;
@@ -14,6 +16,7 @@ namespace KeepCoding
     /// </summary>
     public static class TypeHelper
     {
+#if !SIMPLIFIED
         /// <summary>
         /// Checks if both colors have the same RGBA values.
         /// </summary>
@@ -762,14 +765,29 @@ namespace KeepCoding
                 y ?? vector.y,
                 z ?? vector.z,
                 w ?? vector.w);
+#endif
+
+        /// <summary>
+        /// Gets a <see cref="ReadOnlyCollection{T}"/> from the current <see cref="IEnumerable{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of <paramref name="source"/> and <see langword="return"/>.</typeparam>
+        /// <param name="source">The collection to turn into a <see cref="ReadOnlyCollection{T}"/>.</param>
+        /// <returns>A <see cref="ReadOnlyCollection{T}"/> with values of <paramref name="source"/>.</returns>
+        public static ReadOnlyCollection<T> ToReadOnly<T>(this IEnumerable<T> source) => source.NullCheck("The source cannot be null.").ToList().AsReadOnly();
 
         /// <summary>
         /// Converts argument to a new <see cref="Version"/>. Major-only versions are compatible.
         /// </summary>
         /// <param name="s">The string to convert to a version.</param>
         /// <returns>A new <see cref="Version"/> representing the input <paramref name="s"/>.</returns>
-        public static Version ToVersion(this string s) => new Version(s + (s.Split('.').Length == 1 ? ".0" : ""));
+#if SIMPLIFIED
+        internal
+#else
+        public
+#endif
+            static Version ToVersion(this string s) => new Version(s + (s.Split('.').Length == 1 ? ".0" : ""));
 
+#if !SIMPLIFIED
         /// <summary>
         /// Converts argument to a new <see cref="Work"/>
         /// </summary>
@@ -866,5 +884,6 @@ namespace KeepCoding
         /// <param name="maximumThreadsActive">The amount of threads this class, and all of its overloads can run at once.</param>
         /// <returns>A new <see cref="Work{T1, T2, T3, T4, TResult}"/> consisting of the arguments provided.</returns>
         public static Work<T1, T2, T3, T4, TResult> ToWork<T1, T2, T3, T4, TResult>(this int maximumThreadsActive, Func<T1, T2, T3, T4, TResult> func, bool allowSimultaneousActive = false) => new Work<T1, T2, T3, T4, TResult>(func, allowSimultaneousActive, maximumThreadsActive);
+#endif
     }
 }

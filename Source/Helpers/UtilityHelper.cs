@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !SIMPLIFIED
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -4044,3 +4045,4 @@ namespace KeepCoding
         public static IEnumerable<XAttribute> AttributesI(this XElement element, string name) => element.Attributes().Where(attr => attr.Name.LocalName == name);
     }
 }
+#endif

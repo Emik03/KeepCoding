@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
-using KeepCoding;
 using KeepCoding.Internal;
 using UnityEngine;
 using static KeepCoding.Game.PlayerSettings;
@@ -23,7 +22,7 @@ namespace KeepCoding
         [SerializeField]
         private AudioSource _audioSource;
 
-        private Routine<float, float> _fade;
+        private Coroutine _previous;
 
         /// <summary>
         /// Determines if the <see cref="AudioSource"/> is muted.
@@ -76,8 +75,15 @@ namespace KeepCoding
         /// </summary>
         /// <param name="volume">The volume to get to.</param>
         /// <param name="time">The amount of time it takes to get to <paramref name="volume"/>.</param>
-        public void Fade(float volume, float time) => _fade.StartOrRestart(volume, time);
+        public void Fade(float volume, float time)
+        {
+            if (_previous is { })
+                StopCoroutine(_previous);
 
+            _previous = StartCoroutine(TweenFade(volume, time));
+        }
+
+#if !SIMPLIFIED
         /// <summary>
         /// Called when the module instantiates, well before the lights turn on.
         /// </summary>
@@ -87,6 +93,7 @@ namespace KeepCoding
         /// Called on every frame. Frame-rate might vary depending on setup, so make sure to use <see cref="Time.deltaTime"/> or similar for time-sensitive applications.
         /// </summary>
         public virtual void OnUpdate() { }
+#endif
 
         /// <summary>
         /// Pauses playing the clip.
@@ -180,22 +187,28 @@ namespace KeepCoding
         /// </summary>
         public void Awake()
         {
-            _fade = this.ToRoutine((Func<float, float, IEnumerator>)TweenFade);
-
             AudioSource.playOnAwake = false;
             AudioSource.volume = 0;
 
+#if !SIMPLIFIED
             OnAwake();
+#endif
         }
 
         /// <summary>
         /// Updates the volume of <see cref="AudioSource"/>. If you declare this method yourself, make sure to call <c>base.Update()</c> to ensure that this component retains functionality, or use <see cref="OnUpdate"/> instead.
         /// </summary>
         public void Update()
+#if SIMPLIFIED
+            =>
+#else
         {
+#endif
             AudioSource.volume = Relative;
+#if !SIMPLIFIED
             OnUpdate();
         }
+#endif
 
         private void Set(in AudioClip clip, in bool loop, in byte priority, in float pitch, in float time, in float volume)
         {

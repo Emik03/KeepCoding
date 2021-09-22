@@ -277,6 +277,7 @@ namespace KeepCoding
             }
         }
 
+#if !SIMPLIFIED
         /// <summary>
         /// Allows access to methods relating mod paths.
         /// </summary>
@@ -347,6 +348,7 @@ namespace KeepCoding
 
             private static List<string> GetEnabledModPathsRewrittenInner(ModSourceEnum source) => RewrittenReferences.GetEnabledModPaths((Rewritten.ModSourceEnum)source);
         }
+#endif
 
         /// <summary>
         /// Allows access into the player settings from the game. Do not use this class in the unity editor. 

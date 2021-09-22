@@ -27,10 +27,12 @@ namespace KeepCoding
         /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
         public void Log<T>(T message, params object[] args);
 
+#if !SIMPLIFIED
         /// <summary>
         /// Logs multiple entries to the console.
         /// </summary>
         /// <param name="logs">The array of logs to individual output into the console.</param>
         public void LogMultiple(params string[] logs);
+#endif
     }
 }

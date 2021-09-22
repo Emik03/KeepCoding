@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !SIMPLIFIED
+using System;
 using System.Linq;
 using System.Text;
 using static System.Math;
@@ -995,3 +996,4 @@ namespace KeepCoding
         }
     }
 }
+#endif

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !SIMPLIFIED
+using System;
 using System.Globalization;
 using KeepCoding.Internal;
 using static System.Convert;
@@ -1185,3 +1186,4 @@ namespace KeepCoding
         private static TResult Run<T, TResult>(in T value, in Func<T, TResult> func) => func is { } ? func(value) : throw WrongType(value);
     }
 }
+#endif

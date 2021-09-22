@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !SIMPLIFIED
+using System;
 using System.Collections;
 using KeepCoding.Internal;
 using UnityEngine;
@@ -450,3 +451,4 @@ namespace KeepCoding
         private readonly Func<T1, T2, T3, T4, IEnumerator> _enumerator;
     }
 }
+#endif

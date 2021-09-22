@@ -27,7 +27,11 @@ namespace KeepCoding
     /// Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes.
     /// </summary>
     [CLSCompliant(false)]
-    public abstract class ModuleScript : CacheableBehaviour, IAwake, IDump, ILog
+    public abstract class ModuleScript : CacheableBehaviour, IAwake,
+#if !SIMPLIFIED
+        IDump,
+#endif
+        ILog
     {
         private bool _hasException;
 
@@ -40,7 +44,9 @@ namespace KeepCoding
 
         private int _strikes;
 
+#if !SIMPLIFIED
         private static readonly Dictionary<string, Dictionary<string, object>[]> s_database = new Dictionary<string, Dictionary<string, object>[]>();
+#endif
 
         private static readonly Dictionary<KMBomb, ReadOnlyCollection<ModuleContainer>> s_allModules = new Dictionary<KMBomb, ReadOnlyCollection<ModuleContainer>>();
 
@@ -73,10 +79,12 @@ namespace KeepCoding
         /// </summary>
         public static bool IsEditor => isEditor;
 
+#if !SIMPLIFIED
         /// <summary>
         /// Determines whether this module is the last instantiated instance.
         /// </summary>
         public bool IsLastInstantiated => Id == LastId;
+#endif
 
         /// <summary>
         /// Determines whether the needy is active.
@@ -259,6 +267,7 @@ namespace KeepCoding
             PlaySound(selectable.transform, sounds);
         }
 
+#if !SIMPLIFIED
         /// <summary>
         /// Dumps all information that it can find of the type using reflection. This should only be used to debug.
         /// </summary>
@@ -278,6 +287,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="logs">All of the variables to throughly log.</param>
         public void Dump(params Expression<Func<object>>[] logs) => Logger.Dump(logs);
+#endif
 
         /// <summary>
         /// Logs message, but formats it to be compliant with the Logfile Analyzer.
@@ -295,6 +305,7 @@ namespace KeepCoding
         /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
         public void Log<T>(T message, params object[] args) => Logger.Log(message, args);
 
+#if !SIMPLIFIED
         /// <summary>
         /// Logs multiple entries to the console.
         /// </summary>
@@ -305,6 +316,7 @@ namespace KeepCoding
         /// Called when the module instantiates, well before the lights turn on.
         /// </summary>
         public virtual void OnAwake() { }
+#endif
 
         /// <summary>
         /// Called when the lights turn on.
@@ -361,7 +373,7 @@ namespace KeepCoding
             if (_hasException)
                 AddStrikes(Bomb, -_strikes, false);
 
-            LogMultiple(logs);
+            logs?.ForEach(s => Log(s));
 
             IsSolved = true;
             Module.Solve.Get()();
@@ -376,7 +388,7 @@ namespace KeepCoding
             if (_hasException)
                 return;
 
-            LogMultiple(logs);
+            logs?.ForEach(s => Log(s));
 
             HasStruck = true;
             _strikes++;
@@ -384,6 +396,7 @@ namespace KeepCoding
             Module.Strike.Get()();
         }
 
+#if !SIMPLIFIED
         /// <summary>
         /// Sends information to a static variable such that other modules can access it.
         /// </summary>
@@ -410,6 +423,7 @@ namespace KeepCoding
             if (IsEditor)
                 Self($"Added \"{value}\" to {nameof(s_database)}: [{nameof(Module.Id)}, {Module.Id}: [{nameof(index)}, {index}: {value}]]");
         }
+#endif
 
         /// <summary>
         /// Retrieves the ignore list from the Boss Module Manager mod used primarily by boss modules.
@@ -540,6 +554,7 @@ namespace KeepCoding
             return modules;
         }
 
+#if !SIMPLIFIED
         /// <summary>
         /// Allows you to read a module's data that uses <see cref="Write{T}(string, T)"/>, even from a different assembly.
         /// </summary>
@@ -559,6 +574,7 @@ namespace KeepCoding
                 : d[key] is T t
                 ? t
                 : throw new UnrecognizedTypeException($"The data type {typeof(T).Name} was expected, but received {d[key]?.GetType().Name ?? "null"} from module {module} with key {key}."));
+#endif
 
         /// <summary>
         /// Sets up base functionality for the module. If you declare this method yourself, make sure to call <c>base.Awake()</c> to ensure that the module initializes correctly, or use <see cref="OnAwake"/> instead.
@@ -567,13 +583,17 @@ namespace KeepCoding
         {
             logMessageReceived += OnException;
 
+#if !SIMPLIFIED
             s_database.Clear();
+#endif
 
             Self($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
             Log($"Version: [{Version}]");
 
             Assign();
+#if !SIMPLIFIED
             OnAwake();
+#endif
 
             StartCoroutine(CheckForUpdates());
             StartCoroutine(WaitForBomb());

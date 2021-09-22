@@ -299,7 +299,14 @@ namespace KeepCoding
         /// Gets the current hash code.
         /// </summary>
         /// <returns>The hash code of <see cref="Custom"/>, <see cref="Reference"/>, and <see cref="Game"/>.</returns>
-        public override int GetHashCode() => HashCode.Combine(Custom, Reference, Game);
+        public override int GetHashCode()
+        {
+            int hashCode = 1045941991;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Custom);
+            hashCode = hashCode * -1521134295 + Game.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<KMAudioRef>.Default.GetHashCode(Reference);
+            return hashCode;
+        }
 
         /// <summary>
         /// Converts the current sound to a string, returning the current sound.

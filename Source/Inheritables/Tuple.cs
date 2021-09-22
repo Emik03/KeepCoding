@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !SIMPLIFIED
+using System;
 using KeepCoding.Internal;
 
 namespace KeepCoding
@@ -575,3 +576,4 @@ namespace KeepCoding
         }
     }
 }
+#endif

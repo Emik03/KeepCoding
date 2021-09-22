@@ -67,7 +67,6 @@ namespace KeepCoding.Internal
             yield return InstallLatest(tagName, "dll");
 
             Self($"Process complete. Your Unity should now start reloading...");
-
         }
 
         private static IEnumerator InstallLatest(string tagName, string extension)

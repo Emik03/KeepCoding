@@ -1,4 +1,5 @@
-﻿namespace KeepCoding
+﻿#if !SIMPLIFIED
+namespace KeepCoding
 {
     /// <summary>
     /// Encapsulates the two-valued result of a division/modulo operation (<see cref="BigInt.DivideModulo(BigInt)"/>).
@@ -37,3 +38,4 @@
         }
     }
 }
+#endif

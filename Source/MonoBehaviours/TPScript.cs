@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using KeepCoding.Internal;
 using UnityEngine;
+using static System.Array;
 using static System.Text.RegularExpressions.RegexOptions;
 
 namespace KeepCoding
@@ -274,6 +275,7 @@ namespace KeepCoding
         /// <returns>A formatted string for Twitch Plays.</returns>
         protected static string AwardPointsOnSolve(int points) => Combine("awardpointsonsolve", points);
 
+#if !SIMPLIFIED
         /// <summary>
         /// Works as a ternary operator. Returns <paramref name="then"/> if <paramref name="condition"/> is <see langword="true"/>, otherwise <paramref name="otherwise"/>.
         /// </summary>
@@ -286,6 +288,7 @@ namespace KeepCoding
         /// <param name="otherwise">The output to return if <paramref name="condition"/> is false.</param>
         /// <returns><paramref name="then"/> or <paramref name="otherwise"/>, depending on <paramref name="condition"/>.</returns>
         protected static object Evaluate<T>(bool condition, T then, object otherwise = null) => condition ? then : otherwise;
+#endif
 
         /// <summary>
         /// Presses a sequence of buttons in order of <paramref name="selectables"/>, waiting <paramref name="wait"/> seconds in-between each, and interrupting as soon as <see cref="ModuleScript.HasStruck"/> is <see langword="true"/>.
@@ -323,8 +326,8 @@ namespace KeepCoding
             if (indices is null)
                 yield break;
 
-            yield return indices.All(i => i.IsBetween(0, selectables.GetUpperBound()))
-                ? OnInteractSequence(indices.ConvertAll(i => selectables[i]), wait)
+            yield return indices.All(i => i.IsBetween(0, selectables.Length - 1))
+                ? OnInteractSequence(ConvertAll(indices, i => selectables[i]), wait)
                 : throw new IndexOutOfRangeException("The indices are out of range.");
         }
 
@@ -363,7 +366,7 @@ namespace KeepCoding
 
         private static bool IsExcludedType<T>(T item) => item is IEnumerable<char> || item is KMSelectable[];
 
-        private static string Combine(in string main, params object[] toAppend) => main + toAppend.ConvertAll(o => $" {o}");
+        private static string Combine(in string main, params object[] toAppend) => main + ConvertAll(toAppend, o => $" {o}");
 
         private IEnumerator ToggleColorblind()
         {

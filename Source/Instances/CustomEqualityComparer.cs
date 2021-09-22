@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#if !SIMPLIFIED
 namespace KeepCoding
 {
     /// <summary>
@@ -88,3 +89,4 @@ namespace KeepCoding
         public static CustomEqualityComparer<T> By(Func<T, string> selector, bool ignoreCase) => selector is null ? throw new ArgumentNullException(nameof(selector)) : By(selector, ignoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.InvariantCulture);
     }
 }
+#endif

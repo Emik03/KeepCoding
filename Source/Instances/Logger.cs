@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using JetBrains.Annotations;
 using KeepCoding.Internal;
 using UnityEngine;
+using static System.Array;
 using static System.String;
 using static KeepCoding.Helper;
 
@@ -14,7 +14,11 @@ namespace KeepCoding
     /// <summary>
     /// A class to allow logging with a specific format.
     /// </summary>
-    public sealed class Logger : IDump, ILog
+    public sealed class Logger :
+#if !SIMPLIFIED
+        IDump,
+#endif
+        ILog
     {
         internal static readonly Dictionary<string, int> s_ids = new Dictionary<string, int>();
 
@@ -65,6 +69,7 @@ namespace KeepCoding
         /// </summary>
         public string Name { get; }
 
+#if !SIMPLIFIED
         private const string VariableTemplate = "\n\n[{0}] {1}\n({2})\n{3}";
 
         /// <summary>
@@ -98,6 +103,7 @@ namespace KeepCoding
         /// </summary>
         /// <param name="logs">All of the variables to throughly log.</param>
         public void Dump(params Expression<Func<object>>[] logs) => Dump(false, logs);
+#endif
 
         /// <summary>
         /// Logs message, but formats it to be compliant with the Logfile Analyzer.
@@ -106,7 +112,7 @@ namespace KeepCoding
         /// <param name="message">The message to log.</param>
         /// <param name="logType">The type of logging. Different logging types have different icons within the editor.</param>
         [CLSCompliant(false)]
-        public void Log<T>(T message, LogType logType = LogType.Log) => logType.Method()(_format.Form($"{Name}{(_showId ? $" #{Id}" : "")}", message.Combine()));
+        public void Log<T>(T message, LogType logType = LogType.Log) => logType.Method()(Format(_format, $"{Name}{(_showId ? $" #{Id}" : "")}", message.Combine()));
 
         /// <summary>
         /// Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.
@@ -114,20 +120,29 @@ namespace KeepCoding
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="message">The message to log.</param>
         /// <param name="args">All of the arguments to embed into <paramref name="message"/>.</param>
-        public void Log<T>(T message, params object[] args) => Log(message.Combine().Form(args.ConvertAll(a => a.Combine())));
+        public void Log<T>(T message, params object[] args) => Log(Format(message.Combine(), ConvertAll(args, a => a.Combine())));
 
+#if !SIMPLIFIED
         /// <summary>
         /// Logs multiple entries to the console.
         /// </summary>
         /// <param name="logs">The array of logs to individual output into the console.</param>
-        public void LogMultiple(params string[] logs) => logs?.ForEach<string>(s => Log(s));
+        public void LogMultiple(params string[] logs) => logs?.ForEach(s => Log(s));
+#endif
 
         /// <summary>
         /// Determines if both objects are equal.
         /// </summary>
         /// <param name="obj">The comparison.</param>
         /// <returns>Whether both objects are equal.</returns>
-        public override bool Equals(object obj) => obj is Logger loggable &&
+        public override bool Equals(object obj) => Equals(obj as Logger);
+
+        /// <summary>
+        /// Determines if both <see cref="Logger"/> instances are equal.
+        /// </summary>
+        /// <param name="loggable">The comparison.</param>
+        /// <returns>Whether both <see cref="Logger"/>s are equal.</returns>
+        public bool Equals(Logger loggable) => loggable is { } &&
             Id == loggable.Id &&
             Name == loggable.Name;
 
@@ -135,8 +150,20 @@ namespace KeepCoding
         /// Gets the hash code of the object.
         /// </summary>
         /// <returns>The hash code.</returns>
-        public override int GetHashCode() => HashCode.Combine(Id, Name);
+        public override int GetHashCode()
+        {
+            int hashCode = -1919740922;
+            hashCode = hashCode * -1521134295 + Id.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
+            return hashCode;
+        }
 
-        internal static void Self(in string message, in LogType logType = LogType.Log) => logType.Method()("[{0}] {1}".Form(s_selfName, message));
+        /// <summary>
+        /// A string representation of this <see cref="Logger"/> instance.
+        /// </summary>
+        /// <returns>The format of the logging.</returns>
+        public override string ToString() => $"{(_showInLfa ? '[' : '<')}{Name}{(_showId ? $" #{Id}" : "")}{(_showInLfa ? ']' : '>')}]";
+
+        internal static void Self(in string message, in LogType logType = LogType.Log) => logType.Method()($"[{s_selfName}] {message}");
     }
 }

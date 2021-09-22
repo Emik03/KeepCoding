@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !SIMPLIFIED
+using System;
 using System.Collections;
 using System.Threading;
 using KeepCoding.Internal;
@@ -331,3 +332,4 @@ namespace KeepCoding
         private readonly Func<T1, T2, T3, T4, TResult> _work;
     }
 }
+#endif

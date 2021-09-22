@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !SIMPLIFIED
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -388,3 +389,4 @@ namespace KeepCoding.Internal
         private static UnrecognizedTypeException UnrecognizedType<T>(in T received, in Type expected, in int index) => new UnrecognizedTypeException($"The {(index + 1).ToOrdinal()} element in the tuple cannot be assigned because the value {received.Stringify()} is type {received?.GetType().Name ?? "null"} which doesn't match the expected type {expected.Name}.");
     }
 }
+#endif

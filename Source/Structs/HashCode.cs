@@ -1,4 +1,5 @@
-﻿/*
+﻿#if !SIMPLIFIED
+/*
 
 The xxHash32 implementation is based on the code published by Yann Collet:
 https://raw.githubusercontent.com/Cyan4973/xxHash/5c174cfa4e45a42f94082dc0d4539b39696afea1/xxhash.c
@@ -465,3 +466,4 @@ namespace KeepCoding
         private static uint Round(uint hash, uint input) => RotateLeft(hash + input * Prime2, 13) * Prime1;
     }
 }
+#endif

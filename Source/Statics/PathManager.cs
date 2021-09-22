@@ -9,6 +9,7 @@ using KeepCoding.Internal;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
+using static System.Array;
 using static System.IntPtr;
 using static System.Linq.Enumerable;
 using static System.Reflection.Assembly;
@@ -88,6 +89,7 @@ namespace KeepCoding
             Self($"The library has been copied over. They are now ready to be referenced.");
         }
 
+#if !SIMPLIFIED
         /// <summary>
         /// Prints a hierarchy of all game objects.
         /// </summary>
@@ -112,13 +114,19 @@ namespace KeepCoding
             foreach (Transform child in obj.transform)
                 PrintHierarchy(child.gameObject, indent, (ushort)(depth + 1));
         }
+#endif
 
         /// <summary>
         /// Combines multiple paths together.
         /// </summary>
         /// <param name="paths">The paths to combine with.</param>
         /// <returns>A single path consisting of the combined path of the array.</returns>
-        public static string CombineMultiple(params string[] paths) => paths.Aggregate(Path.Combine);
+#if SIMPLIFIED
+        internal
+#else
+        public
+#endif
+            static string CombineMultiple(params string[] paths) => paths.Aggregate(Path.Combine);
 
         /// <summary>
         /// Finds the directory of the mod caller.
@@ -282,6 +290,7 @@ namespace KeepCoding
             return info;
         }
 
+#if !SIMPLIFIED
         /// <summary>
         /// Retrieves assets of a specific type from a different bundle file.
         /// </summary>
@@ -300,6 +309,7 @@ namespace KeepCoding
         /// <returns>A <see cref="Work{T}"/> instance that can retrieve the assets from <paramref name="assembly"/>.</returns>
         [CLSCompliant(false)]
         public static Work<T[]> GetAssetsAsync<T>(string file, string assembly) where T : Object => new Work<T[]>(() => GetAssets<T>(file, assembly));
+#endif
 
         /// <summary>
         /// Retrieves assets of a specific type from a bundle file within the mod caller.
@@ -390,7 +400,7 @@ namespace KeepCoding
 
             if (s_objects.TryGetValue(key, out Object[] objs))
             {
-                yield return objs.ConvertAll(o => (T)o);
+                yield return ConvertAll(objs, o => (T)o);
                 yield break;
             }
 
@@ -400,7 +410,7 @@ namespace KeepCoding
 
                 Self($"This method is being run on the Editor, therefore an empty array of {nameof(Object)} will be returned.");
 
-                yield return objs.ConvertAll(o => (T)o);
+                yield return ConvertAll(objs, o => (T)o);
                 yield break;
             }
 
@@ -414,8 +424,9 @@ namespace KeepCoding
                 .assetBundle
                 .NullCheck("The bundle was null.")
                 .LoadAllAssets<T>()
-                .NullOrEmptyCheck($"There are no assets of type \"{typeof(T).Name}\".")
-                .Sort((x, y) => x.name.CompareTo(y.name));
+                .NullOrEmptyCheck($"There are no assets of type \"{typeof(T).Name}\".");
+
+            Sort(assets, (x, y) => x.name.CompareTo(y.name));
 
             Self($"{assets.Length} assets of type \"{typeof(T).Name}\" have been loaded into memory!");
 

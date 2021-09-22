@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#if !SIMPLIFIED
+using System.Collections;
 using System.Threading;
 using UnityEngine;
 
@@ -68,3 +69,4 @@ namespace KeepCoding.Internal
         private protected IEnumerator WaitForOwnThread() => new WaitWhile(() => IsRunning);
     }
 }
+#endif

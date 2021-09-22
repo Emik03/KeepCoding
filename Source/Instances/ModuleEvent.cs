@@ -54,7 +54,7 @@ namespace KeepCoding.Internal
             /// </summary>
             /// <param name="key">The key to use.</param>
             /// <returns>The value from the key, or <see langword="null"/>.</returns>
-            public object Get(T key) => _dictionary.Get(key, null);
+            public object Get(T key) => _dictionary.ContainsKey(key) ? _dictionary[key] : null;
 
             /// <summary>
             /// Removes a key from the dictionary. If the key doesn't exist, nothing happens.

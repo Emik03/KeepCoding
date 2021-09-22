@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#if !SIMPLIFIED
+using System.Collections.Generic;
 
 namespace KeepCoding
 {
@@ -180,3 +181,4 @@ namespace KeepCoding
         protected virtual bool Equals(StrictRecord<T, TThis> other) => EqualityComparer<T>.Default.Equals(Value, other.Value);
     }
 }
+#endif

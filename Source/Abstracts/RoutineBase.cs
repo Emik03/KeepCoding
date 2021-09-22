@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !SIMPLIFIED
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -462,3 +463,4 @@ namespace KeepCoding.Internal
         IEnumerator<Coroutine> IEnumerable<Coroutine>.GetEnumerator() => Coroutines.GetEnumerator();
     }
 }
+#endif

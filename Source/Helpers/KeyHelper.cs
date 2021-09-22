@@ -12,6 +12,7 @@ namespace KeepCoding
     /// </summary>
     public static class KeyHelper
     {
+#if !SIMPLIFIED
         /// <summary>
         /// The <see langword="as"/> operator explicitly converts the result of an expression to a given reference or nullable value type. If the conversion is not possible, the <see langword="as"/> operator returns <see langword="null"/>. Unlike a cast expression, the <see langword="as"/> operator never throws an exception.
         /// </summary>
@@ -46,6 +47,7 @@ namespace KeepCoding
         /// <param name="item">The item to cast.</param>
         /// <returns><c>(<typeparamref name="T"/>)<paramref name="item"/></c></returns>
         public static T Cast<E, T>(this E item) where T : E => (T)item;
+#endif
 
         /// <summary>
         /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
@@ -319,6 +321,7 @@ namespace KeepCoding
             }
         };
 
+#if !SIMPLIFIED
         /// <summary>
         /// The <see langword="checked"/> keyword is used to explicitly enable overflow checking for integral-type arithmetic operations and conversions.
         /// </summary>
@@ -409,6 +412,7 @@ namespace KeepCoding
         /// <param name="condition">The condition to determine whether the loop should keep going.</param>
         /// <returns>All instances that <paramref name="func"/> used in an <see cref="IEnumerable{T}"/>.</returns>
         public static IEnumerable<T> DoWhile<T>(this Func<T> func, Func<bool> condition) => func.NullCheck("The action cannot be null.")().Yield().Concat(While(func, condition));
+#endif
 
         /// <summary>
         /// The <see langword="for"/> statement executes a statement or a block of statements while a specified Boolean expression evaluates to <see langword="true"/>.
@@ -668,6 +672,7 @@ namespace KeepCoding
             return iterator;
         }
 
+#if !SIMPLIFIED
         /// <summary>
         /// An <see langword="if"/> statement identifies which statement to run based on the value of a Boolean expression.
         /// </summary>
@@ -1088,6 +1093,7 @@ namespace KeepCoding
             while (condition())
                 yield return func();
         }
+#endif
 
         /// <summary>
         /// Wraps this object instance into an <see cref="IEnumerable{T}"/> consisting of a single item.

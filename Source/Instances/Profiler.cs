@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !SIMPLIFIED
+using System;
 using System.Diagnostics;
 using UnityEngine;
 using static System.Diagnostics.Stopwatch;
@@ -94,3 +95,4 @@ namespace KeepCoding
         ~Profiler() => Dispose();
     }
 }
+#endif
