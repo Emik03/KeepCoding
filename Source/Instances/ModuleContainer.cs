@@ -79,7 +79,13 @@ namespace KeepCoding
         private ModuleContainer(KMBombModule solvable, KMNeedyModule needy, bool bypassCheck)
         {
             if (!bypassCheck && (bool)solvable == needy)
-                throw new ConstructorArgumentException(solvable ? "Both KMBombModule and KMNeedyModule are assigned, which will mean that it is unable to return both when calling a function that returns a single MonoBehaviour." : "Both KMBombModule and KMNeedyModule is null, and since this data type is immutable after the constructor, it is unable to return anything.");
+                throw new
+#if SIMPLIFIED
+                    KeepCodingException(
+#else
+                    ConstructorArgumentException(
+#endif
+                        solvable ? "Both KMBombModule and KMNeedyModule are assigned, which will mean that it is unable to return both when calling a function that returns a single MonoBehaviour." : "Both KMBombModule and KMNeedyModule is null, and since this data type is immutable after the constructor, it is unable to return anything.");
 
             _bombModule = solvable;
             _needyModule = needy;
