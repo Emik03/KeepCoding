@@ -381,7 +381,7 @@ namespace KeepCoding
 
         private static string FileFormat(in string name, in string extension) => $"{name}.{extension}";
 
-        private static IEnumerable LoadAssets<T>(string file, string assembly) where T : Object
+        private static IEnumerable<object> LoadAssets<T>(string file, string assembly) where T : Object
         {
             if (!file.NullOrEmptyCheck("You cannot retrieve a path if the file name is null or empty.").Contains("."))
                 file += ".bundle";
