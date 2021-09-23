@@ -29,7 +29,7 @@ namespace KeepCoding
         /// <summary>
         /// Encapsulates either a modded solvable or modded needy module by using <see cref="CacheableBehaviour.Get{T}(bool)"/>. An exception is thrown if <see cref="KMBombModule"/> and <see cref="KMNeedyModule"/> are both <see langword="null"/> or both not <see langword="null"/>.
         /// </summary>
-        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         /// <param name="behaviour">The component to get the module from.</param>
         [CLSCompliant(false)]
         public ModuleContainer(CacheableBehaviour behaviour) : this(behaviour.Get<KMBombModule>(allowNull: true), behaviour.Get<KMNeedyModule>(allowNull: true)) { }
@@ -37,7 +37,7 @@ namespace KeepCoding
         /// <summary>
         /// Encapsulates either a modded solvable or modded needy module by using <see cref="Component.GetComponent{T}"/>. An exception is thrown if <see cref="KMBombModule"/> and <see cref="KMNeedyModule"/> are both <see langword="null"/> or both not <see langword="null"/>.
         /// </summary>
-        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         /// <param name="component">The component to get the module from.</param>
         [CLSCompliant(false)]
         public ModuleContainer(Component component) : this(component.GetComponent<KMBombModule>(), component.GetComponent<KMNeedyModule>()) { }
@@ -59,7 +59,7 @@ namespace KeepCoding
         /// <summary>
         /// Encapsulates either a modded solvable or modded needy module. An exception is thrown if <see cref="KMBombModule"/> and <see cref="KMNeedyModule"/> are both <see langword="null"/> or both not <see langword="null"/>.
         /// </summary>
-        /// <exception cref="ConstructorArgumentException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         /// <param name="solvable">The instance of a normal module.</param>
         /// <param name="needy">The instance of a needy module.</param>
         [CLSCompliant(false)]
@@ -79,13 +79,7 @@ namespace KeepCoding
         private ModuleContainer(KMBombModule solvable, KMNeedyModule needy, bool bypassCheck)
         {
             if (!bypassCheck && (bool)solvable == needy)
-                throw new
-#if LITE
-                    KeepCodingException(
-#else
-                    ConstructorArgumentException(
-#endif
-                        solvable ? "Both KMBombModule and KMNeedyModule are assigned, which will mean that it is unable to return both when calling a function that returns a single MonoBehaviour." : "Both KMBombModule and KMNeedyModule is null, and since this data type is immutable after the constructor, it is unable to return anything.");
+                throw new ArgumentException(solvable ? "Both KMBombModule and KMNeedyModule are assigned, which will mean that it is unable to return both when calling a function that returns a single MonoBehaviour." : "Both KMBombModule and KMNeedyModule is null, and since this data type is immutable after the constructor, it is unable to return anything.");
 
             _bombModule = solvable;
             _needyModule = needy;
