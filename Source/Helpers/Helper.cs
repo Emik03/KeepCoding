@@ -26,16 +26,24 @@ namespace KeepCoding
     /// </summary>
     public static class Helper
     {
+#if !LITE
         /// <summary>
         /// The entire English alphabet in Uppercase. From A-Z.
         /// </summary>
         public const string Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+#endif
 
         /// <summary>
         /// The entire alphanumeric series, also known as base-62. From 0-9, A-Z, a-z.
         /// </summary>
-        public const string Alphanumeric = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+#if LITE
+        public
+#else
+        internal
+#endif
+            const string Alphanumeric = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
+#if !LITE
         /// <summary>
         /// The entire binary series, also known as base-2. From 0-1.
         /// </summary>
@@ -45,11 +53,17 @@ namespace KeepCoding
         /// The entire decimal series, also known as base-10. From 0-9.
         /// </summary>
         public const string Decimal = "0123456789";
+#endif
 
         /// <summary>
         /// Contains the most commonly used flags, use this as a "catch-all" expression.
         /// </summary>
-        public const BindingFlags Flags = DeclaredOnly | Instance | Static | Public | NonPublic;
+#if LITE
+        public
+#else
+        internal
+#endif
+             const BindingFlags Flags = DeclaredOnly | Instance | Static | Public | NonPublic;
 
         internal const string Null = "null";
 
@@ -191,7 +205,6 @@ namespace KeepCoding
         /// <param name="range">The minimum and maximum value required to return <see langword="true"/>.</param>
         /// <returns>True if <paramref name="comparison"/> is more than or equal <see cref="Tuple{T}.Item1"/> and less than or equal <see cref="Tuple{T1, T2}.Item2"/>.</returns>
         public static bool IsBetween(this float comparison, Tuple<float, float> range) => comparison >= range.Item1 && comparison <= range.Item2;
-#endif
 
         /// <summary>
         /// Determines whether the number is equal or in-between 2 values.
@@ -202,7 +215,6 @@ namespace KeepCoding
         /// <returns>True if <paramref name="comparison"/> is more than or equal <paramref name="min"/> and less than or equal <paramref name="max"/>.</returns>
         public static bool IsBetween(this long comparison, long min, long max) => comparison >= min && comparison <= max;
 
-#if !LITE
         /// <summary>
         /// Determines whether the number is equal or in-between a tuple's <see cref="Tuple{T}.Item1"/> (minimum) and <see cref="Tuple{T1, T2}.Item2"/> (maximum).
         /// </summary>
@@ -210,8 +222,6 @@ namespace KeepCoding
         /// <param name="range">The minimum and maximum value required to return <see langword="true"/>.</param>
         /// <returns>True if <paramref name="comparison"/> is more than or equal <see cref="Tuple{T}.Item1"/> and less than or equal <see cref="Tuple{T1, T2}.Item2"/>.</returns>
         public static bool IsBetween(this long comparison, Tuple<long, long> range) => comparison >= range.Item1 && comparison <= range.Item2;
-#endif
-
         /// <summary>
         /// Determines whether the number is equal or in-between 2 values.
         /// </summary>
@@ -222,7 +232,6 @@ namespace KeepCoding
         [CLSCompliant(false)]
         public static bool IsBetween(this uint comparison, uint min, uint max) => comparison >= min && comparison <= max;
 
-#if !LITE
         /// <summary>
         /// Determines whether the number is equal or in-between a tuple's <see cref="Tuple{T}.Item1"/> (minimum) and <see cref="Tuple{T1, T2}.Item2"/> (maximum).
         /// </summary>
@@ -231,7 +240,6 @@ namespace KeepCoding
         /// <returns>True if <paramref name="comparison"/> is more than or equal <see cref="Tuple{T}.Item1"/> and less than or equal <see cref="Tuple{T1, T2}.Item2"/>.</returns>
         [CLSCompliant(false)]
         public static bool IsBetween(this uint comparison, Tuple<uint, uint> range) => comparison >= range.Item1 && comparison <= range.Item2;
-#endif
 
         /// <summary>
         /// Determines whether the number is equal or in-between 2 values.
@@ -243,7 +251,6 @@ namespace KeepCoding
         [CLSCompliant(false)]
         public static bool IsBetween(this ulong comparison, ulong min, ulong max) => comparison >= min && comparison <= max;
 
-#if !LITE
         /// <summary>
         /// Determines whether the number is equal or in-between a tuple's <see cref="Tuple{T}.Item1"/> (minimum) and <see cref="Tuple{T1, T2}.Item2"/> (maximum).
         /// </summary>
@@ -283,12 +290,14 @@ namespace KeepCoding
         /// <returns>True if <paramref name="source"/> is equal to null, or empty.</returns>
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> source) => source is null || !source.Any();
 
+#if !LITE
         /// <summary>
         /// Determines if the <see cref="IEnumerator{T}"/> is null or empty.
         /// </summary>
         /// <param name="source">The <see cref="IEnumerable{T}"/> to check for.</param>
         /// <returns>True if <paramref name="source"/> is equal to null, or empty.</returns>
         public static bool IsNullOrEmpty<T>(this IEnumerator<T> source) => source is null || !source.AsEnumerable().Any();
+#endif
 
         /// <summary>
         /// Determines if the <see cref="KMSelectable"/> is a parent of another <see cref="KMSelectable"/>.
@@ -750,8 +759,13 @@ namespace KeepCoding
         /// </summary>
         /// <param name="logType">The type of method to get.</param>
         /// <returns>The log method representing the enum <paramref name="logType"/>.</returns>
+#if LITE
+        internal
+#else
         [CLSCompliant(false)]
-        public static Action<object> Method(this LogType logType) => logType switch
+        public
+#endif
+            static Action<object> Method(this LogType logType) => logType switch
         {
             LogType.Error => LogError,
             LogType.Assert => o => LogAssertion(o),
@@ -768,11 +782,11 @@ namespace KeepCoding
         /// <param name="coroutines">The <see cref="Coroutine"/>s to stop.</param>
         /// <returns>The array of <see cref="Coroutine"/>s given.</returns>
         [CLSCompliant(false)]
-        public static Coroutine[] Stop(this MonoBehaviour monoBehaviour, params Coroutine[] coroutines) => coroutines?.ForEach(c =>
+        public static Coroutine[] Stop(this MonoBehaviour monoBehaviour, params Coroutine[] coroutines) => coroutines?.ForEach((Coroutine c) =>
         {
             if (c is { })
                 monoBehaviour.StopCoroutine(c);
-        }).ToArray();
+        });
 
 #if !LITE
         /// <summary>
@@ -967,7 +981,6 @@ namespace KeepCoding
         /// <param name="value">The value to replace at <paramref name="source"/>'s <paramref name="index"/> element.</param>
         /// <returns><paramref name="source"/> but the <paramref name="index"/> element is <paramref name="value"/> instead.</returns>
         public static IEnumerable<T> Replace<T>(this IEnumerable<T> source, int index, T value) => source.NullCheck("The source cannot be null.").Select((t, i) => i == index ? value : t);
-#endif
 
         /// <summary>
         /// Returns a slice of an <see cref="IEnumerable{T}"/>.
@@ -991,7 +1004,6 @@ namespace KeepCoding
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="IEnumerable{T}"/>s, where each <see cref="IEnumerable{T}"/> is as long as <paramref name="length"/>.</returns>
         public static IEnumerable<IEnumerable<T>> SplitEvery<T>(this IEnumerable<T> source, int length) => length > 0 ? source.NullCheck("The source cannot be null.").Select((item, inx) => new { item, inx }).GroupBy(x => x.inx / length).Select(g => g.Select(x => x.item)) : throw new ArgumentException($"The variable {nameof(length)} must be a positive number.");
 
-#if !LITE
         /// <summary>
         /// Produces a sequence of tuples with elements from the two specified sequences.
         /// </summary>
@@ -1033,9 +1045,16 @@ namespace KeepCoding
         /// <returns><paramref name="source"/> where <see langword="yield"/> <see langword="return"/> <see cref="IEnumerator"/>s gets replaced with the output of those calls.</returns>
         public static IEnumerator Flatten(this IEnumerator source, Predicate<IEnumerator> except = null)
         {
+            except ??= _ => false;
+
             while (source.MoveNext())
             {
-                if (!(source.Current is IEnumerator enumerator) || (except?.Invoke(enumerator) ?? false))
+                object current = source.Current;
+
+                if (current is IEnumerable enumerable)
+                    current = enumerable.GetEnumerator();
+
+                if (!(current is IEnumerator enumerator) || except(enumerator))
                 {
                     yield return source.Current;
                     continue;
@@ -1340,6 +1359,7 @@ namespace KeepCoding
         /// <returns>The item <paramref name="item"/> after <paramref name="func"/>.</returns>
         public static TResult Apply<T, TResult>(this T item, Func<T, TResult> func) => func(item);
 
+#if !LITE
         /// <summary>
         /// Appends the element provided to the array.
         /// </summary>
@@ -1347,18 +1367,8 @@ namespace KeepCoding
         /// <param name="array">The array to be appended with.</param>
         /// <param name="item">The element to append to the <paramref name="array"/>.</param>
         /// <returns><paramref name="array"/>, but with an added <paramref name="item"/> as the last index.</returns>
-        public static T[] Append<T>(this T[] array, T item) where T : notnull
-#if LITE
-        {
-            Array.Resize(ref array, array.Length + 1);
-            array[array.Length - 1] = item;
-            return array;
-        }
-#else
-            => (T[])array.Resize(array.Length + 1).Set(item, array.Length);
-#endif
+        public static T[] Append<T>(this T[] array, T item) where T : notnull => (T[])array.Resize(array.Length + 1).Set(item, array.Length);
 
-#if !LITE
         /// <summary>
         /// Invokes a method of <typeparamref name="T"/> and then returns the argument provided.
         /// </summary>
@@ -1388,6 +1398,7 @@ namespace KeepCoding
         /// <returns>An <see cref="Array"/> of <typeparamref name="T"/> containing all the values of that enum.</returns>
         public static T[] GetValues<T>(this T _) where T : struct, Enum => GetValues<T>();
 
+#if !LITE
         /// <summary>
         /// Prepends the element provided to the array.
         /// </summary>
@@ -1395,16 +1406,7 @@ namespace KeepCoding
         /// <param name="array">The array to be appended with.</param>
         /// <param name="item">The element to append to the <paramref name="array"/>.</param>
         /// <returns><paramref name="array"/>, but with an added <paramref name="item"/> as the first index.</returns>
-        public static T[] Prepend<T>(this T[] array, T item) where T : notnull
-#if LITE
-        {
-            Array.Resize(ref array, array.Length + 1);
-            Array.Copy(array, 0, array, 1, array.Length);
-            array[0] = item;
-            return array;
-        }
-#else
-            => (T[])array.Resize(array.Length + 1).Copy(0, array, 1, array.Length).Set(item, 0);
+        public static T[] Prepend<T>(this T[] array, T item) where T : notnull => (T[])array.Resize(array.Length + 1).Copy(0, array, 1, array.Length).Set(item, 0);
 #endif
 
         /// <summary>
