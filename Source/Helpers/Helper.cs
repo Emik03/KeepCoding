@@ -1167,23 +1167,33 @@ namespace KeepCoding
 #endif
 
         /// <summary>
+        /// Throws am <see cref="AssertionException"/> if the <see cref="Object"/> given is <see langword="null"/>, then returning the <see cref="Object"/> <paramref name="obj"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of <see cref="Object"/>.</typeparam>
+        /// <param name="obj">The <see cref="Object"/> to do a <see langword="null"/> check on.</param>
+        /// <returns><paramref name="obj"/></returns>
+        [CLSCompliant(false)]
+        public static T Assert<T>(this T obj) where T : Object => obj ? obj : throw new AssertionException(typeof(T).Name, obj, "not null");
+
+        /// <summary>
+        /// Throws an <see cref="AssertionException"/> if the argument passed in is <see langword="null"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the item to assert for non-nullability.</typeparam>
+        /// <param name="item">The item to use a <see langword="null"/> check on.</param>
+        /// <param name="name">The name of <paramref name="item"/>.</param>
+        /// <returns><paramref name="item"/></returns>
+        public static T Assert<T>(this T item, string name = null) => item ?? throw new AssertionException(name, item, "not null");
+
+        /// <summary>
         /// Throws an <see cref="AssertionException"/> if the method passed in <see langword="return"/>s <see langword="false"/>.
         /// </summary>
         /// <typeparam name="T">The type of the initial comparison.</typeparam>
         /// <param name="item">The item to pass into the method.</param>
         /// <param name="assertion">The assertion, <see langword="true"/> indicates success and will <see langword="return"/> <paramref name="item"/>, <see langword="false"/> will throw an <see cref="AssertionException"/>.</param>
+        /// <param name="name">The name of <paramref name="item"/>.</param>
+        /// <param name="expect">The string representation of what <paramref name="assertion"/> does and expects.</param>
         /// <returns><paramref name="item"/></returns>
-        public static T Assert<T>(this T item, Predicate<T> assertion) => assertion(item) ? item : throw new AssertionException(assertion, item);
-        
-        /// <summary>
-        /// Throws a <see cref="MissingComponentException"/> if the <see cref="Object"/> given is <see langword="null"/>, then returning the <see cref="Object"/> <paramref name="obj"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of <see cref="Object"/>.</typeparam>
-        /// <param name="obj">The <see cref="Object"/> to do a null check on.</param>
-        /// <param name="message">The message of the exception.</param>
-        /// <returns><paramref name="obj"/></returns>
-        [CLSCompliant(false)]
-        public static T Assert<T>(this T obj, string message = "While asserting for null, the variable ended up null.") where T : Object => obj ? obj : throw new MissingComponentException(message);
+        public static T Assert<T>(this T item, Predicate<T> assertion, string name = null, string expect = "assertion predicate to return true") => assertion(item) ? item : throw new AssertionException(name, item, expect);
 
         /// <summary>
         /// Throws an <see cref="AssertionException"/> if both arguments passed in <see langword="return"/> <see langword="false"/> on <see cref="object.Equals(object)"/>.
@@ -1192,16 +1202,9 @@ namespace KeepCoding
         /// <typeparam name="TOther">The type of the item to compare.</typeparam>
         /// <param name="item">The item to use as comparison.</param>
         /// <param name="comparison">The item to compare to.</param>
+        /// <param name="name">The name of <paramref name="item"/>.</param>
         /// <returns><paramref name="item"/></returns>
-        public static T Assert<T, TOther>(this T item, TOther comparison) => item.Equals(comparison) ? item : throw new AssertionException(comparison, item);
-
-        /// <summary>
-        /// Throws an <see cref="AssertionException"/> if the argument passed in is <see langword="null"/>
-        /// </summary>
-        /// <typeparam name="T">The type of the item to assert for non-nullability.</typeparam>
-        /// <param name="item">The item to use a null check on.</param>
-        /// <returns><paramref name="item"/></returns>
-        public static T Assert<T>(this T item) => item is { } ? item : throw new AssertionException(item, "not null");
+        public static T Assert<T, TOther>(this T item, TOther comparison, string name = null) => item.Equals(comparison) ? item : throw new AssertionException(name, item, comparison);
 
         /// <summary>
         /// Invokes a method of <typeparamref name="T"/> and then returns the argument provided.

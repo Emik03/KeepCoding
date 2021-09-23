@@ -29,8 +29,9 @@ namespace KeepCoding.Internal
         /// <summary>
         /// An exception thrown when an assertion fails.
         /// </summary>
+        /// <param name="name">The name of the received value.</param>
         /// <param name="received">The received value.</param>
         /// <param name="expected">The value of the expected value.</param>
-        public AssertionException(object received, object expected) : base($"Expected {expected.Stringify()}, received: {received.Stringify()}.") { }
+        public AssertionException(string name, object received, object expected) : base($"Expected {(name is null ? "value" : $"'{name}'")} to be {expected.Stringify()}, received: {received.Stringify()}.") { }
     }
 }
