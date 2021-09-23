@@ -260,14 +260,6 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// Stops all sounds for the entire <see cref="KMAudioRef"/> <see cref="Array"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of iterator containing <see cref="KMAudioRef"/>.</typeparam>
-        /// <param name="audioRefs">The <see cref="KMAudioRef"/> <see cref="Array"/> to mute all sounds from, using <see cref="KMAudioRef.StopSound"/>.</param>
-        [CLSCompliant(false)]
-        public static T StopSounds<T>(this T audioRefs) where T : IEnumerable<KMAudioRef> => audioRefs.ForEach((KMAudioRef a) => a.StopSound());
-
-        /// <summary>
         /// Combines actions together, only if these actions are not <see langword="null"/>.
         /// </summary>
         /// <param name="self">The action to modify.</param>
@@ -549,6 +541,14 @@ namespace KeepCoding
 
             return self;
         }
+
+        /// <summary>
+        /// Stops all sounds for the entire <see cref="KMAudioRef"/> <see cref="Array"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of iterator containing <see cref="KMAudioRef"/>.</typeparam>
+        /// <param name="audioRefs">The <see cref="KMAudioRef"/> <see cref="Array"/> to mute all sounds from, using <see cref="KMAudioRef.StopSound"/>.</param>
+        [CLSCompliant(false)]
+        public static T StopSounds<T>(this T audioRefs) where T : IEnumerable<KMAudioRef> => audioRefs.ForEach((KMAudioRef a) => a.StopSound());
 
         private static void AssertDefault<T>(in T t) where T : Object => t.Assert($"The {typeof(T).Name} is null. You cannot assign events to a {typeof(T).Name} without a reference to a {typeof(T).Name}.");
 
