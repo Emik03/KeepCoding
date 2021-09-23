@@ -47,7 +47,6 @@ namespace KeepCoding
         /// <param name="item">The item to cast.</param>
         /// <returns><c>(<typeparamref name="T"/>)<paramref name="item"/></c></returns>
         public static T Cast<E, T>(this E item) where T : E => (T)item;
-#endif
 
         /// <summary>
         /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
@@ -133,6 +132,7 @@ namespace KeepCoding
                 final?.Invoke();
             }
         };
+#endif
 
         /// <summary>
         /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
@@ -148,7 +148,12 @@ namespace KeepCoding
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <param name="final">The action to run on either clause.</param>
         /// <returns><paramref name="action"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
-        public static Action Catch<T1, T2, T3>(this Action action, Action<Exception> caught = null, Action final = null) where T1 : Exception where T2 : Exception where T3 : Exception => () =>
+#if LITE
+        internal
+#else
+        public
+#endif
+            static Action Catch<T1, T2, T3>(this Action action, Action<Exception> caught = null, Action final = null) where T1 : Exception where T2 : Exception where T3 : Exception => () =>
         {
             try
             {
@@ -164,6 +169,7 @@ namespace KeepCoding
             }
         };
 
+#if !LITE
         /// <summary>
         /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
         /// </summary>
@@ -218,6 +224,7 @@ namespace KeepCoding
                 return caught.NullCheck("The caught cannot be null.")(e);
             }
         };
+#endif
 
         /// <summary>
         /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
@@ -231,7 +238,12 @@ namespace KeepCoding
         /// <param name="func">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <returns><paramref name="func"/> with <paramref name="caught"/> if <typeparamref name="T"/> is caught.</returns>
-        public static Func<TResult> Catch<T, TResult>(this Func<TResult> func, Func<T, TResult> caught) where T : Exception => () =>
+#if LITE
+        internal
+#else
+        public
+#endif
+            static Func<TResult> Catch<T, TResult>(this Func<TResult> func, Func<T, TResult> caught) where T : Exception => () =>
         {
             try
             {
@@ -243,6 +255,7 @@ namespace KeepCoding
             }
         };
 
+#if !LITE
         /// <summary>
         /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
         /// </summary>
@@ -267,6 +280,7 @@ namespace KeepCoding
                 return caught.NullCheck("The caught cannot be null.")(e);
             }
         };
+#endif
 
         /// <summary>
         /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
@@ -282,7 +296,12 @@ namespace KeepCoding
         /// <param name="func">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <returns><paramref name="func"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
-        public static Func<TResult> Catch<T1, T2, T3, TResult>(this Func<TResult> func, Func<Exception, TResult> caught) where T1 : Exception where T2 : Exception where T3 : Exception => () =>
+#if LITE
+        internal
+#else
+        public
+#endif
+            static Func<TResult> Catch<T1, T2, T3, TResult>(this Func<TResult> func, Func<Exception, TResult> caught) where T1 : Exception where T2 : Exception where T3 : Exception => () =>
         {
             try
             {
@@ -294,6 +313,7 @@ namespace KeepCoding
             }
         };
 
+#if !LITE
         /// <summary>
         /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
         /// </summary>
@@ -321,7 +341,6 @@ namespace KeepCoding
             }
         };
 
-#if !LITE
         /// <summary>
         /// The <see langword="checked"/> keyword is used to explicitly enable overflow checking for integral-type arithmetic operations and conversions.
         /// </summary>
@@ -1093,7 +1112,6 @@ namespace KeepCoding
             while (condition())
                 yield return func();
         }
-#endif
 
         /// <summary>
         /// Wraps this object instance into an <see cref="IEnumerable{T}"/> consisting of a single item.
@@ -1108,5 +1126,6 @@ namespace KeepCoding
         {
             yield return item;
         }
+#endif
     }
 }
