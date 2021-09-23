@@ -282,6 +282,13 @@ namespace KeepCoding
         public void StopSound() => Reference?.StopSound();
 
         /// <summary>
+        /// Stops all sounds for the entire <see cref="Sound"/> <see cref="Array"/>.
+        /// </summary>
+        /// <typeparam name="T">The collection of sounds to stop.</typeparam>
+        /// <param name="sounds">The <see cref="Sound"/> <see cref="Array"/> to mute all sounds from, using <see cref="KMAudioRef.StopSound"/>.</param>
+        public static T StopSounds<T>(T sounds) where T : IEnumerable<Sound> => sounds is null ? sounds : sounds.ForEach((Sound s) => s.StopSound());
+
+        /// <summary>
         /// Determines if both <see cref="Sound"/> variables are equal.
         /// </summary>
         /// <param name="obj">The comparison.</param>

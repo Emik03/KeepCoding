@@ -262,15 +262,10 @@ namespace KeepCoding
         /// <summary>
         /// Stops all sounds for the entire <see cref="KMAudioRef"/> <see cref="Array"/>.
         /// </summary>
+        /// <typeparam name="T">The type of iterator containing <see cref="KMAudioRef"/>.</typeparam>
         /// <param name="audioRefs">The <see cref="KMAudioRef"/> <see cref="Array"/> to mute all sounds from, using <see cref="KMAudioRef.StopSound"/>.</param>
         [CLSCompliant(false)]
-        public static KMAudioRef[] StopSound(this KMAudioRef[] audioRefs) => audioRefs.ForEach(a => a.StopSound()).ToArray();
-
-        /// <summary>
-        /// Stops all sounds for the entire <see cref="Sound"/> <see cref="Array"/>.
-        /// </summary>
-        /// <param name="sounds">The <see cref="Sound"/> <see cref="Array"/> to mute all sounds from, using <see cref="KMAudioRef.StopSound"/>.</param>
-        public static Sound[] StopSound(this Sound[] sounds) => sounds.ForEach(s => s.StopSound()).ToArray();
+        public static T StopSound<T>(this T audioRefs) where T : IEnumerable<KMAudioRef> => audioRefs.ForEach((KMAudioRef a) => a.StopSound());
 
         /// <summary>
         /// Combines actions together, only if these actions are not <see langword="null"/>.
@@ -278,7 +273,12 @@ namespace KeepCoding
         /// <param name="self">The action to modify.</param>
         /// <param name="others">The actions to combine with <paramref name="self"/>.</param>
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
-        public static Action Combine(this Action self, params Action[] others)
+#if LITE
+        internal
+#else
+        public
+#endif
+            static Action Combine(this Action self, params Action[] others)
         {
             foreach (Action other in others)
                 if (other is { })
@@ -296,7 +296,12 @@ namespace KeepCoding
         /// <param name="self">The action to modify.</param>
         /// <param name="others">The actions to combine with <paramref name="self"/>.</param>
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
-        public static Action<T> Combine<T>(this Action<T> self, params Action<T>[] others)
+#if LITE
+        internal
+#else
+        public
+#endif
+            static Action<T> Combine<T>(this Action<T> self, params Action<T>[] others)
         {
             foreach (Action<T> other in others)
                 if (other is { })
@@ -314,7 +319,12 @@ namespace KeepCoding
         /// <param name="self">The action to modify.</param>
         /// <param name="others">The actions to combine with <paramref name="self"/>.</param>
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
-        public static Action<T1, T2> Combine<T1, T2>(this Action<T1, T2> self, params Action<T1, T2>[] others)
+#if LITE
+        internal
+#else
+        public
+#endif
+            static Action<T1, T2> Combine<T1, T2>(this Action<T1, T2> self, params Action<T1, T2>[] others)
         {
             foreach (Action<T1, T2> other in others)
                 if (other is { })
@@ -332,7 +342,12 @@ namespace KeepCoding
         /// <param name="self">The action to modify.</param>
         /// <param name="others">The actions to combine with <paramref name="self"/>.</param>
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
-        public static Action<T1, T2, T3> Combine<T1, T2, T3>(this Action<T1, T2, T3> self, params Action<T1, T2, T3>[] others)
+#if LITE
+        internal
+#else
+        public
+#endif
+            static Action<T1, T2, T3> Combine<T1, T2, T3>(this Action<T1, T2, T3> self, params Action<T1, T2, T3>[] others)
         {
             foreach (Action<T1, T2, T3> other in others)
                 if (other is { })
@@ -350,7 +365,12 @@ namespace KeepCoding
         /// <param name="self">The action to modify.</param>
         /// <param name="others">The actions to combine with <paramref name="self"/>.</param>
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
-        public static Action<T1, T2, T3, T4> Combine<T1, T2, T3, T4>(this Action<T1, T2, T3, T4> self, params Action<T1, T2, T3, T4>[] others)
+#if LITE
+        internal
+#else
+        public
+#endif
+            static Action<T1, T2, T3, T4> Combine<T1, T2, T3, T4>(this Action<T1, T2, T3, T4> self, params Action<T1, T2, T3, T4>[] others)
         {
             foreach (Action<T1, T2, T3, T4> other in others)
                 if (other is { })
@@ -371,7 +391,12 @@ namespace KeepCoding
         /// <param name="dele">The <see cref="Delegate"/> to add.</param>
         /// <param name="mutator">The variable that transmutates and adds <paramref name="dele"/> onto itself.</param>
         /// <returns><paramref name="mutator"/> with the value <paramref name="dele"/>, or itself if <paramref name="dele"/> is null.</returns>
-        public static Delegate Set<T>(this Delegate dele, ref T mutator) where T : Delegate
+#if LITE
+        internal
+#else
+        public
+#endif
+            static Delegate Set<T>(this Delegate dele, ref T mutator) where T : Delegate
         {
             if (dele.Cast<T>() is T t)
                 mutator = t;
@@ -390,7 +415,12 @@ namespace KeepCoding
         /// <typeparam name="T">The type to cast the delegate into.</typeparam>
         /// <param name="dele">The delegate to cast.</param>
         /// <returns><paramref name="dele"/> as <typeparamref name="T"/>.</returns>
-        public static T Cast<T>(this Delegate dele) where T : Delegate => dele is null ? null : (dele as MulticastDelegate)?.GetInvocationList() is Delegate[] multicast ? Multicast<T>(dele, multicast) : dele.CreateDelegate<T>();
+#if LITE
+        internal
+#else
+        public
+#endif
+            static T Cast<T>(this Delegate dele) where T : Delegate => dele is null ? null : (dele as MulticastDelegate)?.GetInvocationList() is Delegate[] multicast ? Multicast<T>(dele, multicast) : dele.CreateDelegate<T>();
 
         /// <summary>
         /// Creates a delegate of the specified type.
@@ -398,7 +428,12 @@ namespace KeepCoding
         /// <typeparam name="T">The type of delegate to create.</typeparam>
         /// <param name="dele">The delegate to reference from.</param>
         /// <returns>A delegate of type <typeparamref name="T"/> using <paramref name="dele"/>'s target and method.</returns>
-        public static T CreateDelegate<T>(this Delegate dele) where T : Delegate => (T)Delegate.CreateDelegate(typeof(T), dele.Target, dele.Method, true);
+#if LITE
+        internal
+#else
+        public
+#endif
+            static T CreateDelegate<T>(this Delegate dele) where T : Delegate => (T)Delegate.CreateDelegate(typeof(T), dele.Target, dele.Method, true);
 
         /// <summary>
         /// Combines actions together, only if these functions are not <see langword="null"/>.
@@ -406,7 +441,12 @@ namespace KeepCoding
         /// <param name="self">The function to modify.</param>
         /// <param name="others">The functions to combine with <paramref name="self"/>.</param>
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
-        public static Func<TResult> Combine<TResult>(this Func<TResult> self, params Func<TResult>[] others)
+#if LITE
+        internal
+#else
+        public
+#endif
+            static Func<TResult> Combine<TResult>(this Func<TResult> self, params Func<TResult>[] others)
         {
             foreach (Func<TResult> other in others)
                 if (other is { })
@@ -424,7 +464,12 @@ namespace KeepCoding
         /// <param name="self">The function to modify.</param>
         /// <param name="others">The functions to combine with <paramref name="self"/>.</param>
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
-        public static Func<T, TResult> Combine<T, TResult>(this Func<T, TResult> self, params Func<T, TResult>[] others)
+#if LITE
+        internal
+#else
+        public
+#endif
+            static Func<T, TResult> Combine<T, TResult>(this Func<T, TResult> self, params Func<T, TResult>[] others)
         {
             foreach (Func<T, TResult> other in others)
                 if (other is { })
@@ -442,7 +487,12 @@ namespace KeepCoding
         /// <param name="self">The function to modify.</param>
         /// <param name="others">The functions to combine with <paramref name="self"/>.</param>
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
-        public static Func<T1, T2, TResult> Combine<T1, T2, TResult>(this Func<T1, T2, TResult> self, params Func<T1, T2, TResult>[] others)
+#if LITE
+        internal
+#else
+        public
+#endif
+            static Func<T1, T2, TResult> Combine<T1, T2, TResult>(this Func<T1, T2, TResult> self, params Func<T1, T2, TResult>[] others)
         {
             foreach (Func<T1, T2, TResult> other in others)
                 if (other is { })
@@ -460,7 +510,12 @@ namespace KeepCoding
         /// <param name="self">The function to modify.</param>
         /// <param name="others">The functions to combine with <paramref name="self"/>.</param>
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
-        public static Func<T1, T2, T3, TResult> Combine<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> self, params Func<T1, T2, T3, TResult>[] others)
+#if LITE
+        internal
+#else
+        public
+#endif
+            static Func<T1, T2, T3, TResult> Combine<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> self, params Func<T1, T2, T3, TResult>[] others)
         {
             foreach (Func<T1, T2, T3, TResult> other in others)
                 if (other is { })
@@ -478,7 +533,12 @@ namespace KeepCoding
         /// <param name="self">The function to modify.</param>
         /// <param name="others">The functions to combine with <paramref name="self"/>.</param>
         /// <returns><paramref name="self"/> with <paramref name="others"/> appended.</returns>
-        public static Func<T1, T2, T3, T4, TResult> Combine<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, TResult> self, params Func<T1, T2, T3, T4, TResult>[] others)
+#if LITE
+        internal
+#else
+        public
+#endif
+            static Func<T1, T2, T3, T4, TResult> Combine<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, TResult> self, params Func<T1, T2, T3, T4, TResult>[] others)
         {
             foreach (Func<T1, T2, T3, T4, TResult> other in others)
                 if (other is { })
