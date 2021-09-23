@@ -336,13 +336,13 @@ namespace KeepCoding
         /// </summary>
         /// <param name="command">The command of the user.</param>
         /// <returns>A list of instructions for Twitch Plays.</returns>
-        protected IEnumerator ProcessTwitchCommand(string command) => command.ToLowerInvariant().Trim() is "colorblind" && Module.IsColorblindSupported ? ToggleColorblind() : Process(command).Flatten(IsExcludedType);
+        protected IEnumerator ProcessTwitchCommand(string command) => command.ToLowerInvariant().Trim() is "colorblind" && Module.IsColorblindSupported ? ToggleColorblind() : Process(command).Flatten(IsExcluded);
 
         /// <summary>
         /// This method gets grabbed by Twitch Plays. It grabs <see cref="ForceSolve()"/> and flattens it using <see cref="Helper.Flatten(IEnumerator, Predicate{IEnumerator})"/>.
         /// </summary>
         /// <returns>A list of instructions for Twitch Plays.</returns>
-        protected IEnumerator TwitchHandleForcedSolve() => ForceSolve().Flatten(IsExcludedType);
+        protected IEnumerator TwitchHandleForcedSolve() => ForceSolve().Flatten(IsExcluded);
 
         /// <summary>
         /// You can <see langword="yield"/> <see langword="return"/> this to repeatedly <see langword="yield"/> <see langword="return"/> an item until a condition is no longer met.
@@ -350,7 +350,7 @@ namespace KeepCoding
         /// <param name="item">The item to yield repeatedly.</param>
         /// <param name="condition">The condition to repeatedly check until it returns <see langword="false"/>.</param>
         /// <returns><paramref name="item"/> continously until <paramref name="condition"/> is <see langword="false"/></returns>
-        protected static IEnumerator YieldWhile<T>(T item, Func<bool> condition)
+        protected static IEnumerable<T> YieldWhile<T>(T item, Func<bool> condition)
         {
             while (condition())
                 yield return item;
@@ -362,9 +362,9 @@ namespace KeepCoding
         /// <param name="item">The item to yield repeatedly.</param>
         /// <param name="condition">The condition to repeatedly check until it returns <see langword="false"/>.</param>
         /// <returns><paramref name="item"/> continously until <paramref name="condition"/> is <see langword="true"/></returns>
-        protected static IEnumerator YieldUntil<T>(T item, Func<bool> condition) => YieldWhile(item, () => !condition());
+        protected static IEnumerable<T> YieldUntil<T>(T item, Func<bool> condition) => YieldWhile(item, () => !condition());
 
-        private static bool IsExcludedType<T>(T item) => item is IEnumerable<char> || item is KMSelectable[];
+        private static bool IsExcluded<T>(T item) => item is IEnumerable<char> || item is KMSelectable[];
 
         private static string Combine(in string main, params object[] toAppend) => main + ConvertAll(toAppend, o => $" {o}");
 
