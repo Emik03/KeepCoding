@@ -31,6 +31,6 @@ namespace KeepCoding.Internal
         /// </summary>
         /// <param name="received">The received value.</param>
         /// <param name="expected">The value of the expected value.</param>
-        public AssertionException(object received, object expected) : base($"Expected {expected}, received: {received}.") { }
+        public AssertionException(object received, object expected) : base($"Expected {expected.Stringify()}, received: {received.Stringify()}.") { }
     }
 }
