@@ -262,8 +262,7 @@ namespace KeepCoding
         /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="SoundEffect"/>.</param>
         public void ButtonEffect(KMSelectable selectable, float intensityModifier = 0, params Sound[] sounds)
         {
-            selectable.Assert("Selectable should not be null when calling this method.").AddInteractionPunch(intensityModifier);
-
+            selectable.Assert("The selectable should not be null when calling this method.").AddInteractionPunch(intensityModifier);
             PlaySound(selectable.transform, sounds);
         }
 
