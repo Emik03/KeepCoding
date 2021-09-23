@@ -179,6 +179,40 @@ namespace KeepCoding
         }
 
         /// <summary>
+        /// Needy Only: The minimum delay for the needy to activate.
+        /// </summary>
+        /// <exception cref="MissingMethodException"></exception>
+        /// <exception cref="MissingReferenceException"></exception>
+        public float NeedyMinResetInterval
+        {
+            get => OfType(
+                null,
+                n => n.ResetDelayMin,
+                () => (_bombComponent is NeedyComponent needy ? needy : throw Missing).ResetDelayMin);
+            set => OfType(
+                null,
+                n => n.ResetDelayMin = value,
+                () => (_bombComponent is NeedyComponent needy ? needy : throw Missing).ResetDelayMin = value);
+        }
+
+        /// <summary>
+        /// Needy Only: The maximum delay for the needy to activate.
+        /// </summary>
+        /// <exception cref="MissingMethodException"></exception>
+        /// <exception cref="MissingReferenceException"></exception>
+        public float NeedyMaxResetInterval
+        {
+            get => OfType(
+                null,
+                n => n.ResetDelayMax,
+                () => _bombComponent is NeedyComponent needy ? needy.ResetDelayMax : throw Missing);
+            set => OfType(
+                null,
+                n => n.ResetDelayMax = value,
+                () => (_bombComponent is NeedyComponent needy ? needy : throw Missing).ResetDelayMax = value);
+        }
+
+        /// <summary>
         /// The identifier for the module as referenced in missions. e.g. "BigButton" Also known as a "Module ID". This value is immutable for vanilla modules, and an exception will be thrown when attempted.
         /// </summary>
         /// <exception cref="MissingReferenceException"></exception>
