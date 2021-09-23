@@ -265,7 +265,7 @@ namespace KeepCoding
         /// <typeparam name="T">The type of iterator containing <see cref="KMAudioRef"/>.</typeparam>
         /// <param name="audioRefs">The <see cref="KMAudioRef"/> <see cref="Array"/> to mute all sounds from, using <see cref="KMAudioRef.StopSound"/>.</param>
         [CLSCompliant(false)]
-        public static T StopSound<T>(this T audioRefs) where T : IEnumerable<KMAudioRef> => audioRefs.ForEach((KMAudioRef a) => a.StopSound());
+        public static T StopSounds<T>(this T audioRefs) where T : IEnumerable<KMAudioRef> => audioRefs.ForEach((KMAudioRef a) => a.StopSound());
 
         /// <summary>
         /// Combines actions together, only if these actions are not <see langword="null"/>.
