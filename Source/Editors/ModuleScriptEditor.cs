@@ -71,7 +71,13 @@ namespace KeepCoding.Internal
 
         private static IEnumerator InstallLatest(string tagName, string extension)
         {
-            using UnityWebRequest web = Get($"https://github.com/Emik03/KeepCoding/releases/download/{tagName}/KeepCoding.{extension}");
+            const string FileName =
+#if LITE
+                "KeepCodingLite";
+#else
+                "KeepCoding";
+#endif
+            using UnityWebRequest web = Get($"https://github.com/Emik03/KeepCoding/releases/download/{tagName}/{FileName}.{extension}");
 
             Self($"Downloading the latest {extension} file...");
 
