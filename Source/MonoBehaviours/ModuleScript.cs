@@ -545,7 +545,7 @@ namespace KeepCoding
             ReadOnlyCollection<ModuleContainer> modules = HookModules(bomb).ToReadOnly();
 
             s_allModules
-                .Select(kvp => kvp.Key)
+                .Keys
                 .Where(bomb => !bomb)
                 .ForEach(bomb => s_allModules.Remove(bomb));
 
