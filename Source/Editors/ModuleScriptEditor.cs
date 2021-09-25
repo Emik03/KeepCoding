@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 using static System.IO.File;
+using static System.IO.Path;
 using static System.Reflection.Assembly;
 using static System.Uri;
 using static KeepCoding.Logger;
@@ -88,7 +89,7 @@ namespace KeepCoding.Internal
 
             Self($"Installing the latest {extension} file...");
 
-            WriteAllBytes(SelfPath, web.downloadHandler.data);
+            WriteAllBytes(ChangeExtension(SelfPath, extension), web.downloadHandler.data);
         }
     }
 }
