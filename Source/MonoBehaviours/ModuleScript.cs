@@ -544,11 +544,12 @@ namespace KeepCoding
 
             ReadOnlyCollection<ModuleContainer> modules = HookModules(bomb).ToReadOnly();
 
-            s_allModules.ForEach((KMBomb key, ReadOnlyCollection<ModuleContainer> _) =>
-            {
-                if (!key)
-                    s_allModules.Remove(key);
-            }).Add(bomb, modules);
+            s_allModules
+                .Select(kvp => kvp.Key)
+                .Where(bomb => !bomb)
+                .ForEach(bomb => s_allModules.Remove(bomb));
+
+            s_allModules.Add(bomb, modules);
 
             return modules;
         }
