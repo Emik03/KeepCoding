@@ -22,6 +22,7 @@
 	<FileVersion></FileVersion>
 	<Version></Version>
 	<PackageId>KeepCoding</PackageId>
+	<AssemblyName>KeepCoding</AssemblyName>
 	<SignAssembly>true</SignAssembly>
 	<DelaySign>false</DelaySign>
 	<AssemblyOriginatorKeyFile>KeepCoding.pfx</AssemblyOriginatorKeyFile>
@@ -29,13 +30,13 @@
 	<EnableNETAnalyzers>true</EnableNETAnalyzers>
 	<AnalysisLevel>preview</AnalysisLevel>
 	<Configurations>Debug;Release;Lite</Configurations>
+    <Nullable>warnings</Nullable>
+    <Company>Emik</Company>
   </PropertyGroup>
 
   <PropertyGroup>
     <GameFolder Condition="'$(GameFolder)' == ''">D:\Steam\steamapps\common\Keep Talking and Nobody Explodes\</GameFolder>
     <Unity Condition="'$(Unity)' == ''">C:\Program Files\Editor\</Unity>
-    <Nullable>warnings</Nullable>
-    <Company>Emik</Company>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -49,12 +50,18 @@
     <DocumentationFile>Documentation\KeepCoding.xml</DocumentationFile>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <NoWarn>1701;1702;8002</NoWarn>
+    <AssemblyName>KeepCoding</AssemblyName>
+    <PackageId>KeepCoding</PackageId>
+    <Product>KeepCoding</Product>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Lite|AnyCPU'">
     <DocumentationFile>Documentation\KeepCoding.xml</DocumentationFile>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <NoWarn>1701;1702;8002</NoWarn>
+    <AssemblyName>KeepCodingLite</AssemblyName>
+    <PackageId>KeepCodingLite</PackageId>
+    <Product>KeepCodingLite</Product>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
