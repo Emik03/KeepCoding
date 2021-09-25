@@ -1,25 +1,24 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Helper](Helper.md 'KeepCoding.Helper')
 ## Helper.Assert&lt;T&gt;(T, string) Method
-Throws a [UnityEngine.MissingComponentException](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MissingComponentException 'UnityEngine.MissingComponentException') if the [UnityEngine.Object](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Object 'UnityEngine.Object') given is [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null'), then returning the [UnityEngine.Object](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Object 'UnityEngine.Object')[obj](Helper.Assert.D4z8G3gX1wxH.0T6qTpvsg.md#KeepCoding.Helper.Assert.T.(T.string).obj 'KeepCoding.Helper.Assert&lt;T&gt;(T, string).obj').  
+Throws an [AssertionException](AssertionException.md 'KeepCoding.Internal.AssertionException') if the argument passed in is [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null')
 ```csharp
-public static T Assert<T>(this T obj, string message="While asserting for null, the variable ended up null.")
-    where T : Object;
+public static T Assert<T>(this T item, string name=null);
 ```
 #### Type parameters
 <a name='KeepCoding.Helper.Assert.T.(T.string).T'></a>
 `T`  
-The type of [UnityEngine.Object](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Object 'UnityEngine.Object').
+The type of the item to assert for non-nullability.
   
 #### Parameters
-<a name='KeepCoding.Helper.Assert.T.(T.string).obj'></a>
-`obj` [T](Helper.Assert.D4z8G3gX1wxH.0T6qTpvsg.md#KeepCoding.Helper.Assert.T.(T.string).T 'KeepCoding.Helper.Assert&lt;T&gt;(T, string).T')  
-The [UnityEngine.Object](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.Object 'UnityEngine.Object') to do a null check on.
+<a name='KeepCoding.Helper.Assert.T.(T.string).item'></a>
+`item` [T](Helper.Assert.D4z8G3gX1wxH.0T6qTpvsg.md#KeepCoding.Helper.Assert.T.(T.string).T 'KeepCoding.Helper.Assert&lt;T&gt;(T, string).T')  
+The item to use a [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null') check on.
   
-<a name='KeepCoding.Helper.Assert.T.(T.string).message'></a>
-`message` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
-The message of the exception.
+<a name='KeepCoding.Helper.Assert.T.(T.string).name'></a>
+`name` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
+The name of [item](Helper.Assert.D4z8G3gX1wxH.0T6qTpvsg.md#KeepCoding.Helper.Assert.T.(T.string).item 'KeepCoding.Helper.Assert&lt;T&gt;(T, string).item').
   
 #### Returns
 [T](Helper.Assert.D4z8G3gX1wxH.0T6qTpvsg.md#KeepCoding.Helper.Assert.T.(T.string).T 'KeepCoding.Helper.Assert&lt;T&gt;(T, string).T')  
-[obj](Helper.Assert.D4z8G3gX1wxH.0T6qTpvsg.md#KeepCoding.Helper.Assert.T.(T.string).obj 'KeepCoding.Helper.Assert&lt;T&gt;(T, string).obj')
+[item](Helper.Assert.D4z8G3gX1wxH.0T6qTpvsg.md#KeepCoding.Helper.Assert.T.(T.string).item 'KeepCoding.Helper.Assert&lt;T&gt;(T, string).item')

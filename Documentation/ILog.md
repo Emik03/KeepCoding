@@ -11,6 +11,7 @@ Derived
 &#8627; [Logger](Logger.md 'KeepCoding.Logger')  
 &#8627; [ModConfig&lt;TSerialize&gt;](ModConfig.TSerialize..md 'KeepCoding.ModConfig&lt;TSerialize&gt;')  
 &#8627; [ModuleScript](ModuleScript.md 'KeepCoding.ModuleScript')  
+&#8627; [MonoRandom](MonoRandom.md 'KeepCoding.MonoRandom')  
 
 | Methods | |
 | :--- | :--- |

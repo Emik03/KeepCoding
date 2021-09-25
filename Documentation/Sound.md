@@ -65,6 +65,7 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 | [GetHashCode()](Sound.GetHashCode().md 'KeepCoding.Sound.GetHashCode()') | Gets the current hash code.<br/> |
 | [Method(KMAudio)](Sound.Method.24QuhqsELxRIr9EQ4sXIPg.md 'KeepCoding.Sound.Method(KMAudio)') | Gets the corresponding sound method matching the arguments of this instance of [Sound](Sound.md 'KeepCoding.Sound').<br/> |
 | [StopSound()](Sound.StopSound().md 'KeepCoding.Sound.StopSound()') | Stops the [Reference](Sound.Reference.md 'KeepCoding.Sound.Reference')'s sound.<br/> |
+| [StopSounds&lt;T&gt;(T)](Sound.StopSounds.+0gH8uuUhUv4gNw18eveqA.md 'KeepCoding.Sound.StopSounds&lt;T&gt;(T)') | Stops all sounds for the entire [Sound](Sound.md 'KeepCoding.Sound')[System.Array](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array').<br/> |
 | [ToString()](Sound.ToString().md 'KeepCoding.Sound.ToString()') | Converts the current sound to a string, returning the current sound.<br/> |
 
 | Operators | |

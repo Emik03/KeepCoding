@@ -11,4 +11,4 @@ public ModuleContainer(Component component);
 The component to get the module from.
   
 #### Exceptions
-[ConstructorArgumentException](ConstructorArgumentException.md 'KeepCoding.Internal.ConstructorArgumentException')  
+[System.ArgumentException](https://docs.microsoft.com/en-us/dotnet/api/System.ArgumentException 'System.ArgumentException')  

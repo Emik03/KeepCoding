@@ -3,7 +3,7 @@
 ## TPScript&lt;TModule&gt;.YieldWhile&lt;T&gt;(T, Func&lt;bool&gt;) Method
 You can [yield](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/yield 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/yield')[return](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/return 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/return') this to repeatedly [yield](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/yield 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/yield')[return](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/return 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/return') an item until a condition is no longer met.  
 ```csharp
-protected static System.Collections.IEnumerator YieldWhile<T>(T item, System.Func<bool> condition);
+protected static System.Collections.Generic.IEnumerable<T> YieldWhile<T>(T item, System.Func<bool> condition);
 ```
 #### Type parameters
 <a name='KeepCoding.TPScript.TModule..YieldWhile.T.(T.System.Func.bool.).T'></a>
@@ -19,5 +19,5 @@ The item to yield repeatedly.
 The condition to repeatedly check until it returns [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool').
   
 #### Returns
-[System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerator 'System.Collections.IEnumerator')  
+[System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[T](TPScript.TModule..YieldWhile.Ac4tido+mXp0Y.5imr1xlg.md#KeepCoding.TPScript.TModule..YieldWhile.T.(T.System.Func.bool.).T 'KeepCoding.TPScript&lt;TModule&gt;.YieldWhile&lt;T&gt;(T, System.Func&lt;bool&gt;).T')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')  
 [item](TPScript.TModule..YieldWhile.Ac4tido+mXp0Y.5imr1xlg.md#KeepCoding.TPScript.TModule..YieldWhile.T.(T.System.Func.bool.).item 'KeepCoding.TPScript&lt;TModule&gt;.YieldWhile&lt;T&gt;(T, System.Func&lt;bool&gt;).item') continously until [condition](TPScript.TModule..YieldWhile.Ac4tido+mXp0Y.5imr1xlg.md#KeepCoding.TPScript.TModule..YieldWhile.T.(T.System.Func.bool.).condition 'KeepCoding.TPScript&lt;TModule&gt;.YieldWhile&lt;T&gt;(T, System.Func&lt;bool&gt;).condition') is [false](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool')

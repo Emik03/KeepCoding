@@ -3,10 +3,13 @@
 ## MonoRandom Class
 A pseudo-random number generator that is primarily used to get multiple platforms to share the same random number generator.  
 ```csharp
-public class MonoRandom
+public class MonoRandom :
+KeepCoding.ILog
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; MonoRandom  
+
+Implements [ILog](ILog.md 'KeepCoding.ILog')  
 
 | Constructors | |
 | :--- | :--- |
@@ -19,10 +22,13 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 
 | Methods | |
 | :--- | :--- |
-| [Next()](MonoRandom.Next().md 'KeepCoding.MonoRandom.Next()') | Returns a nonnegative random number.<br/> |
-| [Next(int)](MonoRandom.Next.VHA+leEGvLe8GM16JiFp.g.md 'KeepCoding.MonoRandom.Next(int)') | Returns a nonnegative random number less than the specified maximum.<br/> |
-| [Next(int, int)](MonoRandom.Next.0E36OfIPdQ3n44yRv2pAWg.md 'KeepCoding.MonoRandom.Next(int, int)') | Returns a random number within a specified range.<br/> |
-| [NextBytes(byte[])](MonoRandom.NextBytes.f7ucoBIuQt0B3ppE67k+AA.md 'KeepCoding.MonoRandom.NextBytes(byte[])') | Fills the elements of a specified array of bytes with random numbers.<br/> |
-| [NextDouble()](MonoRandom.NextDouble().md 'KeepCoding.MonoRandom.NextDouble()') | Returns a random number between 0.0 and 1.0.<br/> |
-| [Sample()](MonoRandom.Sample().md 'KeepCoding.MonoRandom.Sample()') | Returns a random number between 0.0 and 1.0.<br/> |
-| [Shuffle&lt;T&gt;(T)](MonoRandom.Shuffle.5O.igPeRkXTv0BjFt+Dl5w.md 'KeepCoding.MonoRandom.Shuffle&lt;T&gt;(T)') | Shuffles a list using an in-place algorithm; the original list is modified.<br/> |
+| [Log&lt;T&gt;(T, LogType)](MonoRandom.Log.jzR5EDzrgzuvg62Q6gTRbQ.md 'KeepCoding.MonoRandom.Log&lt;T&gt;(T, LogType)') | Logs message, but formats it to be compliant with the Logfile Analyzer.<br/> |
+| [Log&lt;T&gt;(T, object[])](MonoRandom.Log.Z6bQPx7eQGPtbQ7Dp0.PkQ.md 'KeepCoding.MonoRandom.Log&lt;T&gt;(T, object[])') | Logs multiple entries, but formats it to be compliant with the Logfile Analyzer.<br/> |
+| [LogMultiple(string[])](MonoRandom.LogMultiple.MvM6eW25vCMARshRVaR03w.md 'KeepCoding.MonoRandom.LogMultiple(string[])') | Logs multiple entries to the console.<br/> |
+| [Next(bool)](MonoRandom.Next.8hbs3ZrSlWwMg08lnW1ElA.md 'KeepCoding.MonoRandom.Next(bool)') | Returns a nonnegative random number.<br/> |
+| [Next(int, bool)](MonoRandom.Next.QqrtxhUZrMW4HCSDApmpxA.md 'KeepCoding.MonoRandom.Next(int, bool)') | Returns a nonnegative random number less than the specified maximum.<br/> |
+| [Next(int, int, bool)](MonoRandom.Next.4L.8XIneVXif1QPg0FJ6gg.md 'KeepCoding.MonoRandom.Next(int, int, bool)') | Returns a random number within a specified range.<br/> |
+| [NextBytes(byte[], bool)](MonoRandom.NextBytes.diZt6vNkPrPpOremHfJuOg.md 'KeepCoding.MonoRandom.NextBytes(byte[], bool)') | Fills the elements of a specified array of bytes with random numbers.<br/> |
+| [NextDouble(bool)](MonoRandom.NextDouble.EJFbv6ROD4vE0mTzHcEGbw.md 'KeepCoding.MonoRandom.NextDouble(bool)') | Returns a random number between 0.0 and 1.0.<br/> |
+| [Sample(bool)](MonoRandom.Sample.DvkUkzIZHgJdqRBAWPpQLg.md 'KeepCoding.MonoRandom.Sample(bool)') | Returns a random number between 0.0 and 1.0.<br/> |
+| [Shuffle&lt;T&gt;(T, bool)](MonoRandom.Shuffle.LhQwPIlVk4SxjAclm9nODQ.md 'KeepCoding.MonoRandom.Shuffle&lt;T&gt;(T, bool)') | Shuffles a list using an in-place algorithm; the original list is modified.<br/> |
