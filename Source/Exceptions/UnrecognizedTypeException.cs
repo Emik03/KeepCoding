@@ -1,5 +1,4 @@
-﻿#if !LITE
-using System;
+﻿using System;
 
 namespace KeepCoding.Internal
 {
@@ -28,4 +27,3 @@ namespace KeepCoding.Internal
         public UnrecognizedTypeException(string message, Exception innerException) : base(message, innerException) { }
     }
 }
-#endif

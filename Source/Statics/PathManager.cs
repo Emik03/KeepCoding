@@ -116,11 +116,13 @@ namespace KeepCoding
         }
 #endif
 
+#if !LITE
         /// <summary>
         /// Combines multiple paths together.
         /// </summary>
         /// <param name="paths">The paths to combine with.</param>
         /// <returns>A single path consisting of the combined path of the array.</returns>
+#endif
 #if LITE
         internal
 #else

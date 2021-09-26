@@ -134,6 +134,7 @@ namespace KeepCoding
         };
 #endif
 
+#if !LITE
         /// <summary>
         /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
         /// </summary>
@@ -148,6 +149,7 @@ namespace KeepCoding
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <param name="final">The action to run on either clause.</param>
         /// <returns><paramref name="action"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
+#endif
 #if LITE
         internal
 #else
@@ -226,6 +228,7 @@ namespace KeepCoding
         };
 #endif
 
+#if !LITE
         /// <summary>
         /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
         /// </summary>
@@ -238,6 +241,7 @@ namespace KeepCoding
         /// <param name="func">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <returns><paramref name="func"/> with <paramref name="caught"/> if <typeparamref name="T"/> is caught.</returns>
+#endif
 #if LITE
         internal
 #else
@@ -282,6 +286,7 @@ namespace KeepCoding
         };
 #endif
 
+#if !LITE
         /// <summary>
         /// The try-catch statement consists of a <see langword="try"/> block followed by one or more <see langword="catch"/> clauses, which specify handlers for different exceptions.
         /// </summary>
@@ -296,6 +301,7 @@ namespace KeepCoding
         /// <param name="func">The action to try.</param>
         /// <param name="caught">The action to run when an exception is caught.</param>
         /// <returns><paramref name="func"/> with <paramref name="caught"/> if the specified <see cref="Exception"/>s are caught.</returns>
+#endif
 #if LITE
         internal
 #else

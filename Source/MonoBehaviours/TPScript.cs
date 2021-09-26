@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using KeepCoding.Internal;
 using UnityEngine;
 using static System.Array;
+using static System.Linq.Enumerable;
 using static System.Text.RegularExpressions.RegexOptions;
 
 namespace KeepCoding
@@ -291,12 +292,38 @@ namespace KeepCoding
 #endif
 
         /// <summary>
+        /// You can <see langword="yield"/> <see langword="return"/> this to repeatedly <see langword="yield"/> <see langword="return"/> <see langword="true"/> until the module is solved.
+        /// </summary>
+        /// <returns></returns>
+        protected IEnumerable<bool> UntilSolve() => YieldWhile(true, () => !Module.IsSolved);
+
+        /// <summary>
+        /// You can <see langword="yield"/> <see langword="return"/> this to repeatedly <see langword="yield"/> <see langword="return"/> an item until a condition is no longer met.
+        /// </summary>
+        /// <param name="item">The item to yield repeatedly.</param>
+        /// <param name="condition">The condition to repeatedly check until it returns <see langword="false"/>.</param>
+        /// <returns><paramref name="item"/> continously until <paramref name="condition"/> is <see langword="false"/></returns>
+        protected static IEnumerable<T> YieldWhile<T>(T item, Func<bool> condition)
+        {
+            while (condition())
+                yield return item;
+        }
+
+        /// <summary>
+        /// You can <see langword="yield"/> <see langword="return"/> this to repeatedly <see langword="yield"/> <see langword="return"/> an item until a condition is met.
+        /// </summary>
+        /// <param name="item">The item to yield repeatedly.</param>
+        /// <param name="condition">The condition to repeatedly check until it returns <see langword="false"/>.</param>
+        /// <returns><paramref name="item"/> continously until <paramref name="condition"/> is <see langword="true"/></returns>
+        protected static IEnumerable<T> YieldUntil<T>(T item, Func<bool> condition) => YieldWhile(item, () => !condition());
+
+        /// <summary>
         /// Presses a sequence of buttons in order of <paramref name="selectables"/>, waiting <paramref name="wait"/> seconds in-between each, and interrupting as soon as <see cref="ModuleScript.HasStruck"/> is <see langword="true"/>.
         /// </summary>
         /// <param name="selectables">The array of selectables to interact with.</param>
         /// <param name="wait">The delay between each button press in seconds.</param>
         /// <returns>A sequence of button presses for Twitch Plays to process.</returns>
-        protected IEnumerator OnInteractSequence(KMSelectable[] selectables, float wait)
+        protected IEnumerable<WaitForSecondsRealtime> OnInteractSequence(KMSelectable[] selectables, float wait)
         {
             if (selectables is null)
                 yield break;
@@ -319,20 +346,19 @@ namespace KeepCoding
         /// <param name="wait">The delay between each button press in seconds.</param>
         /// <param name="indices">The indices to press within the array.</param>
         /// <returns>A sequence of button presses for Twitch Plays to process.</returns>
-        protected IEnumerator OnInteractSequence(KMSelectable[] selectables, float wait, params int[] indices)
+        protected IEnumerable<WaitForSecondsRealtime> OnInteractSequence(KMSelectable[] selectables, float wait, params int[] indices)
         {
             selectables.NullOrEmptyCheck($"The {nameof(KMSelectable)} array is null or empty.");
 
-            if (indices is null)
-                yield break;
-
-            yield return indices.All(i => i.IsBetween(0, selectables.Length - 1))
+            return indices is null
+                ? Empty<WaitForSecondsRealtime>()
+                : indices.All(i => i.IsBetween(0, selectables.Length - 1))
                 ? OnInteractSequence(ConvertAll(indices, i => selectables[i]), wait)
                 : throw new IndexOutOfRangeException("The indices are out of range.");
         }
 
         /// <summary>
-        /// This method gets grabbed by Twitch Plays. It grabs <see cref="Process(string)"/> and flattens it using <see cref="Helper.Flatten(IEnumerator, Predicate{IEnumerator})"/>.
+        /// This method gets grabbed by Twitch Plays. It grabs <see cref="Process(string)"/> and flattens it using <see cref="Helper.Flatten(IEnumerator, Predicate{IEnumerator})"/>, and auto-implements the colorblind command if supported.
         /// </summary>
         /// <param name="command">The command of the user.</param>
         /// <returns>A list of instructions for Twitch Plays.</returns>
@@ -343,26 +369,6 @@ namespace KeepCoding
         /// </summary>
         /// <returns>A list of instructions for Twitch Plays.</returns>
         protected IEnumerator TwitchHandleForcedSolve() => ForceSolve().Flatten(IsExcluded);
-
-        /// <summary>
-        /// You can <see langword="yield"/> <see langword="return"/> this to repeatedly <see langword="yield"/> <see langword="return"/> an item until a condition is no longer met.
-        /// </summary>
-        /// <param name="item">The item to yield repeatedly.</param>
-        /// <param name="condition">The condition to repeatedly check until it returns <see langword="false"/>.</param>
-        /// <returns><paramref name="item"/> continously until <paramref name="condition"/> is <see langword="false"/></returns>
-        protected static IEnumerable<T> YieldWhile<T>(T item, Func<bool> condition)
-        {
-            while (condition())
-                yield return item;
-        }
-
-        /// <summary>
-        /// You can <see langword="yield"/> <see langword="return"/> this to repeatedly <see langword="yield"/> <see langword="return"/> an item until a condition is met.
-        /// </summary>
-        /// <param name="item">The item to yield repeatedly.</param>
-        /// <param name="condition">The condition to repeatedly check until it returns <see langword="false"/>.</param>
-        /// <returns><paramref name="item"/> continously until <paramref name="condition"/> is <see langword="true"/></returns>
-        protected static IEnumerable<T> YieldUntil<T>(T item, Func<bool> condition) => YieldWhile(item, () => !condition());
 
         private static bool IsExcluded<T>(T item) => item is IEnumerable<char> || item is KMSelectable[];
 

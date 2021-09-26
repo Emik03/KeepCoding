@@ -70,9 +70,15 @@ namespace KeepCoding
         /// <param name="dynamicAudio">The instance of <see cref="AudioScript"/> to retrieve <see cref="AudioSource"/> from.</param>
         public static explicit operator AudioSource(AudioScript dynamicAudio) => dynamicAudio.AudioSource;
 
+#if LITE
+        /// <summary>
+        /// Sets up base functionality for the audio. If you declare this method yourself, make sure to call <c>base.Awake()</c> to ensure that this component initializes correctly
+        /// </summary>
+#else
         /// <summary>
         /// Sets up base functionality for the audio. If you declare this method yourself, make sure to call <c>base.Awake()</c> to ensure that this component initializes correctly, or use <see cref="OnAwake"/> instead.
         /// </summary>
+#endif
         public void Awake()
         {
             AudioSource.playOnAwake = false;
@@ -95,9 +101,15 @@ namespace KeepCoding
             _previous = StartCoroutine(TweenFade(volume, time));
         }
 
+#if LITE
+        /// <summary>
+        /// Updates the volume of <see cref="AudioSource"/>. If you declare this method yourself, make sure to call <c>base.Update()</c> to ensure that this component retains functionality.
+        /// </summary>
+#else
         /// <summary>
         /// Updates the volume of <see cref="AudioSource"/>. If you declare this method yourself, make sure to call <c>base.Update()</c> to ensure that this component retains functionality, or use <see cref="OnUpdate"/> instead.
         /// </summary>
+#endif
         public void Update()
 #if LITE
             =>

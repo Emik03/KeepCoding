@@ -16,7 +16,7 @@ namespace KeepCoding
         public string ArrayEnd { get; set; } = "]";
 
         /// <summary>
-        /// Indicates how <see cref="Tuple"/> should start with.
+        /// Indicates how <see cref="IEnumerator"/>s and <see cref="IEnumerable"/>s should start with.
         /// </summary>
         public string ArraySeparator { get; set; } = ", ";
 
@@ -36,7 +36,7 @@ namespace KeepCoding
         public string DictionaryEnd { get; set; } = " }";
 
         /// <summary>
-        /// Indicates how <see cref="Tuple"/> should start with.
+        /// Indicates how <see cref="IDictionary"/> should start with.
         /// </summary>
         public string DictionarySeparator { get; set; } = ", ";
 
@@ -70,6 +70,7 @@ namespace KeepCoding
         /// </summary>
         public string TrueArg { get; set; } = "true";
 
+#if !LITE
         /// <summary>
         /// Indicates how <see cref="Tuple"/> should end with.
         /// </summary>
@@ -84,6 +85,7 @@ namespace KeepCoding
         /// Indicates how <see cref="Tuple"/> should start with.
         /// </summary>
         public string TupleStart { get; set; } = "(";
+#endif
 
         /// <summary>
         /// Indicates how <see cref="float"/>, <see cref="double"/>, and <see cref="decimal"/> should be formatted.

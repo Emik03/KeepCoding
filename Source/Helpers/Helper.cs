@@ -14,6 +14,7 @@ using static System.Linq.Enumerable;
 using static System.Math;
 using static System.Reflection.BindingFlags;
 using static System.String;
+using static KeepCoding.Game;
 using static UnityEngine.Debug;
 using Object = UnityEngine.Object;
 using SRandom = System.Random;
@@ -22,7 +23,7 @@ using URandom = UnityEngine.Random;
 namespace KeepCoding
 {
     /// <summary>
-    /// General extension class covering both KMFramework and native datatypes.
+    /// General extension class.
     /// </summary>
     public static class Helper
     {
@@ -33,13 +34,15 @@ namespace KeepCoding
         public const string Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 #endif
 
+#if !LITE
         /// <summary>
         /// The entire alphanumeric series, also known as base-62. From 0-9, A-Z, a-z.
         /// </summary>
+#endif
 #if LITE
-        public
-#else
         internal
+#else
+        public
 #endif
             const string Alphanumeric = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
@@ -55,13 +58,15 @@ namespace KeepCoding
         public const string Decimal = "0123456789";
 #endif
 
+#if !LITE
         /// <summary>
         /// Contains the most commonly used flags, use this as a "catch-all" expression.
         /// </summary>
+#endif
 #if LITE
-        public
-#else
         internal
+#else
+        public
 #endif
              const BindingFlags Flags = DeclaredOnly | Instance | Static | Public | NonPublic;
 
@@ -82,6 +87,7 @@ namespace KeepCoding
         public static bool HasComponent<T>(this GameObject obj, out T component) where T : Component => (component = obj.GetComponent<T>()) is T;
 #endif
 
+#if !LITE
         /// <summary>
         /// Determines if a <see langword="class"/> implements a given method.
         /// </summary>
@@ -90,6 +96,7 @@ namespace KeepCoding
         /// <param name="method">The method to get.</param>
         /// <param name="flags">The <see cref="BindingFlags"/> to use in <see cref="Type.GetMethod(string, BindingFlags)"/>.</param>
         /// <returns><see langword="true"/> if <typeparamref name="T"/> has <paramref name="method"/>.</returns>
+#endif
 #if LITE
         internal
 #else
@@ -97,6 +104,7 @@ namespace KeepCoding
 #endif
             static bool ImplementsMethod<T>(this T _, string method, BindingFlags flags = Flags) => ImplementsMethod<T>(method, flags);
 
+#if !LITE
         /// <summary>
         /// Determines if a <see langword="class"/> implements a given method.
         /// </summary>
@@ -104,6 +112,7 @@ namespace KeepCoding
         /// <param name="method">The method to get.</param>
         /// <param name="flags">The <see cref="BindingFlags"/> to use in <see cref="Type.GetMethod(string, BindingFlags)"/>.</param>
         /// <returns><see langword="true"/> if <typeparamref name="T"/> has <paramref name="method"/>.</returns>
+#endif
 #if LITE
         internal
 #else
@@ -111,6 +120,7 @@ namespace KeepCoding
 #endif
             static bool ImplementsMethod<T>(this string method, BindingFlags flags = Flags) => ImplementsMethod(typeof(T), method, flags);
 
+#if !LITE
         /// <summary>
         /// Determines if a <see langword="class"/> implements a given method.
         /// </summary>
@@ -118,6 +128,7 @@ namespace KeepCoding
         /// <param name="method">The method to get.</param>
         /// <param name="flags">The <see cref="BindingFlags"/> to use in <see cref="Type.GetMethod(string, BindingFlags)"/>.</param>
         /// <returns><see langword="true"/> if <paramref name="type"/> has <paramref name="method"/>.</returns>
+#endif
 #if LITE
         internal
 #else
@@ -125,6 +136,7 @@ namespace KeepCoding
 #endif
             static bool ImplementsMethod(this Type type, string method, BindingFlags flags = Flags) => type.GetMethods(flags).Any(s => s.Name == method);
 
+#if !LITE
         /// <summary>
         /// Determines whether <paramref name="item"/> is equal to any items in <paramref name="comparisons"/>.
         /// </summary>
@@ -132,6 +144,7 @@ namespace KeepCoding
         /// <param name="item">The type of the initial item to compare.</param>
         /// <param name="comparisons">The <see cref="Array"/> of items to compare to.</param>
         /// <returns><see langword="true"/> if any of the items in <paramref name="comparisons"/> is equal to <paramref name="item"/>.</returns>
+#endif
 #if LITE
         internal
 #else
@@ -267,14 +280,23 @@ namespace KeepCoding
         /// <param name="index">The index.</param>
         /// <returns>True if <paramref name="source"/> is null, if <paramref name="index"/> is out of range, or if the element is null.</returns>
         public static bool IsIndexNull<T>(this IEnumerable<T> source, int index) => source is null || !index.IsBetween(0, source.GetUpperBound()) || source.ElementAt(index) is null;
+#endif
 
+#if !LITE
         /// <summary>
         /// Determines if the item is an iterator type.
         /// </summary>
         /// <param name="item">The item to check the type for.</param>
         /// <returns><paramref name="item"/> is either <see cref="IEnumerable"/>, or <see cref="IEnumerator"/>.</returns>
-        public static bool IsIterator<T>(this T item) => item is IEnumerable || item is IEnumerator;
+#endif
+#if LITE
+        internal
+#else
+        public
+#endif
+            static bool IsIterator<T>(this T item) => item is IEnumerable || item is IEnumerator;
 
+#if !LITE
         /// <summary>
         /// Determines if the string is null or empty.
         /// </summary>
@@ -299,11 +321,13 @@ namespace KeepCoding
         public static bool IsNullOrEmpty<T>(this IEnumerator<T> source) => source is null || !source.AsEnumerable().Any();
 #endif
 
+#if !LITE
         /// <summary>
         /// Determines if the <see cref="KMSelectable"/> is a parent of another <see cref="KMSelectable"/>.
         /// </summary>
         /// <param name="kmSelectable">This is required to check the children field.</param>
         /// <returns>True if <see cref="KMSelectable.Children"/> is empty.</returns>
+#endif
 #if LITE
         internal
 #else
@@ -448,6 +472,15 @@ namespace KeepCoding
         /// <returns>The integer, but in the base specified.</returns>
         public static long BaseToLong(this string value, int baseNumber) => value.BaseToLong(new string(Alphanumeric.Take(baseNumber).ToArray()));
 
+#if LITE
+        /// <summary>
+        /// Converts any base number to base-10.
+        /// </summary>
+        /// <exception cref="FormatException"></exception>
+        /// <param name="value">The value to convert.</param>
+        /// <param name="baseChars">All of the base characters for the conversion from the base number, use <see cref="Alphanumeric"/> for Base-62. The length of the array is the base number.</param>
+        /// <returns><paramref name="value"/>, but in the base specified.</returns>
+#else
         /// <summary>
         /// Converts any base number to base-10.
         /// </summary>
@@ -456,6 +489,7 @@ namespace KeepCoding
         /// <param name="value">The value to convert.</param>
         /// <param name="baseChars">All of the base characters for the conversion from the base number, use <see cref="Alphanumeric"/> for Base-62, use <see cref="Decimal"/> for Base-10, use <see cref="Binary"/> for Base-2. The length of the array is the base number.</param>
         /// <returns><paramref name="value"/>, but in the base specified.</returns>
+#endif
         public static long BaseToLong(this string value, string baseChars)
         {
             value.NullCheck($"{nameof(value)} cannot be null when converting bases.");
@@ -518,6 +552,15 @@ namespace KeepCoding
         public static float[] Ranges(this int length, Tuple<float, float> range) => Enumerable.Range(0, length).Select(i => URandom.Range(range.Item1, range.Item2)).ToArray();
 #endif
 
+#if LITE
+        /// <summary>
+        /// Converts any base number to any base.
+        /// </summary>a
+        /// <param name="value">The value to convert.</param>
+        /// <param name="fromBaseChars">All of the base characters for the conversion from the base number.</param>
+        /// <param name="toBaseChars">All of the base characters for the conversion to the base number.</param>
+        /// <returns><paramref name="value"/>, but in the base specified.</returns>
+#else
         /// <summary>
         /// Converts any base number to any base.
         /// </summary>a
@@ -525,6 +568,7 @@ namespace KeepCoding
         /// <param name="fromBaseChars">All of the base characters for the conversion from the base number, use <see cref="Alphanumeric"/> for Base-62, use <see cref="Decimal"/> for Base-10, use <see cref="Binary"/> for Base-2. The length of the array is the base number.</param>
         /// <param name="toBaseChars">All of the base characters for the conversion to the base number, use <see cref="Alphanumeric"/> for Base-62, use <see cref="Decimal"/> for Base-10, use <see cref="Binary"/> for Base-2. The length of the array is the base number.</param>
         /// <returns><paramref name="value"/>, but in the base specified.</returns>
+#endif
         public static string Base(this string value, string fromBaseChars, string toBaseChars) => LongToBase(BaseToLong(value, fromBaseChars), toBaseChars);
 
         /// <summary>
@@ -551,12 +595,14 @@ namespace KeepCoding
             _ => source?.ToString() ?? ""
         };
 
+#if !LITE
         /// <summary>
         /// Finds a file name within a list of directories, or <see langword="null"/> if none is found.
         /// </summary>
         /// <param name="directories">The list of directories.</param>
         /// <param name="file">The file to search for.</param>
         /// <returns>The directory containing the path to the file searched for, or <see langword="null"/>.</returns>
+#endif
 #if LITE
         internal
 #else
@@ -621,6 +667,15 @@ namespace KeepCoding
             return builder.ToString();
         }
 
+#if LITE
+        /// <summary>
+        /// Converts any base-10 number to any base.
+        /// </summary>
+        /// <exception cref="NullIteratorException"></exception>
+        /// <param name="value">The value to convert.</param>
+        /// <param name="baseChars">All of the base characters for the conversion to the base number.</param>
+        /// <returns><paramref name="value"/>, but in the base specified.</returns>
+#else
         /// <summary>
         /// Converts any base-10 number to any base.
         /// </summary>
@@ -628,6 +683,7 @@ namespace KeepCoding
         /// <param name="value">The value to convert.</param>
         /// <param name="baseChars">All of the base characters for the conversion to the base number, use <see cref="Alphanumeric"/> for Base-62, use <see cref="Decimal"/> for Base-10, use <see cref="Binary"/> for Base-2. The length of the array is the base number.</param>
         /// <returns><paramref name="value"/>, but in the base specified.</returns>
+#endif
         public static string LongToBase(this long value, string baseChars)
         {
             baseChars.NullCheck($"{nameof(baseChars)} cannot be null when converting bases.");
@@ -656,15 +712,17 @@ namespace KeepCoding
         /// <returns>The integer, but in the base specified.</returns>
         public static string LongToBase(this long value, int baseNumber) => value.LongToBase(new string(Alphanumeric.Take(baseNumber).ToArray()));
 
+#if !LITE
         /// <summary>
         /// Gets the assembly name where a <see cref="Type"/> comes from.
         /// </summary>
         /// <param name="type">The type to get the assembly name from.</param>
         /// <returns>The <see cref="Assembly"/> name from <paramref name="type"/>.</returns>
+#endif
 #if LITE
-        public
-#else
         internal
+#else
+        public
 #endif
             static string NameOfAssembly(this Type type) => type.Assembly.GetName().Name;
 
@@ -754,11 +812,13 @@ namespace KeepCoding
             _ => "th",
         };
 
+#if !LITE
         /// <summary>
         /// Gets the appropriate log method depending on the type of <see cref="LogType"/>.
         /// </summary>
         /// <param name="logType">The type of method to get.</param>
         /// <returns>The log method representing the enum <paramref name="logType"/>.</returns>
+#endif
 #if LITE
         internal
 #else
@@ -794,8 +854,13 @@ namespace KeepCoding
         /// </summary>
         /// <param name="item">The item to check the type for.</param>
         /// <returns><see cref="NullIteratorException"/> if <paramref name="item"/> is an iterator, evaluated with <see cref="IsIterator{T}(T)"/>, otherwise <see cref="NullReferenceException"/></returns>
-        public static Func<string, Exception> GetNullException<T>(this T item) => s => item.IsIterator() ? (Exception)new NullIteratorException(s) : new NullReferenceException(s);
 #endif
+#if LITE
+        internal
+#else
+        public
+#endif
+            static Func<string, Exception> GetNullException<T>(this T item) => s => item.IsIterator() ? (Exception)new NullIteratorException(s) : new NullReferenceException(s);
 
         /// <summary>
         /// Converts an <see cref="IEnumerator"/> to an <see cref="IEnumerable"/>.
@@ -826,6 +891,31 @@ namespace KeepCoding
         /// <returns>All fields and properties of <paramref name="source"/>.</returns>
         public static IEnumerable<string> ReflectAll<T>(this T source) => source?.GetType().GetFields(Flags).Select(f => $"\n{f} (Field): {f?.GetValue(source).Stringify()}").Concat(source?.GetType().GetProperties(Flags).Select(p => $"\n{p} (Property): {p?.GetValue(source, null).Stringify()}")) ?? Empty<string>();
 #endif
+
+#if !LITE
+        /// <summary>
+        /// Gets all modules from a given bomb. For a cached variant, use <see cref="ModuleScript.ModulesOfBomb(KMBomb)"/>.
+        /// </summary>
+        /// <param name="bomb">The bomb to get all modules in the form of a <see cref="ModuleContainer"/> <see cref="IEnumerable"/>.</param>
+        /// <returns>A collection of <see cref="ModuleContainer"/>, including vanillas, from <paramref name="bomb"/>.</returns>
+#endif
+#if LITE
+        internal
+#else
+        [CLSCompliant(false)]
+        public
+#endif
+            static IEnumerable<ModuleContainer> ToModules(this KMBomb bomb)
+        {
+            foreach (KMBombModule solvable in bomb.GetComponentsInChildren<KMBombModule>())
+                yield return solvable;
+
+            foreach (KMNeedyModule solvable in bomb.GetComponentsInChildren<KMNeedyModule>())
+                yield return solvable;
+
+            foreach (object vanilla in Vanillas(bomb))
+                yield return new ModuleContainer((MonoBehaviour)vanilla);
+        }
 
         /// <summary>
         /// Converts an <see cref="IEnumerator"/> to an <see cref="IEnumerable"/>.
@@ -1126,12 +1216,14 @@ namespace KeepCoding
         }
 #endif
 
+#if !LITE
         /// <summary>
         /// Gets the method info from an expression.
         /// </summary>
         /// <typeparam name="T">The type of the action.</typeparam>
         /// <param name="expression">The expression that retrieves the method.</param>
         /// <returns>The method info of the function.</returns>
+#endif
 #if LITE
         internal
 #else
@@ -1287,6 +1379,7 @@ namespace KeepCoding
         public static T LastValue<T>(this IEnumerable<T> source, Func<T, T> func) => source.Reverse().FirstValue(func.NullCheck("The function cannot be null."));
 #endif
 
+#if !LITE
         /// <summary>
         /// Throws a <see cref="NullReferenceException"/> or <see cref="NullIteratorException"/> if the parameter provided is null.
         /// </summary>
@@ -1296,19 +1389,15 @@ namespace KeepCoding
         /// <param name="item">The parameter to check null for.</param>
         /// <param name="message">The optional message to throw if null.</param>
         /// <returns><paramref name="item"/></returns>
+#endif
 #if LITE
-        public
-#else
         internal
-#endif
-            static T NullCheck<T>(this T item, string message = "While asserting for null, the variable ended up null.") => item is null ? throw
-#if LITE
-            new NullReferenceException(message)
 #else
-            GetNullException(item)(message)
+        public
 #endif
-            : item;
+            static T NullCheck<T>(this T item, string message = "While asserting for null, the variable ended up null.") => item is null ? throw GetNullException(item)(message) : item;
 
+#if !LITE
         /// <summary>
         /// Throws a <see cref="NullReferenceException"/> or <see cref="NullIteratorException"/> if the parameter provided is null.
         /// </summary>
@@ -1318,18 +1407,13 @@ namespace KeepCoding
         /// <param name="item">The parameter to check null for.</param>
         /// <param name="message">The optional message to throw if null.</param>
         /// <returns><paramref name="item"/></returns>
+#endif
 #if LITE
-        public
-#else
         internal
-#endif
-            static T NullCheck<T>(this T? item, string message = "While asserting for null, the variable ended up null.") where T : struct => item is null ? throw
-#if LITE
-            new NullReferenceException(message)
 #else
-            GetNullException(item)(message)
+        public
 #endif
-            : item.Value;
+            static T NullCheck<T>(this T? item, string message = "While asserting for null, the variable ended up null.") where T : struct => item is null ? throw GetNullException(item)(message) : item.Value;
 
         /// <summary>
         /// Throws an exception if the <see cref="IEnumerable{T}"/> is null or empty.

@@ -141,7 +141,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCoding.dll&quot; &quot;D:\Emik's Modules\Assets\Plugins\Managed\&quot;&#xD;&#xA;xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCoding.xml&quot; &quot;D:\Emik's Modules\Assets\Plugins\Managed\&quot;&#xD;&#xA;xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCoding.dll&quot; &quot;D:\AlphaModules\Assets\Plugins\Managed\&quot;&#xD;&#xA;xcopy /y &quot;$(ProjectDir)$(OutDir)KeepCoding.xml&quot; &quot;D:\AlphaModules\Assets\Plugins\Managed\&quot;" />
+    <Exec Command="xcopy /y &quot;$(ProjectDir)bin\Release\net35\KeepCoding.dll&quot; &quot;D:\Emik's Modules\Assets\Plugins\Managed\&quot;&#xD;&#xA;xcopy /y &quot;$(ProjectDir)bin\Release\net35\KeepCoding.xml&quot; &quot;D:\Emik's Modules\Assets\Plugins\Managed\&quot;&#xD;&#xA;xcopy /y &quot;$(ProjectDir)bin\Lite\net35\KeepCodingLite.dll&quot; &quot;D:\AlphaModules\Assets\Plugins\Managed\&quot;&#xD;&#xA;xcopy /y &quot;$(ProjectDir)bin\Lite\net35\KeepCodingLite.xml&quot; &quot;D:\AlphaModules\Assets\Plugins\Managed\&quot;" />
 	<GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
       <Output TaskParameter="Assemblies" ItemName="Targets" />
     </GetAssemblyIdentity>

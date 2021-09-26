@@ -74,12 +74,12 @@ namespace KeepCoding
             }
         }
 
+#if !LITE
         /// <summary>
         /// Determines whether the application is running from inside unity.
         /// </summary>
         public static bool IsEditor => isEditor;
 
-#if !LITE
         /// <summary>
         /// Determines whether this module is the last instantiated instance.
         /// </summary>
@@ -159,7 +159,7 @@ namespace KeepCoding
         /// The bomb that this module is in.
         /// </summary>
         /// <remarks>
-        /// Note that this variable is not available on <see cref="Awake"/> or <see cref="OnAwake"/>. A small amount of time is needed for this property to be set.
+        /// Note that this variable is not available instantly. <see cref="OnActivate"/> is recommended, or a <see cref="Coroutine"/> that waits for this value to be set.
         /// </remarks>
         public KMBomb Bomb => _bomb ??= GetComponentInParent<KMBomb>();
         private KMBomb _bomb;
@@ -185,7 +185,7 @@ namespace KeepCoding
         /// Contains every module in the <see cref="KMBomb"/> that this module is in.
         /// </summary>
         /// <remarks>
-        /// This collection also includes vanilla modules, including <see cref="ComponentPool.ComponentTypeEnum.Empty"/> components and <see cref="ComponentPool.ComponentTypeEnum.Timer"/>. You can filter the collection with <see cref="ModuleContainer.IsVanilla"/>, <see cref="ModuleContainer.IsModded"/>, <see cref="ModuleContainer.IsSolvable"/>, or <see cref="ModuleContainer.IsNeedy"/>, <see cref="ModuleContainer.IsEmptyOrTimer"/>, or <see cref="ModuleContainer.IsModule"/>.
+        /// Note that this variable is not available instantly. <see cref="OnActivate"/> is recommended, or a <see cref="Coroutine"/> that waits for this value to be set. A small amount of time is needed for this property to be set. This collection also includes vanilla modules, including <see cref="ComponentPool.ComponentTypeEnum.Empty"/> components and <see cref="ComponentPool.ComponentTypeEnum.Timer"/>. You can filter the collection with <see cref="ModuleContainer.IsVanilla"/>, <see cref="ModuleContainer.IsModded"/>, <see cref="ModuleContainer.IsSolvable"/>, or <see cref="ModuleContainer.IsNeedy"/>, <see cref="ModuleContainer.IsEmptyOrTimer"/>, or <see cref="ModuleContainer.IsModule"/>.
         /// </remarks>
         public ReadOnlyCollection<ModuleContainer> Modules => _modules ??= ModulesOfBomb(Bomb);
         private ReadOnlyCollection<ModuleContainer> _modules;
@@ -252,9 +252,15 @@ namespace KeepCoding
             _isNeedyActive = false;
         }), solve, strike, needyTimerSet, ruleGeneration, needyTimerGet);
 
+#if LITE
+        /// <summary>
+        /// Sets up base functionality for the module. If you declare this method yourself, make sure to call <c>base.Awake()</c> to ensure that the module initializes correctly.
+        /// </summary>
+#else
         /// <summary>
         /// Sets up base functionality for the module. If you declare this method yourself, make sure to call <c>base.Awake()</c> to ensure that the module initializes correctly, or use <see cref="OnAwake"/> instead.
         /// </summary>
+#endif
         public void Awake()
         {
             logMessageReceived += OnException;
@@ -450,7 +456,6 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="MissingComponentException"></exception>
-        /// <exception cref="NullIteratorException"></exception>
         /// <exception cref="UnrecognizedValueException"></exception>
         /// <param name="transform">The location or sound source of the sound.</param>
         /// <param name="loop">Whether all sounds listed should loop or not.</param>
@@ -526,7 +531,7 @@ namespace KeepCoding
             if (s_allModules.ContainsKey(bomb))
                 return s_allModules[bomb];
 
-            ReadOnlyCollection<ModuleContainer> modules = HookModules(bomb).ToReadOnly();
+            ReadOnlyCollection<ModuleContainer> modules = bomb.ToModules().ToReadOnly();
 
             s_allModules
                 .Keys
@@ -631,21 +636,9 @@ namespace KeepCoding
                 StartCoroutine(EditorTimerTick());
         }
 
-        private static IEnumerable<ModuleContainer> HookModules(KMBomb bomb)
-        {
-            foreach (KMBombModule solvable in bomb.GetComponentsInChildren<KMBombModule>())
-                yield return solvable;
-
-            foreach (KMNeedyModule solvable in bomb.GetComponentsInChildren<KMNeedyModule>())
-                yield return solvable;
-
-            foreach (object vanilla in Vanillas(bomb))
-                yield return new ModuleContainer((MonoBehaviour)vanilla);
-        }
-
         private IEnumerator CheckForUpdates()
         {
-            if (!IsEditor || s_hasCheckedVersion)
+            if (!isEditor || s_hasCheckedVersion)
                 yield break;
 
             s_hasCheckedVersion = true;
