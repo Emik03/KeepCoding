@@ -71,6 +71,18 @@ namespace KeepCoding
         public static explicit operator AudioSource(AudioScript dynamicAudio) => dynamicAudio.AudioSource;
 
         /// <summary>
+        /// Sets up base functionality for the audio. If you declare this method yourself, make sure to call <c>base.Awake()</c> to ensure that this component initializes correctly, or use <see cref="OnAwake"/> instead.
+        /// </summary>
+        public void Awake()
+        {
+            AudioSource.playOnAwake = false;
+            AudioSource.volume = 0;
+#if !LITE
+            OnAwake();
+#endif
+        }
+
+        /// <summary>
         /// Fades the audio source to a specific volume from a specified duration of time linearly.
         /// </summary>
         /// <param name="volume">The volume to get to.</param>
@@ -82,6 +94,21 @@ namespace KeepCoding
 
             _previous = StartCoroutine(TweenFade(volume, time));
         }
+
+        /// <summary>
+        /// Updates the volume of <see cref="AudioSource"/>. If you declare this method yourself, make sure to call <c>base.Update()</c> to ensure that this component retains functionality, or use <see cref="OnUpdate"/> instead.
+        /// </summary>
+        public void Update()
+#if LITE
+            =>
+#else
+        {
+#endif
+            AudioSource.volume = Relative;
+#if !LITE
+            OnUpdate();
+        }
+#endif
 
 #if !LITE
         /// <summary>
@@ -181,34 +208,6 @@ namespace KeepCoding
         /// Unpauses the paused playback of this <see cref="AudioSource"/>.
         /// </summary>
         public void Unpause() => AudioSource.UnPause();
-
-        /// <summary>
-        /// Sets up base functionality for the audio. If you declare this method yourself, make sure to call <c>base.Awake()</c> to ensure that this component initializes correctly, or use <see cref="OnAwake"/> instead.
-        /// </summary>
-        public void Awake()
-        {
-            AudioSource.playOnAwake = false;
-            AudioSource.volume = 0;
-
-#if !LITE
-            OnAwake();
-#endif
-        }
-
-        /// <summary>
-        /// Updates the volume of <see cref="AudioSource"/>. If you declare this method yourself, make sure to call <c>base.Update()</c> to ensure that this component retains functionality, or use <see cref="OnUpdate"/> instead.
-        /// </summary>
-        public void Update()
-#if LITE
-            =>
-#else
-        {
-#endif
-            AudioSource.volume = Relative;
-#if !LITE
-            OnUpdate();
-        }
-#endif
 
         private void Set(in AudioClip clip, in bool loop, in byte priority, in float pitch, in float time, in float volume)
         {

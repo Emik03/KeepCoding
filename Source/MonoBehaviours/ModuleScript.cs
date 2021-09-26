@@ -253,6 +253,26 @@ namespace KeepCoding
         }), solve, strike, needyTimerSet, ruleGeneration, needyTimerGet);
 
         /// <summary>
+        /// Sets up base functionality for the module. If you declare this method yourself, make sure to call <c>base.Awake()</c> to ensure that the module initializes correctly, or use <see cref="OnAwake"/> instead.
+        /// </summary>
+        public void Awake()
+        {
+            logMessageReceived += OnException;
+#if !LITE
+            s_database.Clear();
+#endif
+            Self($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
+            Log($"Version: [{Version}]");
+
+            Assign();
+#if !LITE
+            OnAwake();
+#endif
+            StartCoroutine(CheckForUpdates());
+            StartCoroutine(WaitForBomb());
+        }
+
+        /// <summary>
         /// Handles typical button <see cref="KMSelectable.OnInteract"/> behaviour.
         /// </summary>
         /// <exception cref="UnassignedReferenceException"></exception>
@@ -539,26 +559,6 @@ namespace KeepCoding
                 ? t
                 : throw new UnrecognizedTypeException($"The data type {typeof(T).Name} was expected, but received {d[key]?.GetType().Name ?? "null"} from module {module} with key {key}."));
 #endif
-
-        /// <summary>
-        /// Sets up base functionality for the module. If you declare this method yourself, make sure to call <c>base.Awake()</c> to ensure that the module initializes correctly, or use <see cref="OnAwake"/> instead.
-        /// </summary>
-        public void Awake()
-        {
-            logMessageReceived += OnException;
-#if !LITE
-            s_database.Clear();
-#endif
-            Self($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
-            Log($"Version: [{Version}]");
-
-            Assign();
-#if !LITE
-            OnAwake();
-#endif
-            StartCoroutine(CheckForUpdates());
-            StartCoroutine(WaitForBomb());
-        }
 
         /// <summary>
         /// Removes the module from <see cref="logMessageReceived"/>. If you declare this method, make sure to call <c>base.OnDestroy()</c> to ensure that the module cleans up correctly.
