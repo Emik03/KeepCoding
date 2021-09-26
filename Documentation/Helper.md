@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding')
 ## Helper Class
-General extension class covering both KMFramework and native datatypes.  
+General extension class.  
 ```csharp
 public static class Helper
 ```
@@ -121,6 +121,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 | [Stop(MonoBehaviour, Coroutine[])](Helper.Stop.q2r5yuQqE+SqxO6+ysqnRA.md 'KeepCoding.Helper.Stop(MonoBehaviour, Coroutine[])') | Stops the coroutines only if they aren't [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null').<br/> |
 | [Stringify&lt;T&gt;(T, StringifyFormat)](Helper.Stringify.MMjDPqfcLXL+EYRaH4glrw.md 'KeepCoding.Helper.Stringify&lt;T&gt;(T, KeepCoding.StringifyFormat)') | Converts [source](Helper.Stringify.MMjDPqfcLXL+EYRaH4glrw.md#KeepCoding.Helper.Stringify.T.(T.KeepCoding.StringifyFormat).source 'KeepCoding.Helper.Stringify&lt;T&gt;(T, KeepCoding.StringifyFormat).source') into a [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String') representation of [source](Helper.Stringify.MMjDPqfcLXL+EYRaH4glrw.md#KeepCoding.Helper.Stringify.T.(T.KeepCoding.StringifyFormat).source 'KeepCoding.Helper.Stringify&lt;T&gt;(T, KeepCoding.StringifyFormat).source').<br/> |
 | [ToLower(char)](Helper.ToLower.ushCyLPcOOn1k9n94Rqrkg.md 'KeepCoding.Helper.ToLower(char)') | Converts a character to lowercase.<br/> |
+| [ToModules(KMBomb)](Helper.ToModules.TgjMd83azTL3GyrPELHvwg.md 'KeepCoding.Helper.ToModules(KMBomb)') | Gets all modules from a given bomb. For a cached variant, use [ModulesOfBomb(KMBomb)](ModuleScript.ModulesOfBomb.3ju6QGb1hN6EmBGsUYZDvg.md 'KeepCoding.ModuleScript.ModulesOfBomb(KMBomb)').<br/> |
 | [ToNumber(char)](Helper.ToNumber.WcDNfX60T0JGs.SuJH4lAg.md 'KeepCoding.Helper.ToNumber(char)') | Converts a character to a number.<br/> |
 | [ToNumbers&lt;T&gt;(T[], Nullable&lt;int&gt;, Nullable&lt;int&gt;, Nullable&lt;int&gt;, Nullable&lt;int&gt;)](Helper.ToNumbers.Zz.P1BqTJzR21j1qXeiyZQ.md 'KeepCoding.Helper.ToNumbers&lt;T&gt;(T[], System.Nullable&lt;int&gt;, System.Nullable&lt;int&gt;, System.Nullable&lt;int&gt;, System.Nullable&lt;int&gt;)') | Parses each element of an array into a number. If it succeeds it returns the integer array, if it fails then it returns null.<br/> |
 | [ToOrdinal(int)](Helper.ToOrdinal.bSZroOr9sUBMFy8+4G9t0w.md 'KeepCoding.Helper.ToOrdinal(int)') | Converts a number to the ordinal as [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String').<br/> |

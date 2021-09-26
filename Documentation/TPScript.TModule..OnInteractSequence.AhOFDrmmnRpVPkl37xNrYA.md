@@ -3,7 +3,7 @@
 ## TPScript&lt;TModule&gt;.OnInteractSequence(KMSelectable[], float) Method
 Presses a sequence of buttons in order of [selectables](TPScript.TModule..OnInteractSequence.AhOFDrmmnRpVPkl37xNrYA.md#KeepCoding.TPScript.TModule..OnInteractSequence(KMSelectable...float).selectables 'KeepCoding.TPScript&lt;TModule&gt;.OnInteractSequence(KMSelectable[], float).selectables'), waiting [wait](TPScript.TModule..OnInteractSequence.AhOFDrmmnRpVPkl37xNrYA.md#KeepCoding.TPScript.TModule..OnInteractSequence(KMSelectable...float).wait 'KeepCoding.TPScript&lt;TModule&gt;.OnInteractSequence(KMSelectable[], float).wait') seconds in-between each, and interrupting as soon as [HasStruck](ModuleScript.HasStruck.md 'KeepCoding.ModuleScript.HasStruck') is [true](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/bool').  
 ```csharp
-protected System.Collections.IEnumerator OnInteractSequence(KMSelectable[] selectables, float wait);
+protected System.Collections.Generic.IEnumerable<WaitForSecondsRealtime> OnInteractSequence(KMSelectable[] selectables, float wait);
 ```
 #### Parameters
 <a name='KeepCoding.TPScript.TModule..OnInteractSequence(KMSelectable...float).selectables'></a>
@@ -15,5 +15,5 @@ The array of selectables to interact with.
 The delay between each button press in seconds.
   
 #### Returns
-[System.Collections.IEnumerator](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IEnumerator 'System.Collections.IEnumerator')  
+[System.Collections.Generic.IEnumerable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')[UnityEngine.WaitForSecondsRealtime](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.WaitForSecondsRealtime 'UnityEngine.WaitForSecondsRealtime')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEnumerable-1 'System.Collections.Generic.IEnumerable`1')  
 A sequence of button presses for Twitch Plays to process.

@@ -3,7 +3,7 @@
 ## Helper.NameOfAssembly(Type) Method
 Gets the assembly name where a [System.Type](https://docs.microsoft.com/en-us/dotnet/api/System.Type 'System.Type') comes from.  
 ```csharp
-internal static string NameOfAssembly(this System.Type type);
+public static string NameOfAssembly(this System.Type type);
 ```
 #### Parameters
 <a name='KeepCoding.Helper.NameOfAssembly(System.Type).type'></a>

@@ -20,7 +20,7 @@
 | [Game.ModManager](Game.ModManager.md 'KeepCoding.Game.ModManager') | Allows access to methods relating mod paths.<br/> |
 | [Game.PlayerSettings](Game.PlayerSettings.md 'KeepCoding.Game.PlayerSettings') | Allows access into the player settings from the game. Do not use this class in the unity editor. <br/> |
 | [GeneratorSetting](GeneratorSetting.md 'KeepCoding.GeneratorSetting') | Everything needed to generate a single bomb.<br/> |
-| [Helper](Helper.md 'KeepCoding.Helper') | General extension class covering both KMFramework and native datatypes.<br/> |
+| [Helper](Helper.md 'KeepCoding.Helper') | General extension class.<br/> |
 | [KeyHelper](KeyHelper.md 'KeepCoding.KeyHelper') | Inline methods for when typically key words are used.<br/> |
 | [Logger](Logger.md 'KeepCoding.Logger') | A class to allow logging with a specific format.<br/> |
 | [ModConfig&lt;TSerialize&gt;](ModConfig.TSerialize..md 'KeepCoding.ModConfig&lt;TSerialize&gt;') | Meant for information that needs to be deserialized within the mod settings folder, by samfundev.<br/> |
