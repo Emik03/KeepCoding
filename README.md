@@ -7,7 +7,9 @@
 
 *KeepCoding* is compiled as a Managed DLL file. You may either compile this DLL yourself, or [download one of the release builds](https://github.com/Emik03/KeepCodingAndNobodyExplodes/releases).
 
-Unity will start reloading the scripts at this stage. After the reload, you can start using the library's code by going into any script file and accessing the namespace:
+Since version 11, there are 2 versions per release, `KeepCoding`, and `KeepCodingLite`. If you are writing your modules in an external library and/or use a polyfill library, then `KeepCodingLite` is recommended as it removes methods that are redundant outside of `C# 4`/`.NET 3.5`. Use `KeepCoding` otherwise.
+
+Drag the DLL and XML file into `\Plugins\Managed`. Unity will start reloading the scripts at this stage. After the reload, you can start using the library's code by going into any script file and accessing the namespace:
 
 ```cs
 using KeepCoding;
@@ -45,7 +47,9 @@ xcopy /y "$(ProjectDir)$(OutDir)KeepCoding.xml" "X:\My Module Directory\Assets\P
 
 6. Go to "Signing" and create your own strong name and signature. This ensures that it will not conflict with other versions of this namespace.
 
-7. Press the key combination **CTRL+B**, or alternatively go to the dropdown located at the top named "Build" and press "Build Solution". Assuming no build errors occur, you can go back to Unity, which will start reloading.
+7. Select either "Release" or "Lite" at the top depending on which version of KeepCoding you want.
+
+8. Press the key combination **CTRL+B**, or alternatively go to the dropdown located at the top named "Build" and press "Build Solution". Assuming no build errors occur, you can go back to Unity, which will start reloading.
 
 ### Credit
 ---
