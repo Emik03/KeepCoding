@@ -3439,13 +3439,6 @@
             </summary>
             <param name="logs">All of the entries to log.</param>
         </member>
-        <member name="M:KeepCoding.ModuleScript.GetIgnoredModules(System.String)">
-            <summary>
-            Retrieves the ignore list from the Boss Module Manager mod used primarily by boss modules.
-            </summary>
-            <param name="moduleName">The name of the module to retrieve from.</param>
-            <returns>If successful, the boss module's ignore list, otherwise a new empty string array.</returns>
-        </member>
         <member name="M:KeepCoding.ModuleScript.PlaySound(UnityEngine.Transform,System.Boolean,KeepCoding.Sound[])">
             <summary>
             Plays a sound. Requires <see cref="T:KMAudio"/> to be assigned.
@@ -3787,6 +3780,26 @@
             <param name="item">The item to yield repeatedly.</param>
             <param name="condition">The condition to repeatedly check until it returns <see langword="false"/>.</param>
             <returns><paramref name="item"/> continously until <paramref name="condition"/> is <see langword="true"/></returns>
+        </member>
+        <member name="T:KeepCoding.External">
+            <summary>
+            Provides methods to retrieve information from other external mods.
+            </summary>
+        </member>
+        <member name="M:KeepCoding.External.GetRuleSeedId(KeepCoding.ModuleContainer,System.Int32)">
+            <summary>
+            Gets the rule seed number, or a default value.
+            </summary>
+            <param name="module">The module to retrieve the id from.</param>
+            <param name="editorValue">The value to <see langword="return"/> if played on the Unity Editor.</param>
+            <returns>If successful, the rule seed's number that is used as the seed in <see cref="T:KeepCoding.MonoRandom"/>. The default value is 1, or <paramref name="editorValue"/> if played in the Unity Editor.</returns>
+        </member>
+        <member name="M:KeepCoding.External.GetIgnoredModules(KeepCoding.ModuleContainer)">
+            <summary>
+            Retrieves the ignore list from the Boss Module Manager mod used primarily by boss modules.
+            </summary>
+            <param name="module">The module to retrieve the name from.</param>
+            <returns>If successful, the boss module's ignore list, otherwise a new empty string array.</returns>
         </member>
         <member name="T:KeepCoding.Game">
             <summary>

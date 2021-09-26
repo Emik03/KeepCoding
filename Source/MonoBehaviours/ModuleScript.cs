@@ -12,7 +12,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using static System.Linq.Enumerable;
 using static System.Reflection.BindingFlags;
-using static System.String;
+using static KeepCoding.External;
 using static KeepCoding.Game;
 using static KeepCoding.Game.KTInputManager;
 using static KeepCoding.Game.MasterAudio;
@@ -123,7 +123,7 @@ namespace KeepCoding
         /// Gets the rule seed number.
         /// </summary>
         /// <returns>The rule seed number, by default 1.</returns>
-        public int RuleSeedId => _ruleSeedId ??= GetRuleSeedId();
+        public int RuleSeedId => _ruleSeedId ??= GetRuleSeedId(Module, _editorRuleSeed);
         private int? _ruleSeedId;
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace KeepCoding
         /// <summary>
         /// The ignored modules of this module from the Boss Module Manager.
         /// </summary>
-        public string[] IgnoredModules => _ignoredModules ??= GetIgnoredModules(Module.Name);
+        public string[] IgnoredModules => _ignoredModules ??= GetIgnoredModules(Module);
         private string[] _ignoredModules;
 
         /// <summary>
@@ -178,7 +178,7 @@ namespace KeepCoding
         /// <summary>
         /// The pseudo-random number generator whose number generations are based on the current Rule Seed.
         /// </summary>
-        public MonoRandom RuleSeed => _ruleSeed ??= new MonoRandom(GetRuleSeedId());
+        public MonoRandom RuleSeed => _ruleSeed ??= new MonoRandom(RuleSeedId);
         private MonoRandom _ruleSeed;
 
         /// <summary>
@@ -425,42 +425,6 @@ namespace KeepCoding
 #endif
 
         /// <summary>
-        /// Retrieves the ignore list from the Boss Module Manager mod used primarily by boss modules.
-        /// </summary>
-        /// <param name="moduleName">The name of the module to retrieve from.</param>
-        /// <returns>If successful, the boss module's ignore list, otherwise a new empty string array.</returns>
-        public string[] GetIgnoredModules(string moduleName)
-        {
-            if (isEditor)
-                return new string[0];
-
-            var managerObject = GameObject.Find("BossModuleManager");
-
-            var logger = new Logger("KMBossModule");
-
-            if (managerObject is null)
-            {
-                logger.Log("Boss Module Manager is not installed.");
-                return new string[0];
-            }
-
-            IDictionary<string, object> dictionary = managerObject.GetComponent<IDictionary<string, object>>();
-
-            const string Key = "GetIgnoredModules";
-
-            if (dictionary is null || !dictionary.ContainsKey(Key))
-            {
-                logger.Log($"Boss Module Manager does not have a list on record for “{Module.Name}”.");
-                return new string[0];
-            }
-
-            string[] list = ((Func<string, string[]>)dictionary[Key])(moduleName);
-
-            logger.Log($"Boss Module Manager returned list for “{moduleName}”: {(list is null ? Helper.Null : Join(", ", list))}");
-            return list ?? new string[0];
-        }
-
-        /// <summary>
         /// Plays a sound. Requires <see cref="KMAudio"/> to be assigned.
         /// </summary>
         /// <exception cref="EmptyIteratorException"></exception>
@@ -582,11 +546,9 @@ namespace KeepCoding
         public void Awake()
         {
             logMessageReceived += OnException;
-
 #if !LITE
             s_database.Clear();
 #endif
-
             Self($"The module \"{Module.Name}\" ({Module.Id}) uses KeepCoding version {PathManager.Version}.");
             Log($"Version: [{Version}]");
 
@@ -594,7 +556,6 @@ namespace KeepCoding
 #if !LITE
             OnAwake();
 #endif
-
             StartCoroutine(CheckForUpdates());
             StartCoroutine(WaitForBomb());
         }
@@ -668,26 +629,6 @@ namespace KeepCoding
                 TimerTickInner();
             else
                 StartCoroutine(EditorTimerTick());
-        }
-
-        private int GetRuleSeedId()
-        {
-            int standard = isEditor ? _editorRuleSeed : 1;
-
-            var ruleSeedObject = GameObject.Find("RuleSeedModifierProperties");
-
-            if (ruleSeedObject is null)
-                return standard;
-
-            IDictionary<string, object> ruleSeedDictionary = ruleSeedObject.GetComponent<IDictionary<string, object>>();
-
-            if (!ruleSeedDictionary.ContainsKey("RuleSeed"))
-                return standard;
-
-            if (ruleSeedDictionary.ContainsKey("AddSupportedModule"))
-                ruleSeedDictionary["AddSupportedModule"] = Module.Id;
-
-            return (ruleSeedDictionary["RuleSeed"] as int?) ?? standard;
         }
 
         private static IEnumerable<ModuleContainer> HookModules(KMBomb bomb)
