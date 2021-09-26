@@ -123,7 +123,7 @@ namespace KeepCoding
 #else
         public
 #endif
-            static bool ImplementsMethod(this Type type, string method, BindingFlags flags = Flags) => type.GetMethods(Flags).Any(s => s.Name == method);
+            static bool ImplementsMethod(this Type type, string method, BindingFlags flags = Flags) => type.GetMethods(flags).Any(s => s.Name == method);
 
         /// <summary>
         /// Determines whether <paramref name="item"/> is equal to any items in <paramref name="comparisons"/>.
