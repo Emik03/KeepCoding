@@ -62,6 +62,7 @@
     <AssemblyName>KeepCodingLite</AssemblyName>
     <PackageId>KeepCodingLite</PackageId>
     <Product>KeepCodingLite</Product>
+    <Optimize>True</Optimize>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
