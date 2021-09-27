@@ -40,14 +40,14 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>$(ProjectDir)KeepCoding.xml</DocumentationFile>
+    <DocumentationFile>$(ProjectDir)Documentation\KeepCoding.xml</DocumentationFile>
     <Optimize>false</Optimize>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <NoWarn>1701;1702;8002</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>Documentation\KeepCoding.xml</DocumentationFile>
+    <DocumentationFile>$(ProjectDir)Documentation\KeepCoding.xml</DocumentationFile>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <NoWarn>1701;1702;8002</NoWarn>
     <AssemblyName>KeepCoding</AssemblyName>
