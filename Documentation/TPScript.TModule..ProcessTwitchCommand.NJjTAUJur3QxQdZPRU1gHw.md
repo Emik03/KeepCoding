@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[TPScript&lt;TModule&gt;](TPScript.TModule..md 'KeepCoding.TPScript&lt;TModule&gt;')
 ## TPScript&lt;TModule&gt;.ProcessTwitchCommand(string) Method
-This method gets grabbed by Twitch Plays. It grabs [Process(string)](TPScript.TModule..Process.KVA0HcMKHcn6ZE3rntOuvA.md 'KeepCoding.TPScript&lt;TModule&gt;.Process(string)') and flattens it using [Flatten(IEnumerator, Predicate&lt;IEnumerator&gt;)](Helper.Flatten.1fU+zZAhpugERKJvQxZvsQ.md 'KeepCoding.Helper.Flatten(System.Collections.IEnumerator, System.Predicate&lt;System.Collections.IEnumerator&gt;)'), and auto-implements the colorblind command if supported.  
+This method gets grabbed by Twitch Plays. It grabs [Process(string)](TPScript.TModule..Process.KVA0HcMKHcn6ZE3rntOuvA.md 'KeepCoding.TPScript&lt;TModule&gt;.Process(string)') and flattens it using [Flatten(IEnumerator, Predicate&lt;object&gt;)](Helper.Flatten.x3SbdQeqycxoSVPne3mx7w.md 'KeepCoding.Helper.Flatten(System.Collections.IEnumerator, System.Predicate&lt;object&gt;)'), and auto-implements the colorblind command if supported.  
 ```csharp
 protected System.Collections.IEnumerator ProcessTwitchCommand(string command);
 ```

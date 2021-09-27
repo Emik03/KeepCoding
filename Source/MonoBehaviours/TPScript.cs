@@ -359,14 +359,14 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// This method gets grabbed by Twitch Plays. It grabs <see cref="Process(string)"/> and flattens it using <see cref="Helper.Flatten(IEnumerator, Predicate{IEnumerator})"/>, and auto-implements the colorblind command if supported.
+        /// This method gets grabbed by Twitch Plays. It grabs <see cref="Process(string)"/> and flattens it using <see cref="Helper.Flatten(IEnumerator, Predicate{object})"/>, and auto-implements the colorblind command if supported.
         /// </summary>
         /// <param name="command">The command of the user.</param>
         /// <returns>A list of instructions for Twitch Plays.</returns>
         protected IEnumerator ProcessTwitchCommand(string command) => command.ToLowerInvariant().Trim() is "colorblind" && Module.IsColorblindSupported ? ToggleColorblind() : Process(command).Flatten(IsExcluded);
 
         /// <summary>
-        /// This method gets grabbed by Twitch Plays. It grabs <see cref="ForceSolve()"/> and flattens it using <see cref="Helper.Flatten(IEnumerator, Predicate{IEnumerator})"/>.
+        /// This method gets grabbed by Twitch Plays. It grabs <see cref="ForceSolve()"/> and flattens it using <see cref="Helper.Flatten(IEnumerator, Predicate{object})"/>.
         /// </summary>
         /// <returns>A list of instructions for Twitch Plays.</returns>
         protected IEnumerator TwitchHandleForcedSolve() => ForceSolve().Flatten(IsExcluded);
