@@ -13,8 +13,8 @@ Currently semantic versioning is used, with format `MAJOR.MINOR.PATCH`. Prior to
 | Version       | Supported          |
 | ------------- | ------------------ |
 | 11.0.1+       | :white_check_mark: |
-| 11+           | :grey_question:    |
-| 10+           | :white_check_mark: |
+| 11            | :grey_question:    |
+| 10 - 10.1     | :white_check_mark: |
 | 1.0 - 9.0.3   | :x:                |
 
 ## Reporting a Vulnerability
