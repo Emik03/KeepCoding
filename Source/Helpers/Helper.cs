@@ -1268,7 +1268,7 @@ namespace KeepCoding
         public static T Assert<T>(this T obj) where T : Object => obj ? obj : throw new AssertionException(typeof(T).Name, obj, "not null");
 
         /// <summary>
-        /// Throws an <see cref="AssertionException"/> if the argument passed in is <see langword="null"/>
+        /// Throws an <see cref="AssertionException"/> if the argument passed in is <see langword="null"/>.
         /// </summary>
         /// <typeparam name="T">The type of the item to assert for non-nullability.</typeparam>
         /// <param name="item">The item to use a <see langword="null"/> check on.</param>

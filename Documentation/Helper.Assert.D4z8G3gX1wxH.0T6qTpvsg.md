@@ -1,7 +1,7 @@
 #### [KeepCoding](index.md 'index')
 ### [KeepCoding](KeepCoding.md 'KeepCoding').[Helper](Helper.md 'KeepCoding.Helper')
 ## Helper.Assert&lt;T&gt;(T, string) Method
-Throws an [AssertionException](AssertionException.md 'KeepCoding.Internal.AssertionException') if the argument passed in is [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null')
+Throws an [AssertionException](AssertionException.md 'KeepCoding.Internal.AssertionException') if the argument passed in is [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null').  
 ```csharp
 public static T Assert<T>(this T item, string name=null);
 ```
