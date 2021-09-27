@@ -807,7 +807,7 @@
         </member>
         <member name="M:KeepCoding.Helper.Assert``1(``0,System.String)">
             <summary>
-            Throws an <see cref="T:KeepCoding.Internal.AssertionException"/> if the argument passed in is <see langword="null"/>
+            Throws an <see cref="T:KeepCoding.Internal.AssertionException"/> if the argument passed in is <see langword="null"/>.
             </summary>
             <typeparam name="T">The type of the item to assert for non-nullability.</typeparam>
             <param name="item">The item to use a <see langword="null"/> check on.</param>
