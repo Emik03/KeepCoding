@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using KeepCoding.Internal;
 using UnityEngine;
@@ -372,7 +373,14 @@ namespace KeepCoding
 
         private static bool IsExcluded<T>(T item) => item is IEnumerable<char> || item is KMSelectable[];
 
-        private static string Combine(in string main, params object[] toAppend) => main + ConvertAll(toAppend, o => $" {o}");
+        private static string Combine(in string main, params object[] toAppend)
+        {
+            var builder = new StringBuilder(main);
+
+            toAppend.ForEach(o => builder.Append($" {o}"));
+
+            return builder.ToString();
+        }
 
         private IEnumerator ToggleColorblind()
         {
