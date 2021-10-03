@@ -34,14 +34,20 @@ namespace KeepCoding
         private readonly Logger _logger = new Logger($"ModConfig ({typeof(TSerialize).Assembly.GetName().Name}.{typeof(TSerialize).Name})");
 
         /// <summary>
-        /// Creates a new <see cref="ModConfig{T}"/> with the target file name and an optional event of when the file is read.
+        /// Creates a new <see cref="ModConfig{T}"/> with the target file name and an optional event of when the file is read. A file will automatically be made if it doesn't exist. A JSON property defined in the type <typeparamref name="TSerialize"/> that isn't in the file will automatically write to the file with said property.
         /// </summary>
+        /// <remarks>
+        /// In the editor, the constructor will not merge the default values of the type with the file.
+        /// </remarks>
         /// <exception cref="ConstructorArgumentException"></exception>
         public ModConfig() : this($"{Caller}-settings") { }
 
         /// <summary>
-        /// Creates a new <see cref="ModConfig{T}"/> with the target file name and an optional event of when the file is read.
+        /// Creates a new <see cref="ModConfig{T}"/> with the target file name and an optional event of when the file is read. A file will automatically be made if it doesn't exist. A JSON property defined in the type <typeparamref name="TSerialize"/> that isn't in the file will automatically write to the file with said property.
         /// </summary>
+        /// <remarks>
+        /// In the editor, the constructor will not merge the default values of the type with the file.
+        /// </remarks>
         /// <exception cref="ConstructorArgumentException"></exception>
         /// <param name="fileName">The file name to get.</param>
         public ModConfig(string fileName)
@@ -64,7 +70,7 @@ namespace KeepCoding
         }
 
         /// <summary>
-        /// Whether or not there has been a successful read of the settings file.
+        /// Whether or not there has been a successful read of the settings file. This value will always be false in the editor.
         /// </summary>
         [JsonIgnore]
         public bool HasReadSucceeded { get; private set; }
@@ -97,6 +103,9 @@ namespace KeepCoding
         /// <summary>
         /// Reads, merges, and writes the settings to the settings file. To protect the user settings, this does nothing if the read isn't successful.
         /// </summary>
+        /// <remarks>
+        /// In the editor, this method does nothing.
+        /// </remarks>
         /// <exception cref="NullReferenceException"></exception>
         /// <param name="value">The value to merge the file with.</param>
         /// <param name="isDiscarding">Determines whether it should remove values from the original file that isn't contained within the type, or has the incorrect type.</param>
@@ -128,6 +137,9 @@ namespace KeepCoding
         /// <summary>
         /// Writes the settings to the settings file. To protect the user settings, this does nothing if the last read wasn't successful.
         /// </summary>
+        /// <remarks>
+        /// In the editor, this method does nothing.
+        /// </remarks>
         /// <exception cref="NullReferenceException"></exception>
         /// <param name="value">The value to overwrite the settings file with.</param>
         public void Write(TSerialize value) => Write(SerializeSettings(value.NullCheck("The value cannot be null.")));
@@ -135,6 +147,9 @@ namespace KeepCoding
         /// <summary>
         /// Writes the string to the settings file. To protect the user settings, this does nothing if the last read wasn't successful.
         /// </summary>
+        /// <remarks>
+        /// In the editor, this method does nothing.
+        /// </remarks>
         /// <exception cref="NullIteratorException"></exception>
         /// <param name="value">The contents to write.</param>
         public void Write(string value)
@@ -160,12 +175,18 @@ namespace KeepCoding
         /// <summary>
         /// Deserializes, then reserializes the file according to <see cref="SerializeSettings(TSerialize)"/>.
         /// </summary>
+        /// <remarks>
+        /// In the editor, this method serializes the default value of the constructor in <typeparamref name="TSerialize"/>.
+        /// </remarks>
         /// <returns>A string representation of the value from <see cref="Read"/>.</returns>
         public override string ToString() => SerializeSettings(Read());
 
         /// <summary>
         /// Reads the settings from the settings file. If the settings couldn't be read, the default settings will be returned.
         /// </summary>
+        /// <remarks>
+        /// In the editor, this method returns the default value of the constructor in <typeparamref name="TSerialize"/>.
+        /// </remarks>
         public TSerialize Read() => SuppressIO(() =>
         {
             if (isEditor)
