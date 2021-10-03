@@ -24,12 +24,12 @@ Implements [ILog](ILog.md 'KeepCoding.ILog')
 
 | Constructors | |
 | :--- | :--- |
-| [ModConfig()](ModConfig.TSerialize..ModConfig().md 'KeepCoding.ModConfig&lt;TSerialize&gt;.ModConfig()') | Creates a new [ModConfig&lt;TSerialize&gt;](ModConfig.TSerialize..md 'KeepCoding.ModConfig&lt;TSerialize&gt;') with the target file name and an optional event of when the file is read.<br/> |
-| [ModConfig(string)](ModConfig.TSerialize...ctor.ZKsea+H43MefB36oOBiG5g.md 'KeepCoding.ModConfig&lt;TSerialize&gt;.ModConfig(string)') | Creates a new [ModConfig&lt;TSerialize&gt;](ModConfig.TSerialize..md 'KeepCoding.ModConfig&lt;TSerialize&gt;') with the target file name and an optional event of when the file is read.<br/> |
+| [ModConfig()](ModConfig.TSerialize..ModConfig().md 'KeepCoding.ModConfig&lt;TSerialize&gt;.ModConfig()') | Creates a new [ModConfig&lt;TSerialize&gt;](ModConfig.TSerialize..md 'KeepCoding.ModConfig&lt;TSerialize&gt;') with the target file name and an optional event of when the file is read. A file will automatically be made if it doesn't exist. A JSON property defined in the type [TSerialize](ModConfig.TSerialize..md#KeepCoding.ModConfig.TSerialize..TSerialize 'KeepCoding.ModConfig&lt;TSerialize&gt;.TSerialize') that isn't in the file will automatically write to the file with said property.<br/> |
+| [ModConfig(string)](ModConfig.TSerialize...ctor.ZKsea+H43MefB36oOBiG5g.md 'KeepCoding.ModConfig&lt;TSerialize&gt;.ModConfig(string)') | Creates a new [ModConfig&lt;TSerialize&gt;](ModConfig.TSerialize..md 'KeepCoding.ModConfig&lt;TSerialize&gt;') with the target file name and an optional event of when the file is read. A file will automatically be made if it doesn't exist. A JSON property defined in the type [TSerialize](ModConfig.TSerialize..md#KeepCoding.ModConfig.TSerialize..TSerialize 'KeepCoding.ModConfig&lt;TSerialize&gt;.TSerialize') that isn't in the file will automatically write to the file with said property.<br/> |
 
 | Properties | |
 | :--- | :--- |
-| [HasReadSucceeded](ModConfig.TSerialize..HasReadSucceeded.md 'KeepCoding.ModConfig&lt;TSerialize&gt;.HasReadSucceeded') | Whether or not there has been a successful read of the settings file.<br/> |
+| [HasReadSucceeded](ModConfig.TSerialize..HasReadSucceeded.md 'KeepCoding.ModConfig&lt;TSerialize&gt;.HasReadSucceeded') | Whether or not there has been a successful read of the settings file. This value will always be false in the editor.<br/> |
 
 | Methods | |
 | :--- | :--- |

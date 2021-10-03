@@ -12,3 +12,5 @@ The contents to write.
   
 #### Exceptions
 [NullIteratorException](NullIteratorException.md 'KeepCoding.Internal.NullIteratorException')  
+### Remarks
+In the editor, this method does nothing.  

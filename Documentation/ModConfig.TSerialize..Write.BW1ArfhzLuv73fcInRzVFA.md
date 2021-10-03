@@ -12,3 +12,5 @@ The value to overwrite the settings file with.
   
 #### Exceptions
 [System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException')  
+### Remarks
+In the editor, this method does nothing.  

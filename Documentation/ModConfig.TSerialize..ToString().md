@@ -8,3 +8,5 @@ public override string ToString();
 #### Returns
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
 A string representation of the value from [Read()](ModConfig.TSerialize..Read().md 'KeepCoding.ModConfig&lt;TSerialize&gt;.Read()').
+### Remarks
+In the editor, this method serializes the default value of the constructor in [TSerialize](ModConfig.TSerialize..md#KeepCoding.ModConfig.TSerialize..TSerialize 'KeepCoding.ModConfig&lt;TSerialize&gt;.TSerialize').  

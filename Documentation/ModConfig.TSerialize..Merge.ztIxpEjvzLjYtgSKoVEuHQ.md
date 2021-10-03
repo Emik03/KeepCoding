@@ -16,3 +16,5 @@ Determines whether it should remove values from the original file that isn't con
   
 #### Exceptions
 [System.NullReferenceException](https://docs.microsoft.com/en-us/dotnet/api/System.NullReferenceException 'System.NullReferenceException')  
+### Remarks
+In the editor, this method does nothing.  

@@ -7,3 +7,5 @@ public TSerialize Read();
 ```
 #### Returns
 [TSerialize](ModConfig.TSerialize..md#KeepCoding.ModConfig.TSerialize..TSerialize 'KeepCoding.ModConfig&lt;TSerialize&gt;.TSerialize')  
+### Remarks
+In the editor, this method returns the default value of the constructor in [TSerialize](ModConfig.TSerialize..md#KeepCoding.ModConfig.TSerialize..TSerialize 'KeepCoding.ModConfig&lt;TSerialize&gt;.TSerialize').  
