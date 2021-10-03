@@ -46,7 +46,7 @@ namespace KeepCoding
         /// <param name="fileName">The file name to get.</param>
         public ModConfig(string fileName)
         {
-            if (fileName is null)
+            if (fileName is null || isEditor)
                 return;
 
             if (!fileName.Contains("."))
@@ -59,7 +59,7 @@ namespace KeepCoding
 
         static ModConfig()
         {
-            if (!Directory.Exists(s_settingsFolder))
+            if (!Directory.Exists(s_settingsFolder) && !isEditor)
                 SuppressIO(() => Directory.CreateDirectory(s_settingsFolder));
         }
 
@@ -102,6 +102,9 @@ namespace KeepCoding
         /// <param name="isDiscarding">Determines whether it should remove values from the original file that isn't contained within the type, or has the incorrect type.</param>
         public void Merge(TSerialize value, bool isDiscarding = false)
         {
+            if (isEditor)
+                return;
+
             JObject original = Parse(ToString()),
                 values = Parse(SuppressIO<string>(() => File.ReadAllText(_settingsPath), ""));
 
@@ -136,7 +139,7 @@ namespace KeepCoding
         /// <param name="value">The contents to write.</param>
         public void Write(string value)
         {
-            if (!HasReadSucceeded)
+            if (!HasReadSucceeded || isEditor)
                 return;
 
             Log($"Writing to file \"{_settingsPath}\" the following contents: {value.NullCheck("The value cannot be null.")}");
@@ -165,6 +168,9 @@ namespace KeepCoding
         /// </summary>
         public TSerialize Read() => SuppressIO(() =>
         {
+            if (isEditor)
+                return new TSerialize();
+
             HasReadSucceeded = false;
 
             lock (s_settingsFileLock)
