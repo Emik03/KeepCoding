@@ -263,7 +263,7 @@ namespace KeepCoding
 #endif
         public void Awake()
         {
-            logMessageReceived += OnException;
+            logMessageReceived += HandleException;
 #if !LITE
             s_database.Clear();
 #endif
@@ -358,6 +358,32 @@ namespace KeepCoding
         /// Called when the module destroys itself, after the bomb unloads.
         /// </summary>
         public virtual void OnDestruct() { }
+
+        /// <summary>
+        /// Called when an unhandled exception relating to this module has been thrown.
+        /// </summary>
+        /// <remarks>
+        /// Unlike other virtual methods, this one has implementation. You may choose to invoke <c>base.OnException()</c> if you want the module to automatically log and solve.
+        /// </remarks>
+        /// <param name="message">The message of the exception.</param>
+        public virtual void OnException(string message)
+        {
+            void ForceSolve()
+            {
+                StartCoroutine(WaitForSolve());
+                Get<KMSelectable>().OnInteract = null;
+            }
+
+            Log("The module threw an unhandled exception... {0}", message);
+
+            if (TP?.IsTP ?? false)
+                return;
+
+            if (Get<KMSelectable>(allowNull: true))
+                Get<KMSelectable>().Assign(onInteract: ForceSolve);
+            else
+                ForceSolve();
+        }
 
         /// <summary>
         /// Called when any module on the current bomb has issued a strike.
@@ -570,33 +596,19 @@ namespace KeepCoding
         /// </summary>
         protected void OnDestroy()
         {
-            logMessageReceived -= OnException;
+            logMessageReceived -= HandleException;
             OnDestruct();
         }
 
-        private void OnException(string condition, string stackTrace, LogType type)
+        private void HandleException(string condition, string stackTrace, LogType type)
         {
-            void ForceSolve()
-            {
-                StartCoroutine(WaitForSolve());
-                Get<KMSelectable>().OnInteract = null;
-            }
-
             if (type != LogType.Exception || stackTrace.Split('\n').All(s => !s.StartsWith(Type.Name)))
                 return;
 
-            logMessageReceived -= OnException;
+            logMessageReceived -= HandleException;
             _hasException = true;
 
-            Log("The module threw an unhandled exception... {0}", condition);
-
-            if (TP?.IsTP ?? false)
-                return;
-
-            if (Get<KMSelectable>(allowNull: true))
-                Get<KMSelectable>().Assign(onInteract: ForceSolve);
-            else
-                ForceSolve();
+            OnException(condition);
         }
 
         private void TimerTickInner()
