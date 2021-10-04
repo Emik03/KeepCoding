@@ -61,7 +61,7 @@ While this project initally started before its release, I do have to credit [Qkr
 
 This project falls under the [GPLv3 License](https://github.com/Emik03/KeepCoding/blob/main/LICENSE.md), which in-short means that you copy, modify, and redistribute under private and commerical use, but the author cannot be held liable, the license must stay intact as is, a disclosure of the original source has to be made, and you must state changes to this repository.
 
-Prior to 10th of July 2020, the [MIT License](https://github.com/Emik03/KeepCoding/blob/48bdd7f7f276029ff1fa16f93c305c9ef6d5e9d1/LICENSE.md) was used instead, which in-short means that these versions allow you to copy, modify, and redistribute under private and commerical use, but the author cannot be held liable and the license must stay intact as is.
+Prior to 10th of July 2021, the [MIT License](https://github.com/Emik03/KeepCoding/blob/48bdd7f7f276029ff1fa16f93c305c9ef6d5e9d1/LICENSE.md) was used instead, which in-short means that these versions allow you to copy, modify, and redistribute under private and commerical use, but the author cannot be held liable and the license must stay intact as is.
 
 ### Wiki
 ---
