@@ -17,7 +17,7 @@ namespace KeepCoding
         private bool _isSFX;
 
         [SerializeField]
-        private AudioClip[] _audioClips = new AudioClip[0];
+        private AudioClip[] _audioClips;
 
         [SerializeField]
         private AudioSource _audioSource;
