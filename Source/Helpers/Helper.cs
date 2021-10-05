@@ -1119,8 +1119,8 @@ namespace KeepCoding
         {
             selector.NullCheck("The selector cannot be null.");
 
-            IEnumerator<T1> e1 = first.NullCheck("The first enumerator cannot be null.").GetEnumerator();
-            IEnumerator<T2> e2 = second.NullCheck("The second enumerator cannot be null.").GetEnumerator();
+            using IEnumerator<T1> e1 = first.NullCheck("The first enumerator cannot be null.").GetEnumerator();
+            using IEnumerator<T2> e2 = second.NullCheck("The second enumerator cannot be null.").GetEnumerator();
 
             while (e1.MoveNext() & e2.MoveNext())
                 yield return selector(e1.Current, e2.Current);
