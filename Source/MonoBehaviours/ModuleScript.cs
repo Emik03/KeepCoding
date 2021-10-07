@@ -48,8 +48,6 @@ namespace KeepCoding
         private static readonly Dictionary<string, Dictionary<string, object>[]> s_database = new Dictionary<string, Dictionary<string, object>[]>();
 #endif
 
-        private static readonly Dictionary<KMBomb, ReadOnlyCollection<ModuleContainer>> s_allModules = new Dictionary<KMBomb, ReadOnlyCollection<ModuleContainer>>();
-
         /// <summary>
         /// Determines whether the module has been struck. <see cref="TPScript{TModule}.OnInteractSequence(KMSelectable[], float, int[])"/> will set this to <see langword="false"/> when a command is interrupted.
         /// </summary>
@@ -492,7 +490,7 @@ namespace KeepCoding
             sounds.NullOrEmptyCheck($"{nameof(sounds)} is null or empty.");
 
             if (Gets<KMAudio>().Length != 1)
-                throw Gets<KMAudio>().IsNullOrEmpty() ? (Exception)new MissingComponentException($"A sound cannot be played when there is no {nameof(KMAudio)} component.") : new InvalidOperationException($"There is more than one {nameof(KMAudio)} component. This is considered a mistake because the game will only add the sounds to one of the {nameof(KMAudio)} components, which gives no certainty on the {nameof(KMAudio)} having sounds assigned.");
+                throw Gets<KMAudio>().Length == 0 ? (Exception)new MissingComponentException($"A sound cannot be played when there is no {nameof(KMAudio)} component.") : new InvalidOperationException($"There is more than one {nameof(KMAudio)} component. This is considered a mistake because the game will only add the sounds to one of the {nameof(KMAudio)} components, which gives no certainty on the {nameof(KMAudio)} having sounds assigned.");
 
             sounds = sounds.Where(s =>
             {
@@ -535,39 +533,6 @@ namespace KeepCoding
         /// <param name="sounds">The sounds, these can either be <see cref="string"/>, <see cref="AudioClip"/>, or <see cref="SoundEffect"/>.</param>
         /// <returns>A <see cref="KMAudioRef"/> for each argument you provide.</returns>
         public Sound[] PlaySound(params Sound[] sounds) => PlaySound(transform, false, sounds);
-
-        /// <summary>
-        /// Allows you to get the collection of <see cref="ModuleContainer"/> from a <see cref="KMBomb"/>.
-        /// </summary>
-        /// <remarks>
-        /// This collection also includes vanilla modules, including <see cref="ComponentPool.ComponentTypeEnum.Empty"/> components and <see cref="ComponentPool.ComponentTypeEnum.Timer"/>. You can filter the collection with <see cref="ModuleContainer.IsVanilla"/>, <see cref="ModuleContainer.IsModded"/>, <see cref="ModuleContainer.IsSolvable"/>, or <see cref="ModuleContainer.IsNeedy"/>, <see cref="ModuleContainer.IsEmptyOrTimer"/>, or <see cref="ModuleContainer.IsModule"/>.
-        /// </remarks>
-        /// <param name="bomb">The instance of <see cref="KMBomb"/> that has modules.</param>
-        /// <returns>All modules within <paramref name="bomb"/>.</returns>
-        public static ReadOnlyCollection<ModuleContainer> ModulesOfBomb(KMBomb bomb)
-        {
-            if (bomb is null)
-            {
-                if (isEditor)
-                    Self($"{nameof(ModulesOfBomb)} was called with a null {nameof(KMBomb)}, returning null.");
-
-                return null;
-            }
-
-            if (s_allModules.ContainsKey(bomb))
-                return s_allModules[bomb];
-
-            ReadOnlyCollection<ModuleContainer> modules = bomb.ToModules().ToReadOnly();
-
-            s_allModules
-                .Keys
-                .Where(bomb => !bomb)
-                .ForEach(bomb => s_allModules.Remove(bomb));
-
-            s_allModules.Add(bomb, modules);
-
-            return modules;
-        }
 
 #if !LITE
         /// <summary>
@@ -655,7 +620,7 @@ namespace KeepCoding
 
             s_hasCheckedVersion = true;
 
-            using UnityWebRequest latest = PathManager.LatestGitHub;
+            UnityWebRequest latest = PathManager.LatestGitHub;
 
             yield return latest.SendWebRequest();
 

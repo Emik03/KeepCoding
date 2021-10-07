@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using UnityEngine;
+using static KeepCoding.Logger;
 using static UnityEngine.Application;
 
 namespace KeepCoding
@@ -10,6 +13,8 @@ namespace KeepCoding
     /// </summary>
     public static class External
     {
+        private static readonly Dictionary<KMBomb, ReadOnlyCollection<ModuleContainer>> s_allModules = new Dictionary<KMBomb, ReadOnlyCollection<ModuleContainer>>();
+
         /// <summary>
         /// Gets the rule seed number, or a default value.
         /// </summary>
@@ -70,6 +75,40 @@ namespace KeepCoding
 
             logger.Log($"Boss Module Manager returned list for “{module}”: {(list is null ? Helper.Null : list.Combine())}");
             return list ?? new string[0];
+        }
+
+        /// <summary>
+        /// Allows you to get the collection of <see cref="ModuleContainer"/> from a <see cref="KMBomb"/>.
+        /// </summary>
+        /// <remarks>
+        /// This collection also includes vanilla modules, including <see cref="ComponentPool.ComponentTypeEnum.Empty"/> components and <see cref="ComponentPool.ComponentTypeEnum.Timer"/>. You can filter the collection with <see cref="ModuleContainer.IsVanilla"/>, <see cref="ModuleContainer.IsModded"/>, <see cref="ModuleContainer.IsSolvable"/>, or <see cref="ModuleContainer.IsNeedy"/>, <see cref="ModuleContainer.IsEmptyOrTimer"/>, or <see cref="ModuleContainer.IsModule"/>.
+        /// </remarks>
+        /// <param name="bomb">The instance of <see cref="KMBomb"/> that has modules.</param>
+        /// <returns>All modules within <paramref name="bomb"/>.</returns>
+        [CLSCompliant(false)]
+        public static ReadOnlyCollection<ModuleContainer> ModulesOfBomb(KMBomb bomb)
+        {
+            if (bomb is null)
+            {
+                if (isEditor)
+                    Self($"{nameof(ModulesOfBomb)} was called with a null {nameof(KMBomb)}, returning null.");
+
+                return null;
+            }
+
+            if (s_allModules.ContainsKey(bomb))
+                return s_allModules[bomb];
+
+            ReadOnlyCollection<ModuleContainer> modules = bomb.ToModules().ToReadOnly();
+
+            s_allModules
+                .Keys
+                .Where(bomb => !bomb)
+                .ForEach(bomb => s_allModules.Remove(bomb));
+
+            s_allModules.Add(bomb, modules);
+
+            return modules;
         }
     }
 }
