@@ -137,6 +137,10 @@ namespace KeepCoding.Internal
 
             _current = _members;
 
+            _components = _members.Select(o => o.Item1).ToArray();
+
+            _values = _members.Select(o => o.Item2._value.Stringify()).ToArray();
+
             if (!_current.IsNullOrEmpty())
                 _logger.Log($"{gameObject.name}, {_variable}\n{Join(", ", _members.Select(m => m.Item2._value.ToString()).ToArray())}");
         }
