@@ -1,7 +1,7 @@
-﻿using System;
+﻿#if !LITE
+using System;
 using System.Collections.Generic;
 
-#if !LITE
 namespace KeepCoding
 {
     /// <summary>
