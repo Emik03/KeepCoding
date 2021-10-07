@@ -15,6 +15,7 @@ namespace KeepCoding
     /// </summary>
     public static class EventHelper
     {
+#if !LITE
         /// <summary>
         /// Assigns events specified into <paramref name="bombInfo"/>. Reassigning them will replace their values.
         /// </summary>
@@ -47,6 +48,7 @@ namespace KeepCoding
         /// <param name="onPass">Called when the module is solved.</param>
         /// <param name="onStrike">Called when the module strikes.</param>
         [CLSCompliant(false)]
+        [Obsolete("Use ModuleScript's Assign method for your own module, or ModuleContainer's Assign method for other modules instead.")]
         public static KMBombModule Assign(this KMBombModule bombModule, Action onActivate = null, Action onPass = null, Action onStrike = null)
         {
             AssertDefault(bombModule);
@@ -95,6 +97,7 @@ namespace KeepCoding
         /// <param name="onStrike">Called when the needy strikes.</param>
         /// <param name="onTimerExpired">Called when the timer runs out of time.</param>
         [CLSCompliant(false)]
+        [Obsolete("Use ModuleScript's Assign method for your own module, or ModuleContainer's Assign method for other modules instead.")]
         public static KMNeedyModule Assign(this KMNeedyModule needyModule, Action onActivate = null, Action onNeedyActivation = null, Action onNeedyDeactivation = null, Action onPass = null, Action onStrike = null, Action onTimerExpired = null)
         {
             AssertDefault(needyModule);
@@ -108,6 +111,7 @@ namespace KeepCoding
 
             return needyModule;
         }
+#endif
 
         /// <summary>
         /// Assigns events specified into <paramref name="selectable"/>. Reassigning them will replace their values.
