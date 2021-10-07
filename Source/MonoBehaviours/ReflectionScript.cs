@@ -36,7 +36,7 @@ namespace KeepCoding.Internal
 
         [SerializeField]
 #pragma warning disable 649, IDE0044 // Add readonly modifier
-        private int _limitResults;
+        private int _limitResults = -1;
 #pragma warning restore 649, IDE0044 // Add readonly modifier
 
         [SerializeField]
@@ -55,9 +55,7 @@ namespace KeepCoding.Internal
         [SerializeField]
         private Object[] _components;
 
-        private IEnumerable<object> _current = Empty<object>();
-
-        private List<Tuple<Component, NullableObject>> _members = Empty;
+        private List<Tuple<Component, NullableObject>> _members = Empty, _current = Empty;
 
         private readonly Logger _logger = new Logger(nameof(ReflectionScript), true, false);
 
@@ -105,15 +103,15 @@ namespace KeepCoding.Internal
 
             foreach (Component component in Components)
             {
+                if (_members.Count > _limitResults && _limitResults >= 0)
+                    break;
+
                 var tuple = component.ToTuple(GetDeepValue(component, _variable.Split('.')));
 
                 if (tuple.Item2 is null)
                     continue;
 
                 _members.Add(tuple);
-
-                if (_limitResults.IsBetween(1, _members.Count))
-                    break;
             }
         }
 
@@ -134,25 +132,13 @@ namespace KeepCoding.Internal
         /// </summary>
         public void FixedUpdate()
         {
-            IEnumerable<object> objects = _members.Select(o => o.Item2._value);
-
-            Tuple<List<object>, List<object>> split = objects.SplitBy(o => o is Object);
-
-            _components = split.Item1
-                .ToArray()
-                .ConvertAll(o => (Object)o);
-
-            _values = split.Item2
-                .ToArray()
-                .ConvertAll(o => o.Stringify());
-
-            if (_current.SequenceEqual(objects))
+            if (_current.SequenceEqual(_members))
                 return;
 
-            _current = objects;
+            _current = _members;
 
             if (!_current.IsNullOrEmpty())
-                _logger.Log($"{gameObject.name}, {_variable}\n{Join(", ", _values)}");
+                _logger.Log($"{gameObject.name}, {_variable}\n{Join(", ", _members.Select(m => m.Item2._value.ToString()).ToArray())}");
         }
 
         private static NullableObject GetDeepValue(in object instance, in string[] names)
