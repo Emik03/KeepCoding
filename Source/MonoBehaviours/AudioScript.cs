@@ -11,7 +11,10 @@ namespace KeepCoding
     /// Encapsulates an <see cref="AudioSource"/> and scales it with the game's volume using <see cref="SFXVolume"/> and <see cref="MusicVolume"/>.
     /// </summary>
     [CLSCompliant(false)]
-    public abstract class AudioScript : CacheableBehaviour, IAwake, IUpdate
+    public abstract class AudioScript : CacheableBehaviour
+#if !LITE
+        , IAwake, IUpdate
+#endif
     {
         [SerializeField]
         private bool _isSFX;
