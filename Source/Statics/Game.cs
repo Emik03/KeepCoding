@@ -44,7 +44,7 @@ namespace KeepCoding
             /// </remarks>
             /// <exception cref="NotSupportedException"></exception>
             /// <exception cref="UnrecognizedValueException"></exception>
-            public static bool IsCurrentControlTypeVR => CurrentControlType.IsAny(ControlType.Gaze, ControlType.Motion, ControlType.ThreeDOF);
+            public static bool IsCurrentControlTypeVR => new[] { ControlType.Gaze, ControlType.Motion, ControlType.ThreeDOF }.Contains(CurrentControlType);
 
             /// <summary>
             /// The current way the game is being controlled.
