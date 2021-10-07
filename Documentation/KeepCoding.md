@@ -12,7 +12,6 @@
 | [CustomComparer&lt;T&gt;](CustomComparer.T..md 'KeepCoding.CustomComparer&lt;T&gt;') | Encapsulates an [System.Collections.Generic.IComparer&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IComparer-1 'System.Collections.Generic.IComparer`1') that uses a comparison function provided as a delegate.<br/> |
 | [CustomEqualityComparer&lt;T&gt;](CustomEqualityComparer.T..md 'KeepCoding.CustomEqualityComparer&lt;T&gt;') | Encapsulates an [System.Collections.Generic.IEqualityComparer&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IEqualityComparer-1 'System.Collections.Generic.IEqualityComparer`1') that uses an equality comparison function provided as a delegate.<br/> |
 | [EventHelper](EventHelper.md 'KeepCoding.EventHelper') | KMFramework extension methods that makes it easier to assign multiple events to a variable in one statement.<br/> |
-| [External](External.md 'KeepCoding.External') | Provides methods to retrieve information from other external mods.<br/> |
 | [Game](Game.md 'KeepCoding.Game') | Allows access into the game's internal code. <br/> |
 | [Game.KTInputManager](Game.KTInputManager.md 'KeepCoding.Game.KTInputManager') | Allows access relating to how the game is being interacted with.<br/> |
 | [Game.MasterAudio](Game.MasterAudio.md 'KeepCoding.Game.MasterAudio') | Allows access relating to the game's main master channel for audio.<br/> |

@@ -37,9 +37,7 @@ namespace KeepCoding.Internal
         private class ComponentValuePair
         {
             [SerializeField]
-#pragma warning disable IDE0052, IDE0044 // Add readonly modifier
             internal string _value;
-#pragma warning restore IDE0052, IDE0044 // Add readonly modifier
 
             [SerializeField]
 #pragma warning disable IDE0052, IDE0044 // Add readonly modifier
@@ -49,7 +47,7 @@ namespace KeepCoding.Internal
             internal ComponentValuePair(Component c, NullableObject o)
             {
                 _component = c;
-                _value = o._value.Stringify();
+                _value = o?._value.Stringify();
             }
 
             public override bool Equals(object obj) => Equals(obj as ComponentValuePair);
@@ -85,9 +83,9 @@ namespace KeepCoding.Internal
 #pragma warning restore 649, IDE0044 // Add readonly modifier
 
         [SerializeField]
-        private ComponentValuePair[] _reflected;
+        private ComponentValuePair[] _reflected = new ComponentValuePair[0];
 
-        private List<ComponentValuePair> _members = Empty, _current = Empty;
+        private List<ComponentValuePair> _current = new List<ComponentValuePair>();
 
         private readonly Logger _logger = new Logger(nameof(ReflectionScript), true, false);
 
@@ -101,8 +99,6 @@ namespace KeepCoding.Internal
             Methods.Find => FindObjectsOfType<Component>(),
             _ => throw new NotImplementedException(),
         };
-
-        private static List<ComponentValuePair> Empty => Empty<ComponentValuePair>().ToList();
 
         /// <summary>
         /// Deletes itself if being ran in-game.
@@ -121,13 +117,20 @@ namespace KeepCoding.Internal
         /// </summary>
         public void FixedUpdate()
         {
-            if (_current.SequenceEqual(_members))
+            if (IsNullOrEmpty(_variable))
                 return;
 
-            _current = _members;
+            _current = Empty<ComponentValuePair>().ToList();
+
+            IterateComponents();
+
+            if (_reflected.SequenceEqual(_current))
+                return;
+
+            _reflected = _current.ToArray();
 
             if (!_current.IsNullOrEmpty())
-                _logger.Log($"{gameObject.name}, {_variable}\n{Join(", ", _members.Select(cvp => cvp._value).ToArray())}");
+                _logger.Log($"{gameObject.name}, {_variable}\n{Join(", ", _current.Select(cvp => cvp._value).ToArray())}");
         }
 
         /// <summary>
@@ -152,24 +155,19 @@ namespace KeepCoding.Internal
         /// <param name="logs">The array of logs to individual output into the console.</param>
         public void LogMultiple(params string[] logs) => _logger.LogMultiple(logs);
 
-        private void OnValidate()
+        private void IterateComponents()
         {
-            if (_variable is null)
-                return;
-
-            _members = Empty<ComponentValuePair>().ToList();
-
             foreach (Component component in Components)
             {
-                if (_members.Count > _limitResults && _limitResults >= 0)
-                    break;
-
-                var pair = new ComponentValuePair(component, GetDeepValue(component, _variable.Split('.')));
-
-                if (pair._value is null)
+                if (_current.Count > _limitResults && _limitResults >= 0)
                     continue;
 
-                _members.Add(pair);
+                NullableObject obj = GetDeepValue(component, _variable.Split('.'));
+
+                if (obj is null)
+                    continue;
+
+                _current.Add(new ComponentValuePair(component, obj));
             }
         }
 
