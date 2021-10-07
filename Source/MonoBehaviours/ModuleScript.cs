@@ -27,9 +27,9 @@ namespace KeepCoding
     /// Base class for solvable and needy modded modules in Keep Talking and Nobody Explodes.
     /// </summary>
     [CLSCompliant(false)]
-    public abstract class ModuleScript : CacheableBehaviour, IAwake,
+    public abstract class ModuleScript : CacheableBehaviour,
 #if !LITE
-        IDump,
+        IAwake, IDump,
 #endif
         ILog
     {
