@@ -12,7 +12,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using static System.Linq.Enumerable;
 using static System.Reflection.BindingFlags;
-using static KeepCoding.External;
+using static KeepCoding.Helper;
 using static KeepCoding.Game;
 using static KeepCoding.Game.KTInputManager;
 using static KeepCoding.Game.MasterAudio;
@@ -121,7 +121,7 @@ namespace KeepCoding
         /// Gets the rule seed number.
         /// </summary>
         /// <returns>The rule seed number, by default 1.</returns>
-        public int RuleSeedId => _ruleSeedId ??= GetRuleSeedId(Module, _editorRuleSeed);
+        public int RuleSeedId => _ruleSeedId ??= Module.GetRuleSeedId(_editorRuleSeed);
         private int? _ruleSeedId;
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace KeepCoding
         /// <summary>
         /// The ignored modules of this module from the Boss Module Manager.
         /// </summary>
-        public string[] IgnoredModules => _ignoredModules ??= GetIgnoredModules(Module);
+        public string[] IgnoredModules => _ignoredModules ??= Module.GetIgnoredModules();
         private string[] _ignoredModules;
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace KeepCoding
         /// <remarks>
         /// Note that this variable is not available instantly. <see cref="OnActivate"/> is recommended, or a <see cref="Coroutine"/> that waits for this value to be set. A small amount of time is needed for this property to be set. This collection also includes vanilla modules, including <see cref="ComponentPool.ComponentTypeEnum.Empty"/> components and <see cref="ComponentPool.ComponentTypeEnum.Timer"/>. You can filter the collection with <see cref="ModuleContainer.IsVanilla"/>, <see cref="ModuleContainer.IsModded"/>, <see cref="ModuleContainer.IsSolvable"/>, or <see cref="ModuleContainer.IsNeedy"/>, <see cref="ModuleContainer.IsEmptyOrTimer"/>, or <see cref="ModuleContainer.IsModule"/>.
         /// </remarks>
-        public ReadOnlyCollection<ModuleContainer> Modules => _modules ??= ModulesOfBomb(Bomb);
+        public ReadOnlyCollection<ModuleContainer> Modules => _modules ??= GetModules(Bomb);
         private ReadOnlyCollection<ModuleContainer> _modules;
 
         internal bool IsColorblindSupported => _isColorblindSupported ??= Type.ImplementsMethod(nameof(OnColorblindChanged), DeclaredOnly | Instance | Public);

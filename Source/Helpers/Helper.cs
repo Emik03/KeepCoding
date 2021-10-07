@@ -15,6 +15,8 @@ using static System.Math;
 using static System.Reflection.BindingFlags;
 using static System.String;
 using static KeepCoding.Game;
+using static KeepCoding.Logger;
+using static UnityEngine.Application;
 using static UnityEngine.Debug;
 using Object = UnityEngine.Object;
 using SRandom = System.Random;
@@ -27,6 +29,8 @@ namespace KeepCoding
     /// </summary>
     public static class Helper
     {
+        private static readonly Dictionary<KMBomb, ReadOnlyCollection<ModuleContainer>> s_allModules = new Dictionary<KMBomb, ReadOnlyCollection<ModuleContainer>>();
+
 #if !LITE
         /// <summary>
         /// The entire English alphabet in Uppercase. From A-Z.
@@ -878,31 +882,6 @@ namespace KeepCoding
 
 #if !LITE
         /// <summary>
-        /// Gets all modules from a given bomb. For a cached variant, use <see cref="External.ModulesOfBomb(KMBomb)"/>.
-        /// </summary>
-        /// <param name="bomb">The bomb to get all modules in the form of a <see cref="ModuleContainer"/> <see cref="IEnumerable"/>.</param>
-        /// <returns>A collection of <see cref="ModuleContainer"/>, including vanillas, from <paramref name="bomb"/>.</returns>
-#endif
-#if LITE
-        internal
-#else
-        [CLSCompliant(false)]
-        public
-#endif
-            static IEnumerable<ModuleContainer> ToModules(this KMBomb bomb)
-        {
-            foreach (KMBombModule solvable in bomb.GetComponentsInChildren<KMBombModule>())
-                yield return solvable;
-
-            foreach (KMNeedyModule solvable in bomb.GetComponentsInChildren<KMNeedyModule>())
-                yield return solvable;
-
-            foreach (object vanilla in Vanillas(bomb))
-                yield return new ModuleContainer((MonoBehaviour)vanilla);
-        }
-
-#if !LITE
-        /// <summary>
         /// Converts an <see cref="IEnumerator"/> to an <see cref="IEnumerable"/>.
         /// </summary>
         /// <exception cref="NullIteratorException"></exception>
@@ -1215,6 +1194,52 @@ namespace KeepCoding
         /// <param name="expression">The expression that retrieves the method.</param>
         /// <returns>The method info of the function.</returns>
         public static MethodInfo GetMethodInfo<T>(this Expression<Action<T>> expression) => expression.Body is MethodCallExpression member ? member.Method : throw new ArgumentException($"The expression {nameof(expression)} is not a method");
+
+        /// <summary>
+        /// Allows you to get the collection of <see cref="ModuleContainer"/> from a <see cref="KMBomb"/>.
+        /// </summary>
+        /// <remarks>
+        /// This collection also includes vanilla modules, including <see cref="ComponentPool.ComponentTypeEnum.Empty"/> components and <see cref="ComponentPool.ComponentTypeEnum.Timer"/>. You can filter the collection with <see cref="ModuleContainer.IsVanilla"/>, <see cref="ModuleContainer.IsModded"/>, <see cref="ModuleContainer.IsSolvable"/>, or <see cref="ModuleContainer.IsNeedy"/>, <see cref="ModuleContainer.IsEmptyOrTimer"/>, or <see cref="ModuleContainer.IsModule"/>.
+        /// </remarks>
+        /// <param name="bomb">The instance of <see cref="KMBomb"/> that has modules.</param>
+        /// <returns>All modules within <paramref name="bomb"/>.</returns>
+        [CLSCompliant(false)]
+        public static ReadOnlyCollection<ModuleContainer> GetModules(KMBomb bomb)
+        {
+            if (bomb is null)
+            {
+                if (isEditor)
+                    Self($"{nameof(GetModules)} was called with a null {nameof(KMBomb)}, returning null.");
+
+                return null;
+            }
+
+            if (s_allModules.ContainsKey(bomb))
+                return s_allModules[bomb];
+
+            ReadOnlyCollection<ModuleContainer> modules = bomb.GetModulesInner().ToReadOnly();
+
+            s_allModules
+                .Keys
+                .Where(bomb => !bomb)
+                .ForEach(bomb => s_allModules.Remove(bomb));
+
+            s_allModules.Add(bomb, modules);
+
+            return modules;
+        }
+
+        private static IEnumerable<ModuleContainer> GetModulesInner(this KMBomb bomb)
+        {
+            foreach (KMBombModule solvable in bomb.GetComponentsInChildren<KMBombModule>())
+                yield return solvable;
+
+            foreach (KMNeedyModule solvable in bomb.GetComponentsInChildren<KMNeedyModule>())
+                yield return solvable;
+
+            foreach (object vanilla in Vanillas(bomb))
+                yield return new ModuleContainer((MonoBehaviour)vanilla);
+        }
 
         /// <summary>
         /// Splits an <see cref="IEnumerable"/> in two based on a method provided.
