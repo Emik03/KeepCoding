@@ -9,7 +9,6 @@ using static System.Reflection.BindingFlags;
 using static System.String;
 using static KeepCoding.Logger;
 using static UnityEngine.Application;
-using Object = UnityEngine.Object;
 
 namespace KeepCoding.Internal
 {
@@ -21,9 +20,45 @@ namespace KeepCoding.Internal
     {
         private class NullableObject
         {
+            internal readonly object _value;
+
             internal NullableObject(object o) => _value = o;
 
-            internal readonly object _value;
+            public override bool Equals(object obj) => Equals(obj as NullableObject);
+
+            private bool Equals(NullableObject obj) => obj is { } && _value == obj._value;
+
+            public override int GetHashCode() => ~_value.GetHashCode();
+
+            public override string ToString() => _value.ToString();
+        }
+
+        [Serializable]
+        private class ComponentValuePair
+        {
+            [SerializeField]
+#pragma warning disable IDE0052, IDE0044 // Add readonly modifier
+            internal string _value;
+#pragma warning restore IDE0052, IDE0044 // Add readonly modifier
+
+            [SerializeField]
+#pragma warning disable IDE0052, IDE0044 // Add readonly modifier
+            private Component _component;
+#pragma warning restore IDE0052, IDE0044 // Add readonly modifier
+
+            internal ComponentValuePair(Component c, NullableObject o)
+            {
+                _component = c;
+                _value = o._value.Stringify();
+            }
+
+            public override bool Equals(object obj) => Equals(obj as ComponentValuePair);
+
+            private bool Equals(ComponentValuePair obj) => obj is { } && _component == obj._component && _value == obj._value;
+
+            public override int GetHashCode() => _component.GetHashCode() ^ _value.GetHashCode();
+
+            public override string ToString() => _value;
         }
 
         private enum Methods
@@ -50,12 +85,9 @@ namespace KeepCoding.Internal
 #pragma warning restore 649, IDE0044 // Add readonly modifier
 
         [SerializeField]
-        private string[] _values;
+        private ComponentValuePair[] _reflected;
 
-        [SerializeField]
-        private Object[] _components;
-
-        private List<Tuple<Component, NullableObject>> _members = Empty, _current = Empty;
+        private List<ComponentValuePair> _members = Empty, _current = Empty;
 
         private readonly Logger _logger = new Logger(nameof(ReflectionScript), true, false);
 
@@ -70,7 +102,33 @@ namespace KeepCoding.Internal
             _ => throw new NotImplementedException(),
         };
 
-        private static List<Tuple<Component, NullableObject>> Empty => Empty<Tuple<Component, NullableObject>>().ToList();
+        private static List<ComponentValuePair> Empty => Empty<ComponentValuePair>().ToList();
+
+        /// <summary>
+        /// Deletes itself if being ran in-game.
+        /// </summary>
+        public void Start()
+        {
+            if (isEditor)
+                return;
+
+            Self($"A {nameof(ReflectionScript)} showed up in-game. Automatically deleting component...");
+            Destroy(this);
+        }
+
+        /// <summary>
+        /// Reflects and gets the values of the specified variables.
+        /// </summary>
+        public void FixedUpdate()
+        {
+            if (_current.SequenceEqual(_members))
+                return;
+
+            _current = _members;
+
+            if (!_current.IsNullOrEmpty())
+                _logger.Log($"{gameObject.name}, {_variable}\n{Join(", ", _members.Select(cvp => cvp._value).ToArray())}");
+        }
 
         /// <summary>
         /// Logs message, but formats it to be compliant with the Logfile Analyzer.
@@ -99,50 +157,20 @@ namespace KeepCoding.Internal
             if (_variable is null)
                 return;
 
-            _members = Empty<Tuple<Component, NullableObject>>().ToList();
+            _members = Empty<ComponentValuePair>().ToList();
 
             foreach (Component component in Components)
             {
                 if (_members.Count > _limitResults && _limitResults >= 0)
                     break;
 
-                var tuple = component.ToTuple(GetDeepValue(component, _variable.Split('.')));
+                var pair = new ComponentValuePair(component, GetDeepValue(component, _variable.Split('.')));
 
-                if (tuple.Item2 is null)
+                if (pair._value is null)
                     continue;
 
-                _members.Add(tuple);
+                _members.Add(pair);
             }
-        }
-
-        /// <summary>
-        /// Deletes itself if being ran in-game.
-        /// </summary>
-        public void Start()
-        {
-            if (isEditor)
-                return;
-
-            Self($"A {nameof(ReflectionScript)} showed up in-game. Automatically deleting component...");
-            Destroy(this);
-        }
-
-        /// <summary>
-        /// Reflects and gets the values of the specified variables.
-        /// </summary>
-        public void FixedUpdate()
-        {
-            if (_current.SequenceEqual(_members))
-                return;
-
-            _current = _members;
-
-            _components = _members.Select(o => o.Item1).ToArray();
-
-            _values = _members.Select(o => o.Item2._value.Stringify()).ToArray();
-
-            if (!_current.IsNullOrEmpty())
-                _logger.Log($"{gameObject.name}, {_variable}\n{Join(", ", _members.Select(m => m.Item2._value.ToString()).ToArray())}");
         }
 
         private static NullableObject GetDeepValue(in object instance, in string[] names)
