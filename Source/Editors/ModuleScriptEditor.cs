@@ -53,7 +53,7 @@ namespace KeepCoding.Internal
 
         private static IEnumerator GetLatest()
         {
-            using UnityWebRequest latest = PathManager.LatestGitHub;
+            UnityWebRequest latest = PathManager.LatestGitHub;
 
             yield return latest.SendWebRequest();
 
