@@ -353,7 +353,7 @@ namespace KeepCoding
 
             return indices is null
                 ? Empty<WaitForSecondsRealtime>()
-                : indices.All(i => i.IsBetween(0, selectables.Length - 1))
+                : indices.All(i => i >= 0 && i < selectables.Length)
                 ? OnInteractSequence(ConvertAll(indices, i => selectables[i]), wait)
                 : throw new IndexOutOfRangeException("The indices are out of range.");
         }

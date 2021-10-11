@@ -44,7 +44,7 @@ namespace KeepCoding
             /// </remarks>
             /// <exception cref="NotSupportedException"></exception>
             /// <exception cref="UnrecognizedValueException"></exception>
-            public static bool IsCurrentControlTypeVR => CurrentControlType.IsAny(ControlType.Gaze, ControlType.Motion, ControlType.ThreeDOF);
+            public static bool IsCurrentControlTypeVR => new[] { ControlType.Gaze, ControlType.Motion, ControlType.ThreeDOF }.Contains(CurrentControlType);
 
             /// <summary>
             /// The current way the game is being controlled.
@@ -925,9 +925,9 @@ namespace KeepCoding
             get => s_references;
             set => s_references = new StackFrame(1).GetMethod().ReflectedType.Assembly.FullName is "Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
                     ? Helper.GetValues<References>().Any(r => r == value)
-                    ? value.Call(r => Self($"Changing {nameof(Reference)} to be \"{value}\" from previous \"{Reference}\"."))
+                    ? value
                     : throw new ArgumentException($"The value \"{value}\" is not valid!")
-                    : throw new SecurityException($"The library \"{new StackFrame(1).GetMethod().ReflectedType.Assembly.GetName().Name}\" does not have permission to edit this value!");
+                    : throw new SecurityException($"The library \"{new StackFrame(1).GetMethod().ReflectedType.NameOfAssembly()}\" does not have permission to edit this value!");
         }
 
         private static References s_references = isEditor ? References.None : References.Ktane;

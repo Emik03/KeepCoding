@@ -15,6 +15,8 @@ using static System.Math;
 using static System.Reflection.BindingFlags;
 using static System.String;
 using static KeepCoding.Game;
+using static KeepCoding.Logger;
+using static UnityEngine.Application;
 using static UnityEngine.Debug;
 using Object = UnityEngine.Object;
 using SRandom = System.Random;
@@ -27,6 +29,8 @@ namespace KeepCoding
     /// </summary>
     public static class Helper
     {
+        private static readonly Dictionary<KMBomb, ReadOnlyCollection<ModuleContainer>> s_allModules = new Dictionary<KMBomb, ReadOnlyCollection<ModuleContainer>>();
+
 #if !LITE
         /// <summary>
         /// The entire English alphabet in Uppercase. From A-Z.
@@ -85,9 +89,7 @@ namespace KeepCoding
         /// <returns>True if a component has been found of type <typeparamref name="T"/> from <paramref name="obj"/>.</returns>
         [CLSCompliant(false)]
         public static bool HasComponent<T>(this GameObject obj, out T component) where T : Component => (component = obj.GetComponent<T>()) is T;
-#endif
 
-#if !LITE
         /// <summary>
         /// Determines if a <see langword="class"/> implements a given method.
         /// </summary>
@@ -102,7 +104,7 @@ namespace KeepCoding
 #else
         public
 #endif
-            static bool ImplementsMethod<T>(this T _, string method, BindingFlags flags = Flags) => ImplementsMethod<T>(method, flags);
+            static bool ImplementsMethod<T>(this T _, string method, BindingFlags flags = Flags) => ImplementsMethod(typeof(T), method, flags);
 
 #if !LITE
         /// <summary>
@@ -112,13 +114,8 @@ namespace KeepCoding
         /// <param name="method">The method to get.</param>
         /// <param name="flags">The <see cref="BindingFlags"/> to use in <see cref="Type.GetMethod(string, BindingFlags)"/>.</param>
         /// <returns><see langword="true"/> if <typeparamref name="T"/> has <paramref name="method"/>.</returns>
+        public static bool ImplementsMethod<T>(this string method, BindingFlags flags = Flags) => ImplementsMethod(typeof(T), method, flags);
 #endif
-#if LITE
-        internal
-#else
-        public
-#endif
-            static bool ImplementsMethod<T>(this string method, BindingFlags flags = Flags) => ImplementsMethod(typeof(T), method, flags);
 
 #if !LITE
         /// <summary>
@@ -144,15 +141,8 @@ namespace KeepCoding
         /// <param name="item">The type of the initial item to compare.</param>
         /// <param name="comparisons">The <see cref="Array"/> of items to compare to.</param>
         /// <returns><see langword="true"/> if any of the items in <paramref name="comparisons"/> is equal to <paramref name="item"/>.</returns>
-#endif
-#if LITE
-        internal
-#else
-        public
-#endif
-            static bool IsAny<T>(this T item, params T[] comparisons) => comparisons.Contains(item);
+        public static bool IsAny<T>(this T item, params T[] comparisons) => comparisons.Contains(item);
 
-#if !LITE
         /// <summary>
         /// Determines whether <paramref name="item"/> is equal to all items in <paramref name="comparisons"/>.
         /// </summary>
@@ -161,7 +151,6 @@ namespace KeepCoding
         /// <param name="comparisons">The <see cref="Array"/> of items to compare to.</param>
         /// <returns><see langword="true"/> if all items in <paramref name="comparisons"/> is equal to <paramref name="item"/>.</returns>
         public static bool IsAll<T>(this T item, params T[] comparisons) => comparisons.All(t => t is null ? item is null : t.Equals(item));
-#endif
 
         /// <summary>
         /// Determines whether the number is equal or in-between 2 values.
@@ -172,7 +161,6 @@ namespace KeepCoding
         /// <returns>True if <paramref name="comparison"/> is more than or equal <paramref name="min"/> and less than or equal <paramref name="max"/>.</returns>
         public static bool IsBetween(this char comparison, char min, char max) => comparison >= min && comparison <= max;
 
-#if !LITE
         /// <summary>
         /// Determines whether the number is equal or in-between a tuple's <see cref="Tuple{T}.Item1"/> (minimum) and <see cref="Tuple{T1, T2}.Item2"/> (maximum).
         /// </summary>
@@ -180,7 +168,6 @@ namespace KeepCoding
         /// <param name="range">The minimum and maximum value required to return <see langword="true"/>.</param>
         /// <returns>True if <paramref name="comparison"/> is more than or equal <see cref="Tuple{T}.Item1"/> and less than or equal <see cref="Tuple{T1, T2}.Item2"/>.</returns>
         public static bool IsBetween(this char comparison, Tuple<char, char> range) => comparison >= range.Item1 && comparison <= range.Item2;
-#endif
 
         /// <summary>
         /// Determines whether the number is equal or in-between 2 values.
@@ -191,7 +178,6 @@ namespace KeepCoding
         /// <returns>True if <paramref name="comparison"/> is more than or equal <paramref name="min"/> and less than or equal <paramref name="max"/>.</returns>
         public static bool IsBetween(this int comparison, int min, int max) => comparison >= min && comparison <= max;
 
-#if !LITE
         /// <summary>
         /// Determines whether the number is equal or in-between a tuple's <see cref="Tuple{T}.Item1"/> (minimum) and <see cref="Tuple{T1, T2}.Item2"/> (maximum).
         /// </summary>
@@ -199,7 +185,6 @@ namespace KeepCoding
         /// <param name="range">The minimum and maximum value required to return <see langword="true"/>.</param>
         /// <returns>True if <paramref name="comparison"/> is more than or equal <see cref="Tuple{T}.Item1"/> and less than or equal <see cref="Tuple{T1, T2}.Item2"/>.</returns>
         public static bool IsBetween(this int comparison, Tuple<int, int> range) => comparison >= range.Item1 && comparison <= range.Item2;
-#endif
 
         /// <summary>
         /// Determines whether the number is equal or in-between 2 values.
@@ -210,7 +195,6 @@ namespace KeepCoding
         /// <returns>True if <paramref name="comparison"/> is more than or equal <paramref name="min"/> and less than or equal <paramref name="max"/>.</returns>
         public static bool IsBetween(this float comparison, float min, float max) => comparison >= min && comparison <= max;
 
-#if !LITE
         /// <summary>
         /// Determines whether the number is equal or in-between a tuple's <see cref="Tuple{T}.Item1"/> (minimum) and <see cref="Tuple{T1, T2}.Item2"/> (maximum).
         /// </summary>
@@ -235,6 +219,7 @@ namespace KeepCoding
         /// <param name="range">The minimum and maximum value required to return <see langword="true"/>.</param>
         /// <returns>True if <paramref name="comparison"/> is more than or equal <see cref="Tuple{T}.Item1"/> and less than or equal <see cref="Tuple{T1, T2}.Item2"/>.</returns>
         public static bool IsBetween(this long comparison, Tuple<long, long> range) => comparison >= range.Item1 && comparison <= range.Item2;
+
         /// <summary>
         /// Determines whether the number is equal or in-between 2 values.
         /// </summary>
@@ -280,9 +265,7 @@ namespace KeepCoding
         /// <param name="index">The index.</param>
         /// <returns>True if <paramref name="source"/> is null, if <paramref name="index"/> is out of range, or if the element is null.</returns>
         public static bool IsIndexNull<T>(this IEnumerable<T> source, int index) => source is null || !index.IsBetween(0, source.GetUpperBound()) || source.ElementAt(index) is null;
-#endif
 
-#if !LITE
         /// <summary>
         /// Determines if the item is an iterator type.
         /// </summary>
@@ -303,25 +286,22 @@ namespace KeepCoding
         /// <param name="str">The string to check for.</param>
         /// <returns>True if <paramref name="str"/> is equal to null, or empty.</returns>
         public static bool IsNullOrEmpty(this string str) => string.IsNullOrEmpty(str);
-#endif
 
         /// <summary>
         /// Determines if the <see cref="IEnumerable{T}"/> is null or empty.
         /// </summary>
         /// <param name="source">The <see cref="IEnumerable{T}"/> to check for.</param>
         /// <returns>True if <paramref name="source"/> is equal to null, or empty.</returns>
-        public static bool IsNullOrEmpty<T>(this IEnumerable<T> source) => source is null || !source.Any();
-
-#if !LITE
-        /// <summary>
-        /// Determines if the <see cref="IEnumerator{T}"/> is null or empty.
-        /// </summary>
-        /// <param name="source">The <see cref="IEnumerable{T}"/> to check for.</param>
-        /// <returns>True if <paramref name="source"/> is equal to null, or empty.</returns>
-        public static bool IsNullOrEmpty<T>(this IEnumerator<T> source) => source is null || !source.AsEnumerable().Any();
 #endif
 
+#if LITE
+        internal
+#else
+        public
+#endif
+             static bool IsNullOrEmpty<T>(this T source) where T : IEnumerable => source is null || !source.GetEnumerator().MoveNext();
 #if !LITE
+
         /// <summary>
         /// Determines if the <see cref="KMSelectable"/> is a parent of another <see cref="KMSelectable"/>.
         /// </summary>
@@ -334,7 +314,7 @@ namespace KeepCoding
         [CLSCompliant(false)]
         public
 #endif
-            static bool IsParent(this KMSelectable kmSelectable) => !kmSelectable.Children.IsNullOrEmpty();
+            static bool IsParent(this KMSelectable kmSelectable) => kmSelectable.Children?.Length > 0;
 
 #if !LITE
         /// <summary>
@@ -358,7 +338,6 @@ namespace KeepCoding
         /// <returns>An array of random booleans of length <paramref name="length"/>, with probability based off of <paramref name="weighting"/>.</returns>
         /// <returns>An <see cref="Array"/> of <see cref="bool"/> in which each index is randomly <see langword="true"/> or <see langword="false"/> based on <paramref name="weighting"/>.</returns>
         public static bool[] RandomBooleans(this int length, float weighting = 0.5f) => Range(length).Select(i => RandomBoolean(weighting)).ToArray();
-#endif
 
         /// <summary>
         /// Converts a character to a number.
@@ -382,7 +361,6 @@ namespace KeepCoding
         /// <returns><paramref name="source"/> as uppercase.</returns>
         public static char ToUpper(this char source) => char.ToUpperInvariant(source);
 
-#if !LITE
         /// <summary>
         /// Gets the digital root of the number, which is obtained by repeatedly getting the sum of all digits until 1 digit remains.
         /// </summary>
@@ -451,7 +429,6 @@ namespace KeepCoding
         /// <param name="range">The minimum (inclusive) and maximum (exclusive) values.</param>
         /// <returns>Random integer array of length <paramref name="length"/> between <paramref name="range"/>'s values.</returns>
         public static int[] Ranges(this int length, Tuple<int, int> range) => Range(length).Select(i => URandom.Range(range.Item1, range.Item2)).ToArray();
-#endif
 
         /// <summary>
         /// Parses each element of an array into a number. If it succeeds it returns the integer array, if it fails then it returns null.
@@ -462,7 +439,8 @@ namespace KeepCoding
         /// <param name="minLength">The minimum acceptable length of the array. (inclusive)</param>
         /// <param name="maxLength">The maximum acceptable length of the array. (inclusive)</param>
         /// <returns>The array as integers, or null if it fails.</returns>
-        public static int[] ToNumbers<T>(this T[] ts, int? min = null, int? max = null, int? minLength = null, int? maxLength = null) where T : notnull => (minLength is null || minLength.Value <= ts.Length) && (maxLength is null || maxLength.Value >= ts.Length) && ts.All(t => TryParse(t.ToString(), out int i) && (min is null || min.Value <= i) && (max is null || max.Value >= i)) ? ts.Select(t => Parse(t.ToString())).ToArray() : null;
+        public static int[] ToNumbers<T>(this IList<T> ts, int? min = null, int? max = null, int? minLength = null, int? maxLength = null) where T : notnull => (minLength is null || minLength.Value <= ts.Count) && (maxLength is null || maxLength.Value >= ts.Count) && ts.All(t => TryParse(t.ToString(), out int i) && (min is null || min.Value <= i) && (max is null || max.Value >= i)) ? ts.Select(t => Parse(t.ToString())).ToArray() : null;
+#endif
 
         /// <summary>
         /// Converts any base number to any base-10.
@@ -580,6 +558,7 @@ namespace KeepCoding
         /// <returns>The integer, but in the base specified.</returns>
         public static string Base(this string value, int fromBaseNumber, int toBaseNumber) => value.Base(new string(Alphanumeric.Take(fromBaseNumber).ToArray()), new string(Alphanumeric.Take(toBaseNumber).ToArray()));
 
+#if !LITE
         /// <summary>
         /// Conbines the iterator into one long <see cref="string"/>.
         /// </summary>
@@ -587,7 +566,13 @@ namespace KeepCoding
         /// <param name="source">The iterator.</param>
         /// <param name="delimiter">The separator between each element.</param>
         /// <returns>A <see cref="string"/> representing all elements in <paramref name="source"/> with the separator <paramref name="delimiter"/>.</returns>
-        public static string Combine<T>(this T source, string delimiter = ", ") => source switch
+#endif
+#if LITE
+        internal
+#else
+        public
+#endif
+            static string Combine<T>(this T source, string delimiter = ", ") => source switch
         {
             string s => s,
             IEnumerable enumerable => Join(delimiter, enumerable.Cast<object>().Select(o => Combine(o, delimiter)).ToArray()),
@@ -602,13 +587,8 @@ namespace KeepCoding
         /// <param name="directories">The list of directories.</param>
         /// <param name="file">The file to search for.</param>
         /// <returns>The directory containing the path to the file searched for, or <see langword="null"/>.</returns>
+        public static string Find(this List<string> directories, string file) => directories.FirstOrDefault(x => Directory.GetFiles(x, file).Any());
 #endif
-#if LITE
-        internal
-#else
-        public
-#endif
-            static string Find(this List<string> directories, string file) => directories.FirstOrDefault(x => Directory.GetFiles(x, file).Any());
 
 #if !LITE
         /// <summary>
@@ -862,13 +842,20 @@ namespace KeepCoding
 #endif
             static Func<string, Exception> GetNullException<T>(this T item) => s => item.IsIterator() ? (Exception)new NullIteratorException(s) : new NullReferenceException(s);
 
+#if !LITE
         /// <summary>
         /// Converts an <see cref="IEnumerator"/> to an <see cref="IEnumerable"/>.
         /// </summary>
         /// <exception cref="NullIteratorException"></exception>
         /// <param name="source">The <see cref="IEnumerator"/> to convert.</param>
         /// <returns><paramref name="source"/> as an <see cref="IEnumerable"/>.</returns>
-        public static IEnumerable AsEnumerable(this IEnumerator source)
+#endif
+#if LITE
+        internal
+#else
+        public
+#endif
+            static IEnumerable AsEnumerable(this IEnumerator source)
         {
             source.NullCheck("The enumerator cannot be null.");
 
@@ -889,34 +876,11 @@ namespace KeepCoding
         /// </summary>
         /// <param name="source">The item to get all fields and properties.</param>
         /// <returns>All fields and properties of <paramref name="source"/>.</returns>
+        [Obsolete("Attach a ReflectionScript at runtime instead.")]
         public static IEnumerable<string> ReflectAll<T>(this T source) => source?.GetType().GetFields(Flags).Select(f => $"\n{f} (Field): {f?.GetValue(source).Stringify()}").Concat(source?.GetType().GetProperties(Flags).Select(p => $"\n{p} (Property): {p?.GetValue(source, null).Stringify()}")) ?? Empty<string>();
 #endif
 
 #if !LITE
-        /// <summary>
-        /// Gets all modules from a given bomb. For a cached variant, use <see cref="ModuleScript.ModulesOfBomb(KMBomb)"/>.
-        /// </summary>
-        /// <param name="bomb">The bomb to get all modules in the form of a <see cref="ModuleContainer"/> <see cref="IEnumerable"/>.</param>
-        /// <returns>A collection of <see cref="ModuleContainer"/>, including vanillas, from <paramref name="bomb"/>.</returns>
-#endif
-#if LITE
-        internal
-#else
-        [CLSCompliant(false)]
-        public
-#endif
-            static IEnumerable<ModuleContainer> ToModules(this KMBomb bomb)
-        {
-            foreach (KMBombModule solvable in bomb.GetComponentsInChildren<KMBombModule>())
-                yield return solvable;
-
-            foreach (KMNeedyModule solvable in bomb.GetComponentsInChildren<KMNeedyModule>())
-                yield return solvable;
-
-            foreach (object vanilla in Vanillas(bomb))
-                yield return new ModuleContainer((MonoBehaviour)vanilla);
-        }
-
         /// <summary>
         /// Converts an <see cref="IEnumerator"/> to an <see cref="IEnumerable"/>.
         /// </summary>
@@ -932,7 +896,6 @@ namespace KeepCoding
                 yield return source.Current;
         }
 
-#if !LITE
         /// <summary>
         /// Appends the element provided to the <see cref="IEnumerable{T}"/>.
         /// </summary>
@@ -959,7 +922,6 @@ namespace KeepCoding
         /// <param name="indices">The indices to include in <paramref name="source"/>.</param>
         /// <returns><paramref name="source"/>, but without the element indexing <paramref name="indices"/>.</returns>
         public static IEnumerable<T> Include<T>(this IEnumerable<T> source, params int[] indices) => source.Where((_, i) => indices.Contains(i));
-#endif
 
         /// <summary>
         /// Filters an <see cref="IEnumerable{T}"/>, only allowing duplicated items.
@@ -969,7 +931,6 @@ namespace KeepCoding
         /// <returns>A new instance of <paramref name="source"/> that only includes elements which are repeated in the array.</returns>
         public static IEnumerable<T> Indistinct<T>(this IEnumerable<T> source) => source.GroupBy(x => x).Where(g => g.Count() > 1).Select(y => y.Key);
 
-#if !LITE
         /// <summary>
         /// Prepends the element provided to the <see cref="IEnumerable{T}"/>.
         /// </summary>
@@ -1014,7 +975,7 @@ namespace KeepCoding
             {
                 int j = randomizer(i, buffer.Count);
 
-                yield return j.IsBetween(0, buffer.Count - 1) ? buffer[j] : throw new IndexOutOfRangeException($"The method provided returned a number that was out of range. Range: 0-{buffer.Count - 1}, returned value: {j}.");
+                yield return j >= 0 && j < buffer.Count ? buffer[j] : throw new IndexOutOfRangeException($"The method provided returned a number that was out of range. Range: 0-{buffer.Count - 1}, returned value: {j}.");
 
                 buffer[j] = buffer[i];
             }
@@ -1125,7 +1086,6 @@ namespace KeepCoding
             while (e1.MoveNext() & e2.MoveNext())
                 yield return selector(e1.Current, e2.Current);
         }
-#endif
 
         /// <summary>
         /// Flattens an <see cref="IEnumerator"/> such that nested <see cref="IEnumerator"/> calls get replaced with the output of those calls.
@@ -1133,7 +1093,13 @@ namespace KeepCoding
         /// <param name="source">The <see cref="IEnumerator"/> to flatten.</param>
         /// <param name="except">If <see langword="false"/>, <see cref="Flatten(IEnumerator, Predicate{object})"/> gets called recursively and each item from that output gets returned individually, otherwise the item is simply returned.</param>
         /// <returns><paramref name="source"/> where <see langword="yield"/> <see langword="return"/> <see cref="IEnumerator"/>s gets replaced with the output of those calls.</returns>
-        public static IEnumerator Flatten(this IEnumerator source, Predicate<object> except = null)
+#endif
+#if LITE
+        internal
+#else
+        public
+#endif
+            static IEnumerator Flatten(this IEnumerator source, Predicate<object> except = null)
         {
             except ??= _ => false;
 
@@ -1163,6 +1129,7 @@ namespace KeepCoding
             }
         }
 
+#if !LITE
         /// <summary>
         /// Gives list of module names that are unsolved.
         /// </summary>
@@ -1189,7 +1156,6 @@ namespace KeepCoding
             return modules;
         }
 
-#if !LITE
         /// <summary>
         /// Reverses a list and returns the new list.
         /// </summary>
@@ -1220,24 +1186,61 @@ namespace KeepCoding
 
             return source;
         }
-#endif
 
-#if !LITE
         /// <summary>
         /// Gets the method info from an expression.
         /// </summary>
         /// <typeparam name="T">The type of the action.</typeparam>
         /// <param name="expression">The expression that retrieves the method.</param>
         /// <returns>The method info of the function.</returns>
-#endif
-#if LITE
-        internal
-#else
-        public
-#endif
-            static MethodInfo GetMethodInfo<T>(this Expression<Action<T>> expression) => expression.Body is MethodCallExpression member ? member.Method : throw new ArgumentException($"The expression {nameof(expression)} is not a method");
+        public static MethodInfo GetMethodInfo<T>(this Expression<Action<T>> expression) => expression.Body is MethodCallExpression member ? member.Method : throw new ArgumentException($"The expression {nameof(expression)} is not a method");
 
-#if !LITE
+        /// <summary>
+        /// Allows you to get the collection of <see cref="ModuleContainer"/> from a <see cref="KMBomb"/>.
+        /// </summary>
+        /// <remarks>
+        /// This collection also includes vanilla modules, including <see cref="ComponentPool.ComponentTypeEnum.Empty"/> components and <see cref="ComponentPool.ComponentTypeEnum.Timer"/>. You can filter the collection with <see cref="ModuleContainer.IsVanilla"/>, <see cref="ModuleContainer.IsModded"/>, <see cref="ModuleContainer.IsSolvable"/>, or <see cref="ModuleContainer.IsNeedy"/>, <see cref="ModuleContainer.IsEmptyOrTimer"/>, or <see cref="ModuleContainer.IsModule"/>.
+        /// </remarks>
+        /// <param name="bomb">The instance of <see cref="KMBomb"/> that has modules.</param>
+        /// <returns>All modules within <paramref name="bomb"/>.</returns>
+        [CLSCompliant(false)]
+        public static ReadOnlyCollection<ModuleContainer> GetModules(KMBomb bomb)
+        {
+            if (bomb is null)
+            {
+                if (isEditor)
+                    Self($"{nameof(GetModules)} was called with a null {nameof(KMBomb)}, returning null.");
+
+                return null;
+            }
+
+            if (s_allModules.ContainsKey(bomb))
+                return s_allModules[bomb];
+
+            ReadOnlyCollection<ModuleContainer> modules = bomb.GetModulesInner().ToReadOnly();
+
+            s_allModules
+                .Keys
+                .Where(bomb => !bomb)
+                .ForEach(bomb => s_allModules.Remove(bomb));
+
+            s_allModules.Add(bomb, modules);
+
+            return modules;
+        }
+
+        private static IEnumerable<ModuleContainer> GetModulesInner(this KMBomb bomb)
+        {
+            foreach (KMBombModule solvable in bomb.GetComponentsInChildren<KMBombModule>())
+                yield return solvable;
+
+            foreach (KMNeedyModule solvable in bomb.GetComponentsInChildren<KMNeedyModule>())
+                yield return solvable;
+
+            foreach (object vanilla in Vanillas(bomb))
+                yield return new ModuleContainer((MonoBehaviour)vanilla);
+        }
+
         /// <summary>
         /// Splits an <see cref="IEnumerable"/> in two based on a method provided.
         /// </summary>
@@ -1304,6 +1307,7 @@ namespace KeepCoding
         /// <returns><paramref name="item"/></returns>
         public static T Assert<T, TOther>(this T item, TOther comparison, string name = null) => item.Equals(comparison) ? item : throw new AssertionException(name, item, comparison);
 
+#if !LITE
         /// <summary>
         /// Invokes a method of <typeparamref name="T"/> and then returns the argument provided.
         /// </summary>
@@ -1341,7 +1345,6 @@ namespace KeepCoding
         /// <returns>The element in <paramref name="source"/> using <paramref name="index"/> with rem-euclid modulo.</returns>
         public static T ElementAtWrap<T>(this IEnumerable<T> source, int index) => source.NullOrEmptyCheck($"The source cannot be null or empty.").ElementAt(index.Modulo(source.Count()));
 
-#if !LITE
         /// <summary>
         /// Returns the first element which doesn't <see langword="return"/> <see langword="null"/>, or <see langword="null"/> if all of them <see langword="return"/> <see langword="null"/>.
         /// </summary>
@@ -1383,9 +1386,7 @@ namespace KeepCoding
         /// <param name="func">The method which returns something or <see langword="null"/>.</param>
         /// <returns>The last value from <paramref name="source"/> where <paramref name="func"/> doesn't <see langword="return"/> <see langword="null"/>, or <see langword="null"/>.</returns>
         public static T LastValue<T>(this IEnumerable<T> source, Func<T, T> func) => source.Reverse().FirstValue(func.NullCheck("The function cannot be null."));
-#endif
 
-#if !LITE
         /// <summary>
         /// Throws a <see cref="NullReferenceException"/> or <see cref="NullIteratorException"/> if the parameter provided is null.
         /// </summary>
@@ -1395,6 +1396,7 @@ namespace KeepCoding
         /// <param name="item">The parameter to check null for.</param>
         /// <param name="message">The optional message to throw if null.</param>
         /// <returns><paramref name="item"/></returns>
+        [Obsolete("Use Helper's Assert methods instead.")]
 #endif
 #if LITE
         internal
@@ -1413,6 +1415,7 @@ namespace KeepCoding
         /// <param name="item">The parameter to check null for.</param>
         /// <param name="message">The optional message to throw if null.</param>
         /// <returns><paramref name="item"/></returns>
+        [Obsolete("Use Helper's Assert methods instead.")]
 #endif
 #if LITE
         internal
@@ -1421,6 +1424,7 @@ namespace KeepCoding
 #endif
             static T NullCheck<T>(this T? item, string message = "While asserting for null, the variable ended up null.") where T : struct => item is null ? throw GetNullException(item)(message) : item.Value;
 
+#if !LITE
         /// <summary>
         /// Throws an exception if the <see cref="IEnumerable{T}"/> is null or empty.
         /// </summary>
@@ -1428,17 +1432,15 @@ namespace KeepCoding
         /// <exception cref="EmptyIteratorException"></exception>
         /// <param name="source">The <see cref="Array"/> to check for null and empty.</param>
         /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
-        public static T NullOrEmptyCheck<T>(this T source, string message = null) where T : IEnumerable => source.NullCheck(message ?? $"While asserting for null or empty, the variable ended up being null.").GetEnumerator().MoveNext() ? source : throw new EmptyIteratorException(message ?? $"While asserting for null or empty, the variable ended up being empty.");
+#endif
+#if LITE
+        internal
+#else
+        public
+#endif
+            static T NullOrEmptyCheck<T>(this T source, string message = null) where T : IEnumerable => source.Assert(nameof(source), message ?? "not null").GetEnumerator().MoveNext() ? source : throw new EmptyIteratorException(message ?? $"While asserting for null or empty, the variable ended up being empty.");
 
-        /// <summary>
-        /// Throws an exception if the <see cref="IEnumerable{T}"/> is null or empty.
-        /// </summary>
-        /// <exception cref="NullIteratorException"></exception>
-        /// <exception cref="EmptyIteratorException"></exception>
-        /// <param name="source">The <see cref="Array"/> to check for null and empty.</param>
-        /// <param name="message">The optional message to throw if null or empty. Leaving it default will throw a default message.</param>
-        public static T NullOrEmptyCheck<T>(this T? source, string message = null) where T : struct, IEnumerable => source.NullCheck(message ?? $"While asserting for null or empty, the variable ended up being null.").GetEnumerator().MoveNext() ? source!.Value : throw new EmptyIteratorException(message ?? $"While asserting for null or empty, the variable ended up being empty.");
-
+#if !LITE
         /// <summary>
         /// Invokes a method of <typeparamref name="T"/> to <typeparamref name="TResult"/> and then returns the argument provided.
         /// </summary>
@@ -1452,7 +1454,6 @@ namespace KeepCoding
         /// <returns>The item <paramref name="item"/> after <paramref name="func"/>.</returns>
         public static TResult Apply<T, TResult>(this T item, Func<T, TResult> func) => func(item);
 
-#if !LITE
         /// <summary>
         /// Appends the element provided to the array.
         /// </summary>
@@ -1473,6 +1474,7 @@ namespace KeepCoding
         /// <param name="source">The item to use as reference and modify.</param>
         /// <param name="action">The action to apply <paramref name="source"/> to.</param>
         /// <returns>The item <paramref name="source"/>.</returns>
+        [Obsolete("Use KeyHelper's ForEach methods instead.")]
         public static T[] Call<T>(this T[] source, Action<T, int> action) => source.Call(s => Enumerable.Range(0, s.Length).ForEach(i => action(s[i], i)));
 #endif
 
@@ -1527,6 +1529,7 @@ namespace KeepCoding
         /// <param name="items">The item to use as reference and modify.</param>
         /// <param name="func">The function to apply <paramref name="items"/> to.</param>
         /// <returns>The item <paramref name="items"/> after <paramref name="func"/>.</returns>
+        [Obsolete("Use KeyHelper's ForEach methods instead.")]
         public static TResult[] Apply<T, TResult>(this T[] items, Func<T, int, TResult> func) => items.Select((i, n) => func(i, n)).ToArray();
 #endif
     }

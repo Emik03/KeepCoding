@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#if !LITE
+using System.Collections;
 using UnityEngine;
 
 namespace KeepCoding
@@ -136,3 +137,4 @@ namespace KeepCoding
         public void Update();
     }
 }
+#endif

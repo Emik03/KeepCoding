@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Security.Cryptography;
 using KeepCoding.Internal;
 using UnityEngine;
 using static System.Byte;
@@ -33,6 +32,7 @@ namespace KeepCoding
         /// <param name="colorB">The second color.</param>
         /// <returns>Boolean, true only if both colors have the same R, G, B, and A values.</returns>
         [CLSCompliant(false)]
+        [Obsolete("Use Color's op_Equality instead.")]
         public static bool IsEqual(this Color colorA, Color colorB) => colorA.r == colorB.r && colorA.g == colorB.g && colorA.b == colorB.b && colorA.a == colorB.a;
 
         /// <summary>
@@ -102,6 +102,7 @@ namespace KeepCoding
         /// <param name="concentrationOfB">The bias towards either color, between 0-1. 0.5 blends both colors equally.</param>
         /// <returns>A blended color of the 2 provided.</returns>
         [CLSCompliant(false)]
+        [Obsolete("Use Color's Lerp instead.")]
         public static Color IntertwineColor(this Color colorA, Color colorB, float concentrationOfB = 0.5f)
             => new Color(
                 colorA.r * (1 - concentrationOfB) + colorB.r * concentrationOfB,
@@ -221,6 +222,7 @@ namespace KeepCoding
         /// <param name="concentrationOfB">The bias towards either color, between 0-1. 0.5 blends both colors equally.</param>
         /// <returns>A blended color of the 2 provided.</returns>
         [CLSCompliant(false)]
+        [Obsolete("Use Color32's Lerp instead.")]
         public static Color32 IntertwineColor(this Color32 colorA, Color32 colorB, float concentrationOfB = 0.5f)
             => new Color32(
                 (byte)(colorA.r * (1 - concentrationOfB) + colorB.r * concentrationOfB),

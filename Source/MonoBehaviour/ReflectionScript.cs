@@ -9,7 +9,6 @@ using static System.Reflection.BindingFlags;
 using static System.String;
 using static KeepCoding.Logger;
 using static UnityEngine.Application;
-using Object = UnityEngine.Object;
 
 namespace KeepCoding.Internal
 {
@@ -17,13 +16,47 @@ namespace KeepCoding.Internal
     /// Editor-only behaviour that gets values from <see cref="Component"/>s in real-time.
     /// </summary>
     [CLSCompliant(false)]
-    public sealed class ReflectionScript : MonoBehaviour, IStart, ILog, IFixedUpdate
+    public sealed class ReflectionScript : MonoBehaviour, IStart, IFixedUpdate, ILog
     {
         private class NullableObject
         {
+            internal readonly object _value;
+
             internal NullableObject(object o) => _value = o;
 
-            internal readonly object _value;
+            public override bool Equals(object obj) => Equals(obj as NullableObject);
+
+            private bool Equals(NullableObject obj) => obj is { } && _value == obj._value;
+
+            public override int GetHashCode() => ~_value.GetHashCode();
+
+            public override string ToString() => _value.ToString();
+        }
+
+        [Serializable]
+        private class ComponentValuePair
+        {
+            [SerializeField]
+            internal string _value;
+
+            [SerializeField]
+#pragma warning disable IDE0052, IDE0044 // Add readonly modifier
+            private Component _component;
+#pragma warning restore IDE0052, IDE0044 // Add readonly modifier
+
+            internal ComponentValuePair(Component c, NullableObject o)
+            {
+                _component = c;
+                _value = o?._value.Stringify();
+            }
+
+            public override bool Equals(object obj) => Equals(obj as ComponentValuePair);
+
+            private bool Equals(ComponentValuePair obj) => obj is { } && _component == obj._component && _value == obj._value;
+
+            public override int GetHashCode() => _component.GetHashCode() ^ _value.GetHashCode();
+
+            public override string ToString() => _value;
         }
 
         private enum Methods
@@ -36,7 +69,7 @@ namespace KeepCoding.Internal
 
         [SerializeField]
 #pragma warning disable 649, IDE0044 // Add readonly modifier
-        private int _limitResults;
+        private int _limitResults = -1;
 #pragma warning restore 649, IDE0044 // Add readonly modifier
 
         [SerializeField]
@@ -50,14 +83,9 @@ namespace KeepCoding.Internal
 #pragma warning restore 649, IDE0044 // Add readonly modifier
 
         [SerializeField]
-        private string[] _values;
+        private ComponentValuePair[] _reflected = new ComponentValuePair[0];
 
-        [SerializeField]
-        private Object[] _components;
-
-        private IEnumerable<object> _current = Empty<object>();
-
-        private List<Tuple<Component, NullableObject>> _members = Empty;
+        private List<ComponentValuePair> _current = new List<ComponentValuePair>();
 
         private readonly Logger _logger = new Logger(nameof(ReflectionScript), true, false);
 
@@ -72,7 +100,38 @@ namespace KeepCoding.Internal
             _ => throw new NotImplementedException(),
         };
 
-        private static List<Tuple<Component, NullableObject>> Empty => Empty<Tuple<Component, NullableObject>>().ToList();
+        /// <summary>
+        /// Deletes itself if being ran in-game.
+        /// </summary>
+        public void Start()
+        {
+            if (isEditor)
+                return;
+
+            Self($"A {nameof(ReflectionScript)} showed up in-game. Automatically deleting component...");
+            Destroy(this);
+        }
+
+        /// <summary>
+        /// Reflects and gets the values of the specified variables.
+        /// </summary>
+        public void FixedUpdate()
+        {
+            if (IsNullOrEmpty(_variable))
+                return;
+
+            _current = Empty<ComponentValuePair>().ToList();
+
+            IterateComponents();
+
+            if (_reflected.SequenceEqual(_current))
+                return;
+
+            _reflected = _current.ToArray();
+
+            if (!_current.IsNullOrEmpty())
+                _logger.Log($"{gameObject.name}, {_variable}\n{Join(", ", _current.Select(cvp => cvp._value).ToArray())}");
+        }
 
         /// <summary>
         /// Logs message, but formats it to be compliant with the Logfile Analyzer.
@@ -96,63 +155,20 @@ namespace KeepCoding.Internal
         /// <param name="logs">The array of logs to individual output into the console.</param>
         public void LogMultiple(params string[] logs) => _logger.LogMultiple(logs);
 
-        private void OnValidate()
+        private void IterateComponents()
         {
-            if (_variable is null)
-                return;
-
-            _members = Empty<Tuple<Component, NullableObject>>().ToList();
-
             foreach (Component component in Components)
             {
-                var tuple = component.ToTuple(GetDeepValue(component, _variable.Split('.')));
-
-                if (tuple.Item2 is null)
+                if (_current.Count > _limitResults && _limitResults >= 0)
                     continue;
 
-                _members.Add(tuple);
+                NullableObject obj = GetDeepValue(component, _variable.Split('.'));
 
-                if (_limitResults.IsBetween(1, _members.Count))
-                    break;
+                if (obj is null)
+                    continue;
+
+                _current.Add(new ComponentValuePair(component, obj));
             }
-        }
-
-        /// <summary>
-        /// Deletes itself if being ran in-game.
-        /// </summary>
-        public void Start()
-        {
-            if (isEditor)
-                return;
-
-            Self($"A {nameof(ReflectionScript)} showed up in-game. Automatically deleting component...");
-            Destroy(this);
-        }
-
-        /// <summary>
-        /// Reflects and gets the values of the specified variables.
-        /// </summary>
-        public void FixedUpdate()
-        {
-            IEnumerable<object> objects = _members.Select(o => o.Item2._value);
-
-            Tuple<List<object>, List<object>> split = objects.SplitBy(o => o is Object);
-
-            _components = split.Item1
-                .ToArray()
-                .ConvertAll(o => (Object)o);
-
-            _values = split.Item2
-                .ToArray()
-                .ConvertAll(o => o.Stringify());
-
-            if (_current.SequenceEqual(objects))
-                return;
-
-            _current = objects;
-
-            if (!_current.IsNullOrEmpty())
-                _logger.Log($"{gameObject.name}, {_variable}\n{Join(", ", _values)}");
         }
 
         private static NullableObject GetDeepValue(in object instance, in string[] names)
