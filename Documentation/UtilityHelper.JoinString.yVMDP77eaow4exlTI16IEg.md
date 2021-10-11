@@ -34,8 +34,8 @@ Optionally, a separator to use between the second-to-last and the last element.
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')  
 ### Example
 ```csharp
-// Returns "[Paris], [London], [Tokyo]"  
-(new[] { "Paris", "London", "Tokyo" }).JoinString(", ", "[", "]")  
-  
-// Returns "[Paris], [London] and [Tokyo]"  
+// Returns "[Paris], [London], [Tokyo]"
+(new[] { "Paris", "London", "Tokyo" }).JoinString(", ", "[", "]")
+
+// Returns "[Paris], [London] and [Tokyo]"
 (new[] { "Paris", "London", "Tokyo" }).JoinString(", ", "[", "]", " and ");```

@@ -19,39 +19,39 @@ The parameter [index](RoutineBase.Item.Wa2PHHfPkck73ssNAwE8RQ.md#KeepCoding.Inte
 ### Example
 The following example illustrates using one of the implementations of [RoutineBase](RoutineBase.md 'KeepCoding.Internal.RoutineBase'), in this case [Routine](Routine.md 'KeepCoding.Routine') to index into [Coroutines](RoutineBase.Coroutines.md 'KeepCoding.Internal.RoutineBase.Coroutines'), to show that using the indexer is the same as using [Coroutines](RoutineBase.Coroutines.md 'KeepCoding.Internal.RoutineBase.Coroutines'). This is because [RoutineBase](RoutineBase.md 'KeepCoding.Internal.RoutineBase') by itself does not allow you to append any coroutines.  
 ```csharp
-using System.Collections;  
-using KeepCoding;  
-using UnityEngine;  
-  
-public sealed class FooModule : ModuleScript  
-{  
-    private void Start()  
-    {  
-        Routine routine = new Routine(Example(), this);  
-          
-        // This creates a coroutine inside of this variable. There is now 1 coroutine which can be indexed.  
-        routine.Start();  
-          
-        // Because they are the same instance, this expression returns true.  
-        Log(routine[0] == routine.Coroutines[0]);  
-    }  
-      
-    private IEnumerator Example()  
-    {  
-        yield return null;  
-    }  
-}  
+using System.Collections;
+using KeepCoding;
+using UnityEngine;
+
+public sealed class FooModule : ModuleScript
+{
+    private void Start()
+    {
+        Routine routine = new Routine(Example(), this);
+        
+        // This creates a coroutine inside of this variable. There is now 1 coroutine which can be indexed.
+        routine.Start();
+        
+        // Because they are the same instance, this expression returns true.
+        Log(routine[0] == routine.Coroutines[0]);
+    }
+    
+    private IEnumerator Example()
+    {
+        yield return null;
+    }
+}
 ```
   
 This is the output from the console.  
 ```csharp
-[Foo #1] True  
+[Foo #1] True
 ```
   
 It is important to note that this is a getter-only property. This means that the following statement cannot be done. Use [Stop()](RoutineBase.Stop().md 'KeepCoding.Internal.RoutineBase.Stop()'), [StopAll()](RoutineBase.StopAll().md 'KeepCoding.Internal.RoutineBase.StopAll()'), or other methods by implemented classes to mutate [Coroutines](RoutineBase.Coroutines.md 'KeepCoding.Internal.RoutineBase.Coroutines').  
 ```csharp
-// Invalid. There is no setter for this indexer.  
-routine[1] = routine[0];  
+// Invalid. There is no setter for this indexer.
+routine[1] = routine[0];
 ```
 ### Remarks
 Given that [RoutineBase](RoutineBase.md 'KeepCoding.Internal.RoutineBase') acts as a wrapper for handling mulitple coroutines, all of which stored in a [System.Collections.Generic.List&lt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.List-1 'System.Collections.Generic.List`1'), this acts as shorthand for accessing a specific index from [Coroutines](RoutineBase.Coroutines.md 'KeepCoding.Internal.RoutineBase.Coroutines').  
