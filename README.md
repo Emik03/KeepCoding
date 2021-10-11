@@ -7,7 +7,7 @@
 
 *KeepCoding* is compiled as a Managed DLL file. You may either compile this DLL yourself, or [download one of the release builds](https://github.com/Emik03/KeepCodingAndNobodyExplodes/releases).
 
-Since version 11, there are 2 versions per release, `KeepCoding`, and `KeepCodingLite`. If you are writing your modules in an external library and/or use a polyfill library, then `KeepCodingLite` is recommended as it removes methods that are redundant outside of `C# 4`/`.NET 3.5`. Use `KeepCoding` otherwise.
+Since version 11, there are 2 versions per release, `KeepCoding`, and `KeepCodingLite`. If you are writing your modules in an external library and/or use a polyfill library, then `KeepCodingLite` is recommended as it removes methods that are redundant outside of `C# 4`/`.NET 3.5`. Use `KeepCoding` otherwise. `KeepCodingLite` will also remove deprecated methods to save space and dead code, while `KeepCoding` will simply add the [`Obsolete`](https://docs.microsoft.com/en-us/dotnet/api/system.obsoleteattribute?view=net-5.0) attribute.
 
 Drag the DLL and XML file into `\Plugins\Managed`. Unity will start reloading the scripts at this stage. After the reload, you can start using the library's code by going into any script file and accessing the namespace:
 
