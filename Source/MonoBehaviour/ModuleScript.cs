@@ -185,7 +185,7 @@ namespace KeepCoding
         /// <remarks>
         /// Note that this variable is not available instantly. <see cref="OnActivate"/> is recommended, or a <see cref="Coroutine"/> that waits for this value to be set. A small amount of time is needed for this property to be set. This collection also includes vanilla modules, including <see cref="ComponentPool.ComponentTypeEnum.Empty"/> components and <see cref="ComponentPool.ComponentTypeEnum.Timer"/>. You can filter the collection with <see cref="ModuleContainer.IsVanilla"/>, <see cref="ModuleContainer.IsModded"/>, <see cref="ModuleContainer.IsSolvable"/>, or <see cref="ModuleContainer.IsNeedy"/>, <see cref="ModuleContainer.IsEmptyOrTimer"/>, or <see cref="ModuleContainer.IsModule"/>.
         /// </remarks>
-        public ReadOnlyCollection<ModuleContainer> Modules => _modules ??= GetModules(Bomb);
+        public ReadOnlyCollection<ModuleContainer> Modules => _modules ??= Bomb.GetModules();
         private ReadOnlyCollection<ModuleContainer> _modules;
 
         internal bool IsColorblindSupported => _isColorblindSupported ??= Type.ImplementsMethod(nameof(OnColorblindChanged), DeclaredOnly | Instance | Public);
