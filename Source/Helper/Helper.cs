@@ -1203,12 +1203,12 @@ namespace KeepCoding
         /// </remarks>
         /// <param name="bomb">The instance of <see cref="KMBomb"/> that has modules.</param>
         /// <returns>All modules within <paramref name="bomb"/>.</returns>
-        [CLSCompliant(false)]
 #endif
 
 #if LITE
         internal
 #else
+        [CLSCompliant(false)]
         public
 #endif
             static ReadOnlyCollection<ModuleContainer> GetModules(this KMBomb bomb)
@@ -1229,6 +1229,7 @@ namespace KeepCoding
             s_allModules
                 .Keys
                 .Where(bomb => !bomb)
+                .ToList()
                 .ForEach(bomb => s_allModules.Remove(bomb));
 
             s_allModules.Add(bomb, modules);
