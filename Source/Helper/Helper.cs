@@ -1204,7 +1204,14 @@ namespace KeepCoding
         /// <param name="bomb">The instance of <see cref="KMBomb"/> that has modules.</param>
         /// <returns>All modules within <paramref name="bomb"/>.</returns>
         [CLSCompliant(false)]
-        public static ReadOnlyCollection<ModuleContainer> GetModules(KMBomb bomb)
+#endif
+
+#if LITE
+        internal
+#else
+        public
+#endif
+            static ReadOnlyCollection<ModuleContainer> GetModules(this KMBomb bomb)
         {
             if (bomb is null)
             {
@@ -1241,6 +1248,7 @@ namespace KeepCoding
                 yield return new ModuleContainer((MonoBehaviour)vanilla);
         }
 
+#if !LITE
         /// <summary>
         /// Splits an <see cref="IEnumerable"/> in two based on a method provided.
         /// </summary>
