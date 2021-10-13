@@ -1446,7 +1446,7 @@ namespace KeepCoding
 #else
         public
 #endif
-            static T NullOrEmptyCheck<T>(this T source, string message = null) where T : IEnumerable => source.Assert(nameof(source), message ?? "not null").GetEnumerator().MoveNext() ? source : throw new EmptyIteratorException(message ?? $"While asserting for null or empty, the variable ended up being empty.");
+            static T NullOrEmptyCheck<T>(this T source, string message = null) where T : IEnumerable => source.Assert(t => t is { }, nameof(source), message ?? "not null").GetEnumerator().MoveNext() ? source : throw new EmptyIteratorException(message ?? $"While asserting for null or empty, the variable ended up being empty.");
 
 #if !LITE
         /// <summary>
