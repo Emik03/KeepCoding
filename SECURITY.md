@@ -10,12 +10,14 @@ Currently semantic versioning is used, with format `MAJOR.MINOR.PATCH`. Prior to
 - A :grey_question: symbol indicates that there are no major security issues. 
 - A :x: indicates that the version contains major vulnerabilities and is not recommended to be used.
 
-| Version       | Supported          |
-| ------------- | ------------------ |
-| 11.0.1+       | :white_check_mark: |
-| 11            | :grey_question:    |
-| 10 - 10.1     | :white_check_mark: |
-| 1.0 - 9.0.3   | :x:                |
+| Version         | Supported          |
+| --------------- | ------------------ |
+| 13.0.1+         | :white_check_mark: |
+| 13              | :x:                |
+| 11.0.1 - 12.0.1 | :white_check_mark: |
+| 11              | :grey_question:    |
+| 10 - 10.1       | :white_check_mark: |
+| 1.0 - 9.0.3     | :x:                |
 
 ## Reporting a Vulnerability
 
