@@ -5,13 +5,13 @@ Editor-only behaviour that gets values from [UnityEngine.Component](https://docs
 ```csharp
 public sealed class ReflectionScript :
 KeepCoding.IStart,
-KeepCoding.ILog,
-KeepCoding.IFixedUpdate
+KeepCoding.IFixedUpdate,
+KeepCoding.ILog
 ```
 
 Inheritance [UnityEngine.MonoBehaviour](https://docs.microsoft.com/en-us/dotnet/api/UnityEngine.MonoBehaviour 'UnityEngine.MonoBehaviour') &#129106; ReflectionScript  
 
-Implements [IStart](IStart.md 'KeepCoding.IStart'), [ILog](ILog.md 'KeepCoding.ILog'), [IFixedUpdate](IFixedUpdate.md 'KeepCoding.IFixedUpdate')  
+Implements [IStart](IStart.md 'KeepCoding.IStart'), [IFixedUpdate](IFixedUpdate.md 'KeepCoding.IFixedUpdate'), [ILog](ILog.md 'KeepCoding.ILog')  
 
 | Methods | |
 | :--- | :--- |

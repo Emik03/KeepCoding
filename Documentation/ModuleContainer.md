@@ -56,6 +56,8 @@ Implements [System.IEquatable&lt;](https://docs.microsoft.com/en-us/dotnet/api/S
 | [Equals(ModuleContainer)](ModuleContainer.Equals.uoK13ULV+B6co9A9YoXBPA.md 'KeepCoding.ModuleContainer.Equals(KeepCoding.ModuleContainer)') | Determines if both [ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer') variables are equal.<br/> |
 | [Equals(object)](ModuleContainer.Equals.RWqyWwX38KKIOcvgyLTWIQ.md 'KeepCoding.ModuleContainer.Equals(object)') | Determines if both [ModuleContainer](ModuleContainer.md 'KeepCoding.ModuleContainer') variables are equal.<br/> |
 | [GetHashCode()](ModuleContainer.GetHashCode().md 'KeepCoding.ModuleContainer.GetHashCode()') | Gets the current hash code.<br/> |
+| [GetIgnoredModules()](ModuleContainer.GetIgnoredModules().md 'KeepCoding.ModuleContainer.GetIgnoredModules()') | Retrieves the ignore list from the Boss Module Manager mod used primarily by boss modules.<br/> |
+| [GetRuleSeedId(int)](ModuleContainer.GetRuleSeedId.5gJE4GImOnEI1ZNXJh2kOA.md 'KeepCoding.ModuleContainer.GetRuleSeedId(int)') | Gets the rule seed number, or a default value.<br/> |
 | [ToString()](ModuleContainer.ToString().md 'KeepCoding.ModuleContainer.ToString()') | Gets the [Name](ModuleContainer.Name.md 'KeepCoding.ModuleContainer.Name') and [Id](ModuleContainer.Id.md 'KeepCoding.ModuleContainer.Id') of the module.<br/> |
 
 | Operators | |
