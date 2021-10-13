@@ -12,8 +12,8 @@ Currently semantic versioning is used, with format `MAJOR.MINOR.PATCH`. Prior to
 
 | Version         | Supported          |
 | --------------- | ------------------ |
-| 13.0.1+         | :white_check_mark: |
-| 13              | :x:                |
+| 13.0.2+         | :white_check_mark: |
+| 13 - 13.0.1     | :x:                |
 | 11.0.1 - 12.0.1 | :white_check_mark: |
 | 11              | :grey_question:    |
 | 10 - 10.1       | :white_check_mark: |
