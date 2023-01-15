@@ -1,3 +1,7 @@
+# WARNING
+
+#### This repository is outdated and only exists for legacy reasons, please go to [wawa](https://github.com/Emik03/wawa) for the up-to-date version.
+
 # Keep Coding
 
 *KeepCoding* is a C# class library meant to help speed up the process of scripting [Keep Talking and Nobody Explodes](https://keeptalkinggame.com/) modules by giving better alternatives to common commands, and automating things universal to module-creation. (such as moduleIds, or logging)
